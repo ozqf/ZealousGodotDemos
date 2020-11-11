@@ -1,3 +1,15 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://prefabs/world_block.tscn" type="PackedScene" id=1]
+[ext_resource path="res://prefabs/player.tscn" type="PackedScene" id=2]
 
 [node name="level_01" type="Node2D"]
+
+[node name="world_block" parent="." instance=ExtResource( 1 )]
+position = Vector2( 16, 144 )
+
+[node name="world_block" parent="world_block" instance=ExtResource( 1 )]
+position = Vector2( 32, 0 )
+
+[node name="player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 32, 96 )

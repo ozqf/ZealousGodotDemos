@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/arrow_blue.png-d72a827a14faf70d5be00a0db5825433.stex"
+path="res://.import/crosshair_green.png-f34349435ca5ef1ee42b752c9bf696cb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/arrow_blue.png"
-dest_files=[ "res://.import/arrow_blue.png-d72a827a14faf70d5be00a0db5825433.stex" ]
+source_file="res://assets/sprites/crosshair_green.png"
+dest_files=[ "res://.import/crosshair_green.png-f34349435ca5ef1ee42b752c9bf696cb.stex" ]
 
 [params]
 
