@@ -1,5 +1,8 @@
 extends Node
 
+const DEG2RAD = 0.017453292519
+const RAD2DEG = 57.2958
+
 var _player_projectile = preload("res://prefabs/player_projectile.tscn")
 
 var cursorPos = Vector2()

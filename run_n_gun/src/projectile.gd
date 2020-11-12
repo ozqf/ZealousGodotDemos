@@ -12,12 +12,24 @@ func launch(pos:Vector2, radians:float):
 	_velocity.y = sin(radians) * _speed
 	pass
 
+func _kill_self():
+	if _dead:
+		return
+	_dead = true
+	queue_free()
+
 func _physics_process(delta):
 	if _dead:
 		return
 	_timeToLive -= delta
 	if (_timeToLive <= 0):
-		_dead = true
-		queue_free()
+		_kill_self()
 		return
 	position += _velocity * delta
+
+
+func _on_player_projectile_body_entered(body):
+	var victim:Life = body.get_node_or_null("life")
+	if victim != null:
+		victim.take_hit(10)
+	_kill_self()

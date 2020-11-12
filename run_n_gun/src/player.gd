@@ -1,8 +1,7 @@
-extends KinematicBody2D
+extends Actor
 
 const RUN_SPEED = 200.0
 const REFIRE_TIME = 0.1
-var _velocity: Vector2 = Vector2()
 var _attackTick: float = 0
 
 func _update_attack(_delta:float):
@@ -29,18 +28,9 @@ func _get_input_move():
 		dir.y += 1
 	return dir
 
-func _calc_velocity(_curVel: Vector2, _inputDir: Vector2):
-	var result = Vector2()
-	if _inputDir.length() == 0:
-		return result
-	var radians: float = atan2(_inputDir.y, _inputDir.x)
-	result.x = cos(radians) * RUN_SPEED
-	result.y = sin(radians) * RUN_SPEED
-	return result
-
 func _physics_process(delta):
 	var dir = _get_input_move()
-	_velocity = _calc_velocity(_velocity, dir)
+	_velocity = _calc_velocity(_velocity, dir, RUN_SPEED)
 	move_and_slide(_velocity)
 	_update_attack(delta)
 	pass
