@@ -14,7 +14,7 @@ func on_death():
 
 func _choose_wander_dir():
 	var radians = rand_range(0, 360) * Game.DEG2RAD
-	var result:Vector2
+	var result = Vector2()
 	result.x = cos(radians)
 	result.y = sin(radians)
 	return result

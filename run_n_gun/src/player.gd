@@ -1,7 +1,7 @@
 extends Actor
 
 const RUN_SPEED = 200.0
-const REFIRE_TIME = 0.1
+const REFIRE_TIME = 0.05
 var _attackTick: float = 0
 
 func _update_attack(_delta:float):
@@ -13,7 +13,7 @@ func _update_attack(_delta:float):
 		var prj = Game.get_free_player_projectile()
 		var mPos = Game.cursorPos
 		var radians = mPos.angle_to_point(position)
-		radians += rand_range(-0.1, 0.1)
+		radians += rand_range(-0.05, 0.05)
 		prj.launch(position, radians)
 
 func _get_input_move():
