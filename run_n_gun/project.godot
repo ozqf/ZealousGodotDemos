@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/actor.gd"
 }, {
+"base": "KinematicBody2D",
+"class": "Door",
+"language": "GDScript",
+"path": "res://src/door.gd"
+}, {
 "base": "Node",
 "class": "Life",
 "language": "GDScript",
@@ -21,6 +26,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Actor": "",
+"Door": "",
 "Life": ""
 }
 
@@ -86,6 +92,7 @@ attack_2={
 2d_physics/layer_2="player"
 2d_physics/layer_3="enemy"
 2d_physics/layer_4="item"
+2d_physics/layer_5="door"
 
 [rendering]
 

@@ -3,6 +3,13 @@ extends Actor
 const RUN_SPEED = 200.0
 const REFIRE_TIME = 0.05
 var _attackTick: float = 0
+# onready var _door_trigger = 
+func _ready():
+	$door_trigger.connect("body_entered", self, "_on_door_trigger")
+
+func _on_door_trigger(_body):
+	if _body.has_method("OpenDoor"):
+		_body.OpenDoor()
 
 func _update_attack(_delta:float):
 	if (_attackTick > 0):
