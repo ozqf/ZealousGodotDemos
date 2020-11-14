@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/sprites/actor_green.png" type="Texture" id=1]
 [ext_resource path="res://src/player.gd" type="Script" id=2]
 [ext_resource path="res://src/player_melee.gd" type="Script" id=3]
+[ext_resource path="res://assets/sprites/gem_yellow.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
@@ -35,3 +36,7 @@ default_color = Color( 1, 1, 1, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="melee/melee_area"]
 shape = SubResource( 2 )
+
+[node name="air_jump_sprite" type="Sprite" parent="."]
+position = Vector2( 0, -16 )
+texture = ExtResource( 4 )

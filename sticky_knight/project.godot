@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "Game",
+"language": "GDScript",
+"path": "res://src/game.gd"
+}, {
 "base": "Area2D",
 "class": "HitSwitch",
 "language": "GDScript",
@@ -20,6 +25,7 @@ _global_script_classes=[ {
 "path": "res://src/player_melee.gd"
 } ]
 _global_script_class_icons={
+"Game": "",
 "HitSwitch": "",
 "PlayerMelee": ""
 }
@@ -29,6 +35,10 @@ _global_script_class_icons={
 config/name="sticky_knight"
 run/main_scene="res://levels/level_test.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+game="*res://prefabs/game.tscn"
 
 [display]
 

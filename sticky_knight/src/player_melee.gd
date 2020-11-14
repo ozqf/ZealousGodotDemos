@@ -2,22 +2,28 @@ extends Node2D
 class_name PlayerMelee
 
 const ATTACK_LINE_LENGTH:float = 96.0
-const ATTACK_TIME:float = 0.2
-const ATTACK_RECOVER_TIME:float = 0.3
+const ATTACK_TIME:float = 0.1
+const ATTACK_RECOVER_TIME:float = 0.4
+
+const STATE_READY:int = 0
+const STATE_SWING:int = 1
+const STATE_RECOVER:int = 2
 
 onready var _attackLine:Line2D = $melee_area/attack_line
 onready var _shape:CollisionShape2D = $melee_area/CollisionShape2D
-onready var _area:Area2D = $melee_area
+onready var _attackArea:Area2D = $melee_area
 
+var _state:int = STATE_READY
 var _attackDir = Vector2(1, 0)
 var _attackTick:float = 0
 
 var _lastMoveDir = Vector2(1, 0)
 
 func _ready():
-	var _f1 = _area.connect("area_entered", self, "_on_melee_area_entered")
-	var _f2 = _area.connect("body_entered", self, "_on_melee_body_entered")
+	var _f1 = _attackArea.connect("area_entered", self, "_on_melee_area_entered")
+	var _f2 = _attackArea.connect("body_entered", self, "_on_melee_body_entered")
 	_shape.disabled = true
+	_attackLine.visible = false
 	pass
 
 func _on_melee_body_entered(_body:PhysicsBody2D):
@@ -30,13 +36,8 @@ func _on_melee_area_entered(_area:Area2D):
 
 func set_last_move_dir(dir:Vector2):
 	_lastMoveDir = dir
-
-func _process(_delta):
-	if _attackTick > 0:
-		_attackTick -= _delta
-		if _attackTick <= 0:
-			_shape.disabled = true
-		return
+	
+func _process_ready(_delta):
 	var _inputDir = Vector2()
 	if Input.is_action_pressed("ui_left"):
 		_inputDir.x -= 1.0
@@ -54,6 +55,33 @@ func _process(_delta):
 	#	_attackLine.points[1].x = _inputDir.x * ATTACK_LINE_LENGTH
 	#	_attackLine.points[1].y = _inputDir.y * ATTACK_LINE_LENGTH
 	if Input.is_action_pressed("attack_1"):
+		_state = STATE_SWING
 		_shape.disabled = false
+		_attackLine.visible = true
 		_attackTick = ATTACK_TIME
 		_attackLine.self_modulate = Color(1, 0, 0)
+
+func _process_swing(_delta):
+	if _attackTick > 0:
+		_attackTick -= _delta
+	else:
+		_attackTick = ATTACK_RECOVER_TIME
+		_state = STATE_RECOVER
+		_shape.disabled = true
+		_attackLine.visible = false
+
+func _process_recover(_delta):
+	if _attackTick > 0:
+		_attackTick -= _delta
+	else:
+		_state = STATE_READY
+		_shape.disabled = true
+		_attackLine.visible = false
+
+func _process(_delta):
+	if _state == STATE_SWING:
+		_process_swing(_delta)
+	elif _state == STATE_RECOVER:
+		_process_recover(_delta)
+	else:
+		_process_ready(_delta)
