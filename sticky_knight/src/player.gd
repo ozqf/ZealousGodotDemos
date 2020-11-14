@@ -32,7 +32,3 @@ func _physics_process(_delta):
 		_melee.set_last_move_dir(Vector2(-1, 0))
 	
 	_velocity = move_and_slide(_velocity, Vector2.UP)
-
-
-func _on_melee_body_entered(body):
-	pass # Replace with function body.

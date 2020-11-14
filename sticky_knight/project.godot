@@ -10,11 +10,17 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Area2D",
+"class": "HitSwitch",
+"language": "GDScript",
+"path": "res://src/hit_switch.gd"
+}, {
+"base": "Node2D",
 "class": "PlayerMelee",
 "language": "GDScript",
 "path": "res://src/player_melee.gd"
 } ]
 _global_script_class_icons={
+"HitSwitch": "",
 "PlayerMelee": ""
 }
 
@@ -47,6 +53,10 @@ attack_1={
 
 2d_physics/layer_1="world"
 2d_physics/layer_2="player"
+2d_physics/layer_3="enemy"
+2d_physics/layer_4="item"
+2d_physics/layer_5="projectile"
+2d_physics/layer_6="switch"
 
 [rendering]
 
