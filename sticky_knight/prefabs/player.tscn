@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/sprites/actor_green.png" type="Texture" id=1]
 [ext_resource path="res://src/player.gd" type="Script" id=2]
 [ext_resource path="res://src/player_melee.gd" type="Script" id=3]
 [ext_resource path="res://assets/sprites/gem_grey.png" type="Texture" id=4]
+[ext_resource path="res://prefabs/world_sensor.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
@@ -12,6 +13,7 @@ extents = Vector2( 16, 16 )
 extents = Vector2( 48, 8 )
 
 [node name="player" type="KinematicBody2D"]
+collision_layer = 2
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -46,3 +48,15 @@ texture = ExtResource( 4 )
 self_modulate = Color( 0.560784, 0.662745, 1, 1 )
 position = Vector2( 8, -16 )
 texture = ExtResource( 4 )
+
+[node name="world_sensor" parent="." instance=ExtResource( 5 )]
+position = Vector2( -20, 20 )
+
+[node name="world_sensor2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 20, 20 )
+
+[node name="world_sensor4" parent="." instance=ExtResource( 5 )]
+position = Vector2( -24, 0 )
+
+[node name="world_sensor3" parent="." instance=ExtResource( 5 )]
+position = Vector2( 24, 0 )

@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "PlayerMelee",
 "language": "GDScript",
 "path": "res://src/player_melee.gd"
+}, {
+"base": "Area2D",
+"class": "WorldSensor",
+"language": "GDScript",
+"path": "res://src/world_sensor.gd"
 } ]
 _global_script_class_icons={
 "Game": "",
 "HitSwitch": "",
-"PlayerMelee": ""
+"PlayerMelee": "",
+"WorldSensor": ""
 }
 
 [application]
@@ -67,6 +73,7 @@ attack_1={
 2d_physics/layer_4="item"
 2d_physics/layer_5="projectile"
 2d_physics/layer_6="switch"
+2d_physics/layer_7="sensor"
 
 [rendering]
 

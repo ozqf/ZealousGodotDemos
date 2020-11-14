@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 const SPEED_X = 250.0
+const JUMP_STRENGTH = 360
 const MAX_AIR_JUMPS = 1
 
 onready var _melee: PlayerMelee = $melee
@@ -28,14 +29,14 @@ func _physics_process(_delta):
 	if is_on_floor():
 		_airJumps = MAX_AIR_JUMPS
 		if Input.is_action_just_pressed("jump"):
-			print(str(_frame) + "Jump")
-			_velocity.y = -350
+			# print(str(_frame) + " Jump")
+			_velocity.y = -JUMP_STRENGTH
 			#_velocity.y = -500
 		pass
 	else:
 		if _airJumps > 0 && Input.is_action_just_pressed("jump"):
-			print(str(_frame) + "Air jump")
-			_velocity.y = -350
+			# print(str(_frame) + " Air jump")
+			_velocity.y = -JUMP_STRENGTH
 			_airJumps -= 1
 	
 	# gravity must always be applied even when on ground
