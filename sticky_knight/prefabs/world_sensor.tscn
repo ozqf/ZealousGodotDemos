@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://assets/sprites/gem_grey.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprites/4x4_block.png" type="Texture" id=1]
 [ext_resource path="res://src/world_sensor.gd" type="Script" id=2]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 2.0
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 2, 2 )
 
 [node name="world_sensor" type="Area2D"]
 collision_layer = 64

@@ -11,6 +11,9 @@ var _velocity = Vector2()
 var _gravity = Vector2(0, 900)
 var _moveDir = Vector2(150, 0)
 
+func hit():
+	queue_free()
+
 func _physics_process(_delta):
 	if _moveDir.x > 0:
 		# moving right - check turn

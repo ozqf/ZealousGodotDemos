@@ -27,12 +27,12 @@ func _ready():
 	pass
 
 func _on_melee_body_entered(_body:PhysicsBody2D):
-	pass # Replace with function body.
+	if _body.has_method("hit"):
+		_body.hit()
 
 func _on_melee_area_entered(_area:Area2D):
 	if _area.has_method("hit"):
 		_area.hit()
-	pass # Replace with function body.
 
 func set_last_move_dir(dir:Vector2):
 	_lastMoveDir = dir

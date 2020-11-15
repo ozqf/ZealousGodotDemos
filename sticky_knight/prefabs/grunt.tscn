@@ -5,25 +5,28 @@
 [ext_resource path="res://src/grunt.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 16 )
+extents = Vector2( 14, 14 )
 
 [node name="grunt" type="KinematicBody2D"]
+collision_layer = 4
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -16 )
 texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -14 )
 shape = SubResource( 1 )
 
 [node name="left_floor" parent="." instance=ExtResource( 2 )]
-position = Vector2( -16, 20 )
+position = Vector2( -12, 2 )
 
 [node name="right_floor" parent="." instance=ExtResource( 2 )]
-position = Vector2( 16, 20 )
+position = Vector2( 12, 2 )
 
 [node name="left" parent="." instance=ExtResource( 2 )]
-position = Vector2( -20, 0 )
+position = Vector2( -16, -6 )
 
 [node name="right" parent="." instance=ExtResource( 2 )]
-position = Vector2( 20, 0 )
+position = Vector2( 16, -6 )
