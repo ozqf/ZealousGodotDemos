@@ -17,6 +17,7 @@ onready var _rightCentre:WorldSensor = $sensors/right_centre
 onready var _rightBottom:WorldSensor = $sensors/right_bottom
 
 onready var _melee: PlayerMelee = $melee
+onready var _sprite:Sprite = $sprites/body
 onready var _airJumpSprite: Sprite = $air_jump_sprite
 onready var _groundedSprite: Sprite = $grounded_sprite
 
@@ -47,6 +48,43 @@ func _againstHorizontal():
 
 func _againstVertical():
 	return _againstLeft() || _againstRight()
+
+func _refresh_face_direction():
+	# update for default melee attack direction
+	if _velocity.x > 0:
+		_lastMoveDir.x = 1
+	elif _velocity.x < 0:
+		_lastMoveDir.x = -1
+	if _velocity.y > 0:
+		_lastMoveDir.y = 1
+	elif _velocity.y < 0:
+		_lastMoveDir.y = -1
+	if !_againstVertical():
+		_melee.set_last_move_dir(Vector2(_lastMoveDir.x, 0))
+	else:
+		_melee.set_last_move_dir(Vector2(0, _lastMoveDir.y))
+	
+	# set sprite orientation
+	if !_againstVertical():
+		_sprite.rotation_degrees = 0
+		if _againstTop():
+			_sprite.flip_v = true
+		else:
+			_sprite.flip_v = false
+		if _lastMoveDir.x < 0:
+			_sprite.flip_h = true
+		else:
+			_sprite.flip_h = false
+	else:
+		_sprite.rotation_degrees = 90
+		if _againstRight():
+			_sprite.flip_v = true
+		else:
+			_sprite.flip_v = false
+		if _lastMoveDir.y < 0:
+			_sprite.flip_h = true
+		else:
+			_sprite.flip_h = false
 
 func _calc_ground_jump_dir():
 	var _dir:Vector2 = Vector2()
@@ -81,13 +119,9 @@ func _physics_process(_delta):
 			pushY += 1.0
 		_velocity.y = pushY * SPEED_X
 	
-	_airJumpSprite.visible = (_airJumps > 0)
-	_groundedSprite.visible = is_on_floor()
+	#_airJumpSprite.visible = (_airJumps > 0)
+	#_groundedSprite.visible = is_on_floor()
 	
-	# IF USING is_on_floor()
-	# gravity must always be applied even when on ground
-	# otherwise is_on_floor will fail if move_and_slide
-	# has no y component into the floor!
 	if !_againstHorizontal() && !_againstVertical():
 		_velocity.y += _gravity.y * _delta
 	else:
@@ -95,30 +129,16 @@ func _physics_process(_delta):
 	
 	var canGroundJump = _againstHorizontal() || _againstVertical()
 	
-	# if is_on_floor():
 	if canGroundJump:
 		_airJumps = MAX_AIR_JUMPS
 		if Input.is_action_just_pressed("jump"):
-			# print(str(_frame) + " Jump")
 			var _jumpDir:Vector2 = _calc_ground_jump_dir()
 			_velocity.x = _jumpDir.x * JUMP_STRENGTH
 			_velocity.y = _jumpDir.y * JUMP_STRENGTH
-			print("JUMP: " + str(_velocity))
-			#_velocity.y = -JUMP_STRENGTH
-			#_velocity.y = -500
 		pass
 	else:
 		if _airJumps > 0 && Input.is_action_just_pressed("jump"):
-			# print(str(_frame) + " Air jump")
 			_velocity.y = -JUMP_STRENGTH
 			_airJumps -= 1
-	
-	# update default face direction
-	if _velocity.x > 0:
-		_lastMoveDir = Vector2(1, 0)
-		_melee.set_last_move_dir(Vector2(1, 0))
-	elif _velocity.x < 0:
-		_lastMoveDir = Vector2(-1, 0)
-		_melee.set_last_move_dir(Vector2(-1, 0))
-	
+	_refresh_face_direction()
 	_velocity = move_and_slide(_velocity, Vector2.UP)
