@@ -51,11 +51,20 @@ func _againstVertical():
 func _physics_process(_delta):
 	_frame += 1
 	var pushX = 0.0
-	if Input.is_action_pressed("ui_left"):
-		pushX -= 1.0
-	if Input.is_action_pressed("ui_right"):
-		pushX += 1.0
-	_velocity.x = pushX * SPEED_X
+	var pushY = 0.0
+	
+	if _againstHorizontal() || !_againstVertical():
+		if Input.is_action_pressed("ui_left"):
+			pushX -= 1.0
+		if Input.is_action_pressed("ui_right"):
+			pushX += 1.0
+		_velocity.x = pushX * SPEED_X
+	if _againstVertical():
+		if Input.is_action_pressed("ui_up"):
+			pushY -= 1.0
+		if Input.is_action_pressed("ui_down"):
+			pushY += 1.0
+		_velocity.y = pushY * SPEED_X
 	
 	_airJumpSprite.visible = (_airJumps > 0)
 	_groundedSprite.visible = is_on_floor()
