@@ -48,6 +48,21 @@ func _againstHorizontal():
 func _againstVertical():
 	return _againstLeft() || _againstRight()
 
+func _calc_ground_jump_dir():
+	var _dir:Vector2 = Vector2()
+	if _againstFloor():
+		_dir += Vector2(0, -1)
+	if _againstTop():
+		_dir += Vector2(0, 1)
+	if _againstLeft():
+		_dir += Vector2(0.5, -0.5)
+	if _againstRight():
+		_dir += Vector2(-0.5, -0.5)
+	_dir = _dir.normalized()
+	if _dir.length() == 0:
+		return Vector2(0, -1)
+	return _dir
+
 func _physics_process(_delta):
 	_frame += 1
 	var pushX = 0.0
@@ -78,12 +93,18 @@ func _physics_process(_delta):
 	else:
 		_airJumps = MAX_AIR_JUMPS
 	
+	var canGroundJump = _againstHorizontal() || _againstVertical()
+	
 	# if is_on_floor():
-	if _againstFloor():
+	if canGroundJump:
 		_airJumps = MAX_AIR_JUMPS
 		if Input.is_action_just_pressed("jump"):
 			# print(str(_frame) + " Jump")
-			_velocity.y = -JUMP_STRENGTH
+			var _jumpDir:Vector2 = _calc_ground_jump_dir()
+			_velocity.x = _jumpDir.x * JUMP_STRENGTH
+			_velocity.y = _jumpDir.y * JUMP_STRENGTH
+			print("JUMP: " + str(_velocity))
+			#_velocity.y = -JUMP_STRENGTH
 			#_velocity.y = -500
 		pass
 	else:
