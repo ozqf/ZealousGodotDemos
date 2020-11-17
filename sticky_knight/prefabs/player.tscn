@@ -10,9 +10,11 @@
 extents = Vector2( 14, 14 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 48, 8 )
+extents = Vector2( 48, 3 )
 
-[node name="player" type="KinematicBody2D"]
+[node name="player" type="KinematicBody2D" groups=[
+"game",
+]]
 collision_layer = 2
 collision_mask = 129
 script = ExtResource( 2 )
@@ -95,7 +97,3 @@ position = Vector2( 14, -14 )
 
 [node name="right_top" parent="sensors" instance=ExtResource( 5 )]
 position = Vector2( 14, -26 )
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 0, -14 )
-current = true

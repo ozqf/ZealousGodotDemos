@@ -152,3 +152,9 @@ func _physics_process(_delta):
 			_airJumps -= 1
 	_refresh_face_direction()
 	_velocity = move_and_slide(_velocity, Vector2.UP)
+
+# events
+func on_player_finish(_player):
+	#self.queue_free()
+	set_process(false)
+	visible = false

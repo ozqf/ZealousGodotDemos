@@ -5,10 +5,10 @@ var _areaCount:int = 0
 var _bodyCount:int = 0
 
 func _ready():
-	connect("body_entered", self, "_on_body_enter")
-	connect("body_exited", self, "_on_body_exit")
-	connect("area_entered", self, "_on_area_enter")
-	connect("area_exited", self, "_on_area_exit")
+	var _c1 = connect("body_entered", self, "_on_body_enter")
+	var _c2 = connect("body_exited", self, "_on_body_exit")
+	var _c3 = connect("area_entered", self, "_on_area_enter")
+	var _c4 = connect("area_exited", self, "_on_area_exit")
 	_refreshColour()
 	pass
 
