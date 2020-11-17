@@ -30,17 +30,24 @@ var _gravity = Vector2(0, 900)
 var _lastMoveDir = Vector2(1, 0)
 var _airJumps:int = 1
 var _frame:int = 0
+var _slipOn:bool = false
 
 func _againstFloor():
 	return _floorLeft.on() || _floorCentre.on() || _floorRight.on()
 
 func _againstTop():
+	if _slipOn:
+		return false
 	return _topLeft.on() || _topCentre.on() || _topRight.on()
 
 func _againstLeft():
+	if _slipOn:
+		return false
 	return _leftTop.on() || _leftCentre.on() || _leftBottom.on()
 
 func _againstRight():
+	if _slipOn:
+		return false
 	return _rightTop.on() || _rightCentre.on() || _rightBottom.on()
 
 func _againstHorizontal():
@@ -105,6 +112,7 @@ func _physics_process(_delta):
 	_frame += 1
 	var pushX = 0.0
 	var pushY = 0.0
+	_slipOn = Input.is_action_pressed("slip")
 	
 	if _againstHorizontal() || !_againstVertical():
 		if Input.is_action_pressed("ui_left"):
@@ -133,6 +141,8 @@ func _physics_process(_delta):
 		_airJumps = MAX_AIR_JUMPS
 		if Input.is_action_just_pressed("jump"):
 			var _jumpDir:Vector2 = _calc_ground_jump_dir()
+			if _jumpDir.x == 0 && _jumpDir.y == 1:
+				_jumpDir.y = 0.25
 			_velocity.x = _jumpDir.x * JUMP_STRENGTH
 			_velocity.y = _jumpDir.y * JUMP_STRENGTH
 		pass

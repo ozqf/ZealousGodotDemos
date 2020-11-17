@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://tilemaps/test_tiles.tres" type="TileSet" id=1]
-[ext_resource path="res://prefabs/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://prefabs/player_start.tscn" type="PackedScene" id=2]
 [ext_resource path="res://prefabs/hit_switch.tscn" type="PackedScene" id=3]
 [ext_resource path="res://prefabs/grunt.tscn" type="PackedScene" id=4]
 
@@ -33,5 +33,5 @@ collision_mask = 5
 position = Vector2( 784, 416 )
 collision_mask = 5
 
-[node name="player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 464, 464 )
+[node name="player_start" parent="." instance=ExtResource( 2 )]
+position = Vector2( 200, 280 )

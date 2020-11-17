@@ -6,6 +6,7 @@ onready var _left:WorldSensor = $left
 onready var _right:WorldSensor = $right
 onready var _leftFloor:WorldSensor = $left_floor
 onready var _rightFloor:WorldSensor = $right_floor
+onready var _sprite:Sprite = $Sprite
 
 var _velocity = Vector2()
 var _gravity = Vector2(0, 900)
@@ -32,3 +33,4 @@ func _physics_process(_delta):
 		_velocity.x = 0
 	_velocity.y += _gravity.y * _delta
 	_velocity = move_and_slide(_velocity, Vector2.UP)
+	_sprite.flip_h = (_velocity.x < 0)
