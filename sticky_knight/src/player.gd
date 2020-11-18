@@ -18,16 +18,20 @@ onready var _rightBottom:WorldSensor = $sensors/right_bottom
 
 onready var _melee: PlayerMelee = $melee
 onready var _sprite:Sprite = $sprites/body
-onready var _airJumpSprite: Sprite = $air_jump_sprite
-onready var _groundedSprite: Sprite = $grounded_sprite
+onready var _airJumpSprite:Sprite = $air_jump_sprite
+onready var _groundedSprite:Sprite = $grounded_sprite
 
-const SPEED_X = 250.0
+const RUN_SPEED = 250.0
 const JUMP_STRENGTH = 360
 const MAX_AIR_JUMPS = 1
+const GROUND_FRICTION = 0.5
+const GROUND_SECONDS_TO_RUN_SPEED = 0.1
 
-var _velocity = Vector2()
-var _gravity = Vector2(0, 900)
-var _lastMoveDir = Vector2(1, 0)
+var _pushAccumulator:Vector2 = Vector2()
+
+var _velocity:Vector2 = Vector2()
+var _gravity:Vector2 = Vector2(0, 900)
+var _lastMoveDir:Vector2 = Vector2(1, 0)
 var _airJumps:int = 1
 var _frame:int = 0
 var _slipOn:bool = false
@@ -108,6 +112,12 @@ func _calc_ground_jump_dir():
 		return Vector2(0, -1)
 	return _dir
 
+func _calc_push_ratio(curSpeed:float, maxSpeed:float):
+	var r = 1.0 - (curSpeed / maxSpeed)
+	if r < 0: r = 0
+	if r > 1: r = 1
+	return r
+
 func _physics_process(_delta):
 	_frame += 1
 	var pushX = 0.0
@@ -117,15 +127,23 @@ func _physics_process(_delta):
 	if _againstHorizontal() || !_againstVertical():
 		if Input.is_action_pressed("ui_left"):
 			pushX -= 1.0
+			var push:float = _calc_push_ratio(_velocity.x, -RUN_SPEED)
+			var accel:float = -(RUN_SPEED / GROUND_SECONDS_TO_RUN_SPEED)
+			_velocity.x += (accel * push) * _delta
+			print("PushMul " + str(push) + " vel " + str(_velocity.x))
 		if Input.is_action_pressed("ui_right"):
 			pushX += 1.0
-		_velocity.x = pushX * SPEED_X
+			var push:float = _calc_push_ratio(_velocity.x, RUN_SPEED)
+			var accel:float = RUN_SPEED / GROUND_SECONDS_TO_RUN_SPEED
+			_velocity.x += (accel * push) * _delta
+			print("PushMul " + str(push) + " vel " + str(_velocity.x))
+		#_velocity.x = pushX * RUN_SPEED
 	if _againstVertical():
 		if Input.is_action_pressed("ui_up"):
 			pushY -= 1.0
 		if Input.is_action_pressed("ui_down"):
 			pushY += 1.0
-		_velocity.y = pushY * SPEED_X
+		_velocity.y = pushY * RUN_SPEED
 	
 	if !_againstHorizontal() && !_againstVertical():
 		_velocity.y += _gravity.y * _delta
@@ -140,8 +158,8 @@ func _physics_process(_delta):
 			var _jumpDir:Vector2 = _calc_ground_jump_dir()
 			if _jumpDir.x == 0 && _jumpDir.y == 1:
 				_jumpDir.y = 0.25
-			_velocity.x = _jumpDir.x * JUMP_STRENGTH
-			_velocity.y = _jumpDir.y * JUMP_STRENGTH
+			_velocity.x += _jumpDir.x * JUMP_STRENGTH
+			_velocity.y += _jumpDir.y * JUMP_STRENGTH
 		pass
 	else:
 		if _airJumps > 0 && Input.is_action_just_pressed("jump"):
