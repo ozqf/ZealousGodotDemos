@@ -24,7 +24,6 @@ func _ready():
 	var _f2 = _attackArea.connect("body_entered", self, "_on_melee_body_entered")
 	_shape.disabled = true
 	_attackLine.visible = false
-	pass
 
 func _on_melee_body_entered(_body:PhysicsBody2D):
 	if _body.has_method("hit"):

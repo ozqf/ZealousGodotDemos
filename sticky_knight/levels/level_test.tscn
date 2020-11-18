@@ -38,7 +38,7 @@ collision_mask = 5
 position = Vector2( 1328, 256 )
 
 [node name="player_start" parent="world" instance=ExtResource( 2 )]
-position = Vector2( 200, 280 )
+position = Vector2( 208, 288 )
 
 [node name="grunt4" parent="world" instance=ExtResource( 4 )]
 position = Vector2( 1008, 160 )

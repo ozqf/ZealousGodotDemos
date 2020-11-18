@@ -127,9 +127,6 @@ func _physics_process(_delta):
 			pushY += 1.0
 		_velocity.y = pushY * SPEED_X
 	
-	#_airJumpSprite.visible = (_airJumps > 0)
-	#_groundedSprite.visible = is_on_floor()
-	
 	if !_againstHorizontal() && !_againstVertical():
 		_velocity.y += _gravity.y * _delta
 	else:

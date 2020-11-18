@@ -5,7 +5,6 @@ var _trackTarget = null
 
 func _ready():
 	_gameParent = get_parent()
-	#var _foo = self.connect("tree_exiting", self, "on_self_exiting")
 	current = true
 
 func _set_target(_newTarget):
@@ -36,9 +35,6 @@ func _set_target(_newTarget):
 func on_player_register_player_start(_start):
 	global_position = _start.global_position
 	print("Cam viewing player start at " + str(global_position))
-	
-#func on_self_exiting():
-#	_set_target(null)
 
 func on_target_exiting():
 	_set_target(null)
