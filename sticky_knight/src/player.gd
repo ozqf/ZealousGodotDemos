@@ -24,8 +24,9 @@ onready var _groundedSprite:Sprite = $grounded_sprite
 const RUN_SPEED = 250.0
 const JUMP_STRENGTH = 360
 const MAX_AIR_JUMPS = 1
-const GROUND_FRICTION = 0.5
-const GROUND_SECONDS_TO_RUN_SPEED = 0.1
+const GROUND_FRICTION = 0.8
+const GROUND_SECONDS_TO_RUN_SPEED = 0.05
+#const GROUND_SECONDS_TO_STOP = 0.1
 
 var _pushAccumulator:Vector2 = Vector2()
 
@@ -130,20 +131,31 @@ func _physics_process(_delta):
 			var push:float = _calc_push_ratio(_velocity.x, -RUN_SPEED)
 			var accel:float = -(RUN_SPEED / GROUND_SECONDS_TO_RUN_SPEED)
 			_velocity.x += (accel * push) * _delta
-			print("PushMul " + str(push) + " vel " + str(_velocity.x))
+			#print("PushMul " + str(push) + " vel " + str(_velocity.x))
 		if Input.is_action_pressed("ui_right"):
 			pushX += 1.0
 			var push:float = _calc_push_ratio(_velocity.x, RUN_SPEED)
 			var accel:float = RUN_SPEED / GROUND_SECONDS_TO_RUN_SPEED
 			_velocity.x += (accel * push) * _delta
-			print("PushMul " + str(push) + " vel " + str(_velocity.x))
+			#print("PushMul " + str(push) + " vel " + str(_velocity.x))
 		#_velocity.x = pushX * RUN_SPEED
+		# apply friction if on floor and not pushing
+		if _againstHorizontal() && pushX == 0:
+			_velocity.x *= GROUND_FRICTION
 	if _againstVertical():
 		if Input.is_action_pressed("ui_up"):
 			pushY -= 1.0
+			var push:float = _calc_push_ratio(_velocity.y, -RUN_SPEED)
+			var accel:float = -(RUN_SPEED / GROUND_SECONDS_TO_RUN_SPEED)
+			_velocity.y += (accel * push) * _delta
 		if Input.is_action_pressed("ui_down"):
 			pushY += 1.0
-		_velocity.y = pushY * RUN_SPEED
+			var push:float = _calc_push_ratio(_velocity.y, RUN_SPEED)
+			var accel:float = RUN_SPEED / GROUND_SECONDS_TO_RUN_SPEED
+			_velocity.y += (accel * push) * _delta
+		#_velocity.y = pushY * RUN_SPEED
+		if _againstVertical() && pushY == 0:
+			_velocity.y *= GROUND_FRICTION
 	
 	if !_againstHorizontal() && !_againstVertical():
 		_velocity.y += _gravity.y * _delta
