@@ -25,6 +25,7 @@ const RUN_SPEED = 250.0
 const JUMP_STRENGTH = 360
 const MAX_AIR_JUMPS = 1
 const GROUND_FRICTION = 0.8
+const AIR_FRICTION = 0.95
 const GROUND_SECONDS_TO_RUN_SPEED = 0.05
 #const GROUND_SECONDS_TO_STOP = 0.1
 
@@ -140,8 +141,11 @@ func _physics_process(_delta):
 			#print("PushMul " + str(push) + " vel " + str(_velocity.x))
 		#_velocity.x = pushX * RUN_SPEED
 		# apply friction if on floor and not pushing
-		if _againstHorizontal() && pushX == 0:
-			_velocity.x *= GROUND_FRICTION
+		if pushX == 0:
+			if _againstHorizontal():
+				_velocity.x *= GROUND_FRICTION
+			else:
+				_velocity.x *= AIR_FRICTION
 	if _againstVertical():
 		if Input.is_action_pressed("ui_up"):
 			pushY -= 1.0
@@ -174,6 +178,7 @@ func _physics_process(_delta):
 			_velocity.y += _jumpDir.y * JUMP_STRENGTH
 		pass
 	else:
+		
 		if _airJumps > 0 && Input.is_action_just_pressed("jump"):
 			_velocity.y = -JUMP_STRENGTH
 			_airJumps -= 1
@@ -185,3 +190,11 @@ func on_player_finish(_player):
 	#self.queue_free()
 	set_process(false)
 	visible = false
+
+func touch_spike(_spike):
+	var spikePos:Vector2 = _spike.global_position
+	var selfPos:Vector2 = global_position
+	var radians:float = selfPos.angle_to_point(spikePos)
+	_velocity.x = cos(radians) * 600
+	_velocity.y = sin(radians) * 600
+	print("Touch Spike")

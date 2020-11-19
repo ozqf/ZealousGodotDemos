@@ -30,6 +30,11 @@ _global_script_classes=[ {
 "path": "res://src/player_melee.gd"
 }, {
 "base": "Area2D",
+"class": "SpikeBall",
+"language": "GDScript",
+"path": "res://src/spike_ball.gd"
+}, {
+"base": "Area2D",
 "class": "WorldSensor",
 "language": "GDScript",
 "path": "res://src/world_sensor.gd"
@@ -39,6 +44,7 @@ _global_script_class_icons={
 "HitSwitch": "",
 "MenuMain": "",
 "PlayerMelee": "",
+"SpikeBall": "",
 "WorldSensor": ""
 }
 
