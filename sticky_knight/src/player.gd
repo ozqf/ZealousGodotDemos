@@ -178,7 +178,6 @@ func _physics_process(_delta):
 			_velocity.y += _jumpDir.y * JUMP_STRENGTH
 		pass
 	else:
-		
 		if _airJumps > 0 && Input.is_action_just_pressed("jump"):
 			_velocity.y = -JUMP_STRENGTH
 			_airJumps -= 1
@@ -190,6 +189,10 @@ func on_player_finish(_player):
 	#self.queue_free()
 	set_process(false)
 	visible = false
+
+func kill():
+	get_tree().call_group("game", "on_player_died", self)
+	queue_free()
 
 func touch_spike(_spike):
 	var spikePos:Vector2 = _spike.global_position
