@@ -24,5 +24,6 @@ func on_exit():
 	get_tree().quit()
 
 func _process(_delta):
-	if Input.is_action_just_pressed("ui_cancel"):
-		_gui.visible = !_gui.visible
+#	if Input.is_action_just_pressed("ui_cancel"):
+#		_gui.visible = !_gui.visible
+	pass

@@ -21,7 +21,7 @@ onready var _sprite:Sprite = $sprites/body
 onready var _airJumpSprite:Sprite = $air_jump_sprite
 onready var _groundedSprite:Sprite = $grounded_sprite
 
-const RUN_SPEED = 250.0
+const RUN_SPEED = 225.0
 const JUMP_STRENGTH = 360
 const MAX_AIR_JUMPS = 1
 const GROUND_FRICTION = 0.8
@@ -37,6 +37,10 @@ var _lastMoveDir:Vector2 = Vector2(1, 0)
 var _airJumps:int = 1
 var _frame:int = 0
 var _slipOn:bool = false
+var _startPos: Vector2 = Vector2()
+
+func set_start_position(pos:Vector2):
+	_startPos = pos
 
 func _againstFloor():
 	return _floorLeft.on() || _floorCentre.on() || _floorRight.on()
@@ -191,8 +195,10 @@ func on_player_finish(_player):
 	visible = false
 
 func kill():
-	get_tree().call_group("game", "on_player_died", self)
-	queue_free()
+	#get_tree().call_group("game", "on_player_died", self)
+	#queue_free()
+	self.position = _startPos
+	_velocity = Vector2()
 
 func touch_spike(_spike):
 	var spikePos:Vector2 = _spike.global_position

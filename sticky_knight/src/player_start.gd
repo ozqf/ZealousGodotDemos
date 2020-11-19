@@ -10,6 +10,7 @@ func _process(_delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		var player = _player_prefab.instance()
 		player.position = position
+		player.set_start_position(position)
 		var parent = get_tree().get_current_scene()
 		parent.add_child(player)
 		_gui.hide()
