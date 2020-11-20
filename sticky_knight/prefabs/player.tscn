@@ -100,3 +100,21 @@ position = Vector2( 14, -14 )
 
 [node name="right_top" parent="sensors" instance=ExtResource( 5 )]
 position = Vector2( 14, -26 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 0.935
+anchor_right = 0.5
+anchor_bottom = 0.935
+margin_left = -151.0
+margin_top = -12.5601
+margin_right = 153.0
+margin_bottom = 37.4399
+text = "Arrows - Move C - Jump X - Attack Z - No-grab"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

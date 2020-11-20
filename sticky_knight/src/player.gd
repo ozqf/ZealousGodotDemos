@@ -200,6 +200,10 @@ func kill():
 	self.position = _startPos
 	_velocity = Vector2()
 
+func touch_spring(push:Vector2):
+	print("Push " + str(push))
+	_velocity = push
+
 func touch_spike(_spike):
 	var spikePos:Vector2 = _spike.global_position
 	var selfPos:Vector2 = global_position
