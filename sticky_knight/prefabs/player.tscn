@@ -10,7 +10,7 @@
 extents = Vector2( 14, 14 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 48, 3 )
+extents = Vector2( 48, 8 )
 
 [node name="player" type="KinematicBody2D" groups=[
 "game",
@@ -35,8 +35,8 @@ script = ExtResource( 3 )
 
 [node name="melee_area" type="Area2D" parent="melee"]
 position = Vector2( 48, 0 )
-collision_layer = 36
-collision_mask = 36
+collision_layer = 2
+collision_mask = 54
 
 [node name="attack_line" type="Line2D" parent="melee/melee_area"]
 position = Vector2( 10, 0 )

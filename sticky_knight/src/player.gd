@@ -21,11 +21,12 @@ onready var _sprite:Sprite = $sprites/body
 onready var _airJumpSprite:Sprite = $air_jump_sprite
 onready var _groundedSprite:Sprite = $grounded_sprite
 
-const RUN_SPEED = 225.0
-const JUMP_STRENGTH = 360
+const RUN_SPEED = 220.0
+const JUMP_STRENGTH = 365
 const MAX_AIR_JUMPS = 1
+const MAX_FALL_SPEED = 500
 const GROUND_FRICTION = 0.8
-const AIR_FRICTION = 0.95
+const AIR_FRICTION = 0.99
 const GROUND_SECONDS_TO_RUN_SPEED = 0.05
 #const GROUND_SECONDS_TO_STOP = 0.1
 
@@ -166,7 +167,8 @@ func _physics_process(_delta):
 			_velocity.y *= GROUND_FRICTION
 	
 	if !_againstHorizontal() && !_againstVertical():
-		_velocity.y += _gravity.y * _delta
+		if _velocity.y < MAX_FALL_SPEED:
+			_velocity.y += _gravity.y * _delta
 	else:
 		_airJumps = MAX_AIR_JUMPS
 	

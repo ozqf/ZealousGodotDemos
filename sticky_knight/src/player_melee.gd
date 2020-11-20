@@ -32,6 +32,9 @@ func _on_melee_body_entered(_body:PhysicsBody2D):
 func _on_melee_area_entered(_area:Area2D):
 	if _area.has_method("hit"):
 		_area.hit()
+		return
+	if _area.has_method("hit_projectile"):
+		_area.hit_projectile(rotation)
 
 func set_last_move_dir(dir:Vector2):
 	_lastMoveDir = dir

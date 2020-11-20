@@ -1,6 +1,16 @@
 extends Node2D
 class_name Game
 
+const LAYER_WORLD = 1
+const LAYER_PLAYER = 2
+const LAYER_ENEMY = 4
+const LAYER_ITEM = 8
+const LAYER_PROJECTILE = 16
+const LAYER_SWITCH = 32
+const LAYER_SENSOR = 64
+const LAYER_TRIGGER = 128
+const LAYER_WORLD_SLIPPY = 256
+
 func on_player_start(_player):
 	pass
 
