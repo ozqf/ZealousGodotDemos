@@ -16,8 +16,8 @@ onready var _attackArea:Area2D = $melee_area
 var _state:int = STATE_READY
 var _attackDir = Vector2(1, 0)
 var _attackTick:float = 0
-
 var _lastMoveDir = Vector2(1, 0)
+var player = null
 
 func _ready():
 	var _f1 = _attackArea.connect("area_entered", self, "_on_melee_area_entered")
@@ -62,6 +62,8 @@ func _process_ready(_delta):
 		_attackLine.visible = true
 		_attackTick = ATTACK_TIME
 		_attackLine.self_modulate = Color(1, 0, 0)
+		if player != null:
+			player.on_attack(_inputDir)
 
 func _process_swing(_delta):
 	if _attackTick > 0:

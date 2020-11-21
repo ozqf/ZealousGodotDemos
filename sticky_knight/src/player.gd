@@ -40,6 +40,9 @@ var _frame:int = 0
 var _slipOn:bool = false
 var _startPos: Vector2 = Vector2()
 
+func _ready():
+	_melee.player = self
+
 func set_start_position(pos:Vector2):
 	_startPos = pos
 
@@ -190,7 +193,13 @@ func _physics_process(_delta):
 	_refresh_face_direction()
 	_velocity = move_and_slide(_velocity, Vector2.UP)
 
+############################################
 # events
+############################################
+func on_attack(dir:Vector2):
+	if _velocity.y > -50 && !_againstHorizontal() && !_againstVertical():
+		_velocity.y = -50
+
 func on_player_finish(_player):
 	#self.queue_free()
 	set_process(false)

@@ -11,6 +11,9 @@ const LAYER_SENSOR = 64
 const LAYER_TRIGGER = 128
 const LAYER_WORLD_SLIPPY = 256
 
+const TEAM_ENEMY = 0
+const TEAM_PLAYER = 1
+
 func on_player_start(_player):
 	pass
 
