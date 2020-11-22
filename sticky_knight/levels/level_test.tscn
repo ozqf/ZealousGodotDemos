@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://tilemaps/test_tiles.tres" type="TileSet" id=1]
 [ext_resource path="res://prefabs/player_start.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://tilemaps/test_tiles_slippy.tres" type="TileSet" id=7]
 [ext_resource path="res://prefabs/kill_volume.tscn" type="PackedScene" id=8]
 [ext_resource path="res://prefabs/cannon.tscn" type="PackedScene" id=9]
+[ext_resource path="res://prefabs/spawner.tscn" type="PackedScene" id=10]
 
 [node name="Node2D" type="Node2D"]
 
@@ -45,19 +46,15 @@ position = Vector2( 1584, 624 )
 
 [node name="grunt" parent="world" instance=ExtResource( 4 )]
 position = Vector2( 656, 256 )
-collision_mask = 5
 
 [node name="grunt2" parent="world" instance=ExtResource( 4 )]
-position = Vector2( 304, 256 )
-collision_mask = 5
+position = Vector2( 704, 132 )
 
 [node name="grunt3" parent="world" instance=ExtResource( 4 )]
 position = Vector2( 784, 416 )
-collision_mask = 5
 
 [node name="grunt4" parent="world" instance=ExtResource( 4 )]
 position = Vector2( 976, 160 )
-collision_mask = 5
 
 [node name="player_start" parent="world" instance=ExtResource( 2 )]
 position = Vector2( 208, 288 )
@@ -105,3 +102,6 @@ position = Vector2( -464, 146 )
 [node name="spring5" parent="world" instance=ExtResource( 5 )]
 position = Vector2( 1136, -664 )
 rotation = 3.14159
+
+[node name="spawner" parent="world" instance=ExtResource( 10 )]
+position = Vector2( 512, 448 )

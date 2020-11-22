@@ -2,6 +2,8 @@ extends KinematicBody2D
 
 const WALK_SPEED:float = 100.0
 
+signal enemy_died
+
 onready var _left:WorldSensor = $left
 onready var _right:WorldSensor = $right
 onready var _leftFloor:WorldSensor = $left_floor
@@ -13,6 +15,7 @@ var _gravity = Vector2(0, 900)
 var _moveDir = Vector2(150, 0)
 
 func hit():
+	emit_signal("enemy_died", self)
 	queue_free()
 
 func _physics_process(_delta):

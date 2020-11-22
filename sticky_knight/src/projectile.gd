@@ -28,7 +28,6 @@ func on_body_enter(_body):
 	if _body == _ignoreBody:
 		return
 	var layer:int = _body.collision_layer
-	print("prj hit layer: " + str(layer) + " vs world " + str(game.LAYER_WORLD))
 	if (layer & game.LAYER_WORLD) > 0:
 		_kill()
 		return
