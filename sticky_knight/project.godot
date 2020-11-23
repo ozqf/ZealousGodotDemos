@@ -105,6 +105,8 @@ slip={
 2d_physics/layer_7="sensor"
 2d_physics/layer_8="trigger"
 2d_physics/layer_9="world_slippy"
+2d_physics/layer_10="fence"
+2d_physics/layer_11="fence_slippy"
 
 [rendering]
 

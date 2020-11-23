@@ -23,6 +23,7 @@ onready var _groundedSprite:Sprite = $grounded_sprite
 
 const RUN_SPEED = 220.0
 const JUMP_STRENGTH = 365
+const AIR_JUMP_STRENGTH = 365
 const MAX_AIR_JUMPS = 1
 const MAX_FALL_SPEED = 500
 const GROUND_FRICTION = 0.8
@@ -187,8 +188,8 @@ func _physics_process(_delta):
 			_velocity.y += _jumpDir.y * JUMP_STRENGTH
 		pass
 	else:
-		if _airJumps > 0 && Input.is_action_just_pressed("jump"):
-			_velocity.y = -JUMP_STRENGTH
+		if _airJumps > 0 && _velocity.y > -AIR_JUMP_STRENGTH && Input.is_action_just_pressed("jump"):
+			_velocity.y = -AIR_JUMP_STRENGTH
 			_airJumps -= 1
 	_refresh_face_direction()
 	_velocity = move_and_slide(_velocity, Vector2.UP)
