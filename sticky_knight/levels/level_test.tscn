@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://tilemaps/test_tiles.tres" type="TileSet" id=1]
 [ext_resource path="res://prefabs/player_start.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://prefabs/spawner.tscn" type="PackedScene" id=10]
 [ext_resource path="res://tilemaps/test_tile_fence.tres" type="TileSet" id=11]
 [ext_resource path="res://tilemaps/test_tile_fence_slippy.tres" type="TileSet" id=12]
+[ext_resource path="res://prefabs/gate.tscn" type="PackedScene" id=13]
 
 [node name="Node2D" type="Node2D"]
 
@@ -54,6 +55,7 @@ position = Vector2( 208, 880 )
 
 [node name="hit_switch2" parent="world" instance=ExtResource( 3 )]
 position = Vector2( -16, 48 )
+trigger_target = "gate 1"
 
 [node name="hit_switch3" parent="world" instance=ExtResource( 3 )]
 position = Vector2( -464, 688 )
@@ -125,3 +127,7 @@ rotation = 3.14159
 
 [node name="spawner" parent="world" instance=ExtResource( 10 )]
 position = Vector2( 512, 448 )
+
+[node name="gate" parent="world" instance=ExtResource( 13 )]
+position = Vector2( 160, 80 )
+target_name = "gate 1"
