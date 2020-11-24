@@ -12,6 +12,7 @@ export var direction = GateDirection.Up
 export var tileCount:int = 2
 export var target_name:String = ""
 var _tiles = []
+var _on:bool = true
 
 func _ready():
 	var stepX:int = 0
@@ -27,6 +28,17 @@ func _ready():
 		tile.position = pos
 	print("Gate trigger name: " + target_name)
 
+func _set_state(isOn:bool):
+	if isOn == _on:
+		return
+	_on = isOn
+	for i in range(tileCount):
+		if _on:
+			_tiles[i].on()
+		else:
+			_tiles[i].off()
+
 func trigger(tarName:String):
 	if target_name != "" && target_name == tarName:
 		print("Gate " + target_name + " triggered")
+		_set_state(!_on)
