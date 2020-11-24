@@ -27,7 +27,7 @@ func hit_projectile(radians:float):
 func on_body_enter(_body):
 	if _body == _ignoreBody:
 		return
-	var layer:int = _body.collision_layer
+	#var layer:int = _body.collision_layer
 	if _teamID == game.TEAM_PLAYER && _body.has_method("hit"):
 		_body.hit()
 		_kill()
@@ -59,10 +59,16 @@ func _process(_delta:float):
 	var origin = position
 	var dest = origin + step
 	var mask = game.LAYER_WORLD | game.LAYER_WORLD_SLIPPY
+	if _teamID != game.TEAM_PLAYER:
+		mask |= game.LAYER_PLAYER
 	var spaceRId = get_world_2d().space
 	var spaceState = Physics2DServer.space_get_direct_state(spaceRId)
 	var result = spaceState.intersect_ray(origin, dest, [_ignoreBody], mask, true, false)
 	if result:
+		var layer:int = result.collider.collision_layer
+		if (layer & game.LAYER_PLAYER) != 0:
+			#print("Hit player!")
+			result.collider.touch_projectile(self)
 		_kill()
 		return
 	position += step

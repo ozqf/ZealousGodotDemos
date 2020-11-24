@@ -8,25 +8,30 @@ enum GateDirection {
 	Left,
 	Right
 }
-export var direction = GateDirection.Up
+export var direction = GateDirection.Down
 export var tileCount:int = 2
 export var target_name:String = ""
 var _tiles = []
 var _on:bool = true
 
 func _ready():
-	var stepX:int = 0
-	var stepY:int = 32
+	# default to down
+	var step:Vector2 = Vector2(0, 32)
+	if direction == GateDirection.Up:
+		step = Vector2(0, -32)
+	elif direction == GateDirection.Left:
+		step = Vector2(-32, 0)
+	elif direction == GateDirection.Right:
+		step = Vector2(32, 0)
 	var pos = Vector2()
-	for i in range(0, tileCount):
+	for _i in range(0, tileCount):
 		var tile = _tile_prefab.instance()
 		_tiles.push_back(tile)
 		add_child(tile)
-		pos.x += stepX
-		pos.y += stepY
-		tile.offset = Vector2(stepX, stepY)
+		pos += step
+		tile.offset = Vector2(step.x, step.y)
 		tile.position = pos
-	print("Gate trigger name: " + target_name)
+	#print("Gate trigger name: " + target_name)
 
 func _set_state(isOn:bool):
 	if isOn == _on:
@@ -40,5 +45,5 @@ func _set_state(isOn:bool):
 
 func trigger(tarName:String):
 	if target_name != "" && target_name == tarName:
-		print("Gate " + target_name + " triggered")
+		#print("Gate " + target_name + " triggered")
 		_set_state(!_on)

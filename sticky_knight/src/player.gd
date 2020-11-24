@@ -197,7 +197,7 @@ func _physics_process(_delta):
 ############################################
 # events
 ############################################
-func on_attack(dir:Vector2):
+func on_attack(_dir:Vector2):
 	if _velocity.y > -50 && !_againstHorizontal() && !_againstVertical():
 		_velocity.y = -50
 
@@ -215,6 +215,9 @@ func kill():
 func touch_spring(push:Vector2):
 	print("Push " + str(push))
 	_velocity = push
+	
+func touch_projectile(_prj:Projectile):
+	kill()
 
 func touch_spike(_spike):
 	var spikePos:Vector2 = _spike.global_position

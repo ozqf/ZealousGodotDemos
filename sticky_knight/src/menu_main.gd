@@ -12,8 +12,10 @@ func _ready():
 
 func on_level_01():
 	get_tree().change_scene("res://levels/level_01.tscn")
+	_gui.visible = false
 
 func on_level_02():
+	#_gui.visible = false
 	pass
 
 func on_level_test():
@@ -24,6 +26,6 @@ func on_exit():
 	get_tree().quit()
 
 func _process(_delta):
-#	if Input.is_action_just_pressed("ui_cancel"):
-#		_gui.visible = !_gui.visible
+	if Input.is_action_just_pressed("ui_cancel"):
+		_gui.visible = !_gui.visible
 	pass

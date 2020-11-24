@@ -32,9 +32,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -120.0
-margin_top = -16.0
+margin_top = 160.0
 margin_right = 122.0
-margin_bottom = 14.0
+margin_bottom = 224.0
 text = "Press Enter to start"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

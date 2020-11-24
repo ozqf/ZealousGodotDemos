@@ -17,7 +17,7 @@ func hit():
 	_tick = _resetTime
 	$Sprite.texture = _pressedSprite
 	if trigger_target != "":
-		print("Hit switch triggering " + trigger_target)
+		#print("Hit switch triggering " + trigger_target)
 		get_tree().call_group("trigger_targets", "trigger", trigger_target)
 	pass
 

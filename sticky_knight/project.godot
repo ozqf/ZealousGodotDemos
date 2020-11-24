@@ -63,7 +63,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Sticky Ninja"
-run/main_scene="res://levels/level_test.tscn"
+run/main_scene="res://levels/level_01.tscn"
 config/icon="res://icon.png"
 
 [autoload]
