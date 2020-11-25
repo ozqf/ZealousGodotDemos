@@ -40,6 +40,7 @@ var _airJumps:int = 1
 var _frame:int = 0
 var _slipOn:bool = false
 var _startPos: Vector2 = Vector2()
+var _snapDir:Vector2 = Vector2()
 
 func _ready():
 	_melee.player = self
@@ -91,8 +92,10 @@ func _refresh_face_direction():
 		_sprite.rotation_degrees = 0
 		if _againstTop():
 			_sprite.flip_v = true
+			_snapDir = Vector2(0, -1)
 		else:
 			_sprite.flip_v = false
+			_snapDir = Vector2(0, 1)
 		if _lastMoveDir.x < 0:
 			_sprite.flip_h = true
 		else:
@@ -101,8 +104,10 @@ func _refresh_face_direction():
 		_sprite.rotation_degrees = 90
 		if _againstRight():
 			_sprite.flip_v = true
+			_snapDir = Vector2(-1, 0)
 		else:
 			_sprite.flip_v = false
+			_snapDir = Vector2(1, 0)
 		if _lastMoveDir.y < 0:
 			_sprite.flip_h = true
 		else:
@@ -170,15 +175,19 @@ func _physics_process(_delta):
 		if _againstVertical() && pushY == 0:
 			_velocity.y *= GROUND_FRICTION
 	
+	
 	if !_againstHorizontal() && !_againstVertical():
 		if _velocity.y < MAX_FALL_SPEED:
 			_velocity.y += _gravity.y * _delta
 	else:
 		_airJumps = MAX_AIR_JUMPS
 	
+	var _snap:Vector2 = Vector2()
 	var canGroundJump = _againstHorizontal() || _againstVertical()
 	
 	if canGroundJump:
+		if _velocity.y >= 0:
+			_snap = _snapDir * 16
 		_airJumps = MAX_AIR_JUMPS
 		if Input.is_action_just_pressed("jump"):
 			var _jumpDir:Vector2 = _calc_ground_jump_dir()
@@ -192,7 +201,8 @@ func _physics_process(_delta):
 			_velocity.y = -AIR_JUMP_STRENGTH
 			_airJumps -= 1
 	_refresh_face_direction()
-	_velocity = move_and_slide(_velocity, Vector2.UP)
+	# _velocity = move_and_slide(_velocity, Vector2.UP)
+	_velocity = move_and_slide_with_snap(_velocity, _snap, Vector2.UP)
 
 ############################################
 # events

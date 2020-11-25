@@ -61,7 +61,6 @@ position = Vector2( 8, -40 )
 texture = ExtResource( 4 )
 
 [node name="sensors" type="Node2D" parent="."]
-visible = false
 
 [node name="floor_left" parent="sensors" instance=ExtResource( 5 )]
 position = Vector2( -12, 0 )
@@ -91,7 +90,7 @@ position = Vector2( -14, -2 )
 collision_mask = 513
 
 [node name="left_centre" parent="sensors" instance=ExtResource( 5 )]
-position = Vector2( -14, -14 )
+position = Vector2( -16, -14 )
 collision_mask = 513
 
 [node name="left_top" parent="sensors" instance=ExtResource( 5 )]
@@ -103,7 +102,7 @@ position = Vector2( 14, -2 )
 collision_mask = 513
 
 [node name="right_centre" parent="sensors" instance=ExtResource( 5 )]
-position = Vector2( 14, -14 )
+position = Vector2( 18, -14 )
 collision_mask = 513
 
 [node name="right_top" parent="sensors" instance=ExtResource( 5 )]

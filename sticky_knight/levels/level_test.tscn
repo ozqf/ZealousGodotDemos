@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://tilemaps/test_tiles.tres" type="TileSet" id=1]
 [ext_resource path="res://prefabs/player_start.tscn" type="PackedScene" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://tilemaps/test_tile_fence.tres" type="TileSet" id=11]
 [ext_resource path="res://tilemaps/test_tile_fence_slippy.tres" type="TileSet" id=12]
 [ext_resource path="res://prefabs/gate.tscn" type="PackedScene" id=13]
+[ext_resource path="res://prefabs/moving_tile.tscn" type="PackedScene" id=14]
 
 [node name="Node2D" type="Node2D"]
 
@@ -139,3 +140,18 @@ position = Vector2( 512, 448 )
 position = Vector2( -144, 208 )
 direction = 3
 target_name = "gate 1"
+
+[node name="moving_tile" parent="world/actors" instance=ExtResource( 14 )]
+position = Vector2( -240, 464 )
+
+[node name="moving_tile2" parent="world/actors" instance=ExtResource( 14 )]
+position = Vector2( -240, 400 )
+speed = 32
+
+[node name="moving_tile3" parent="world/actors" instance=ExtResource( 14 )]
+position = Vector2( -240, 432 )
+speed = 32
+
+[node name="moving_tile4" parent="world/actors" instance=ExtResource( 14 )]
+position = Vector2( -240, 368 )
+speed = 32
