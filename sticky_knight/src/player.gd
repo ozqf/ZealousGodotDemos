@@ -26,6 +26,7 @@ const JUMP_STRENGTH = 365
 const AIR_JUMP_STRENGTH = 365
 const MAX_AIR_JUMPS = 1
 const MAX_FALL_SPEED = 500
+const GRAVITY_SPEED = 900
 const GROUND_FRICTION = 0.8
 const AIR_FRICTION = 0.99
 const GROUND_SECONDS_TO_RUN_SPEED = 0.05
@@ -34,7 +35,7 @@ const GROUND_SECONDS_TO_RUN_SPEED = 0.05
 var _pushAccumulator:Vector2 = Vector2()
 
 var _velocity:Vector2 = Vector2()
-var _gravity:Vector2 = Vector2(0, 900)
+var _gravity:Vector2 = Vector2(0, GRAVITY_SPEED)
 var _lastMoveDir:Vector2 = Vector2(1, 0)
 var _airJumps:int = 1
 var _frame:int = 0
@@ -104,10 +105,10 @@ func _refresh_face_direction():
 		_sprite.rotation_degrees = 90
 		if _againstRight():
 			_sprite.flip_v = true
-			_snapDir = Vector2(-1, 0)
+			_snapDir = Vector2(1, 0)
 		else:
 			_sprite.flip_v = false
-			_snapDir = Vector2(1, 0)
+			_snapDir = Vector2(-1, 0)
 		if _lastMoveDir.y < 0:
 			_sprite.flip_h = true
 		else:
@@ -139,8 +140,10 @@ func _physics_process(_delta):
 	var pushX = 0.0
 	var pushY = 0.0
 	_slipOn = Input.is_action_pressed("slip")
+	var againstH:bool = _againstHorizontal()
+	var againstV:bool = _againstVertical()
 	
-	if _againstHorizontal() || !_againstVertical():
+	if againstH || !againstV:
 		if Input.is_action_pressed("ui_left"):
 			pushX -= 1.0
 			var push:float = _calc_push_ratio(_velocity.x, -RUN_SPEED)
@@ -156,11 +159,11 @@ func _physics_process(_delta):
 		#_velocity.x = pushX * RUN_SPEED
 		# apply friction if on floor and not pushing
 		if pushX == 0:
-			if _againstHorizontal():
+			if againstH:
 				_velocity.x *= GROUND_FRICTION
 			else:
 				_velocity.x *= AIR_FRICTION
-	if _againstVertical():
+	if againstV:
 		if Input.is_action_pressed("ui_up"):
 			pushY -= 1.0
 			var push:float = _calc_push_ratio(_velocity.y, -RUN_SPEED)
@@ -172,18 +175,19 @@ func _physics_process(_delta):
 			var accel:float = RUN_SPEED / GROUND_SECONDS_TO_RUN_SPEED
 			_velocity.y += (accel * push) * _delta
 		#_velocity.y = pushY * RUN_SPEED
-		if _againstVertical() && pushY == 0:
+		if againstV && pushY == 0:
 			_velocity.y *= GROUND_FRICTION
 	
-	
-	if !_againstHorizontal() && !_againstVertical():
-		if _velocity.y < MAX_FALL_SPEED:
-			_velocity.y += _gravity.y * _delta
-	else:
+	if againstH || againstV:
 		_airJumps = MAX_AIR_JUMPS
 	
+#	if !againstH && !againstV:
+#		if _velocity.y < MAX_FALL_SPEED:
+#			_velocity.y += _gravity.y * _delta
+	_velocity += (_snapDir * GRAVITY_SPEED) * _delta
+	
 	var _snap:Vector2 = Vector2()
-	var canGroundJump = _againstHorizontal() || _againstVertical()
+	var canGroundJump = againstH || againstV
 	
 	if canGroundJump:
 		if _velocity.y >= 0:
