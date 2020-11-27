@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Player
 
 onready var _floorLeft:WorldSensor = $sensors/floor_left
 onready var _floorCentre:WorldSensor = $sensors/floor_centre
