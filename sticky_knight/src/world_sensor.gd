@@ -16,7 +16,7 @@ func _ready():
 
 func on():
 	return (_areaCount + _bodyCount) > 0
-
+#
 func _refreshColour():
 	if on():
 		$Sprite.self_modulate = Color(1, 1, 1, 1)
