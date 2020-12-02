@@ -2,8 +2,8 @@ extends Node2D
 class_name PlayerMelee
 
 const ATTACK_LINE_LENGTH:float = 96.0
-const ATTACK_TIME:float = 0.1
-const ATTACK_RECOVER_TIME:float = 0.4
+const ATTACK_TIME:float = 0.05
+const ATTACK_RECOVER_TIME:float = 0.2
 
 const STATE_READY:int = 0
 const STATE_SWING:int = 1

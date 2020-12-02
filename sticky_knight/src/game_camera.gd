@@ -36,6 +36,10 @@ func on_player_register_player_start(_start):
 	global_position = _start.global_position
 	print("Cam viewing player start at " + str(global_position))
 
+func on_editor():
+	print("Cam - on editor - reset")
+	position = Vector2()
+
 func on_target_exiting():
 	_set_target(null)
 

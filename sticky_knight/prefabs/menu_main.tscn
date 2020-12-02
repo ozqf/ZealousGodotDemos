@@ -48,10 +48,16 @@ margin_right = 535.0
 margin_bottom = 68.0
 text = "Level Test"
 
-[node name="exit" type="Button" parent="gui/root"]
+[node name="editor" type="Button" parent="gui/root"]
 margin_top = 72.0
 margin_right = 535.0
 margin_bottom = 92.0
+text = "Editor"
+
+[node name="exit" type="Button" parent="gui/root"]
+margin_top = 96.0
+margin_right = 535.0
+margin_bottom = 116.0
 text = "Exit"
 
 [node name="Label" type="Label" parent="gui"]

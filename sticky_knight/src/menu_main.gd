@@ -7,6 +7,7 @@ func _ready():
 	var _foo = $gui/root/level_01.connect("pressed", self, "on_level_01")	
 	_foo = $gui/root/level_02.connect("pressed", self, "on_level_02")
 	_foo = $gui/root/level_test.connect("pressed", self, "on_level_test")
+	_foo = $gui/root/editor.connect("pressed", self, "on_editor")
 	_foo = $gui/root/exit.connect("pressed", self, "on_exit")
 	_gui.visible = false
 
@@ -20,6 +21,10 @@ func on_level_02():
 
 func on_level_test():
 	var _foo = get_tree().change_scene("res://levels/level_test.tscn")
+	_gui.visible = false
+
+func on_editor():
+	var _foo = get_tree().change_scene("res://levels/editor.tscn")
 	_gui.visible = false
 
 func on_exit():
