@@ -24,9 +24,28 @@ func _ready():
 	var _c1 = $CanvasLayer/panel/VBoxContainer/load.connect("pressed", self, "on_click_load")
 	var _c2 = $CanvasLayer/panel/VBoxContainer/save.connect("pressed", self, "on_click_save")
 
+func _measure_map() -> Rect2:
+	var r1:Rect2 = _solidMap.get_used_rect()
+	var r2:Rect2 = _fenceMap.get_used_rect()
+	var r3:Rect2 = _solidSlippyMap.get_used_rect()
+	var r4:Rect2 = _fenceSlippyMap.get_used_rect()
+	print("Solid rect: " + str(r1))
+	print("Fence rect: " + str(r2))
+	print("SolidSlippy rect: " + str(r3))
+	print("FenceSlippy rect: " + str(r4))
+	var r:Rect2 = r1
+	r = r.merge(r2)
+	r = r.merge(r3)
+	r = r.merge(r4)
+#	r.position.x = min(r.position.x, r2.position.x)
+#	r.position.x = min(r.position.x, r3.position.x)
+#	r.position.x = min(r.position.x, r4.position.x)
+	return r
+
 func on_click_save():
 	print("Editor save")
-	print("Used rect: " + str(_world.get_used_rect()))
+	var rect := _measure_map()
+	print("Result: " + str(rect))
 
 func on_click_load():
 	print("Editor load")
