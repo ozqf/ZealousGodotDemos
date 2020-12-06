@@ -74,3 +74,11 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="debug" type="Label" parent="."]
+margin_right = 512.0
+margin_bottom = 288.0
+text = "..."
+__meta__ = {
+"_edit_use_anchors_": false
+}

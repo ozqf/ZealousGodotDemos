@@ -1,16 +1,32 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/player_start.tscn" type="PackedScene" id=2]
 [ext_resource path="res://prefabs/cannon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://prefabs/grunt.tscn" type="PackedScene" id=4]
 
 [node name="level_01" type="Node2D"]
 
 [node name="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, 112 )
 scale = Vector2( 12, 1 )
 
+[node name="Node2D2" parent="." instance=ExtResource( 1 )]
+position = Vector2( -256, -48 )
+scale = Vector2( 12, 1 )
+
+[node name="Node2D3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 256, 16 )
+scale = Vector2( 12, 1 )
+
+[node name="Node2D4" parent="." instance=ExtResource( 1 )]
+position = Vector2( 80, -16 )
+
 [node name="player_start" parent="." instance=ExtResource( 2 )]
-position = Vector2( -76, -56 )
+position = Vector2( -64, 96 )
 
 [node name="cannon" parent="." instance=ExtResource( 3 )]
-position = Vector2( -176, -32 )
+position = Vector2( -432, -80 )
+
+[node name="grunt" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, -8 )

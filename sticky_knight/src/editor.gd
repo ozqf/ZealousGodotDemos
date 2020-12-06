@@ -24,6 +24,17 @@ func _ready():
 	var _c1 = $CanvasLayer/panel/VBoxContainer/load.connect("pressed", self, "on_click_load")
 	var _c2 = $CanvasLayer/panel/VBoxContainer/save.connect("pressed", self, "on_click_save")
 
+func _read_cell_type_at(x: int, y: int) -> int:
+	if _solidMap.get_cell(x, y) >= 0:
+		return 1
+	if _fenceMap.get_cell(x, y) >= 0:
+		return 2
+	if _solidSlippyMap.get_cell(x, y) >= 0:
+		return 3
+	if _fenceSlippyMap.get_cell(x, y) >= 0:
+		return 4
+	return 0
+
 func _measure_map() -> Rect2:
 	var r1:Rect2 = _solidMap.get_used_rect()
 	var r2:Rect2 = _fenceMap.get_used_rect()
@@ -37,15 +48,18 @@ func _measure_map() -> Rect2:
 	r = r.merge(r2)
 	r = r.merge(r3)
 	r = r.merge(r4)
-#	r.position.x = min(r.position.x, r2.position.x)
-#	r.position.x = min(r.position.x, r3.position.x)
-#	r.position.x = min(r.position.x, r4.position.x)
 	return r
 
 func on_click_save():
 	print("Editor save")
 	var rect := _measure_map()
 	print("Result: " + str(rect))
+	print(" pos " + str(rect.position) + " end " + str(rect.end) + " size " + str(rect.size))
+	for y in range(rect.position.y, rect.end.y):
+		for x in range(rect.position.x, rect.end.x):
+			var index:int = _read_cell_type_at(x, y)
+			if index > 0:
+				print("tile type " + str(index) + " at " + str(x) + ", " + str(y))
 
 func on_click_load():
 	print("Editor load")

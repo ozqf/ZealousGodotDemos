@@ -18,6 +18,8 @@ onready var _right:WorldSensor = $right
 onready var _leftFloor:WorldSensor = $left_floor
 onready var _rightFloor:WorldSensor = $right_floor
 onready var _sprite:Sprite = $Sprite
+onready var _los:RayCast2D = $line_of_sight
+onready var _losMarker:Node2D = $los_marker
 
 var _velocity = Vector2()
 var _gravity = Vector2(0, 900)
@@ -27,6 +29,7 @@ var _attackDegrees:float = 0
 var _target:Node2D = null
 var _tick:float = 0
 var _state:int = 0
+var _hasLOS:bool = false
 
 func hit():
 	emit_signal("enemy_died", self)
@@ -60,6 +63,31 @@ func _walk(_delta):
 	_velocity = move_and_slide(_velocity, Vector2.UP)
 	_sprite.flip_h = (_velocity.x < 0)
 
+func _has_los(tar):
+	if tar == null:
+		return false
+	return !_los.is_colliding()
+
+func _refresh_los_pos(tar:Node2D):
+	if tar == null:
+		_hasLOS = false
+		return
+	var selfPos:Vector2 = global_position
+	var destPos:Vector2 = tar.global_position
+	destPos.y -= 16
+	var diff := destPos - selfPos
+	_los.set_cast_to(diff)
+	_losMarker.position = diff
+	# if hitting, something is blocking the ray, so we
+	# DON'T have LoS
+	_hasLOS = !_los.is_colliding()
+	var hitObj = _los.get_collider()
+	if hitObj == null:
+		#game.set_debug_text(" no hit")
+		return
+	#game.set_debug_text(" hit: " + str(hitObj.name))
+	# print("Diff " + str(diff))
+
 func _attack_target():
 	var prj:Projectile = _projectile_prefab.instance()
 	var parent = get_tree().get_current_scene()
@@ -67,12 +95,13 @@ func _attack_target():
 	prj.launch(null, _sprite.global_position, deg2rad(_attackDegrees), 250, game.TEAM_ENEMY)
 
 func _physics_process(_delta):
+	_refresh_los_pos(_target)
 	if _state == STATE_NONE:
 		_tick -= _delta
 		if _tick > 0:
 			_walk(_delta)
 		else:
-			if _target != null && is_on_floor():
+			if _has_los(_target) && is_on_floor():
 				_tick = AIM_TIME
 				_state = STATE_ATTACK_WINDUP
 			else:

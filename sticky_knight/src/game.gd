@@ -16,6 +16,11 @@ const LAYER_FENCE_SLIPPY = 1024
 const TEAM_ENEMY = 0
 const TEAM_PLAYER = 1
 
+onready var _debugLabel:Label = $menu_game/debug
+
+func set_debug_text(text:String):
+	_debugLabel.text = text
+
 func on_player_start(_player):
 	pass
 
