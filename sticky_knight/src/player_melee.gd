@@ -8,6 +8,7 @@ const ATTACK_RECOVER_TIME:float = 0.2
 const STATE_READY:int = 0
 const STATE_SWING:int = 1
 const STATE_RECOVER:int = 2
+const AABB_ONLY:bool = true
 
 onready var _attackLine:Line2D = $melee_area/attack_line
 onready var _shape:CollisionShape2D = $melee_area/CollisionShape2D
@@ -49,6 +50,9 @@ func _process_ready(_delta):
 		_inputDir.y -= 1.0
 	if Input.is_action_pressed("ui_down"):
 		_inputDir.y += 1.0
+	# switch to prevent attacks at 45 degrees:
+#	if AABB_ONLY:
+#		if _lastMoveDir.x != 0
 	_inputDir = _inputDir.normalized()
 	if _inputDir.length() == 0:
 		_inputDir = _lastMoveDir
