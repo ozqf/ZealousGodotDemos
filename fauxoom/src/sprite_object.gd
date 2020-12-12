@@ -34,6 +34,7 @@ func _cap_degrees(degrees:float) -> float:
 func _calc_angle_index(degrees:float, numIndices:int) -> int:
 	if numIndices <= 0:
 		return 0
+	degrees -= 360 / (numIndices * 2)
 	while (degrees < 0):
 		degrees += 360
 	while (degrees >= 360):
@@ -49,12 +50,10 @@ func _process(_delta:float) -> void:
 	var camPos:Vector3 = camT.origin
 	var selfPos:Vector3 = selfT.origin
 	var yawDegrees:float = rotation_degrees.y
-	#var toDegrees:float = selfT.origin.angle_to(camT.origin)
-	#var toDegrees:float = atan2(camT.origin.y - selfT.origin.y, camT.origin.x - selfT.origin.x)
-	#var toDegrees:float = atan2(selfPos.z - camPos.z, selfPos.x - camPos.x)
 	var toDegrees:float = atan2(camPos.z - selfPos.z, camPos.x - selfPos.x)
 	toDegrees = rad2deg(toDegrees)
 	toDegrees += 90
+	toDegrees += yawDegrees
 	toDegrees = _cap_degrees(toDegrees)
 	
 	game.debugV3_1 = camT.origin
