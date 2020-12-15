@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/player_a7.png-d5eb063b1f330bf98f1b0ff5ca0a46e2.stex"
+path="res://.import/CYBRA7.png-e68ce1de9fdde5a86184ff4fc27af899.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprite_test/player_a7.png"
-dest_files=[ "res://.import/player_a7.png-d5eb063b1f330bf98f1b0ff5ca0a46e2.stex" ]
+source_file="res://sprites/titan/CYBRA7.png"
+dest_files=[ "res://.import/CYBRA7.png-e68ce1de9fdde5a86184ff4fc27af899.stex" ]
 
 [params]
 

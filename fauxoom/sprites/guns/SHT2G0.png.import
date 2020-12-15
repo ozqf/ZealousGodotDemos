@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/player_a5.png-181235a6ee908387e098e27d6114d2a3.stex"
+path="res://.import/SHT2G0.png-6e2527ab9efa11cf9b3fdb5d1bddb84e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprite_test/player_a5.png"
-dest_files=[ "res://.import/player_a5.png-181235a6ee908387e098e27d6114d2a3.stex" ]
+source_file="res://sprites/guns/SHT2G0.png"
+dest_files=[ "res://.import/SHT2G0.png-6e2527ab9efa11cf9b3fdb5d1bddb84e.stex" ]
 
 [params]
 

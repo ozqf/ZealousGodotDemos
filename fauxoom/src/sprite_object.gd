@@ -2,14 +2,14 @@ extends Spatial
 
 onready var _sprite:Sprite3D = $Sprite3D
 
-var _spr_a1 = load("res://sprite_test/player_a1.png")
-var _spr_a2a8 = load("res://sprite_test/player_a2_a8.png")
-var _spr_a3a7 = load("res://sprite_test/player_a3_a7.png")
-var _spr_a4a6 = load("res://sprite_test/player_a4_a6.png")
-var _spr_a5 = load("res://sprite_test/player_a5.png")
-var _spr_a6 = load("res://sprite_test/player_a6.png")
-var _spr_a7 = load("res://sprite_test/player_a7.png")
-var _spr_a8 = load("res://sprite_test/player_a8.png")
+var _spr_a1 = load("res://sprites/player/player_a1.png")
+var _spr_a2a8 = load("res://sprites/player/player_a2_a8.png")
+var _spr_a3a7 = load("res://sprites/player/player_a3_a7.png")
+var _spr_a4a6 = load("res://sprites/player/player_a4_a6.png")
+var _spr_a5 = load("res://sprites/player/player_a5.png")
+var _spr_a6 = load("res://sprites/player/player_a6.png")
+var _spr_a7 = load("res://sprites/player/player_a7.png")
+var _spr_a8 = load("res://sprites/player/player_a8.png")
 
 var _frames = []
 
