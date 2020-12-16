@@ -18,10 +18,22 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://src/player.gd"
+}, {
+"base": "Node",
+"class": "PlayerAttack",
+"language": "GDScript",
+"path": "res://src/player_attack.gd"
+}, {
+"base": "Node",
+"class": "ZqfUtils",
+"language": "GDScript",
+"path": "res://src/zqf_utils.gd"
 } ]
 _global_script_class_icons={
 "FPSMotor": "",
-"Player": ""
+"Player": "",
+"PlayerAttack": "",
+"ZqfUtils": ""
 }
 
 [application]
@@ -64,6 +76,11 @@ move_up={
 move_down={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"unicode":0,"echo":false,"script":null)
+ ]
+}
+attack_1={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 
