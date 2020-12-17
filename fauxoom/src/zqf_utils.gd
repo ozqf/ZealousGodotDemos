@@ -21,7 +21,7 @@ static func is_point_left_of_line2D(lineOrigin: Vector2, lineSize: Vector2, p: V
 	return (dp > 0)
 
 # Only does Pitch and Yaw
-static func calc_euler_degrees(v: Vector3):
+static func calc_euler_degrees(v: Vector3) -> Vector3:
 	# yaw
 	var yawRadians = atan2(-v.x, -v.z)
 	# pitch
@@ -35,7 +35,7 @@ static func calc_euler_degrees(v: Vector3):
 # > Offset the endpoint right and up based on spread values
 # > return the direction toward this new endpoint
 # TODO: This function uses arbitrary units for spread as the distanced used is not scaled properly
-static func calc_forward_spread_from_basis(_origin: Vector3, _m3x3: Basis, _spreadHori: float, _spreadVert: float):
+static func calc_forward_spread_from_basis(_origin: Vector3, _m3x3: Basis, _spreadHori: float, _spreadVert: float) -> Vector3:
 	var forward: Vector3 = _m3x3.z
 	var up: Vector3 = _m3x3.y
 	var right: Vector3 = _m3x3.x
@@ -45,21 +45,21 @@ static func calc_forward_spread_from_basis(_origin: Vector3, _m3x3: Basis, _spre
 	end = VectorMA(end, _spreadVert, up)
 	return (end - _origin).normalized()
 
-static func VectorMA(start: Vector3, scale: float, dir:Vector3):
+static func VectorMA(start: Vector3, scale: float, dir:Vector3) -> Vector3:
 	var dest: Vector3 = Vector3()
 	dest.x = start.x + dir.x * scale
 	dest.y = start.y + dir.y * scale
 	dest.z = start.z + dir.z * scale
 	return dest
 
-static func strNullOrEmpty(txt: String):
+static func strNullOrEmpty(txt: String) -> bool:
 	if txt == null:
 		return true
 	elif txt.length() == 0:
 		return true
 	return false
 
-func get_window_to_screen_ratio():
+func get_window_to_screen_ratio() -> Vector2:
 	var real: Vector2 = OS.get_real_window_size()
 	var scr: Vector2 = OS.get_screen_size()
 	var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
@@ -68,13 +68,13 @@ func get_window_to_screen_ratio():
 #####################################
 # Spatial scan wrappers
 #####################################
-static func hitscan_by_pos_3D(_spatial:Spatial, _origin:Vector3, _forward:Vector3, _distance:float, ignoreArray, _mask:int) -> Object:
+static func hitscan_by_pos_3D(_spatial:Spatial, _origin:Vector3, _forward:Vector3, _distance:float, ignoreArray, _mask:int) -> Dictionary:
 	var _dest:Vector3 = _origin + (_forward * _distance)
 	var space = _spatial.get_world().direct_space_state
-	print("Shoot origin " + str(_origin) + " dest " + str(_dest))
+	#print("Shoot origin " + str(_origin) + " dest " + str(_dest))
 	return space.intersect_ray(_origin, _dest, ignoreArray, _mask)
 
-static func quick_hitscan3D(_source:Spatial, _distance:float, ignoreArray, _mask:int) -> Object:
+static func quick_hitscan3D(_source:Spatial, _distance:float, ignoreArray, _mask:int) -> Dictionary:
 	var _t:Transform = _source.global_transform
 	var _origin:Vector3 = _t.origin
 	var _forward:Vector3 = _t.basis.z

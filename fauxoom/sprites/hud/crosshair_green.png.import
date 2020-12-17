@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/SHT2D0.png-ab0a6a1a5bf7dded9164791a7d31fefa.stex"
+path="res://.import/crosshair_green.png-6d0431464a380e70fc713dfaaa9d3c5f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/guns/SHT2D0.png"
-dest_files=[ "res://.import/SHT2D0.png-ab0a6a1a5bf7dded9164791a7d31fefa.stex" ]
+source_file="res://sprites/hud/crosshair_green.png"
+dest_files=[ "res://.import/crosshair_green.png-6d0431464a380e70fc713dfaaa9d3c5f.stex" ]
 
 [params]
 
