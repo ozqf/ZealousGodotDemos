@@ -31,6 +31,13 @@ static func calc_euler_degrees(v: Vector3) -> Vector3:
 	var result = Vector3(pitchRadians * RAD2DEG, yawRadians * RAD2DEG, 0)
 	return result
 
+static func cap_degrees(degrees:float) -> float:
+	while degrees >= 360:
+		degrees -= 360
+	while degrees < 0:
+		degrees += 360
+	return degrees
+
 # > Take a basis and cast a line forward from it to an endpoint
 # > Offset the endpoint right and up based on spread values
 # > return the direction toward this new endpoint
@@ -59,7 +66,7 @@ static func strNullOrEmpty(txt: String) -> bool:
 		return true
 	return false
 
-func get_window_to_screen_ratio() -> Vector2:
+static func get_window_to_screen_ratio() -> Vector2:
 	var real: Vector2 = OS.get_real_window_size()
 	var scr: Vector2 = OS.get_screen_size()
 	var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
@@ -68,12 +75,17 @@ func get_window_to_screen_ratio() -> Vector2:
 #####################################
 # Spatial scan wrappers
 #####################################
+
+# simple cast a ray from the given position and forward. requires a spatial
+# to acquire the direct space state to cast in.
 static func hitscan_by_pos_3D(_spatial:Spatial, _origin:Vector3, _forward:Vector3, _distance:float, ignoreArray, _mask:int) -> Dictionary:
 	var _dest:Vector3 = _origin + (_forward * _distance)
 	var space = _spatial.get_world().direct_space_state
 	#print("Shoot origin " + str(_origin) + " dest " + str(_dest))
 	return space.intersect_ray(_origin, _dest, ignoreArray, _mask)
 
+# simple cast a ray from the given spatial node. uses the node's
+# own origin and forward for the ray.
 static func quick_hitscan3D(_source:Spatial, _distance:float, ignoreArray, _mask:int) -> Dictionary:
 	var _t:Transform = _source.global_transform
 	var _origin:Vector3 = _t.origin
@@ -82,3 +94,37 @@ static func quick_hitscan3D(_source:Spatial, _distance:float, ignoreArray, _mask
 	#print("Shoot origin " + str(_origin) + " dest " + str(_dest))
 	var space = _source.get_world().direct_space_state
 	return space.intersect_ray(_origin, _dest, ignoreArray, _mask)
+
+#####################################
+# 3D sprite directions
+#####################################
+
+static func angle_index(degrees:float, numIndices:int) -> int:
+	if numIndices <= 0:
+		return 0
+	degrees -= 360 / (numIndices * 2)
+	while (degrees < 0):
+		degrees += 360
+	while (degrees >= 360):
+		degrees -= 360
+	# flip
+	degrees = 360 - degrees
+	#var step:float = 360 / numIndices
+	return int(floor((degrees / 360) * numIndices))
+
+static func positions_to_sprite_degrees(camPos:Vector3, selfPos:Vector3, yawDegrees:float) -> float:
+	# var camPos:Vector3 = cam.origin
+	# var selfPos:Vector3 = obj.origin
+	# var yawDegrees:float = rotation_degrees.y
+	var toDegrees:float = atan2(camPos.z - selfPos.z, camPos.x - selfPos.x)
+	toDegrees = rad2deg(toDegrees)
+	toDegrees += 90
+	toDegrees += yawDegrees
+	toDegrees = cap_degrees(toDegrees)
+	return toDegrees
+
+static func sprite_index(cam:Transform, obj:Transform, yawDegrees:float, numIndices:int) -> int:
+	var camPos:Vector3 = cam.origin
+	var selfPos:Vector3 = obj.origin
+	var degrees:float = positions_to_sprite_degrees(camPos, selfPos, yawDegrees)
+	return angle_index(degrees, numIndices)

@@ -45,21 +45,6 @@ func _calc_angle_index(degrees:float, numIndices:int) -> int:
 	return int(floor((degrees / 360) * numIndices))
 
 func _process(_delta:float) -> void:
-	var camT:Transform = game.get_camera_pos()
-	var selfT:Transform = self.global_transform
-	var camPos:Vector3 = camT.origin
-	var selfPos:Vector3 = selfT.origin
-	var yawDegrees:float = rotation_degrees.y
-	var toDegrees:float = atan2(camPos.z - selfPos.z, camPos.x - selfPos.x)
-	toDegrees = rad2deg(toDegrees)
-	toDegrees += 90
-	toDegrees += yawDegrees
-	toDegrees = _cap_degrees(toDegrees)
-	
-	game.debugV3_1 = camT.origin
-	game.debugV3_2 = selfT.origin
-	game.debugDegrees = toDegrees
-	
-	var i:int = _calc_angle_index(toDegrees, _frames.size())
-	game.debug_int = i
+	# _old_update_sprite()
+	var i:int = ZqfUtils.sprite_index(game.get_camera_pos(), self.global_transform, rotation_degrees.y, _frames.size())
 	_sprite.texture = _frames[i]
