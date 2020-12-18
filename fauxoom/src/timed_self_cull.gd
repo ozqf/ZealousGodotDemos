@@ -1,6 +1,6 @@
 extends Node
 
-var _tick:float = 1
+var _tick:float = 0.25
 
 func _process(_delta:float):
 	_tick -= _delta
