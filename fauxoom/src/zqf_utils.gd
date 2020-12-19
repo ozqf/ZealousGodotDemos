@@ -81,7 +81,6 @@ static func get_window_to_screen_ratio() -> Vector2:
 static func hitscan_by_pos_3D(_spatial:Spatial, _origin:Vector3, _forward:Vector3, _distance:float, ignoreArray, _mask:int) -> Dictionary:
 	var _dest:Vector3 = _origin + (_forward * _distance)
 	var space = _spatial.get_world().direct_space_state
-	#print("Shoot origin " + str(_origin) + " dest " + str(_dest))
 	return space.intersect_ray(_origin, _dest, ignoreArray, _mask)
 
 # simple cast a ray from the given spatial node. uses the node's
@@ -91,7 +90,6 @@ static func quick_hitscan3D(_source:Spatial, _distance:float, ignoreArray, _mask
 	var _origin:Vector3 = _t.origin
 	var _forward:Vector3 = _t.basis.z
 	var _dest:Vector3 = _origin + (_forward * -_distance)
-	#print("Shoot origin " + str(_origin) + " dest " + str(_dest))
 	var space = _source.get_world().direct_space_state
 	return space.intersect_ray(_origin, _dest, ignoreArray, _mask)
 
@@ -100,7 +98,8 @@ static func quick_hitscan3D(_source:Spatial, _distance:float, ignoreArray, _mask
 #####################################
 
 static func angle_index(degrees:float, numIndices:int) -> int:
-	if numIndices <= 0:
+	# 1 indices means only one direction is defined anyway...
+	if numIndices <= 1:
 		return 0
 	degrees -= 360 / (numIndices * 2)
 	while (degrees < 0):
@@ -109,13 +108,9 @@ static func angle_index(degrees:float, numIndices:int) -> int:
 		degrees -= 360
 	# flip
 	degrees = 360 - degrees
-	#var step:float = 360 / numIndices
 	return int(floor((degrees / 360) * numIndices))
 
 static func positions_to_sprite_degrees(camPos:Vector3, selfPos:Vector3, yawDegrees:float) -> float:
-	# var camPos:Vector3 = cam.origin
-	# var selfPos:Vector3 = obj.origin
-	# var yawDegrees:float = rotation_degrees.y
 	var toDegrees:float = atan2(camPos.z - selfPos.z, camPos.x - selfPos.x)
 	toDegrees = rad2deg(toDegrees)
 	toDegrees += 90
