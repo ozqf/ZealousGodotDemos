@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://prefabs/sprite_object.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=2]
@@ -7,8 +7,12 @@
 [ext_resource path="res://sprites/titan/CYBRA1.png" type="Texture" id=5]
 [ext_resource path="res://sprites/player/player_frames.tres" type="SpriteFrames" id=6]
 [ext_resource path="res://src/player_animator.gd" type="Script" id=7]
+[ext_resource path="res://src/grid_map.gd" type="Script" id=8]
 
 [node name="test_level" type="Spatial"]
+
+[node name="grid_map" type="Spatial" parent="."]
+script = ExtResource( 8 )
 
 [node name="world_volume2" parent="." instance=ExtResource( 2 )]
 transform = Transform( 30, 0, 0, 0, 1, 0, 0, 0, 10, 0, -0.5, 0 )

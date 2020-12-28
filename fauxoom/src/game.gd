@@ -9,6 +9,9 @@ onready var _debug_text:Label = $CanvasLayer/debug_text
 var _camera:Camera = null
 var _emptyTrans:Transform = Transform.IDENTITY
 
+func _ready():
+	print("Game service start")
+
 func set_camera(cam:Camera) -> void:
 	if cam == null:
 		return

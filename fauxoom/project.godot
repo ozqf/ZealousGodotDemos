@@ -10,6 +10,16 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node",
+"class": "Animations",
+"language": "GDScript",
+"path": "res://src/animations.gd"
+}, {
+"base": "Node",
+"class": "AsciMapLoader",
+"language": "GDScript",
+"path": "res://src/asci_map_loader.gd"
+}, {
+"base": "Node",
 "class": "FPSMotor",
 "language": "GDScript",
 "path": "res://src/fps_motor.gd"
@@ -40,6 +50,8 @@ _global_script_classes=[ {
 "path": "res://src/zqf_utils.gd"
 } ]
 _global_script_class_icons={
+"Animations": "",
+"AsciMapLoader": "",
 "FPSMotor": "",
 "Hud": "",
 "Player": "",
