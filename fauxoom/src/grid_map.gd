@@ -8,12 +8,14 @@ var _prefab_default_mob = preload("res://prefabs/sprite_object.tscn")
 
 var _prefab_player = preload("res://prefabs/player.tscn")
 
+var _wall_mat:SpatialMaterial = preload("res://assets/world/materials/mat_default_wall.tres")
+
 const entTypePlayer = "player"
 const entTypeMob = "mob"
 const entTypeEnd = "end"
 const entTypeKey = "key"
 
-onready var _world_mesh:MeshInstance = $world_mesh
+onready var _world_mesh:MeshGenerator = $world_mesh
 
 # scene objects created
 var _tiles = []
@@ -28,7 +30,7 @@ var _uvs = PoolVector2Array()
 var _mat = SpatialMaterial.new()
 var _colour = Color(0.9, 0.1, 0.1)
 
-func _create_mesh() -> void:
+func _create_mesh_2() -> void:
 	print("Spawn world mesh")
 	_vertices.push_back(Vector3(-50, 0, 0))
 	_vertices.push_back(Vector3(50, 0, 0))
@@ -48,6 +50,16 @@ func _create_mesh() -> void:
 		_sTool.add_vertex(_vertices[v])
 	_sTool.commit(_tmpMesh)
 	_world_mesh.mesh = _tmpMesh
+
+func _create_mesh() -> void:
+	print("Run world mesh gen")
+	_world_mesh.start_mesh()
+	#_world_mesh.add_triangle(Vector3(-50, 0, 0), Vector3(50, 0, 0), Vector3(50, 50, 50), Vector2(0, 0), Vector2(1, 0), Vector2(1, 1))
+	_world_mesh.add_triangle(-50, 0, 0,  50, 0, 0,  50, 50, 0,  0, 1,  1, 1,  1, 0)
+	
+	_world_mesh.add_triangle(-50, 0, 0,  50, 50, 0,  -50, 50, 0,  0, 1,  1, 0,  0, 0)
+	_world_mesh.end_mesh()
+	_world_mesh.set_material(_wall_mat)
 
 func _clear_current() -> void:
 	# TODO: proper clean delete of current map
