@@ -18,10 +18,17 @@ const entTypeMob = "mob"
 const entTypeEnd = "end"
 const entTypeKey = "key"
 
+const fWall:int = (1 << 0)
+const fFloor:int = (1 << 1)
+const fCeiling:int = (1 << 2)
+const fWater:int = (1 << 3)
+
+onready var _world_hull:MeshGenerator = $world_hull
 onready var _world_mesh:MeshGenerator = $world_mesh
 onready var _world_floor_mesh:MeshGenerator = $world_floor
 onready var _world_water_mesh:MeshGenerator = $world_water
 onready var _world_ceiling_mesh:MeshGenerator = $world_ceiling
+onready var _world_polygon:CollisionShape = $world_body/CollisionShape
 
 # scene objects created
 var _tiles = []
@@ -29,43 +36,12 @@ var _spawn_points = []
 # var _live_ents = []
 
 # constructed mesh
-var _sTool:SurfaceTool = SurfaceTool.new()
-var _tmpMesh = Mesh.new()
-var _vertices = PoolVector3Array()
-var _uvs = PoolVector2Array()
-var _mat = SpatialMaterial.new()
-var _colour = Color(0.9, 0.1, 0.1)
-
-func _create_mesh_2() -> void:
-	print("Spawn world mesh")
-	_vertices.push_back(Vector3(-50, 0, 0))
-	_vertices.push_back(Vector3(50, 0, 0))
-	_vertices.push_back(Vector3(50, 50, 0))
-	
-	_uvs.push_back(Vector2(0, 0))
-	_uvs.push_back(Vector2(1, 0))
-	_uvs.push_back(Vector2(1, 1))
-	
-	_mat.albedo_color = _colour
-	_sTool.begin(Mesh.PRIMITIVE_TRIANGLES)
-	_sTool.set_material(_mat)
-	
-	for v in _vertices.size():
-		_sTool.add_color(_colour)
-		_sTool.add_uv(_uvs[v])
-		_sTool.add_vertex(_vertices[v])
-	_sTool.commit(_tmpMesh)
-	_world_mesh.mesh = _tmpMesh
-
-func _create_test_mesh() -> void:
-	print("Run world mesh gen")
-	_world_mesh.start_mesh()
-	#_world_mesh.add_triangle(Vector3(-50, 0, 0), Vector3(50, 0, 0), Vector3(50, 50, 50), Vector2(0, 0), Vector2(1, 0), Vector2(1, 1))
-	_world_mesh.add_triangle(-50, 0, 0,  50, 0, 0,  50, 50, 0,  0, 1,  1, 1,  1, 0)
-	
-	_world_mesh.add_triangle(-50, 0, 0,  50, 50, 0,  -50, 50, 0,  0, 1,  1, 0,  0, 0)
-	_world_mesh.end_mesh()
-	_world_mesh.set_material(_wall_mat)
+#var _sTool:SurfaceTool = SurfaceTool.new()
+#var _tmpMesh = Mesh.new()
+#var _vertices = PoolVector3Array()
+#var _uvs = PoolVector2Array()
+#var _mat = SpatialMaterial.new()
+#var _colour = Color(0.9, 0.1, 0.1)
 
 func _clear_current() -> void:
 	# TODO: proper clean delete of current map
@@ -125,6 +101,28 @@ func _spawn_marker(pos:Vector3, prefabInstance) -> void:
 	prefabInstance.global_transform.origin = pos
 	prefabInstance.scale = Vector3(0.25, 0.25, 0.25)
 
+func _add_quad(v1:Vector3, v2:Vector3, v3:Vector3, v4:Vector3, uv1:Vector2, uv2:Vector2, uv3:Vector2, uv4:Vector2, flags:int) -> void:
+	var addCollision:bool = false
+	if flags & fWall:
+		_world_mesh.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
+		_world_mesh.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
+		addCollision = true
+	if flags & fFloor:
+		_world_floor_mesh.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
+		_world_floor_mesh.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
+		addCollision = true
+	if flags & fCeiling:
+		_world_ceiling_mesh.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
+		_world_ceiling_mesh.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
+		addCollision = true
+	if flags & fWater:
+		_world_water_mesh.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
+		_world_water_mesh.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
+		addCollision = true
+	
+	_world_hull.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
+	_world_hull.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
+
 func _add_wall_geometry(pos:Vector3, radius:float) -> void:
 	var diameter:float = radius * 2
 	var tMin:Vector3 = Vector3(pos.x - radius, pos.y - diameter, pos.z - radius)
@@ -148,20 +146,15 @@ func _add_wall_geometry(pos:Vector3, radius:float) -> void:
 	var uv4:Vector2 = Vector2(0, 0)
 	
 	# + z
-	_world_mesh.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
-	_world_mesh.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
+	_add_quad(v1, v2, v3, v4, uv1, uv2, uv3, uv4, fWall)
 	# - z
-	_world_mesh.add_triangle_v(v7, v4, v1, uv1, uv2, uv3)
-	_world_mesh.add_triangle_v(v7, v6, v4, uv1, uv4, uv2)
+	_add_quad(v7, v4, v1, v6, uv1, uv2, uv3, uv4, fWall)
 	# + x
-	_world_mesh.add_triangle_v(v3, v8, v5, uv1, uv2, uv3)
-	_world_mesh.add_triangle_v(v3, v2, v8, uv1, uv4, uv2)
+	_add_quad(v3, v8, v5, v2, uv1, uv2, uv3, uv4, fWall)
 	# - x
-	_world_mesh.add_triangle_v(v5, v6, v7, uv1, uv2, uv3)
-	_world_mesh.add_triangle_v(v5, v8, v6, uv1, uv4, uv2)
+	_add_quad(v5, v6, v7, v8, uv1, uv2, uv3, uv4, fWall)
 	# + y
-	_world_mesh.add_triangle_v(v4, v8, v2, uv1, uv2, uv3)
-	_world_mesh.add_triangle_v(v4, v6, v8, uv1, uv4, uv2)
+	_add_quad(v4, v8, v2, v6, uv1, uv2, uv3, uv4, fWall)
 
 func _add_floor_geometry(pos:Vector3, radius:float) -> void:
 	var diameter:float = radius * 2
@@ -186,8 +179,9 @@ func _add_floor_geometry(pos:Vector3, radius:float) -> void:
 	var uv4:Vector2 = Vector2(0, 0)
 	
 	# + y
-	_world_floor_mesh.add_triangle_v(v4, v8, v2, uv1, uv2, uv3)
-	_world_floor_mesh.add_triangle_v(v4, v6, v8, uv1, uv4, uv2)
+	#_world_floor_mesh.add_triangle_v(v4, v8, v2, uv1, uv2, uv3)
+	#_world_floor_mesh.add_triangle_v(v4, v6, v8, uv1, uv4, uv2)
+	_add_quad(v4, v8, v2, v6, uv1, uv2, uv3, uv4, fFloor)
 	
 	# + z
 	_world_mesh.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
@@ -225,9 +219,9 @@ func _add_water_quad(pos:Vector3, radius:float) -> void:
 	var uv4:Vector2 = Vector2(0, 0)
 	
 	# + y
-	_world_water_mesh.add_triangle_v(v4, v8, v2, uv1, uv2, uv3)
-	_world_water_mesh.add_triangle_v(v4, v6, v8, uv1, uv4, uv2)
-
+	#_world_water_mesh.add_triangle_v(v4, v8, v2, uv1, uv2, uv3)
+	#_world_water_mesh.add_triangle_v(v4, v6, v8, uv1, uv4, uv2)
+	_add_quad(v4, v8, v2, v6, uv1, uv2, uv3, uv4, fWater)
 
 func _add_ceiling_quad(pos:Vector3, radius:float) -> void:
 	pos.y += radius * 2
@@ -254,8 +248,9 @@ func _add_ceiling_quad(pos:Vector3, radius:float) -> void:
 	# - y
 	# 7 3 5
 	# 7 1 3
-	_world_ceiling_mesh.add_triangle_v(v7, v3, v5, uv1, uv2, uv3)
-	_world_ceiling_mesh.add_triangle_v(v7, v1, v3, uv1, uv4, uv2)
+	#_world_ceiling_mesh.add_triangle_v(v7, v3, v5, uv1, uv2, uv3)
+	#_world_ceiling_mesh.add_triangle_v(v7, v1, v3, uv1, uv4, uv2)
+	_add_quad(v7, v3, v5, v1, uv1, uv2, uv3, uv4, fCeiling)
 
 #########################################################
 # Spawn map
@@ -266,6 +261,7 @@ func _spawn_map(map:Dictionary) -> void:
 	var posOffset:Vector3 = Vector3(tileDiameter * 0.5, 0, tileDiameter * 0.5)
 	print("Loading grid map, size " + str(map.width) + " by " + str(map.height))
 	
+	_world_hull.start_mesh()
 	_world_mesh.start_mesh()
 	_world_floor_mesh.start_mesh()
 	_world_water_mesh.start_mesh()
@@ -338,6 +334,10 @@ func _spawn_map(map:Dictionary) -> void:
 	_set_spawn_points_visible(false)
 	_spawn_start_entities()
 	#_create_test_mesh()
+	_world_hull.end_mesh()
+	_world_hull.set_material(_floor_mat)
+	_world_hull.visible = false
+	
 	_world_mesh.end_mesh()
 	_world_mesh.set_material(_wall_mat)
 	_world_floor_mesh.end_mesh()
@@ -346,6 +346,8 @@ func _spawn_map(map:Dictionary) -> void:
 	_world_water_mesh.set_material(_water_mat)
 	_world_ceiling_mesh.end_mesh()
 	_world_ceiling_mesh.set_material(_ceiling_mat)
+	
+	_world_polygon.shape = _world_hull.get_collision_mesh()
 
 func _ready():
 	var txt:String = AsciMapLoader.get_default()
