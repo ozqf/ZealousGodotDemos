@@ -27,7 +27,8 @@ func get_camera_pos() -> Transform:
 	return _emptyTrans
 
 func _process(_delta) -> void:
-	_debug_text.text = "Vec 1: " + str(debugV3_1) + "\n"
-	_debug_text.text += "Vec 2: " + str(debugV3_2) + "\n"
-	_debug_text.text += "Degrees: " + str(debugDegrees) + "\n"
-	_debug_text.text += "Index " + str(debug_int) + "\n"
+	_debug_text.text = "FPS: " + str(Engine.get_frames_per_second())
+#	_debug_text.text = "Vec 1: " + str(debugV3_1) + "\n"
+#	_debug_text.text += "Vec 2: " + str(debugV3_2) + "\n"
+#	_debug_text.text += "Degrees: " + str(debugDegrees) + "\n"
+#	_debug_text.text += "Index " + str(debug_int) + "\n"

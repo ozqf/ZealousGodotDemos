@@ -9,6 +9,9 @@ var _prefab_default_mob = preload("res://prefabs/sprite_object.tscn")
 var _prefab_player = preload("res://prefabs/player.tscn")
 
 var _wall_mat:SpatialMaterial = preload("res://assets/world/materials/mat_default_wall.tres")
+var _floor_mat:SpatialMaterial = preload("res://assets/world/materials/mat_default_ground.tres")
+var _water_mat:SpatialMaterial = preload("res://assets/world/materials/mat_default_water.tres")
+var _ceiling_mat:SpatialMaterial = preload("res://assets/world/materials/mat_default_ceiling.tres")
 
 const entTypePlayer = "player"
 const entTypeMob = "mob"
@@ -16,6 +19,9 @@ const entTypeEnd = "end"
 const entTypeKey = "key"
 
 onready var _world_mesh:MeshGenerator = $world_mesh
+onready var _world_floor_mesh:MeshGenerator = $world_floor
+onready var _world_water_mesh:MeshGenerator = $world_water
+onready var _world_ceiling_mesh:MeshGenerator = $world_ceiling
 
 # scene objects created
 var _tiles = []
@@ -120,12 +126,49 @@ func _spawn_marker(pos:Vector3, prefabInstance) -> void:
 	prefabInstance.scale = Vector3(0.25, 0.25, 0.25)
 
 func _add_wall_geometry(pos:Vector3, radius:float) -> void:
-	var tMin:Vector3 = Vector3(pos.x - radius, pos.y - radius, pos.z - radius)
-	var tMax:Vector3 = Vector3(pos.x + radius, pos.y + radius, pos.z + radius)
-	print("Make cube at " + str(pos) + " radius " + str(radius))
-	print("cube extents: " + str(tMin) + " to " + str(tMax))
-	_spawn_marker(tMin, _prefab_ground.instance())
-	_spawn_marker(tMax, _prefab_water.instance())
+	var diameter:float = radius * 2
+	var tMin:Vector3 = Vector3(pos.x - radius, pos.y - diameter, pos.z - radius)
+	var tMax:Vector3 = Vector3(pos.x + radius, pos.y + diameter, pos.z + radius)
+#	_spawn_marker(tMin, _prefab_ground.instance())
+#	_spawn_marker(tMax, _prefab_water.instance())
+	
+	var v1:Vector3 = Vector3(tMin.x, tMin.y, tMax.z)
+	var v2:Vector3 = Vector3(tMax.x, tMax.y, tMax.z)
+	var v3:Vector3 = Vector3(tMax.x, tMin.y, tMax.z)
+	var v4:Vector3 = Vector3(tMin.x, tMax.y, tMax.z)
+	
+	var v5:Vector3 = Vector3(tMax.x, tMin.y, tMin.z)
+	var v6:Vector3 = Vector3(tMin.x, tMax.y, tMin.z)
+	var v7:Vector3 = Vector3(tMin.x, tMin.y, tMin.z)
+	var v8:Vector3 = Vector3(tMax.x, tMax.y, tMin.z)
+	
+	var uv1:Vector2 = Vector2(0, 2)
+	var uv2:Vector2 = Vector2(1, 0)
+	var uv3:Vector2 = Vector2(1, 2)
+	var uv4:Vector2 = Vector2(0, 0)
+	
+	# + z
+	_world_mesh.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
+	_world_mesh.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
+	# - z
+	_world_mesh.add_triangle_v(v7, v4, v1, uv1, uv2, uv3)
+	_world_mesh.add_triangle_v(v7, v6, v4, uv1, uv4, uv2)
+	# + x
+	_world_mesh.add_triangle_v(v3, v8, v5, uv1, uv2, uv3)
+	_world_mesh.add_triangle_v(v3, v2, v8, uv1, uv4, uv2)
+	# - x
+	_world_mesh.add_triangle_v(v5, v6, v7, uv1, uv2, uv3)
+	_world_mesh.add_triangle_v(v5, v8, v6, uv1, uv4, uv2)
+	# + y
+	_world_mesh.add_triangle_v(v4, v8, v2, uv1, uv2, uv3)
+	_world_mesh.add_triangle_v(v4, v6, v8, uv1, uv4, uv2)
+
+func _add_floor_geometry(pos:Vector3, radius:float) -> void:
+	var diameter:float = radius * 2
+	var tMin:Vector3 = Vector3(pos.x - radius, pos.y - diameter, pos.z - radius)
+	var tMax:Vector3 = Vector3(pos.x + radius, pos.y, pos.z + radius)
+#	_spawn_marker(tMin, _prefab_ground.instance())
+#	_spawn_marker(tMax, _prefab_water.instance())
 	
 	var v1:Vector3 = Vector3(tMin.x, tMin.y, tMax.z)
 	var v2:Vector3 = Vector3(tMax.x, tMax.y, tMax.z)
@@ -142,6 +185,10 @@ func _add_wall_geometry(pos:Vector3, radius:float) -> void:
 	var uv3:Vector2 = Vector2(1, 1)
 	var uv4:Vector2 = Vector2(0, 0)
 	
+	# + y
+	_world_floor_mesh.add_triangle_v(v4, v8, v2, uv1, uv2, uv3)
+	_world_floor_mesh.add_triangle_v(v4, v6, v8, uv1, uv4, uv2)
+	
 	# + z
 	_world_mesh.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
 	_world_mesh.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
@@ -149,28 +196,87 @@ func _add_wall_geometry(pos:Vector3, radius:float) -> void:
 	_world_mesh.add_triangle_v(v7, v4, v1, uv1, uv2, uv3)
 	_world_mesh.add_triangle_v(v7, v6, v4, uv1, uv4, uv2)
 	# + x
-	#_world_mesh.add_triangle(tMax.x, tMin.y, tMax.z, tMax.x, tMax.y, tMin.z, tMax.x, tMin.y, tMin.z, 0, 1, 1, 0, 1, 1)
 	_world_mesh.add_triangle_v(v3, v8, v5, uv1, uv2, uv3)
 	_world_mesh.add_triangle_v(v3, v2, v8, uv1, uv4, uv2)
 	# - x
 	_world_mesh.add_triangle_v(v5, v6, v7, uv1, uv2, uv3)
 	_world_mesh.add_triangle_v(v5, v8, v6, uv1, uv4, uv2)
-	# + y
-	_world_mesh.add_triangle_v(v4, v8, v2, uv1, uv2, uv3)
-	_world_mesh.add_triangle_v(v4, v6, v8, uv1, uv4, uv2)
 
+func _add_water_quad(pos:Vector3, radius:float) -> void:
+	pos.y -= radius * 2
+	var tMin:Vector3 = Vector3(pos.x - radius, pos.y, pos.z - radius)
+	var tMax:Vector3 = Vector3(pos.x + radius, pos.y, pos.z + radius)
+#	_spawn_marker(tMin, _prefab_ground.instance())
+#	_spawn_marker(tMax, _prefab_water.instance())
+	
+	var v1:Vector3 = Vector3(tMin.x, tMin.y, tMax.z)
+	var v2:Vector3 = Vector3(tMax.x, tMax.y, tMax.z)
+	var v3:Vector3 = Vector3(tMax.x, tMin.y, tMax.z)
+	var v4:Vector3 = Vector3(tMin.x, tMax.y, tMax.z)
+	
+	var v5:Vector3 = Vector3(tMax.x, tMin.y, tMin.z)
+	var v6:Vector3 = Vector3(tMin.x, tMax.y, tMin.z)
+	var v7:Vector3 = Vector3(tMin.x, tMin.y, tMin.z)
+	var v8:Vector3 = Vector3(tMax.x, tMax.y, tMin.z)
+	
+	var uv1:Vector2 = Vector2(0, 1)
+	var uv2:Vector2 = Vector2(1, 0)
+	var uv3:Vector2 = Vector2(1, 1)
+	var uv4:Vector2 = Vector2(0, 0)
+	
+	# + y
+	_world_water_mesh.add_triangle_v(v4, v8, v2, uv1, uv2, uv3)
+	_world_water_mesh.add_triangle_v(v4, v6, v8, uv1, uv4, uv2)
+
+
+func _add_ceiling_quad(pos:Vector3, radius:float) -> void:
+	pos.y += radius * 2
+	var tMin:Vector3 = Vector3(pos.x - radius, pos.y, pos.z - radius)
+	var tMax:Vector3 = Vector3(pos.x + radius, pos.y, pos.z + radius)
+#	_spawn_marker(tMin, _prefab_ground.instance())
+#	_spawn_marker(tMax, _prefab_water.instance())
+	
+	var v1:Vector3 = Vector3(tMin.x, tMin.y, tMax.z)
+	var v2:Vector3 = Vector3(tMax.x, tMax.y, tMax.z)
+	var v3:Vector3 = Vector3(tMax.x, tMin.y, tMax.z)
+	var v4:Vector3 = Vector3(tMin.x, tMax.y, tMax.z)
+	
+	var v5:Vector3 = Vector3(tMax.x, tMin.y, tMin.z)
+	var v6:Vector3 = Vector3(tMin.x, tMax.y, tMin.z)
+	var v7:Vector3 = Vector3(tMin.x, tMin.y, tMin.z)
+	var v8:Vector3 = Vector3(tMax.x, tMax.y, tMin.z)
+	
+	var uv1:Vector2 = Vector2(0, 1)
+	var uv2:Vector2 = Vector2(1, 0)
+	var uv3:Vector2 = Vector2(1, 1)
+	var uv4:Vector2 = Vector2(0, 0)
+	
+	# - y
+	# 7 3 5
+	# 7 1 3
+	_world_ceiling_mesh.add_triangle_v(v7, v3, v5, uv1, uv2, uv3)
+	_world_ceiling_mesh.add_triangle_v(v7, v1, v3, uv1, uv4, uv2)
+
+#########################################################
+# Spawn map
+#########################################################
 func _spawn_map(map:Dictionary) -> void:
-	var tileRadius:float = 2
+	var tileDiameter:float = 2
 	var y:float = -1
-	var posOffset:Vector3 = Vector3(tileRadius * 0.5, 0, tileRadius * 0.5)
+	var posOffset:Vector3 = Vector3(tileDiameter * 0.5, 0, tileDiameter * 0.5)
 	print("Loading grid map, size " + str(map.width) + " by " + str(map.height))
+	
 	_world_mesh.start_mesh()
+	_world_floor_mesh.start_mesh()
+	_world_water_mesh.start_mesh()
+	_world_ceiling_mesh.start_mesh()
+	
 	var height:int = map.height
 	for z in range(0, height):
 		var line = map.lines[z]
 		var width = line.length()
 		for x in range(0, width):
-			var pos:Vector3 = Vector3(x * tileRadius, y, z * tileRadius)
+			var pos:Vector3 = Vector3(x * tileDiameter, y, z * tileDiameter)
 			pos += posOffset
 			var c:String = line[x]
 			var prefab:Spatial = null
@@ -180,9 +286,12 @@ func _spawn_map(map:Dictionary) -> void:
 				if _check_all_neighbours_equal(map.lines, x, z, width, height, '#'):
 					continue
 				#prefab = _prefab_wall.instance()
-				_add_wall_geometry(pos, tileRadius * 0.5)
+				_add_wall_geometry(pos, tileDiameter * 0.5)
 			elif c == '.':
-				prefab = _prefab_water.instance()
+				# prefab = _prefab_water.instance()
+				#pos.y -= tileDiameter
+				_add_water_quad(pos, tileDiameter * 0.5)
+				_add_ceiling_quad(pos, tileDiameter * 0.5)
 			elif c == 'x':
 				prefab = _prefab_spawn.instance()
 				prefab.entType = entTypeMob
@@ -218,10 +327,12 @@ func _spawn_map(map:Dictionary) -> void:
 			
 			# most entities will want a ground tile beneath them
 			if spawnGround:
-				var ground = _prefab_ground.instance()
-				self.add_child(ground)
-				ground.global_transform.origin = pos
-				_tiles.push_back(_prefab_ground)
+				_add_floor_geometry(pos, tileDiameter * 0.5)
+				_add_ceiling_quad(pos, tileDiameter * 0.5)
+#				var ground = _prefab_ground.instance()
+#				self.add_child(ground)
+#				ground.global_transform.origin = pos
+#				_tiles.push_back(_prefab_ground)
 			
 	print("Done with " + str(_tiles.size()) + " tiles and " + str(_spawn_points.size()) + " ents")
 	_set_spawn_points_visible(false)
@@ -229,6 +340,12 @@ func _spawn_map(map:Dictionary) -> void:
 	#_create_test_mesh()
 	_world_mesh.end_mesh()
 	_world_mesh.set_material(_wall_mat)
+	_world_floor_mesh.end_mesh()
+	_world_floor_mesh.set_material(_floor_mat)
+	_world_water_mesh.end_mesh()
+	_world_water_mesh.set_material(_water_mat)
+	_world_ceiling_mesh.end_mesh()
+	_world_ceiling_mesh.set_material(_ceiling_mat)
 
 func _ready():
 	var txt:String = AsciMapLoader.get_default()
