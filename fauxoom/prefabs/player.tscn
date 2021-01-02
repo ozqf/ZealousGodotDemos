@@ -15,6 +15,7 @@ extents = Vector3( 0.5, 0.75, 0.5 )
 size = Vector3( 0.25, 0.25, 0.25 )
 
 [node name="player" type="KinematicBody"]
+collision_mask = 3
 script = ExtResource( 2 )
 
 [node name="Sprite3D" type="Sprite3D" parent="."]

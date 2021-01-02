@@ -23,12 +23,18 @@ const fFloor:int = (1 << 1)
 const fCeiling:int = (1 << 2)
 const fWater:int = (1 << 3)
 
-onready var _world_hull:MeshGenerator = $world_hull
+# display meshes
 onready var _world_mesh:MeshGenerator = $world_mesh
 onready var _world_floor_mesh:MeshGenerator = $world_floor
-onready var _world_water_mesh:MeshGenerator = $world_water
 onready var _world_ceiling_mesh:MeshGenerator = $world_ceiling
+onready var _world_water_mesh:MeshGenerator = $world_water
+
+# collision meshes
+onready var _world_hull:MeshGenerator = $world_hull
+onready var _world_water_blocker:MeshGenerator = $world_hull_water
+
 onready var _world_polygon:CollisionShape = $world_body/CollisionShape
+onready var _player_blocker:CollisionShape = $player_water_blocker/CollisionShape
 
 # scene objects created
 var _tiles = []
@@ -197,6 +203,7 @@ func _add_floor_geometry(pos:Vector3, radius:float) -> void:
 	_world_mesh.add_triangle_v(v5, v8, v6, uv1, uv4, uv2)
 
 func _add_water_quad(pos:Vector3, radius:float) -> void:
+	var origin:Vector3 = pos
 	pos.y -= radius * 2
 	var tMin:Vector3 = Vector3(pos.x - radius, pos.y, pos.z - radius)
 	var tMax:Vector3 = Vector3(pos.x + radius, pos.y, pos.z + radius)
@@ -222,6 +229,39 @@ func _add_water_quad(pos:Vector3, radius:float) -> void:
 	#_world_water_mesh.add_triangle_v(v4, v8, v2, uv1, uv2, uv3)
 	#_world_water_mesh.add_triangle_v(v4, v6, v8, uv1, uv4, uv2)
 	_add_quad(v4, v8, v2, v6, uv1, uv2, uv3, uv4, fWater)
+	
+	# player blocker quads
+	var blockRadius:float = radius - 0.35
+	pos = origin
+	tMin = Vector3(pos.x - blockRadius, pos.y - blockRadius, pos.z - blockRadius)
+	tMax = Vector3(pos.x + blockRadius, pos.y + blockRadius, pos.z + blockRadius)
+#	_spawn_marker(tMin, _prefab_ground.instance())
+#	_spawn_marker(tMax, _prefab_water.instance())
+	
+	v1 = Vector3(tMin.x, tMin.y, tMax.z)
+	v2 = Vector3(tMax.x, tMax.y, tMax.z)
+	v3 = Vector3(tMax.x, tMin.y, tMax.z)
+	v4 = Vector3(tMin.x, tMax.y, tMax.z)
+	
+	v5 = Vector3(tMax.x, tMin.y, tMin.z)
+	v6 = Vector3(tMin.x, tMax.y, tMin.z)
+	v7 = Vector3(tMin.x, tMin.y, tMin.z)
+	v8 = Vector3(tMax.x, tMax.y, tMin.z)
+	
+	# + z
+	_world_water_blocker.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
+	_world_water_blocker.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
+	#_add_quad(v1, v2, v3, v4, uv1, uv2, uv3, uv4, fWall)
+	# - z
+#	_add_quad(v7, v4, v1, v6, uv1, uv2, uv3, uv4, fWall)
+	_world_water_blocker.add_triangle_v(v7, v4, v1, uv1, uv2, uv3)
+	_world_water_blocker.add_triangle_v(v7, v6, v4, uv1, uv4, uv2)
+	# + x
+	_world_water_blocker.add_triangle_v(v3, v8, v5, uv1, uv2, uv3)
+	_world_water_blocker.add_triangle_v(v3, v2, v8, uv1, uv4, uv2)
+	# - x
+	_world_water_blocker.add_triangle_v(v5, v6, v7, uv1, uv2, uv3)
+	_world_water_blocker.add_triangle_v(v5, v8, v6, uv1, uv4, uv2)
 
 func _add_ceiling_quad(pos:Vector3, radius:float) -> void:
 	pos.y += radius * 2
@@ -262,6 +302,8 @@ func _spawn_map(map:Dictionary) -> void:
 	print("Loading grid map, size " + str(map.width) + " by " + str(map.height))
 	
 	_world_hull.start_mesh()
+	_world_water_blocker.start_mesh()
+	
 	_world_mesh.start_mesh()
 	_world_floor_mesh.start_mesh()
 	_world_water_mesh.start_mesh()
@@ -333,11 +375,19 @@ func _spawn_map(map:Dictionary) -> void:
 	print("Done with " + str(_tiles.size()) + " tiles and " + str(_spawn_points.size()) + " ents")
 	_set_spawn_points_visible(false)
 	_spawn_start_entities()
-	#_create_test_mesh()
+	# end collision meshes
 	_world_hull.end_mesh()
 	_world_hull.set_material(_floor_mat)
 	_world_hull.visible = false
+	_world_water_blocker.end_mesh()
+	_world_water_blocker.set_material(_floor_mat)
+	_world_water_blocker.visible = false
 	
+	# apply collision meshes
+	_world_polygon.shape = _world_hull.get_collision_mesh()
+	_player_blocker.shape = _world_water_blocker.get_collision_mesh()
+	
+	# finish display meshes
 	_world_mesh.end_mesh()
 	_world_mesh.set_material(_wall_mat)
 	_world_floor_mesh.end_mesh()
@@ -346,8 +396,6 @@ func _spawn_map(map:Dictionary) -> void:
 	_world_water_mesh.set_material(_water_mat)
 	_world_ceiling_mesh.end_mesh()
 	_world_ceiling_mesh.set_material(_ceiling_mat)
-	
-	_world_polygon.shape = _world_hull.get_collision_mesh()
 
 func _ready():
 	var txt:String = AsciMapLoader.get_default()

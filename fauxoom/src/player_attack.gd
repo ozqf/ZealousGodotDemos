@@ -33,16 +33,20 @@ func _fire_spread() -> void:
 	var t:Transform = _launchNode.global_transform
 	var origin:Vector3 = t.origin
 	var originForward:Vector3 = -t.basis.z
+	var mask:int = (1 << 0)
+	#var mask:int = -1
 	for i in range(0, 10):
 		var spreadX:float = rand_range(-1000, 1000)
 		var spreadY:float = rand_range(-600, 600)
 		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(origin, t.basis, spreadX, spreadY)
-		var result:Dictionary = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, 1000, [_parentBody], -1)
+		var result:Dictionary = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, 1000, [_parentBody], mask)
 		if result:
 			_perform_hit(result)
 
 func _fire_single() -> void:
-	var result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, [_parentBody], -1)
+	var mask:int = (1 << 0)
+	#var mask:int = -1
+	var result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, [_parentBody], mask)
 	if result:
 		_perform_hit(result)
 	pass
