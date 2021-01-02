@@ -5,10 +5,10 @@ albedo_color = Color( 1, 1, 0, 1 )
 
 [sub_resource type="CubeMesh" id=2]
 material = SubResource( 1 )
-size = Vector3( 1, 2, 1 )
+size = Vector3( 2, 4, 2 )
 
 [sub_resource type="BoxShape" id=3]
-extents = Vector3( 0.5, 1, 0.5 )
+extents = Vector3( 1, 2, 1 )
 
 [node name="wall_tile" type="Spatial"]
 

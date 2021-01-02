@@ -30,6 +30,7 @@ shape = SubResource( 1 )
 
 [node name="head" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
+current = true
 
 [node name="motor" type="Node" parent="."]
 script = ExtResource( 3 )
