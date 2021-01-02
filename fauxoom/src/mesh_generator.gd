@@ -31,7 +31,7 @@ func end_mesh() -> void:
 	_sTool.commit(_tmpMesh)
 	self.mesh = _tmpMesh
 
-# anti-clockwise vertex winding
+# clockwise vertex winding!
 func add_triangle(v1X:float, v1Y:float, v1Z:float, v2X:float, v2Y:float, v2Z:float, v3X:float, v3Y:float, v3Z:float, uv1X:float, uv1Y:float, uv2X:float, uv2Y:float, uv3X:float, uv3Y:float) -> void:
 	if !_building:
 		return
@@ -47,15 +47,16 @@ func add_triangle(v1X:float, v1Y:float, v1Z:float, v2X:float, v2Y:float, v2Z:flo
 	_sTool.add_uv(Vector2(uv3X, uv3Y))
 	_sTool.add_vertex(Vector3(v3X, v3Y, v3Z))
 
+# clockwise vertex winding!
 func add_triangle_v(v1:Vector3, v2:Vector3, v3:Vector3, uv1:Vector2, uv2:Vector2, uv3:Vector2) -> void:
 	if !_building:
 		return
-	_sTool.add_colour(_colour)
+	_sTool.add_color(_colour)
 	_sTool.add_uv(uv1)
 	_sTool.add_vertex(v1)
-	_sTool.add_colour(_colour)
+	_sTool.add_color(_colour)
 	_sTool.add_uv(uv2)
 	_sTool.add_vertex(v2)
-	_sTool.add_colour(_colour)
+	_sTool.add_color(_colour)
 	_sTool.add_uv(uv3)
 	_sTool.add_vertex(v3)

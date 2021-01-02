@@ -1,15 +1,16 @@
 extends Node
 class_name AsciMapLoader
 
-const asci1:String = """#########
-#########
-#########
-###   ###
-### s ###
-###   ###
-#########
-#########
-#########
+const asci0:String = """#####
+#. .#
+# s #
+#. .#
+#####
+"""
+
+const asci1:String = """#
+s
+.
 """
 
 const asci2:String = """########################################x  ......###############
@@ -81,7 +82,7 @@ const asci3:String = """#################...####################################
 """
 
 static func get_default() -> String:
-	return asci3
+	return asci1
 
 static func _measure_line(txt:String) -> int:
 	var i:int = 0

@@ -14,7 +14,20 @@ transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 3
 [node name="world_mesh" type="MeshInstance" parent="."]
 script = ExtResource( 2 )
 
-[node name="world_origin_marker" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 50, 0, 0, 0, 1, 0, 40, 0 )
+[node name="axes" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0 )
+
+[node name="x" type="MeshInstance" parent="axes"]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="y" type="MeshInstance" parent="axes"]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, 0, 12, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="z" type="MeshInstance" parent="axes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 10, 0, 1, 11 )
 mesh = SubResource( 1 )
 material/0 = null

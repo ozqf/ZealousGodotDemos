@@ -51,7 +51,7 @@ func _create_mesh_2() -> void:
 	_sTool.commit(_tmpMesh)
 	_world_mesh.mesh = _tmpMesh
 
-func _create_mesh() -> void:
+func _create_test_mesh() -> void:
 	print("Run world mesh gen")
 	_world_mesh.start_mesh()
 	#_world_mesh.add_triangle(Vector3(-50, 0, 0), Vector3(50, 0, 0), Vector3(50, 50, 50), Vector2(0, 0), Vector2(1, 0), Vector2(1, 1))
@@ -113,11 +113,58 @@ func _check_all_neighbours_equal(lines, x:int, y:int, width:int, height:int, chr
 	#print("count " + str(count) + " vs " + str(x) + ", " + str(y) + " w/h " + str(width) + ", " + str(height))
 	return (count == 4)
 
+# spawn a box at given position (purely for debugging!
+func _spawn_marker(pos:Vector3, prefabInstance) -> void:
+	self.add_child(prefabInstance)
+	prefabInstance.global_transform.origin = pos
+	prefabInstance.scale = Vector3(0.25, 0.25, 0.25)
+
+func _add_wall_geometry(pos:Vector3, radius:float) -> void:
+	var tMin:Vector3 = Vector3(pos.x - radius, pos.y - radius, pos.z - radius)
+	var tMax:Vector3 = Vector3(pos.x + radius, pos.y + radius, pos.z + radius)
+	print("Make cube at " + str(pos) + " radius " + str(radius))
+	print("cube extents: " + str(tMin) + " to " + str(tMax))
+	_spawn_marker(tMin, _prefab_ground.instance())
+	_spawn_marker(tMax, _prefab_water.instance())
+	
+	var v1:Vector3 = Vector3(tMin.x, tMin.y, tMax.z)
+	var v2:Vector3 = Vector3(tMax.x, tMax.y, tMax.z)
+	var v3:Vector3 = Vector3(tMax.x, tMin.y, tMax.z)
+	var v4:Vector3 = Vector3(tMin.x, tMax.y, tMax.z)
+	
+	var v5:Vector3 = Vector3(tMax.x, tMin.y, tMin.z)
+	var v6:Vector3 = Vector3(tMin.x, tMax.y, tMin.z)
+	var v7:Vector3 = Vector3(tMin.x, tMin.y, tMin.z)
+	var v8:Vector3 = Vector3(tMax.x, tMax.y, tMin.z)
+	
+	var uv1:Vector2 = Vector2(0, 1)
+	var uv2:Vector2 = Vector2(1, 0)
+	var uv3:Vector2 = Vector2(1, 1)
+	var uv4:Vector2 = Vector2(0, 0)
+	
+	# + z
+	_world_mesh.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
+	_world_mesh.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
+	# - z
+	_world_mesh.add_triangle_v(v7, v4, v1, uv1, uv2, uv3)
+	_world_mesh.add_triangle_v(v7, v6, v4, uv1, uv4, uv2)
+	# + x
+	#_world_mesh.add_triangle(tMax.x, tMin.y, tMax.z, tMax.x, tMax.y, tMin.z, tMax.x, tMin.y, tMin.z, 0, 1, 1, 0, 1, 1)
+	_world_mesh.add_triangle_v(v3, v8, v5, uv1, uv2, uv3)
+	_world_mesh.add_triangle_v(v3, v2, v8, uv1, uv4, uv2)
+	# - x
+	_world_mesh.add_triangle_v(v5, v6, v7, uv1, uv2, uv3)
+	_world_mesh.add_triangle_v(v5, v8, v6, uv1, uv4, uv2)
+	# + y
+	_world_mesh.add_triangle_v(v4, v8, v2, uv1, uv2, uv3)
+	_world_mesh.add_triangle_v(v4, v6, v8, uv1, uv4, uv2)
+
 func _spawn_map(map:Dictionary) -> void:
 	var tileRadius:float = 2
 	var y:float = -1
 	var posOffset:Vector3 = Vector3(tileRadius * 0.5, 0, tileRadius * 0.5)
 	print("Loading grid map, size " + str(map.width) + " by " + str(map.height))
+	_world_mesh.start_mesh()
 	var height:int = map.height
 	for z in range(0, height):
 		var line = map.lines[z]
@@ -132,7 +179,8 @@ func _spawn_map(map:Dictionary) -> void:
 			if c == '#':
 				if _check_all_neighbours_equal(map.lines, x, z, width, height, '#'):
 					continue
-				prefab = _prefab_wall.instance()
+				#prefab = _prefab_wall.instance()
+				_add_wall_geometry(pos, tileRadius * 0.5)
 			elif c == '.':
 				prefab = _prefab_water.instance()
 			elif c == 'x':
@@ -178,7 +226,9 @@ func _spawn_map(map:Dictionary) -> void:
 	print("Done with " + str(_tiles.size()) + " tiles and " + str(_spawn_points.size()) + " ents")
 	_set_spawn_points_visible(false)
 	_spawn_start_entities()
-	_create_mesh()
+	#_create_test_mesh()
+	_world_mesh.end_mesh()
+	_world_mesh.set_material(_wall_mat)
 
 func _ready():
 	var txt:String = AsciMapLoader.get_default()
@@ -186,6 +236,7 @@ func _ready():
 	self._spawn_map(map)
 
 func _process(_delta:float) -> void:
-	var degrees = _world_mesh.rotation_degrees
-	degrees.y += 45 * _delta
-	_world_mesh.rotation_degrees = degrees
+#	var degrees = _world_mesh.rotation_degrees
+#	degrees.y += 45 * _delta
+#	_world_mesh.rotation_degrees = degrees
+	pass
