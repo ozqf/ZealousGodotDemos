@@ -41,6 +41,15 @@ var _tiles = []
 var _spawn_points = []
 # var _live_ents = []
 
+var _tick:int = 0
+var _building:bool = false
+var _map:Dictionary
+var _state:Dictionary = {
+	perFrame = 40,
+	tileCount = 0,
+	tileTotal = 0
+}
+
 # constructed mesh
 #var _sTool:SurfaceTool = SurfaceTool.new()
 #var _tmpMesh = Mesh.new()
@@ -373,12 +382,31 @@ func _spawn_cell(x:int, y:int, z:int, tileDiameter:int, posOffset:Vector3, map:D
 #########################################################
 # Spawn map
 #########################################################
+func _pos_from_index(i:int, w:int) -> Vector2:
+	return Vector2(i % w, floor(i / w))
+
 func _spawn_map(map:Dictionary) -> void:
+	_start_build(map)
+	
 	var tileDiameter:float = 2
 	var y:float = -1
 	var posOffset:Vector3 = Vector3(tileDiameter * 0.5, 0, tileDiameter * 0.5)
-	print("Loading grid map, size " + str(map.width) + " by " + str(map.height))
 	
+	var height:int = map.height
+	for z in range(0, height):
+		var line = map.lines[z]
+		var width = line.length()
+		for x in range(0, width):
+			_spawn_cell(x, y, z, tileDiameter, posOffset, map)
+	_end_build()
+
+func _start_build(map:Dictionary) -> void:
+	if _building:
+		return
+	
+	$ui_layer/loading_screen.visible = true
+	_map = map
+	_building = true
 	_world_hull.start_mesh()
 	_world_water_blocker.start_mesh()
 	
@@ -387,13 +415,31 @@ func _spawn_map(map:Dictionary) -> void:
 	_world_water_mesh.start_mesh()
 	_world_ceiling_mesh.start_mesh()
 	
-	var height:int = map.height
-	for z in range(0, height):
-		var line = map.lines[z]
-		var width = line.length()
-		for x in range(0, width):
-			_spawn_cell(x, y, z, tileDiameter, posOffset, map)
-			
+	_state.tileCount = 0
+	_state.tileTotal = _map.width * _map.height
+	
+	print("Loading grid map, size " + str(map.width) + " by " + str(map.height))
+	print("\tTotal tiles: " + str(_state.tileTotal))
+
+func _iterate_build() -> void:
+	if !_building:
+		return
+	var count = 0
+	var tileDiameter:float = 2
+	var y:float = -1
+	var posOffset:Vector3 = Vector3(tileDiameter * 0.5, 0, tileDiameter * 0.5)
+	while _state.tileCount < _state.tileTotal:
+		if count >= _state.perFrame:
+			#print("Frame break")
+			return
+		var cellPos:Vector2 = _pos_from_index(_state.tileCount, _map.width)
+		#print("cell pos for " + str(_state.tileCount) + " at: " + str(cellPos))
+		_spawn_cell(cellPos.x, y, cellPos.y, tileDiameter, posOffset, _map)
+		_state.tileCount += 1
+		count += 1
+	_end_build()
+
+func _end_build() -> void:
 	print("Done with " + str(_tiles.size()) + " tiles and " + str(_spawn_points.size()) + " ents")
 	_set_spawn_points_visible(false)
 	_spawn_start_entities()
@@ -418,14 +464,24 @@ func _spawn_map(map:Dictionary) -> void:
 	_world_water_mesh.set_material(_water_mat)
 	_world_ceiling_mesh.end_mesh()
 	_world_ceiling_mesh.set_material(_ceiling_mat)
-
-func _ready():
-	var txt:String = AsciMapLoader.get_default()
-	var map:Dictionary = AsciMapLoader.read_string(txt)
-	self._spawn_map(map)
+	
+	$ui_layer/loading_screen.visible = false
+	_building = false
 
 func _process(_delta:float) -> void:
-#	var degrees = _world_mesh.rotation_degrees
-#	degrees.y += 45 * _delta
-#	_world_mesh.rotation_degrees = degrees
-	pass
+	#var degrees = _world_mesh.rotation_degrees
+	#degrees.y += 45 * _delta
+	#_world_mesh.rotation_degrees = degrees
+	
+	# begin build process after godot scene has loaded
+	if _tick == 10:
+		var txt:String = AsciMapLoader.get_default()
+		var map:Dictionary = AsciMapLoader.read_string(txt)
+		#self._spawn_map(map)
+		self._start_build(map)
+	if _building:
+		_iterate_build()
+		var percentage:float = floor((float(_state.tileCount) / float(_state.tileTotal)) * 100)
+		print(str(percentage))
+		$ui_layer/loading_screen/loading_label.text = "Loading " + str(percentage) + "%"
+	_tick += 1

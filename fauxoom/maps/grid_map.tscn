@@ -74,8 +74,14 @@ shape = SubResource( 2 )
 
 [node name="ui_layer" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="ui_layer"]
-visible = false
+[node name="loading_screen" type="Control" parent="ui_layer"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="ui_layer/loading_screen"]
 margin_right = 1024.0
 margin_bottom = 600.0
 color = Color( 0.0627451, 0.0588235, 0.192157, 1 )
@@ -83,15 +89,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="loading_label" type="Label" parent="ui_layer"]
+[node name="loading_label" type="Label" parent="ui_layer/loading_screen"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -128.0
-margin_top = -32.0
-margin_right = 128.0
-margin_bottom = 32.0
+margin_left = 364.0
+margin_top = 248.0
+margin_right = 620.0
+margin_bottom = 312.0
 text = "Loading"
 align = 1
 valign = 1
