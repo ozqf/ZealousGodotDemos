@@ -34,7 +34,7 @@ func _cap_degrees(degrees:float) -> float:
 func _calc_angle_index(degrees:float, numIndices:int) -> int:
 	if numIndices <= 0:
 		return 0
-	degrees -= 360 / (numIndices * 2)
+	degrees -= 360.0 / (numIndices * 2)
 	while (degrees < 0):
 		degrees += 360
 	while (degrees >= 360):

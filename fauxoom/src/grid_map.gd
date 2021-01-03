@@ -139,8 +139,9 @@ func _add_quad(v1:Vector3, v2:Vector3, v3:Vector3, v4:Vector3, uv1:Vector2, uv2:
 		_world_water_mesh.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
 		addCollision = true
 	
-	_world_hull.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
-	_world_hull.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
+	if addCollision:
+		_world_hull.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
+		_world_hull.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
 
 func _add_wall_geometry(pos:Vector3, radius:float) -> void:
 	var diameter:float = radius * 2
@@ -294,14 +295,14 @@ func _add_ceiling_quad(pos:Vector3, radius:float) -> void:
 #	_spawn_marker(tMax, _prefab_water.instance())
 	
 	var v1:Vector3 = Vector3(tMin.x, tMin.y, tMax.z)
-	var v2:Vector3 = Vector3(tMax.x, tMax.y, tMax.z)
+	#var v2:Vector3 = Vector3(tMax.x, tMax.y, tMax.z)
 	var v3:Vector3 = Vector3(tMax.x, tMin.y, tMax.z)
-	var v4:Vector3 = Vector3(tMin.x, tMax.y, tMax.z)
+	#var v4:Vector3 = Vector3(tMin.x, tMax.y, tMax.z)
 	
 	var v5:Vector3 = Vector3(tMax.x, tMin.y, tMin.z)
-	var v6:Vector3 = Vector3(tMin.x, tMax.y, tMin.z)
+	#var v6:Vector3 = Vector3(tMin.x, tMax.y, tMin.z)
 	var v7:Vector3 = Vector3(tMin.x, tMin.y, tMin.z)
-	var v8:Vector3 = Vector3(tMax.x, tMax.y, tMin.z)
+	#var v8:Vector3 = Vector3(tMax.x, tMax.y, tMin.z)
 	
 	var uv1:Vector2 = Vector2(0, 1)
 	var uv2:Vector2 = Vector2(1, 0)
@@ -318,7 +319,7 @@ func _add_ceiling_quad(pos:Vector3, radius:float) -> void:
 #########################################################
 # Spawn cell
 #########################################################
-func _spawn_cell(x:int, y:int, z:int, tileDiameter:int, posOffset:Vector3, map:Dictionary) -> void:
+func _spawn_cell(x:int, y:int, z:int, tileDiameter:float, posOffset:Vector3, map:Dictionary) -> void:
 	var line = map.lines[z]
 	var c = line[x]
 	var radius:float = tileDiameter * 0.5
@@ -383,22 +384,22 @@ func _spawn_cell(x:int, y:int, z:int, tileDiameter:int, posOffset:Vector3, map:D
 # Spawn map
 #########################################################
 func _pos_from_index(i:int, w:int) -> Vector2:
-	return Vector2(i % w, floor(i / w))
+	return Vector2(i % w, floor(i / float(w)))
 
-func _spawn_map(map:Dictionary) -> void:
-	_start_build(map)
-	
-	var tileDiameter:float = 2
-	var y:float = -1
-	var posOffset:Vector3 = Vector3(tileDiameter * 0.5, 0, tileDiameter * 0.5)
-	
-	var height:int = map.height
-	for z in range(0, height):
-		var line = map.lines[z]
-		var width = line.length()
-		for x in range(0, width):
-			_spawn_cell(x, y, z, tileDiameter, posOffset, map)
-	_end_build()
+#func _spawn_map(map:Dictionary) -> void:
+#	_start_build(map)
+#
+#	var tileDiameter:float = 2
+#	var y:float = -1
+#	var posOffset:Vector3 = Vector3(tileDiameter * 0.5, 0, tileDiameter * 0.5)
+#
+#	var height:int = map.height
+#	for z in range(0, height):
+#		var line = map.lines[z]
+#		var width = line.length()
+#		for x in range(0, width):
+#			_spawn_cell(x, y, z, tileDiameter, posOffset, map)
+#	_end_build()
 
 func _start_build(map:Dictionary) -> void:
 	if _building:
@@ -434,7 +435,7 @@ func _iterate_build() -> void:
 			return
 		var cellPos:Vector2 = _pos_from_index(_state.tileCount, _map.width)
 		#print("cell pos for " + str(_state.tileCount) + " at: " + str(cellPos))
-		_spawn_cell(cellPos.x, y, cellPos.y, tileDiameter, posOffset, _map)
+		_spawn_cell(int(cellPos.x), int(y), int(cellPos.y), tileDiameter, posOffset, _map)
 		_state.tileCount += 1
 		count += 1
 	_end_build()
@@ -482,6 +483,5 @@ func _process(_delta:float) -> void:
 	if _building:
 		_iterate_build()
 		var percentage:float = floor((float(_state.tileCount) / float(_state.tileTotal)) * 100)
-		print(str(percentage))
 		$ui_layer/loading_screen/loading_label.text = "Loading " + str(percentage) + "%"
 	_tick += 1

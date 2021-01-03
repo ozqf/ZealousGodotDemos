@@ -43,7 +43,7 @@ func end_mesh() -> void:
 	print("End mesh gen")
 	_building = false
 	_built = true
-	_sTool.commit(_tmpMesh)
+	var _foo = _sTool.commit(_tmpMesh)
 	self.mesh = _tmpMesh
 
 # clockwise vertex winding!

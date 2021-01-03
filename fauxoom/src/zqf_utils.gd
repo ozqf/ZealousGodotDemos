@@ -101,7 +101,7 @@ static func angle_index(degrees:float, numIndices:int) -> int:
 	# 1 indices means only one direction is defined anyway...
 	if numIndices <= 1:
 		return 0
-	degrees -= 360 / (numIndices * 2)
+	degrees -= 360.0 / (numIndices * 2)
 	while (degrees < 0):
 		degrees += 360
 	while (degrees >= 360):

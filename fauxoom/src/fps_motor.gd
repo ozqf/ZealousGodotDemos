@@ -65,7 +65,7 @@ func _physics_process(delta:float) -> void:
 	pushDir.y = 0
 	pushDir = pushDir.normalized()
 	
-	_body.move_and_slide(pushDir * speed)
+	var _result = _body.move_and_slide(pushDir * speed)
 
 func _get_window_to_screen_ratio():
 	var real: Vector2 = OS.get_real_window_size()
@@ -88,11 +88,12 @@ func _input(_event: InputEvent):
 		var mMoveX: float = (_event.relative.x * MOUSE_SENSITIVITY * scrSizeRatio.x)
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX
-		var rotY: float = deg2rad(mMoveX)
+		#var rotY: float = deg2rad(mMoveX)
 		m_yaw += mMoveX
 
 		# vertical
 		# TODO: Uninverted mouse!
-		var mMoveY: float = (_event.relative.y * MOUSE_SENSITIVITY * scrSizeRatio.y)
-		m_pitch += mMoveY
+		# DISABLED - until there is a reason to mouse-look and UI to toggle inverted!
+#		var mMoveY: float = (_event.relative.y * MOUSE_SENSITIVITY * scrSizeRatio.y)
+#		m_pitch += mMoveY
 	pass

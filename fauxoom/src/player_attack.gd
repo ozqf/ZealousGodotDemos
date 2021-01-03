@@ -32,10 +32,10 @@ func _fire_spread() -> void:
 	_fire_single()
 	var t:Transform = _launchNode.global_transform
 	var origin:Vector3 = t.origin
-	var originForward:Vector3 = -t.basis.z
+	#var originForward:Vector3 = -t.basis.z
 	var mask:int = (1 << 0)
 	#var mask:int = -1
-	for i in range(0, 10):
+	for _i in range(0, 10):
 		var spreadX:float = rand_range(-1000, 1000)
 		var spreadY:float = rand_range(-600, 600)
 		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(origin, t.basis, spreadX, spreadY)

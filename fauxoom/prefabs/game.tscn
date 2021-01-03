@@ -15,3 +15,30 @@ Line 2"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="debug_text2" type="Label" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_right = 1.0
+margin_left = -3.0
+margin_bottom = 303.0
+text = "Line 1
+Line 2"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="title" type="Label" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_right = 0.503
+anchor_bottom = 0.21
+margin_left = -158.0
+margin_top = 34.0
+margin_right = 160.928
+margin_bottom = 48.0
+text = "FAUXOOM"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
