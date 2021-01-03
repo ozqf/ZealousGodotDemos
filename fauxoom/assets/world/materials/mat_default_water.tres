@@ -3,4 +3,5 @@
 [ext_resource path="res://assets/world/raw/fwater1.png" type="Texture" id=1]
 
 [resource]
+flags_unshaded = true
 albedo_texture = ExtResource( 1 )

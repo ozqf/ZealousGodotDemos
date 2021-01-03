@@ -1,6 +1,8 @@
 extends MeshInstance
 class_name MeshGenerator
 
+const defaultColour:Color = Color(1, 1, 1)
+
 var _built:bool = false
 var _building:bool = false
 # constructed mesh
@@ -9,7 +11,13 @@ var _tmpMesh = Mesh.new()
 var _vertices = PoolVector3Array()
 #var _uvs = PoolVector2Array()
 var _mat = SpatialMaterial.new()
-var _colour = Color(0.9, 0.1, 0.1)
+var _colour = defaultColour
+
+func set_next_colour(newColour:Color) -> void:
+	_colour = newColour
+
+func reset_next_colour() -> void:
+	_colour = defaultColour
 
 func set_material(newMat:SpatialMaterial) -> void:
 	_mat = newMat

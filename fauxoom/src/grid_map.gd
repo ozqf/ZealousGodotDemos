@@ -160,9 +160,10 @@ func _add_wall_geometry(pos:Vector3, radius:float) -> void:
 	# - x
 	_add_quad(v5, v6, v7, v8, uv1, uv2, uv3, uv4, fWall)
 	# + y
-	_add_quad(v4, v8, v2, v6, uv1, uv2, uv3, uv4, fWall)
+	#_add_quad(v4, v8, v2, v6, uv1, uv2, uv3, uv4, fWall)
 
 func _add_floor_geometry(pos:Vector3, radius:float) -> void:
+	_world_floor_mesh.set_next_colour(Color(1, 1, 0))
 	var diameter:float = radius * 2
 	var tMin:Vector3 = Vector3(pos.x - radius, pos.y - diameter, pos.z - radius)
 	var tMax:Vector3 = Vector3(pos.x + radius, pos.y, pos.z + radius)
@@ -190,17 +191,26 @@ func _add_floor_geometry(pos:Vector3, radius:float) -> void:
 	_add_quad(v4, v8, v2, v6, uv1, uv2, uv3, uv4, fFloor)
 	
 	# + z
-	_world_mesh.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
-	_world_mesh.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
+	_add_quad(v1, v2, v3, v4, uv1, uv2, uv3, uv4, fWall)
 	# - z
-	_world_mesh.add_triangle_v(v7, v4, v1, uv1, uv2, uv3)
-	_world_mesh.add_triangle_v(v7, v6, v4, uv1, uv4, uv2)
+	_add_quad(v7, v4, v1, v6, uv1, uv2, uv3, uv4, fWall)
 	# + x
-	_world_mesh.add_triangle_v(v3, v8, v5, uv1, uv2, uv3)
-	_world_mesh.add_triangle_v(v3, v2, v8, uv1, uv4, uv2)
+	_add_quad(v3, v8, v5, v2, uv1, uv2, uv3, uv4, fWall)
 	# - x
-	_world_mesh.add_triangle_v(v5, v6, v7, uv1, uv2, uv3)
-	_world_mesh.add_triangle_v(v5, v8, v6, uv1, uv4, uv2)
+	_add_quad(v5, v6, v7, v8, uv1, uv2, uv3, uv4, fWall)
+	
+	# + z
+#	_world_hull.add_triangle_v(v1, v2, v3, uv1, uv2, uv3)
+#	_world_hull.add_triangle_v(v1, v4, v2, uv1, uv4, uv2)
+#	# - z
+#	_world_hull.add_triangle_v(v7, v4, v1, uv1, uv2, uv3)
+#	_world_hull.add_triangle_v(v7, v6, v4, uv1, uv4, uv2)
+#	# + x
+#	_world_hull.add_triangle_v(v3, v8, v5, uv1, uv2, uv3)
+#	_world_hull.add_triangle_v(v3, v2, v8, uv1, uv4, uv2)
+#	# - x
+#	_world_hull.add_triangle_v(v5, v6, v7, uv1, uv2, uv3)
+#	_world_hull.add_triangle_v(v5, v8, v6, uv1, uv4, uv2)
 
 func _add_water_quad(pos:Vector3, radius:float) -> void:
 	var origin:Vector3 = pos
