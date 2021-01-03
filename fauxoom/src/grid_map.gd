@@ -69,6 +69,7 @@ func _set_spawn_points_visible(flag:bool) -> void:
 func _spawn_start_entities() -> void:
 	# _prefab_default_mob
 	var count:int = 0
+	var spawnedPlayer:bool = false
 	for i in range(0, _spawn_points.size()):
 		#var pos:Vector3 = _spawn_points[i].global_transform.origin
 		var t:Transform = _spawn_points[i].global_transform
@@ -78,6 +79,7 @@ func _spawn_start_entities() -> void:
 			prefab = _prefab_default_mob.instance()
 		elif entType == entTypePlayer:
 			prefab = _prefab_player.instance()
+			spawnedPlayer = true
 		else:
 			_spawn_points[i].visible = true
 		if prefab != null:
@@ -85,6 +87,8 @@ func _spawn_start_entities() -> void:
 			prefab.global_transform = t
 			count += 1
 	print("Spawned " + str(count) + " ents")
+	if !spawnedPlayer:
+		add_child(_prefab_player.instance())
 
 func _check_all_neighbours_equal(lines, x:int, y:int, width:int, height:int, chr) -> bool:
 	var count:int = 0
@@ -303,6 +307,70 @@ func _add_ceiling_quad(pos:Vector3, radius:float) -> void:
 	_add_quad(v7, v3, v5, v1, uv1, uv2, uv3, uv4, fCeiling)
 
 #########################################################
+# Spawn cell
+#########################################################
+func _spawn_cell(x:int, y:int, z:int, tileDiameter:int, posOffset:Vector3, map:Dictionary) -> void:
+	var line = map.lines[z]
+	var c = line[x]
+	var radius:float = tileDiameter * 0.5
+	#print("Spawn " + str(c) + " cell at " + str(Vector3(x, y, z)))
+	var width = map.width
+	var height = map.height
+	var pos:Vector3 = Vector3(x * tileDiameter, y, z * tileDiameter)
+	pos += posOffset
+	#var c:String = line[x]
+	var prefab:Spatial = null
+	var spawnGround:bool = false
+	var isEntity:bool = false
+	if c == '#':
+		if _check_all_neighbours_equal(map.lines, x, z, width, height, '#'):
+			#prefab = _prefab_wall.instance()
+			return
+		_add_wall_geometry(pos, radius)
+	elif c == '.':
+		# prefab = _prefab_water.instance()
+		#pos.y -= tileDiameter
+		_add_water_quad(pos, radius)
+		_add_ceiling_quad(pos, radius)
+	elif c == 'x':
+		prefab = _prefab_spawn.instance()
+		prefab.entType = entTypeMob
+		prefab.rotation_degrees = Vector3(0, rand_range(0, 359), 0)
+		spawnGround = true
+		isEntity = true
+	elif c == 's':
+		prefab = _prefab_spawn.instance()
+		prefab.entType = entTypePlayer
+		#prefab = _prefab_player.instance()
+		spawnGround = true
+		isEntity = true
+	elif c == 'e':
+		prefab = _prefab_spawn.instance()
+		prefab.entType = entTypeEnd
+		spawnGround = true
+		isEntity = true
+	elif c == 'k':
+		prefab = _prefab_spawn.instance()
+		prefab.entType = entTypeKey
+		spawnGround = true
+		isEntity = true
+	elif c == ' ':
+		spawnGround = true
+	
+	if prefab != null:
+		self.add_child(prefab)
+		prefab.global_transform.origin = pos
+		if isEntity:
+			_spawn_points.push_back(prefab)
+		else:
+			_tiles.push_back(prefab)
+	
+	# most entities will want a ground tile beneath them
+	if spawnGround:
+		_add_floor_geometry(pos, radius)
+		_add_ceiling_quad(pos, radius)
+
+#########################################################
 # Spawn map
 #########################################################
 func _spawn_map(map:Dictionary) -> void:
@@ -324,63 +392,7 @@ func _spawn_map(map:Dictionary) -> void:
 		var line = map.lines[z]
 		var width = line.length()
 		for x in range(0, width):
-			var pos:Vector3 = Vector3(x * tileDiameter, y, z * tileDiameter)
-			pos += posOffset
-			var c:String = line[x]
-			var prefab:Spatial = null
-			var spawnGround:bool = false
-			var isEntity:bool = false
-			if c == '#':
-				if _check_all_neighbours_equal(map.lines, x, z, width, height, '#'):
-					continue
-				#prefab = _prefab_wall.instance()
-				_add_wall_geometry(pos, tileDiameter * 0.5)
-			elif c == '.':
-				# prefab = _prefab_water.instance()
-				#pos.y -= tileDiameter
-				_add_water_quad(pos, tileDiameter * 0.5)
-				_add_ceiling_quad(pos, tileDiameter * 0.5)
-			elif c == 'x':
-				prefab = _prefab_spawn.instance()
-				prefab.entType = entTypeMob
-				prefab.rotation_degrees = Vector3(0, rand_range(0, 359), 0)
-				spawnGround = true
-				isEntity = true
-			elif c == 's':
-				prefab = _prefab_spawn.instance()
-				prefab.entType = entTypePlayer
-				#prefab = _prefab_player.instance()
-				spawnGround = true
-				isEntity = true
-			elif c == 'e':
-				prefab = _prefab_spawn.instance()
-				prefab.entType = entTypeEnd
-				spawnGround = true
-				isEntity = true
-			elif c == 'k':
-				prefab = _prefab_spawn.instance()
-				prefab.entType = entTypeKey
-				spawnGround = true
-				isEntity = true
-			elif c == ' ':
-				spawnGround = true
-			
-			if prefab != null:
-				self.add_child(prefab)
-				prefab.global_transform.origin = pos
-				if isEntity:
-					_spawn_points.push_back(prefab)
-				else:
-					_tiles.push_back(prefab)
-			
-			# most entities will want a ground tile beneath them
-			if spawnGround:
-				_add_floor_geometry(pos, tileDiameter * 0.5)
-				_add_ceiling_quad(pos, tileDiameter * 0.5)
-#				var ground = _prefab_ground.instance()
-#				self.add_child(ground)
-#				ground.global_transform.origin = pos
-#				_tiles.push_back(_prefab_ground)
+			_spawn_cell(x, y, z, tileDiameter, posOffset, map)
 			
 	print("Done with " + str(_tiles.size()) + " tiles and " + str(_spawn_points.size()) + " ents")
 	_set_spawn_points_visible(false)
