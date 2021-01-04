@@ -50,13 +50,34 @@ var _state:Dictionary = {
 	tileTotal = 0
 }
 
-# constructed mesh
-#var _sTool:SurfaceTool = SurfaceTool.new()
-#var _tmpMesh = Mesh.new()
-#var _vertices = PoolVector3Array()
-#var _uvs = PoolVector2Array()
-#var _mat = SpatialMaterial.new()
-#var _colour = Color(0.9, 0.1, 0.1)
+const _loadStateNone:int = 0
+const _loadStateReadAsci:int = 1
+const _loadStateReadGrid:int = 2
+const _loadStateSpawnEntities:int = 3
+const _loadStateCommitMeshes:int = 4
+const _loadStateGenerateHull:int = 5
+const _loadStateFinished:int = 6
+
+var _loadMsgIndex:int = 0
+var _loadStates = [
+	{ index = _loadStateNone, name = "" },
+	{ index = _loadStateReadAsci, name = "Read Asci" },
+	{ index = _loadStateReadGrid, name = "Read grid" },
+	{ index = _loadStateSpawnEntities, name = "Spawn Entities" },
+	{ index = _loadStateCommitMeshes, name = "Commit meshes" },
+	{ index = _loadStateGenerateHull, name = "Generate hull" },
+	{ index = _loadStateFinished, name = "" }
+]
+
+func _build_loading_message(var currentIndex) -> String:
+	var result:String = str(currentIndex) + " of " + str(_loadStates.size()) + "\n"
+	#var _iteratePercentage:float = floor((float(_state.tileCount) / float(_state.tileTotal)) * 100)
+	for _i in range (0, _loadStates.size()):
+		if _i == currentIndex:
+			result += _loadStates[_i].name + " <\n"
+		else:
+			result += _loadStates[_i].name + "\n"
+	return result
 
 func _clear_current() -> void:
 	# TODO: proper clean delete of current map
@@ -77,6 +98,7 @@ func _set_spawn_points_visible(flag:bool) -> void:
 
 func _spawn_start_entities() -> void:
 	# _prefab_default_mob
+	_loadMsgIndex = _loadStateSpawnEntities
 	var count:int = 0
 	var spawnedPlayer:bool = false
 	for i in range(0, _spawn_points.size()):
@@ -405,7 +427,9 @@ func _start_build(map:Dictionary) -> void:
 	if _building:
 		return
 	
+	_loadMsgIndex = _loadStateReadGrid
 	$ui_layer/loading_screen.visible = true
+	_loadMsgIndex = 0
 	_map = map
 	_building = true
 	_world_hull.start_mesh()
@@ -419,6 +443,7 @@ func _start_build(map:Dictionary) -> void:
 	_state.tileCount = 0
 	_state.tileTotal = _map.width * _map.height
 	
+	$ui_layer/loading_screen/loading_label.text = _build_loading_message(_loadMsgIndex)
 	print("Loading grid map, size " + str(map.width) + " by " + str(map.height))
 	print("\tTotal tiles: " + str(_state.tileTotal))
 
@@ -444,6 +469,7 @@ func _end_build() -> void:
 	print("Done with " + str(_tiles.size()) + " tiles and " + str(_spawn_points.size()) + " ents")
 	_set_spawn_points_visible(false)
 	_spawn_start_entities()
+	_loadMsgIndex = _loadStateCommitMeshes
 	# end collision meshes
 	_world_hull.end_mesh()
 	_world_hull.set_material(_floor_mat)
@@ -469,19 +495,23 @@ func _end_build() -> void:
 	$ui_layer/loading_screen.visible = false
 	_building = false
 
+func _tick_loading() -> void:
+	_loadMsgIndex = _loadStateFinished
+	pass
+
 func _process(_delta:float) -> void:
 	#var degrees = _world_mesh.rotation_degrees
 	#degrees.y += 45 * _delta
 	#_world_mesh.rotation_degrees = degrees
 	
 	# begin build process after godot scene has loaded
-	if _tick == 10:
+	if _tick == 10 && _loadMsgIndex == _loadStateNone:
+		_tick_loading()
 		var txt:String = AsciMapLoader.get_default()
 		var map:Dictionary = AsciMapLoader.read_string(txt)
 		#self._spawn_map(map)
 		self._start_build(map)
-	if _building:
+	elif _building:
 		_iterate_build()
-		var percentage:float = floor((float(_state.tileCount) / float(_state.tileTotal)) * 100)
-		$ui_layer/loading_screen/loading_label.text = "Loading " + str(percentage) + "%"
+#		$ui_layer/loading_screen/loading_label.text = _build_loading_message(_loadMsgIndex)
 	_tick += 1
