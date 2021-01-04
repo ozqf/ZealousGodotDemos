@@ -5,9 +5,12 @@ var debug_int:int = 0
 var debugV3_1:Vector3 = Vector3()
 var debugV3_2:Vector3 = Vector3()
 
-onready var _title:Label = $CanvasLayer/title
+onready var _menus:Control = $CanvasLayer/menu
+#onready var _title:Label = $CanvasLayer/title
 onready var _debug_text:Label = $CanvasLayer/debug_text
 onready var _debug_text_2:Label = $CanvasLayer/debug_text2
+onready var _console:LineEdit = $CanvasLayer/menu/console
+
 var _camera:Camera = null
 var _emptyTrans:Transform = Transform.IDENTITY
 
@@ -15,12 +18,12 @@ var _inputOn:bool = false
 
 func set_input_on() -> void:
 	_inputOn = true
-	_title.visible = false
+	_menus.visible = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func set_input_off() -> void:
 	_inputOn = false
-	_title.visible = true
+	_menus.visible = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func get_input_on() -> bool:
@@ -73,10 +76,11 @@ func _input(_event: InputEvent):
 		if _inputOn:
 			_inputOn = false
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			_title.visible = true
+			_menus.visible = true
+			_console.grab_focus()
 		else:
 			_inputOn = true
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-			_title.visible = false
+			_menus.visible = false
 	#if _event is InputEventKey:
 	#	_refresh_input_on()

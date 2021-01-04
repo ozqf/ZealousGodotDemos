@@ -58,7 +58,7 @@ func _process(_delta:float) -> void:
 	if !_active:
 		return
 	
-	if Input.is_action_pressed("attack_1"):
+	if Input.is_action_pressed("attack_1") || Input.is_action_pressed("move_special"):
 		_tick = 1
 		_fire_spread()
 		self.emit_signal("fire_ssg")

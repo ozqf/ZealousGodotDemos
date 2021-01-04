@@ -3,6 +3,7 @@ class_name FPSMotor
 
 const MOUSE_SENSITIVITY: float = 0.15
 const PITCH_CAP_DEGREES = 89
+const KEYBOARD_YAW_DEGREES = 180
 
 var _body:KinematicBody = null
 var _head:Spatial = null
@@ -37,6 +38,12 @@ func _read_input() -> Vector3:
 		input.x += 1
 	return input
 
+func _read_rotation_keys(_delta:float) -> void:
+	if Input.is_action_pressed("ui_left"):
+		m_yaw += _delta * KEYBOARD_YAW_DEGREES
+	if Input.is_action_pressed("ui_right"):
+		m_yaw -= _delta * KEYBOARD_YAW_DEGREES
+
 func _apply_rotations(_delta: float):
 	var bodyRot:Vector3 = _head.rotation_degrees
 	bodyRot.y = m_yaw
@@ -52,6 +59,7 @@ func _physics_process(delta:float) -> void:
 		return
 	if !_inputOn:
 		return
+	_read_rotation_keys(delta)
 	_apply_rotations(delta)
 	var input:Vector3 = _read_input()
 	var t:Transform = _head.global_transform
