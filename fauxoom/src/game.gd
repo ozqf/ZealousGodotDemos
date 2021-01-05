@@ -41,10 +41,10 @@ func _ready():
 	_debug_text_2.text = ""
 	_debug_text_2.text += "ESCAPE or TAB to toggle mouse capture\n"
 	_debug_text_2.text += "WASD - move | Mouse - aim/shoot\n"
-	_debug_text_2.text += "CmdLine: " + str(OS.get_cmdline_args().join(", ")) + "\n"
-	_debug_text_2.text += "Exe path: " + OS.get_executable_path() + "\n"
+#	_debug_text_2.text += "CmdLine: " + str(OS.get_cmdline_args().join(", ")) + "\n"
+#	_debug_text_2.text += "Exe path: " + OS.get_executable_path() + "\n"
 	_debug_text_2.text += "Platform: " + OS.get_name() + "\n"
-	_debug_text_2.text += "Build time: 2021/1/3 19:22\n"
+#	_debug_text_2.text += "Build time: 2021/1/3 19:22\n"
 
 func set_camera(cam:Camera) -> void:
 	if cam == null:
@@ -62,7 +62,9 @@ func get_camera_pos() -> Transform:
 
 func _process(_delta) -> void:
 
-	_debug_text.text = "FPS: " + str(Engine.get_frames_per_second())
+	_debug_text.text = "FPS: " + str(Engine.get_frames_per_second()) + "\n"
+	var time = OS.get_time()
+	_debug_text.text += str(time.hour) + ":" + str(time.minute) + ":" + str(time.second) + "\n"
 #	_debug_text.text = "Vec 1: " + str(debugV3_1) + "\n"
 #	_debug_text.text += "Vec 2: " + str(debugV3_2) + "\n"
 #	_debug_text.text += "Degrees: " + str(debugDegrees) + "\n"

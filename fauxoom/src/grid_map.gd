@@ -43,9 +43,10 @@ var _spawn_points = []
 
 var _tick:int = 0
 var _building:bool = false
+var _mapText:String = ""
 var _map:Dictionary
 var _state:Dictionary = {
-	perFrame = 40,
+	perFrame = 20,
 	tileCount = 0,
 	tileTotal = 0
 }
@@ -66,18 +67,27 @@ var _loadStates = [
 	{ index = _loadStateSpawnEntities, name = "Spawn Entities" },
 	{ index = _loadStateCommitMeshes, name = "Commit meshes" },
 	{ index = _loadStateGenerateHull, name = "Generate hull" },
-	{ index = _loadStateFinished, name = "" }
+	{ index = _loadStateFinished, name = "Done - press space" }
 ]
+
+func _calc_tile_percentage() -> float:
+	return floor((float(_state.tileCount) / float(_state.tileTotal)) * 100)
 
 func _build_loading_message(var currentIndex) -> String:
 	var result:String = str(currentIndex) + " of " + str(_loadStates.size()) + "\n"
-	#var _iteratePercentage:float = floor((float(_state.tileCount) / float(_state.tileTotal)) * 100)
 	for _i in range (0, _loadStates.size()):
 		if _i == currentIndex:
-			result += _loadStates[_i].name + " <\n"
+			if _i == _loadStateReadGrid:
+				var _iteratePercentage:float = _calc_tile_percentage()
+				result += _loadStates[_i].name + " " + str(_iteratePercentage) + "% <\n"
+			else:
+				result += _loadStates[_i].name + " <\n"
 		else:
 			result += _loadStates[_i].name + "\n"
 	return result
+
+func _refresh_loading_message() -> void:
+	$ui_layer/loading_screen/loading_label.text = _build_loading_message(_loadMsgIndex)
 
 func _clear_current() -> void:
 	# TODO: proper clean delete of current map
@@ -344,6 +354,9 @@ func _add_ceiling_quad(pos:Vector3, radius:float) -> void:
 func _spawn_cell(x:int, y:int, z:int, tileDiameter:float, posOffset:Vector3, map:Dictionary) -> void:
 	var line = map.lines[z]
 	var c = line[x]
+	var _iteratePercentage:float = _calc_tile_percentage()
+	if _state.tileCount < 200 || (_iteratePercentage > 15 && _iteratePercentage < 20):
+		print("Spawn cell " + c + " number " + str(_state.tileCount) + " at: " + str(Vector2(x, y)))
 	var radius:float = tileDiameter * 0.5
 	#print("Spawn " + str(c) + " cell at " + str(Vector3(x, y, z)))
 	var width = map.width
@@ -423,30 +436,6 @@ func _pos_from_index(i:int, w:int) -> Vector2:
 #			_spawn_cell(x, y, z, tileDiameter, posOffset, map)
 #	_end_build()
 
-func _start_build(map:Dictionary) -> void:
-	if _building:
-		return
-	
-	_loadMsgIndex = _loadStateReadGrid
-	$ui_layer/loading_screen.visible = true
-	_loadMsgIndex = 0
-	_map = map
-	_building = true
-	_world_hull.start_mesh()
-	_world_water_blocker.start_mesh()
-	
-	_world_mesh.start_mesh()
-	_world_floor_mesh.start_mesh()
-	_world_water_mesh.start_mesh()
-	_world_ceiling_mesh.start_mesh()
-	
-	_state.tileCount = 0
-	_state.tileTotal = _map.width * _map.height
-	
-	$ui_layer/loading_screen/loading_label.text = _build_loading_message(_loadMsgIndex)
-	print("Loading grid map, size " + str(map.width) + " by " + str(map.height))
-	print("\tTotal tiles: " + str(_state.tileTotal))
-
 func _iterate_build() -> void:
 	if !_building:
 		return
@@ -459,44 +448,82 @@ func _iterate_build() -> void:
 			#print("Frame break")
 			return
 		var cellPos:Vector2 = _pos_from_index(_state.tileCount, _map.width)
-		#print("cell pos for " + str(_state.tileCount) + " at: " + str(cellPos))
 		_spawn_cell(int(cellPos.x), int(y), int(cellPos.y), tileDiameter, posOffset, _map)
 		_state.tileCount += 1
 		count += 1
-	_end_build()
-
-func _end_build() -> void:
-	print("Done with " + str(_tiles.size()) + " tiles and " + str(_spawn_points.size()) + " ents")
-	_set_spawn_points_visible(false)
-	_spawn_start_entities()
-	_loadMsgIndex = _loadStateCommitMeshes
-	# end collision meshes
-	_world_hull.end_mesh()
-	_world_hull.set_material(_floor_mat)
-	_world_hull.visible = false
-	_world_water_blocker.end_mesh()
-	_world_water_blocker.set_material(_floor_mat)
-	_world_water_blocker.visible = false
-	
-	# apply collision meshes
-	_world_polygon.shape = _world_hull.get_collision_mesh()
-	_player_blocker.shape = _world_water_blocker.get_collision_mesh()
-	
-	# finish display meshes
-	_world_mesh.end_mesh()
-	_world_mesh.set_material(_wall_mat)
-	_world_floor_mesh.end_mesh()
-	_world_floor_mesh.set_material(_floor_mat)
-	_world_water_mesh.end_mesh()
-	_world_water_mesh.set_material(_water_mat)
-	_world_ceiling_mesh.end_mesh()
-	_world_ceiling_mesh.set_material(_ceiling_mat)
-	
-	$ui_layer/loading_screen.visible = false
-	_building = false
 
 func _tick_loading() -> void:
-	_loadMsgIndex = _loadStateFinished
+	if _loadMsgIndex == _loadStateNone:
+		return
+	elif _loadMsgIndex == _loadStateReadAsci:
+		_building = true
+		var txt:String = AsciMapLoader.get_default()
+		_map = AsciMapLoader.read_string(txt)
+		
+		$ui_layer/loading_screen.visible = true
+		_building = true
+		
+		_world_hull.start_mesh()
+		_world_water_blocker.start_mesh()
+	
+		_world_mesh.start_mesh()
+		_world_floor_mesh.start_mesh()
+		_world_water_mesh.start_mesh()
+		_world_ceiling_mesh.start_mesh()
+	
+		_state.tileCount = 0
+		_state.tileTotal = _map.width * _map.height
+		
+		_state.tileCount = 0
+		_state.tileTotal = _map.width * _map.height
+		
+		# $ui_layer/loading_screen/loading_label.text = _build_loading_message(_loadMsgIndex)
+		print("Loading grid map, size " + str(_map.width) + " by " + str(_map.height))
+		print("\tTotal tiles: " + str(_state.tileTotal))
+		_loadMsgIndex = _loadStateReadGrid
+		pass
+	elif _loadMsgIndex == _loadStateReadGrid:
+		if _state.tileCount < _state.tileTotal:
+			if Input.is_action_pressed("ui_accept") || Input.is_action_just_pressed("ui_select"):
+				print("Iterate grid from " + str(_state.tileCount))
+				_iterate_build()
+		else:
+			print("Done with " + str(_tiles.size()) + " tiles and " + str(_spawn_points.size()) + " ents")
+			_loadMsgIndex = _loadStateSpawnEntities
+	elif _loadMsgIndex == _loadStateSpawnEntities:
+		_set_spawn_points_visible(false)
+		_spawn_start_entities()
+		_loadMsgIndex = _loadStateCommitMeshes
+	elif _loadMsgIndex == _loadStateCommitMeshes:
+		# finish display meshes
+		_world_mesh.end_mesh()
+		_world_mesh.set_material(_wall_mat)
+		_world_floor_mesh.end_mesh()
+		_world_floor_mesh.set_material(_floor_mat)
+		_world_water_mesh.end_mesh()
+		_world_water_mesh.set_material(_water_mat)
+		_world_ceiling_mesh.end_mesh()
+		_world_ceiling_mesh.set_material(_ceiling_mat)
+		_loadMsgIndex = _loadStateGenerateHull
+	elif _loadMsgIndex == _loadStateGenerateHull:
+		# end collision meshes
+		_world_hull.end_mesh()
+		_world_hull.set_material(_floor_mat)
+		_world_hull.visible = false
+		_world_water_blocker.end_mesh()
+		_world_water_blocker.set_material(_floor_mat)
+		_world_water_blocker.visible = false
+		# apply collision meshes
+		_world_polygon.shape = _world_hull.get_collision_mesh()
+		_player_blocker.shape = _world_water_blocker.get_collision_mesh()
+		
+		_loadMsgIndex = _loadStateFinished
+		pass
+	elif _loadMsgIndex == _loadStateFinished:
+		if Input.is_action_just_pressed("ui_select"):
+			$ui_layer/loading_screen.visible = false
+			_building = false
+			_loadMsgIndex = _loadStateNone
 	pass
 
 func _process(_delta:float) -> void:
@@ -504,14 +531,18 @@ func _process(_delta:float) -> void:
 	#degrees.y += 45 * _delta
 	#_world_mesh.rotation_degrees = degrees
 	
-	# begin build process after godot scene has loaded
-	if _tick == 10 && _loadMsgIndex == _loadStateNone:
+	if _tick > 10:
 		_tick_loading()
-		var txt:String = AsciMapLoader.get_default()
-		var map:Dictionary = AsciMapLoader.read_string(txt)
-		#self._spawn_map(map)
-		self._start_build(map)
-	elif _building:
-		_iterate_build()
-#		$ui_layer/loading_screen/loading_label.text = _build_loading_message(_loadMsgIndex)
+	elif _tick == 10:
+		_loadMsgIndex = _loadStateReadAsci
+	_refresh_loading_message()
+	
+	# begin build process after godot scene has loaded
+#	if _tick == 10 && _loadMsgIndex == _loadStateNone:
+#		_tick_loading()
+#		var txt:String = AsciMapLoader.get_default()
+#		var map:Dictionary = AsciMapLoader.read_string(txt)
+#		self._start_build(map)
+#	elif _building:
+#		_iterate_build()
 	_tick += 1

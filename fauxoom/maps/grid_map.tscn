@@ -11,7 +11,7 @@
 script = ExtResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 36, 26.2, 23.1 )
+transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 36, 42.2, 51.1 )
 
 [node name="world_body" type="StaticBody" parent="."]
 
@@ -82,6 +82,7 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="ui_layer/loading_screen"]
+visible = false
 margin_right = 1024.0
 margin_bottom = 600.0
 color = Color( 0.0627451, 0.0588235, 0.192157, 1 )
