@@ -65,6 +65,8 @@ func _process(_delta) -> void:
 	_debug_text.text = "FPS: " + str(Engine.get_frames_per_second()) + "\n"
 	var time = OS.get_time()
 	_debug_text.text += str(time.hour) + ":" + str(time.minute) + ":" + str(time.second) + "\n"
+	var ratio:Vector2 = ZqfUtils.get_window_to_screen_ratio()
+	_debug_text.text += "Window/Scr ratio: " + str(ratio)
 #	_debug_text.text = "Vec 1: " + str(debugV3_1) + "\n"
 #	_debug_text.text += "Vec 2: " + str(debugV3_2) + "\n"
 #	_debug_text.text += "Degrees: " + str(debugDegrees) + "\n"

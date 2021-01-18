@@ -23,6 +23,8 @@ const fFloor:int = (1 << 1)
 const fCeiling:int = (1 << 2)
 const fWater:int = (1 << 3)
 
+onready var _camera:Camera = $Camera
+
 # display meshes
 onready var _world_mesh:MeshGenerator = $world_mesh
 onready var _world_floor_mesh:MeshGenerator = $world_floor
