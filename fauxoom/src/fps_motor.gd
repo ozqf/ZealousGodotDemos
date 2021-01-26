@@ -1,7 +1,7 @@
 extends Node
 class_name FPSMotor
 
-const MOUSE_SENSITIVITY: float = 0.15
+const MOUSE_SENSITIVITY: float = 0.1
 const PITCH_CAP_DEGREES = 89
 const KEYBOARD_YAW_DEGREES = 180
 
@@ -94,7 +94,7 @@ func _input(_event: InputEvent):
 		var scrSizeRatio: Vector2 = Vector2(1, 1)
 
 		# Horizontal
-		var mMoveX: float = (_event.relative.x * MOUSE_SENSITIVITY * scrSizeRatio.x)
+		var mMoveX: float = (_event.relative.x * MOUSE_SENSITIVITY) * scrSizeRatio.x
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX
 		#var rotY: float = deg2rad(mMoveX)

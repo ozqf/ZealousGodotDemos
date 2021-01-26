@@ -48,10 +48,13 @@ var _building:bool = false
 var _mapText:String = ""
 var _map:Dictionary
 var _state:Dictionary = {
-	perFrame = 20,
+	perFrame = 100,
 	tileCount = 0,
 	tileTotal = 0
 }
+
+# debugging
+var _stepThrough:bool = false
 
 const _loadStateNone:int = 0
 const _loadStateReadAsci:int = 1
@@ -110,6 +113,9 @@ func _set_spawn_points_visible(flag:bool) -> void:
 
 func _spawn_start_entities() -> void:
 	# _prefab_default_mob
+	var groupNodes = get_tree().get_nodes_in_group("spawn_points")
+	if _stepThrough:
+		print("Found " + str(groupNodes.size()) + " nodes in group")
 	_loadMsgIndex = _loadStateSpawnEntities
 	var count:int = 0
 	var spawnedPlayer:bool = false
@@ -124,12 +130,15 @@ func _spawn_start_entities() -> void:
 			prefab = _prefab_player.instance()
 			spawnedPlayer = true
 		else:
+			if _stepThrough:
+				print("No spawn function for type '" + entType + "'")
 			_spawn_points[i].visible = true
 		if prefab != null:
 			self.add_child(prefab)
 			prefab.global_transform = t
 			count += 1
-	print("Spawned " + str(count) + " ents")
+	if _stepThrough:
+		print("Spawned " + str(count) + " ents")
 	if !spawnedPlayer:
 		add_child(_prefab_player.instance())
 
@@ -357,7 +366,8 @@ func _spawn_cell(x:int, y:int, z:int, tileDiameter:float, posOffset:Vector3, map
 	var line = map.lines[z]
 	var c = line[x]
 	var _iteratePercentage:float = _calc_tile_percentage()
-	if _state.tileCount < 200 || (_iteratePercentage > 15 && _iteratePercentage < 20):
+	# if _state.tileCount < 200 || (_iteratePercentage > 15 && _iteratePercentage < 20):
+	if _stepThrough:
 		print("Spawn cell " + c + " number " + str(_state.tileCount) + " at: " + str(Vector2(x, y)))
 	var radius:float = tileDiameter * 0.5
 	#print("Spawn " + str(c) + " cell at " + str(Vector3(x, y, z)))
@@ -454,6 +464,9 @@ func _iterate_build() -> void:
 		_state.tileCount += 1
 		count += 1
 
+func _can_continue_load() -> bool:
+	return !_stepThrough || Input.is_action_pressed("ui_accept") || Input.is_action_just_pressed("ui_select")
+
 func _tick_loading() -> void:
 	if _loadMsgIndex == _loadStateNone:
 		return
@@ -480,17 +493,20 @@ func _tick_loading() -> void:
 		_state.tileTotal = _map.width * _map.height
 		
 		# $ui_layer/loading_screen/loading_label.text = _build_loading_message(_loadMsgIndex)
-		print("Loading grid map, size " + str(_map.width) + " by " + str(_map.height))
-		print("\tTotal tiles: " + str(_state.tileTotal))
+		if _stepThrough:
+			print("Loading grid map, size " + str(_map.width) + " by " + str(_map.height))
+			print("\tTotal tiles: " + str(_state.tileTotal))
 		_loadMsgIndex = _loadStateReadGrid
 		pass
 	elif _loadMsgIndex == _loadStateReadGrid:
 		if _state.tileCount < _state.tileTotal:
-			if Input.is_action_pressed("ui_accept") || Input.is_action_just_pressed("ui_select"):
-				print("Iterate grid from " + str(_state.tileCount))
+			if _can_continue_load():
+				if _stepThrough:
+					print("Iterate grid from " + str(_state.tileCount))
 				_iterate_build()
 		else:
-			print("Done with " + str(_tiles.size()) + " tiles and " + str(_spawn_points.size()) + " ents")
+			if _stepThrough:
+				print("Done with " + str(_tiles.size()) + " tiles and " + str(_spawn_points.size()) + " ents")
 			_loadMsgIndex = _loadStateSpawnEntities
 	elif _loadMsgIndex == _loadStateSpawnEntities:
 		_set_spawn_points_visible(false)
@@ -522,7 +538,7 @@ func _tick_loading() -> void:
 		_loadMsgIndex = _loadStateFinished
 		pass
 	elif _loadMsgIndex == _loadStateFinished:
-		if Input.is_action_just_pressed("ui_select"):
+		if _can_continue_load():
 			$ui_layer/loading_screen.visible = false
 			_building = false
 			_loadMsgIndex = _loadStateNone

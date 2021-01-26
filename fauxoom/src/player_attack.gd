@@ -37,7 +37,7 @@ func _fire_spread() -> void:
 	#var mask:int = -1
 	for _i in range(0, 10):
 		var spreadX:float = rand_range(-1000, 1000)
-		var spreadY:float = rand_range(-600, 600)
+		var spreadY:float = rand_range(-300, 300)
 		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(origin, t.basis, spreadX, spreadY)
 		var result:Dictionary = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, 1000, [_parentBody], mask)
 		if result:

@@ -3,6 +3,8 @@ class_name MeshGenerator
 
 const defaultColour:Color = Color(1, 1, 1)
 
+export var verbose:bool = false
+
 var _built:bool = false
 var _building:bool = false
 # constructed mesh
@@ -31,7 +33,8 @@ func get_collision_mesh() -> Shape:
 func start_mesh() -> void:
 	if _built || _building:
 		return
-	print("Start mesh gen")
+	if verbose:
+		print("Start mesh gen")
 	_building = true
 	_sTool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	_sTool.set_material(_mat)
@@ -40,7 +43,8 @@ func start_mesh() -> void:
 func end_mesh() -> void:
 	if _built || !_building:
 		return
-	print("End mesh gen")
+	if verbose:
+		print("End mesh gen")
 	_building = false
 	_built = true
 	var _foo = _sTool.commit(_tmpMesh)
@@ -70,9 +74,12 @@ func add_triangle(v1X:float, v1Y:float, v1Z:float, v2X:float, v2Y:float, v2Z:flo
 func add_triangle_v(v1:Vector3, v2:Vector3, v3:Vector3, uv1:Vector2, uv2:Vector2, uv3:Vector2) -> void:
 	if !_building:
 		return
+	
+	_colour = Color(rand_range(0, 1), rand_range(0, 1), rand_range(0, 1), 1)
 	_sTool.add_color(_colour)
 	_sTool.add_uv(uv1)
 	_sTool.add_vertex(v1)
+	
 	_sTool.add_color(_colour)
 	_sTool.add_uv(uv2)
 	_sTool.add_vertex(v2)
@@ -85,7 +92,8 @@ func add_triangle_v(v1:Vector3, v2:Vector3, v3:Vector3, uv1:Vector2, uv2:Vector2
 	_vertices.push_back(v3)
 
 func _create_test_mesh() -> void:
-	print("Run world mesh gen")
+	if verbose:
+		print("Run world mesh gen")
 	self.start_mesh()
 	#self.add_triangle(Vector3(-50, 0, 0), Vector3(50, 0, 0), Vector3(50, 50, 50), Vector2(0, 0), Vector2(1, 0), Vector2(1, 1))
 	self.add_triangle(-50, 0, 0,  50, 0, 0,  50, 50, 0,  0, 1,  1, 1,  1, 0)

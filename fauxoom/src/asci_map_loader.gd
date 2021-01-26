@@ -88,8 +88,8 @@ const asci4:String = """x  ...
 
 static func get_default() -> String:
 	#return asci0
-	return asci4
-	#return asci3
+	#eturn asci4
+	return asci3
 	#return asci1
 
 static func _measure_line(txt:String) -> int:

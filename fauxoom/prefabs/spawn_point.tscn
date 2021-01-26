@@ -13,7 +13,9 @@ albedo_color = Color( 1, 0.772549, 0, 1 )
 [sub_resource type="CubeMesh" id=3]
 size = Vector3( 1, 0.2, 0.5 )
 
-[node name="spawn_point" type="Spatial"]
+[node name="spawn_point" type="Spatial" groups=[
+"spawn_points",
+]]
 script = ExtResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
