@@ -16,6 +16,7 @@ func _ready():
 	_attack.set_attack_enabled(false)
 	
 	var _foo = _attack.connect("fire_ssg", _hud, "on_shoot_ssg")
+	_foo = _attack.connect("change_weapon", _hud, "on_change_weapon")
 	_foo = connect("tree_exiting", self, "_on_tree_exiting")
 
 func _on_tree_exiting() -> void:

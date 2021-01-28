@@ -9,6 +9,7 @@ var _active:bool = false
 var _tick:float = 0
 
 signal fire_ssg()
+signal change_weapon(nameString)
 
 func init_attack(launchNode:Spatial, ignoreBody:PhysicsBody) -> void:
 	_launchNode = launchNode
@@ -57,6 +58,11 @@ func _process(_delta:float) -> void:
 		return
 	if !_active:
 		return
+	
+	if Input.is_action_just_pressed("slot_1"):
+		self.emit_signal("change_weapon", "pistol")
+	if Input.is_action_just_pressed("slot_2"):
+		self.emit_signal("change_weapon", "ssg")
 	
 	if Input.is_action_pressed("attack_1") || Input.is_action_pressed("move_special"):
 		_tick = 1
