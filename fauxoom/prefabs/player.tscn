@@ -51,20 +51,41 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -503.49
-margin_top = -592.825
-margin_right = 520.51
-margin_bottom = 7.1748
+margin_left = -512.0
+margin_top = -600.0
+margin_right = 512.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="ssg" type="AnimatedSprite" parent="hud/gun"]
-position = Vector2( 503, 465 )
+[node name="weapon_centre" type="AnimatedSprite" parent="hud/gun"]
+position = Vector2( 510.589, 471.944 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
-animation = "idle"
-playing = true
+animation = "cg_shoot"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="weapon_left" type="AnimatedSprite" parent="hud/gun"]
+position = Vector2( 388.406, 472.342 )
+scale = Vector2( 2, 2 )
+frames = ExtResource( 4 )
+animation = "cg_shoot"
+flip_h = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="weapon_right" type="AnimatedSprite" parent="hud/gun"]
+position = Vector2( 634.247, 472.342 )
+scale = Vector2( 2, 2 )
+frames = ExtResource( 4 )
+animation = "cg_shoot"
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Control" type="Control" parent="hud"]
 anchor_left = 0.5
@@ -83,6 +104,9 @@ margin_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 2 )
