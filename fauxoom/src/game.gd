@@ -41,6 +41,7 @@ func _ready():
 	_debug_text_2.text = ""
 	_debug_text_2.text += "ESCAPE or TAB to toggle mouse capture\n"
 	_debug_text_2.text += "WASD - move | Mouse - aim/shoot\n"
+	_debug_text_2.text += "1,2,3,4,5 - Weapon select\n"
 #	_debug_text_2.text += "CmdLine: " + str(OS.get_cmdline_args().join(", ")) + "\n"
 #	_debug_text_2.text += "Exe path: " + OS.get_executable_path() + "\n"
 	_debug_text_2.text += "Platform: " + OS.get_name() + "\n"
