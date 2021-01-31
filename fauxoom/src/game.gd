@@ -51,6 +51,8 @@ func _ready():
 		""")
 		if js_result is String:
 			_url = js_result
+		else:
+			print("ERROR: JS url result was not a string!")
 	else:
 		print("JS not available")
 	
