@@ -13,6 +13,7 @@ onready var _console:LineEdit = $CanvasLayer/menu/console
 
 var _camera:Camera = null
 var _emptyTrans:Transform = Transform.IDENTITY
+var _url:String = ""
 
 var _inputOn:bool = false
 
@@ -26,6 +27,9 @@ func set_input_off() -> void:
 	_menus.visible = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
+func _web_mode() -> bool:
+	return (OS.get_name() == "HTML5")
+
 func get_input_on() -> bool:
 	return _inputOn
 
@@ -38,13 +42,28 @@ func _refresh_input_on():
 
 func _ready():
 	print("Game service start")
+	
+	if OS.has_feature("JavaScript"):
+		print("JS available")
+		var js_result = JavaScript.eval("""
+			var js_result;
+			js_result = window.location.href;
+		""")
+		if js_result is String:
+			_url = js_result
+	else:
+		print("JS not available")
+	
 	_debug_text_2.text = ""
+	if _web_mode():
+		_debug_text_2.text += "URL: " + _url + "\n"
+	else:
+		_debug_text_2.text += "CmdLine: " + str(OS.get_cmdline_args().join(", ")) + "\n"
+		_debug_text_2.text += "Exe path: " + OS.get_executable_path() + "\n"
+		_debug_text_2.text += "Platform: " + OS.get_name() + "\n"
 	_debug_text_2.text += "ESCAPE or TAB to toggle mouse capture\n"
 	_debug_text_2.text += "WASD - move | Mouse - aim/shoot\n"
 	_debug_text_2.text += "1,2,3,4,5 - Weapon select\n"
-#	_debug_text_2.text += "CmdLine: " + str(OS.get_cmdline_args().join(", ")) + "\n"
-#	_debug_text_2.text += "Exe path: " + OS.get_executable_path() + "\n"
-	_debug_text_2.text += "Platform: " + OS.get_name() + "\n"
 #	_debug_text_2.text += "Build time: 2021/1/3 19:22\n"
 
 func set_camera(cam:Camera) -> void:
@@ -75,7 +94,7 @@ func _process(_delta) -> void:
 
 func _input(_event: InputEvent):
 	var menuCode = KEY_ESCAPE
-	if OS.get_name() == "HTML5":
+	if _web_mode():
 		menuCode = KEY_TAB
 	if _event is InputEventKey && _event.scancode == menuCode && _event.pressed && !_event.echo:
 		if _inputOn:
