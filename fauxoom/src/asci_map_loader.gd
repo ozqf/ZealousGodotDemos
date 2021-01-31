@@ -24,8 +24,8 @@ const asci2:String = """########################################x  ......#######
 ###########.....###....#.......          x    x  x . ..#########
 ############....###............ . k  x  .  x    x  . ..#########
 ############................... ..  ##x            .   #########
-############................... ..####   x ....#x  .   #########
-############.......#........... ..###..   ......   x x #########
+############................... ..####   x ....#x  . x #########
+############.......#........... ..###..   ......   x   #########
 #############....###..........k ..###.............. # ##########
 ############# x .####...#..... x..###...##......    # ##########
 #############x xx       x  x x              x  x    #s##########
@@ -87,10 +87,34 @@ const asci4:String = """x  ...
 """
 
 static func get_default() -> String:
+	# var str:String = asci3
+	test_base64()
 	#return asci0
-	#eturn asci4
-	return asci3
+	return asci4
+	#return asci3
+	#return asci2
 	#return asci1
+
+static func str_to_b64(source:String) -> String:
+	var srcBytes:PoolByteArray = source.to_utf8()
+	var compressed = srcBytes.compress()
+	var b64:String = Marshalls.raw_to_base64(compressed)
+	return b64
+
+static func b64_to_str(source:PoolByteArray) -> String:
+	return ""
+
+static func test_base64() -> String:
+	# b64 encodes 6 bits per char
+	var source:String = asci3
+#	print("Source chars: " + str(source.length()))
+#	var srcBytes:PoolByteArray = source.to_utf8()
+#	var compressed = srcBytes.compress()
+#	print("String bytes " + str(srcBytes.size()) + " compressed bytes: " + str(compressed.size()))
+#	var b64:String = Marshalls.raw_to_base64(compressed)
+	var b64 = str_to_b64(source)
+	print("b64 chars: " + str(b64.length()))
+	return b64
 
 static func _measure_line(txt:String) -> int:
 	var i:int = 0

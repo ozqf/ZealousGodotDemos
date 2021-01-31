@@ -14,8 +14,14 @@ onready var _console:LineEdit = $CanvasLayer/menu/console
 var _camera:Camera = null
 var _emptyTrans:Transform = Transform.IDENTITY
 var _url:String = ""
+var _paramStr:String = ""
 
 var _inputOn:bool = false
+
+func _parse_url_options(optionsStr:String) -> void:
+	# eg ?foo=bar&a=b
+	print("Parse URL options " + str(optionsStr))
+	pass
 
 func set_input_on() -> void:
 	_inputOn = true
@@ -45,6 +51,7 @@ func _ready():
 	
 	if OS.has_feature("JavaScript"):
 		print("JS available")
+		# get full url
 		var js_result = JavaScript.eval("""
 			var js_result;
 			js_result = window.location.href;
@@ -53,6 +60,13 @@ func _ready():
 			_url = js_result
 		else:
 			print("ERROR: JS url result was not a string!")
+		# get params
+		js_result = JavaScript.eval("""
+			var js_result;
+			js_result = window.location.search
+		""")
+		# print("URL location: " + str(js_result))
+		_parse_url_options(js_result)
 	else:
 		print("JS not available")
 	

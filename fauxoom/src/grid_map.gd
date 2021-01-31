@@ -433,20 +433,31 @@ func _spawn_cell(x:int, y:int, z:int, tileDiameter:float, posOffset:Vector3, map
 func _pos_from_index(i:int, w:int) -> Vector2:
 	return Vector2(i % w, floor(i / float(w)))
 
-#func _spawn_map(map:Dictionary) -> void:
-#	_start_build(map)
-#
-#	var tileDiameter:float = 2
-#	var y:float = -1
-#	var posOffset:Vector3 = Vector3(tileDiameter * 0.5, 0, tileDiameter * 0.5)
-#
-#	var height:int = map.height
-#	for z in range(0, height):
-#		var line = map.lines[z]
-#		var width = line.length()
-#		for x in range(0, width):
-#			_spawn_cell(x, y, z, tileDiameter, posOffset, map)
-#	_end_build()
+func _set_world_boundary(width:int, height:int, tileSize:int) -> void:
+	var t:Transform = Transform()
+	var node:Spatial = $world_boundary/north
+	var w:int = width * tileSize
+	var h:int = height * tileSize
+	print("Boundary size: " + str(w) + " by " + str(h))
+	
+	t.origin = Vector3(w / 2, 0, -1)
+	node.scale = Vector3(w + 2, 1, 1)
+	node.global_transform = t
+	
+	node = $world_boundary/south
+	t.origin = Vector3(w / 2, 0, h + 1)
+	node.scale = Vector3(w + 2, 1, 1)
+	node.global_transform = t
+	
+	node = $world_boundary/west
+	t.origin = Vector3(-1, 0, h / 2)
+	node.scale = Vector3(1, 1, h + 2)
+	node.global_transform = t
+	
+	node = $world_boundary/east
+	t.origin = Vector3(w + 1, 0, h / 2)
+	node.scale = Vector3(1, 1, h + 2)
+	node.global_transform = t
 
 func _iterate_build() -> void:
 	if !_building:
@@ -492,10 +503,11 @@ func _tick_loading() -> void:
 		_state.tileCount = 0
 		_state.tileTotal = _map.width * _map.height
 		
+		_set_world_boundary(_map.width, _map.height, 2)
+		
 		# $ui_layer/loading_screen/loading_label.text = _build_loading_message(_loadMsgIndex)
-		if _stepThrough:
-			print("Loading grid map, size " + str(_map.width) + " by " + str(_map.height))
-			print("\tTotal tiles: " + str(_state.tileTotal))
+		print("Loading grid map, size " + str(_map.width) + " by " + str(_map.height))
+		print("\tTotal tiles: " + str(_state.tileTotal))
 		_loadMsgIndex = _loadStateReadGrid
 		pass
 	elif _loadMsgIndex == _loadStateReadGrid:
