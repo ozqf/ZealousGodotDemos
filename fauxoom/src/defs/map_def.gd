@@ -1,5 +1,6 @@
 class_name MapDef
 
+var _spawnDef_t = preload("res://src/defs/map_spawn_def.gd")
 
 const TILE_PATH:int = 0
 const TILE_WALL:int = 1
@@ -15,6 +16,7 @@ var name:String = "No Title"
 var width:int = 32
 var height:int = 32
 var _cells:PoolIntArray = []
+var _spawns = []
 
 func is_pos_safe(x:int, y:int) -> bool:
 	return (x < 0 || x >= width || y < 0 || y >= height)
@@ -31,21 +33,29 @@ func _char_to_tile_type(c:String) -> int:
 		return TILE_PATH
 
 func _char_to_ent(c:String, x:int, y:int) -> int:
+	var newType:int = ENT_TYPE_NONE
 	if c == 'x':
 		print("Spawn mob at " + str(x) + ", " + str(y))
-		return ENT_TYPE_MOB_GRUNT
+		newType = ENT_TYPE_MOB_GRUNT
 	elif c == 's':
-		return ENT_TYPE_START
+		newType = ENT_TYPE_START
 	elif c == 'e':
-		return ENT_TYPE_END
+		newType = ENT_TYPE_END
 	elif c == 'k':
-		return ENT_TYPE_KEY
+		newType = ENT_TYPE_KEY
 	
-	return ENT_TYPE_NONE
-	
+	if newType == ENT_TYPE_NON:
+		return ENT_TYPE_NONE
+	var spawn:MapSpawnDef = _spawnDef_t.new()
+	spawn.type = newType
+	spawn.position = Vector(x, 0, y)
+	spawn.yaw = rand_range(0, 359)
+	_spawns.push_back(spawn)
+	return newType
 
 func debug_print_cells() -> String:
-	var result:String = ""
+	var result:String = "Map " + str(width) + ", " + str(height)
+	result += " ents: " + str(_spawns.size()) + "\n"
 	var _len = _cells.size()
 	for i in range (0, _len):
 		result += str(_cells[i])
