@@ -50,6 +50,8 @@ func _ready():
 	print("Game service start")
 	add_to_group("game")
 	
+	AsciMapLoader.build_test_map()
+	
 	if OS.has_feature("JavaScript"):
 		print("JS available")
 		# get full url

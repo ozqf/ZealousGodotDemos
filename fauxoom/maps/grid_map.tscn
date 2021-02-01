@@ -23,6 +23,7 @@ transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 3
 [node name="east" parent="world_boundary" instance=ExtResource( 3 )]
 
 [node name="west" parent="world_boundary" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0260997, 0, -0.0219297 )
 
 [node name="world_body" type="StaticBody" parent="."]
 
