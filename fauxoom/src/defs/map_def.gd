@@ -1,9 +1,15 @@
-class_name Map
+class_name MapDef
 
 
 const TILE_PATH:int = 0
 const TILE_WALL:int = 1
 const TILE_VOID:int = 2
+
+const ENT_TYPE_NONE:int = 0
+const ENT_TYPE_MOB_GRUNT:int = 1
+const ENT_TYPE_START:int = 2
+const ENT_TYPE_END:int = 3
+const ENT_TYPE_KEY:int = 4
 
 var name:String = "No Title"
 var width:int = 32
@@ -23,6 +29,20 @@ func _char_to_tile_type(c:String) -> int:
 		return TILE_VOID
 	else:
 		return TILE_PATH
+
+func _char_to_ent(c:String, x:int, y:int) -> int:
+	if c == 'x':
+		print("Spawn mob at " + str(x) + ", " + str(y))
+		return ENT_TYPE_MOB_GRUNT
+	elif c == 's':
+		return ENT_TYPE_START
+	elif c == 'e':
+		return ENT_TYPE_END
+	elif c == 'k':
+		return ENT_TYPE_KEY
+	
+	return ENT_TYPE_NONE
+	
 
 func debug_print_cells() -> String:
 	var result:String = ""
@@ -50,16 +70,16 @@ func load_from_asci(txt:String) -> bool:
 		return false
 	width = longest
 	height = lines.size()
-	print("Longest " + str(longest))
 	var _newCells:PoolIntArray = []
 	for y in range(0, lines.size()):
 		var line = lines[y]
 		for x in range(0, line.length()):
-			var tileType:int = _char_to_tile_type(line[x])
+			var c:String = line[x]
+			var tileType:int = _char_to_tile_type(c)
 			_newCells.push_back(tileType)
+			_char_to_ent(c, x, y)
 		var pad:int = longest - line.length()
-		for i in range(0, pad):
+		for _i in range(0, pad):
 			_newCells.push_back(TILE_WALL)
 	_cells = _newCells
-	debug_print_cells()
 	return true

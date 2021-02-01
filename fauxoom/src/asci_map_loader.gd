@@ -1,6 +1,6 @@
 extends Node
 class_name AsciMapLoader
-const _map_t = preload("res://src/map.gd")
+const _map_t = preload("res://src/defs/map_def.gd")
 
 const asci0:String = """#####
 #. .#
@@ -97,7 +97,7 @@ static func get_default() -> String:
 	#return asci1
 
 static func build_test_map() -> void:
-	var m:Map = _map_t.new()
+	var m:MapDef = _map_t.new()
 	m.load_from_asci(asci4)
 	print("build test map:")
 	print(m.debug_print_cells())

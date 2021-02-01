@@ -30,9 +30,14 @@ _global_script_classes=[ {
 "path": "res://src/hud.gd"
 }, {
 "base": "Reference",
-"class": "Map",
+"class": "MapDef",
 "language": "GDScript",
-"path": "res://src/map.gd"
+"path": "res://src/defs/map_def.gd"
+}, {
+"base": "Reference",
+"class": "MapSpawnDef",
+"language": "GDScript",
+"path": "res://src/defs/map_spawn_def.gd"
 }, {
 "base": "MeshInstance",
 "class": "MeshGenerator",
@@ -74,7 +79,8 @@ _global_script_class_icons={
 "AsciMapLoader": "",
 "FPSMotor": "",
 "Hud": "",
-"Map": "",
+"MapDef": "",
+"MapSpawnDef": "",
 "MeshGenerator": "",
 "Player": "",
 "PlayerAnimator": "",
