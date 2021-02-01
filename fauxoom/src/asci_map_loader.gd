@@ -101,7 +101,7 @@ static func str_to_b64(source:String) -> String:
 	var b64:String = Marshalls.raw_to_base64(compressed)
 	return b64
 
-static func b64_to_str(source:PoolByteArray) -> String:
+static func b64_to_str(_source:PoolByteArray) -> String:
 	return ""
 
 static func test_base64() -> String:

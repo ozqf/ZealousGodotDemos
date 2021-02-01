@@ -48,6 +48,7 @@ func _refresh_input_on():
 
 func _ready():
 	print("Game service start")
+	add_to_group("game")
 	
 	if OS.has_feature("JavaScript"):
 		print("JS available")

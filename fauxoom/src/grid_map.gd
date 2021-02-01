@@ -75,6 +75,18 @@ var _loadStates = [
 	{ index = _loadStateFinished, name = "Done - press space" }
 ]
 
+func _ready() -> void:
+	add_to_group("game")
+
+func on_load_base64(b64:String) -> void:
+	print("grid_map load from " + str(b64.length()) + " base64 chars")
+	var bytes:PoolByteArray = Marshalls.base64_to_raw(b64)
+	print("Read " + str(bytes.size()) + " bytes")
+
+func on_save_map_text() -> void:
+	var b64 = AsciMapLoader.str_to_b64(_mapText)
+	get_tree().call_group("game", "on_wrote_map_text", b64)
+
 func _calc_tile_percentage() -> float:
 	return floor((float(_state.tileCount) / float(_state.tileTotal)) * 100)
 
@@ -440,22 +452,22 @@ func _set_world_boundary(width:int, height:int, tileSize:int) -> void:
 	var h:int = height * tileSize
 	print("Boundary size: " + str(w) + " by " + str(h))
 	
-	t.origin = Vector3(w / 2, 0, -1)
+	t.origin = Vector3(w / 2.0, 0, -1)
 	node.scale = Vector3(w + 2, 1, 1)
 	node.global_transform = t
 	
 	node = $world_boundary/south
-	t.origin = Vector3(w / 2, 0, h + 1)
+	t.origin = Vector3(w / 2.0, 0, h + 1)
 	node.scale = Vector3(w + 2, 1, 1)
 	node.global_transform = t
 	
 	node = $world_boundary/west
-	t.origin = Vector3(-1, 0, h / 2)
+	t.origin = Vector3(-1, 0, h / 2.0)
 	node.scale = Vector3(1, 1, h + 2)
 	node.global_transform = t
 	
 	node = $world_boundary/east
-	t.origin = Vector3(w + 1, 0, h / 2)
+	t.origin = Vector3(w + 1, 0, h / 2.0)
 	node.scale = Vector3(1, 1, h + 2)
 	node.global_transform = t
 
@@ -483,8 +495,8 @@ func _tick_loading() -> void:
 		return
 	elif _loadMsgIndex == _loadStateReadAsci:
 		_building = true
-		var txt:String = AsciMapLoader.get_default()
-		_map = AsciMapLoader.read_string(txt)
+		_mapText = AsciMapLoader.get_default()
+		_map = AsciMapLoader.read_string(_mapText)
 		
 		$ui_layer/loading_screen.visible = true
 		_building = true
@@ -566,13 +578,4 @@ func _process(_delta:float) -> void:
 	elif _tick == 10:
 		_loadMsgIndex = _loadStateReadAsci
 	_refresh_loading_message()
-	
-	# begin build process after godot scene has loaded
-#	if _tick == 10 && _loadMsgIndex == _loadStateNone:
-#		_tick_loading()
-#		var txt:String = AsciMapLoader.get_default()
-#		var map:Dictionary = AsciMapLoader.read_string(txt)
-#		self._start_build(map)
-#	elif _building:
-#		_iterate_build()
 	_tick += 1

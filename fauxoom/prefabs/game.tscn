@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/game.gd" type="Script" id=1]
+[ext_resource path="res://src/main_menu.gd" type="Script" id=2]
 
 [node name="game" type="Spatial"]
 script = ExtResource( 1 )
@@ -9,41 +10,52 @@ script = ExtResource( 1 )
 layer = 2
 
 [node name="debug_text" type="Label" parent="CanvasLayer"]
-margin_right = 124.0
-margin_bottom = 95.0
+margin_right = 512.0
+margin_bottom = 393.0
 text = "Line 1
 Line 2"
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="debug_text2" type="Label" parent="CanvasLayer"]
 anchor_left = 0.5
 anchor_right = 1.0
-margin_left = -3.0
-margin_bottom = 303.0
+margin_right = 3.0
+margin_bottom = 393.0
 text = "Line 1
 Line 2"
 align = 2
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="menu" type="Control" parent="CanvasLayer"]
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -300.0
+margin_right = 512.0
+margin_bottom = 300.0
+script = ExtResource( 2 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="title" type="Label" parent="CanvasLayer/menu"]
 anchor_left = 0.5
-anchor_right = 0.503
-anchor_bottom = 0.21
-margin_left = 334.0
-margin_top = 34.0
-margin_right = 652.928
-margin_bottom = 48.0
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = -300.0
+margin_right = 128.0
+margin_bottom = -205.0
 text = "FAUXOOM"
 align = 1
 valign = 1
@@ -55,10 +67,10 @@ __meta__ = {
 anchor_left = 0.5
 anchor_right = 0.503
 anchor_bottom = 0.21
-margin_left = 348.27
-margin_top = 540.602
-margin_right = 683.15
-margin_bottom = 580.202
+margin_left = -162.919
+margin_top = 491.845
+margin_right = 171.961
+margin_bottom = 531.445
 text = "Game by ZQF
 Assets by the Freedoom project: freedoom.github.io
 Engine: Godot 3 GLES2
@@ -69,25 +81,120 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextEdit" type="RichTextLabel" parent="CanvasLayer/menu"]
-margin_left = -1.18921
-margin_top = 193.0
-margin_right = 624.811
-margin_bottom = 387.0
-focus_mode = 2
-text = "1234
-5678"
-selection_enabled = true
+[node name="console" type="LineEdit" parent="CanvasLayer/menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -208.092
+margin_top = -226.276
+margin_right = 212.908
+margin_bottom = -173.276
+caret_blink = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="console" type="LineEdit" parent="CanvasLayer/menu"]
-margin_left = 1.0
-margin_top = 97.0
-margin_right = 422.0
-margin_bottom = 150.0
-caret_blink = true
+[node name="load_from_text" type="Control" parent="CanvasLayer/menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -505.0
+margin_top = -78.0
+margin_right = -74.0
+margin_bottom = 200.0
 __meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/menu/load_from_text"]
+margin_left = -8.0
+margin_top = -29.0
+margin_right = 329.0
+margin_bottom = 10.0
+focus_mode = 2
+text = "Paste text for ASCI loading"
+selection_enabled = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="paste_box" type="TextEdit" parent="CanvasLayer/menu/load_from_text"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -215.5
+margin_top = -139.0
+margin_right = 230.5
+margin_bottom = 142.0
+text = "TextEdit"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="load_button" type="Button" parent="CanvasLayer/menu/load_from_text"]
+margin_left = 80.866
+margin_top = 289.892
+margin_right = 323.866
+margin_bottom = 318.892
+text = "LOAD"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="save_to_text" type="Control" parent="CanvasLayer/menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 64.6301
+margin_top = -79.1892
+margin_right = 495.63
+margin_bottom = 198.811
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/menu/save_to_text"]
+margin_left = -8.0
+margin_top = -29.0
+margin_right = 329.0
+margin_bottom = 10.0
+focus_mode = 2
+text = "Current map text"
+selection_enabled = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="paste_box" type="TextEdit" parent="CanvasLayer/menu/save_to_text"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -215.5
+margin_top = -139.0
+margin_right = 230.5
+margin_bottom = 142.0
+text = "TextEdit"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="save_button" type="Button" parent="CanvasLayer/menu/save_to_text"]
+margin_left = 80.866
+margin_top = 289.892
+margin_right = 323.866
+margin_bottom = 318.892
+text = "SAVE"
+__meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
