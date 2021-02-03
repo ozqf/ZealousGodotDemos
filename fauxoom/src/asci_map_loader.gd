@@ -1,7 +1,7 @@
 extends Node
 class_name AsciMapLoader
-const _map_t = preload("res://src/defs/map_def.gd")
-const _spawnDef_t = preload("res://src/defs/map_spawn_def.gd")
+const _map_t = preload("res://map_gen/src/map_def.gd")
+const _spawnDef_t = preload("res://map_gen/src/map_spawn_def.gd")
 
 const asci0:String = """#####
 #. .#
@@ -101,16 +101,16 @@ static func get_default() -> String:
 # build MapDef from asci grid
 ################################################
 
-static func build_test_map() -> void:
+static func build_test_map() -> MapDef:
 	# var m:MapDef = _map_t.new()
 	# m.load_from_asci(asci4)
 	var m:MapDef = load_from_asci(asci4)
 	if m == null:
 		print("ERROR Failed to load map from asci")
-		return
+		return null
 	print("build test map:")
 	print(m.debug_print_cells())
-	#return m
+	return m
 
 static func char_to_tile_type(c:String) -> int:
 	if c == '#':

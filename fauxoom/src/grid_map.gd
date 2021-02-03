@@ -508,7 +508,7 @@ func _tick_loading() -> void:
 		_world_floor_mesh.start_mesh()
 		_world_water_mesh.start_mesh()
 		_world_ceiling_mesh.start_mesh()
-	
+		
 		_state.tileCount = 0
 		_state.tileTotal = _map.width * _map.height
 		

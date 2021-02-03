@@ -75,7 +75,8 @@ func add_triangle_v(v1:Vector3, v2:Vector3, v3:Vector3, uv1:Vector2, uv2:Vector2
 	if !_building:
 		return
 	
-	_colour = Color(rand_range(0, 1), rand_range(0, 1), rand_range(0, 1), 1)
+	# _colour = Color(rand_range(0, 1), rand_range(0, 1), rand_range(0, 1), 1)
+	_colour = Color.white
 	_sTool.add_color(_colour)
 	_sTool.add_uv(uv1)
 	_sTool.add_vertex(v1)
