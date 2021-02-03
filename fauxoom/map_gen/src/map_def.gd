@@ -16,7 +16,7 @@ var name:String = "No Title"
 var width:int = 32
 var height:int = 32
 var cells:PoolIntArray = []
-var tileDiameter:int = 2
+var mapScale:int = 2
 var spawns = []
 
 func is_pos_safe(x:int, y:int) -> bool:
@@ -40,7 +40,7 @@ func check_all_neighbours_equal(x:int, y:int, queryType:int) -> bool:
 		count += 1
 	#print("count " + str(count) + " vs " + str(x) + ", " + str(y) + " w/h " + str(width) + ", " + str(height))
 	return (count == 4)
-	
+
 func debug_print_cells() -> String:
 	var result:String = "Map (" + str(width) + " by " + str(height) + ")"
 	result += " ents: " + str(spawns.size()) + "\n"

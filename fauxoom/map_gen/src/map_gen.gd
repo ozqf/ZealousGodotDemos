@@ -263,12 +263,12 @@ func _add_ceiling_quad(pos:Vector3, radius:float) -> void:
 	#_world_ceiling_mesh.add_triangle_v(v7, v1, v3, uv1, uv4, uv2)
 	_add_quad(v7, v3, v5, v1, uv1, uv2, uv3, uv4, fCeiling)
 
-func _add_cell(cellType:int, x:int, z:int, tileDiameter:int) -> void:
+func _add_cell(cellType:int, x:int, z:int, mapScale:int) -> void:
 	print("Add cell type " + str(cellType))
 	var y:float = -1
-	var radius:float = tileDiameter / 2.0
-	var posOffset:Vector3 = Vector3(tileDiameter * 0.5, 0, tileDiameter * 0.5)
-	var pos:Vector3 = Vector3(x * tileDiameter, y, z * tileDiameter)
+	var radius:float = mapScale / 2.0
+	var posOffset:Vector3 = Vector3(mapScale * 0.5, 0, mapScale * 0.5)
+	var pos:Vector3 = Vector3(x * mapScale, y, z * mapScale)
 	pos += posOffset
 	if cellType == MapDef.TILE_WALL:
 		_add_wall_geometry(pos, radius)
@@ -295,7 +295,7 @@ func _start_build(_map:MapDef) -> void:
 	_world_ceiling_mesh.start_mesh()
 
 func _finish_build(_map:MapDef) -> void:
-	_set_world_boundary(_map.width, _map.height, _map.tileDiameter)
+	_set_world_boundary(_map.width, _map.height, _map.mapScale)
 	# finish display meshes
 	_world_mesh.end_mesh()
 	_world_mesh.set_material(_wall_mat)
@@ -318,14 +318,16 @@ func _finish_build(_map:MapDef) -> void:
 	_player_blocker.shape = _world_water_blocker.get_collision_mesh()
 
 	var centre:Vector3 = Vector3()
-	centre.x = (_map.width / 2) * _map.tileDiameter
-	centre.z = (_map.height / 2) * _map.tileDiameter
+	centre.x = (_map.width / 2.0) * _map.mapScale
+	centre.z = (_map.height / 2.0) * _map.mapScale
 	var t = _camera.global_transform
 	t.origin = centre
 	t.origin.y = 10
 	t.origin.z -= 5
 	_camera.global_transform = t
 	_camera.look_at(centre, Vector3.UP)
+
+	$ui_layer/loading_screen.visible = false
 	# _camera.look_at(Vector3(), Vector3.UP)
 
 # returns true if create was successful
@@ -335,6 +337,6 @@ func build_world_map(map:MapDef) -> bool:
 	for y in range (0, map.height):
 		for x in range (0, map.width):
 			var cellType:int = map.get_type_at(x, y)
-			_add_cell(cellType, x, y, map.tileDiameter)
+			_add_cell(cellType, x, y, map.mapScale)
 	_finish_build(map)
 	return true

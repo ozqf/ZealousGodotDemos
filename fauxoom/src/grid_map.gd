@@ -374,18 +374,18 @@ func _add_ceiling_quad(pos:Vector3, radius:float) -> void:
 #########################################################
 # Spawn cell
 #########################################################
-func _spawn_cell(x:int, y:int, z:int, tileDiameter:float, posOffset:Vector3, map:Dictionary) -> void:
+func _spawn_cell(x:int, y:int, z:int, mapScale:float, posOffset:Vector3, map:Dictionary) -> void:
 	var line = map.lines[z]
 	var c = line[x]
 	var _iteratePercentage:float = _calc_tile_percentage()
 	# if _state.tileCount < 200 || (_iteratePercentage > 15 && _iteratePercentage < 20):
 	if _stepThrough:
 		print("Spawn cell " + c + " number " + str(_state.tileCount) + " at: " + str(Vector2(x, y)))
-	var radius:float = tileDiameter * 0.5
+	var radius:float = mapScale * 0.5
 	#print("Spawn " + str(c) + " cell at " + str(Vector3(x, y, z)))
 	var width = map.width
 	var height = map.height
-	var pos:Vector3 = Vector3(x * tileDiameter, y, z * tileDiameter)
+	var pos:Vector3 = Vector3(x * mapScale, y, z * mapScale)
 	pos += posOffset
 	#var c:String = line[x]
 	var prefab:Spatial = null
@@ -398,7 +398,7 @@ func _spawn_cell(x:int, y:int, z:int, tileDiameter:float, posOffset:Vector3, map
 		_add_wall_geometry(pos, radius)
 	elif c == '.':
 		# prefab = _prefab_water.instance()
-		#pos.y -= tileDiameter
+		#pos.y -= mapScale
 		_add_water_quad(pos, radius)
 		_add_ceiling_quad(pos, radius)
 	elif c == 'x':
@@ -475,15 +475,15 @@ func _iterate_build() -> void:
 	if !_building:
 		return
 	var count = 0
-	var tileDiameter:float = 2
+	var mapScale:float = 2
 	var y:float = -1
-	var posOffset:Vector3 = Vector3(tileDiameter * 0.5, 0, tileDiameter * 0.5)
+	var posOffset:Vector3 = Vector3(mapScale * 0.5, 0, mapScale * 0.5)
 	while _state.tileCount < _state.tileTotal:
 		if count >= _state.perFrame:
 			#print("Frame break")
 			return
 		var cellPos:Vector2 = _pos_from_index(_state.tileCount, _map.width)
-		_spawn_cell(int(cellPos.x), int(y), int(cellPos.y), tileDiameter, posOffset, _map)
+		_spawn_cell(int(cellPos.x), int(y), int(cellPos.y), mapScale, posOffset, _map)
 		_state.tileCount += 1
 		count += 1
 
