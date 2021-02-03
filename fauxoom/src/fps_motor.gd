@@ -90,8 +90,8 @@ func _input(_event: InputEvent):
 		# set spatial rotations yet.
 
 		# scale inputs by this ratio or mouse sensitivity is based on resolution!
-		# var scrSizeRatio: Vector2 = _get_window_to_screen_ratio()
-		var scrSizeRatio: Vector2 = Vector2(1, 1)
+		var scrSizeRatio: Vector2 = _get_window_to_screen_ratio()
+		# var scrSizeRatio: Vector2 = Vector2(1, 1)
 
 		# Horizontal
 		var mMoveX: float = (_event.relative.x * MOUSE_SENSITIVITY) * scrSizeRatio.x

@@ -264,7 +264,7 @@ func _add_ceiling_quad(pos:Vector3, radius:float) -> void:
 	_add_quad(v7, v3, v5, v1, uv1, uv2, uv3, uv4, fCeiling)
 
 func _add_cell(cellType:int, x:int, z:int, mapScale:int) -> void:
-	print("Add cell type " + str(cellType))
+	# print("Add cell type " + str(cellType))
 	var y:float = -1
 	var radius:float = mapScale / 2.0
 	var posOffset:Vector3 = Vector3(mapScale * 0.5, 0, mapScale * 0.5)
@@ -332,6 +332,9 @@ func _finish_build(_map:MapDef) -> void:
 
 # returns true if create was successful
 func build_world_map(map:MapDef) -> bool:
+	if map == null:
+		return false
+	
 	print("Map gen load map size " + str(map.width) + ", " + str(map.height))
 	_start_build(map)
 	for y in range (0, map.height):

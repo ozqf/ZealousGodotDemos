@@ -6,6 +6,10 @@ func _ready():
 	var _f
 	_f = $load_from_text/load_button.connect("pressed", self, "_on_load_text_pressed")
 	_f = $save_to_text/save_button.connect("pressed", self, "_on_save_text_pressed")
+	
+	# save box cannot be written in, it is just for displaying and
+	# copying base64 text
+	$save_to_text/paste_box.readonly = true
 
 func _on_load_text_pressed() -> void:
 	var txt:String = $load_from_text/paste_box.text

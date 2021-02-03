@@ -90,7 +90,7 @@ const asci4:String = """x  ..#
 
 static func get_default() -> String:
 	# var str:String = asci3
-	test_base64()
+	# test_base64()
 	#return asci0
 	return asci4
 	#return asci3
@@ -109,7 +109,7 @@ static func build_test_map() -> MapDef:
 		print("ERROR Failed to load map from asci")
 		return null
 	print("build test map:")
-	print(m.debug_print_cells())
+	# print(m.debug_print_cells())
 	return m
 
 static func char_to_tile_type(c:String) -> int:
@@ -145,8 +145,8 @@ static func char_to_ent(c:String, x:int, y:int) -> MapSpawnDef:
 static func load_from_asci(txt:String) -> MapDef:
 	
 	txt = txt.replace("\r", "")
-	print("Load test map from asci")
-	print(txt)
+	# print("Load test map from asci")
+	# print(txt)
 	var lines:PoolStringArray = txt.split("\n", false)
 	# \n will break up each row, but assume row widths might be
 	# different and should be measured
@@ -189,12 +189,8 @@ static func load_from_asci(txt:String) -> MapDef:
 
 static func str_to_b64(source:String) -> String:
 	var srcBytes:PoolByteArray = source.to_utf8()
-	var compressed = srcBytes.compress()
-	var b64:String = Marshalls.raw_to_base64(compressed)
+	var b64:String = Marshalls.raw_to_base64(srcBytes)
 	return b64
-
-static func b64_to_str(_source:PoolByteArray) -> String:
-	return ""
 
 static func test_base64() -> String:
 	# b64 encodes 6 bits per char

@@ -12,6 +12,7 @@ const ENT_TYPE_START:int = 2
 const ENT_TYPE_END:int = 3
 const ENT_TYPE_KEY:int = 4
 
+var format:int = 1
 var name:String = "No Title"
 var width:int = 32
 var height:int = 32
@@ -25,10 +26,19 @@ func is_pos_safe(x:int, y:int) -> bool:
 func get_type_at(x:int, y:int) -> int:
 	return cells[x + (y * width)]
 
+func set_at(val:int, x:int, y:int) -> void:
+	cells[x + (y * width)] = val
+
+func set_size(newWidth:int, newHeight:int) -> void:
+	cells = []
+	width = newWidth
+	height = newHeight
+	var _len = width * height
+	for _i in range(0, _len):
+		cells.push_back(0)
+
 func check_all_neighbours_equal(x:int, y:int, queryType:int) -> bool:
 	var count:int = 0
-	#var queryX:int
-	#var queryY:int
 	
 	if is_pos_safe(x - 1, y) && get_type_at(x - 1, y) == queryType:
 		count += 1
@@ -38,18 +48,19 @@ func check_all_neighbours_equal(x:int, y:int, queryType:int) -> bool:
 		count += 1
 	if is_pos_safe(x, y + 1) && get_type_at(x, y + 1) == queryType:
 		count += 1
-	#print("count " + str(count) + " vs " + str(x) + ", " + str(y) + " w/h " + str(width) + ", " + str(height))
 	return (count == 4)
 
 func debug_print_cells() -> String:
-	var result:String = "Map (" + str(width) + " by " + str(height) + ")"
-	result += " ents: " + str(spawns.size()) + "\n"
+	var result:String = "Map (" + str(width) + " by " + str(height) + ")\n"
 	var _len = cells.size()
+	result += "Cells: " + str(_len) + "\n"
 	for i in range (0, _len):
 		result += str(cells[i])
 		if (i + 1) % width == 0:
 			result += '\n'
+	result += "Ents: " + str(spawns.size()) + "\n"
 	for i in range (0, spawns.size()):
 		var spawn:MapSpawnDef = spawns[i]
 		result += "Ent type " + str(spawn.type) + " at pos " + str(spawn.position.x) + ", " + str(spawn.position.y) + "\n"
+		result += "\tYaw " + str(spawn.yaw) + "\n"
 	return result
