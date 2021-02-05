@@ -21,7 +21,7 @@ var mapScale:int = 2
 var spawns = []
 
 func is_pos_safe(x:int, y:int) -> bool:
-	return (x < 0 || x >= width || y < 0 || y >= height)
+	return !(x < 0 || x >= width || y < 0 || y >= height)
 
 func get_type_at(x:int, y:int) -> int:
 	return cells[x + (y * width)]

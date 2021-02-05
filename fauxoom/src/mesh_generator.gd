@@ -21,32 +21,48 @@ func set_next_colour(newColour:Color) -> void:
 func reset_next_colour() -> void:
 	_colour = defaultColour
 
+func clear() -> void:
+	# print("Clearing " + str(_vertices.size()) + " verts")
+	_sTool.clear()
+	_tmpMesh = Mesh.new()
+	_built = false
+	_building = false
+	_vertices = []
+	mesh = null
+
 func set_material(newMat:SpatialMaterial) -> void:
 	_mat = newMat
 	self.set_material_override(newMat)
 
 func get_collision_mesh() -> Shape:
+	if _vertices.size() == 0:
+		return null
 	var poly:ConcavePolygonShape = ConcavePolygonShape.new()
 	poly.set_faces(_vertices)
 	return poly
 
 func start_mesh() -> void:
 	if _built || _building:
+		print("Cannot start mesh, already building/built!")
 		return
 	if verbose:
 		print("Start mesh gen")
 	_building = true
 	_sTool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	_sTool.set_material(_mat)
-	
 
 func end_mesh() -> void:
 	if _built || !_building:
 		return
 	if verbose:
 		print("End mesh gen")
+	
 	_building = false
 	_built = true
+	# print("Commit mesh with " + str(_vertices.size()) + " verts")
+	if _vertices.size() == 0:
+		self.mesh = null
+		return
 	var _foo = _sTool.commit(_tmpMesh)
 	self.mesh = _tmpMesh
 

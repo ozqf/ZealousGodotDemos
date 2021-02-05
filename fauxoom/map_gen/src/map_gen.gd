@@ -284,6 +284,15 @@ func _add_cell(cellType:int, x:int, z:int, mapScale:int) -> void:
 # build steps
 ###########################################
 
+func _clear() -> void:
+	_world_mesh.clear()
+	_world_floor_mesh.clear()
+	_world_ceiling_mesh.clear()
+	_world_water_mesh.clear()
+
+	_world_hull.clear()
+	_world_water_blocker.clear()
+
 func _start_build(_map:MapDef) -> void:
 	$ui_layer/loading_screen.visible = true
 	
@@ -337,6 +346,7 @@ func build_world_map(map:MapDef) -> bool:
 		return false
 	
 	print("Map gen load map size " + str(map.width) + ", " + str(map.height))
+	_clear()
 	_start_build(map)
 	for y in range (0, map.height):
 		for x in range (0, map.width):

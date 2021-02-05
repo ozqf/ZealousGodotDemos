@@ -63,38 +63,43 @@ shape = SubResource( 3 )
 [node name="ui" type="CanvasLayer" parent="."]
 
 [node name="grid" type="VBoxContainer" parent="ui"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = 458.0
+margin_right = 549.0
+margin_bottom = 110.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="paint_type_label" type="Label" parent="ui/grid"]
-margin_right = 60.0
+margin_right = 91.0
 margin_bottom = 14.0
 text = "Solid"
 
 [node name="Button" type="Button" parent="ui/grid"]
+visible = false
 margin_top = 18.0
-margin_right = 60.0
+margin_right = 91.0
 margin_bottom = 38.0
 text = "width+"
 
 [node name="Button2" type="Button" parent="ui/grid"]
+visible = false
 margin_top = 42.0
-margin_right = 60.0
+margin_right = 91.0
 margin_bottom = 62.0
 text = "width-"
 
 [node name="Button3" type="Button" parent="ui/grid"]
+visible = false
 margin_top = 66.0
-margin_right = 60.0
+margin_right = 91.0
 margin_bottom = 86.0
 text = "height+"
 
 [node name="Button4" type="Button" parent="ui/grid"]
+visible = false
 margin_top = 90.0
-margin_right = 60.0
+margin_right = 91.0
 margin_bottom = 110.0
 text = "height-"
 
