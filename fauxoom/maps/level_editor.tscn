@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://map_gen/prefabs/flat_map_editor.tscn" type="PackedScene" id=1]
+
+[node name="level_editor" type="Spatial"]
+
+[node name="flat_map_editor" parent="." instance=ExtResource( 1 )]

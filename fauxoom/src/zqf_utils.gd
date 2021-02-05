@@ -81,7 +81,7 @@ static func get_window_to_screen_ratio() -> Vector2:
 static func hitscan_by_pos_3D(_spatial:Spatial, _origin:Vector3, _forward:Vector3, _distance:float, ignoreArray, _mask:int) -> Dictionary:
 	var _dest:Vector3 = _origin + (_forward * _distance)
 	var space = _spatial.get_world().direct_space_state
-	return space.intersect_ray(_origin, _dest, ignoreArray, _mask)
+	return space.intersect_ray(_origin, _dest, ignoreArray, _mask, true, true)
 
 # simple cast a ray from the given spatial node. uses the node's
 # own origin and forward for the ray.

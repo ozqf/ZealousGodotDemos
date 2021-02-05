@@ -3,7 +3,7 @@ extends Spatial
 var _prefab_ground = preload("res://prefabs/grid_map/ground_tile.tscn")
 var _prefab_wall = preload("res://prefabs/grid_map/wall_tile.tscn")
 var _prefab_water = preload("res://prefabs/grid_map/water_tile.tscn")
-var _prefab_spawn = preload("res://prefabs/spawn_point.tscn")
+var _prefab_spawn = preload("res://map_gen/prefabs/spawn_point.tscn")
 var _prefab_default_mob = preload("res://prefabs/sprite_object.tscn")
 
 var _prefab_player = preload("res://prefabs/player.tscn")

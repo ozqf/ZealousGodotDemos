@@ -16,10 +16,10 @@ func set_input_enabled(flag:bool) -> void:
 	if _inputOn == flag:
 		return
 	_inputOn = flag
-	if _inputOn:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	# if _inputOn:
+	# 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	# else:
+	# 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func init_motor(body:KinematicBody, head:Spatial) -> void:
 	_body = body

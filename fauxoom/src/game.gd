@@ -26,12 +26,12 @@ func _parse_url_options(optionsStr:String) -> void:
 func set_input_on() -> void:
 	_inputOn = true
 	_menus.visible = false
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	MouseLock.remove_claim(get_tree(), "main_menu")
 
 func set_input_off() -> void:
 	_inputOn = false
 	_menus.visible = true
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	MouseLock.add_claim(get_tree(), "main_menu")
 
 func _web_mode() -> bool:
 	return (OS.get_name() == "HTML5")
@@ -49,6 +49,8 @@ func _refresh_input_on():
 func _ready():
 	print("Game service start")
 	add_to_group("game")
+
+	set_input_off()
 	
 	AsciMapLoader.build_test_map()
 	
@@ -117,13 +119,15 @@ func _input(_event: InputEvent):
 		menuCode = KEY_TAB
 	if _event is InputEventKey && _event.scancode == menuCode && _event.pressed && !_event.echo:
 		if _inputOn:
-			_inputOn = false
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			_menus.visible = true
+			set_input_off()
+			# _inputOn = false
+			# Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			# _menus.visible = true
 			_console.grab_focus()
 		else:
-			_inputOn = true
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-			_menus.visible = false
+			set_input_on()
+			# _inputOn = true
+			# Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			# _menus.visible = false
 	#if _event is InputEventKey:
 	#	_refresh_input_on()
