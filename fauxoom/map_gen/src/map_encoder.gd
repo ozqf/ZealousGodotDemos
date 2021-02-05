@@ -119,6 +119,11 @@ static func map_to_b64(_map:MapDef) -> String:
 	var bytes:PoolByteArray = write_to_bytes(_map)
 	return Marshalls.raw_to_base64(bytes)
 
+static func empty_map(w:int, h:int) -> MapDef:
+	var map:MapDef = _mapDef_t.new()
+	map.set_size(w, h)
+	return map
+
 static func test(map:MapDef) -> void:
 	if map == null:
 		map = _mapDef_t.new()

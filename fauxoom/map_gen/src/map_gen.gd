@@ -1,4 +1,5 @@
 extends Spatial
+class_name MapGen
 
 var _prefab_ground = preload("res://prefabs/grid_map/ground_tile.tscn")
 var _prefab_wall = preload("res://prefabs/grid_map/wall_tile.tscn")

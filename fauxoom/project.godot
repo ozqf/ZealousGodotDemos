@@ -49,6 +49,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://map_gen/src/map_encoder.gd"
 }, {
+"base": "Spatial",
+"class": "MapGen",
+"language": "GDScript",
+"path": "res://map_gen/src/map_gen.gd"
+}, {
 "base": "Reference",
 "class": "MapSpawnDef",
 "language": "GDScript",
@@ -82,7 +87,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "SpawnPoint",
 "language": "GDScript",
-"path": "res://src/spawn_point.gd"
+"path": "res://map_gen/src/spawn_point.gd"
 }, {
 "base": "Reference",
 "class": "Weapons",
@@ -103,6 +108,7 @@ _global_script_class_icons={
 "Hud": "",
 "MapDef": "",
 "MapEncoder": "",
+"MapGen": "",
 "MapSpawnDef": "",
 "MeshGenerator": "",
 "MouseLock": "",

@@ -1,6 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://src/spawn_point.gd" type="Script" id=1]
+[ext_resource path="res://map_gen/src/spawn_point.gd" type="Script" id=1]
+
 
 [sub_resource type="CylinderMesh" id=1]
 top_radius = 0.5
