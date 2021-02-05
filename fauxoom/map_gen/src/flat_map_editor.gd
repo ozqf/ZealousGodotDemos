@@ -22,6 +22,7 @@ func _ready() -> void:
 	MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
 	# _mapDef = AsciMapLoader.build_test_map()
 	_mapDef = MapEncoder.empty_map(32, 32)
+	_mapDef.set_all(1)
 	_mapGen.build_world_map(_mapDef)
 	_refresh_geometry()
 		
@@ -29,7 +30,6 @@ func on_save_map_text() -> void:
 	# var b64 = AsciMapLoader.str_to_b64(_mapText)
 	var b64:String = MapEncoder.map_to_b64(_mapDef)
 	get_tree().call_group("game", "on_wrote_map_text", b64)
-
 
 func _refresh_geometry() -> void:
 	_mapGen.build_world_map(_mapDef)
@@ -62,9 +62,9 @@ func _process_click() -> void:
 	var y:int = int(_cursorGridPos.y)
 	var tileType:int = _paintType
 	if _mapDef.is_pos_safe(x, y):
-		print("Paint " + str(tileType) + " at " + str(x) + ", " + str(y))
-		_mapDef.set_at(tileType, x, y)
-		_refresh_geometry()
+		if _mapDef.set_at(tileType, x, y):
+			print("Paint " + str(tileType) + " at " + str(x) + ", " + str(y))
+			_refresh_geometry()
 	else:
 		print(str(x) + ", " + str(y) + " is unsafe")
 	pass
@@ -73,15 +73,15 @@ func _update_cursor_pos() -> void:
 	var mouse:Vector2 = get_viewport().get_mouse_position()
 	var origin:Vector3 = _camera.project_ray_origin(mouse)
 	var dir:Vector3 = _camera.project_ray_normal(mouse)
-	var result = ZqfUtils.hitscan_by_pos_3D(self, origin, dir, 1000, [], -1)
+	var result = ZqfUtils.hitscan_by_pos_3D(self, origin, dir, 1000, [], (1 << 19))
 	if result:
 		_update_cursor(result.position)
 
-func _input(event):
-	# Mouse in viewport coordinates.
-	if event is InputEventMouseButton:
-		# print("Mouse Click/Unclick at: ", event.position)
-		_process_click()
+#func _input(event):
+#	# Mouse in viewport coordinates.
+#	if event is InputEventMouseButton:
+#		# print("Mouse Click/Unclick at: ", event.position)
+#		_process_click()
 
 func _update_paint_label() -> void:
 	var txt:String = "CELL: " + str(_cursorGridPos.x) + ", " + str(_cursorGridPos.y) + "\n"
@@ -112,6 +112,9 @@ func _process(delta) -> void:
 		_paintType = 1
 	if Input.is_action_just_pressed("slot_3"):
 		_paintType = 2
+	
+	if Input.is_action_pressed("attack_1"):
+		_process_click()
 	
 	_update_paint_label()
 

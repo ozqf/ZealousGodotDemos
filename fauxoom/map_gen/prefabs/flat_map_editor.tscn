@@ -9,7 +9,7 @@ size = Vector3( 1, 1, 1 )
 [sub_resource type="PlaneMesh" id=2]
 
 [sub_resource type="BoxShape" id=3]
-extents = Vector3( 20, 0.1, 20 )
+extents = Vector3( 64, 0.1, 64 )
 
 [sub_resource type="SpatialMaterial" id=4]
 flags_unshaded = true
@@ -43,11 +43,11 @@ mesh = SubResource( 1 )
 material/0 = null
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 7, 15, 13 )
+transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 7, 12, 13 )
 current = true
 
 [node name="grid" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -1, 20 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 64, -1, 64 )
 
 [node name="MeshInstance" type="MeshInstance" parent="grid"]
 transform = Transform( 20, 0, 0, 0, 1, 0, 0, 0, 20, 0, 0, 0 )
@@ -56,6 +56,8 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="Area" type="Area" parent="grid"]
+collision_layer = 524288
+collision_mask = 524288
 
 [node name="CollisionShape" type="CollisionShape" parent="grid/Area"]
 shape = SubResource( 3 )

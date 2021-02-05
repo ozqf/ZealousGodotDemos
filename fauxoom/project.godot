@@ -225,6 +225,11 @@ slot_8={
  ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="world"
+3d_physics/layer_20="editor_geometry"
+
 [rendering]
 
 quality/driver/driver_name="GLES2"

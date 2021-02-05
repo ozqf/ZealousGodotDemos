@@ -26,8 +26,13 @@ func is_pos_safe(x:int, y:int) -> bool:
 func get_type_at(x:int, y:int) -> int:
 	return cells[x + (y * width)]
 
-func set_at(val:int, x:int, y:int) -> void:
-	cells[x + (y * width)] = val
+# return true if a change was applied
+func set_at(val:int, x:int, y:int) -> bool:
+	var i:int = x + (y * width)
+	if cells[i] == val:
+		return false
+	cells[i] = val
+	return true
 
 func set_size(newWidth:int, newHeight:int) -> void:
 	cells = []
@@ -36,6 +41,10 @@ func set_size(newWidth:int, newHeight:int) -> void:
 	var _len = width * height
 	for _i in range(0, _len):
 		cells.push_back(0)
+
+func set_all(val:int) -> void:
+	for i in range(0, cells.size()):
+		cells[i] = val
 
 func check_all_neighbours_equal(x:int, y:int, queryType:int) -> bool:
 	var count:int = 0

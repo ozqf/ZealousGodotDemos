@@ -50,8 +50,8 @@ static func write_to_bytes(map:MapDef) -> PoolByteArray:
 		buf.write_int8(int(spawn.position.z))
 		buf.write_int8(degrees_to_byte(spawn.yaw))
 
-	buf.debug_print()
-	print("As Base64: " + str(buf.to_base64()))
+	# buf.debug_print()
+	# print("As Base64: " + str(buf.to_base64()))
 	return buf.get_bytes()
 
 # returns null if something went wrong
@@ -100,8 +100,8 @@ static func read_from_bytes(bytes:PoolByteArray) -> MapDef:
 		spawn.position.z = float(buf.read_int8())
 		spawn.yaw = int(byte_to_degrees(buf.read_int8()))
 	
-	print("Decode result: ")
-	print(str(map.debug_print_cells()))
+	# print("Decode result: ")
+	# print(str(map.debug_print_cells()))
 	return map
 
 static func b64_to_map(b64:String) -> MapDef:
