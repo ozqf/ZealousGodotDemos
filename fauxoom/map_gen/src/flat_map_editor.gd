@@ -3,6 +3,7 @@ extends Spatial
 const MOUSE_CLAIM:String = "editor"
 
 onready var _mapGen:MapGen = $map_gen
+onready var _ents:EntityEditor = $entity_editor
 onready var _cursor:Spatial = $cursor
 onready var _camera:Camera = $Camera
 onready var _paintLabel:Label = $ui/grid/paint_type_label
@@ -25,7 +26,8 @@ func _ready() -> void:
 	_mapDef.set_all(1)
 	_mapGen.build_world_map(_mapDef)
 	_refresh_geometry()
-		
+	_ents.set_map_def(_mapDef)
+
 func on_save_map_text() -> void:
 	# var b64 = AsciMapLoader.str_to_b64(_mapText)
 	var b64:String = MapEncoder.map_to_b64(_mapDef)
@@ -77,11 +79,11 @@ func _update_cursor_pos() -> void:
 	if result:
 		_update_cursor(result.position)
 
-#func _input(event):
-#	# Mouse in viewport coordinates.
-#	if event is InputEventMouseButton:
-#		# print("Mouse Click/Unclick at: ", event.position)
-#		_process_click()
+func _unhandled_input(event):
+	# Mouse in viewport coordinates.
+	if event is InputEventMouseButton:
+		# print("Mouse Click/Unclick at: ", event.position)
+		_process_click()
 
 func _update_paint_label() -> void:
 	var txt:String = "CELL: " + str(_cursorGridPos.x) + ", " + str(_cursorGridPos.y) + "\n"
@@ -113,8 +115,8 @@ func _process(delta) -> void:
 	if Input.is_action_just_pressed("slot_3"):
 		_paintType = 2
 	
-	if Input.is_action_pressed("attack_1"):
-		_process_click()
+#	if Input.is_action_pressed("attack_1"):
+#		_process_click()
 	
 	_update_paint_label()
 
