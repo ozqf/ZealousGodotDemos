@@ -17,7 +17,7 @@ var name:String = "No Title"
 var width:int = 32
 var height:int = 32
 var cells:PoolIntArray = []
-var mapScale:int = 2
+var scale:int = 2
 var spawns = []
 
 func is_pos_safe(x:int, y:int) -> bool:

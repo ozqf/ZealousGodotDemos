@@ -22,13 +22,13 @@ func _ready() -> void:
 	# generate entities
 	var numEnts:int = _map.spawns.size()
 	print("Spawning " + str(numEnts) + " entities")
-	var posOffset:Vector3 = Vector3(_map.mapScale * 0.5, 0, _map.mapScale * 0.5)
+	var posOffset:Vector3 = Vector3(_map.scale * 0.5, 0, _map.scale * 0.5)
 	for i in range(0, numEnts):
 		var spawn:MapSpawnDef = _map.spawns[i]
 		var t:Transform = Transform.IDENTITY
 		# rotate then translate
 		t = t.rotated(Vector3.UP, deg2rad(spawn.yaw))
-		t.origin = spawn.position * _map.mapScale
+		t.origin = spawn.position * _map.scale
 		t.origin += posOffset
 		t.origin.y = -1
 		var prefab = null

@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://map_gen/src/flat_map_editor.gd" type="Script" id=1]
 [ext_resource path="res://map_gen/prefabs/map_gen.tscn" type="PackedScene" id=2]
 [ext_resource path="res://map_gen/src/entity_editor.gd" type="Script" id=3]
+[ext_resource path="res://map_gen/src/grid_editor.gd" type="Script" id=4]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 1, 1, 1 )
@@ -22,8 +23,6 @@ size = Vector3( 1, 1, 1 )
 
 [node name="flat_map_editor" type="Spatial"]
 script = ExtResource( 1 )
-
-[node name="map_gen" parent="." instance=ExtResource( 2 )]
 
 [node name="entity_editor" type="Spatial" parent="."]
 script = ExtResource( 3 )
@@ -65,26 +64,29 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 7, 12, 13 )
 current = true
 
-[node name="grid" type="Spatial" parent="."]
+[node name="grid_editor" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 64, -1, 64 )
+script = ExtResource( 4 )
 
-[node name="MeshInstance" type="MeshInstance" parent="grid"]
+[node name="map_gen" parent="grid_editor" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 1, -64 )
+
+[node name="MeshInstance" type="MeshInstance" parent="grid_editor"]
 transform = Transform( 20, 0, 0, 0, 1, 0, 0, 0, 20, 0, 0, 0 )
 visible = false
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="Area" type="Area" parent="grid"]
+[node name="Area" type="Area" parent="grid_editor"]
 collision_layer = 524288
 collision_mask = 524288
 
-[node name="CollisionShape" type="CollisionShape" parent="grid/Area"]
+[node name="CollisionShape" type="CollisionShape" parent="grid_editor/Area"]
 shape = SubResource( 3 )
 
-[node name="ui" type="CanvasLayer" parent="."]
+[node name="ui" type="CanvasLayer" parent="grid_editor"]
 
-[node name="grid" type="VBoxContainer" parent="ui"]
-visible = false
+[node name="paint" type="VBoxContainer" parent="grid_editor/ui"]
 margin_left = 458.0
 margin_right = 549.0
 margin_bottom = 110.0
@@ -92,33 +94,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="paint_type_label" type="Label" parent="ui/grid"]
+[node name="paint_type_label" type="Label" parent="grid_editor/ui/paint"]
 margin_right = 91.0
 margin_bottom = 14.0
 text = "Solid"
 
-[node name="Button" type="Button" parent="ui/grid"]
+[node name="Button" type="Button" parent="grid_editor/ui/paint"]
 visible = false
 margin_top = 18.0
 margin_right = 91.0
 margin_bottom = 38.0
 text = "width+"
 
-[node name="Button2" type="Button" parent="ui/grid"]
+[node name="Button2" type="Button" parent="grid_editor/ui/paint"]
 visible = false
 margin_top = 42.0
 margin_right = 91.0
 margin_bottom = 62.0
 text = "width-"
 
-[node name="Button3" type="Button" parent="ui/grid"]
+[node name="Button3" type="Button" parent="grid_editor/ui/paint"]
 visible = false
 margin_top = 66.0
 margin_right = 91.0
 margin_bottom = 86.0
 text = "height+"
 
-[node name="Button4" type="Button" parent="ui/grid"]
+[node name="Button4" type="Button" parent="grid_editor/ui/paint"]
 visible = false
 margin_top = 90.0
 margin_right = 91.0
