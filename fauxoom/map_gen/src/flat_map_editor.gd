@@ -2,8 +2,10 @@ extends Spatial
 
 const MOUSE_CLAIM:String = "editor"
 
-onready var _ents:EntityEditor = $entity_editor
+enum EditMode { Grid, Entities }
+
 onready var _grid:GridEditor = $grid_editor
+onready var _ents:EntityEditor = $entity_editor
 
 onready var _cursor:Spatial = $cursor
 onready var _camera:Camera = $Camera
@@ -12,6 +14,7 @@ var _mapDef:MapDef
 var _cameraStart:Transform
 var _cameraSpeed:float = 20
 var _cursorGridPos:Vector2 = Vector2()
+var _mode = EditMode.Grid
 
 func _ready() -> void:
 	print("Flat Map Editor init")
@@ -23,6 +26,13 @@ func _ready() -> void:
 	_mapDef.set_all(1)
 	_grid.init(_mapDef)
 	_ents.set_map_def(_mapDef)
+
+	# initial state
+	_grid.set_active(true)
+	_ents.set_active(false)
+
+func _exit_tree():
+	MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
 
 func on_save_map_text() -> void:
 	# var b64 = AsciMapLoader.str_to_b64(_mapText)
@@ -48,6 +58,7 @@ func _update_cursor(newWorldPos:Vector3) -> void:
 	var iy = int(_cursorGridPos.y)
 	_set_cursor_by_grid_pos(ix, iy)
 	_grid.update_cursor_pos(ix, iy)
+	_ents.update_cursor_pos(ix, iy)
 
 func _update_cursor_pos() -> void:
 	var mouse:Vector2 = get_viewport().get_mouse_position()
@@ -59,12 +70,17 @@ func _update_cursor_pos() -> void:
 
 func _unhandled_input(event):
 	# Mouse in viewport coordinates.
-	if event is InputEventMouseButton:
-		_grid.process_click()
+	if event is InputEventMouseButton && event.pressed:
+		if _mode == EditMode.Grid:
+			_grid.process_click()
+		elif _mode == EditMode.Entities:
+			_ents.process_click()
 
-func _process(delta) -> void:
-	_update_cursor_pos()
-	
+func _input(event):
+	if event is InputEventMouseMotion:
+		_update_cursor_pos()
+
+func _update_camera(delta:float) -> void:
 	var camMove:Vector3 = Vector3()
 	if Input.is_action_pressed("move_left"):
 		camMove.x -= 1
@@ -74,11 +90,38 @@ func _process(delta) -> void:
 		camMove.z -= 1
 	if Input.is_action_pressed("move_backward"):
 		camMove.z += 1
+	if Input.is_action_just_released("zoom_in"):
+		camMove.y -= 1
+		print("Zoom in")
+	if Input.is_action_just_released("zoom_out"):
+		camMove.y += 1
+		print("Zoom out")
 	camMove = (camMove * _cameraSpeed) * delta
 	
 	var t:Transform = _camera.global_transform
 	t.origin += camMove
 	_camera.global_transform = t
 
-func _exit_tree():
-	MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
+func _change_mode(newMode) -> void:
+	_mode = newMode
+	if _mode == EditMode.Grid:
+		_grid.set_active(true)
+		_ents.set_active(false)
+	elif _mode == EditMode.Entities:
+		_grid.set_active(false)
+		_ents.set_active(true)
+
+func _process(delta) -> void:
+	_update_camera(delta)
+	
+	# mode switching
+	if Input.is_action_just_pressed("edit_mode_next"):
+		_change_mode(EditMode.Entities)
+	if Input.is_action_just_pressed("edit_mode_prev"):
+		_change_mode(EditMode.Grid)
+	
+	if _mode == EditMode.Grid:
+		_grid.update(delta)
+	elif _mode == EditMode.Entities:
+		_ents.update(delta)
+	

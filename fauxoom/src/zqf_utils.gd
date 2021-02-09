@@ -76,6 +76,15 @@ static func get_window_to_screen_ratio() -> Vector2:
 # Spatial scan wrappers
 #####################################
 
+# result Dictionary from intersect_ray:
+# position: Vector2 # point in world space for collision
+# normal: Vector2 # normal in world space for collision
+# collider: Object # Object collided or null (if unassociated)
+# collider_id: ObjectID # Object it collided against
+# rid: RID # RID it collided against
+# shape: int # shape index of collider
+# metadata: Variant() # metadata of collider
+
 # simple cast a ray from the given position and forward. requires a spatial
 # to acquire the direct space state to cast in.
 static func hitscan_by_pos_3D(_spatial:Spatial, _origin:Vector3, _forward:Vector3, _distance:float, ignoreArray, _mask:int) -> Dictionary:

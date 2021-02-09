@@ -1,6 +1,6 @@
 class_name MapDef
 
-const _spawnDef_t = preload("./map_spawn_def.gd")
+# const _spawnDef_t = preload("./map_spawn_def.gd")
 
 const TILE_PATH:int = 0
 const TILE_WALL:int = 1

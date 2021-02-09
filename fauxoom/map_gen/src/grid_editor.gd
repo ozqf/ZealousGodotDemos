@@ -13,11 +13,22 @@ var _mapDef:MapDef = null
 var _gridX:int = 0
 var _gridY:int = 0
 
+# state
+var _isActive:bool = false
 var _paintType:int = 1
+var _selection:SpawnPoint = null
+var _highlight:SpawnPoint = null
 
 func init(newMapDef:MapDef) -> void:
 	_mapDef = newMapDef
 	refresh()
+
+func set_active(flag:bool) -> void:
+	_isActive = flag
+	if _isActive:
+		$ui/paint.visible = true
+	else:
+		$ui/paint.visible = false
 
 func refresh() -> void:
 	if !_mapGen.build_world_map(_mapDef):
@@ -42,7 +53,7 @@ func process_click() -> void:
 		print(str(_gridX) + ", " + str(_gridY) + " is unsafe")
 	pass
 
-func _process(_delta:float) -> void:
+func update(_delta:float) -> void:
 	if Input.is_action_just_pressed("slot_1"):
 		_paintType = 0
 	if Input.is_action_just_pressed("slot_2"):
