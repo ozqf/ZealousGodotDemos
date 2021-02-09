@@ -61,7 +61,7 @@ mesh = SubResource( 1 )
 material/0 = null
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 7, 12, 13 )
+transform = Transform( 1, 0, 0, 0, 0.0871556, 0.996195, 0, -0.996195, 0.0871556, 7, 12, 13 )
 current = true
 
 [node name="grid_editor" type="Spatial" parent="."]
@@ -87,10 +87,12 @@ shape = SubResource( 3 )
 [node name="ui" type="CanvasLayer" parent="grid_editor"]
 
 [node name="paint" type="VBoxContainer" parent="grid_editor/ui"]
-margin_left = 458.0
-margin_right = 549.0
-margin_bottom = 110.0
+margin_left = 264.253
+margin_top = 2.12132
+margin_right = 355.253
+margin_bottom = 112.121
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -98,6 +100,9 @@ __meta__ = {
 margin_right = 91.0
 margin_bottom = 14.0
 text = "Solid"
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Button" type="Button" parent="grid_editor/ui/paint"]
 visible = false

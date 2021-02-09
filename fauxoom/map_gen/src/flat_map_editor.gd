@@ -22,7 +22,7 @@ func _ready() -> void:
 	_cameraStart = _camera.global_transform
 	MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
 	# _mapDef = AsciMapLoader.build_test_map()
-	_mapDef = MapEncoder.empty_map(32, 32)
+	_mapDef = MapEncoder.empty_map(8, 8)
 	_mapDef.set_all(1)
 	_grid.init(_mapDef)
 	_ents.set_map_def(_mapDef)
@@ -92,10 +92,8 @@ func _update_camera(delta:float) -> void:
 		camMove.z += 1
 	if Input.is_action_just_released("zoom_in"):
 		camMove.y -= 1
-		print("Zoom in")
 	if Input.is_action_just_released("zoom_out"):
 		camMove.y += 1
-		print("Zoom out")
 	camMove = (camMove * _cameraSpeed) * delta
 	
 	var t:Transform = _camera.global_transform

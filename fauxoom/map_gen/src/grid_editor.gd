@@ -16,8 +16,7 @@ var _gridY:int = 0
 # state
 var _isActive:bool = false
 var _paintType:int = 1
-var _selection:SpawnPoint = null
-var _highlight:SpawnPoint = null
+var _neighbourFlags:int = 0
 
 func init(newMapDef:MapDef) -> void:
 	_mapDef = newMapDef
@@ -36,12 +35,28 @@ func refresh() -> void:
 
 func _update_paint_label() -> void:
 	var txt:String = "CELL: " + str(_gridX) + ", " + str(_gridY) + "\n"
+	if _neighbourFlags != 0:
+		txt += "Neighbours (" + str(_neighbourFlags) + "): "
+		if _neighbourFlags & MapDef.NEIGHBOUR_FLAG_NORTH > 0:
+			txt += "NORTH, "
+		if _neighbourFlags & MapDef.NEIGHBOUR_FLAG_SOUTH > 0:
+			txt += "SOUTH, "
+		if _neighbourFlags & MapDef.NEIGHBOUR_FLAG_EAST > 0:
+			txt += "EAST, "
+		if _neighbourFlags & MapDef.NEIGHBOUR_FLAG_WEST > 0:
+			txt += "WEST, "
+		txt += "\n"
 	txt += "Painting " + str(_paintType) + "\n"
 	_paintLabel.text = txt
 
 func update_cursor_pos(gridX:int, gridY:int) -> void:
 	_gridX = gridX
 	_gridY = gridY
+	if !_mapDef.is_pos_safe(_gridX, _gridY):
+		_neighbourFlags = 0
+	else:
+		var hoverType:int = _mapDef.get_type_at(_gridX, _gridY)
+		_neighbourFlags = _mapDef.get_neighbour_flags(_gridX, _gridY, hoverType)
 
 func process_click() -> void:
 	var tileType:int = _paintType
@@ -49,8 +64,6 @@ func process_click() -> void:
 		if _mapDef.set_at(tileType, _gridX, _gridY):
 			# print("Paint " + str(tileType) + " at " + str(x) + ", " + str(y))
 			refresh()
-	else:
-		print(str(_gridX) + ", " + str(_gridY) + " is unsafe")
 	pass
 
 func update(_delta:float) -> void:
