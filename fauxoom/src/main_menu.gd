@@ -1,5 +1,9 @@
 extends Node
 
+onready var _loadInfo:RichTextLabel = $load_from_text/load_results
+onready var _play:Button = $menu/load_from_text/play_button
+onready var _edit:Button = $menu/load_from_text/edit_button
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	add_to_group("game")
@@ -13,6 +17,9 @@ func _ready():
 
 func _on_load_text_pressed() -> void:
 	var txt:String = $load_from_text/paste_box.text
+	if txt.length() == 0:
+		_loadInfo.text = "You need to paste in some text to load from first!"
+		return
 	print("Menu - Load from " + str(txt.length()) + " chars")
 	get_tree().call_group("game", "on_load_base64", txt)
 
@@ -25,8 +32,12 @@ func on_wrote_map_text(txt:String) -> void:
 
 func on_read_map_text_success(_map, messages) -> void:
 	print("Set load messages - success")
-	$load_from_text/load_results.text = ZqfUtils.join_strings(messages, "\n")
+	_loadInfo.text = ZqfUtils.join_strings(messages, "\n")
+	_play.disabled = false
+	_edit.disabled = false
 
 func on_read_map_text_fail(messages) -> void:
 	print("Set load messages - fail")
-	$load_from_text/load_results.text = ZqfUtils.join_strings(messages, "\n")
+	_loadInfo.text = ZqfUtils.join_strings(messages, "\n")
+	_play.disabled = true
+	_edit.disabled = true

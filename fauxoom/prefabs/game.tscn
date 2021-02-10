@@ -109,6 +109,7 @@ margin_top = -78.0
 margin_right = -74.0
 margin_bottom = 200.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -123,7 +124,7 @@ margin_top = 36.0
 margin_right = 431.0
 margin_bottom = 68.0
 rect_min_size = Vector2( 0, 32 )
-text = "TextEdit"
+hint_tooltip = "Paste map text here to load from"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -138,10 +139,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="play_button" type="Button" parent="CanvasLayer/menu/load_from_text"]
+[node name="edit_button" type="Button" parent="CanvasLayer/menu/load_from_text"]
 margin_top = 108.0
 margin_right = 431.0
 margin_bottom = 140.0
+rect_min_size = Vector2( 0, 32 )
+disabled = true
+text = "EDIT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="play_button" type="Button" parent="CanvasLayer/menu/load_from_text"]
+margin_top = 144.0
+margin_right = 431.0
+margin_bottom = 176.0
 rect_min_size = Vector2( 0, 32 )
 disabled = true
 text = "PLAY"
@@ -150,12 +162,11 @@ __meta__ = {
 }
 
 [node name="load_results" type="RichTextLabel" parent="CanvasLayer/menu/load_from_text"]
-margin_top = 144.0
+margin_top = 180.0
 margin_right = 431.0
-margin_bottom = 240.0
+margin_bottom = 276.0
 rect_min_size = Vector2( 0, 96 )
 focus_mode = 2
-text = "Ready"
 selection_enabled = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -171,6 +182,7 @@ margin_top = -79.1892
 margin_right = 496.752
 margin_bottom = 198.811
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -185,7 +197,7 @@ margin_top = 36.0
 margin_right = 430.0
 margin_bottom = 68.0
 rect_min_size = Vector2( 0, 32 )
-text = "TextEdit"
+hint_tooltip = "Copy map text from here to save"
 __meta__ = {
 "_edit_use_anchors_": false
 }
