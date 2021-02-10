@@ -1,8 +1,8 @@
 extends Node
 
 onready var _loadInfo:RichTextLabel = $load_from_text/load_results
-onready var _play:Button = $menu/load_from_text/play_button
-onready var _edit:Button = $menu/load_from_text/edit_button
+onready var _play:Button = $load_from_text/play_button
+onready var _edit:Button = $load_from_text/edit_button
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
