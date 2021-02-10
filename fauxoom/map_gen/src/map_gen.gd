@@ -271,8 +271,8 @@ func _add_solid_top_geometry(pos:Vector3, radius:float) -> void:
 	pos.y += radius * 2
 	var tMin:Vector3 = Vector3(pos.x - radius, pos.y, pos.z - radius)
 	var tMax:Vector3 = Vector3(pos.x + radius, pos.y, pos.z + radius)
-	tMin *= -1
-	tMax *= -1
+	# tMin *= -1
+	# tMax *= -1
 
 	var v2:Vector3 = Vector3(tMax.x, tMax.y, tMax.z)
 	var v4:Vector3 = Vector3(tMin.x, tMax.y, tMax.z)

@@ -13,7 +13,7 @@ func _ready():
 
 func _on_load_text_pressed() -> void:
 	var txt:String = $load_from_text/paste_box.text
-	print("Load from " + str(txt.length()) + " chars")
+	print("Menu - Load from " + str(txt.length()) + " chars")
 	get_tree().call_group("game", "on_load_base64", txt)
 
 func _on_save_text_pressed() -> void:
@@ -22,3 +22,11 @@ func _on_save_text_pressed() -> void:
 
 func on_wrote_map_text(txt:String) -> void:
 	$save_to_text/paste_box.text = txt
+
+func on_read_map_text_success(_map, messages) -> void:
+	print("Set load messages - success")
+	$load_from_text/load_results.text = ZqfUtils.join_strings(messages, "\n")
+
+func on_read_map_text_fail(messages) -> void:
+	print("Set load messages - fail")
+	$load_from_text/load_results.text = ZqfUtils.join_strings(messages, "\n")

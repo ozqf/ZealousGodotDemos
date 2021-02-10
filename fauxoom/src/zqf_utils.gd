@@ -103,6 +103,19 @@ static func quick_hitscan3D(_source:Spatial, _distance:float, ignoreArray, _mask
 	return space.intersect_ray(_origin, _dest, ignoreArray, _mask)
 
 #####################################
+# misc
+#####################################
+
+static func join_strings(stringArr, separator:String) -> String:
+	var l:int = stringArr.size()
+	var result:String = ""
+	for i in range(0, l):
+		result += stringArr[i]
+		if i < (l - 1):
+			result += separator
+	return result
+
+#####################################
 # 3D sprite directions
 #####################################
 

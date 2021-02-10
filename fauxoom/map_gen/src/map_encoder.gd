@@ -55,18 +55,18 @@ static func write_to_bytes(map:MapDef) -> PoolByteArray:
 	return buf.get_bytes()
 
 # returns null if something went wrong
-static func read_from_bytes(bytes:PoolByteArray) -> MapDef:
+static func _read_from_bytes(bytes:PoolByteArray, msgArray) -> MapDef:
 	var buf:ByteBuffer = _byteBuffer_t.new()
 	buf.set_bytes(bytes)
 	var check:int = buf.read_int16()
 	if check != sentinel:
-		print("ABORT - bad header sentinel")
+		msgArray.push_back("ABORT - bad header sentinel")
 		return null
 	
 	var map:MapDef = _mapDef_t.new()
 	map.format = buf.read_int16()
 	if map.format != _format:
-		print("ABORT - bad map format " + str(map.format))
+		msgArray.push_back("ABORT - bad map format " + str(map.format))
 		return null
 	var w = buf.read_int8()
 	var h = buf.read_int8()
@@ -75,7 +75,7 @@ static func read_from_bytes(bytes:PoolByteArray) -> MapDef:
 	# map.height = buf.read_int8()
 	map.set_size(w, h)
 	var length:int = map.width * map.height
-	print("Reading " + str(length) + " cells from " + str(buf.remaining()) + " bytes")
+	msgArray.push_back("Reading " + str(length) + " cells from " + str(buf.remaining()) + " bytes")
 	for _i in range(0, length):
 		var cell = buf.read_int8()
 		map.cells[_i] = cell
@@ -87,10 +87,10 @@ static func read_from_bytes(bytes:PoolByteArray) -> MapDef:
 	# check ent sentinel
 	var entCheck:int = buf.read_int16()
 	if entCheck != sentinel:
-		print("ABORT - bad ent sentinel")
+		msgArray.push_back("ABORT - bad ent sentinel")
 		return null
 	
-	print("Reading " + str(numEnts) + " ents")
+	msgArray.push_back("Reading " + str(numEnts) + " ents")
 	for _i in range(0, numEnts):
 		var spawn:MapSpawnDef = _mapSpawnDef_t.new()
 		map.spawns.push_back(spawn)
@@ -104,15 +104,17 @@ static func read_from_bytes(bytes:PoolByteArray) -> MapDef:
 	# print(str(map.debug_print_cells()))
 	return map
 
-static func b64_to_map(b64:String) -> MapDef:
-	print("Load from b64 '" + str(b64) + "'")
+static func b64_to_map(b64:String, messageArray = null) -> MapDef:
+	if messageArray == null:
+		messageArray = []
+	# messageArray.push_back("Load from b64 '" + str(b64) + "'")
 	var bytes:PoolByteArray = Marshalls.base64_to_raw(b64)
 	var _numBytes = bytes.size()
-	print("Read " + str(_numBytes) + " bytes")
+	messageArray.push_back("Reading " + str(_numBytes) + " bytes from " + str(b64.length()) + " chars")
 	if _numBytes == 0:
-		print("ABORT: b64 to bytes failed")
+		messageArray.push_back("ABORT: b64 to bytes failed")
 		return null
-	var map:MapDef = read_from_bytes(bytes)
+	var map:MapDef = _read_from_bytes(bytes, messageArray)
 	return map
 
 static func map_to_b64(_map:MapDef) -> String:
@@ -124,14 +126,14 @@ static func empty_map(w:int, h:int) -> MapDef:
 	map.set_size(w, h)
 	return map
 
-static func test(map:MapDef) -> void:
-	if map == null:
-		map = _mapDef_t.new()
-	# map.format = 666
-	# map.width = 511 # int(rand_range(0, 999999))
-	# map.height = 486 # int(rand_range(0, 999999))
-	print("Encoding map - version " + str(map.format) + " size: " + str(map.width) + ", " + str(map.height))
-	var bytes = write_to_bytes(map)
-	print("\tWrote " + str(bytes.size()) + " bytes")
-	var copy:MapDef = read_from_bytes(bytes)
-	print("Decoded map - version " + str(copy.format) + " size: " + str(copy.width) + ", " + str(copy.height))
+# static func test(map:MapDef) -> void:
+# 	if map == null:
+# 		map = _mapDef_t.new()
+# 	# map.format = 666
+# 	# map.width = 511 # int(rand_range(0, 999999))
+# 	# map.height = 486 # int(rand_range(0, 999999))
+# 	print("Encoding map - version " + str(map.format) + " size: " + str(map.width) + ", " + str(map.height))
+# 	var bytes = write_to_bytes(map)
+# 	print("\tWrote " + str(bytes.size()) + " bytes")
+# 	var copy:MapDef = _read_from_bytes(bytes)
+# 	print("Decoded map - version " + str(copy.format) + " size: " + str(copy.width) + ", " + str(copy.height))

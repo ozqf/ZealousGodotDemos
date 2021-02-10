@@ -80,7 +80,7 @@ func _ready():
 		_debug_text_2.text += "URL: " + _url + "\n"
 	else:
 		_debug_text_2.text += "CmdLine: " + str(OS.get_cmdline_args().join(", ")) + "\n"
-		_debug_text_2.text += "Exe path: " + OS.get_executable_path() + "\n"
+		# _debug_text_2.text += "Exe path: " + OS.get_executable_path() + "\n"
 		_debug_text_2.text += "Platform: " + OS.get_name() + "\n"
 	_debug_text_2.text += "ESCAPE or TAB to toggle mouse capture\n"
 	_debug_text_2.text += "WASD - move | Mouse - aim/shoot\n"

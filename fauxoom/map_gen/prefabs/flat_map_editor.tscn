@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://map_gen/src/flat_map_editor.gd" type="Script" id=1]
 [ext_resource path="res://map_gen/prefabs/map_gen.tscn" type="PackedScene" id=2]
 [ext_resource path="res://map_gen/src/entity_editor.gd" type="Script" id=3]
 [ext_resource path="res://map_gen/src/grid_editor.gd" type="Script" id=4]
+[ext_resource path="res://map_gen/materials/cursor_mat.tres" type="Material" id=5]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 1, 1, 1 )
@@ -15,7 +16,7 @@ extents = Vector3( 64, 0.1, 64 )
 
 [sub_resource type="SpatialMaterial" id=4]
 flags_unshaded = true
-albedo_color = Color( 1, 0, 0, 1 )
+albedo_color = Color( 1, 0, 0, 0.505882 )
 
 [sub_resource type="CubeMesh" id=5]
 material = SubResource( 4 )
@@ -135,22 +136,30 @@ text = "height-"
 [node name="cursor" type="Spatial" parent="."]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 4.5, 0, 3.5 )
 
+[node name="centre" type="MeshInstance" parent="cursor"]
+mesh = SubResource( 5 )
+material/0 = ExtResource( 5 )
+
 [node name="MeshInstance" type="MeshInstance" parent="cursor"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1 )
+visible = false
 mesh = SubResource( 5 )
-material/0 = null
+material/0 = ExtResource( 5 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="cursor"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1 )
+visible = false
 mesh = SubResource( 5 )
-material/0 = null
+material/0 = ExtResource( 5 )
 
 [node name="MeshInstance3" type="MeshInstance" parent="cursor"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1 )
+visible = false
 mesh = SubResource( 5 )
-material/0 = null
+material/0 = ExtResource( 5 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="cursor"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1 )
+visible = false
 mesh = SubResource( 5 )
-material/0 = null
+material/0 = ExtResource( 5 )
