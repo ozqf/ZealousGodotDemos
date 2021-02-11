@@ -12,11 +12,11 @@ var _map:MapDef = null
 
 func _ready() -> void:
 	add_to_group("game")
-
-	_map = AsciMapLoader.build_test_map()
+	
+	_map = game.get_map()
 	# _map = MapEncoder.b64_to_map(MapEncoder.b64TestSmall)
 	if _map == null:
-		return
+		_map = AsciMapLoader.build_test_map()
 	$map_gen.build_world_map(_map)
 
 	# generate entities

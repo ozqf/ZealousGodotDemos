@@ -11,8 +11,8 @@ onready var _entTypeLabel:Label = $ui/template_list/ent_type_label
 # updated from controller
 var _gridX:int = 0
 var _gridY:int = 0
-var _mapDef:MapDef = null
 var _isActive:bool = false
+var _mapDef:MapDef = null
 
 # state
 var _templateIndex:int = 0
@@ -22,8 +22,8 @@ var _highlighted:SpawnPoint = null
 var _ents = []
 
 var _templates = [
-	{ "typeId": 1, "label": "PlayerStart" },
-	{ "typeId": 2, "label": "End" },
+	{ "typeId": MapDef.ENT_TYPE_START, "label": "PlayerStart" },
+	{ "typeId": MapDef.ENT_TYPE_END, "label": "End" },
 ]
 
 func _ready() -> void:
@@ -31,6 +31,7 @@ func _ready() -> void:
 
 func set_map_def(newMapDef:MapDef) -> void:
 	_mapDef = newMapDef
+	_load_ents()
 
 func set_active(flag:bool) -> void:
 	_isActive = flag
@@ -68,18 +69,61 @@ func update_cursor_pos(gridX:int, gridY:int) -> void:
 	_gridY = gridY
 	_find_highlighted_ent()
 
-func _click_add() -> void:
-	var t:Transform = Transform.IDENTITY
+# func _world_pos_to_grid_v(pos:Vector3) -> Vector3
+# 	var s:float = _mapDef.scale
+# 	var hs:float = s * 0.5
+# 	var posOffset:Vector3 = Vector3(s * 0.5, 0, s * 0.5)
+# 	var result = pos * 
+
+func _grid_pos_to_world(gridX:int, gridY:int) -> Vector3:
 	var s:float = _mapDef.scale
 	var hs:float = s * 0.5
-	t.origin.x = float(_gridX) * s + hs
-	t.origin.y = -1
-	t.origin.z = float(_gridY) * s + hs
-	print("Create " + str(_templateIndex) + " at " + str(t.origin.x) + ", " + str(t.origin.z))
+	return Vector3(float(gridX) * s + hs, -1, float(gridY) * s + hs)
+
+func _create_spawn_at(pos:Vector3) -> SpawnPoint:
 	var prefab = _prefab_spawn_t.instance()
 	add_child(prefab)
 	_ents.push_back(prefab)
+	var t:Transform = Transform.IDENTITY
+	t.origin = pos
 	prefab.global_transform = t
+	return prefab
+
+func _load_ents() -> void:
+	var numEnts:int = _mapDef.spawns.size()
+	print("EntEd - loading " + str(numEnts) + " ents")
+	for i in range(0, numEnts):
+		var def:MapSpawnDef = _mapDef.spawns[i]
+		var gx:int = int(def.position.x)
+		var gy:int = int(def.position.z)
+		var spawn:SpawnPoint = _create_spawn_at(_grid_pos_to_world(gx, gy))
+		spawn.def = def
+		def.position.x = gx
+		def.position.z = gy
+
+func _click_add() -> void:
+	var template = _get_template()
+	# var t:Transform = Transform.IDENTITY
+	# var s:float = _mapDef.scale
+	# var hs:float = s * 0.5
+	# t.origin.x = float(_gridX) * s + hs
+	# t.origin.y = -1
+	# t.origin.z = float(_gridY) * s + hs
+	# t.origin = _grid_pos_to_world(_gridX, _gridY)
+	var prefab = _create_spawn_at(_grid_pos_to_world(_gridX, _gridY))
+	print("Create " + str(template.typeId))
+	# var prefab = _prefab_spawn_t.instance()
+	# add_child(prefab)
+	# _ents.push_back(prefab)
+	# prefab.global_transform = t
+	# setup ent info
+	var _def:MapSpawnDef = _mapSpawnDef_t.new()
+	_def.type = template.typeId
+	_def.position = Vector3(_gridX, 0, _gridY)
+	_mapDef.spawns.push_back(_def)
+
+	# link spawnpoint obj and map def
+	prefab.def = _def
 
 func _click_select() -> void:
 	pass

@@ -23,6 +23,7 @@ var _inputOn:bool = false
 
 # current map being played or edited.
 var _mapDef:MapDef = null
+var _pendingMapDef:MapDef = null
 
 func _parse_url_options(optionsStr:String) -> void:
 	# eg ?foo=bar&a=b
@@ -30,14 +31,21 @@ func _parse_url_options(optionsStr:String) -> void:
 
 func get_map() -> MapDef:
 	if _mapDef == null:
-		_mapDef = MapEncoder.empty_map(24, 24)
+		_mapDef = MapEncoder.empty_map(8, 8)
 		_mapDef.set_all(1)
 	return _mapDef
 
+func set_pending_map(newPendingMap:MapDef) -> void:
+	if newPendingMap == null:
+		return
+	_pendingMapDef = newPendingMap
+
 func on_game_play_level() -> void:
+	_mapDef = _pendingMapDef
 	get_tree().change_scene(_GAME_SCENE_PATH)
 
 func on_game_edit_level() -> void:
+	_mapDef = _pendingMapDef
 	get_tree().change_scene(_EDITOR_SCENE_PATH)
 
 func set_input_on() -> void:

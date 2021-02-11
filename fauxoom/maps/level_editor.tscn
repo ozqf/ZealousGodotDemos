@@ -5,5 +5,8 @@
 
 [node name="level_editor" type="Spatial"]
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="flat_map_editor" parent="." instance=ExtResource( 1 )]
