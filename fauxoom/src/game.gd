@@ -3,6 +3,8 @@ extends Spatial
 const _GAME_SCENE_PATH = "res://maps/grid_map.tscn"
 const _EDITOR_SCENE_PATH = "res://maps/level_editor.tscn"
 
+const _TEST_MAP:String = "774BAAgIAQEBAQEBAQEBAQAAAAAAAAEBAAAAAAAAAQEAAAICAAABAQAAAgIAAAEBAAAAAAAAAQEAAAAAAAABAQEBAQEBAQHvvgIDAAYA"
+
 var debugDegrees:float = 0
 var debug_int:int = 0
 var debugV3_1:Vector3 = Vector3()
@@ -31,8 +33,9 @@ func _parse_url_options(optionsStr:String) -> void:
 
 func get_map() -> MapDef:
 	if _mapDef == null:
-		_mapDef = MapEncoder.empty_map(8, 8)
-		_mapDef.set_all(1)
+		_mapDef = MapEncoder.b64_to_map(_TEST_MAP)
+		# _mapDef = MapEncoder.empty_map(8, 8)
+		# _mapDef.set_all(1)
 	return _mapDef
 
 func set_pending_map(newPendingMap:MapDef) -> void:
