@@ -1,5 +1,8 @@
 extends Spatial
 
+const _GAME_SCENE_PATH = "res://maps/grid_map.tscn"
+const _EDITOR_SCENE_PATH = "res://maps/level_editor.tscn"
+
 var debugDegrees:float = 0
 var debug_int:int = 0
 var debugV3_1:Vector3 = Vector3()
@@ -18,10 +21,24 @@ var _paramStr:String = ""
 
 var _inputOn:bool = false
 
+# current map being played or edited.
+var _mapDef:MapDef = null
+
 func _parse_url_options(optionsStr:String) -> void:
 	# eg ?foo=bar&a=b
 	print("Parse URL options " + str(optionsStr))
-	pass
+
+func get_map() -> MapDef:
+	if _mapDef == null:
+		_mapDef = MapEncoder.empty_map(24, 24)
+		_mapDef.set_all(1)
+	return _mapDef
+
+func on_game_play_level() -> void:
+	get_tree().change_scene(_GAME_SCENE_PATH)
+
+func on_game_edit_level() -> void:
+	get_tree().change_scene(_EDITOR_SCENE_PATH)
 
 func set_input_on() -> void:
 	_inputOn = true

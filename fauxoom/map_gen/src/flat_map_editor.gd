@@ -1,4 +1,5 @@
 extends Spatial
+class_name FlatMapEditor
 
 const MOUSE_CLAIM:String = "editor"
 const DEFAULT_MAP_SIZE:int = 24
@@ -11,6 +12,7 @@ onready var _ents:EntityEditor = $entity_editor
 onready var _cursor:Spatial = $cursor
 onready var _camera:Camera = $Camera
 
+var _initialised:bool = false
 var _mapDef:MapDef
 var _cameraStart:Transform
 var _cameraSpeed:float = 20
@@ -18,13 +20,18 @@ var _cursorGridPos:Vector2 = Vector2()
 var _mode = EditMode.Grid
 
 func _ready() -> void:
+	pass
+
+func init(newMapDef:MapDef) -> void:
+	if newMapDef == null:
+		return
 	print("Flat Map Editor init")
-	add_to_group("game")
 	_cameraStart = _camera.global_transform
 	MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
-	# _mapDef = AsciMapLoader.build_test_map()
-	_mapDef = MapEncoder.empty_map(DEFAULT_MAP_SIZE, DEFAULT_MAP_SIZE)
-	_mapDef.set_all(1)
+	
+	_mapDef = newMapDef
+	_initialised = true
+
 	_grid.init(_mapDef)
 	_ents.set_map_def(_mapDef)
 
@@ -34,25 +41,6 @@ func _ready() -> void:
 
 func _exit_tree():
 	MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
-
-func on_load_base64(b64:String) -> void:
-	print("Flat map editor load from " + str(b64.length()) + " base64 chars")
-	#var bytes:PoolByteArray = Marshalls.base64_to_raw(b64)
-	# print("Editor reading " + str(bytes.size()) + " bytes")
-
-	var messages = []
-	var newMapDef:MapDef = MapEncoder.b64_to_map(b64, messages)
-	print("Results: " + ZqfUtils.join_strings(messages, "\n"))
-	print("Call game group on_read_map_text")
-	if newMapDef != null:
-		get_tree().call_group("game", "on_read_map_text_success", newMapDef, messages)
-	else:
-		get_tree().call_group("game", "on_read_map_text_fail", messages)
-		
-func on_save_map_text() -> void:
-	# var b64 = AsciMapLoader.str_to_b64(_mapText)
-	var b64:String = MapEncoder.map_to_b64(_mapDef)
-	get_tree().call_group("game", "on_wrote_map_text", b64)
 
 func _set_cursor_by_grid_pos(x:int, y:int) -> void:
 	var hSize:float = _mapDef.scale * 0.5
@@ -125,6 +113,8 @@ func _change_mode(newMode) -> void:
 		_ents.set_active(true)
 
 func _process(delta) -> void:
+	if !_initialised:
+		return
 	_update_camera(delta)
 	
 	# mode switching

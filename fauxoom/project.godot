@@ -40,6 +40,11 @@ _global_script_classes=[ {
 "path": "res://src/fps_motor.gd"
 }, {
 "base": "Spatial",
+"class": "FlatMapEditor",
+"language": "GDScript",
+"path": "res://map_gen/src/flat_map_editor.gd"
+}, {
+"base": "Spatial",
 "class": "GridEditor",
 "language": "GDScript",
 "path": "res://map_gen/src/grid_editor.gd"
@@ -116,6 +121,7 @@ _global_script_class_icons={
 "CustomMapLoader": "",
 "EntityEditor": "",
 "FPSMotor": "",
+"FlatMapEditor": "",
 "GridEditor": "",
 "Hud": "",
 "MapDef": "",
