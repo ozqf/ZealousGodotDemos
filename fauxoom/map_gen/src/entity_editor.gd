@@ -126,12 +126,39 @@ func _click_add() -> void:
 	prefab.def = _def
 
 func _click_select() -> void:
-	pass
+	if _highlighted == null:
+		if _selected != null:
+			_selected.set_selected(false)
+			_selected = null
+		return
+	if _highlighted == _selected:
+		return
+	if _selected != null:
+		_selected.set_selected(false)
+	_selected = _highlighted
+	_selected.set_selected(true)
+
+func _delete_selected() -> void:
+	if _selected == null:
+		return
+	var i:int = _ents.find(_selected)
+	if i == -1:
+		print("Cannot find delete target in ent list")
+		return
+	var j = _mapDef.spawns.find(_selected.def)
+	if j == -1:
+		print("Cannot find delete target's spawn in map def")
+		return
+	_ents.remove(i)
+	_mapDef.spawns.remove(j)
+	remove_child(_selected)
+	_selected = null
 
 func process_click() -> void:
 	if _editMode == EntEditMode.Add:
 		_click_add()
-	pass
+	elif _editMode == EntEditMode.Select:
+		_click_select()
 
 func _find_highlighted_ent() -> void:
 	var cam:Camera = get_viewport().get_camera()
@@ -174,4 +201,7 @@ func update(_delta:float) -> void:
 		refresh_type_label()
 	if Input.is_action_just_pressed("slot_4"):
 		_editMode = EntEditMode.SetTargets
+		refresh_type_label()
+	if Input.is_action_just_pressed("editor_delete"):
+		_delete_selected()
 		refresh_type_label()
