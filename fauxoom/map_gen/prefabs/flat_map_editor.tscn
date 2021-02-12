@@ -25,6 +25,26 @@ size = Vector3( 1, 1, 1 )
 [node name="flat_map_editor" type="Spatial"]
 script = ExtResource( 1 )
 
+[node name="main_options" type="CanvasLayer" parent="."]
+
+[node name="mode_select" type="VBoxContainer" parent="main_options"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="grid" type="Button" parent="main_options/mode_select"]
+margin_right = 60.0
+margin_bottom = 20.0
+text = "Grid"
+
+[node name="entities" type="Button" parent="main_options/mode_select"]
+margin_top = 24.0
+margin_right = 60.0
+margin_bottom = 44.0
+text = "Entities"
+
 [node name="entity_editor" type="Spatial" parent="."]
 script = ExtResource( 3 )
 

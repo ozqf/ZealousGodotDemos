@@ -6,6 +6,9 @@ const DEFAULT_MAP_SIZE:int = 24
 
 enum EditMode { Grid, Entities }
 
+onready var _gridButton:Button = $main_options/mode_select/grid
+onready var _entsButton:Button = $main_options/mode_select/entities
+
 onready var _grid:GridEditor = $grid_editor
 onready var _ents:EntityEditor = $entity_editor
 
@@ -39,6 +42,10 @@ func init(newMapDef:MapDef) -> void:
 	_grid.set_active(true)
 	_ents.set_active(false)
 
+	var _f
+	_f = _gridButton.connect("pressed", self, "_on_grid_mode")
+	_f = _entsButton.connect("pressed", self, "_on_ents_mode")
+
 func _exit_tree():
 	MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
 
@@ -48,6 +55,12 @@ func _set_cursor_by_grid_pos(x:int, y:int) -> void:
 	var t:Transform = _cursor.global_transform
 	t.origin = pos
 	_cursor.global_transform = t
+
+func _on_grid_mode() -> void:
+	_change_mode(EditMode.Grid)
+
+func _on_ents_mode() -> void:
+	_change_mode(EditMode.Entities)
 
 func _update_cursor(newWorldPos:Vector3) -> void:
 	newWorldPos.x += _mapDef.scale * 0.5
@@ -118,10 +131,10 @@ func _process(delta) -> void:
 	_update_camera(delta)
 	
 	# mode switching
-	if Input.is_action_just_pressed("edit_mode_next"):
-		_change_mode(EditMode.Entities)
-	if Input.is_action_just_pressed("edit_mode_prev"):
-		_change_mode(EditMode.Grid)
+	# if Input.is_action_just_pressed("edit_mode_next"):
+	# 	_change_mode(EditMode.Entities)
+	# if Input.is_action_just_pressed("edit_mode_prev"):
+	# 	_change_mode(EditMode.Grid)
 	
 	if _mode == EditMode.Grid:
 		_grid.update(delta)

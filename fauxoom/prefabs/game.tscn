@@ -14,10 +14,12 @@ script = ExtResource( 3 )
 layer = 2
 
 [node name="debug_text" type="Label" parent="CanvasLayer"]
+margin_top = 200.818
 margin_right = 512.0
-margin_bottom = 393.0
+margin_bottom = 593.818
 text = "Line 1
 Line 2"
+valign = 2
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false

@@ -22,8 +22,10 @@ var _highlighted:SpawnPoint = null
 var _ents = []
 
 var _templates = [
+	{ "typeId": MapDef.ENT_TYPE_MOB_GRUNT, "label": "Mob: Grunt" },
 	{ "typeId": MapDef.ENT_TYPE_START, "label": "PlayerStart" },
 	{ "typeId": MapDef.ENT_TYPE_END, "label": "End" },
+	{ "typeId": MapDef.ENT_TYPE_KEY, "label": "Key" },
 ]
 
 func _ready() -> void:
@@ -189,6 +191,18 @@ func _find_highlighted_ent() -> void:
 	_highlighted.set_highlighted(true)
 	refresh_type_label()
 
+func _next_template() -> void:
+	_templateIndex += 1
+	if _templateIndex >= _templates.size():
+		_templateIndex=  0
+	refresh_type_label()
+
+func _prev_template() -> void:
+	_templateIndex -= 1
+	if _templateIndex < 0:
+		_templateIndex = _templates.size() - 1
+	refresh_type_label()
+
 func update(_delta:float) -> void:
 	if Input.is_action_just_pressed("slot_1"):
 		_editMode = EntEditMode.Select
@@ -205,3 +219,8 @@ func update(_delta:float) -> void:
 	if Input.is_action_just_pressed("editor_delete"):
 		_delete_selected()
 		refresh_type_label()
+	
+	if Input.is_action_just_pressed("edit_mode_next"):
+		_next_template()
+	if Input.is_action_just_pressed("edit_mode_prev"):
+		_prev_template()
