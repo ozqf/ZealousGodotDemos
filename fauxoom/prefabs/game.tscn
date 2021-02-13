@@ -124,17 +124,28 @@ text = "Load map text"
 [node name="paste_box" type="TextEdit" parent="CanvasLayer/menu/load_from_text"]
 margin_top = 36.0
 margin_right = 431.0
-margin_bottom = 68.0
-rect_min_size = Vector2( 0, 32 )
+margin_bottom = 132.0
+rect_min_size = Vector2( 0, 96 )
 hint_tooltip = "Paste map text here to load from"
+wrap_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="copy_button" type="Button" parent="CanvasLayer/menu/load_from_text"]
+margin_top = 136.0
+margin_right = 431.0
+margin_bottom = 168.0
+rect_min_size = Vector2( 0, 32 )
+text = "COPY TEXT FROM SAVE"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="load_button" type="Button" parent="CanvasLayer/menu/load_from_text"]
-margin_top = 72.0
+margin_top = 172.0
 margin_right = 431.0
-margin_bottom = 104.0
+margin_bottom = 204.0
 rect_min_size = Vector2( 0, 32 )
 text = "LOAD"
 __meta__ = {
@@ -142,9 +153,9 @@ __meta__ = {
 }
 
 [node name="edit_button" type="Button" parent="CanvasLayer/menu/load_from_text"]
-margin_top = 108.0
+margin_top = 208.0
 margin_right = 431.0
-margin_bottom = 140.0
+margin_bottom = 240.0
 rect_min_size = Vector2( 0, 32 )
 disabled = true
 text = "EDIT"
@@ -153,9 +164,9 @@ __meta__ = {
 }
 
 [node name="play_button" type="Button" parent="CanvasLayer/menu/load_from_text"]
-margin_top = 144.0
+margin_top = 244.0
 margin_right = 431.0
-margin_bottom = 176.0
+margin_bottom = 276.0
 rect_min_size = Vector2( 0, 32 )
 disabled = true
 text = "PLAY"
@@ -164,9 +175,9 @@ __meta__ = {
 }
 
 [node name="load_results" type="RichTextLabel" parent="CanvasLayer/menu/load_from_text"]
-margin_top = 180.0
+margin_top = 280.0
 margin_right = 431.0
-margin_bottom = 276.0
+margin_bottom = 376.0
 rect_min_size = Vector2( 0, 96 )
 focus_mode = 2
 selection_enabled = true
@@ -197,17 +208,18 @@ text = "Save current map to text"
 [node name="paste_box" type="TextEdit" parent="CanvasLayer/menu/save_to_text"]
 margin_top = 36.0
 margin_right = 430.0
-margin_bottom = 68.0
-rect_min_size = Vector2( 0, 32 )
+margin_bottom = 132.0
+rect_min_size = Vector2( 0, 96 )
 hint_tooltip = "Copy map text from here to save"
+wrap_enabled = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="save_button" type="Button" parent="CanvasLayer/menu/save_to_text"]
-margin_top = 72.0
+margin_top = 136.0
 margin_right = 430.0
-margin_bottom = 104.0
+margin_bottom = 168.0
 rect_min_size = Vector2( 0, 32 )
 text = "SAVE"
 __meta__ = {
@@ -215,9 +227,9 @@ __meta__ = {
 }
 
 [node name="save_results" type="RichTextLabel" parent="CanvasLayer/menu/save_to_text"]
-margin_top = 108.0
+margin_top = 172.0
 margin_right = 430.0
-margin_bottom = 140.0
+margin_bottom = 204.0
 rect_min_size = Vector2( 0, 32 )
 focus_mode = 2
 text = "Current map text"

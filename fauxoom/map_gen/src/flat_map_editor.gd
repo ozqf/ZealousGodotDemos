@@ -87,10 +87,13 @@ func _update_cursor_pos() -> void:
 func _unhandled_input(event):
 	# Mouse in viewport coordinates.
 	if event is InputEventMouseButton && event.pressed:
-		if _mode == EditMode.Grid:
-			_grid.process_click()
-		elif _mode == EditMode.Entities:
-			_ents.process_click()
+		if event.button_index == BUTTON_LEFT:
+			if _mode == EditMode.Grid:
+				_grid.process_click()
+			elif _mode == EditMode.Entities:
+				_ents.process_click()
+		if event.button_index == BUTTON_RIGHT:
+			print("Unhandled right click")
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -106,10 +109,11 @@ func _update_camera(delta:float) -> void:
 		camMove.z -= 1
 	if Input.is_action_pressed("move_backward"):
 		camMove.z += 1
+	
 	if Input.is_action_just_released("zoom_in"):
-		camMove.y -= 1
+		camMove.y -= 3
 	if Input.is_action_just_released("zoom_out"):
-		camMove.y += 1
+		camMove.y += 3
 	camMove = (camMove * _cameraSpeed) * delta
 	
 	var t:Transform = _camera.global_transform

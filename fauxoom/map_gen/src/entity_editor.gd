@@ -71,12 +71,6 @@ func update_cursor_pos(gridX:int, gridY:int) -> void:
 	_gridY = gridY
 	_find_highlighted_ent()
 
-# func _world_pos_to_grid_v(pos:Vector3) -> Vector3
-# 	var s:float = _mapDef.scale
-# 	var hs:float = s * 0.5
-# 	var posOffset:Vector3 = Vector3(s * 0.5, 0, s * 0.5)
-# 	var result = pos * 
-
 func _grid_pos_to_world(gridX:int, gridY:int) -> Vector3:
 	var s:float = _mapDef.scale
 	var hs:float = s * 0.5
@@ -105,20 +99,11 @@ func _load_ents() -> void:
 
 func _click_add() -> void:
 	var template = _get_template()
-	# var t:Transform = Transform.IDENTITY
-	# var s:float = _mapDef.scale
-	# var hs:float = s * 0.5
-	# t.origin.x = float(_gridX) * s + hs
-	# t.origin.y = -1
-	# t.origin.z = float(_gridY) * s + hs
-	# t.origin = _grid_pos_to_world(_gridX, _gridY)
+	if template == null:
+		return
 	var prefab = _create_spawn_at(_grid_pos_to_world(_gridX, _gridY))
 	print("Create " + str(template.typeId))
-	# var prefab = _prefab_spawn_t.instance()
-	# add_child(prefab)
-	# _ents.push_back(prefab)
-	# prefab.global_transform = t
-	# setup ent info
+	
 	var _def:MapSpawnDef = _mapSpawnDef_t.new()
 	_def.type = template.typeId
 	_def.position = Vector3(_gridX, 0, _gridY)
