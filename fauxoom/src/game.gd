@@ -5,17 +5,21 @@ const _EDITOR_SCENE_PATH = "res://maps/level_editor.tscn"
 
 const _TEST_MAP:String = "774BAAgIAQEBAQEBAQEBAQAAAAAAAAEBAAAAAAAAAQEAAAICAAABAQAAAgIAAAEBAAAAAAAAAQEAAAAAAAABAQEBAQEBAQHvvgIDAAYA"
 
+enum AppState { Game, Editor }
+
 var debugDegrees:float = 0
 var debug_int:int = 0
 var debugV3_1:Vector3 = Vector3()
 var debugV3_2:Vector3 = Vector3()
 
-onready var _menus:Control = $CanvasLayer/menu
+onready var _menus:Control = $static_menus/menu
 #onready var _title:Label = $CanvasLayer/title
-onready var _debug_text:Label = $CanvasLayer/debug_text
-onready var _debug_text_2:Label = $CanvasLayer/debug_text2
-onready var _console:LineEdit = $CanvasLayer/menu/console
+onready var _debug_text:Label = $static_menus/debug/debug_text
+onready var _debug_text_2:Label = $static_menus/debug/debug_text2
+onready var _console:LineEdit = $static_menus/menu/console
+onready var _mouseLock:MouseLock = $mouse_lock
 
+var _state = AppState.Game
 var _camera:Camera = null
 var _emptyTrans:Transform = Transform.IDENTITY
 var _url:String = ""
@@ -45,21 +49,25 @@ func set_pending_map(newPendingMap:MapDef) -> void:
 
 func on_game_play_level() -> void:
 	_mapDef = _pendingMapDef
+	var _state = AppState.Game
 	get_tree().change_scene(_GAME_SCENE_PATH)
 
 func on_game_edit_level() -> void:
 	_mapDef = _pendingMapDef
+	var _state = AppState.Editor
 	get_tree().change_scene(_EDITOR_SCENE_PATH)
 
 func set_input_on() -> void:
 	_inputOn = true
 	_menus.visible = false
-	MouseLock.remove_claim(get_tree(), "main_menu")
+	# MouseLock.remove_claim(get_tree(), "main_menu")
+	_mouseLock.on_remove_mouse_claim("main_menu")
 
 func set_input_off() -> void:
 	_inputOn = false
 	_menus.visible = true
-	MouseLock.add_claim(get_tree(), "main_menu")
+	# MouseLock.add_claim(get_tree(), "main_menu")
+	_mouseLock.on_add_mouse_claim("main_menu")
 
 func _web_mode() -> bool:
 	return (OS.get_name() == "HTML5")
@@ -147,15 +155,9 @@ func _input(_event: InputEvent):
 		menuCode = KEY_TAB
 	if _event is InputEventKey && _event.scancode == menuCode && _event.pressed && !_event.echo:
 		if _inputOn:
+			print("Toggle menu on")
 			set_input_off()
-			# _inputOn = false
-			# Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			# _menus.visible = true
 			_console.grab_focus()
 		else:
+			print("Toggle menu off")
 			set_input_on()
-			# _inputOn = true
-			# Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-			# _menus.visible = false
-	#if _event is InputEventKey:
-	#	_refresh_input_on()
