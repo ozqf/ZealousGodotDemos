@@ -1,14 +1,17 @@
 extends Node
 
-onready var _loadInfo:RichTextLabel = $load_from_text/load_results
-onready var _play:Button = $load_from_text/play_button
-onready var _edit:Button = $load_from_text/edit_button
+onready var _loadInfo:RichTextLabel = $menu/load_from_text/load_results
+onready var _play:Button = $menu/load_from_text/play_button
+onready var _edit:Button = $menu/load_from_text/edit_button
 
-onready var _newMap:Button = $new_map/new_24x24
-onready var _back:Button = $new_map/back
+onready var _newMap:Button = $menu/new_map/new_24x24
+onready var _back:Button = $menu/new_map/back
 
-onready var _loadBox = $load_from_text/paste_box
-onready var _saveBox = $save_to_text/paste_box
+onready var _loadBox = $menu/load_from_text/paste_box
+onready var _saveBox = $menu/save_to_text/paste_box
+
+onready var _menu:Control = $menu
+onready var _title:Control = $title_text
 
 var _pendingMap:MapDef = null
 
@@ -16,17 +19,25 @@ var _pendingMap:MapDef = null
 func _ready():
 	add_to_group("game")
 	var _f
-	_f = $load_from_text/load_button.connect("pressed", self, "_on_load_text_pressed")
-	_f = $save_to_text/save_button.connect("pressed", self, "_on_save_text_pressed")
-	_f = $load_from_text/copy_button.connect("pressed", self, "_on_copy_text_from_save")
+	_f = $menu/load_from_text/load_button.connect("pressed", self, "_on_load_text_pressed")
+	_f = $menu/save_to_text/save_button.connect("pressed", self, "_on_save_text_pressed")
+	_f = $menu/load_from_text/copy_button.connect("pressed", self, "_on_copy_text_from_save")
 	_f = _newMap.connect("pressed", self, "_on_new_map")
 	_f = _back.connect("pressed", self, "_on_back")
 	_f = _play.connect("pressed", self, "_on_play_pressed")
 	_f = _edit.connect("pressed", self, "_on_edit_pressed")
 	# save box cannot be written in, it is just for displaying and
 	# copying base64 text
-	$save_to_text/paste_box.readonly = true
+	$menu/save_to_text/paste_box.readonly = true
 	on_wrote_map_text(MapEncoder.map_to_b64(game.get_map()))
+
+func on() -> void:
+	_menu.visible = true
+	_title.visible = true
+
+func off() -> void:
+	_menu.visible = false
+	_title.visible = false
 
 func _on_new_map() -> void:
 	var map:MapDef = MapEncoder.empty_map(24, 24)

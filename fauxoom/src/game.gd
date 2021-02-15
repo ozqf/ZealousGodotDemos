@@ -3,7 +3,11 @@ extends Spatial
 const _GAME_SCENE_PATH = "res://maps/grid_map.tscn"
 const _EDITOR_SCENE_PATH = "res://maps/level_editor.tscn"
 
+# smaller test
 const _TEST_MAP:String = "774BAAgIAQEBAQEBAQEBAQAAAAAAAAEBAAAAAAAAAQEAAAICAAABAQAAAgIAAAEBAAAAAAAAAQEAAAAAAAABAQEBAQEBAQHvvgIDAAYA"
+
+# 24x24 test
+const _TEST_MAP_2:String = "774BABgYAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAAAAAAAAAAAABAQEBAQEBAQEBAQEBAQEAAAAAAAAAAAABAQEBAQEBAQEBAQEBAQEAAAICAgICAgICAgIBAQEBAQEBAQEBAQEAAAICAgICAgICAgIBAQEBAQEBAQEBAQEAAAAAAAAAAAABAQEBAQEBAQEBAQEBAQEAAAAAAAAAAAABAQEBAQEBAQEBAQEBAQEBAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAAAABAQEBAQEBAQEBAQEBAQEBAQEBAQEAAAABAQEBAQEBAQEBAQEBAQEBAQEBAQEAAAABAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAe++AgIAFgA="
 
 enum AppState { Game, Editor }
 
@@ -12,7 +16,8 @@ var debug_int:int = 0
 var debugV3_1:Vector3 = Vector3()
 var debugV3_2:Vector3 = Vector3()
 
-onready var _menus:Control = $static_menus/menu
+onready var _menus:CanvasLayer = $static_menus
+#onready var _menus:Control = $static_menus/menu
 #onready var _title:Label = $CanvasLayer/title
 onready var _debug_text:Label = $static_menus/debug/debug_text
 onready var _debug_text_2:Label = $static_menus/debug/debug_text2
@@ -38,6 +43,7 @@ func _parse_url_options(optionsStr:String) -> void:
 func get_map() -> MapDef:
 	if _mapDef == null:
 		_mapDef = MapEncoder.b64_to_map(_TEST_MAP)
+		_mapDef = MapEncoder.b64_to_map(_TEST_MAP_2)
 		# _mapDef = MapEncoder.empty_map(8, 8)
 		# _mapDef.set_all(1)
 	return _mapDef
@@ -59,13 +65,15 @@ func on_game_edit_level() -> void:
 
 func set_input_on() -> void:
 	_inputOn = true
-	_menus.visible = false
+	#_menus.visible = false
+	_menus.off()
 	# MouseLock.remove_claim(get_tree(), "main_menu")
 	_mouseLock.on_remove_mouse_claim("main_menu")
 
 func set_input_off() -> void:
 	_inputOn = false
-	_menus.visible = true
+	#_menus.visible = true
+	_menus.on()
 	# MouseLock.add_claim(get_tree(), "main_menu")
 	_mouseLock.on_add_mouse_claim("main_menu")
 
