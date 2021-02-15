@@ -21,17 +21,14 @@ var _selected:SpawnPoint = null
 var _highlighted:SpawnPoint = null
 var _ents = []
 
-var _templates = [
-	{ "typeId": MapDef.ENT_TYPE_MOB_GRUNT, "label": "Mob: Grunt" },
-	{ "typeId": MapDef.ENT_TYPE_START, "label": "PlayerStart" },
-	{ "typeId": MapDef.ENT_TYPE_END, "label": "End" },
-	{ "typeId": MapDef.ENT_TYPE_KEY, "label": "Key" },
-]
+# templates is defined externally and injected in
+var _templates = [ { "typeId": 1, "label": "Placeholder" } ]
 
 func _ready() -> void:
 	refresh_type_label()
 
-func set_map_def(newMapDef:MapDef) -> void:
+func init(newMapDef:MapDef, entityTemplates) -> void:
+	_templates = entityTemplates
 	_mapDef = newMapDef
 	_load_ents()
 

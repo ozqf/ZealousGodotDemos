@@ -25,7 +25,7 @@ var _mode = EditMode.Grid
 func _ready() -> void:
 	pass
 
-func init(newMapDef:MapDef) -> void:
+func init(newMapDef:MapDef, entityTemplates) -> void:
 	if newMapDef == null:
 		return
 	print("Flat Map Editor init")
@@ -36,7 +36,7 @@ func init(newMapDef:MapDef) -> void:
 	_initialised = true
 
 	_grid.init(_mapDef)
-	_ents.set_map_def(_mapDef)
+	_ents.init(_mapDef, entityTemplates)
 
 	# initial state
 	_grid.set_active(true)

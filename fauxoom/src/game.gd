@@ -21,7 +21,7 @@ onready var _menus:CanvasLayer = $static_menus
 #onready var _title:Label = $CanvasLayer/title
 onready var _debug_text:Label = $static_menus/debug/debug_text
 onready var _debug_text_2:Label = $static_menus/debug/debug_text2
-onready var _console:LineEdit = $static_menus/menu/console
+onready var _console:LineEdit = $static_menus/custom_map_menu/console
 onready var _mouseLock:MouseLock = $mouse_lock
 
 var _state = AppState.Game
@@ -65,14 +65,12 @@ func on_game_edit_level() -> void:
 
 func set_input_on() -> void:
 	_inputOn = true
-	#_menus.visible = false
 	_menus.off()
 	# MouseLock.remove_claim(get_tree(), "main_menu")
 	_mouseLock.on_remove_mouse_claim("main_menu")
 
 func set_input_off() -> void:
 	_inputOn = false
-	#_menus.visible = true
 	_menus.on()
 	# MouseLock.add_claim(get_tree(), "main_menu")
 	_mouseLock.on_add_mouse_claim("main_menu")

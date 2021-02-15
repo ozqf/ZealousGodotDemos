@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/game.gd" type="Script" id=1]
-[ext_resource path="res://src/main_menu.gd" type="Script" id=2]
+[ext_resource path="res://src/menus/custom_map_menu.gd" type="Script" id=2]
 [ext_resource path="res://src/mouse_lock.gd" type="Script" id=3]
+[ext_resource path="res://src/menus/static_menus.gd" type="Script" id=4]
 
 [node name="game" type="Spatial"]
 script = ExtResource( 1 )
@@ -12,11 +13,12 @@ script = ExtResource( 3 )
 
 [node name="static_menus" type="CanvasLayer" parent="."]
 layer = 2
-script = ExtResource( 2 )
+script = ExtResource( 4 )
 
 [node name="debug" type="Control" parent="static_menus"]
 margin_right = 40.0
 margin_bottom = 40.0
+mouse_filter = 2
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -96,7 +98,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="menu" type="Control" parent="static_menus"]
+[node name="custom_map_menu" type="Control" parent="static_menus"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -105,12 +107,13 @@ margin_left = -512.0
 margin_top = -300.0
 margin_right = 512.0
 margin_bottom = 300.0
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="console" type="LineEdit" parent="static_menus/menu"]
+[node name="console" type="LineEdit" parent="static_menus/custom_map_menu"]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -125,7 +128,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="load_from_text" type="VBoxContainer" parent="static_menus/menu"]
+[node name="load_from_text" type="VBoxContainer" parent="static_menus/custom_map_menu"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -138,7 +141,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="static_menus/menu/load_from_text"]
+[node name="Label" type="Label" parent="static_menus/custom_map_menu/load_from_text"]
 margin_right = 431.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 0, 32 )
@@ -147,7 +150,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="paste_box" type="TextEdit" parent="static_menus/menu/load_from_text"]
+[node name="paste_box" type="TextEdit" parent="static_menus/custom_map_menu/load_from_text"]
 margin_top = 36.0
 margin_right = 431.0
 margin_bottom = 132.0
@@ -159,7 +162,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="copy_button" type="Button" parent="static_menus/menu/load_from_text"]
+[node name="copy_button" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
 margin_top = 136.0
 margin_right = 431.0
 margin_bottom = 160.0
@@ -170,10 +173,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="load_button" type="Button" parent="static_menus/menu/load_from_text"]
+[node name="to_clipboard" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
 margin_top = 164.0
 margin_right = 431.0
 margin_bottom = 188.0
+rect_min_size = Vector2( 0, 24 )
+text = "COPY TO CLIPBOARD"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="to_data" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 192.0
+margin_right = 431.0
+margin_bottom = 216.0
+rect_min_size = Vector2( 0, 24 )
+text = "TO DATA"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="load_button" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 220.0
+margin_right = 431.0
+margin_bottom = 244.0
 rect_min_size = Vector2( 0, 24 )
 text = "LOAD"
 __meta__ = {
@@ -181,10 +206,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="edit_button" type="Button" parent="static_menus/menu/load_from_text"]
-margin_top = 192.0
+[node name="edit_button" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 248.0
 margin_right = 431.0
-margin_bottom = 216.0
+margin_bottom = 272.0
 rect_min_size = Vector2( 0, 24 )
 disabled = true
 text = "EDIT"
@@ -193,10 +218,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="play_button" type="Button" parent="static_menus/menu/load_from_text"]
-margin_top = 220.0
+[node name="play_button" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 276.0
 margin_right = 431.0
-margin_bottom = 244.0
+margin_bottom = 300.0
 rect_min_size = Vector2( 0, 24 )
 disabled = true
 text = "PLAY"
@@ -205,10 +230,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="load_results" type="RichTextLabel" parent="static_menus/menu/load_from_text"]
-margin_top = 248.0
+[node name="load_results" type="RichTextLabel" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 304.0
 margin_right = 431.0
-margin_bottom = 344.0
+margin_bottom = 400.0
 rect_min_size = Vector2( 0, 96 )
 focus_mode = 2
 selection_enabled = true
@@ -217,7 +242,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="save_to_text" type="VBoxContainer" parent="static_menus/menu"]
+[node name="save_to_text" type="VBoxContainer" parent="static_menus/custom_map_menu"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -230,7 +255,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="static_menus/menu/save_to_text"]
+[node name="Label" type="Label" parent="static_menus/custom_map_menu/save_to_text"]
 margin_right = 430.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 0, 32 )
@@ -239,7 +264,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="paste_box" type="TextEdit" parent="static_menus/menu/save_to_text"]
+[node name="paste_box" type="TextEdit" parent="static_menus/custom_map_menu/save_to_text"]
 margin_top = 36.0
 margin_right = 430.0
 margin_bottom = 132.0
@@ -251,7 +276,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="save_button" type="Button" parent="static_menus/menu/save_to_text"]
+[node name="save_button" type="Button" parent="static_menus/custom_map_menu/save_to_text"]
 margin_top = 136.0
 margin_right = 430.0
 margin_bottom = 160.0
@@ -262,7 +287,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="save_results" type="RichTextLabel" parent="static_menus/menu/save_to_text"]
+[node name="save_results" type="RichTextLabel" parent="static_menus/custom_map_menu/save_to_text"]
 margin_top = 164.0
 margin_right = 430.0
 margin_bottom = 196.0
@@ -275,7 +300,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="new_map" type="VBoxContainer" parent="static_menus/menu"]
+[node name="new_map" type="VBoxContainer" parent="static_menus/custom_map_menu"]
 margin_left = 384.0
 margin_top = 384.0
 margin_right = 640.0
@@ -286,7 +311,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="new_24x24" type="Button" parent="static_menus/menu/new_map"]
+[node name="new_24x24" type="Button" parent="static_menus/custom_map_menu/new_map"]
 margin_top = 76.0
 margin_right = 256.0
 margin_bottom = 100.0
@@ -296,7 +321,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="back" type="Button" parent="static_menus/menu/new_map"]
+[node name="back" type="Button" parent="static_menus/custom_map_menu/new_map"]
 margin_top = 104.0
 margin_right = 256.0
 margin_bottom = 128.0
@@ -305,6 +330,11 @@ text = "BACK"
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="FileDialog" type="FileDialog" parent="static_menus/custom_map_menu"]
+margin_right = 315.0
+margin_bottom = 130.0
+resizable = true
 
 [node name="options" type="Control" parent="static_menus"]
 visible = false
