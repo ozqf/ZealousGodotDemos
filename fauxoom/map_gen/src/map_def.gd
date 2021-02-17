@@ -16,6 +16,10 @@ const ENT_TYPE_MOB_GRUNT:int = 1
 const ENT_TYPE_START:int = 2
 const ENT_TYPE_END:int = 3
 const ENT_TYPE_KEY:int = 4
+const ENT_TYPE_TRIGGER:int = 5
+const ENT_TYPE_RELAY:int = 6
+const ENT_TYPE_COUNTER:int = 7
+const ENT_TYPE_GATE:int = 8
 
 var format:int = 1
 var name:String = "No Title"
@@ -40,6 +44,13 @@ func set_at(val:int, x:int, y:int) -> bool:
 		return false
 	cells[i] = val
 	return true
+
+func centre() -> Vector3:
+	var v:Vector3 = Vector3()
+	v.x = (width * scale) / 2.0
+	v.y = -1
+	v.z = (height * scale) / 2.0
+	return v
 
 func set_size(newWidth:int, newHeight:int) -> void:
 	cells = []

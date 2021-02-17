@@ -1,7 +1,8 @@
 extends Spatial
 class_name EntityEditor
 
-const _prefab_spawn_t = preload("res://map_gen/prefabs/spawn_point.tscn")
+const _prefab_spawn_t = preload("res://map_gen/prefabs/point_spawn.tscn")
+const actor_spawn_t = preload("res://map_gen/prefabs/actor_spawn.tscn")
 const _mapSpawnDef_t = preload("./map_spawn_def.gd")
 
 enum EntEditMode { Select, Add, Rotate, SetTargets }
@@ -143,6 +144,41 @@ func process_click() -> void:
 		_click_add()
 	elif _editMode == EntEditMode.Select:
 		_click_select()
+
+func set_yaw(obj:SpawnPoint, degrees:float) -> void:
+	degrees = ZqfUtils.cap_degrees(degrees)
+	var step = 360.0 / MapSpawnDef.ROTATION_STEPS
+	var iterations:float = int(degrees / step)
+	var result = iterations * step
+	var rot = Vector3(0, result, 0)
+	obj.rotation_degrees = rot
+	obj.def.yaw = result
+	print("Set rotation (" + str(degrees) + " to " + str(result) + ")")
+
+func process_right_click() -> void:
+	if _selected == null:
+		return
+	if _editMode == EntEditMode.Rotate:
+		var dest:Vector3 = _grid_pos_to_world(_gridX, _gridY)
+		var t:Transform = _selected.global_transform
+		var origin = t.origin
+		var dx = dest.x - origin.x
+		var dz = origin.z - dest.z
+		var degrees = rad2deg(atan2(dz, dx))
+		degrees -= 90
+		print("Rotate from " + str(origin) + " look at " + str(dest))
+		print("degrees: " + str(degrees))
+		set_yaw(_selected, degrees)
+#		var rot = Vector3(0, degrees, 0)
+#		_selected.rotation_degrees = rot
+	else:
+		var dest:Vector3 = _grid_pos_to_world(_gridX, _gridY)
+		print("Move selected to " + str(dest))
+		var t:Transform = _selected.global_transform
+		t.origin = dest
+		_selected.global_transform = t
+		_selected.def.position.x = _gridX
+		_selected.def.position.z = _gridY
 
 func _find_highlighted_ent() -> void:
 	var cam:Camera = get_viewport().get_camera()

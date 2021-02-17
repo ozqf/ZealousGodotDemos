@@ -52,6 +52,8 @@ static func write_to_bytes(map:MapDef) -> PoolByteArray:
 
 	# buf.debug_print()
 	# print("As Base64: " + str(buf.to_base64()))
+	var check:int = buf.calc_hash()
+	print("Checksum: " + str(check))
 	return buf.get_bytes()
 
 # returns null if something went wrong

@@ -36,10 +36,13 @@ func _ready():
 	# save box cannot be written in, it is just for displaying and
 	# copying base64 text
 	$save_to_text/paste_box.readonly = true
-	on_wrote_map_text(MapEncoder.map_to_b64(game.get_map()))
+	game_on_wrote_map_text(MapEncoder.map_to_b64(game.get_map()))
 
 func on() -> void:
 	visible = true
+	_on_save_text_pressed()
+	_on_copy_text_from_save()
+	_on_load_text_pressed()
 
 func off() -> void:
 	visible = false
@@ -58,7 +61,10 @@ func _on_map_to_data() -> void:
 	var file:File = File.new()
 	var path:String = "user://b64_map.txt"
 	print("Writing " + str(_loadBox.text.length()) + " chars to " + path)
-	file.open(path, File.WRITE)
+	var err = file.open(path, File.WRITE)
+	if err != OK:
+		print("Saving map to " + path + " failed with code " + str(err))
+		return
 	file.store_string(_loadBox.text)
 	file.close()
 
@@ -83,7 +89,7 @@ func _on_load_text_pressed() -> void:
 		_loadInfo.text = "You need to paste in some text to load from first!"
 		return
 	print("Menu - Load from " + str(txt.length()) + " chars")
-	# get_tree().call_group("game", "on_load_base64", txt)
+	# get_tree().call_group("game", "game_on_load_base64", txt)
 	var messages = []
 	_pendingMap = MapEncoder.b64_to_map(txt, messages)
 	_loadInfo.text = ZqfUtils.join_strings(messages, "\n")
@@ -105,11 +111,11 @@ func _on_load_text_pressed() -> void:
 
 func _on_save_text_pressed() -> void:
 	print("Save map text")
-	# get_tree().call_group("game", "on_save_map_text")
+	# get_tree().call_group("game", "game_on_save_map_text")
 
 	var def:MapDef = game.get_map()
 	var b64:String = MapEncoder.map_to_b64(def)
-	on_wrote_map_text(b64)
+	game_on_wrote_map_text(b64)
 
 func _on_play_pressed() -> void:
 	if _pendingMap == null:
@@ -127,16 +133,16 @@ func _on_edit_pressed() -> void:
 	game.set_pending_map(_pendingMap)
 	game.on_game_edit_level()
 
-func on_wrote_map_text(txt:String) -> void:
+func game_on_wrote_map_text(txt:String) -> void:
 	_saveBox.text = txt
 
-func on_read_map_text_success(_map, messages) -> void:
+func game_on_read_map_text_success(_map, messages) -> void:
 	print("Set load messages - success")
 	_loadInfo.text = ZqfUtils.join_strings(messages, "\n")
 	_play.disabled = false
 	_edit.disabled = false
 
-func on_read_map_text_fail(messages) -> void:
+func game_on_read_map_text_fail(messages) -> void:
 	print("Set load messages - fail")
 	_loadInfo.text = ZqfUtils.join_strings(messages, "\n")
 	_play.disabled = true

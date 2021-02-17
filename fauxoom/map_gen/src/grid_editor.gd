@@ -64,6 +64,8 @@ func process_click() -> void:
 		if _mapDef.set_at(tileType, _gridX, _gridY):
 			# print("Paint " + str(tileType) + " at " + str(x) + ", " + str(y))
 			refresh()
+
+func process_right_click() -> void:
 	pass
 
 func update(_delta:float) -> void:

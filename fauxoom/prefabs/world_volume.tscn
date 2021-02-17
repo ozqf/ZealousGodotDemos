@@ -12,6 +12,7 @@ extents = Vector3( 0.5, 0.5, 0.5 )
 [node name="world_volume" type="KinematicBody"]
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
+visible = false
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
 

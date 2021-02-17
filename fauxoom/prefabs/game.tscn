@@ -12,8 +12,23 @@ script = ExtResource( 1 )
 script = ExtResource( 3 )
 
 [node name="static_menus" type="CanvasLayer" parent="."]
-layer = 2
+layer = 10
 script = ExtResource( 4 )
+
+[node name="console" type="LineEdit" parent="static_menus"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -504.0
+margin_top = -292.0
+margin_right = -83.0
+margin_bottom = -260.0
+text = "Console"
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="debug" type="Control" parent="static_menus"]
 margin_right = 40.0
@@ -57,6 +72,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 margin_top = -4.0
 margin_bottom = -4.0
+mouse_filter = 2
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -107,24 +123,10 @@ margin_left = -512.0
 margin_top = -300.0
 margin_right = 512.0
 margin_bottom = 300.0
+mouse_filter = 2
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="console" type="LineEdit" parent="static_menus/custom_map_menu"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -208.092
-margin_top = -226.276
-margin_right = 212.908
-margin_bottom = -173.276
-caret_blink = true
-__meta__ = {
 "_edit_use_anchors_": false
 }
 

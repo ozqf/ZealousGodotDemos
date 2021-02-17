@@ -10,6 +10,10 @@ var _inputOn:bool = false
 
 func _ready():
 	game.set_camera(_head)
+	
+	add_to_group("game")
+	add_to_group("console")
+	
 	_motor.init_motor(self, _head)
 	_motor.set_input_enabled(false)
 	_attack.init_attack(_head, self)
@@ -22,6 +26,13 @@ func _ready():
 func _on_tree_exiting() -> void:
 	game.clear_camera(_head)
 
+func console_on_exec(_txt:String) -> void:
+	if _txt == "kill":
+		kill()
+
+func game_on_level_completed() -> void:
+	kill()
+
 func _refresh_input_on() -> void:
 	var flag:bool = game.get_input_on()
 	_motor.set_input_enabled(flag)
@@ -29,3 +40,8 @@ func _refresh_input_on() -> void:
 
 func _process(_delta):
 	_refresh_input_on()
+
+func kill() -> void:
+	var info:Dictionary = {}
+	get_tree().call_group("game", "game_on_player_died", info)
+	queue_free()

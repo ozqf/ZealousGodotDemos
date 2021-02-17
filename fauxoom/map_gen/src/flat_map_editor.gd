@@ -93,7 +93,10 @@ func _unhandled_input(event):
 			elif _mode == EditMode.Entities:
 				_ents.process_click()
 		if event.button_index == BUTTON_RIGHT:
-			print("Unhandled right click")
+			if _mode == EditMode.Grid:
+				_grid.process_right_click()
+			elif _mode == EditMode.Entities:
+				_ents.process_right_click()
 
 func _input(event):
 	if event is InputEventMouseMotion:
