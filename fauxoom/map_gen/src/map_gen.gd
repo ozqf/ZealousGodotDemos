@@ -19,6 +19,8 @@ const fFloor:int = (1 << 1)
 const fCeiling:int = (1 << 2)
 const fWater:int = (1 << 3)
 
+var _noCeiling:bool = true
+
 const _tile_types:Dictionary = {
 	str(MapDef.TILE_PATH): 0
 }
@@ -305,10 +307,12 @@ func _add_cell(map:MapDef, cellType:int, x:int, z:int, scale:int) -> void:
 		_add_solid_top_geometry(pos, radius)
 	elif cellType == MapDef.TILE_VOID:
 		_add_water_quad(pos, radius)
-		_add_ceiling_quad(pos, radius)
+		if !_noCeiling:
+			_add_ceiling_quad(pos, radius)
 	else:
 		_add_floor_geometry(pos, radius)
-		_add_ceiling_quad(pos, radius)
+		if !_noCeiling:
+			_add_ceiling_quad(pos, radius)
 
 ###########################################
 # build steps

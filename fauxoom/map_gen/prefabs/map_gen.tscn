@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://map_gen/src/map_gen.gd" type="Script" id=1]
 [ext_resource path="res://src/mesh_generator.gd" type="Script" id=2]
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=3]
+[ext_resource path="res://default_world.tres" type="Environment" id=4]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -13,6 +14,7 @@ script = ExtResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 36, 42.2, 51.1 )
+environment = ExtResource( 4 )
 
 [node name="world_boundary" type="Spatial" parent="."]
 
