@@ -59,14 +59,22 @@ func update_cursor_pos(gridX:int, gridY:int) -> void:
 		_neighbourFlags = _mapDef.get_neighbour_flags(_gridX, _gridY, hoverType)
 
 func process_click() -> void:
+	pass
+#	var tileType:int = _paintType
+#	if _mapDef.is_pos_safe(_gridX, _gridY):
+#		if _mapDef.set_at(tileType, _gridX, _gridY):
+#			# print("Paint " + str(tileType) + " at " + str(x) + ", " + str(y))
+#			refresh()
+
+func process_right_click() -> void:
+	pass
+
+func process_left_held(_delta:float) -> void:
 	var tileType:int = _paintType
 	if _mapDef.is_pos_safe(_gridX, _gridY):
 		if _mapDef.set_at(tileType, _gridX, _gridY):
 			# print("Paint " + str(tileType) + " at " + str(x) + ", " + str(y))
 			refresh()
-
-func process_right_click() -> void:
-	pass
 
 func update(_delta:float) -> void:
 	if Input.is_action_just_pressed("slot_1"):

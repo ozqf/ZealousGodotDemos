@@ -22,6 +22,9 @@ var _cameraSpeed:float = 20
 var _cursorGridPos:Vector2 = Vector2()
 var _mode = EditMode.Grid
 
+var _leftMouseHeld:bool = false
+var _rightMousesHold:bool = false
+
 func _ready() -> void:
 	pass
 
@@ -86,17 +89,22 @@ func _update_cursor_pos() -> void:
 
 func _unhandled_input(event):
 	# Mouse in viewport coordinates.
-	if event is InputEventMouseButton && event.pressed:
-		if event.button_index == BUTTON_LEFT:
-			if _mode == EditMode.Grid:
-				_grid.process_click()
-			elif _mode == EditMode.Entities:
-				_ents.process_click()
-		if event.button_index == BUTTON_RIGHT:
-			if _mode == EditMode.Grid:
-				_grid.process_right_click()
-			elif _mode == EditMode.Entities:
-				_ents.process_right_click()
+	if event is InputEventMouseButton:
+		if event.pressed:
+			if event.button_index == BUTTON_LEFT:
+				_leftMouseHeld = true
+				if _mode == EditMode.Grid:
+					_grid.process_click()
+				elif _mode == EditMode.Entities:
+					_ents.process_click()
+			if event.button_index == BUTTON_RIGHT:
+				if _mode == EditMode.Grid:
+					_grid.process_right_click()
+				elif _mode == EditMode.Entities:
+					_ents.process_right_click()
+		elif !event.pressed:
+			if event.button_index == BUTTON_LEFT:
+				_leftMouseHeld = false
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -142,6 +150,11 @@ func _process(delta) -> void:
 	# 	_change_mode(EditMode.Entities)
 	# if Input.is_action_just_pressed("edit_mode_prev"):
 	# 	_change_mode(EditMode.Grid)
+	if _leftMouseHeld:
+		if _mode == EditMode.Grid:
+			_grid.process_left_held(delta)
+		elif _mode == EditMode.Entities:
+			_ents.process_left_held(delta)
 	
 	if _mode == EditMode.Grid:
 		_grid.update(delta)

@@ -140,6 +140,7 @@ margin_top = -236.0
 margin_right = -65.0
 margin_bottom = 140.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -254,6 +255,7 @@ margin_top = -236.0
 margin_right = 494.999
 margin_bottom = 42.0002
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -295,6 +297,7 @@ margin_right = 430.0
 margin_bottom = 196.0
 rect_min_size = Vector2( 0, 32 )
 focus_mode = 2
+mouse_filter = 2
 text = "Current map text"
 selection_enabled = true
 __meta__ = {
@@ -307,26 +310,90 @@ margin_left = 384.0
 margin_top = 384.0
 margin_right = 640.0
 margin_bottom = 512.0
-alignment = 2
+alignment = 1
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="new_24x24" type="Button" parent="static_menus/custom_map_menu/new_map"]
-margin_top = 76.0
+[node name="set_width" type="HBoxContainer" parent="static_menus/custom_map_menu/new_map"]
+margin_top = 18.0
 margin_right = 256.0
-margin_bottom = 100.0
+margin_bottom = 34.0
+alignment = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="static_menus/custom_map_menu/new_map/set_width"]
+margin_left = 7.0
+margin_top = 1.0
+margin_right = 52.0
+margin_bottom = 15.0
+text = "WIDTH"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="width_slider" type="HSlider" parent="static_menus/custom_map_menu/new_map/set_width"]
+margin_left = 56.0
+margin_right = 248.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 192, 0 )
+min_value = 16.0
+max_value = 96.0
+step = 2.0
+value = 32.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="set_height" type="HBoxContainer" parent="static_menus/custom_map_menu/new_map"]
+margin_top = 38.0
+margin_right = 256.0
+margin_bottom = 54.0
+alignment = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="static_menus/custom_map_menu/new_map/set_height"]
+margin_left = 5.0
+margin_top = 1.0
+margin_right = 54.0
+margin_bottom = 15.0
+text = "HEIGHT"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="height_slider" type="HSlider" parent="static_menus/custom_map_menu/new_map/set_height"]
+margin_left = 58.0
+margin_right = 250.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 192, 0 )
+min_value = 16.0
+max_value = 96.0
+step = 2.0
+value = 32.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="create_new" type="Button" parent="static_menus/custom_map_menu/new_map"]
+margin_top = 58.0
+margin_right = 256.0
+margin_bottom = 82.0
 rect_min_size = Vector2( 0, 24 )
-text = "NEW 24 X 24"
+text = "CREATE NEW"
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="back" type="Button" parent="static_menus/custom_map_menu/new_map"]
-margin_top = 104.0
+margin_top = 86.0
 margin_right = 256.0
-margin_bottom = 128.0
+margin_bottom = 110.0
 rect_min_size = Vector2( 0, 24 )
 text = "BACK"
 __meta__ = {

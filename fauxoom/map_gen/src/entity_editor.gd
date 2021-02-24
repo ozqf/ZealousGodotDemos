@@ -145,6 +145,9 @@ func process_click() -> void:
 	elif _editMode == EntEditMode.Select:
 		_click_select()
 
+func process_left_held(_delta:float) -> void:
+	pass
+
 func set_yaw(obj:SpawnPoint, degrees:float) -> void:
 	degrees = ZqfUtils.cap_degrees(degrees)
 	var step = 360.0 / MapSpawnDef.ROTATION_STEPS

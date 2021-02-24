@@ -45,6 +45,17 @@
 		> mouse sensitivity
 		> sfx/bgm volume
 
+### Enemy movement/behaviours
+
+continuous
+> strafes: attempts to move away from the direction of the player's aim
+> cowardly: if player is aiming toward them the enemy will attack less and move more.
+> flees: On half health attempts to move away from player
+> enrages: on half health enters wild rapid firing mode
+
+one off
+> Nearby enemy is gibbed in one shot - stuns
+
 
 ### Issues
 

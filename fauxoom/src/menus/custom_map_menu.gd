@@ -10,7 +10,10 @@ onready var _copyFromSave:Button = $load_from_text/copy_button
 onready var _toClipboard:Button = $load_from_text/to_clipboard
 onready var _toData:Button = $load_from_text/to_data
 
-onready var _newMap:Button = $new_map/new_24x24
+# new map UI nodes
+onready var _newMap:Button = $new_map/create_new
+onready var _newMapWidth:HSlider = $new_map/set_width/width_slider
+onready var _newMapHeight:HSlider = $new_map/set_height/height_slider
 onready var _back:Button = $new_map/back
 
 onready var _loadBox = $load_from_text/paste_box
@@ -38,6 +41,11 @@ func _ready():
 	$save_to_text/paste_box.readonly = true
 	game_on_wrote_map_text(MapEncoder.map_to_b64(game.get_map()))
 
+func _process(_delta:float) -> void:
+	var newW:int = _newMapWidth.value
+	var newH:int = _newMapHeight.value
+	_newMap.text = "NEW MAP - " + str(newW) + "x" + str(newH)
+
 func on() -> void:
 	visible = true
 	_on_save_text_pressed()
@@ -48,7 +56,7 @@ func off() -> void:
 	visible = false
 
 func _on_new_map() -> void:
-	var map:MapDef = MapEncoder.empty_map(24, 24)
+	var map:MapDef = MapEncoder.empty_map(_newMapWidth.value, _newMapHeight.value)
 	map.set_all(1)
 	game.set_pending_map(map)
 	game.on_game_edit_level()

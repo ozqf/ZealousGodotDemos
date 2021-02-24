@@ -16,10 +16,6 @@ func set_input_enabled(flag:bool) -> void:
 	if _inputOn == flag:
 		return
 	_inputOn = flag
-	# if _inputOn:
-	# 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	# else:
-	# 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func init_motor(body:KinematicBody, head:Spatial) -> void:
 	_body = body
@@ -103,6 +99,6 @@ func _input(_event: InputEvent):
 		# vertical
 		# TODO: Uninverted mouse!
 		# DISABLED - until there is a reason to mouse-look and UI to toggle inverted!
-#		var mMoveY: float = (_event.relative.y * MOUSE_SENSITIVITY * scrSizeRatio.y)
-#		m_pitch += mMoveY
+		var mMoveY: float = (_event.relative.y * MOUSE_SENSITIVITY * scrSizeRatio.y)
+		m_pitch += mMoveY
 	pass
