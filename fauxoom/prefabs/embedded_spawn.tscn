@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://map_gen/prefabs/actor_spawn.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/embedded_spawn.gd" type="Script" id=2]
+
+[node name="embedded_spawn" type="Spatial" groups=[
+"embedded_spawns",
+]]
+script = ExtResource( 2 )
+
+[node name="actor_spawn" parent="." instance=ExtResource( 1 )]

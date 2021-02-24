@@ -31,6 +31,16 @@ static func calc_euler_degrees(v: Vector3) -> Vector3:
 	var result = Vector3(pitchRadians * RAD2DEG, yawRadians * RAD2DEG, 0)
 	return result
 
+static func yaw_between(origin:Vector3, target:Vector3) -> float:
+	var dx = origin.x - target.x
+	var dz = origin.z - target.z
+	return atan2(dx, dz)
+
+static func flat_distance_between(origin:Vector3, target:Vector3) -> float:
+	var dz = target.z - origin.z
+	var dx = target.x - origin.x
+	return sqrt((dx * dx) + (dz * dz))
+
 static func cap_degrees(degrees:float) -> float:
 	while degrees >= 360:
 		degrees -= 360

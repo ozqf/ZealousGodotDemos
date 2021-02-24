@@ -46,29 +46,33 @@ onready var _player_blocker:CollisionShape = $player_water_blocker/CollisionShap
 
 func _set_world_boundary(width:int, height:int, tileSize:int) -> void:
 	var t:Transform = Transform()
-	var node:Spatial = $world_boundary/north
 	var w:int = width * tileSize
 	var h:int = height * tileSize
 	# print("Boundary size: " + str(w) + " by " + str(h))
 	
+	var node:Spatial = $world_boundary/north
 	t.origin = Vector3(w / 2.0, 0, -1)
 	node.scale = Vector3(w + 2, 1, 1)
 	node.global_transform = t
+	node.hide()
 	
 	node = $world_boundary/south
 	t.origin = Vector3(w / 2.0, 0, h + 1)
 	node.scale = Vector3(w + 2, 1, 1)
 	node.global_transform = t
+	node.hide()
 	
 	node = $world_boundary/west
 	t.origin = Vector3(-1, 0, h / 2.0)
 	node.scale = Vector3(1, 1, h + 2)
 	node.global_transform = t
+	node.hide()
 	
 	node = $world_boundary/east
 	t.origin = Vector3(w + 1, 0, h / 2.0)
 	node.scale = Vector3(1, 1, h + 2)
 	node.global_transform = t
+	node.hide()
 
 func _add_quad(v1:Vector3, v2:Vector3, v3:Vector3, v4:Vector3, uv1:Vector2, uv2:Vector2, uv3:Vector2, uv4:Vector2, flags:int) -> void:
 	var addCollision:bool = false

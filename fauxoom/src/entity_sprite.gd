@@ -1,7 +1,5 @@
-extends Spatial
-class_name SpriteObject
-
-onready var _sprite:Sprite3D = $Sprite3D
+extends Sprite3D
+class_name EntitySprite
 
 var _spr_a1 = load("res://sprites/player/player_a1.png")
 var _spr_a2a8 = load("res://sprites/player/player_a2_a8.png")
@@ -55,4 +53,4 @@ func _process(_delta:float) -> void:
 	else:
 		yaw = rotation_degrees.y
 	var i:int = ZqfUtils.sprite_index(game.get_camera_pos(), self.global_transform, yaw, _frames.size())
-	_sprite.texture = _frames[i]
+	self.texture = _frames[i]

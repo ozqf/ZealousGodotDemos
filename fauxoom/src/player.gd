@@ -23,7 +23,10 @@ func _ready():
 	_foo = _attack.connect("change_weapon", _hud, "on_change_weapon")
 	_foo = connect("tree_exiting", self, "_on_tree_exiting")
 
+	game.register_player(self)
+
 func _on_tree_exiting() -> void:
+	game.deregister_player(self)
 	game.clear_camera(_head)
 
 func console_on_exec(_txt:String) -> void:

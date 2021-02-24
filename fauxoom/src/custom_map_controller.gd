@@ -8,6 +8,8 @@ var _prefab_spawn = preload("res://map_gen/prefabs/actor_spawn.tscn")
 var _prefab_default_mob = preload("res://prefabs/sprite_object.tscn")
 var _prefab_player = preload("res://prefabs/player.tscn")
 
+var _prefab_mob_gunner = preload("res://prefabs/entities/mob_gunner.tscn")
+
 var _map:MapDef = null
 
 var _playerOrigin:Vector3 = Vector3()
@@ -82,7 +84,8 @@ func spawn_entities() -> void:
 		if spawn.type == MapDef.ENT_TYPE_START:
 			prefab = _prefab_player.instance()
 		elif spawn.type == MapDef.ENT_TYPE_MOB_GRUNT:
-			prefab = _prefab_default_mob.instance()
+			prefab = _prefab_mob_gunner.instance()
+			# prefab = _prefab_default_mob.instance()
 		else:
 			prefab = _prefab_spawn.instance()
 		

@@ -7,7 +7,7 @@ const _highlightedMat:SpatialMaterial = preload("../materials/spawn_point_highli
 const _mapSpawnDef_t = preload("./map_spawn_def.gd")
 
 onready var _mesh:MeshInstance = $display/MeshInstance
-export var entType:String = ""
+# export var entType:String = ""
 
 var def:MapSpawnDef = _mapSpawnDef_t.new()
 

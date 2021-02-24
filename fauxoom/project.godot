@@ -30,9 +30,19 @@ _global_script_classes=[ {
 "path": "res://src/custom_map_controller.gd"
 }, {
 "base": "Spatial",
+"class": "EmbeddedSpawn",
+"language": "GDScript",
+"path": "res://src/embedded_spawn.gd"
+}, {
+"base": "Spatial",
 "class": "EntityEditor",
 "language": "GDScript",
 "path": "res://map_gen/src/entity_editor.gd"
+}, {
+"base": "Sprite3D",
+"class": "EntitySprite",
+"language": "GDScript",
+"path": "res://src/entity_sprite.gd"
 }, {
 "base": "Node",
 "class": "FPSMotor",
@@ -104,6 +114,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://map_gen/src/spawn_point.gd"
 }, {
+"base": "Spatial",
+"class": "SpriteObject",
+"language": "GDScript",
+"path": "res://src/sprite_object.gd"
+}, {
+"base": "Reference",
+"class": "TargetInfo",
+"language": "GDScript",
+"path": "res://src/defs/target_info.gd"
+}, {
 "base": "Reference",
 "class": "Weapons",
 "language": "GDScript",
@@ -119,7 +139,9 @@ _global_script_class_icons={
 "AsciMapLoader": "",
 "ByteBuffer": "",
 "CustomMapLoader": "",
+"EmbeddedSpawn": "",
 "EntityEditor": "",
+"EntitySprite": "",
 "FPSMotor": "",
 "FlatMapEditor": "",
 "GridEditor": "",
@@ -134,6 +156,8 @@ _global_script_class_icons={
 "PlayerAnimator": "",
 "PlayerAttack": "",
 "SpawnPoint": "",
+"SpriteObject": "",
+"TargetInfo": "",
 "Weapons": "",
 "ZqfUtils": ""
 }
