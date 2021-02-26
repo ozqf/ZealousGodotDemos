@@ -8,6 +8,9 @@ var _parentBody:PhysicsBody = null
 var _active:bool = false
 var _tick:float = 0
 
+var _currentWeapon:String = Weapons.PistolLabel
+var _pendingWeapon:String = Weapons.PistolLabel
+
 var _refireTime:float = 1
 var _extraPellets:int = 10
 
@@ -55,36 +58,37 @@ func _fire_single() -> void:
 		_perform_hit(result)
 	pass
 
+func _check_weapon_change() -> void:
+	if _pendingWeapon == "":
+		return
+	_currentWeapon = _pendingWeapon
+	_pendingWeapon = ""
+	var weap = Weapons.weapons[_currentWeapon]
+	_refireTime = weap.refireTime
+	_extraPellets = weap.extraPellets
+	self.emit_signal("change_weapon", _currentWeapon)
+
 func _process(_delta:float) -> void:
 	if _tick >= 0:
 		_tick -= _delta
-		return
 	if !_active:
 		return
 	
 	if Input.is_action_just_pressed("slot_1"):
-		self.emit_signal("change_weapon", Weapons.PistolLabel)
-		_refireTime = 0.3
-		_extraPellets = 0
+		_pendingWeapon = Weapons.PistolLabel
 	if Input.is_action_just_pressed("slot_2"):
-		self.emit_signal("change_weapon", Weapons.DualPistolsLabel)
-		_refireTime = 0.15
-		_extraPellets = 0
+		_pendingWeapon = Weapons.DualPistolsLabel
 	if Input.is_action_just_pressed("slot_3"):
-		self.emit_signal("change_weapon", Weapons.SuperShotgunLabel)
-		_refireTime = 1
-		_extraPellets = 10
+		_pendingWeapon = Weapons.SuperShotgunLabel
 	if Input.is_action_just_pressed("slot_4"):
-		self.emit_signal("change_weapon", Weapons.ChaingunLabel)
-		_refireTime = 0.1
-		_extraPellets = 2
+		_pendingWeapon = Weapons.ChaingunLabel
 	if Input.is_action_just_pressed("slot_5"):
-		self.emit_signal("change_weapon", Weapons.RocketLauncherLabel)
-		_refireTime = 1
-		_extraPellets = 0
+		_pendingWeapon = Weapons.RocketLauncherLabel
 	
-	if Input.is_action_pressed("attack_1") || Input.is_action_pressed("move_special"):
-		_tick = _refireTime
-		_fire_spread()
-		self.emit_signal("fire_ssg")
-	
+	if _tick <= 0:
+		_check_weapon_change()
+
+		if Input.is_action_pressed("attack_1") || Input.is_action_pressed("move_special"):
+			_tick = _refireTime
+			_fire_spread()
+			self.emit_signal("fire_ssg")
