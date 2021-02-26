@@ -1,5 +1,7 @@
 extends Control
 
+signal menu_navigate(name)
+
 onready var _loadInfo:RichTextLabel = $load_from_text/load_results
 onready var _play:Button = $load_from_text/play_button
 onready var _edit:Button = $load_from_text/edit_button
@@ -62,7 +64,7 @@ func _on_new_map() -> void:
 	game.on_game_edit_level()
 
 func _on_back() -> void:
-	pass
+	self.emit_signal("menu_navigate", "back")
 
 func _on_map_to_data() -> void:
 	print("Save to data")

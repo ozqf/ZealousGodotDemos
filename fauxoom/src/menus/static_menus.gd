@@ -1,22 +1,93 @@
 extends Node
 
+signal menu_navigate(name)
+
 onready var _console:LineEdit = $console
-onready var _title:Control = $title_text
+# onready var _title:Control = $title_text
+onready var _rootMenu:Control = $root_menu
+onready var _embeddedMapMenu:Control = $embedded_maps
 onready var _customMapMenu:Control = $custom_map_menu
 onready var _optionsMenu:Control = $options
 
+enum MenuPage {
+	Root,
+	EmbeddedMaps,
+	CustomMaps,
+	Options
+}
+
+var _menu = MenuPage.Root
+
+func _ready() -> void:
+	var _f
+	_f = $root_menu/VBoxContainer/embedded_maps.connect("pressed", self, "_on_goto_embedded")
+	_f = $root_menu/VBoxContainer/custom_maps.connect("pressed", self, "_on_goto_custom")
+	_f = $root_menu/VBoxContainer/options.connect("pressed", self, "_on_goto_options")
+	_f = $root_menu/VBoxContainer/quit.connect("pressed", self, "_on_root_quit")
+	
+	_f = _embeddedMapMenu.connect("menu_navigate", self, "_on_navigate_callback")
+	_f = _customMapMenu.connect("menu_navigate", self, "_on_navigate_callback")
+	_f = _optionsMenu.connect("menu_navigate", self, "_on_navigate_callback")
+
+func _on_goto_embedded() -> void:
+	_change_menu(MenuPage.EmbeddedMaps)
+
+func _on_goto_custom() -> void:
+	_change_menu(MenuPage.CustomMaps)
+
+func _on_goto_options() -> void:
+	_change_menu(MenuPage.Options)
+
+func _on_root_quit() -> void:
+	get_tree().quit()
+
+func _root_on() -> void:
+	_rootMenu.visible = true
+
+func _root_off() -> void:
+	_rootMenu.visible = false
+
+func _on_navigate_callback(nameOfTarget:String) -> void:
+	if nameOfTarget == "back":
+		_change_menu(MenuPage.Root)
+
+func _change_menu(newMenuEnum) -> void:
+	off()
+	_menu = newMenuEnum
+	on()
+
 func on() -> void:
-	_title.visible = true
 	_console.visible = true
-	_customMapMenu.on()
+	
+	if _menu == MenuPage.Root:
+		_rootMenu.visible = true
+	elif _menu == MenuPage.EmbeddedMaps:
+		_embeddedMapMenu.on()
+	elif _menu == MenuPage.CustomMaps:
+		_customMapMenu.on()
+	elif _menu == MenuPage.Options:
+		_optionsMenu.on()
+	else:
+		print("Unknown menu mode")
+		return
 
 func off() -> void:
-	_title.visible = false
 	_console.visible = false
-	_customMapMenu.off()
+	
+	if _menu == MenuPage.Root:
+		_rootMenu.visible = false
+	elif _menu == MenuPage.EmbeddedMaps:
+		_embeddedMapMenu.off()
+	elif _menu == MenuPage.CustomMaps:
+		_customMapMenu.off()
+	elif _menu == MenuPage.Options:
+		_optionsMenu.off()
+	else:
+		print("Unknown menu mode")
+		return
 
 func _process(_delta:float) -> void:
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("ui_accept") && _console.has_focus():
 		var txt:String = _console.text
 		_console.text = ""
 		if txt != "":
