@@ -17,6 +17,8 @@ func _ready():
 			prefab = _prefab_player.instance()
 		elif spawn.type == MapDef.ENT_TYPE_HORDE_SPAWN:
 			prefab = _prefab_horde_spawn.instance()
+			prefab.triggerName = spawn.triggerName
+			prefab.triggerTargetName = spawn.triggerTargetName
 		else:
 			print("Unrecognised embedded ent type " + str(spawn.type))
 			continue

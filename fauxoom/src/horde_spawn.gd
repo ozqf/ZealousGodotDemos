@@ -2,28 +2,42 @@ extends Spatial
 
 var _prefab_mob_gunner = preload("res://prefabs/entities/mob_gunner.tscn")
 
-var _childType:int = 1
+export var triggerName:String = ""
+export var triggerTargetName:String = ""
 
-var _maxMobs:int = 4
-var _maxLiveMobs:int = 2
+export var childType:int = 1
+export var tickMax:float = 2
+export var maxMobs:int = 4
+export var maxLiveMobs:int = 2
+
 var _liveMobs:int = 0
 var _deadMobs:int = 0
 
-var _tickMax:float = 2
 var _tick:float = 0
 
+var _active:bool = false
 
 func _ready() -> void:
 	print("Horde spawn ready")
+	add_to_group("entities")
 
 func _process(_delta:float) -> void:
+	if !_active:
+		return
 	var consumed = _deadMobs + _liveMobs
-	if (_liveMobs < _maxLiveMobs) && (consumed < _maxMobs):
+	if (_liveMobs < maxLiveMobs) && (consumed < maxMobs):
 		_tick -= _delta
 		if _tick <= 0:
-			_tick = _tickMax
+			_tick = tickMax
 			_liveMobs += 1
 			_spawn_child()
+
+func on_trigger_entities(name:String) -> void:
+	print("Horde spawn saw trigger name " + name + " vs self name " + triggerName)
+	if name == "":
+		return
+	if name == triggerName:
+		_active = !_active
 
 func _spawn_child() -> void:
 	var mob = _prefab_mob_gunner.instance()
@@ -34,6 +48,9 @@ func _spawn_child() -> void:
 func _on_mob_died(_mob) -> void:
 	_liveMobs -= 1
 	_deadMobs += 1
-	print("Mob death: " + str(_deadMobs) + " dead vs " + str(_maxMobs) + " max")
-	if _deadMobs >= _maxMobs:
+	print("Mob death: " + str(_deadMobs) + " dead vs " + str(maxMobs) + " max")
+	if _deadMobs >= maxMobs:
+		_active = false
 		print("Horde spawn - all children dead")
+		if triggerTargetName != "":
+			get_tree().call_group("entities", "on_trigger_entities", triggerTargetName)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://prefabs/sprite_object.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=2]
+[ext_resource path="res://prefabs/entities/trigger_volume.tscn" type="PackedScene" id=3]
 [ext_resource path="res://sprites/player/PLAYA1.png" type="Texture" id=4]
 [ext_resource path="res://sprites/titan/CYBRA1.png" type="Texture" id=5]
 [ext_resource path="res://sprites/player/player_frames.tres" type="SpriteFrames" id=6]
@@ -70,3 +71,8 @@ type = 2
 [node name="embedded_spawn4" parent="test" instance=ExtResource( 8 )]
 transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -8.61079, -4.76837e-07, -5.71087 )
 type = 9
+targetName = "spawn_1"
+
+[node name="trigger_volume" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.98926, 1, -2.13907 )
+triggerTargetName = "spawn_1"

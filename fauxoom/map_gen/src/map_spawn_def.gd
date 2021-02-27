@@ -8,3 +8,5 @@ var yaw:int = 0
 var id:int = 0
 var targets:PoolIntArray = []
 var flags:int = 0
+var triggerName:String = ""
+var triggerTargetName:String = ""

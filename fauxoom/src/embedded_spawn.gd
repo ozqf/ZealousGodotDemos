@@ -26,4 +26,6 @@ func get_def() -> MapSpawnDef:
 	var t:Transform = global_transform
 	spawn.def.position = t.origin
 	spawn.def.yaw = int(rotation_degrees.y)
+	spawn.def.triggerName = targetName
+	spawn.def.triggerTargetName = target
 	return spawn.def
