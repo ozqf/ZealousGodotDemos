@@ -2,6 +2,7 @@ extends Node
 class_name PlayerAttack
 
 var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
+var _hitInfo_type = preload("res://src/defs/hit_info.gd")
 
 var _launchNode:Spatial = null
 var _parentBody:PhysicsBody = null
@@ -14,6 +15,8 @@ var _pendingWeapon:String = Weapons.PistolLabel
 var _refireTime:float = 1
 var _extraPellets:int = 10
 
+var _hitInfo:HitInfo = null
+
 signal fire_ssg()
 signal change_weapon(nameString)
 
@@ -21,12 +24,17 @@ func init_attack(launchNode:Spatial, ignoreBody:PhysicsBody) -> void:
 	_launchNode = launchNode
 	_parentBody = ignoreBody
 
+	_hitInfo = _hitInfo_type.new()
+
 func set_attack_enabled(flag:bool) -> void:
 	_active = flag
 
-func _perform_hit(result:Dictionary) -> void:
+func _perform_hit(result:Dictionary, forward:Vector3) -> void:
 	#print("HIT at " + str(result.position))
 	# result.collider etc etc
+	_hitInfo.direction = forward
+	Interactions.hitscan_hit(_hitInfo, result)
+
 	var impact:Spatial = _prefab_impact.instance()
 	var root:Node = get_tree().get_current_scene()
 	root.add_child(impact)
@@ -48,14 +56,14 @@ func _fire_spread() -> void:
 		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(origin, t.basis, spreadX, spreadY)
 		var result:Dictionary = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, 1000, [_parentBody], mask)
 		if result:
-			_perform_hit(result)
+			_perform_hit(result, forward)
 
 func _fire_single() -> void:
 	var mask:int = (1 << 0)
 	#var mask:int = -1
 	var result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, [_parentBody], mask)
 	if result:
-		_perform_hit(result)
+		_perform_hit(result, -_launchNode.global_transform.basis.z)
 	pass
 
 func _check_weapon_change() -> void:

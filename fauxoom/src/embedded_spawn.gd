@@ -12,10 +12,12 @@ enum EntityType {
 	Trigger = 5,
 	Relay = 6,
 	Counter = 7,
-	Gate = 8
+	Gate = 8,
+	HordeSpawn = 9
 }
 export(EntityType) var type = EntityType.None
 export(String) var targetName:String = ""
+export(String) var target:String = ""
 
 func get_def() -> MapSpawnDef:
 	$actor_spawn.hide()

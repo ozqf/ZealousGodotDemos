@@ -67,10 +67,6 @@ script = ExtResource( 7 )
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -12.1708, -4.76837e-07, -2.57923 )
 type = 2
 
-[node name="embedded_spawn2" parent="test" instance=ExtResource( 8 )]
-transform = Transform( 0, 0, 1, 0, 1, 0, -1, 0, 0, -2.17078, -4.76837e-07, -3.57923 )
-type = 1
-
-[node name="embedded_spawn3" parent="test" instance=ExtResource( 8 )]
-transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -11.1708, -4.76837e-07, -9.57923 )
-type = 1
+[node name="embedded_spawn4" parent="test" instance=ExtResource( 8 )]
+transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -8.61079, -4.76837e-07, -5.71087 )
+type = 9

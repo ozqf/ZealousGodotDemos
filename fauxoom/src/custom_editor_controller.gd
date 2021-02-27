@@ -10,6 +10,16 @@ var _templates = [
 		"body": "actor"
 	},
 	{
+		"typeId": MapDef.ENT_TYPE_HORDE_SPAWN,
+		"label": "Horde Spawn",
+		"body": "actor"
+	},
+	{
+		"typeId": MapDef.ENT_TYPE_MOB_GRUNT,
+		"label": "Mob: Grunt",
+		"body": "actor"
+	},
+	{
 		"typeId": MapDef.ENT_TYPE_START,
 		"label": "PlayerStart",
 		"body": "actor"

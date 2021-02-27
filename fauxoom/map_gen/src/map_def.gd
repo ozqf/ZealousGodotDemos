@@ -20,6 +20,7 @@ const ENT_TYPE_TRIGGER:int = 5
 const ENT_TYPE_RELAY:int = 6
 const ENT_TYPE_COUNTER:int = 7
 const ENT_TYPE_GATE:int = 8
+const ENT_TYPE_HORDE_SPAWN:int = 9
 
 var format:int = 1
 var name:String = "No Title"
