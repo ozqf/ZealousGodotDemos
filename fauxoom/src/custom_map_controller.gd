@@ -8,7 +8,7 @@ var _prefab_spawn = preload("res://map_gen/prefabs/actor_spawn.tscn")
 var _prefab_default_mob = preload("res://prefabs/sprite_object.tscn")
 var _prefab_player = preload("res://prefabs/player.tscn")
 
-var _prefab_mob_gunner = preload("res://prefabs/entities/mob_gunner.tscn")
+var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
 
 var _map:MapDef = null
 

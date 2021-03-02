@@ -1,10 +1,25 @@
 extends Spatial
 
 var _prefab_player = preload("res://prefabs/player.tscn")
-var _prefab_mob_gunner = preload("res://prefabs/entities/mob_gunner.tscn")
-var _prefab_horde_spawn = preload("res://prefabs/entities/horde_spawn.tscn")
+var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
+var _prefab_horde_spawn = preload("res://prefabs/static_entities/horde_spawn.tscn")
 
-func _ready():
+var _startEnts = []
+
+func _ready() -> void:
+	_startEnts = get_tree().get_nodes_in_group("entities")
+	var l:int = _startEnts.size()
+	print("Found " + str(l) + " static ents")
+	start_play()
+
+func start_play() -> void:
+	var l:int = _startEnts.size()
+	for _i in range (0, l):
+		var ent = _startEnts[_i]
+		if ent.has_method("start_play"):
+			ent.start_play($dynamic as Spatial)
+
+func _ready_defunct():
 	var spawnNodes = get_tree().get_nodes_in_group("embedded_spawns")
 	var l:int = spawnNodes.size()
 	print("Embedded map found " + str(l) + " embedded spawn points")

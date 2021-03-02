@@ -27,10 +27,10 @@ func _refresh_mouse_lock() -> void:
 	var c:int = _claims.size()
 	if c > 0:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		print("Refresh mouselock - visible " + str(c))
+		# print("Refresh mouselock - visible " + str(c))
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		print("Refresh mouselock - captured " + str(c))
+		# print("Refresh mouselock - captured " + str(c))
 
 func on_add_mouse_claim(claim:String) -> void:
 	if _index_of(claim) > 0:

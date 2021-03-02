@@ -1,6 +1,6 @@
 extends Spatial
 
-var _prefab_mob_gunner = preload("res://prefabs/entities/mob_gunner.tscn")
+var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
 
 export var triggerName:String = ""
 export var triggerTargetName:String = ""
