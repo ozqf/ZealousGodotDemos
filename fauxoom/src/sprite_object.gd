@@ -54,5 +54,5 @@ func _process(_delta:float) -> void:
 		yaw = get_parent().rotation_degrees.y
 	else:
 		yaw = rotation_degrees.y
-	var i:int = ZqfUtils.sprite_index(game.get_camera_pos(), self.global_transform, yaw, _frames.size())
+	var i:int = ZqfUtils.sprite_index(Main.get_camera_pos(), self.global_transform, yaw, _frames.size())
 	_sprite.texture = _frames[i]

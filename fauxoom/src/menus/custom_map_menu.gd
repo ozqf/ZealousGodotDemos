@@ -41,7 +41,7 @@ func _ready():
 	# save box cannot be written in, it is just for displaying and
 	# copying base64 text
 	$save_to_text/paste_box.readonly = true
-	game_on_wrote_map_text(MapEncoder.map_to_b64(game.get_map()))
+	game_on_wrote_map_text(MapEncoder.map_to_b64(Main.get_map()))
 
 func _process(_delta:float) -> void:
 	var newW:int = _newMapWidth.value
@@ -60,8 +60,8 @@ func off() -> void:
 func _on_new_map() -> void:
 	var map:MapDef = MapEncoder.empty_map(_newMapWidth.value, _newMapHeight.value)
 	map.set_all(1)
-	game.set_pending_map(map)
-	game.on_game_edit_level()
+	Main.set_pending_map(map)
+	Main.on_game_edit_level()
 
 func _on_back() -> void:
 	self.emit_signal("menu_navigate", "back")
@@ -123,7 +123,7 @@ func _on_save_text_pressed() -> void:
 	print("Save map text")
 	# get_tree().call_group("game", "game_on_save_map_text")
 
-	var def:MapDef = game.get_map()
+	var def:MapDef = Main.get_map()
 	var b64:String = MapEncoder.map_to_b64(def)
 	game_on_wrote_map_text(b64)
 
@@ -132,16 +132,16 @@ func _on_play_pressed() -> void:
 		print("No pending map to play!")
 		return
 	print("Play")
-	game.set_pending_map(_pendingMap)
-	game.on_game_play_level()
+	Main.set_pending_map(_pendingMap)
+	Main.on_game_play_level()
 
 func _on_edit_pressed() -> void:
 	if _pendingMap == null:
 		print("No pending map to edit!")
 		return
 	print("Edit")
-	game.set_pending_map(_pendingMap)
-	game.on_game_edit_level()
+	Main.set_pending_map(_pendingMap)
+	Main.on_game_edit_level()
 
 func game_on_wrote_map_text(txt:String) -> void:
 	_saveBox.text = txt

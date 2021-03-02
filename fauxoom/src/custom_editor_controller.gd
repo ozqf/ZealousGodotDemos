@@ -39,7 +39,7 @@ func _ready() -> void:
 	# _mapDef = AsciMapLoader.build_test_map()
 	# _mapDef = MapEncoder.empty_map(DEFAULT_MAP_SIZE, DEFAULT_MAP_SIZE)
 	# _mapDef.set_all(1)
-	_mapDef = game.get_map()
+	_mapDef = Main.get_map()
 	_ed.init(_mapDef, _templates)
 
 func game_on_load_base64(b64:String) -> void:

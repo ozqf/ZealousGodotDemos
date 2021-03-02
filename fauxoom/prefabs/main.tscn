@@ -1,0 +1,624 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://src/main.gd" type="Script" id=1]
+[ext_resource path="res://src/menus/static_menus.gd" type="Script" id=2]
+[ext_resource path="res://src/menus/custom_map_menu.gd" type="Script" id=3]
+[ext_resource path="res://src/menus/embedded_map_menu.gd" type="Script" id=4]
+[ext_resource path="res://src/mouse_lock.gd" type="Script" id=5]
+[ext_resource path="res://src/menus/options_menu.gd" type="Script" id=6]
+
+[node name="main" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="mouse_lock" type="Node" parent="."]
+script = ExtResource( 5 )
+
+[node name="static_menus" type="CanvasLayer" parent="."]
+layer = 10
+script = ExtResource( 2 )
+
+[node name="console" type="LineEdit" parent="static_menus"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -504.0
+margin_top = -292.0
+margin_right = -83.0
+margin_bottom = -260.0
+placeholder_text = "Type command..."
+caret_blink = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="debug" type="Control" parent="static_menus"]
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="debug_text" type="Label" parent="static_menus/debug"]
+margin_top = 200.818
+margin_right = 512.0
+margin_bottom = 593.818
+text = "Line 1
+Line 2"
+valign = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="debug_text2" type="Label" parent="static_menus/debug"]
+anchor_left = 0.5
+anchor_right = 1.0
+margin_left = 620.0
+margin_right = 983.0
+margin_bottom = 192.0
+text = "Line 1
+Line 2"
+align = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="root_menu" type="Control" parent="static_menus"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -300.0
+margin_right = 512.0
+margin_bottom = 300.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="title_text" type="Control" parent="static_menus/root_menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_top = -4.0
+margin_bottom = -4.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="title" type="Label" parent="static_menus/root_menu/title_text"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = -300.0
+margin_right = 128.0
+margin_bottom = -205.0
+text = "FAUXOOM"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="credits" type="Label" parent="static_menus/root_menu/title_text"]
+anchor_left = 0.5
+anchor_right = 0.503
+anchor_bottom = 0.21
+margin_left = -168.0
+margin_top = 240.0
+margin_right = 167.0
+margin_bottom = 305.0
+text = "Game by ZQF
+Assets by the Freedoom project: freedoom.github.io
+Engine: Godot 3 GLES2
+"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="static_menus/root_menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -192.0
+margin_top = -172.0
+margin_right = 192.0
+margin_bottom = 212.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="embedded_maps" type="Button" parent="static_menus/root_menu/VBoxContainer"]
+margin_top = 146.0
+margin_right = 384.0
+margin_bottom = 166.0
+text = "START"
+
+[node name="custom_maps" type="Button" parent="static_menus/root_menu/VBoxContainer"]
+margin_top = 170.0
+margin_right = 384.0
+margin_bottom = 190.0
+text = "CUSTOM MAPS"
+
+[node name="options" type="Button" parent="static_menus/root_menu/VBoxContainer"]
+margin_top = 194.0
+margin_right = 384.0
+margin_bottom = 214.0
+text = "OPTIONS"
+
+[node name="quit" type="Button" parent="static_menus/root_menu/VBoxContainer"]
+margin_top = 218.0
+margin_right = 384.0
+margin_bottom = 238.0
+text = "QUIT"
+
+[node name="embedded_maps" type="Control" parent="static_menus"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -300.0
+margin_right = 512.0
+margin_bottom = 300.0
+mouse_filter = 2
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="static_menus/embedded_maps"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -192.0
+margin_top = -172.0
+margin_right = 192.0
+margin_bottom = 212.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="menu_title" type="Label" parent="static_menus/embedded_maps/VBoxContainer"]
+margin_right = 384.0
+margin_bottom = 14.0
+text = "SELECT MAP"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="back" type="Button" parent="static_menus/embedded_maps/VBoxContainer"]
+margin_top = 18.0
+margin_right = 384.0
+margin_bottom = 38.0
+text = "back"
+
+[node name="custom_map_menu" type="Control" parent="static_menus"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -300.0
+margin_right = 512.0
+margin_bottom = 300.0
+mouse_filter = 2
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="load_from_text" type="VBoxContainer" parent="static_menus/custom_map_menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -496.0
+margin_top = -236.0
+margin_right = -65.0
+margin_bottom = 140.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="static_menus/custom_map_menu/load_from_text"]
+margin_right = 431.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 0, 32 )
+text = "Load map text"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="paste_box" type="TextEdit" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 36.0
+margin_right = 431.0
+margin_bottom = 132.0
+rect_min_size = Vector2( 0, 96 )
+hint_tooltip = "Paste map text here to load from"
+wrap_enabled = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="copy_button" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 136.0
+margin_right = 431.0
+margin_bottom = 160.0
+rect_min_size = Vector2( 0, 24 )
+text = "COPY TEXT FROM SAVE"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="to_clipboard" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 164.0
+margin_right = 431.0
+margin_bottom = 188.0
+rect_min_size = Vector2( 0, 24 )
+text = "COPY TO CLIPBOARD"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="to_data" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 192.0
+margin_right = 431.0
+margin_bottom = 216.0
+rect_min_size = Vector2( 0, 24 )
+text = "TO DATA"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="load_button" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 220.0
+margin_right = 431.0
+margin_bottom = 244.0
+rect_min_size = Vector2( 0, 24 )
+text = "LOAD"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="edit_button" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 248.0
+margin_right = 431.0
+margin_bottom = 272.0
+rect_min_size = Vector2( 0, 24 )
+disabled = true
+text = "EDIT"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="play_button" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 276.0
+margin_right = 431.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 0, 24 )
+disabled = true
+text = "PLAY"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="load_results" type="RichTextLabel" parent="static_menus/custom_map_menu/load_from_text"]
+margin_top = 304.0
+margin_right = 431.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 0, 96 )
+focus_mode = 2
+selection_enabled = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="save_to_text" type="VBoxContainer" parent="static_menus/custom_map_menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 64.0001
+margin_top = -236.0
+margin_right = 494.999
+margin_bottom = 42.0002
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="static_menus/custom_map_menu/save_to_text"]
+margin_right = 430.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 0, 32 )
+text = "Save current map to text"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="paste_box" type="TextEdit" parent="static_menus/custom_map_menu/save_to_text"]
+margin_top = 36.0
+margin_right = 430.0
+margin_bottom = 132.0
+rect_min_size = Vector2( 0, 96 )
+hint_tooltip = "Copy map text from here to save"
+wrap_enabled = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="save_button" type="Button" parent="static_menus/custom_map_menu/save_to_text"]
+margin_top = 136.0
+margin_right = 430.0
+margin_bottom = 160.0
+rect_min_size = Vector2( 0, 24 )
+text = "SAVE"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="save_results" type="RichTextLabel" parent="static_menus/custom_map_menu/save_to_text"]
+margin_top = 164.0
+margin_right = 430.0
+margin_bottom = 196.0
+rect_min_size = Vector2( 0, 32 )
+focus_mode = 2
+mouse_filter = 2
+text = "Current map text"
+selection_enabled = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="new_map" type="VBoxContainer" parent="static_menus/custom_map_menu"]
+margin_left = 384.0
+margin_top = 384.0
+margin_right = 640.0
+margin_bottom = 512.0
+alignment = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="set_width" type="HBoxContainer" parent="static_menus/custom_map_menu/new_map"]
+margin_top = 18.0
+margin_right = 256.0
+margin_bottom = 34.0
+alignment = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="static_menus/custom_map_menu/new_map/set_width"]
+margin_left = 7.0
+margin_top = 1.0
+margin_right = 52.0
+margin_bottom = 15.0
+text = "WIDTH"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="width_slider" type="HSlider" parent="static_menus/custom_map_menu/new_map/set_width"]
+margin_left = 56.0
+margin_right = 248.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 192, 0 )
+min_value = 16.0
+max_value = 96.0
+step = 2.0
+value = 32.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="set_height" type="HBoxContainer" parent="static_menus/custom_map_menu/new_map"]
+margin_top = 38.0
+margin_right = 256.0
+margin_bottom = 54.0
+alignment = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="static_menus/custom_map_menu/new_map/set_height"]
+margin_left = 5.0
+margin_top = 1.0
+margin_right = 54.0
+margin_bottom = 15.0
+text = "HEIGHT"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="height_slider" type="HSlider" parent="static_menus/custom_map_menu/new_map/set_height"]
+margin_left = 58.0
+margin_right = 250.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 192, 0 )
+min_value = 16.0
+max_value = 96.0
+step = 2.0
+value = 32.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="create_new" type="Button" parent="static_menus/custom_map_menu/new_map"]
+margin_top = 58.0
+margin_right = 256.0
+margin_bottom = 82.0
+rect_min_size = Vector2( 0, 24 )
+text = "CREATE NEW"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="back" type="Button" parent="static_menus/custom_map_menu/new_map"]
+margin_top = 86.0
+margin_right = 256.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 0, 24 )
+text = "BACK"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="FileDialog" type="FileDialog" parent="static_menus/custom_map_menu"]
+margin_right = 315.0
+margin_bottom = 130.0
+resizable = true
+
+[node name="options" type="Control" parent="static_menus"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -300.0
+margin_right = 512.0
+margin_bottom = 300.0
+mouse_filter = 2
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="static_menus/options"]
+anchor_left = 0.5
+anchor_top = 0.497
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -319.0
+margin_top = -170.2
+margin_right = 320.0
+margin_bottom = 212.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mouse_sensitivity" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
+margin_right = 639.0
+margin_bottom = 16.0
+alignment = 1
+
+[node name="Label" type="Label" parent="static_menus/options/VBoxContainer/mouse_sensitivity"]
+margin_left = 133.0
+margin_top = 1.0
+margin_right = 246.0
+margin_bottom = 15.0
+text = "Mouse Sensitivity"
+
+[node name="HSlider" type="HSlider" parent="static_menus/options/VBoxContainer/mouse_sensitivity"]
+margin_left = 250.0
+margin_right = 506.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 256, 0 )
+
+[node name="inverted_mouse" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
+margin_top = 20.0
+margin_right = 639.0
+margin_bottom = 44.0
+alignment = 1
+
+[node name="Label" type="Label" parent="static_menus/options/VBoxContainer/inverted_mouse"]
+margin_left = 234.0
+margin_top = 5.0
+margin_right = 377.0
+margin_bottom = 19.0
+text = "Inverted Mouse Y Axis"
+
+[node name="CheckBox" type="CheckBox" parent="static_menus/options/VBoxContainer/inverted_mouse"]
+margin_left = 381.0
+margin_right = 405.0
+margin_bottom = 24.0
+
+[node name="sound_volume" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
+margin_top = 48.0
+margin_right = 639.0
+margin_bottom = 64.0
+alignment = 1
+
+[node name="Label" type="Label" parent="static_menus/options/VBoxContainer/sound_volume"]
+margin_left = 143.0
+margin_top = 1.0
+margin_right = 235.0
+margin_bottom = 15.0
+text = "Sound Volume"
+
+[node name="HSlider" type="HSlider" parent="static_menus/options/VBoxContainer/sound_volume"]
+margin_left = 239.0
+margin_right = 495.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 256, 0 )
+
+[node name="music_volume" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
+margin_top = 68.0
+margin_right = 639.0
+margin_bottom = 84.0
+alignment = 1
+
+[node name="Label" type="Label" parent="static_menus/options/VBoxContainer/music_volume"]
+margin_left = 144.0
+margin_top = 1.0
+margin_right = 235.0
+margin_bottom = 15.0
+text = "Music Volume"
+
+[node name="HSlider" type="HSlider" parent="static_menus/options/VBoxContainer/music_volume"]
+margin_left = 239.0
+margin_right = 495.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 256, 0 )
+
+[node name="back" type="Button" parent="static_menus/options/VBoxContainer"]
+anchor_left = 0.302
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_top = 88.0
+margin_right = 128.0
+margin_bottom = 108.0
+text = "BACK"

@@ -189,12 +189,13 @@ _global_script_class_icons={
 [application]
 
 config/name="Fauxoom"
-run/main_scene="res://maps/grid_map.tscn"
+run/main_scene="res://maps/test_level.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-game="*res://prefabs/game.tscn"
+Main="*res://prefabs/main.tscn"
+Game="*res://prefabs/game.tscn"
 
 [display]
 

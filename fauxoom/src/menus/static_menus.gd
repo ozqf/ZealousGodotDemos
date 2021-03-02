@@ -58,6 +58,7 @@ func _change_menu(newMenuEnum) -> void:
 
 func on() -> void:
 	_console.visible = true
+	_console.grab_focus()
 	
 	if _menu == MenuPage.Root:
 		_rootMenu.visible = true

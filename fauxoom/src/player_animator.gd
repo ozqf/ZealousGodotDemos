@@ -30,7 +30,7 @@ func _ready() -> void:
 	_maxFrames = _currentAnim[0].size()
 
 func _calc_dir_index() -> int:
-	var cam:Transform = game.get_camera_pos()
+	var cam:Transform = Main.get_camera_pos()
 	var i:int = ZqfUtils.sprite_index(cam, self.global_transform, yawDegrees, _currentAnim.size())
 	return i
 

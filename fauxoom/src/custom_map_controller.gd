@@ -26,7 +26,7 @@ func _ready() -> void:
 	add_to_group("game")
 	add_to_group("console")
 	
-	_map = game.get_map()
+	_map = Main.get_map()
 	# _map = MapEncoder.b64_to_map(MapEncoder.b64TestSmall)
 	if _map == null:
 		_map = AsciMapLoader.build_test_map()

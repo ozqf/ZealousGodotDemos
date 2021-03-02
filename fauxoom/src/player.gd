@@ -9,7 +9,7 @@ onready var _hud:Hud = $hud
 var _inputOn:bool = false
 
 func _ready():
-	game.set_camera(_head)
+	Main.set_camera(_head)
 	
 	add_to_group("game")
 	add_to_group("console")
@@ -23,11 +23,11 @@ func _ready():
 	_foo = _attack.connect("change_weapon", _hud, "on_change_weapon")
 	_foo = connect("tree_exiting", self, "_on_tree_exiting")
 
-	game.register_player(self)
+	Game.register_player(self)
 
 func _on_tree_exiting() -> void:
-	game.deregister_player(self)
-	game.clear_camera(_head)
+	Game.deregister_player(self)
+	Main.clear_camera(_head)
 
 func console_on_exec(_txt:String) -> void:
 	if _txt == "kill":
@@ -37,7 +37,7 @@ func game_on_level_completed() -> void:
 	kill()
 
 func _refresh_input_on() -> void:
-	var flag:bool = game.get_input_on()
+	var flag:bool = Main.get_input_on()
 	_motor.set_input_enabled(flag)
 	_attack.set_attack_enabled(flag)
 

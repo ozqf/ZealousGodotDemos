@@ -68,7 +68,7 @@ func _process(_delta:float) -> void:
 		pass
 	
 	var wasNull:bool = _curTarget == null
-	_curTarget = game.mob_check_target(_curTarget)
+	_curTarget = Game.mob_check_target(_curTarget)
 	if _curTarget && wasNull:
 		print("Mob got target!")
 	elif _curTarget == null && !wasNull:

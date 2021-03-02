@@ -4,6 +4,10 @@ var _player_t = preload("res://prefabs/player.tscn")
 
 func _ready() -> void:
 	add_to_group("entities")
+	Game.register_player_start(self)
+
+func _exit_tree() -> void:
+	Game.deregister_player_start(self)
 
 func start_play(dynamicParentNode:Spatial) -> void:
 	var player = _player_t.instance()

@@ -6,7 +6,7 @@ var _prefab_horde_spawn = preload("res://prefabs/static_entities/horde_spawn.tsc
 
 var _startEnts = []
 
-func _ready() -> void:
+func _ready_defunct_again() -> void:
 	_startEnts = get_tree().get_nodes_in_group("entities")
 	var l:int = _startEnts.size()
 	print("Found " + str(l) + " static ents")

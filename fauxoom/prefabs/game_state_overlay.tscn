@@ -1,16 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene format=2]
 
-[ext_resource path="res://src/game.gd" type="Script" id=1]
-
-[node name="game" type="Spatial"]
-script = ExtResource( 1 )
-
-[node name="dynamic" type="Spatial" parent="."]
-
-[node name="game_state_overlay" type="CanvasLayer" parent="."]
+[node name="game_state_overlay" type="CanvasLayer"]
 layer = 2
 
-[node name="pregame" type="Control" parent="game_state_overlay"]
+[node name="pregame" type="Control" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -24,7 +17,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="game_state_overlay/pregame"]
+[node name="Label" type="Label" parent="pregame"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -37,7 +30,7 @@ text = "PRESS SPACE TO START"
 align = 1
 valign = 1
 
-[node name="death" type="Control" parent="game_state_overlay"]
+[node name="death" type="Control" parent="."]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -52,7 +45,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="game_state_overlay/death"]
+[node name="Label" type="Label" parent="death"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -65,7 +58,7 @@ text = "YOU ARE DEAD"
 align = 1
 valign = 1
 
-[node name="complete" type="Control" parent="game_state_overlay"]
+[node name="complete" type="Control" parent="."]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -80,7 +73,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="game_state_overlay/complete"]
+[node name="Label" type="Label" parent="complete"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
