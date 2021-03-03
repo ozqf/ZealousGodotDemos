@@ -23,8 +23,8 @@ var _orbitRate:float = 35
 
 func _ready() -> void:
 	print("- Custom map ready -")
-	add_to_group("game")
-	add_to_group("console")
+	add_to_group(Groups.GAME_GROUP_NAME)
+	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	
 	_map = Main.get_map()
 	# _map = MapEncoder.b64_to_map(MapEncoder.b64TestSmall)
@@ -34,7 +34,7 @@ func _ready() -> void:
 
 func console_on_exec(txt:String) -> void:
 	if txt == "complete":
-		get_tree().call_group("game", "game_on_level_completed")
+		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_LEVEL_COMPLETED)
 
 func game_on_level_completed() -> void:
 	if _state != GameState.Playing:
@@ -103,7 +103,7 @@ func spawn_entities() -> void:
 #func game_on_save_map_text() -> void:
 #	# var b64 = AsciMapLoader.str_to_b64(_mapText)
 #	var b64:String = MapEncoder.map_to_b64(_map)
-#	get_tree().call_group("game", "game_on_wrote_map_text", b64)
+#	get_tree().call_group(Groups.GAME_GROUP_NAME, "game_on_wrote_map_text", b64)
 
 func _process(delta) -> void:
 	if _state == GameState.Pregame:

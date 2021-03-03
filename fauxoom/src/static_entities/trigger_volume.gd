@@ -6,7 +6,7 @@ export var triggerTargetName:String = ""
 var _active:bool = true
 
 func _ready() -> void:
-	add_to_group("entities")
+	add_to_group(Groups.ENTS_GROUP_NAME)
 	self.connect("body_entered", self, "_on_body_entered")
 
 func _on_body_entered(_body:PhysicsBody) -> void:

@@ -25,7 +25,7 @@ var _pendingMap:MapDef = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	add_to_group("game")
+	add_to_group(Groups.GAME_GROUP_NAME)
 	var _f
 	_f = _loadFromText.connect("pressed", self, "_on_load_text_pressed")
 	_f = _saveToText.connect("pressed", self, "_on_save_text_pressed")
@@ -99,7 +99,7 @@ func _on_load_text_pressed() -> void:
 		_loadInfo.text = "You need to paste in some text to load from first!"
 		return
 	print("Menu - Load from " + str(txt.length()) + " chars")
-	# get_tree().call_group("game", "game_on_load_base64", txt)
+	# get_tree().call_group(Groups.GAME_GROUP_NAME, "game_on_load_base64", txt)
 	var messages = []
 	_pendingMap = MapEncoder.b64_to_map(txt, messages)
 	_loadInfo.text = ZqfUtils.join_strings(messages, "\n")
@@ -121,7 +121,7 @@ func _on_load_text_pressed() -> void:
 
 func _on_save_text_pressed() -> void:
 	print("Save map text")
-	# get_tree().call_group("game", "game_on_save_map_text")
+	# get_tree().call_group(Groups.GAME_GROUP_NAME, "game_on_save_map_text")
 
 	var def:MapDef = Main.get_map()
 	var b64:String = MapEncoder.map_to_b64(def)

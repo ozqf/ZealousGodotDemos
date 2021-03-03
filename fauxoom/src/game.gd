@@ -1,6 +1,9 @@
 extends Spatial
 class_name GameController
 
+const GROUP_NAME:String = "game"
+const RESET_FN:String = "on_game_reset"
+
 var _player_t = preload("res://prefabs/player.tscn")
 
 onready var _entRoot:Spatial = $dynamic
@@ -16,12 +19,19 @@ var _player:Player = null;
 
 func _ready() -> void:
 	print("Game singleton init")
-	add_to_group("console")
+	add_to_group(Groups.CONSOLE_GROUP_NAME)
+	add_to_group(Groups.GAME_GROUP_NAME)
 
 func _process(_delta:float) -> void:
 	if _state == GameState.Pregame:
 		if Input.is_action_just_pressed("ui_select"):
 			begin_game()
+
+func game_on_player_died() -> void:
+	print("Game - saw player died!")
+	if _state == GameState.Playing:
+		_state = GameState.Lost
+		
 
 func console_on_exec(txt:String) -> void:
 	if txt == "reset":
@@ -42,6 +52,8 @@ func reset_game() -> void:
 	if _state == GameState.Pregame:
 		return
 	var l:int = _entRoot.get_child_count()
+	get_tree().call_group(GROUP_NAME, RESET_FN)
+	print("Game - freeing " + str(l) + " ents from root")
 	for _i in range(0, l):
 		_entRoot.get_child(_i).queue_free()
 	_state = GameState.Pregame

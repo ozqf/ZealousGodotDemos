@@ -35,7 +35,7 @@ var _templates = [
 ]
 
 func _ready() -> void:
-	add_to_group("game")
+	add_to_group(Groups.GAME_GROUP_NAME)
 	# _mapDef = AsciMapLoader.build_test_map()
 	# _mapDef = MapEncoder.empty_map(DEFAULT_MAP_SIZE, DEFAULT_MAP_SIZE)
 	# _mapDef.set_all(1)
@@ -52,11 +52,11 @@ func game_on_load_base64(b64:String) -> void:
 	print("Results: " + ZqfUtils.join_strings(messages, "\n"))
 	print("Call game group on_read_map_text")
 	if newMapDef != null:
-		get_tree().call_group("game", "game_on_read_map_text_success", newMapDef, messages)
+		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_READ_MAP_TEXT_SUCCESS, newMapDef, messages)
 	else:
-		get_tree().call_group("game", "game_on_read_map_text_fail", messages)
+		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_READ_MAP_TEXT_FAIL, messages)
 
 func game_on_save_map_text() -> void:
 	# var b64 = AsciMapLoader.str_to_b64(_mapText)
 	var b64:String = MapEncoder.map_to_b64(_mapDef)
-	get_tree().call_group("game", "game_on_wrote_map_text", b64)
+	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_WROTE_MAP_TEXT, b64)

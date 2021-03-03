@@ -3,7 +3,7 @@ extends Spatial
 var _player_t = preload("res://prefabs/player.tscn")
 
 func _ready() -> void:
-	add_to_group("entities")
+	add_to_group(Groups.ENTS_GROUP_NAME)
 	Game.register_player_start(self)
 
 func _exit_tree() -> void:

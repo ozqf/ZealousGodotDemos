@@ -55,8 +55,8 @@ var _pendingMapDef:MapDef = null
 
 func _ready():
 	print("Game service start")
-	add_to_group("game")
-	add_to_group("console")
+	add_to_group(Groups.GAME_GROUP_NAME)
+	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	set_input_off()
 	
 	if OS.has_feature("JavaScript"):

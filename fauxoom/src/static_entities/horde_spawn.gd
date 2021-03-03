@@ -19,7 +19,7 @@ var _active:bool = false
 
 func _ready() -> void:
 	print("Horde spawn ready")
-	add_to_group("entities")
+	add_to_group(Groups.ENTS_GROUP_NAME)
 
 func _process(_delta:float) -> void:
 	if !_active:

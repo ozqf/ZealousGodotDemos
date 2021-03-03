@@ -11,8 +11,8 @@ var _inputOn:bool = false
 func _ready():
 	Main.set_camera(_head)
 	
-	add_to_group("game")
-	add_to_group("console")
+	add_to_group(Groups.GAME_GROUP_NAME)
+	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	
 	_motor.init_motor(self, _head)
 	_motor.set_input_enabled(false)
@@ -46,5 +46,5 @@ func _process(_delta):
 
 func kill() -> void:
 	var info:Dictionary = {}
-	get_tree().call_group("game", "game_on_player_died", info)
+	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_PLAYER_DIED, info)
 	queue_free()
