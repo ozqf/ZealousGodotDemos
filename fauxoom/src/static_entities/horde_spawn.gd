@@ -17,9 +17,31 @@ var _tick:float = 0
 
 var _active:bool = false
 
+var _spawnState:Dictionary
+
 func _ready() -> void:
 	print("Horde spawn ready")
 	add_to_group(Groups.ENTS_GROUP_NAME)
+	add_to_group(Groups.GAME_GROUP_NAME)
+	_spawnState = write_state()
+
+func write_state() -> Dictionary:
+	return {
+		liveMobs = _liveMobs,
+		deadMobs = _deadMobs,
+		tick = _tick,
+		active = _active
+	}
+
+func restore_state(data:Dictionary) -> void:
+	_liveMobs = data.liveMobs
+	_deadMobs = data.deadMobs
+	_tick = data.tick
+	_active = data.active
+
+func game_on_reset() -> void:
+	print("Horde spawn saw game reset")
+	restore_state(_spawnState)
 
 func _process(_delta:float) -> void:
 	if !_active:

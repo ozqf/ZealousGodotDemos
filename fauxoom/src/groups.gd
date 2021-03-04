@@ -4,7 +4,7 @@ const CONSOLE_GROUP_NAME:String = "console"
 const CONSOLE_FN_EXEC:String = "console_on_exec"
 
 const GAME_GROUP_NAME:String = "game"
-const GAME_FN_RESET:String = "on_game_reset"
+const GAME_FN_RESET:String = "game_on_reset"
 const GAME_FN_PLAYER_DIED:String = "game_on_player_died"
 const GAME_FN_LEVEL_COMPLETED:String = "game_on_level_completed"
 

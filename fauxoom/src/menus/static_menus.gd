@@ -92,4 +92,5 @@ func _process(_delta:float) -> void:
 		var txt:String = _console.text
 		_console.text = ""
 		if txt != "":
+			print("EXEC " + txt)
 			get_tree().call_group("console", "console_on_exec", txt)

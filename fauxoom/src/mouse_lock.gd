@@ -31,9 +31,16 @@ func _refresh_mouse_lock() -> void:
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		# print("Refresh mouselock - captured " + str(c))
+	_debug_claims()
+
+func _debug_claims() -> void:
+	var txt:String = "Claims: "
+	for _i in range(0, _claims.size()):
+		txt += _claims[_i] + ", "
+	print(txt)
 
 func on_add_mouse_claim(claim:String) -> void:
-	if _index_of(claim) > 0:
+	if _index_of(claim) >= 0:
 		print("MOUSELOCK - already have the claim " + str(claim))
 		return
 	_claims.push_back(claim)

@@ -33,6 +33,11 @@ var _dead:bool = false
 
 func _ready() -> void:
 	print("Mob base init")
+	add_to_group(Groups.GAME_GROUP_NAME)
+
+func game_on_reset() -> void:
+	print("Mob saw game reset")
+	queue_free()
 
 func is_dead() -> bool:
 	return (_state == MobState.Dead || _state == MobState.Dying)
