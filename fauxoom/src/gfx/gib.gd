@@ -1,9 +1,23 @@
 extends RigidBody
 
-func _ready() -> void:
-	launch(1)
+var _timeToLive:float = 10
 
-func launch(_power:float) -> void:
+func _ready() -> void:
+	add_to_group(Groups.GAME_GROUP_NAME)
+	launch(1, 0)
+
+func game_on_reset() -> void:
+	self.queue_free()
+
+func _process(_delta:float) -> void:
+	_timeToLive -= _delta
+	if _timeToLive <= 0:
+		_timeToLive = 99999
+		self.queue_free()
+
+func launch(_power:float, ttlOverride:float) -> void:
+	if ttlOverride > 0:
+		_timeToLive = ttlOverride
 	var vel:Vector3 = Vector3()
 	# vel.x = 0.5 * _power
 	vel.y = 10 * _power

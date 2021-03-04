@@ -16,7 +16,7 @@ size = Vector3( 0.25, 0.25, 0.25 )
 
 [node name="player" type="KinematicBody"]
 collision_layer = 8
-collision_mask = 63
+collision_mask = 127
 script = ExtResource( 2 )
 
 [node name="Sprite3D" type="Sprite3D" parent="."]

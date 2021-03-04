@@ -99,6 +99,8 @@ func reset_game() -> void:
 	if _state == GameState.Pregame:
 		return
 	var l:int = _entRoot.get_child_count()
+	_camera.detach()
+	_camera.global_transform = Transform.IDENTITY
 	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_RESET)
 	print("Game - freeing " + str(l) + " ents from root")
 	for _i in range(0, l):
