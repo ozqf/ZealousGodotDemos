@@ -26,6 +26,8 @@ func _ready() -> void:
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	_refresh_overlay()
+	$game_state_overlay/death/menu/reset.connect("pressed", self, "on_clicked_reset")
+	$game_state_overlay/complete/menu/reset.connect("pressed", self, "on_clicked_reset")
 	Main.set_camera(_camera)
 
 func _process(_delta:float) -> void:
@@ -39,6 +41,9 @@ func _input(_event) -> void:
 	if _event is InputEventKey:
 		if _state == GameState.Pregame && Input.is_action_just_pressed("ui_select"):
 			begin_game()
+
+func on_clicked_reset() -> void:
+	get_tree().call_group("console", "console_on_exec", "reset")
 
 func game_on_player_died(_info:Dictionary) -> void:
 	print("Game - saw player died!")
