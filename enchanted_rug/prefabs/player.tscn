@@ -20,9 +20,17 @@ script = ExtResource( 2 )
 
 [node name="ui" type="CanvasLayer" parent="."]
 
+[node name="ColorRect" type="ColorRect" parent="ui"]
+margin_right = 256.0
+margin_bottom = 192.0
+color = Color( 0, 0, 0, 0.207843 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="debug" type="Label" parent="ui"]
-margin_right = 448.0
-margin_bottom = 384.0
+margin_right = 256.0
+margin_bottom = 192.0
 text = "debug"
 __meta__ = {
 "_edit_use_anchors_": false

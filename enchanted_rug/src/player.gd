@@ -6,8 +6,13 @@ onready var _debugLabel:Label = $ui/debug
 var _inputOn:bool = true
 var _velocity:Vector3 = Vector3()
 
+var _spawnOrigin:Vector3 = Vector3()
+var _prevTransform:Transform = Transform.IDENTITY
+
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	_spawnOrigin = global_transform.origin
+	_prevTransform = global_transform
 
 func _process(_delta:float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -55,6 +60,11 @@ func _apply_debug_move(inputDir:Vector3, _delta:float) -> void:
 	t.origin = p
 	global_transform = t
 
+func _calc_velocity() -> Vector3:
+	var prev:Vector3 = _prevTransform.origin
+	var cur:Vector3 = global_transform.origin
+	return (cur - prev)
+
 func _apply_move(inputDir:Vector3, _delta:float) -> void:
 	var txt:String = ""
 	var t:Transform = global_transform
@@ -66,14 +76,35 @@ func _apply_move(inputDir:Vector3, _delta:float) -> void:
 	var forward:Vector3 = -t.basis.z
 	var pushNormal:Vector3 = framePush.normalized()
 	var velNormal:Vector3 = _velocity.normalized()
+	var curSpeed:float = _velocity.length()
 	# var dot:float = _velocity.dot(framePush)
 	var dot:float = pushNormal.dot(velNormal)
 	var dot2:float = _velocity.dot(forward)
+	txt += "Speed: " + str(curSpeed) + "\n"
 	txt += "velocity framePush Dot: " + str(dot) + "\n"
 	txt += "forward framePush Dot: " + str(dot2) + "\n"
 	
-	_velocity += (framePush * _delta)
-	move_and_slide(_velocity)
+	var maxSpeed:float = 25
+	# var speedCapacity:float = maxSpeed - curSpeed
+	var speedCapacity:float = 1 - (curSpeed / maxSpeed)
+	if speedCapacity < 0:
+		speedCapacity = 0
+	elif speedCapacity > 1:
+		speedCapacity = 1
+	txt += "Speed capacity %: " + str(speedCapacity) + "\n"
+	
+	# drag is a reverse of velocity, scaling up as velocity increases
+	var drag:Vector3 = (-_velocity.normalized() * maxSpeed) * (1 - speedCapacity)
+	txt += "Drag str: " + str(drag.length()) + "\n"
+	txt += "Drag: " + str(drag) + "\n"
+	var velChange:Vector3 = framePush + drag
+	
+	# scale input by speed - bad! affects all directions
+	# var velChange:Vector3 = framePush * speedCapacity
+	_velocity += (velChange * _delta)
+	
+	# _velocity += (framePush * _delta)
+	_velocity = move_and_slide(_velocity)
 	
 #	var p:Vector3 = t.origin
 #	p += _velocity
@@ -82,6 +113,10 @@ func _apply_move(inputDir:Vector3, _delta:float) -> void:
 	_debugLabel.text = txt
 
 func _physics_process(_delta:float) -> void:
+	if Input.is_action_just_pressed("reset"):
+		_velocity = Vector3()
+		global_transform.origin = _spawnOrigin
+	
 	_apply_rotation(_mouse.read_accumulator())
 	var inputPush:Vector3 = _calc_input_push(_read_move_input())
 	_apply_move(inputPush, _delta)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://prefabs/green_world_volume.tscn" type="PackedScene" id=3]
+[ext_resource path="res://prefabs/world_barrier_volume.tscn" type="PackedScene" id=4]
 
 [node name="test_level" type="Spatial"]
 
@@ -45,3 +46,18 @@ transform = Transform( 1, 0, 0, 0, 16, 0, 0, 0, 1, -8, 7.5, -5 )
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 8, 0 )
 shadow_enabled = true
+
+[node name="world_barrier_volume" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 128, 0, 0, 0, 256, 128.5, 0, 0 )
+
+[node name="world_barrier_volume2" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 128, 0, 0, 0, 256, -128.5, 0, 0 )
+
+[node name="world_barrier_volume3" parent="." instance=ExtResource( 4 )]
+transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 1, 0, 0, -128.5 )
+
+[node name="world_barrier_volume4" parent="." instance=ExtResource( 4 )]
+transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 1, 0, 0, 128.5 )
+
+[node name="world_barrier_volume5" parent="." instance=ExtResource( 4 )]
+transform = Transform( 256, 0, 0, 0, 1, 0, 0, 0, 256, 0, 64, 0 )
