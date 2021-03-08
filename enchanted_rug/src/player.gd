@@ -71,7 +71,14 @@ func _apply_move(inputDir:Vector3, _delta:float) -> void:
 	if !_inputOn:
 		txt += "Mouse free\n"
 	# var framePush:Vector3 = inputDir * (10 * _delta)
-	var framePush:Vector3 = inputDir * (10)
+	var framePush:Vector3 = inputDir.normalized() * (10)
+	# frame push should scale by
+	# a: max velocity
+	# b: difference from current direction
+	
+	# if speed is low, push force is high -> snappier speed changes
+	# if speed is high push is close to current direction:
+	#	
 	
 	var forward:Vector3 = -t.basis.z
 	var pushNormal:Vector3 = framePush.normalized()
@@ -97,11 +104,11 @@ func _apply_move(inputDir:Vector3, _delta:float) -> void:
 	var drag:Vector3 = (-_velocity.normalized() * maxSpeed) * (1 - speedCapacity)
 	txt += "Drag str: " + str(drag.length()) + "\n"
 	txt += "Drag: " + str(drag) + "\n"
-	var velChange:Vector3 = framePush + drag
-	
-	# scale input by speed - bad! affects all directions
-	# var velChange:Vector3 = framePush * speedCapacity
-	_velocity += (velChange * _delta)
+
+	# var velChange:Vector3 = framePush + drag
+	# _velocity += (velChange * _delta)
+	_velocity += framePush * _delta
+	_velocity += drag * _delta
 	
 	# _velocity += (framePush * _delta)
 	_velocity = move_and_slide(_velocity)
