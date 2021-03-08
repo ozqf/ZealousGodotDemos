@@ -9,7 +9,7 @@ func _physics_process(delta) -> void:
 		queue_free()
 		return
 	var move:Vector3 = (-global_transform.basis.z * _speed)
-	move_and_slide(move)
+	move_and_collide(move)
 
 func launch(pos:Vector3, dir:Vector3) -> void:
 	var t:Transform = Transform.IDENTITY
