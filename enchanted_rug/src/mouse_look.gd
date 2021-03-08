@@ -3,7 +3,8 @@ class_name MouseLook
 
 const MOUSE_SENSITIVITY: float = 0.1
 const PITCH_CAP_DEGREES = 89
-const KEYBOARD_YAW_DEGREES = 180
+const KEYBOARD_YAW_DEGREES = 180.0
+const KEYBOARD_PITCH_DEGREES = 180.0
 
 var _inputOn:bool = true
 
@@ -25,6 +26,16 @@ func _get_window_to_screen_ratio():
 	var scr: Vector2 = OS.get_screen_size()
 	var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
 	return result
+
+func _process(_delta:float) -> void:
+	if Input.is_action_pressed("ui_left"):
+		m_accumulator.x += KEYBOARD_YAW_DEGREES * _delta
+	if Input.is_action_pressed("ui_right"):
+		m_accumulator.x -= KEYBOARD_YAW_DEGREES * _delta
+	if Input.is_action_pressed("ui_up"):
+		m_accumulator.y -= KEYBOARD_PITCH_DEGREES * _delta
+	if Input.is_action_pressed("ui_down"):
+		m_accumulator.y += KEYBOARD_PITCH_DEGREES * _delta
 
 # Process mouse input via raw input events, if mouse is captured
 func _input(_event: InputEvent):

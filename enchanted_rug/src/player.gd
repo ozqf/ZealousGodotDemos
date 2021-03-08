@@ -100,7 +100,7 @@ func _apply_move_1(inputDir:Vector3, _delta:float) -> String:
 	txt += "Speed: " + str(_velocity.length()) + "\n"
 	return txt
 
-func _apply_move(inputDir:Vector3, _delta:float) -> String:
+func _apply_move_2(inputDir:Vector3, _delta:float) -> String:
 	var txt:String = ""
 	var t:Transform = global_transform
 	var forward:Vector3 = -t.basis.z
@@ -179,6 +179,8 @@ func _physics_process(_delta:float) -> void:
 	var txt = ""
 	if _moveMode == 1:
 		txt = _apply_move_1(inputPush, _delta)
+	elif _moveMode == 2:
+		txt = _apply_move_2(inputPush, _delta)
 	else:
 		txt = _apply_debug_move(inputPush, _delta)
 	pass
