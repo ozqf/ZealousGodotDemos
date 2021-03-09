@@ -14,11 +14,13 @@ flags_unshaded = true
 albedo_color = Color( 1, 1, 0, 1 )
 
 [node name="projectile" type="KinematicBody"]
+collision_layer = 4
 script = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
