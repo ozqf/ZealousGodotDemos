@@ -12,7 +12,7 @@ var _velocity:Vector3 = Vector3()
 var _spawnTransform:Transform = Transform.IDENTITY
 var _prevTransform:Transform = Transform.IDENTITY
 
-var _moveMode:int = 1
+var _moveMode:int = 3
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -163,13 +163,37 @@ func _apply_move_2(inputDir:Vector3, _delta:float) -> String:
 
 	return txt
 
+func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
+	var pushStr:float = maxSpeed
+	var pushNormal:Vector3 = inputDir.normalized()
+	var velNormal:Vector3
+	var curSpeed:float = _velocity.length()
+	if curSpeed > 0:
+		velNormal = _velocity.normalized()
+	else:
+		velNormal = -global_transform.basis.z
+	
+	_velocity += (pushNormal * pushStr) * _delta
+	_velocity = move_and_slide(_velocity)
+	
+	var txt:String = ""
+	txt += "Speed/Max: " + str(curSpeed) + " / " + str(maxSpeed) + "\n"
+	txt += "Move normaL: " + str(velNormal) + "\n"
+	txt += "Push normal: " + str(pushNormal) + "\n"
+	return txt
+
+func _apply_move_4(inputDir:Vector3, _delta:float) -> String:
+	
+	var txt:String = ""
+	return txt
+
 func _physics_process(_delta:float) -> void:
 	if Input.is_action_just_pressed("reset"):
 		_velocity = Vector3()
 		global_transform = _spawnTransform
 	if Input.is_action_just_pressed("mode"):
 		_moveMode += 1
-		if _moveMode > 2:
+		if _moveMode > 4:
 			_moveMode = 0
 	
 	_apply_rotation(_mouse.read_accumulator())
@@ -179,6 +203,10 @@ func _physics_process(_delta:float) -> void:
 		txt = _apply_move_1(inputPush, _delta)
 	elif _moveMode == 2:
 		txt = _apply_move_2(inputPush, _delta)
+	elif _moveMode == 3:
+		txt = _apply_move_3(inputPush, _delta)
+	elif _moveMode == 4:
+		txt = _apply_move_4(inputPush, _delta)
 	else:
 		txt = _apply_debug_move(inputPush, _delta)
 	pass
