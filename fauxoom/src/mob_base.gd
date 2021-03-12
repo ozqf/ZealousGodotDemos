@@ -84,8 +84,8 @@ func _calc_self_move(_delta:float) -> Vector3:
 	move.x = -sin(_moveYaw)
 	move.z = -cos(_moveYaw)
 	move *= MOVE_SPEED
-	# return move
-	return Vector3()
+	return move
+	# return Vector3()
 
 func move(_delta:float) -> void:
 	var move:Vector3 = _calc_self_move(_delta)

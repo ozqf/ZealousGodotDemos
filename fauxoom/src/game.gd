@@ -157,3 +157,8 @@ func mob_check_target(_current:Dictionary) -> Dictionary:
 	if !_player:
 		return _emptyTargetInfo
 	return _player.get_targetting_info()
+
+func get_player_target() -> Dictionary:
+	if !_player:
+		return _emptyTargetInfo
+	return _player.get_targetting_info()

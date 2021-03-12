@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/mesh_sphere_low.tres" type="SphereMesh" id=1]
+[ext_resource path="res://assets/mat_green.tres" type="Material" id=2]
+[ext_resource path="res://src/ai_test.gd" type="Script" id=3]
+
+[node name="ai_test" type="MeshInstance"]
+mesh = ExtResource( 1 )
+material/0 = ExtResource( 2 )
+script = ExtResource( 3 )
