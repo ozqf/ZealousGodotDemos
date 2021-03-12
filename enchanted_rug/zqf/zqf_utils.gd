@@ -12,25 +12,13 @@ const RAD2DEG = 57.29577951308
 static func dot_product(x0: float, y0: float, x1: float, y1: float):
 	return x0 * x1 + y0 * y1
 
-static func is_point_left_of_line2D(lineOrigin: Vector2, lineSize: Vector2, p: Vector2) -> bool:
+static func is_point_left_of_line2D(lineOrigin: Vector2, lineSize: Vector2, p: Vector2):
 	var vx: float = lineOrigin.x - p.x
 	var vy: float = lineOrigin.y - p.y
 	var lineNormalX: float = lineSize.y
 	var lineNormalY: float = -lineSize.x
 	var dp: float = dot_product(vx, vy, lineNormalX, lineNormalY)
 	return (dp > 0)
-
-static func is_point_left_of_line3D_flat(lineOrigin: Vector3, lineSize: Vector3, p: Vector3) -> bool:
-	var vx: float = lineOrigin.x - p.x
-	var vz: float = lineOrigin.z - p.z
-	var lineNormalX: float = lineSize.z
-	var lineNormalZ: float = -lineSize.x
-	var dp: float = dot_product(vx, vz, lineNormalX, lineNormalZ)
-	return (dp > 0)
-
-static func yaw_to_flat_vector3(yawDegrees:float) -> Vector3:
-	var radians:float = deg2rad(yawDegrees)
-	return Vector3(sin(radians), 0, -cos(radians))
 
 # Only does Pitch and Yaw
 static func calc_euler_degrees(v: Vector3) -> Vector3:

@@ -18,7 +18,9 @@ enum MobState {
 
 var _state = MobState.Idle
 
-var _curTarget = null
+# var _curTarget = null
+var _tarId:int = 0
+var _targetInfo: Dictionary = { id = 0 }
 
 var _moveTick:float = 0
 var _moveYaw:float = 0
@@ -48,13 +50,32 @@ func _calc_self_move(_delta:float) -> Vector3:
 		# decide on next move
 		_moveTick = 1
 		var selfPos:Vector3 = global_transform.origin
-		var tarPos:Vector3 = _curTarget.global_transform.origin
+		# var tarTrans:Transform = _curTarget.global_transform
+		# var tarPos:Vector3 = tarTrans.origin
+		var tarPos:Vector3 = _targetInfo.position
+		var _tarYaw:float = _targetInfo.yawDegrees
 		var dist:float = ZqfUtils.flat_distance_between(selfPos, tarPos)
-		if dist > 3:
+		if dist > 15:
 			_moveYaw = ZqfUtils.yaw_between(selfPos, tarPos)
-			var quarter:float = deg2rad(90)
-			_moveYaw -= quarter
-			_moveYaw += rand_range(0, quarter * 2.0)
+		elif dist > 3:
+			# var tarFacing:float = _calc_target_side(selfPos, tarPos, -tarTrans.basis.z)
+			_moveYaw = ZqfUtils.yaw_between(selfPos, tarPos)
+			
+			# apply evasion from player aim direction
+			var leftOfTar:bool = ZqfUtils.is_point_left_of_line3D_flat(tarPos, _targetInfo.forward, selfPos)
+			if leftOfTar:
+				print("left at " + str(selfPos))
+				_moveYaw -= deg2rad(90)
+			else:
+				print("right at " + str(selfPos))
+				_moveYaw += deg2rad(90)
+			
+			# apply some random evasion - very jittery
+#			var quarter:float = deg2rad(90)
+#			_moveYaw -= quarter
+#			_moveYaw += rand_range(0, quarter * 2.0)
+		else:
+			_moveYaw = rand_range(0, PI * 2)
 	else:
 		_moveTick -= _delta
 	
@@ -62,7 +83,9 @@ func _calc_self_move(_delta:float) -> Vector3:
 	var move:Vector3 = Vector3()
 	move.x = -sin(_moveYaw)
 	move.z = -cos(_moveYaw)
-	return move * MOVE_SPEED
+	move *= MOVE_SPEED
+	# return move
+	return Vector3()
 
 func move(_delta:float) -> void:
 	var move:Vector3 = _calc_self_move(_delta)
@@ -72,15 +95,25 @@ func _process(_delta:float) -> void:
 	if _state == MobState.Idle:
 		pass
 	
-	var wasNull:bool = _curTarget == null
-	_curTarget = Game.mob_check_target(_curTarget)
-	if _curTarget && wasNull:
+	var wasEmpty:bool = (_targetInfo.id == 0)
+	_targetInfo = Game.mob_check_target(_targetInfo)
+	if _targetInfo.id != 0 && wasEmpty:
 		print("Mob got target!")
-	elif _curTarget == null && !wasNull:
+	elif _targetInfo.id == 0 && !wasEmpty:
 		print("Mob lost target!")
 	
-	if _curTarget != null:
+	if _targetInfo.id != 0:
 		move(_delta)
+	
+	# var wasNull:bool = _curTarget == null
+	# _curTarget = Game.mob_check_target(_curTarget)
+	# if _curTarget && wasNull:
+	# 	print("Mob got target!")
+	# elif _curTarget == null && !wasNull:
+	# 	print("Mob lost target!")
+	
+	# if _curTarget != null:
+	# 	move(_delta)
 
 func hit(_hitInfo:HitInfo) -> void:
 	if is_dead():

@@ -38,7 +38,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 5, -5 )
 [node name="static" type="Spatial" parent="."]
 
 [node name="trigger_volume" parent="static" instance=ExtResource( 3 )]
-transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -12 )
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 3 )
 triggerTargetName = "spawn_1"
 
 [node name="trigger_volume2" parent="static" instance=ExtResource( 3 )]
@@ -49,9 +49,10 @@ triggerTargetName = "endtrigger"
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.145, 0, 6.696 )
 
 [node name="horde_spawn" parent="static" instance=ExtResource( 4 )]
-transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 0, -19 )
+transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 0, -4 )
 triggerName = "spawn_1"
 triggerTargetName = "endtrigger"
+maxLiveMobs = 1
 
 [node name="mob_spawn_proxy" parent="static" instance=ExtResource( 14 )]
 transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 4, 0, -5 )

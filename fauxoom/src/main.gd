@@ -41,6 +41,8 @@ onready var _debug_text:Label = $static_menus/debug/debug_text
 onready var _debug_text_2:Label = $static_menus/debug/debug_text2
 onready var _mouseLock:MouseLock = $mouse_lock
 
+var playerDebug:String = ""
+
 var _state = AppState.Game
 var _camera:Camera = null
 var _emptyTrans:Transform = Transform.IDENTITY
@@ -53,7 +55,7 @@ var _inputOn:bool = false
 var _mapDef:MapDef = null
 var _pendingMapDef:MapDef = null
 
-func _ready():
+func _ready() -> void:
 	print("Game service start")
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
@@ -98,13 +100,14 @@ func _process(_delta) -> void:
 	var time = OS.get_time()
 	_debug_text.text += str(time.hour) + ":" + str(time.minute) + ":" + str(time.second) + "\n"
 	var ratio:Vector2 = ZqfUtils.get_window_to_screen_ratio()
-	_debug_text.text += "Window/Scr ratio: " + str(ratio)
+	_debug_text.text += "Window/Scr ratio: " + str(ratio) + "\n"
+	_debug_text.text += playerDebug + "\n"
 #	_debug_text.text = "Vec 1: " + str(debugV3_1) + "\n"
 #	_debug_text.text += "Vec 2: " + str(debugV3_2) + "\n"
 #	_debug_text.text += "Degrees: " + str(debugDegrees) + "\n"
 #	_debug_text.text += "Index " + str(debug_int) + "\n"
 
-func _input(_event: InputEvent):
+func _input(_event: InputEvent) -> void:
 	var menuCode = KEY_ESCAPE
 	if _web_mode():
 		menuCode = KEY_TAB
@@ -161,7 +164,7 @@ func _web_mode() -> bool:
 func get_input_on() -> bool:
 	return _inputOn
 
-func _refresh_input_on():
+func _refresh_input_on() -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		if _inputOn:
 			set_input_off()

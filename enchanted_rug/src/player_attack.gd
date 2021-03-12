@@ -1,4 +1,4 @@
-extends Node
+extends Spatial
 
 var _projectile_t = preload("res://prefabs/projectile.tscn")
 
@@ -6,7 +6,10 @@ var _body:Spatial = null
 var _refireTick:float = 0
 
 func _ready():
-	_body = get_parent()
+	_body = self
+
+func set_external_body(newBody:Spatial) -> void:
+	_body = newBody
 
 func _fire() -> void:
 	var pos:Vector3 = _body.global_transform.origin

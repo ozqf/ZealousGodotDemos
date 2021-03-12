@@ -20,8 +20,17 @@ far = 2048.0
 [node name="mouse" type="Node" parent="."]
 script = ExtResource( 2 )
 
-[node name="attack" type="Node" parent="."]
+[node name="attack" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, -0.2, 0 )
 script = ExtResource( 3 )
+
+[node name="attack2" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, -0.2, 0 )
+script = ExtResource( 3 )
+
+[node name="altitude_ray" type="RayCast" parent="."]
+enabled = true
+cast_to = Vector3( 0, -100, 0 )
 
 [node name="ui" type="CanvasLayer" parent="."]
 

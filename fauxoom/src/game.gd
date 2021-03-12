@@ -21,6 +21,12 @@ var _playerOrigin:Transform = Transform.IDENTITY
 # live player
 var _player:Player = null;
 
+var _emptyTargetInfo:Dictionary = {
+	id = 0,
+	position = Vector3(),
+	yawDegrees = 0
+}
+
 func _ready() -> void:
 	print("Game singleton init")
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
@@ -142,7 +148,12 @@ func deregister_player_start(_obj:Spatial) -> void:
 # AI
 ###############
 
-func mob_check_target(_current:Spatial) -> Spatial:
+func mob_check_target_old(_current:Spatial) -> Spatial:
 	if !_player:
 		return null
 	return _player as Spatial
+
+func mob_check_target(_current:Dictionary) -> Dictionary:
+	if !_player:
+		return _emptyTargetInfo
+	return _player.get_targetting_info()

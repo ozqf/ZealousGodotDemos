@@ -11,6 +11,13 @@ var _inputOn:bool = false
 var _gameplayInputOn:bool = true
 var _appInputOn:bool = true
 
+var _targettingInfo:Dictionary = {
+	id = 1,
+	position = Vector3(),
+	forward = Vector3(),
+	yawDegrees = 0
+}
+
 func _ready():
 	# Main.set_camera(_head)
 	
@@ -27,6 +34,9 @@ func _ready():
 	_foo = connect("tree_exiting", self, "_on_tree_exiting")
 
 	Game.register_player(self)
+
+func get_targetting_info() -> Dictionary:
+	return _targettingInfo
 
 func game_on_reset() -> void:
 	print("Player saw game reset")
@@ -53,6 +63,11 @@ func _refresh_input_on() -> void:
 
 func _process(_delta):
 	_refresh_input_on()
+	_targettingInfo.position = global_transform.origin
+	_targettingInfo.yawDegrees = _motor.m_yaw
+	_targettingInfo.forward = ZqfUtils.yaw_to_flat_vector3(_motor.m_yaw)
+	Main.playerDebug = "real forward: " + str(-_head.global_transform.basis.z) + " tar forward: " + str(_targettingInfo.forward) + "\n"
+	Main.playerDebug += "pos: " + str(global_transform.origin) + "\n"
 
 func kill() -> void:
 	var info:Dictionary = {}

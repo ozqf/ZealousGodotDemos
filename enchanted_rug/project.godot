@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "MouseLook",
 "language": "GDScript",
 "path": "res://src/mouse_look.gd"
+}, {
+"base": "Node",
+"class": "ZqfUtils",
+"language": "GDScript",
+"path": "res://zqf/zqf_utils.gd"
 } ]
 _global_script_class_icons={
-"MouseLook": ""
+"MouseLook": "",
+"ZqfUtils": ""
 }
 
 [application]
