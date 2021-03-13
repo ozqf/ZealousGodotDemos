@@ -26,7 +26,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="enchanted_rug"
+config/name="Enchanted Rug"
 run/main_scene="res://levels/test_level.tscn"
 config/icon="res://icon.png"
 

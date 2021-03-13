@@ -49,7 +49,7 @@ func _input(_event) -> void:
 			begin_game()
 
 func on_clicked_reset() -> void:
-	get_tree().call_group("console", "console_on_exec", "reset")
+	get_tree().call_group("console", "console_on_exec", "reset", ["reset"])
 
 func game_on_player_died(_info:Dictionary) -> void:
 	print("Game - saw player died!")
@@ -69,7 +69,7 @@ func game_on_level_completed() -> void:
 		_state = GameState.Won
 		_refresh_overlay()
 
-func console_on_exec(txt:String) -> void:
+func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	if txt == "reset":
 		print("Game - reset")
 		reset_game()

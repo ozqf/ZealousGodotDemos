@@ -93,4 +93,5 @@ func _process(_delta:float) -> void:
 		_console.text = ""
 		if txt != "":
 			print("EXEC " + txt)
-			get_tree().call_group("console", "console_on_exec", txt)
+			var tokens = ZqfUtils.tokenise(txt)
+			get_tree().call_group("console", "console_on_exec", txt, tokens)

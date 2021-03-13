@@ -62,18 +62,18 @@ func _calc_self_move(_delta:float) -> Vector3:
 			_moveYaw = ZqfUtils.yaw_between(selfPos, tarPos)
 			
 			# apply evasion from player aim direction
-			var leftOfTar:bool = ZqfUtils.is_point_left_of_line3D_flat(tarPos, _targetInfo.forward, selfPos)
-			if leftOfTar:
-				print("left at " + str(selfPos))
-				_moveYaw -= deg2rad(90)
-			else:
-				print("right at " + str(selfPos))
-				_moveYaw += deg2rad(90)
+#			var leftOfTar:bool = ZqfUtils.is_point_left_of_line3D_flat(tarPos, _targetInfo.forward, selfPos)
+#			if leftOfTar:
+#				print("left at " + str(selfPos))
+#				_moveYaw -= deg2rad(90)
+#			else:
+#				print("right at " + str(selfPos))
+#				_moveYaw += deg2rad(90)
 			
 			# apply some random evasion - very jittery
-#			var quarter:float = deg2rad(90)
-#			_moveYaw -= quarter
-#			_moveYaw += rand_range(0, quarter * 2.0)
+			var quarter:float = deg2rad(90)
+			_moveYaw -= quarter
+			_moveYaw += rand_range(0, quarter * 2.0)
 		else:
 			_moveYaw = rand_range(0, PI * 2)
 	else:

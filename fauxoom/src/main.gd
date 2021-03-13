@@ -171,7 +171,7 @@ func _refresh_input_on() -> void:
 		else:
 			set_input_on()
 
-func console_on_exec(txt:String) -> void:
+func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	print("EXEC " + txt)
 
 # a globally accessible camera is required for 3D sprite frame selection

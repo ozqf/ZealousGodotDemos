@@ -32,7 +32,7 @@ func _ready() -> void:
 		_map = AsciMapLoader.build_test_map()
 	$map_gen.build_world_map(_map)
 
-func console_on_exec(txt:String) -> void:
+func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	if txt == "complete":
 		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_LEVEL_COMPLETED)
 

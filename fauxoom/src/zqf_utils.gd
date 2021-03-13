@@ -124,9 +124,10 @@ static func quick_hitscan3D(_source:Spatial, _distance:float, ignoreArray, _mask
 	var space = _source.get_world().direct_space_state
 	return space.intersect_ray(_origin, _dest, ignoreArray, _mask)
 
-#####################################
-# misc
-#####################################
+
+###########################################################################
+# Strings
+###########################################################################
 
 static func join_strings(stringArr, separator:String) -> String:
 	var l:int = stringArr.size()
@@ -136,6 +137,54 @@ static func join_strings(stringArr, separator:String) -> String:
 		if i < (l - 1):
 			result += separator
 	return result
+
+# TODO Maybe tidy this up... I'm not very good at writing tokenise functions...
+static func tokenise(_text:String) -> PoolStringArray:
+	var tokens: PoolStringArray = []
+	var _len:int = _text.length()
+	if _len == 0:
+		return tokens
+	var readingToken: bool = false
+	var _charsInToken:int = 0
+	var _tokenStart:int = 0
+	var i:int = 0
+	var finished:bool = false
+	while (true):
+		var c = _text[i]
+		i += 1
+		if i >= _len:
+			finished = true
+		var isWhiteSpace:bool = (c == " " || c == "\t")
+		if readingToken:
+			# finish token
+			if isWhiteSpace || finished:
+				if finished && !isWhiteSpace:
+					# count this last char if we are making a token
+					_charsInToken += 1
+				readingToken = false
+				var token:String = _text.substr(_tokenStart, _charsInToken)
+				tokens.push_back(token)
+			else:
+				# increment token length
+				_charsInToken += 1
+		else:
+			# eat whitespace
+			if c == " " || c == "\t":
+				pass
+			else:
+				if !finished:
+					# begin a new token
+					readingToken = true
+					_tokenStart = i - 1
+					_charsInToken = 1
+				else:
+					# single char token at end of line:
+					var token: String = _text.substr(i -1, 1)
+					tokens.push_back(token)
+		if finished:
+			break
+	print("Tokenised '" + _text + "' to " + str(tokens))
+	return tokens
 
 #####################################
 # 3D sprite directions

@@ -46,7 +46,7 @@ func _on_tree_exiting() -> void:
 	Game.deregister_player(self)
 	# Main.clear_camera(_head)
 
-func console_on_exec(_txt:String) -> void:
+func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 	if _txt == "kill":
 		kill()
 
