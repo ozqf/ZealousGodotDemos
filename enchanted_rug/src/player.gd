@@ -48,6 +48,26 @@ func _process(_delta:float) -> void:
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
+# toggle mouse input in event for HTML5
+func _input(_event: InputEvent) -> void:
+	var menuCode = KEY_TAB
+	if _event is InputEventKey && _event.scancode == menuCode && _event.pressed && !_event.echo:
+		_toggle_menu()
+#		if _inputOn:
+#			print("Toggle menu on")
+#			set_input_off()
+#		else:
+#			print("Toggle menu off")
+#			set_input_on()
+
+func _toggle_menu() -> void:
+	_inputOn = !_inputOn
+	_mouse.set_input_on(_inputOn)
+	if _inputOn:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 func _calc_max_by_altitude(scalar:float, minSpeed:float, MAX_SPEED:float) -> float:
 	var diff:float = MAX_SPEED - minSpeed
 	return minSpeed + (diff * scalar)
