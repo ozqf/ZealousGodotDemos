@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/player.gd" type="Script" id=1]
 [ext_resource path="res://src/mouse_look.gd" type="Script" id=2]
 [ext_resource path="res://src/player_attack.gd" type="Script" id=3]
 [ext_resource path="res://src/player_debug_menu.gd" type="Script" id=4]
 [ext_resource path="res://src/draw_vector3.gd" type="Script" id=5]
-[ext_resource path="res://src/debug_ui_slider.gd" type="Script" id=6]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.5
@@ -54,47 +53,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui"]
-margin_left = 704.0
-margin_right = 1024.0
+[node name="settings" type="VBoxContainer" parent="ui"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -320.0
 margin_bottom = 600.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="reset" type="Button" parent="ui/VBoxContainer"]
+[node name="reset" type="Button" parent="ui/settings"]
 margin_right = 320.0
 margin_bottom = 20.0
 text = "reset"
-
-[node name="maxPushSpeed" type="HBoxContainer" parent="ui/VBoxContainer"]
-margin_top = 24.0
-margin_right = 320.0
-margin_bottom = 40.0
-alignment = 1
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="ui/VBoxContainer/maxPushSpeed"]
-margin_left = 10.0
-margin_top = 1.0
-margin_right = 113.0
-margin_bottom = 15.0
-text = "Max base speed"
-
-[node name="HSlider" type="HSlider" parent="ui/VBoxContainer/maxPushSpeed"]
-margin_left = 117.0
-margin_right = 309.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 192, 0 )
-min_value = 10.0
-max_value = 50.0
-value = 10.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="velocity" type="ImmediateGeometry" parent="."]
 script = ExtResource( 5 )

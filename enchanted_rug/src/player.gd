@@ -5,45 +5,63 @@ onready var _debugLabel:Label = $ui/debug
 onready var _altitudeRay:RayCast = $altitude_ray
 
 # const MAX_SPEED:float = 25.0
-const MIN_SPEED:float = 10.0
-const MIN_ALTITUDE:float = 4.0
-const MAX_ALTITUDE:float = 50.0
+# const MIN_SPEED:float = 10.0
+# const MIN_ALTITUDE:float = 4.0
+# const MAX_ALTITUDE:float = 50.0
 
 var settings:Dictionary = {
 	"maxPushSpeed": {
 		"value": 25.0,
 		"default": 25.0,
-		"editMin": 10,
-		"editMax": 100
+		"editMin": 1.0,
+		"editMax": 100.0
 	},
-	"minPushSpeed": 10.0,
-	"minAltitude": 4.0,
-	"maxAltitude": 50.0,
-	"speedScalar": 1
+	"minPushSpeed": {
+		"value": 10.0,
+		"default": 10.0,
+		"editMin": 1.0,
+		"editMax": 100.0
+	},
+	"minAltitude": {
+		"value": 5.0,
+		"default": 5.0,
+		"editMin": 1.0,
+		"editMax": 100.0
+	},
+	"maxAltitude": {
+		"value": 25.0,
+		"default": 25.0,
+		"editMin": 1.0,
+		"editMax": 100.0
+	}
 }
 
-var runTime:Dictionary = {
-	"velocity": Vector3()
+var _vars:Dictionary = {
+	"moveMode": 3,
+	"velocity": Vector3(),
+	"groundPos": Vector3(),
+	"altitude": 0.0,
+	"speedScalar": 0.0
 }
 
 var _inputOn:bool = true
-var _velocity:Vector3 = Vector3()
+# var _velocity:Vector3 = Vector3()
 
 var _groundHit:bool = false
-var _groundPos:Vector3 = Vector3()
-var _altitude:float = 0
-var _speedScalar:float = 1
+# var _groundPos:Vector3 = Vector3()
+# var _altitude:float = 0
+# var _speedScalar:float = 1
 
 var _spawnTransform:Transform = Transform.IDENTITY
 var _prevTransform:Transform = Transform.IDENTITY
 
-var _moveMode:int = 3
+# var _moveMode:int = 3
 
 func get_settings() -> Dictionary:
 	return settings
 
 func get_runtime() -> Dictionary:
-	return runTime
+	return _vars
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -52,14 +70,14 @@ func _ready() -> void:
 
 func _process(_delta:float) -> void:
 	var pos:Vector3 = global_transform.origin
-	var hit:Dictionary = ZqfUtils.hitscan_by_pos_3D(self, pos, Vector3.DOWN, MAX_ALTITUDE, [], 1)
+	var hit:Dictionary = ZqfUtils.hitscan_by_pos_3D(self, pos, Vector3.DOWN, settings.maxAltitude.value, [], 1)
 	if hit:
 		_groundHit = true
-		_groundPos = hit.position
-		_altitude = pos.y - _groundPos.y
+		_vars.groundPos = hit.position
+		_vars.altitude = pos.y - _vars.groundPos.y
 	else:
 		_groundHit = false
-		_altitude = MAX_ALTITUDE
+		_vars.altitude = settings.maxAltitude.value
 	
 	# var pos:Vector3 = global_transform.origin
 	# _altitudeRay.set_cast_to(pos + Vector3(0, -100, 0))
@@ -82,6 +100,14 @@ func _input(_event: InputEvent) -> void:
 #		else:
 #			print("Toggle menu off")
 #			set_input_on()
+
+func _vars_string() -> String:
+	var txt:String = "--- runtime vars ---\n"
+	var keys = _vars.keys()
+	for _i in range(0, keys.size()):
+		var val = _vars.get(keys[_i])
+		txt += keys[_i] + ": " + str(val) + "\n"
+	return txt
 
 func _toggle_menu() -> void:
 	_inputOn = !_inputOn
@@ -143,13 +169,13 @@ func _apply_move_1(inputDir:Vector3, _delta:float) -> String:
 	inputDir = inputDir.normalized()
 	# apply drag
 	if inputDir.length() == 0:
-		_velocity *= 0.8
+		_vars.velocity *= 0.8
 	
-	var curDir:Vector3 = _velocity.normalized()
+	var curDir:Vector3 = _vars.velocity.normalized()
 	# dot from normalised values:
 	# var projectionVelDot:float = inputDir.dot(curDir)
 	# dot from raw values:
-	var projectionVelDot:float = inputDir.dot(_velocity)
+	var projectionVelDot:float = inputDir.dot(_vars.velocity)
 	
 	var accelStr:float = settings.maxPushSpeed.value * 10
 	
@@ -159,14 +185,14 @@ func _apply_move_1(inputDir:Vector3, _delta:float) -> String:
 	
 	var framePush:Vector3 = inputDir * accelMag
 	
-	_velocity += framePush
-	_velocity = move_and_slide(_velocity)
+	_vars.velocity += framePush
+	_vars.velocity = move_and_slide(_vars.velocity)
 	
 	txt += "Move dir: " + str(inputDir) + "\n"
 	txt += "Cur dir: " + str(curDir) + "\n"
 	txt += "Move dot: " + str(projectionVelDot) + "\n"
 	txt += "Push limited: " + str(framePush * projectionVelDot) + "\n"
-	txt += "Speed: " + str(_velocity.length()) + "\n"
+	txt += "Speed: " + str(_vars.velocity.length()) + "\n"
 	return txt
 
 func _apply_move_2(inputDir:Vector3, _delta:float) -> String:
@@ -187,19 +213,19 @@ func _apply_move_2(inputDir:Vector3, _delta:float) -> String:
 	
 	var pushNormal:Vector3 = framePush.normalized()
 	var velNormal:Vector3
-	if _velocity.length() > 0:
-		velNormal = _velocity.normalized()
+	if _vars.velocity.length() > 0:
+		velNormal = _vars.velocity.normalized()
 	else:
 		velNormal = forward
-	var curSpeed:float = _velocity.length()
-	# var dot:float = _velocity.dot(framePush)
+	var curSpeed:float = _vars.velocity.length()
+	# var dot:float = _vars.velocity.dot(framePush)
 	var dot:float
-	if _velocity.length() > 0:
+	if _vars.velocity.length() > 0:
 		dot = pushNormal.normalized().dot(velNormal) # * -1
 	else:
 		dot = 1
 	var potentialDot:float = potentialPush.normalized().dot(velNormal) * -1
-	var dot2:float = _velocity.dot(forward)
+	var dot2:float = _vars.velocity.dot(forward)
 	# var inputPushScale:float = 1 - (pow(curSpeed / settings.maxPushSpeed.value, 3))
 	var inputPushScale:float = potentialDot
 	if inputPushScale < 0:
@@ -211,10 +237,10 @@ func _apply_move_2(inputDir:Vector3, _delta:float) -> String:
 	elif speedCapacity > 1:
 		speedCapacity = 1
 	# drag is a reverse of velocity, scaling up as velocity increases
-	var drag:Vector3 = (-_velocity.normalized() * settings.maxPushSpeed.value) * (1 - speedCapacity)
+	var drag:Vector3 = (-_vars.velocity.normalized() * settings.maxPushSpeed.value) * (1 - speedCapacity)
 	
-	_velocity += (framePush * inputPushScale) * _delta
-	_velocity = move_and_slide(_velocity)
+	_vars.velocity += (framePush * inputPushScale) * _delta
+	_vars.velocity = move_and_slide(_vars.velocity)
 	
 	txt += "Speed: " + str(curSpeed) + "\n"
 	txt += "Forward: " + str(forward) + "\n"
@@ -232,14 +258,14 @@ func _apply_move_2(inputDir:Vector3, _delta:float) -> String:
 	return txt
 
 func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
-	var maxSpeed:float = _calc_max_by_altitude(_speedScalar, MIN_SPEED, settings.maxPushSpeed.value)
+	var maxSpeed:float = _calc_max_by_altitude(_vars.speedScalar, settings.minPushSpeed.value, settings.maxPushSpeed.value)
 
 	var pushStr:float = maxSpeed * 10
 	var pushNormal:Vector3 = inputDir.normalized()
 	var velNormal:Vector3
-	var curSpeed:float = _velocity.length()
+	var curSpeed:float = _vars.velocity.length()
 	if curSpeed > 0:
-		velNormal = _velocity.normalized()
+		velNormal = _vars.velocity.normalized()
 	else:
 		velNormal = -global_transform.basis.z
 	
@@ -252,21 +278,21 @@ func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
 	# scale by whether the player is pushing against their current movement:
 	# framePush += (framePush * pushVelDot)
 	
-	var predictedVelocity:Vector3 = _velocity + framePush
+	var predictedVelocity:Vector3 = _vars.velocity + framePush
 	var percentageOfMax:float = predictedVelocity.length() / maxSpeed
 	if framePush.length() > 0:
 		if percentageOfMax < 1:
-			_velocity += framePush
+			_vars.velocity += framePush
 		else:
-			# _velocity = pushNormal * maxSpeed
+			# _vars.velocity = pushNormal * maxSpeed
 			# apply then cap
-			_velocity += framePush
-			_velocity = _velocity.normalized() * maxSpeed
+			_vars.velocity += framePush
+			_vars.velocity = _vars.velocity.normalized() * maxSpeed
 			# framePush *= (percentageOfMax - 1)
 	else:
 		# apply drag
-		_velocity *= 0.9
-	_velocity = move_and_slide(_velocity)
+		_vars.velocity *= 0.9
+	_vars.velocity = move_and_slide(_vars.velocity)
 	
 	var txt:String = ""
 	txt += "Speed/Max: " + str(curSpeed) + " / " + str(maxSpeed) + "\n"
@@ -278,47 +304,48 @@ func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
 	return txt
 
 func _apply_move_4(_inputDir:Vector3, _delta:float) -> String:
-	
+	# var t:Transform
 	var txt:String = ""
 	return txt
 
 func _physics_process(_delta:float) -> void:
 	if Input.is_action_just_pressed("reset"):
-		_velocity = Vector3()
+		_vars.velocity = Vector3()
 		global_transform = _spawnTransform
 	if Input.is_action_just_pressed("mode"):
-		_moveMode += 1
-		if _moveMode > 4:
-			_moveMode = 0
+		_vars.moveMode += 1
+		if _vars.moveMode > 4:
+			_vars.moveMode = 0
 	
 	_apply_rotation(_mouse.read_accumulator())
 	var inputPush:Vector3 = _calc_input_push(_read_move_input())
 	var txt = ""
-	if _moveMode == 1:
-		txt = _apply_move_1(inputPush, _delta)
-	elif _moveMode == 2:
-		txt = _apply_move_2(inputPush, _delta)
-	elif _moveMode == 3:
-		txt = _apply_move_3(inputPush, _delta)
-	elif _moveMode == 4:
-		txt = _apply_move_4(inputPush, _delta)
+	var moveTxt = ""
+	if _vars.moveMode == 1:
+		moveTxt = _apply_move_1(inputPush, _delta)
+	elif _vars.moveMode == 2:
+		moveTxt = _apply_move_2(inputPush, _delta)
+	elif _vars.moveMode == 3:
+		moveTxt = _apply_move_3(inputPush, _delta)
+	elif _vars.moveMode == 4:
+		moveTxt = _apply_move_4(inputPush, _delta)
 	else:
-		txt = _apply_debug_move(inputPush, _delta)
+		moveTxt = _apply_debug_move(inputPush, _delta)
 	pass
 	if !_inputOn:
 		txt += "Mouse free\n"
-	txt = "Mode: " + str(_moveMode) + "\n" + txt
+	txt = "Mode: " + str(_vars.moveMode) + "\n" + txt
 	
-	var temp:float = _altitude
-	if temp < MIN_ALTITUDE:
+	var temp:float = _vars.altitude
+	if temp < settings.minAltitude.value:
 		temp = 0
-	elif temp > MAX_ALTITUDE:
-		temp = MAX_ALTITUDE
-	_speedScalar = 1 - (temp / MAX_ALTITUDE)
+	elif temp > settings.maxAltitude.value:
+		temp = settings.maxAltitude.value
+	_vars.speedScalar = 1 - (temp / settings.maxAltitude.value)
 	
-	if _groundHit:
-		txt += "Altitude check hit: " + str(_groundPos) + "\n"
-	txt += "Altitude: " + str(_altitude) + "\n"
-	txt += "Speed scalar: " + str(_speedScalar) + "\n"
-	
+#	if _groundHit:
+#		txt += "Altitude check hit: " + str(_vars.groundPos) + "\n"
+	# txt += "Altitude: " + str(_vars.altitude) + "\n"
+	# txt += "Speed scalar: " + str(_vars.speedScalar) + "\n"
+	txt += _vars_string()
 	_debugLabel.text = txt
