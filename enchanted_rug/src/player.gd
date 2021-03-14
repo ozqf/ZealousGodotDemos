@@ -4,10 +4,27 @@ onready var _mouse:MouseLook = $mouse
 onready var _debugLabel:Label = $ui/debug
 onready var _altitudeRay:RayCast = $altitude_ray
 
-const MAX_SPEED:float = 25.0
+# const MAX_SPEED:float = 25.0
 const MIN_SPEED:float = 10.0
 const MIN_ALTITUDE:float = 4.0
 const MAX_ALTITUDE:float = 50.0
+
+var settings:Dictionary = {
+	"maxPushSpeed": {
+		"value": 25.0,
+		"default": 25.0,
+		"editMin": 10,
+		"editMax": 100
+	},
+	"minPushSpeed": 10.0,
+	"minAltitude": 4.0,
+	"maxAltitude": 50.0,
+	"speedScalar": 1
+}
+
+var runTime:Dictionary = {
+	"velocity": Vector3()
+}
 
 var _inputOn:bool = true
 var _velocity:Vector3 = Vector3()
@@ -21,6 +38,12 @@ var _spawnTransform:Transform = Transform.IDENTITY
 var _prevTransform:Transform = Transform.IDENTITY
 
 var _moveMode:int = 3
+
+func get_settings() -> Dictionary:
+	return settings
+
+func get_runtime() -> Dictionary:
+	return runTime
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -68,8 +91,8 @@ func _toggle_menu() -> void:
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
-func _calc_max_by_altitude(scalar:float, minSpeed:float, MAX_SPEED:float) -> float:
-	var diff:float = MAX_SPEED - minSpeed
+func _calc_max_by_altitude(scalar:float, minSpeed:float, maximumSpeed:float) -> float:
+	var diff:float = maximumSpeed - minSpeed
 	return minSpeed + (diff * scalar)
 
 func _read_move_input() -> Vector3:
@@ -105,7 +128,7 @@ func _calc_input_push(dir:Vector3) -> Vector3:
 func _apply_debug_move(inputDir:Vector3, _delta:float) -> String:
 	var t:Transform = global_transform
 	var p:Vector3 = t.origin
-	p += inputDir * (MAX_SPEED * _delta)
+	p += inputDir * (settings.maxPushSpeed.value * _delta)
 	t.origin = p
 	global_transform = t
 	return ""
@@ -128,11 +151,11 @@ func _apply_move_1(inputDir:Vector3, _delta:float) -> String:
 	# dot from raw values:
 	var projectionVelDot:float = inputDir.dot(_velocity)
 	
-	var accelStr:float = MAX_SPEED * 10
+	var accelStr:float = settings.maxPushSpeed.value * 10
 	
 	var accelMag:float = accelStr * _delta
-	if (projectionVelDot + accelMag > MAX_SPEED):
-		accelMag = MAX_SPEED - projectionVelDot
+	if (projectionVelDot + accelMag > settings.maxPushSpeed.value):
+		accelMag = settings.maxPushSpeed.value - projectionVelDot
 	
 	var framePush:Vector3 = inputDir * accelMag
 	
@@ -158,7 +181,7 @@ func _apply_move_2(inputDir:Vector3, _delta:float) -> String:
 	# if speed is low, push force is high -> snappier speed changes
 	# if speed is high push is close to current direction:
 	#	
-	var pushForce:float = MAX_SPEED * 10
+	var pushForce:float = settings.maxPushSpeed.value * 10
 	var framePush:Vector3 = inputDir.normalized() * pushForce
 	var potentialPush:Vector3 = forward * pushForce
 	
@@ -177,18 +200,18 @@ func _apply_move_2(inputDir:Vector3, _delta:float) -> String:
 		dot = 1
 	var potentialDot:float = potentialPush.normalized().dot(velNormal) * -1
 	var dot2:float = _velocity.dot(forward)
-	# var inputPushScale:float = 1 - (pow(curSpeed / MAX_SPEED, 3))
+	# var inputPushScale:float = 1 - (pow(curSpeed / settings.maxPushSpeed.value, 3))
 	var inputPushScale:float = potentialDot
 	if inputPushScale < 0:
 		inputPushScale = 0
-	# var speedCapacity:float = MAX_SPEED - curSpeed
-	var speedCapacity:float = 1 - (curSpeed / MAX_SPEED)
+	# var speedCapacity:float = settings.maxPushSpeed.value - curSpeed
+	var speedCapacity:float = 1 - (curSpeed / settings.maxPushSpeed.value)
 	if speedCapacity < 0:
 		speedCapacity = 0
 	elif speedCapacity > 1:
 		speedCapacity = 1
 	# drag is a reverse of velocity, scaling up as velocity increases
-	var drag:Vector3 = (-_velocity.normalized() * MAX_SPEED) * (1 - speedCapacity)
+	var drag:Vector3 = (-_velocity.normalized() * settings.maxPushSpeed.value) * (1 - speedCapacity)
 	
 	_velocity += (framePush * inputPushScale) * _delta
 	_velocity = move_and_slide(_velocity)
@@ -209,7 +232,7 @@ func _apply_move_2(inputDir:Vector3, _delta:float) -> String:
 	return txt
 
 func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
-	var maxSpeed:float = _calc_max_by_altitude(_speedScalar, MIN_SPEED, MAX_SPEED)
+	var maxSpeed:float = _calc_max_by_altitude(_speedScalar, MIN_SPEED, settings.maxPushSpeed.value)
 
 	var pushStr:float = maxSpeed * 10
 	var pushNormal:Vector3 = inputDir.normalized()
