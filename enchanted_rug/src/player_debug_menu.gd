@@ -10,6 +10,8 @@ var _uiNodes = [
 
 var _setting_keys = []
 
+var _editable:bool = true
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_player = get_parent()
@@ -23,6 +25,14 @@ func _ready() -> void:
 		_settingsNode.add_child(slider)
 		slider.init(settings, name)
 		_uiNodes.push_back(slider)
+	set_editable(_editable)
+
+
+func set_editable(flag:bool) -> void:
+	_editable = flag
+	$settings/reset.visible = _editable
+	for _i in range (0, _uiNodes.size()):
+		_uiNodes[_i].set_editable(_editable)
 	
 func settings() -> Dictionary:
 	return _player.get_settings()

@@ -84,6 +84,13 @@ attack_1={
  ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="world_solid"
+3d_physics/layer_2="world_effect"
+3d_physics/layer_3="player"
+3d_physics/layer_4="projectile"
+
 [rendering]
 
 quality/driver/driver_name="GLES2"

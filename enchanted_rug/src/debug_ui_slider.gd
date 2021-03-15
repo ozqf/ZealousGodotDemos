@@ -15,6 +15,8 @@ var _setting:Dictionary = {
 
 var _varName:String = ""
 
+var _editable:bool = true
+
 func _ready() -> void:
 	_slider.connect("value_changed", self, "on_changed")
 	# _originalLabel = _label.text
@@ -24,6 +26,10 @@ func init(sourceDict:Dictionary, varName:String) -> void:
 
 	_varName = varName
 	reset()
+
+func set_editable(flag:bool) -> void:
+	_editable = flag
+	_slider.visible = _editable
 
 func reset() -> void:
 	# var setting:Dictionary = _settings[_varName]

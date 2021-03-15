@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://shared/mat_yellow_transparent.tres" type="Material" id=1]
+[ext_resource path="res://src/wind_volume.gd" type="Script" id=2]
+
+[sub_resource type="CylinderShape" id=1]
+radius = 0.5
+height = 1.0
+
+[sub_resource type="CylinderMesh" id=2]
+top_radius = 0.3
+bottom_radius = 0.5
+height = 1.0
+
+[node name="wind_volume" type="Area"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = ExtResource( 1 )

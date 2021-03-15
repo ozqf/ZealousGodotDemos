@@ -6,22 +6,22 @@
 margin_top = 24.0
 margin_right = 320.0
 margin_bottom = 40.0
-alignment = 1
+alignment = 2
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = 14.0
+margin_left = 29.0
 margin_top = 1.0
-margin_right = 109.0
+margin_right = 124.0
 margin_bottom = 15.0
 text = "debug ui slider"
 
 [node name="HSlider" type="HSlider" parent="."]
-margin_left = 113.0
-margin_right = 305.0
+margin_left = 128.0
+margin_right = 320.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 192, 0 )
 min_value = 10.0
