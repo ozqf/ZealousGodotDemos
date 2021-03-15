@@ -47,18 +47,19 @@ var _vars:Dictionary = {
 	"velocity": Vector3(),
 	"groundPos": Vector3(),
 	"pushNormal": Vector3(),
+	"projectedPushNormal": Vector3(),
 	"pushAccumulator": Vector3(),
 	"altitude": 0.0,
 	"speedScalar": 0.0,
 	"pushVelDot": 0.0,
-	"velPushDot": 0.0,
 	"currentSpeed": 0.0,
 	"addSpeed": 0.0,
 	"accelSpeed": 0.0,
 	"acceleration": Vector3(),
 	"drag": Vector3(),
 	"dragStrength": 0.0,
-	"speedCapacity": 1.0
+	"speedCapacity": 1.0,
+	"canPush": 0.0
 }
 
 var _inputOn:bool = false
@@ -88,6 +89,7 @@ func _ready() -> void:
 	$draw_velocity.init(_vars, "velocity", Color.blue, 0.05)
 	$draw_drag.init(_vars, "drag", Color.red, 0.05)
 	$draw_push_normal.init(_vars, "pushNormal", Color.white, 1)
+	$draw_push.init(_vars, "projectedPushNormal", Color.yellow, 1)
 
 func _process(_delta:float) -> void:
 	var pos:Vector3 = global_transform.origin
@@ -317,6 +319,34 @@ func _calc_accel_source_style(velocity:Vector3, wishDir:Vector3, wishSpeed:float
 	acceleration = wishDir * _vars.accelSpeed
 	return acceleration
 
+# not functioning, retrieved from defunct code in quake 3:
+# https://github.com/id-Software/Quake-III-Arena/blob/master/code/game/bg_pmove.c#L260
+func _calc_accel_q3_fixed_style(vel:Vector3, wishDir:Vector3, wishSpeed:float, accelStrength:float, delta:float) -> Vector3:
+	var wishVel:Vector3 = wishDir * wishSpeed
+	var pushDir:Vector3 = wishVel - vel
+	var pushLen:float = pushDir.length()
+	pushDir = pushDir.normalized()
+	_vars.canPush = accelStrength * delta * wishSpeed
+	if _vars.canPush > pushLen:
+		_vars.canPush = pushLen
+	return ZqfUtils.VectorMA(_vars.velocity, _vars.canPush, pushDir)
+
+func _calc_projected_push(vel:Vector3, wishDir:Vector3, wishSpeed:float, accelStr:float) -> Vector3:
+	var curSpeed:float = vel.length()
+	var projection:Vector3 = wishDir.project(vel)
+	var dot:float = vel.normalized().dot(wishDir)
+	# if push is against velocity or we are not moving at all
+	# no shenanigans required. allow for maximum push strength
+	if dot < 0 || curSpeed == 0:
+		return wishDir * accelStr
+	
+	# scale projected push by ratio of speed to desired speed
+	var ratio:float = curSpeed / wishSpeed
+	var result = wishDir * (accelStr * ratio)
+
+	_vars.projectedPushNormal = projection
+	return result
+
 func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
 	var maxSpeed:float = _calc_max_by_altitude(_vars.speedScalar, settings.minPushSpeed.value, settings.maxPushSpeed.value)
 
@@ -330,12 +360,14 @@ func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
 	else:
 		velNormal = -global_transform.basis.z
 	
-	_vars.acceleration = _calc_accel_source_style(_vars.velocity, _vars.pushNormal, maxSpeed, pushStr, _delta)
+	# _vars.acceleration = _calc_accel_source_style(_vars.velocity, _vars.pushNormal, maxSpeed, pushStr, _delta)
+	_vars.acceleration = _calc_accel_q3_fixed_style(_vars.velocity, _vars.pushNormal, maxSpeed, pushStr, _delta)
+	# _vars.acceleration
+	_vars.acceleration = _calc_projected_push(_vars.velocity, _vars.pushNormal, maxSpeed, pushStr)
 	
-	_vars.pushVelDot = _vars.pushNormal.dot(velNormal) * -1
-	_vars.velPushDot = velNormal.dot(_vars.pushNormal) * -1
-	if _vars.pushVelDot < 0:
-		_vars.pushVelDot = 0
+	# if dot > 0 push is in a similar direction. 1 == identical
+	# if dot < 0 push is against direction. -1 == opposite
+	_vars.pushVelDot = _vars.pushNormal.dot(velNormal)
 	
 	var framePush:Vector3 = (_vars.pushNormal * pushStr) * _delta
 	# scale by whether the player is pushing against their current movement:
@@ -343,25 +375,28 @@ func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
 
 	var externalPush:Vector3 = read_accumulated_impulse()
 	
-	var predictedVelocity:Vector3 = _vars.velocity + framePush
-	var percentageOfMax:float = predictedVelocity.length() / maxSpeed
-	if framePush.length() > 0:
-		if percentageOfMax < 1:
-			_vars.velocity += framePush
-		else:
-			# _vars.velocity = pushNormal * maxSpeed
-			# apply then cap
-			_vars.velocity += framePush
+	# var predictedVelocity:Vector3 = _vars.velocity + framePush
+	# var percentageOfMax:float = predictedVelocity.length() / maxSpeed
+	# if framePush.length() > 0:
+	# 	if percentageOfMax < 1:
+	# 		_vars.velocity += framePush
+	# 	else:
+	# 		# _vars.velocity = pushNormal * maxSpeed
+	# 		# apply then cap
+	# 		_vars.velocity += framePush
 			# _vars.velocity = _vars.velocity.normalized() * maxSpeed
 			# framePush *= (percentageOfMax - 1)
 	#elif externalPush.length_squared() == 0:
 		# apply drag
 	#	_vars.velocity *= 0.9
 	
-	_vars.drag = _calc_drag(_vars.velocity, maxSpeed)
+	# _vars.drag = _calc_drag(_vars.velocity, maxSpeed)
 	
+	_vars.velocity += _vars.acceleration * _delta
+	# _vars.velocity += _vars.acceleration
+	# _vars.velocity += framePush
 	_vars.velocity += externalPush * _delta
-	_vars.velocity += _vars.drag * _delta
+	# _vars.velocity += _vars.drag * _delta
 	
 	_vars.velocity = move_and_slide(_vars.velocity)
 	
