@@ -90,6 +90,7 @@ func _ready() -> void:
 	$draw_drag.init(_vars, "drag", Color.red, 0.05)
 	$draw_push_normal.init(_vars, "pushNormal", Color.white, 1)
 	$draw_push.init(_vars, "projectedPushNormal", Color.yellow, 1)
+	$draw_acceleration.init(_vars, "acceleration", Color.orange, 1)
 
 func _process(_delta:float) -> void:
 	var pos:Vector3 = global_transform.origin
@@ -331,21 +332,29 @@ func _calc_accel_q3_fixed_style(vel:Vector3, wishDir:Vector3, wishSpeed:float, a
 		_vars.canPush = pushLen
 	return ZqfUtils.VectorMA(_vars.velocity, _vars.canPush, pushDir)
 
-func _calc_projected_push(vel:Vector3, wishDir:Vector3, wishSpeed:float, accelStr:float) -> Vector3:
+##############################################
+# yet another attempt
+func _calc_projected_push(vel:Vector3, wishDir:Vector3, wishSpeed:float, accelStr:float, delta:float) -> Vector3:
 	var curSpeed:float = vel.length()
 	var projection:Vector3 = wishDir.project(vel)
+	_vars.projectedPushNormal = projection
 	var dot:float = vel.normalized().dot(wishDir)
+	var unadjustedPush = (wishDir * accelStr) * delta
 	# if push is against velocity or we are not moving at all
 	# no shenanigans required. allow for maximum push strength
 	if dot < 0 || curSpeed == 0:
-		return wishDir * accelStr
+		return unadjustedPush
+	
+	# will this acceleration push us over wishSpeed?
+	var unadjustedMag:float = (vel + unadjustedPush).length()
+	if unadjustedMag < wishSpeed:
+		return unadjustedPush
 	
 	# scale projected push by ratio of speed to desired speed
 	var ratio:float = curSpeed / wishSpeed
-	var result = wishDir * (accelStr * ratio)
+	var _result = wishDir * (accelStr * ratio) * delta
+	return Vector3()
 
-	_vars.projectedPushNormal = projection
-	return result
 
 func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
 	var maxSpeed:float = _calc_max_by_altitude(_vars.speedScalar, settings.minPushSpeed.value, settings.maxPushSpeed.value)
@@ -363,7 +372,7 @@ func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
 	# _vars.acceleration = _calc_accel_source_style(_vars.velocity, _vars.pushNormal, maxSpeed, pushStr, _delta)
 	_vars.acceleration = _calc_accel_q3_fixed_style(_vars.velocity, _vars.pushNormal, maxSpeed, pushStr, _delta)
 	# _vars.acceleration
-	_vars.acceleration = _calc_projected_push(_vars.velocity, _vars.pushNormal, maxSpeed, pushStr)
+	_vars.acceleration = _calc_projected_push(_vars.velocity, _vars.pushNormal, maxSpeed, pushStr, _delta)
 	
 	# if dot > 0 push is in a similar direction. 1 == identical
 	# if dot < 0 push is against direction. -1 == opposite
@@ -373,7 +382,7 @@ func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
 	# scale by whether the player is pushing against their current movement:
 	# framePush += (framePush * _vars.pushVelDot)
 
-	var externalPush:Vector3 = read_accumulated_impulse()
+	var externalPush:Vector3 = read_accumulated_impulse() * _delta
 	
 	# var predictedVelocity:Vector3 = _vars.velocity + framePush
 	# var percentageOfMax:float = predictedVelocity.length() / maxSpeed
@@ -392,10 +401,10 @@ func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
 	
 	# _vars.drag = _calc_drag(_vars.velocity, maxSpeed)
 	
-	_vars.velocity += _vars.acceleration * _delta
+	_vars.velocity += _vars.acceleration
 	# _vars.velocity += _vars.acceleration
 	# _vars.velocity += framePush
-	_vars.velocity += externalPush * _delta
+	_vars.velocity += externalPush
 	# _vars.velocity += _vars.drag * _delta
 	
 	_vars.velocity = move_and_slide(_vars.velocity)

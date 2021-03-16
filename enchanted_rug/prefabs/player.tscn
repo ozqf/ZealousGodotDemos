@@ -82,21 +82,26 @@ __meta__ = {
 }
 
 [node name="draw_push_normal" type="ImmediateGeometry" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1, -2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1, -2 )
 material_override = ExtResource( 6 )
 script = ExtResource( 5 )
 
 [node name="draw_velocity" type="ImmediateGeometry" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -1, -2 )
 material_override = ExtResource( 6 )
 script = ExtResource( 5 )
 
 [node name="draw_drag" type="ImmediateGeometry" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -1, -2 )
 material_override = ExtResource( 6 )
 script = ExtResource( 5 )
 
 [node name="draw_push" type="ImmediateGeometry" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, -2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -1, -2 )
+material_override = ExtResource( 6 )
+script = ExtResource( 5 )
+
+[node name="draw_acceleration" type="ImmediateGeometry" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -1, -2 )
 material_override = ExtResource( 6 )
 script = ExtResource( 5 )
