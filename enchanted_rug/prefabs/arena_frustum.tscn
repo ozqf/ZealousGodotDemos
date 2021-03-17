@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/meshes/arena_frustum.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://shared/mat_forcefield.tres" type="Material" id=2]
+
+[sub_resource type="ConcavePolygonShape" id=1]
+data = PoolVector3Array( 0, 0, 0, 1, 1, -2, -1, 1, -2, -1, -1, -2, 0, 0, 0, -1, 1, -2, 0, 0, 0, -1, -1, -2, 1, -1, -2, 0, 0, 0, 1, -1, -2, 1, 1, -2, -1.1, 1.1, -2, 1.1, 1.1, -2, 0, 0, 0.1, -1.1, 1.1, -2, 0, 0, 0.1, -1.1, -1.1, -2, 1.1, -1.1, -2, -1.1, -1.1, -2, 0, 0, 0.1, 1.1, 1.1, -2, 1.1, -1.1, -2, 0, 0, 0.1, -1.1, 1.1, -2, -1, 1, -2, 1.1, 1.1, -2, 1.1, 1.1, -2, -1, 1, -2, 1, 1, -2, -1.1, -1.1, -2, -1, -1, -2, -1.1, 1.1, -2, -1.1, 1.1, -2, -1, -1, -2, -1, 1, -2, 1.1, -1.1, -2, 1, -1, -2, -1.1, -1.1, -2, -1.1, -1.1, -2, 1, -1, -2, -1, -1, -2, 1.1, 1.1, -2, 1, 1, -2, 1.1, -1.1, -2, 1.1, -1.1, -2, 1, 1, -2, 1, -1, -2 )
+
+[node name="arena_frustum" type="StaticBody"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = ExtResource( 1 )
+material/0 = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
