@@ -3,6 +3,8 @@ extends KinematicBody
 onready var _mouse:MouseLook = $mouse
 onready var _debugLabel:Label = $ui/debug
 onready var _altitudeRay:RayCast = $altitude_ray
+onready var _head:Spatial = $head
+onready var _body:Spatial = $body
 
 # const MAX_SPEED:float = 25.0
 # const MIN_SPEED:float = 10.0
@@ -23,8 +25,8 @@ var settings:Dictionary = {
 		"editMax": 100.0
 	},
 	"pushStrength": {
-		"value": 50,
-		"default": 50,
+		"value": 125,
+		"default": 125,
 		"editMin": 1,
 		"editMax": 500
 	},
@@ -43,7 +45,7 @@ var settings:Dictionary = {
 }
 
 var _vars:Dictionary = {
-	"moveMode": 3,
+	"moveMode": 2,
 	"velocity": Vector3(),
 	"groundPos": Vector3(),
 	"pushNormal": Vector3(),
@@ -86,11 +88,11 @@ func _ready() -> void:
 	refresh_input_flag(false)
 	_spawnTransform = global_transform
 	_prevTransform = global_transform
-	$draw_velocity.init(_vars, "velocity", Color.blue, 0.05)
-	$draw_drag.init(_vars, "drag", Color.red, 0.05)
-	$draw_push_normal.init(_vars, "pushNormal", Color.white, 1)
-	$draw_push.init(_vars, "projectedPushNormal", Color.yellow, 1)
-	$draw_acceleration.init(_vars, "acceleration", Color.orange, 1)
+	$head/draw_velocity.init(_vars, "velocity", Color.blue, 0.05)
+	$head/draw_drag.init(_vars, "drag", Color.red, 0.05)
+	$head/draw_push_normal.init(_vars, "pushNormal", Color.white, 1)
+	$head/draw_push.init(_vars, "projectedPushNormal", Color.yellow, 1)
+	$head/draw_acceleration.init(_vars, "acceleration", Color.orange, 1)
 
 func _process(_delta:float) -> void:
 	var pos:Vector3 = global_transform.origin
@@ -188,14 +190,14 @@ func _read_move_input() -> Vector3:
 		dir.y += -1
 	return dir
 
-func _apply_rotation(mouse:Vector2) -> void:
-	var rot:Vector3 = rotation_degrees
+func _apply_rotation(spatialNode:Spatial, mouse:Vector2) -> void:
+	var rot:Vector3 = spatialNode.rotation_degrees
 	rot.y += mouse.x
 	rot.x += mouse.y
-	rotation_degrees = rot
+	spatialNode.rotation_degrees = rot
 
 func _calc_input_push(dir:Vector3) -> Vector3:
-	var rotMatrix:Basis = global_transform.basis
+	var rotMatrix:Basis = _head.global_transform.basis
 	var move:Vector3 = Vector3()
 	move += (rotMatrix.z * dir.z)
 	move += (rotMatrix.x * dir.x)
@@ -247,66 +249,37 @@ func _apply_move_1(inputDir:Vector3, _delta:float) -> String:
 	return txt
 
 func _apply_move_2(inputDir:Vector3, _delta:float) -> String:
-	var txt:String = ""
-	var t:Transform = global_transform
-	var forward:Vector3 = -t.basis.z
-	# var framePush:Vector3 = inputDir * (10 * _delta)
-	# frame push should scale by
-	# a: max velocity
-	# b: difference from current direction
+	var velocity:Vector3 = _vars.velocity
+	inputDir = inputDir.normalized()
+	_vars.pushNormal = inputDir
+	# no input? apply drag
+	if inputDir.length() == 0:
+		velocity *= 0.9
 	
-	# if speed is low, push force is high -> snappier speed changes
-	# if speed is high push is close to current direction:
-	#	
-	var pushForce:float = settings.maxPushSpeed.value * 10
-	var framePush:Vector3 = inputDir.normalized() * pushForce
-	var potentialPush:Vector3 = forward * pushForce
+	# normally speed cap is max player push...
+	var speedCap:float = settings.maxPushSpeed.value
+	var curSpeed:float = velocity.length()
+	# ...however external pushes may override it
+	if curSpeed > speedCap:
+		speedCap = curSpeed
 	
-	var pushNormal:Vector3 = framePush.normalized()
-	var velNormal:Vector3
-	if _vars.velocity.length() > 0:
-		velNormal = _vars.velocity.normalized()
-	else:
-		velNormal = forward
-	var curSpeed:float = _vars.velocity.length()
-	# var dot:float = _vars.velocity.dot(framePush)
-	var dot:float
-	if _vars.velocity.length() > 0:
-		dot = pushNormal.normalized().dot(velNormal) # * -1
-	else:
-		dot = 1
-	var potentialDot:float = potentialPush.normalized().dot(velNormal) * -1
-	var dot2:float = _vars.velocity.dot(forward)
-	# var inputPushScale:float = 1 - (pow(curSpeed / settings.maxPushSpeed.value, 3))
-	var inputPushScale:float = potentialDot
-	if inputPushScale < 0:
-		inputPushScale = 0
-	# var speedCapacity:float = settings.maxPushSpeed.value - curSpeed
-	var speedCapacity:float = 1 - (curSpeed / settings.maxPushSpeed.value)
-	if speedCapacity < 0:
-		speedCapacity = 0
-	elif speedCapacity > 1:
-		speedCapacity = 1
-	# drag is a reverse of velocity, scaling up as velocity increases
-	var drag:Vector3 = (-_vars.velocity.normalized() * settings.maxPushSpeed.value) * (1 - speedCapacity)
-	
-	_vars.velocity += (framePush * inputPushScale) * _delta
-	_vars.velocity = move_and_slide(_vars.velocity)
-	
-	txt += "Speed: " + str(curSpeed) + "\n"
-	txt += "Forward: " + str(forward) + "\n"
-	txt += "Velocity Normal" + str(velNormal) + "\n"
-	txt += "Potential framePush Dot: " + str(potentialDot) + "\n"
-	txt += "PushScale: " + str(inputPushScale) + "\n"
-	txt += "Potential push: " + str(potentialPush) + "\n"
-	
-	txt += "Speed capacity %: " + str(speedCapacity) + "\n"
-	txt += "Push scale: " + str(inputPushScale) + "\n"
-	
-	txt += "Drag str: " + str(drag.length()) + "\n"
-	txt += "Drag: " + str(drag) + "\n"
+	# apply player input
+	var framePush:Vector3 = (inputDir * settings.pushStrength.value) * _delta
+	velocity += framePush
+	# cap if necessary
+	if velocity.length() > speedCap:
+		velocity = velocity.normalized()
+		velocity *= speedCap
 
-	return txt
+	# apply external pushes
+	var externalPush:Vector3 = read_accumulated_impulse() * _delta
+	velocity += externalPush
+	
+	# move
+	velocity = move_and_slide(velocity)
+
+	_vars.velocity = velocity
+	return ""
 
 func _calc_accel_source_style(velocity:Vector3, wishDir:Vector3, wishSpeed:float, accelStrength:float, delta:float) -> Vector3:
 	var acceleration:Vector3 = Vector3()
@@ -428,6 +401,15 @@ func _apply_move_4(_inputDir:Vector3, _delta:float) -> String:
 	var txt:String = ""
 	return txt
 
+func _update_body_rotation(_delta:float) -> void:
+	var forward:Vector3 = _vars.velocity.normalized()
+	if forward.length_squared() == 0:
+		forward = _body.global_transform.basis.z
+	var up:Vector3 = _head.global_transform.basis.y
+	var origin:Vector3 = _body.global_transform.origin
+	var dest:Vector3 = origin + forward
+	_body.look_at(dest, up)
+
 func _physics_process(_delta:float) -> void:
 	if Input.is_action_just_pressed("reset"):
 		_vars.velocity = Vector3()
@@ -436,8 +418,12 @@ func _physics_process(_delta:float) -> void:
 		_vars.moveMode += 1
 		if _vars.moveMode > 4:
 			_vars.moveMode = 0
+	# set body rotation
+
 	
-	_apply_rotation(_mouse.read_accumulator())
+	_apply_rotation(_head, _mouse.read_accumulator())
+	_update_body_rotation(_delta)
+
 	var inputPush:Vector3 = _calc_input_push(_read_move_input())
 	var txt = ""
 	var moveTxt = ""

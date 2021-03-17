@@ -1,6 +1,6 @@
 extends KinematicBody
 
-var _speed:float = 75.0
+var _speed:float = 125.0
 var _ttl:float = 10
 
 func _physics_process(delta) -> void:

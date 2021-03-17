@@ -19,7 +19,7 @@ func on_body_exited(_body:PhysicsBody) -> void:
 
 func _process(_delta:float) -> void:
 	var forward:Vector3 = global_transform.basis.y
-	forward *= 100
+	forward *= 35
 	for _i in range(0, _bodies.size()):
 		var body:Node = _bodies[_i]
 		if body.has_method("add_impulse"):
