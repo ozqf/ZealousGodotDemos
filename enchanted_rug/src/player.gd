@@ -84,6 +84,7 @@ func get_runtime() -> Dictionary:
 	return _vars
 
 func _ready() -> void:
+	add_to_group(Main.GROUP_NAME)
 	# Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	refresh_input_flag(false)
 	_spawnTransform = global_transform
@@ -126,6 +127,10 @@ func _input(_event: InputEvent) -> void:
 #		else:
 #			print("Toggle menu off")
 #			set_input_on()
+
+func game_reset() -> void:
+	_vars.velocity = Vector3()
+	global_transform = _spawnTransform
 
 func _vars_string() -> String:
 	var txt:String = "--- runtime vars ---\n"
@@ -411,9 +416,9 @@ func _update_body_rotation(_delta:float) -> void:
 	_body.look_at(dest, up)
 
 func _physics_process(_delta:float) -> void:
-	if Input.is_action_just_pressed("reset"):
-		_vars.velocity = Vector3()
-		global_transform = _spawnTransform
+	# if Input.is_action_just_pressed("reset"):
+	# 	_vars.velocity = Vector3()
+	# 	global_transform = _spawnTransform
 	if Input.is_action_just_pressed("mode"):
 		_vars.moveMode += 1
 		if _vars.moveMode > 4:

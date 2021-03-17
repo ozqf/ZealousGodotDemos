@@ -2,6 +2,7 @@ extends Node
 
 var _slider_t = preload("res://prefabs/debug_ui_slider.tscn")
 onready var _settingsNode:Control = $settings
+onready var _console:LineEdit = $console
 
 var _player = null
 
@@ -27,9 +28,17 @@ func _ready() -> void:
 		_uiNodes.push_back(slider)
 	set_editable(_editable)
 
+func _process(_delta:float) -> void:
+	if Input.is_action_just_pressed("ui_accept"):
+		var txt = _console.text
+		_console.text = ""
+		Console.execute(txt)
 
 func set_editable(flag:bool) -> void:
 	_editable = flag
+	_console.visible = _editable
+	if _editable:
+		_console.grab_focus()
 	$settings/reset.visible = _editable
 	for _i in range (0, _uiNodes.size()):
 		_uiNodes[_i].set_editable(_editable)

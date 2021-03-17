@@ -12,13 +12,25 @@ const RAD2DEG = 57.29577951308
 static func dot_product(x0: float, y0: float, x1: float, y1: float):
 	return x0 * x1 + y0 * y1
 
-static func is_point_left_of_line2D(lineOrigin: Vector2, lineSize: Vector2, p: Vector2):
+static func is_point_left_of_line2D(lineOrigin: Vector2, lineSize: Vector2, p: Vector2) -> bool:
 	var vx: float = lineOrigin.x - p.x
 	var vy: float = lineOrigin.y - p.y
 	var lineNormalX: float = lineSize.y
 	var lineNormalY: float = -lineSize.x
 	var dp: float = dot_product(vx, vy, lineNormalX, lineNormalY)
 	return (dp > 0)
+
+static func is_point_left_of_line3D_flat(lineOrigin: Vector3, lineSize: Vector3, p: Vector3) -> bool:
+	var vx: float = lineOrigin.x - p.x
+	var vz: float = lineOrigin.z - p.z
+	var lineNormalX: float = lineSize.z
+	var lineNormalZ: float = -lineSize.x
+	var dp: float = dot_product(vx, vz, lineNormalX, lineNormalZ)
+	return (dp > 0)
+
+static func yaw_to_flat_vector3(yawDegrees:float) -> Vector3:
+	var radians:float = deg2rad(yawDegrees)
+	return Vector3(sin(radians), 0, -cos(radians))
 
 # Only does Pitch and Yaw
 static func calc_euler_degrees(v: Vector3) -> Vector3:
@@ -112,9 +124,10 @@ static func quick_hitscan3D(_source:Spatial, _distance:float, ignoreArray, _mask
 	var space = _source.get_world().direct_space_state
 	return space.intersect_ray(_origin, _dest, ignoreArray, _mask)
 
-#####################################
-# misc
-#####################################
+
+###########################################################################
+# Strings
+###########################################################################
 
 static func join_strings(stringArr, separator:String) -> String:
 	var l:int = stringArr.size()
@@ -124,6 +137,54 @@ static func join_strings(stringArr, separator:String) -> String:
 		if i < (l - 1):
 			result += separator
 	return result
+
+# TODO Maybe tidy this up... I'm not very good at writing tokenise functions...
+static func tokenise(_text:String) -> PoolStringArray:
+	var tokens: PoolStringArray = []
+	var _len:int = _text.length()
+	if _len == 0:
+		return tokens
+	var readingToken: bool = false
+	var _charsInToken:int = 0
+	var _tokenStart:int = 0
+	var i:int = 0
+	var finished:bool = false
+	while (true):
+		var c = _text[i]
+		i += 1
+		if i >= _len:
+			finished = true
+		var isWhiteSpace:bool = (c == " " || c == "\t")
+		if readingToken:
+			# finish token
+			if isWhiteSpace || finished:
+				if finished && !isWhiteSpace:
+					# count this last char if we are making a token
+					_charsInToken += 1
+				readingToken = false
+				var token:String = _text.substr(_tokenStart, _charsInToken)
+				tokens.push_back(token)
+			else:
+				# increment token length
+				_charsInToken += 1
+		else:
+			# eat whitespace
+			if c == " " || c == "\t":
+				pass
+			else:
+				if !finished:
+					# begin a new token
+					readingToken = true
+					_tokenStart = i - 1
+					_charsInToken = 1
+				else:
+					# single char token at end of line:
+					var token: String = _text.substr(i -1, 1)
+					tokens.push_back(token)
+		if finished:
+			break
+	print("Tokenised '" + _text + "' to " + str(tokens))
+	return tokens
 
 #####################################
 # 3D sprite directions
