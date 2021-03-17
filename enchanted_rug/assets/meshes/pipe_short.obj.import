@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/pipe_short.obj-6e23017f43cfdaa31583667787c30494.mesh"
+
+[deps]
+
+files=[ "res://.import/pipe_short.obj-6e23017f43cfdaa31583667787c30494.mesh" ]
+
+source_file="res://assets/meshes/pipe_short.obj"
+dest_files=[ "res://.import/pipe_short.obj-6e23017f43cfdaa31583667787c30494.mesh", "res://.import/pipe_short.obj-6e23017f43cfdaa31583667787c30494.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
