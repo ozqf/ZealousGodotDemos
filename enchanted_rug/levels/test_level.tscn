@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/player.tscn" type="PackedScene" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://shared/mat_wall.tres" type="Material" id=13]
 [ext_resource path="res://shared/mat_ceiling.tres" type="Material" id=14]
 [ext_resource path="res://prefabs/arena_hemisphere.tscn" type="PackedScene" id=15]
+[ext_resource path="res://prefabs/actors/turret.tscn" type="PackedScene" id=16]
 
 [node name="test_level" type="Spatial"]
 
@@ -106,9 +107,6 @@ transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 1, 0, 0, 408.5 )
 [node name="world_barrier_volume5" parent="world_static" instance=ExtResource( 4 )]
 transform = Transform( 256, 0, 0, 0, 1, 0, 0, 0, 256, 0, 64, 280 )
 
-[node name="player" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 40 )
-
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 8, 0 )
 shadow_enabled = true
@@ -130,3 +128,11 @@ transform = Transform( 24, 0, 0, 0, 24, 0, 0, 0, 24, 15, 33, -179 )
 
 [node name="arena_dome2" parent="." instance=ExtResource( 15 )]
 transform = Transform( 32, 0, 0, 0, 32, 0, 0, 0, 32, 103, -1, -163 )
+
+[node name="actors" type="Spatial" parent="."]
+
+[node name="turret" parent="actors" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 13, -136 )
+
+[node name="player" parent="actors" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 40 )

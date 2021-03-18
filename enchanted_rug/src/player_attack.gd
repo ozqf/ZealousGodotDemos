@@ -1,6 +1,6 @@
 extends Spatial
 
-var _projectile_t = preload("res://prefabs/projectile.tscn")
+var _projectile_t = preload("res://prefabs/projectiles/projectile.tscn")
 
 var _body:Spatial = null
 var _refireTick:float = 0

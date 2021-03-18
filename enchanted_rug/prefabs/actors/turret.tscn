@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/meshes/arena_dome.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://src/turret_attack.gd" type="Script" id=2]
+
+[node name="turret" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = ExtResource( 1 )
+material/0 = null

@@ -16,7 +16,7 @@ var _editable:bool = true
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_player = get_parent()
-	$settings/reset.connect("pressed", self, "reset_to_defaults")
+	var _foo = $settings/reset.connect("pressed", self, "reset_to_defaults")
 
 	var settings = settings()
 	_setting_keys = settings.keys()

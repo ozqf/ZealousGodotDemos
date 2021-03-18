@@ -67,6 +67,13 @@ var _vars:Dictionary = {
 	"gravityStrength": 10.0
 }
 
+var _targetInfo:Dictionary = {
+	"valid": true,
+	"position": Vector3(),
+	"velocity": Vector3(),
+	"forward": Vector3()
+}
+
 var _inputOn:bool = false
 # var _velocity:Vector3 = Vector3()
 
@@ -86,6 +93,13 @@ func get_settings() -> Dictionary:
 func get_runtime() -> Dictionary:
 	return _vars
 
+func get_target_info() -> Dictionary:
+	var t:Transform = global_transform
+	_targetInfo.position = t.origin
+	_targetInfo.forward = -t.basis.z
+	_targetInfo.velocity = _vars.velocity
+	return _targetInfo
+
 func _ready() -> void:
 	add_to_group(Main.GROUP_NAME)
 	# Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -97,6 +111,11 @@ func _ready() -> void:
 	$head/draw_push_normal.init(_vars, "pushNormal", Color.white, 1)
 	$head/draw_push.init(_vars, "projectedPushNormal", Color.yellow, 1)
 	$head/draw_acceleration.init(_vars, "acceleration", Color.orange, 1)
+
+	get_tree().call_group(Main.GROUP_NAME, Main.GAME_PLAYER_ADD_FN, self)
+
+func _exit_tree():
+	get_tree().call_group(Main.GROUP_NAME, Main.GAME_PLAYER_REMOVE_FN, self)
 
 func _process(_delta:float) -> void:
 	var pos:Vector3 = global_transform.origin
@@ -378,7 +397,7 @@ func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
 	# if dot < 0 push is against direction. -1 == opposite
 	_vars.pushVelDot = _vars.pushNormal.dot(velNormal)
 	
-	var framePush:Vector3 = (_vars.pushNormal * pushStr) * _delta
+	# var framePush:Vector3 = (_vars.pushNormal * pushStr) * _delta
 	# scale by whether the player is pushing against their current movement:
 	# framePush += (framePush * _vars.pushVelDot)
 

@@ -1,6 +1,6 @@
 extends KinematicBody
 
-var _speed:float = 125.0
+export var speed:float = 125.0
 var _ttl:float = 10
 var _dead:bool = false
 
@@ -9,14 +9,13 @@ func remove() -> void:
 		return
 	_dead = true
 	queue_free()
-	
 
 func _physics_process(delta) -> void:
 	_ttl -= delta
 	if _ttl <= 0:
 		remove()
 		return
-	var move:Vector3 = (-global_transform.basis.z * _speed) * delta
+	var move:Vector3 = (-global_transform.basis.z * speed) * delta
 	var hit = move_and_collide(move)
 	if hit != null:
 		remove()

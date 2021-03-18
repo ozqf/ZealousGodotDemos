@@ -18,7 +18,7 @@ var _varName:String = ""
 var _editable:bool = true
 
 func _ready() -> void:
-	_slider.connect("value_changed", self, "on_changed")
+	var _foo = _slider.connect("value_changed", self, "on_changed")
 	# _originalLabel = _label.text
 
 func init(sourceDict:Dictionary, varName:String) -> void:

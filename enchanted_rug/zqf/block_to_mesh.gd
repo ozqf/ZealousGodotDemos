@@ -43,7 +43,7 @@ func _build() -> void:
 		var t:Transform = child.global_transform
 		var pos:Vector3 = t.origin
 		var rot:Basis = t.basis
-		print(str(t.origin))
+		# print(str(t.origin))
 
 		var tris = _cube_tris(triSize)
 		# transform
@@ -105,15 +105,13 @@ func _build_old() -> void:
 	groundMesh.start_mesh()
 	var triSize:float = 0.5
 
-	var tris = _cube_tris(triSize)
-
 	for _i in range(0, numVolumes):
 		var child:Spatial = volumesNode.get_child(_i)
 		child.visible = false
 		var t:Transform = child.global_transform
 		var pos:Vector3 = t.origin
 		var rot:Basis = t.basis
-		print(str(t.origin))
+		# print(str(t.origin))
 
 		var v0:Vector3 = Vector3(-triSize, triSize, triSize)
 		var v1:Vector3 = Vector3(triSize, triSize, -triSize)
@@ -129,13 +127,13 @@ func _build_old() -> void:
 		
 		# scale is already applied to verts by basis xform
 		var scaleX = rot.x.length()
-		var scaleY = rot.y.length()
+		# var scaleY = rot.y.length()
 		var scaleZ = rot.z.length()
 
 		var uvSW:Vector2 = Vector2(0.0, 0.0)
 		var uvNE:Vector2 = Vector2(1.0 * scaleX, 1.0 * scaleZ)
 		var uvSE:Vector2 = Vector2(1.0 * scaleX, 0.0)
-		var uvNW:Vector2 = Vector2(0.0, 1.0 * scaleX)
+		# var uvNW:Vector2 = Vector2(0.0, 1.0 * scaleX)
 
 		groundMesh.add_triangle_v(v0, v1, v2, uvSW, uvNE, uvSE)
 	
