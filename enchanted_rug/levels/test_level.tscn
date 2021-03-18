@@ -11,9 +11,9 @@
 [ext_resource path="res://prefabs/world/pipe_short.tscn" type="PackedScene" id=9]
 [ext_resource path="res://zqf/block_to_mesh.gd" type="Script" id=10]
 [ext_resource path="res://zqf/mesh_generator.gd" type="Script" id=11]
-[ext_resource path="res://shared/mat_ground.tres" type="Material" id=12]
-[ext_resource path="res://shared/mat_wall.tres" type="Material" id=13]
-[ext_resource path="res://shared/mat_ceiling.tres" type="Material" id=14]
+[ext_resource path="res://shared/materials/mat_ground.tres" type="Material" id=12]
+[ext_resource path="res://shared/materials/mat_wall.tres" type="Material" id=13]
+[ext_resource path="res://shared/materials/mat_ceiling.tres" type="Material" id=14]
 [ext_resource path="res://prefabs/arena_hemisphere.tscn" type="PackedScene" id=15]
 [ext_resource path="res://prefabs/actors/turret.tscn" type="PackedScene" id=16]
 
