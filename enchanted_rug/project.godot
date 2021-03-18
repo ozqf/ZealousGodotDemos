@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "MeshInstance",
+"class": "MeshGenerator",
+"language": "GDScript",
+"path": "res://zqf/mesh_generator.gd"
+}, {
 "base": "Node",
 "class": "MouseLook",
 "language": "GDScript",
@@ -20,6 +25,7 @@ _global_script_classes=[ {
 "path": "res://zqf/zqf_utils.gd"
 } ]
 _global_script_class_icons={
+"MeshGenerator": "",
 "MouseLook": "",
 "ZqfUtils": ""
 }

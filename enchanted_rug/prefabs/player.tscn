@@ -64,11 +64,11 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 5 )
 
 [node name="attack" type="Spatial" parent="head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, -0.2, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.3, 0 )
 script = ExtResource( 3 )
 
 [node name="attack2" type="Spatial" parent="head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, -0.2, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.3, 0 )
 script = ExtResource( 3 )
 
 [node name="mouse" type="Node" parent="."]

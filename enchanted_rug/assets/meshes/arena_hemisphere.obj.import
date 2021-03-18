@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/arena_hemisphere.obj-95f24d5d7aab31bc718d0291b952bc2e.mesh"
+
+[deps]
+
+files=[ "res://.import/arena_hemisphere.obj-95f24d5d7aab31bc718d0291b952bc2e.mesh" ]
+
+source_file="res://assets/meshes/arena_hemisphere.obj"
+dest_files=[ "res://.import/arena_hemisphere.obj-95f24d5d7aab31bc718d0291b952bc2e.mesh", "res://.import/arena_hemisphere.obj-95f24d5d7aab31bc718d0291b952bc2e.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
