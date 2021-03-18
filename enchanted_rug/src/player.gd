@@ -61,7 +61,10 @@ var _vars:Dictionary = {
 	"drag": Vector3(),
 	"dragStrength": 0.0,
 	"speedCapacity": 1.0,
-	"canPush": 0.0
+	"canPush": 0.0,
+	"gravityDot": 0.0,
+	"gravityDrag": 150.0,
+	"gravityStrength": 10.0
 }
 
 var _inputOn:bool = false
@@ -253,6 +256,20 @@ func _apply_move_1(inputDir:Vector3, _delta:float) -> String:
 	txt += "Speed: " + str(_vars.velocity.length()) + "\n"
 	return txt
 
+func _calc_gravity(inputNormal:Vector3, _delta:float) -> Vector3:
+	var dot:float = inputNormal.dot(Vector3.DOWN)
+	_vars.gravityDot = dot
+	var gravityStr:float = _vars.gravityStrength
+	if dot == 0:
+		return Vector3()
+	if dot < 0:
+		# return Vector3()
+		# apply a mild drag to climbing...?
+		var drag:float = gravityStr * 2
+		return (Vector3.DOWN * drag * (-dot)) * _delta
+	else:
+		return (Vector3.DOWN * gravityStr * dot) * _delta
+
 func _apply_move_2(inputDir:Vector3, _delta:float) -> String:
 	var velocity:Vector3 = _vars.velocity
 	inputDir = inputDir.normalized()
@@ -275,6 +292,11 @@ func _apply_move_2(inputDir:Vector3, _delta:float) -> String:
 	if velocity.length() > speedCap:
 		velocity = velocity.normalized()
 		velocity *= speedCap
+	
+	# apply gravity
+	var gravity:Vector3 = _calc_gravity(inputDir, _delta)
+	_vars.acceleration = gravity
+	velocity += gravity
 
 	# apply external pushes
 	var externalPush:Vector3 = read_accumulated_impulse() * _delta

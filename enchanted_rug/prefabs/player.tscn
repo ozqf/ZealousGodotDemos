@@ -10,10 +10,10 @@
 [sub_resource type="SphereShape" id=1]
 radius = 0.5
 
-[sub_resource type="CubeMesh" id=3]
+[sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.5, 0.5, 0.5 )
 
-[sub_resource type="CubeMesh" id=2]
+[sub_resource type="CubeMesh" id=3]
 size = Vector3( 1, 0.1, 2 )
 
 [node name="player" type="KinematicBody"]
@@ -57,7 +57,7 @@ far = 2048.0
 
 [node name="MeshInstance" type="MeshInstance" parent="head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
-mesh = SubResource( 3 )
+mesh = SubResource( 2 )
 material/0 = null
 
 [node name="third_person" type="Spatial" parent="head"]
@@ -157,10 +157,10 @@ __meta__ = {
 
 [node name="rug" type="MeshInstance" parent="body"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
-mesh = SubResource( 2 )
+mesh = SubResource( 3 )
 material/0 = null
 
 [node name="torso" type="MeshInstance" parent="body"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0 )
-mesh = SubResource( 3 )
+mesh = SubResource( 2 )
 material/0 = null
