@@ -3,7 +3,6 @@
 [ext_resource path="res://assets/meshes/arena_frustum.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://shared/materials/mat_forcefield.tres" type="Material" id=2]
 
-
 [sub_resource type="ConcavePolygonShape" id=1]
 data = PoolVector3Array( 0, 0, 0, 1, 1, -2, -1, 1, -2, -1, -1, -2, 0, 0, 0, -1, 1, -2, 0, 0, 0, -1, -1, -2, 1, -1, -2, 0, 0, 0, 1, -1, -2, 1, 1, -2, -1.1, 1.1, -2, 1.1, 1.1, -2, 0, 0, 0.1, -1.1, 1.1, -2, 0, 0, 0.1, -1.1, -1.1, -2, 1.1, -1.1, -2, -1.1, -1.1, -2, 0, 0, 0.1, 1.1, 1.1, -2, 1.1, -1.1, -2, 0, 0, 0.1, -1.1, 1.1, -2, -1, 1, -2, 1.1, 1.1, -2, 1.1, 1.1, -2, -1, 1, -2, 1, 1, -2, -1.1, -1.1, -2, -1, -1, -2, -1.1, 1.1, -2, -1.1, 1.1, -2, -1, -1, -2, -1, 1, -2, 1.1, -1.1, -2, 1, -1, -2, -1.1, -1.1, -2, -1.1, -1.1, -2, 1, -1, -2, -1, -1, -2, 1.1, 1.1, -2, 1, 1, -2, 1.1, -1.1, -2, 1.1, -1.1, -2, 1, 1, -2, 1, -1, -2 )
 
@@ -30,8 +29,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1 )
 shape = SubResource( 2 )
+disabled = true
 
 [node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0999999 )
+visible = false
 mesh = SubResource( 3 )
 material/0 = ExtResource( 2 )

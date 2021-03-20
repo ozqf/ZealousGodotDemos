@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/player.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://shared/materials/mat_ceiling.tres" type="Material" id=14]
 [ext_resource path="res://prefabs/arena_hemisphere.tscn" type="PackedScene" id=15]
 [ext_resource path="res://prefabs/actors/turret.tscn" type="PackedScene" id=16]
+[ext_resource path="res://prefabs/projectiles/prj_block.tscn" type="PackedScene" id=17]
 
 [node name="test_level" type="Spatial"]
 
@@ -39,6 +40,18 @@ transform = Transform( 256, 0, 0, 0, 1, 0, 0, 0, 256, 0, -1.5, -256 )
 
 [node name="green_world_volume6" parent="world_mesh/volumes" instance=ExtResource( 3 )]
 transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 256, 0, 62.5, -512 )
+
+[node name="green_world_volume7" parent="world_mesh/volumes" instance=ExtResource( 3 )]
+transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 256, 256, 62.5, -512 )
+
+[node name="green_world_volume8" parent="world_mesh/volumes" instance=ExtResource( 3 )]
+transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 256, 256, 62.5, 0 )
+
+[node name="green_world_volume9" parent="world_mesh/volumes" instance=ExtResource( 3 )]
+transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 256, 512, 62.5, -256 )
+
+[node name="green_world_volume10" parent="world_mesh/volumes" instance=ExtResource( 3 )]
+transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 256, 256, -65, -256 )
 
 [node name="green_world_volume4" parent="world_mesh/volumes" instance=ExtResource( 3 )]
 transform = Transform( 256, 0, 0, 0, 1, 0, 0, 0, 256, -256, -1.5, -256 )
@@ -112,27 +125,34 @@ transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0
 shadow_enabled = true
 
 [node name="wind_volume" parent="." instance=ExtResource( 5 )]
-transform = Transform( 15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 22, 0 )
+transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 22, 0 )
 
 [node name="wind_volume3" parent="." instance=ExtResource( 5 )]
-transform = Transform( 15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 22, -25 )
+transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 22, -25 )
 
 [node name="wind_volume2" parent="." instance=ExtResource( 5 )]
-transform = Transform( -6.55671e-07, 15, 0, -15, -6.55671e-07, 0, 0, 0, 15, 26, 8, 7 )
+transform = Transform( -2.62268e-07, 6, 0, -6, -2.62268e-07, 0, 0, 0, 6, 26, 8, 7 )
 
 [node name="arena_frustum" parent="." instance=ExtResource( 6 )]
-transform = Transform( -24, 0, -1.86919e-05, 0, 24, 0, 9.34595e-06, 0, -48, -50, 0, -250 )
+transform = Transform( -16, 0, 2.08538e-05, 0, 16, 0, -5.21346e-06, 0, -64, -50, 18, -250 )
 
 [node name="arena_dome" parent="." instance=ExtResource( 7 )]
 transform = Transform( 24, 0, 0, 0, 24, 0, 0, 0, 24, 15, 33, -179 )
 
+[node name="prj_ball_large" parent="." instance=ExtResource( 17 )]
+transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 32, -168, 5, -147 )
+
+[node name="prj_ball_large2" parent="." instance=ExtResource( 17 )]
+transform = Transform( 32, 0, 0, 0, 6, 0, 0, 0, 1, -168, 17, -147 )
+
 [node name="arena_dome2" parent="." instance=ExtResource( 15 )]
-transform = Transform( 32, 0, 0, 0, 32, 0, 0, 0, 32, 103, -1, -163 )
+transform = Transform( 32, 0, 0, 0, 32, 0, 0, 0, 32, -168, -1, -147 )
 
 [node name="actors" type="Spatial" parent="."]
 
 [node name="turret" parent="actors" instance=ExtResource( 16 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 13, -136 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -168, 11, -147 )
+targetName = "turret1"
 
 [node name="player" parent="actors" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 40 )

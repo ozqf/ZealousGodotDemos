@@ -3,14 +3,30 @@ extends Spatial
 var _projectile_t = preload("res://prefabs/projectiles/prj_ball_large.tscn")
 var _column_projectile_t = preload("res://prefabs/projectiles/prj_column.tscn")
 
-var _active:bool = true
+enum ProjectileType {
+	Point = 0,
+	Small = 1,
+	Large = 2,
+	Column = 3
+}
 
-var _refireTick:float = 0
-var _spinDir:float = 1
+export var targetName:String = ""
+export(ProjectileType) var projectileType = ProjectileType.Point
 export var refireRate:float = 1
+export var projectileRoll:float = 0
+export var projectileRollRate:float = 0
+export var alternateRoll:bool = false
+
+var _active:bool = false
+var _refireTick:float = 0
+var _rollDir:float = 1
 
 func _ready() -> void:
-	add_to_group(Console.GROUP)
+	add_to_group(Main.GROUP_NAME)
+
+func game_trigger(triggerTargetName:String) -> void:
+	if targetName != "" && targetName == triggerTargetName:
+		_active = !_active
 
 func _fire(forward:Vector3, _spinStart:float = 0, _spinRate:float = 0) -> void:
 	var pos:Vector3 = global_transform.origin
@@ -38,12 +54,14 @@ func _process(_delta:float) -> void:
 	var forward:Vector3 = -t.basis.z
 
 	if _refireTick <= 0:
-		_spinDir *= -1
 		_refireTick = refireRate
-		_fire(forward, 0, 22.5 * _spinDir)
-		_fire(forward, 45, 22.5 * _spinDir)
-		_fire(forward, 90, 22.5 * _spinDir)
-		_fire(forward, 135, 22.5 * _spinDir)
+		_fire(forward, 0, projectileRollRate * _rollDir)
+#		_fire(forward, 45, projectileRollRate * _rollDir)
+#		_fire(forward, 90, projectileRollRate * _rollDir)
+#		_fire(forward, 135, projectileRollRate * _rollDir)
+		
+		if alternateRoll:
+			_rollDir *= -1
 		
 		# _fire_offset(-5000, 0)
 		# _fire_offset(5000, 0)

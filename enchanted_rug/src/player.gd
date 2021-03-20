@@ -5,6 +5,9 @@ onready var _debugLabel:Label = $ui/debug
 onready var _altitudeRay:RayCast = $altitude_ray
 onready var _head:Spatial = $head
 onready var _body:Spatial = $body
+onready var _camera:Camera = $head/Camera
+onready var _thirdPersonMount:Spatial = $head/third_person_max
+onready var _cameraRay:RayCast = $head/camera_ray
 
 # const MAX_SPEED:float = 25.0
 # const MIN_SPEED:float = 10.0
@@ -13,8 +16,8 @@ onready var _body:Spatial = $body
 
 var settings:Dictionary = {
 	"maxPushSpeed": {
-		"value": 25.0,
-		"default": 25.0,
+		"value": 20.0,
+		"default": 20.0,
 		"editMin": 1.0,
 		"editMax": 100.0
 	},
@@ -25,8 +28,8 @@ var settings:Dictionary = {
 		"editMax": 100.0
 	},
 	"pushStrength": {
-		"value": 125,
-		"default": 125,
+		"value": 160,
+		"default": 160,
 		"editMin": 1,
 		"editMax": 500
 	},
@@ -75,17 +78,11 @@ var _targetInfo:Dictionary = {
 }
 
 var _inputOn:bool = false
-# var _velocity:Vector3 = Vector3()
-
 var _groundHit:bool = false
-# var _groundPos:Vector3 = Vector3()
-# var _altitude:float = 0
-# var _speedScalar:float = 1
-
 var _spawnTransform:Transform = Transform.IDENTITY
 var _prevTransform:Transform = Transform.IDENTITY
-
-# var _moveMode:int = 3
+var _thirdPersonMode:bool = false
+var _cameraDebug:String = ""
 
 func get_settings() -> Dictionary:
 	return settings
@@ -102,6 +99,7 @@ func get_target_info() -> Dictionary:
 
 func _ready() -> void:
 	add_to_group(Main.GROUP_NAME)
+	add_to_group(Console.GROUP)
 	# Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	refresh_input_flag(false)
 	_spawnTransform = global_transform
@@ -111,8 +109,23 @@ func _ready() -> void:
 	$head/draw_push_normal.init(_vars, "pushNormal", Color.white, 1)
 	$head/draw_push.init(_vars, "projectedPushNormal", Color.yellow, 1)
 	$head/draw_acceleration.init(_vars, "acceleration", Color.orange, 1)
+	
+	_cameraRay.cast_to = _thirdPersonMount.transform.origin - _cameraRay.transform.origin
+	print("camera ray cast to: " + str(_cameraRay.cast_to))
+	_set_third_person(false)
 
 	get_tree().call_group(Main.GROUP_NAME, Main.GAME_PLAYER_ADD_FN, self)
+
+func console_execute(txt:String, tokens) -> void:
+	if txt == "1st":
+		_set_third_person(false)
+	elif txt == "3rd":
+		_set_third_person(true)
+
+func _set_third_person(flag:bool) -> void:
+	_thirdPersonMode = flag
+	_head.visible = flag
+	_body.visible = flag
 
 func _exit_tree():
 	get_tree().call_group(Main.GROUP_NAME, Main.GAME_PLAYER_REMOVE_FN, self)
@@ -128,15 +141,7 @@ func _process(_delta:float) -> void:
 		_groundHit = false
 		_vars.altitude = settings.maxAltitude.value
 	
-	# var pos:Vector3 = global_transform.origin
-	# _altitudeRay.set_cast_to(pos + Vector3(0, -100, 0))
-	# if Input.is_action_just_pressed("ui_cancel"):
-	# 	_inputOn = !_inputOn
-	# 	_mouse.set_input_on(_inputOn)
-	# 	if _inputOn:
-	# 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	# 	else:
-	# 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	_update_camera()
 
 # toggle mouse input in event for HTML5
 func _input(_event: InputEvent) -> void:
@@ -149,6 +154,34 @@ func _input(_event: InputEvent) -> void:
 #		else:
 #			print("Toggle menu off")
 #			set_input_on()
+
+func _update_camera() -> void:
+	if !_thirdPersonMode:
+		var t:Transform = _camera.transform
+		t.origin = Vector3()
+		_camera.transform = t
+		return
+	
+	var camFraction:float = 1
+	var fullDiff:Vector3 = _cameraRay.cast_to
+	if _cameraRay.is_colliding():
+		# get current diff. collision point is global and
+		# don't get hit fraction for free
+		var rayPos:Vector3 = _cameraRay.get_collision_point()
+		var originPos:Vector3 = _cameraRay.global_transform.origin
+		var diff:Vector3 = rayPos - originPos
+		camFraction = diff.length() / fullDiff.length()
+		
+	if camFraction < 0:
+		camFraction = 0
+	elif camFraction > 1:
+		camFraction = 1
+	
+	var camT:Transform = _cameraRay.transform
+	camT.origin = fullDiff * camFraction
+	_cameraDebug = "Frac: " + str(camFraction) + " pos: " + str(camT.origin)
+	_camera.transform = camT
+	# _camera.transform = _thirdPersonMount.transform
 
 func game_reset() -> void:
 	_vars.velocity = Vector3()
@@ -178,6 +211,9 @@ func refresh_input_flag(flag:bool) -> void:
 func add_impulse(push:Vector3) -> void:
 	# print("Player add push " + str(push))
 	_vars.pushAccumulator += push
+
+func touch_booster(boostVelocity:Vector3) -> void:
+	_vars.velocity = boostVelocity
 
 func read_accumulated_impulse() -> Vector3:
 	var v:Vector3 = _vars.pushAccumulator
@@ -374,79 +410,6 @@ func _calc_projected_push(vel:Vector3, wishDir:Vector3, wishSpeed:float, accelSt
 	var _result = wishDir * (accelStr * ratio) * delta
 	return Vector3()
 
-
-func _apply_move_3(inputDir:Vector3, _delta:float) -> String:
-	var maxSpeed:float = _calc_max_by_altitude(_vars.speedScalar, settings.minPushSpeed.value, settings.maxPushSpeed.value)
-
-	# var pushStr:float = maxSpeed * 10
-	var pushStr:float = settings.pushStrength.value
-	_vars.pushNormal = inputDir.normalized()
-	var velNormal:Vector3
-	var curSpeed:float = _vars.velocity.length()
-	if curSpeed > 0:
-		velNormal = _vars.velocity.normalized()
-	else:
-		velNormal = -global_transform.basis.z
-	
-	# _vars.acceleration = _calc_accel_source_style(_vars.velocity, _vars.pushNormal, maxSpeed, pushStr, _delta)
-	_vars.acceleration = _calc_accel_q3_fixed_style(_vars.velocity, _vars.pushNormal, maxSpeed, pushStr, _delta)
-	# _vars.acceleration
-	_vars.acceleration = _calc_projected_push(_vars.velocity, _vars.pushNormal, maxSpeed, pushStr, _delta)
-	
-	# if dot > 0 push is in a similar direction. 1 == identical
-	# if dot < 0 push is against direction. -1 == opposite
-	_vars.pushVelDot = _vars.pushNormal.dot(velNormal)
-	
-	# var framePush:Vector3 = (_vars.pushNormal * pushStr) * _delta
-	# scale by whether the player is pushing against their current movement:
-	# framePush += (framePush * _vars.pushVelDot)
-
-	var externalPush:Vector3 = read_accumulated_impulse() * _delta
-	
-	# var predictedVelocity:Vector3 = _vars.velocity + framePush
-	# var percentageOfMax:float = predictedVelocity.length() / maxSpeed
-	# if framePush.length() > 0:
-	# 	if percentageOfMax < 1:
-	# 		_vars.velocity += framePush
-	# 	else:
-	# 		# _vars.velocity = pushNormal * maxSpeed
-	# 		# apply then cap
-	# 		_vars.velocity += framePush
-			# _vars.velocity = _vars.velocity.normalized() * maxSpeed
-			# framePush *= (percentageOfMax - 1)
-	#elif externalPush.length_squared() == 0:
-		# apply drag
-	#	_vars.velocity *= 0.9
-	
-	# _vars.drag = _calc_drag(_vars.velocity, maxSpeed)
-	
-	_vars.velocity += _vars.acceleration
-	# _vars.velocity += _vars.acceleration
-	# _vars.velocity += framePush
-	_vars.velocity += externalPush
-	# _vars.velocity += _vars.drag * _delta
-	
-	_vars.velocity = move_and_slide(_vars.velocity)
-	
-	var txt:String = ""
-	return txt
-
-func _apply_move_4(_inputDir:Vector3, _delta:float) -> String:
-	var maxSpeed:float = _calc_max_by_altitude(_vars.speedScalar, settings.minPushSpeed.value, settings.maxPushSpeed.value)
-
-	var pushStr:float = maxSpeed * 10
-	var pushNormal:Vector3 = _inputDir.normalized()
-	
-	_vars.acceleration = _calc_accel_source_style(_vars.velocity, pushNormal, maxSpeed, pushStr, _delta)
-	var externalPush:Vector3 = read_accumulated_impulse()
-
-	_vars.velocity += _vars.acceleration
-	_vars.velocity += externalPush * _delta
-	_vars.velocity = move_and_slide(_vars.velocity)
-
-	var txt:String = ""
-	return txt
-
 func _update_body_rotation(_delta:float) -> void:
 	var forward:Vector3 = _vars.velocity.normalized()
 	if forward.length_squared() == 0:
@@ -473,14 +436,8 @@ func _physics_process(_delta:float) -> void:
 	var inputPush:Vector3 = _calc_input_push(_read_move_input())
 	var txt = ""
 	var moveTxt = ""
-	if _vars.moveMode == 1:
-		moveTxt = _apply_move_1(inputPush, _delta)
-	elif _vars.moveMode == 2:
+	if _vars.moveMode == 2:
 		moveTxt = _apply_move_2(inputPush, _delta)
-	elif _vars.moveMode == 3:
-		moveTxt = _apply_move_3(inputPush, _delta)
-	elif _vars.moveMode == 4:
-		moveTxt = _apply_move_4(inputPush, _delta)
 	else:
 		moveTxt = _apply_debug_move(inputPush, _delta)
 	pass
@@ -501,4 +458,5 @@ func _physics_process(_delta:float) -> void:
 	# txt += "Altitude: " + str(_vars.altitude) + "\n"
 	# txt += "Speed scalar: " + str(_vars.speedScalar) + "\n"
 	txt += _vars_string()
+	txt += _cameraDebug + "\n"
 	_debugLabel.text = txt

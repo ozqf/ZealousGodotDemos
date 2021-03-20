@@ -2,6 +2,7 @@ extends Spatial
 
 const GROUP_NAME:String = "game"
 
+const GAME_TRIGGER_FN:String = "game_trigger"
 const GAME_PLAYER_ADD_FN:String = "game_player_add"
 const GAME_PLAYER_REMOVE_FN:String = "game_player_remove"
 
@@ -21,6 +22,9 @@ func _ready() -> void:
 func console_execute(_txt:String, _tokens) -> void:
 	if _txt == "reset":
 		get_tree().call_group(GROUP_NAME, "game_reset")
+	elif _tokens[0] == "trigger" && _tokens.size() >= 2:
+		print("Triggering actors: " + str(_tokens[1]))
+		get_tree().call_group(GROUP_NAME, GAME_TRIGGER_FN, _tokens[1])
 
 func game_player_add(_obj) -> void:
 	print("Main - spawn player spawn")

@@ -3,6 +3,7 @@ extends KinematicBody
 export var speed:float = 125.0
 var _ttl:float = 10
 var _dead:bool = false
+var _launched:bool = false
 
 func remove() -> void:
 	if _dead:
@@ -11,6 +12,9 @@ func remove() -> void:
 	queue_free()
 
 func _physics_process(delta) -> void:
+	if !_launched:
+		return
+	
 	_ttl -= delta
 	if _ttl <= 0:
 		remove()
@@ -21,6 +25,7 @@ func _physics_process(delta) -> void:
 		remove()
 
 func launch(pos:Vector3, dir:Vector3) -> void:
+	_launched = true
 	var t:Transform = Transform.IDENTITY
 	t.origin = pos
 	global_transform = t

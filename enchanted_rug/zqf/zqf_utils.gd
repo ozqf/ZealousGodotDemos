@@ -183,7 +183,6 @@ static func tokenise(_text:String) -> PoolStringArray:
 					tokens.push_back(token)
 		if finished:
 			break
-	print("Tokenised '" + _text + "' to " + str(tokens))
 	return tokens
 
 #####################################

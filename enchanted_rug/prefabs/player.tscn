@@ -7,7 +7,6 @@
 [ext_resource path="res://src/draw_vector3.gd" type="Script" id=5]
 [ext_resource path="res://shared/materials/mat_vertex_as_albedo.tres" type="Material" id=6]
 
-
 [sub_resource type="SphereShape" id=1]
 radius = 0.5
 
@@ -61,7 +60,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="third_person" type="Spatial" parent="head"]
+[node name="camera_ray" type="RayCast" parent="head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0 )
+enabled = true
+collision_mask = 3
+
+[node name="third_person_max" type="Spatial" parent="head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 5 )
 
 [node name="attack" type="Spatial" parent="head"]
