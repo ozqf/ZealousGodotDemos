@@ -4,6 +4,7 @@ class_name MeshGenerator
 const defaultColour:Color = Color(1, 1, 1)
 
 export var verbose:bool = false
+export var material:SpatialMaterial = SpatialMaterial.new()
 
 var _built:bool = false
 var _building:bool = false
@@ -12,7 +13,6 @@ var _sTool:SurfaceTool = SurfaceTool.new()
 var _tmpMesh = Mesh.new()
 var _vertices = PoolVector3Array()
 #var _uvs = PoolVector2Array()
-var _mat = SpatialMaterial.new()
 var _colour = defaultColour
 
 func set_next_colour(newColour:Color) -> void:
@@ -31,7 +31,7 @@ func clear() -> void:
 	mesh = null
 
 func set_material(newMat:SpatialMaterial) -> void:
-	_mat = newMat
+	material = newMat
 	self.set_material_override(newMat)
 
 func get_collision_mesh() -> Shape:
@@ -49,7 +49,7 @@ func start_mesh() -> void:
 		print("Start mesh gen")
 	_building = true
 	_sTool.begin(Mesh.PRIMITIVE_TRIANGLES)
-	_sTool.set_material(_mat)
+	_sTool.set_material(material)
 
 func end_mesh() -> void:
 	if _built || !_building:

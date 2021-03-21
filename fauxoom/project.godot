@@ -112,7 +112,7 @@ _global_script_classes=[ {
 "base": "MeshInstance",
 "class": "MeshGenerator",
 "language": "GDScript",
-"path": "res://src/mesh_generator.gd"
+"path": "res://zqf/mesh_generator.gd"
 }, {
 "base": "KinematicBody",
 "class": "MobBase",
@@ -172,7 +172,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "ZqfUtils",
 "language": "GDScript",
-"path": "res://src/zqf_utils.gd"
+"path": "res://zqf/zqf_utils.gd"
 } ]
 _global_script_class_icons={
 "Animations": "",
