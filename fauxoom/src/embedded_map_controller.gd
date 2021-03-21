@@ -4,7 +4,18 @@ var _prefab_player = preload("res://prefabs/player.tscn")
 var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
 var _prefab_horde_spawn = preload("res://prefabs/static_entities/horde_spawn.tscn")
 
+onready var _camera:Camera = $Camera
+
 var _startEnts = []
+
+func _ready() -> void:
+	add_to_group(Groups.GAME_GROUP_NAME)
+
+func game_on_player_spawned(_player) -> void:
+	_camera.current = false
+
+func game_on_reset() -> void:
+	_camera.current = true
 
 func _ready_defunct_again() -> void:
 	_startEnts = get_tree().get_nodes_in_group("entities")

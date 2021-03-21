@@ -1,4 +1,7 @@
-extends Spatial
+extends Node
+
+onready var _mesh:MeshInstance = $MeshInstance
+onready var _shape:CollisionShape = $CollisionShape
 
 export var selfName:String = ""
 export var triggerTargetName:String = ""
@@ -7,12 +10,15 @@ export var active:bool = true
 var _spawnState:Dictionary = {}
 
 func _ready() -> void:
-	visible = false
-	add_to_group(Groups.ENTS_GROUP_NAME)
-	self.connect("body_entered", self, "_on_body_entered")
 	add_to_group(Groups.GAME_GROUP_NAME)
-
+	add_to_group(Groups.ENTS_GROUP_NAME)
+	set_active(active)
 	_spawnState = write_state()
+
+func set_active(flag:bool) -> void:
+	active = flag
+	_shape.disabled = !active
+	_mesh.visible = active
 
 func write_state() -> Dictionary:
 	return {
@@ -24,23 +30,13 @@ func write_state() -> Dictionary:
 func restore_state(data:Dictionary) -> void:
 	selfName = data.selfName
 	triggerTargetName = data.triggerTargetName
-	active = data.active
+	set_active(data.active)
 
 func game_on_reset() -> void:
-	print("Trigger volume saw game reset")
 	restore_state(_spawnState)
 
 func on_trigger_entities(target:String) -> void:
 	if target == "":
 		return
-	if target == selfName:
-		active = !active
-
-func _on_body_entered(_body:PhysicsBody) -> void:
-	if !active:
-		return
-	if triggerTargetName == "":
-		return
-	# print("Volume - trigger target '" + triggerTargetName + "'")
-	get_tree().call_group("entities", "on_trigger_entities", triggerTargetName)
-	active = false
+	if selfName == target:
+		set_active(!active)

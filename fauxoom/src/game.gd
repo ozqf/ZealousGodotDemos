@@ -105,6 +105,7 @@ func begin_game() -> void:
 	var player = _player_t.instance()
 	_entRoot.add_child(player)
 	player.global_transform = _playerOrigin
+	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_PLAYER_SPAWNED, player)
 
 func reset_game() -> void:
 	if _state == GameState.Pregame:

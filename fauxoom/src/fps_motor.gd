@@ -5,9 +5,14 @@ const MOUSE_SENSITIVITY: float = 0.1
 const PITCH_CAP_DEGREES = 89
 const KEYBOARD_YAW_DEGREES = 180
 
+const RUN_SPEED:float = 8.5
+const GROUND_ACCELERATION:float = 150.0
+const GROUND_FRICTION:float = 0.8
+
 var _body:KinematicBody = null
 var _head:Spatial = null
 var _inputOn:bool = false
+var _velocity:Vector3 = Vector3()
 
 var m_yaw: float = 0
 var m_pitch: float = 0
@@ -20,7 +25,6 @@ func set_input_enabled(flag:bool) -> void:
 func init_motor(body:KinematicBody, head:Spatial) -> void:
 	_body = body
 	_head = head
-	print("FPS Motor init")
 
 func _read_input() -> Vector3:
 	var input:Vector3 = Vector3()
@@ -61,15 +65,33 @@ func _physics_process(delta:float) -> void:
 	var t:Transform = _head.global_transform
 	var forward:Vector3 = t.basis.z
 	var left:Vector3 = t.basis.x
-	var speed:float = 10.0
 	var pushDir:Vector3 = Vector3()
 	
 	pushDir += (forward * input.z)
 	pushDir += (left * input.x)
 	pushDir.y = 0
 	pushDir = pushDir.normalized()
+	var pushing:bool = (pushDir.length() > 0)
 	
-	var _result = _body.move_and_slide(pushDir * speed)
+	# calculate current speed cap
+	if pushing:
+		var currentSpeed:float = _velocity.length()
+		var velocityCap = RUN_SPEED
+		# speed cap is run speed unless pushed externally
+		if currentSpeed > velocityCap:
+			velocityCap = currentSpeed
+		_velocity += (pushDir * GROUND_ACCELERATION) * delta
+		# apply speed cap
+		if _velocity.length() > velocityCap:
+			_velocity = _velocity.normalized() * velocityCap
+	else:
+		# apply ground friction to stop player
+		_velocity *= GROUND_FRICTION
+	
+	if _velocity.length() < 0.01:
+		_velocity = Vector3()
+	
+	_velocity = _body.move_and_slide(_velocity)
 
 func _get_window_to_screen_ratio():
 	var real: Vector2 = OS.get_real_window_size()

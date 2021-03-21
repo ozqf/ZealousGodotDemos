@@ -1,30 +1,42 @@
 extends Spatial
 
+export var pixelsPerMetre:int = 64
+export var buildOnStart:bool = true
+
 export var wallMaterial:SpatialMaterial = null
 export var groundMaterial:SpatialMaterial = null
 export var ceilingMaterial:SpatialMaterial = null
 
-export var buildOnStart:bool = true
-
 var groundMesh = null
 var ceilingMesh = null
 var sidesMesh = null
+
+var _groundTexSize:Vector2 = Vector2(32, 32)
+var _wallTexSize:Vector2 = Vector2(32, 32)
+var _ceilingTexSize:Vector2 = Vector2(32, 32)
 
 func _ready() -> void:
 	groundMesh = MeshInstance.new()
 	groundMesh.script = load("res://zqf/mesh_generator.gd")
 	add_child(groundMesh)
 	groundMesh.set_material(groundMaterial)
+	_groundTexSize.x = groundMaterial.albedo_texture.get_width()
+	_groundTexSize.y = groundMaterial.albedo_texture.get_height()
+	print("ground tex size: " + str(_groundTexSize.x) + ", " + str(_groundTexSize.y))
 	
 	ceilingMesh = MeshInstance.new()
 	ceilingMesh.script = load("res://zqf/mesh_generator.gd")
 	add_child(ceilingMesh)
 	ceilingMesh.set_material(ceilingMaterial)
+	_ceilingTexSize.x = ceilingMaterial.albedo_texture.get_width()
+	_ceilingTexSize.y = ceilingMaterial.albedo_texture.get_height()
 	
 	sidesMesh = MeshInstance.new()
 	sidesMesh.script = load("res://zqf/mesh_generator.gd")
 	add_child(sidesMesh)
 	sidesMesh.set_material(wallMaterial)
+	_wallTexSize.x = wallMaterial.albedo_texture.get_width()
+	_wallTexSize.y = wallMaterial.albedo_texture.get_height()
 	
 	if buildOnStart:
 		_build()
@@ -66,7 +78,10 @@ func _build() -> void:
 		var tris = _cube_tris(triSize)
 		# transform
 		for _j in range(0, tris.size()):
-			tris[_j] = rot.xform_inv(tris[_j]) + pos
+			tris[_j] = rot.xform(tris[_j]) + pos
+		
+
+		# TODO - a proper pixels-per-metre implementation here!
 		
 		# scale UVs to tile over tris
 		# scale is already applied to verts by basis xform
@@ -82,7 +97,6 @@ func _build() -> void:
 
 		var uvNExz:Vector2 = Vector2(1.0 * scaleX, 1.0 * scaleZ)
 		var uvNExy:Vector2 = Vector2(1.0 * scaleX, 1.0 * scaleY)
-		var uvNEzz:Vector2 = Vector2(1.0 * scaleZ, 1.0 * scaleZ)
 		var uvNEzy:Vector2 = Vector2(1.0 * scaleZ, 1.0 * scaleY)
 
 		var uvNWz:Vector2 = Vector2(0.0, 1.0 * scaleZ)
