@@ -16,7 +16,7 @@ size = Vector3( 0.25, 0.25, 0.25 )
 
 [node name="player" type="KinematicBody"]
 collision_layer = 8
-collision_mask = 127
+collision_mask = 255
 script = ExtResource( 2 )
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
@@ -110,5 +110,6 @@ __meta__ = {
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, -0.4 )
+visible = false
 mesh = SubResource( 2 )
 material/0 = null

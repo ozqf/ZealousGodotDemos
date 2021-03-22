@@ -5,7 +5,7 @@
 [ext_resource path="res://prefabs/world_inert/blocker_volume.tscn" type="PackedScene" id=3]
 [ext_resource path="res://prefabs/static_entities/trigger_event.tscn" type="PackedScene" id=4]
 [ext_resource path="res://prefabs/ai_test.tscn" type="PackedScene" id=5]
-[ext_resource path="res://prefabs/static_entities/barrier_volume.tscn" type="PackedScene" id=6]
+[ext_resource path="res://prefabs/static_entities/player_barrier_volume.tscn" type="PackedScene" id=6]
 [ext_resource path="res://prefabs/sprite_object.tscn" type="PackedScene" id=7]
 [ext_resource path="res://prefabs/static_entities/horde_spawn.tscn" type="PackedScene" id=8]
 [ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=9]
@@ -15,6 +15,7 @@
 [ext_resource path="res://default_world.tres" type="Environment" id=13]
 [ext_resource path="res://sprites/player/player_frames.tres" type="SpriteFrames" id=14]
 [ext_resource path="res://src/player_animator.gd" type="Script" id=15]
+
 
 [node name="test_level" type="Spatial"]
 script = ExtResource( 12 )

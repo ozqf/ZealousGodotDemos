@@ -51,8 +51,9 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		kill()
 
 func game_on_level_completed() -> void:
-	print("Player disable input")
-	_gameplayInputOn = false
+#	print("Player disable input")
+#	_gameplayInputOn = false
+	queue_free()
 	# _motor.set_input_enabled(false)
 	# _attack.set_attack_enabled(false)
 

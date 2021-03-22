@@ -11,7 +11,7 @@ extents = Vector3( 0.5, 0.75, 0.5 )
 size = Vector3( 0.2, 0.2, 1 )
 
 [node name="mob_gunner" type="KinematicBody"]
-collision_mask = 3
+collision_mask = 71
 script = ExtResource( 2 )
 
 [node name="body" type="Sprite3D" parent="."]

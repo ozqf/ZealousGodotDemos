@@ -349,8 +349,9 @@ editor_delete={
 3d_physics/layer_4="player"
 3d_physics/layer_5="triggers"
 3d_physics/layer_6="items"
-3d_physics/layer_7="barriers"
-3d_physics/layer_8="debris"
+3d_physics/layer_7="actor_barrier"
+3d_physics/layer_8="player_barrier"
+3d_physics/layer_9="debris"
 3d_physics/layer_20="editor_geometry"
 
 [rendering]

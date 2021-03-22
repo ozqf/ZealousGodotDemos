@@ -11,10 +11,11 @@
 [ext_resource path="res://src/embedded_map_controller.gd" type="Script" id=9]
 [ext_resource path="res://default_world.tres" type="Environment" id=10]
 [ext_resource path="res://prefabs/gib.tscn" type="PackedScene" id=11]
-[ext_resource path="res://prefabs/static_entities/barrier_volume.tscn" type="PackedScene" id=12]
+[ext_resource path="res://prefabs/static_entities/player_barrier_volume.tscn" type="PackedScene" id=12]
 [ext_resource path="res://prefabs/world_inert/blocker_volume.tscn" type="PackedScene" id=13]
 [ext_resource path="res://prefabs/static_entities/mob_spawn_proxy.tscn" type="PackedScene" id=14]
 [ext_resource path="res://prefabs/ai_test.tscn" type="PackedScene" id=15]
+
 
 [node name="test_level" type="Spatial"]
 script = ExtResource( 9 )

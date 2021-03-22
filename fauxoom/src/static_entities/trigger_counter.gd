@@ -1,15 +1,18 @@
-extends Spatial
+extends Node
+
 
 export var selfName:String = ""
 export var triggerTargetName:String = ""
 export var active:bool = true
 
+export var totalCount:int = 1
+
+var _currentCount:int = 0
+
 var _spawnState:Dictionary = {}
 
 func _ready() -> void:
-	visible = false
 	add_to_group(Groups.ENTS_GROUP_NAME)
-	self.connect("body_entered", self, "_on_body_entered")
 	add_to_group(Groups.GAME_GROUP_NAME)
 
 	_spawnState = write_state()
@@ -18,28 +21,28 @@ func write_state() -> Dictionary:
 	return {
 		selfName = selfName,
 		triggerTargetName = triggerTargetName,
-		active = active
+		active = active,
+		totalCount = totalCount,
+		currentCount = _currentCount
 	}
 
 func restore_state(data:Dictionary) -> void:
 	selfName = data.selfName
 	triggerTargetName = data.triggerTargetName
 	active = data.active
+	totalCount = data.totalCount
+	_currentCount = data.currentCount
 
 func game_on_reset() -> void:
-	print("Trigger volume saw game reset")
 	restore_state(_spawnState)
 
 func on_trigger_entities(target:String) -> void:
-	if target == "":
-		return
-	if target == selfName:
-		active = !active
-
-func _on_body_entered(_body:PhysicsBody) -> void:
 	if !active:
 		return
-	if triggerTargetName == "":
+	if target == "" || target != selfName:
 		return
-	Interactions.triggerTargets(get_tree(), triggerTargetName)
-	active = false
+	
+	_currentCount += 1
+	if _currentCount >= totalCount:
+		active = false
+		Interactions.triggerTargets(get_tree(), triggerTargetName)

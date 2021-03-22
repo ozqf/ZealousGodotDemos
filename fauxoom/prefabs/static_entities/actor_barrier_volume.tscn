@@ -12,7 +12,7 @@ size = Vector3( 1, 1, 1 )
 flags_transparent = true
 albedo_color = Color( 0, 0.6, 1, 0.498039 )
 
-[node name="barrier_volume" type="KinematicBody"]
+[node name="player_barrier_volume" type="KinematicBody"]
 collision_layer = 64
 collision_mask = 64
 script = ExtResource( 1 )

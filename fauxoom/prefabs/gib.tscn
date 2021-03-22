@@ -16,8 +16,8 @@ size = Vector3( 0.5, 0.5, 0.5 )
 albedo_color = Color( 0.792157, 0.0117647, 0.0117647, 1 )
 
 [node name="gib" type="RigidBody"]
-collision_layer = 128
-collision_mask = 129
+collision_layer = 256
+collision_mask = 321
 physics_material_override = SubResource( 1 )
 script = ExtResource( 1 )
 

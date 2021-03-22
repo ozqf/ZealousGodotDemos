@@ -32,7 +32,6 @@ func restore_state(data:Dictionary) -> void:
 	active = data.active
 
 func game_on_reset() -> void:
-	print("Trigger event saw game reset")
 	restore_state(_spawnState)
 
 func on_trigger_entities(target:String) -> void:
@@ -40,5 +39,4 @@ func on_trigger_entities(target:String) -> void:
 		return
 	
 	if type == EventType.LevelComplete:
-		print("Game complete triggered")
 		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_LEVEL_COMPLETED)

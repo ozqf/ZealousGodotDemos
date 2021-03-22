@@ -5,7 +5,7 @@ signal on_mob_died(mob)
 
 onready var _sprite:EntitySprite = $body
 
-const MOVE_SPEED:float = 5.0
+const MOVE_SPEED:float = 3.0
 
 enum MobState {
 	Idle,

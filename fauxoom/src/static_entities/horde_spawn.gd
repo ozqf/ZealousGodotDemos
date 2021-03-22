@@ -21,7 +21,7 @@ var _spawnState:Dictionary
 
 func _ready() -> void:
 	visible = false
-	print("Horde spawn ready")
+	# print("Horde spawn ready")
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	_spawnState = write_state()
@@ -41,7 +41,7 @@ func restore_state(data:Dictionary) -> void:
 	_active = data.active
 
 func game_on_reset() -> void:
-	print("Horde spawn saw game reset")
+	# print("Horde spawn saw game reset")
 	restore_state(_spawnState)
 
 func _process(_delta:float) -> void:
@@ -56,7 +56,7 @@ func _process(_delta:float) -> void:
 			_spawn_child()
 
 func on_trigger_entities(name:String) -> void:
-	print("Horde spawn saw trigger name " + name + " vs self name " + triggerName)
+	# print("Horde spawn saw trigger name " + name + " vs self name " + triggerName)
 	if name == "":
 		return
 	if name == triggerName:
@@ -71,10 +71,9 @@ func _spawn_child() -> void:
 func _on_mob_died(_mob) -> void:
 	_liveMobs -= 1
 	_deadMobs += 1
-	print("Mob death: " + str(_deadMobs) + " dead vs " + str(totalMobs) + " max")
+	# print("Mob death: " + str(_deadMobs) + " dead vs " + str(totalMobs) + " max")
 	if _deadMobs >= totalMobs:
 		_active = false
-		print("Horde spawn - all children dead")
+		# print("Horde spawn - all children dead")
 		if triggerTargetName != "":
 			Interactions.triggerTargets(get_tree(), triggerTargetName)
-			# get_tree().call_group("entities", "on_trigger_entities", triggerTargetName)
