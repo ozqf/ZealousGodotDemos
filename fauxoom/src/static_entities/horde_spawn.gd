@@ -7,7 +7,7 @@ export var triggerTargetName:String = ""
 
 export var childType:int = 1
 export var tickMax:float = 2
-export var maxMobs:int = 4
+export var totalMobs:int = 4
 export var maxLiveMobs:int = 2
 
 var _liveMobs:int = 0
@@ -20,6 +20,7 @@ var _active:bool = false
 var _spawnState:Dictionary
 
 func _ready() -> void:
+	visible = false
 	print("Horde spawn ready")
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
@@ -47,7 +48,7 @@ func _process(_delta:float) -> void:
 	if !_active:
 		return
 	var consumed = _deadMobs + _liveMobs
-	if (_liveMobs < maxLiveMobs) && (consumed < maxMobs):
+	if (_liveMobs < maxLiveMobs) && (consumed < totalMobs):
 		_tick -= _delta
 		if _tick <= 0:
 			_tick = tickMax
@@ -70,9 +71,10 @@ func _spawn_child() -> void:
 func _on_mob_died(_mob) -> void:
 	_liveMobs -= 1
 	_deadMobs += 1
-	print("Mob death: " + str(_deadMobs) + " dead vs " + str(maxMobs) + " max")
-	if _deadMobs >= maxMobs:
+	print("Mob death: " + str(_deadMobs) + " dead vs " + str(totalMobs) + " max")
+	if _deadMobs >= totalMobs:
 		_active = false
 		print("Horde spawn - all children dead")
 		if triggerTargetName != "":
-			get_tree().call_group("entities", "on_trigger_entities", triggerTargetName)
+			Interactions.triggerTargets(get_tree(), triggerTargetName)
+			# get_tree().call_group("entities", "on_trigger_entities", triggerTargetName)

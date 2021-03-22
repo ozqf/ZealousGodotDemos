@@ -18,7 +18,6 @@ enum MobState {
 
 var _state = MobState.Idle
 
-# var _curTarget = null
 var _tarId:int = 0
 var _targetInfo: Dictionary = { id = 0 }
 
@@ -34,11 +33,9 @@ var _health:int = 100
 var _dead:bool = false
 
 func _ready() -> void:
-	print("Mob base init")
 	add_to_group(Groups.GAME_GROUP_NAME)
 
 func game_on_reset() -> void:
-	print("Mob saw game reset")
 	queue_free()
 
 func is_dead() -> bool:

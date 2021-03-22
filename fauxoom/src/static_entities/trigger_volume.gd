@@ -42,5 +42,6 @@ func _on_body_entered(_body:PhysicsBody) -> void:
 	if triggerTargetName == "":
 		return
 	# print("Volume - trigger target '" + triggerTargetName + "'")
-	get_tree().call_group("entities", "on_trigger_entities", triggerTargetName)
+	Interactions.triggerTargets(get_tree(), triggerTargetName)
+	# get_tree().call_group("entities", "on_trigger_entities", triggerTargetName)
 	active = false

@@ -11,3 +11,5 @@ export(EnemyType) var type = EnemyType.Gunner
 export(String) var targetName:String = ""
 export(String) var target:String = ""
 
+func _ready() -> void:
+	visible = false
