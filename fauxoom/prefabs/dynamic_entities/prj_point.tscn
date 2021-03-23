@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/entity_sprite.gd" type="Script" id=1]
+
+[node name="prj_point" type="MeshInstance"]
+script = ExtResource( 1 )
