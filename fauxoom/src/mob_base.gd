@@ -4,6 +4,7 @@ class_name MobBase
 signal on_mob_died(mob)
 
 onready var _sprite:EntitySprite = $body
+onready var _attack = $attack
 
 const MOVE_SPEED:float = 3.0
 
@@ -11,6 +12,7 @@ enum MobState {
 	Idle,
 	Spawning,
 	Hunting,
+	Attacking,
 	Stunned,
 	Dying,
 	Dead
@@ -111,6 +113,8 @@ func _process(_delta:float) -> void:
 		if _targetInfo.id != 0:
 			move(_delta)
 		return
+	elif _state == MobState.Attacking:
+		pass
 	elif _state == MobState.Idle:
 		return
 	elif _state == MobState.Spawning:

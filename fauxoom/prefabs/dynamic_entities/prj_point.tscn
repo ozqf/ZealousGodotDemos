@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://src/entity_sprite.gd" type="Script" id=1]
+[ext_resource path="res://src/projectile.gd" type="Script" id=1]
+[ext_resource path="res://assets/mat_red_glow.tres" type="Material" id=2]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 0.4
+height = 0.8
+radial_segments = 16
+rings = 8
 
 [node name="prj_point" type="MeshInstance"]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 2 )
 script = ExtResource( 1 )

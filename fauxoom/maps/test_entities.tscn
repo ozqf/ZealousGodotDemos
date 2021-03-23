@@ -16,8 +16,6 @@
 [ext_resource path="res://assets/sprites/player/player_frames.tres" type="SpriteFrames" id=14]
 [ext_resource path="res://src/player_animator.gd" type="Script" id=15]
 
-
-
 [node name="test_level" type="Spatial"]
 script = ExtResource( 12 )
 
