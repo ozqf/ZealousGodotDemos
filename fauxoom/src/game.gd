@@ -48,6 +48,9 @@ func _input(_event) -> void:
 		if _state == GameState.Pregame && Input.is_action_just_pressed("ui_select"):
 			begin_game()
 
+func get_dynamic_parent() -> Spatial:
+	return self
+
 func on_clicked_reset() -> void:
 	get_tree().call_group("console", "console_on_exec", "reset", ["reset"])
 

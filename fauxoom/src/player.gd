@@ -64,7 +64,7 @@ func _refresh_input_on() -> void:
 
 func _process(_delta):
 	_refresh_input_on()
-	_targettingInfo.position = global_transform.origin
+	_targettingInfo.position = _head.global_transform.origin
 	_targettingInfo.yawDegrees = _motor.m_yaw
 	_targettingInfo.forward = ZqfUtils.yaw_to_flat_vector3(_motor.m_yaw)
 	Main.playerDebug = "real forward: " + str(-_head.global_transform.basis.z) + " tar forward: " + str(_targettingInfo.forward) + "\n"

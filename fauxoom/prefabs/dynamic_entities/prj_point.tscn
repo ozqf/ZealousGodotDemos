@@ -4,8 +4,8 @@
 [ext_resource path="res://assets/mat_red_glow.tres" type="Material" id=2]
 
 [sub_resource type="SphereMesh" id=1]
-radius = 0.4
-height = 0.8
+radius = 0.1
+height = 0.2
 radial_segments = 16
 rings = 8
 

@@ -38,6 +38,7 @@ var _dead:bool = false
 var _velocity:Vector3 = Vector3()
 
 func _ready() -> void:
+	_attack.custom_init($head, self)
 	add_to_group(Groups.GAME_GROUP_NAME)
 
 func game_on_reset() -> void:
@@ -110,11 +111,23 @@ func _process(_delta:float) -> void:
 		# 	print("Mob got target!")
 		# elif _targetInfo.id == 0 && !wasEmpty:
 		# 	print("Mob lost target!")
-		if _targetInfo.id != 0:
+		if _targetInfo.id == 0:
+			return
+		
+		if _thinkTick <= 0:
+			_thinkTick = 2
+			if _attack.start_attack(_targetInfo.position):
+				_state = MobState.Attacking
+		else:
+			_thinkTick -= _delta
 			move(_delta)
-		return
 	elif _state == MobState.Attacking:
-		pass
+		_targetInfo = Game.mob_check_target(_targetInfo)
+		if _targetInfo.id == 0:
+			# abort attack!
+			return
+		if !_attack.custom_update(_delta, _targetInfo.position):
+			_state = MobState.Hunting
 	elif _state == MobState.Idle:
 		return
 	elif _state == MobState.Spawning:
