@@ -6,7 +6,7 @@ const PITCH_CAP_DEGREES = 89
 const KEYBOARD_YAW_DEGREES = 180
 
 const RUN_SPEED:float = 8.5
-const GROUND_ACCELERATION:float = 100.0
+const GROUND_ACCELERATION:float = 150.0
 const GROUND_FRICTION:float = 0.8
 
 var _body:KinematicBody = null

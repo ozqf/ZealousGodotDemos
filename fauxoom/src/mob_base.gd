@@ -16,7 +16,8 @@ enum MobState {
 	Dead
 }
 
-var _state = MobState.Idle
+var _state = MobState.Hunting
+var _prevState = MobState.Hunting
 
 var _tarId:int = 0
 var _targetInfo: Dictionary = { id = 0 }
@@ -31,6 +32,8 @@ var _stunDamageMax:int = 20
 
 var _health:int = 100
 var _dead:bool = false
+
+var _velocity:Vector3 = Vector3()
 
 func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
@@ -59,13 +62,13 @@ func _calc_self_move(_delta:float) -> Vector3:
 			_moveYaw = ZqfUtils.yaw_between(selfPos, tarPos)
 			
 			# apply evasion from player aim direction
-#			var leftOfTar:bool = ZqfUtils.is_point_left_of_line3D_flat(tarPos, _targetInfo.forward, selfPos)
-#			if leftOfTar:
-#				print("left at " + str(selfPos))
-#				_moveYaw -= deg2rad(90)
-#			else:
-#				print("right at " + str(selfPos))
-#				_moveYaw += deg2rad(90)
+			# var leftOfTar:bool = ZqfUtils.is_point_left_of_line3D_flat(tarPos, _targetInfo.forward, selfPos)
+			# if leftOfTar:
+			# 	print("left at " + str(selfPos))
+			# 	_moveYaw -= deg2rad(90)
+			# else:
+			# 	print("right at " + str(selfPos))
+			# 	_moveYaw += deg2rad(90)
 			
 			# apply some random evasion - very jittery
 			var quarter:float = deg2rad(90)
@@ -88,35 +91,54 @@ func move(_delta:float) -> void:
 	var move:Vector3 = _calc_self_move(_delta)
 	var _result = self.move_and_slide(move)
 
+func _tick_stunned(_delta:float) -> void:
+	if _thinkTick <= 0:
+		_state = _prevState
+		return
+	else:
+		_thinkTick -= _delta
+	_velocity = self.move_and_slide(_velocity)
+	_velocity *= 0.95
+
 func _process(_delta:float) -> void:
-	if _state == MobState.Idle:
-		pass
-	
-	var wasEmpty:bool = (_targetInfo.id == 0)
-	_targetInfo = Game.mob_check_target(_targetInfo)
-	if _targetInfo.id != 0 && wasEmpty:
-		print("Mob got target!")
-	elif _targetInfo.id == 0 && !wasEmpty:
-		print("Mob lost target!")
-	
-	if _targetInfo.id != 0:
-		move(_delta)
-	
-	# var wasNull:bool = _curTarget == null
-	# _curTarget = Game.mob_check_target(_curTarget)
-	# if _curTarget && wasNull:
-	# 	print("Mob got target!")
-	# elif _curTarget == null && !wasNull:
-	# 	print("Mob lost target!")
-	
-	# if _curTarget != null:
-	# 	move(_delta)
+	if _state == MobState.Hunting:
+		# var wasEmpty:bool = (_targetInfo.id == 0)
+		_targetInfo = Game.mob_check_target(_targetInfo)
+		# if _targetInfo.id != 0 && wasEmpty:
+		# 	print("Mob got target!")
+		# elif _targetInfo.id == 0 && !wasEmpty:
+		# 	print("Mob lost target!")
+		if _targetInfo.id != 0:
+			move(_delta)
+		return
+	elif _state == MobState.Idle:
+		return
+	elif _state == MobState.Spawning:
+		return
+	elif _state == MobState.Stunned:
+		_tick_stunned(_delta)
+		return
+	elif _state == MobState.Dying:
+		return
+	elif _state == MobState.Dead:
+		return
+
+func apply_stun(dir:Vector3) -> void:
+	# stun
+	if _state != MobState.Stunned:
+		_prevState = _state
+		_state = MobState.Stunned
+	_velocity = dir * 2
+	_thinkTick = 0.2
 
 func hit(_hitInfo:HitInfo) -> void:
 	if is_dead():
 		return
 	_health -= _hitInfo.damage
 	if _health <= 0:
+		# die
 		_state = MobState.Dying
 		emit_signal("on_mob_died", self)
 		queue_free()
+	else:
+		apply_stun(_hitInfo.direction)
