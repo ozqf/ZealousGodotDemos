@@ -11,6 +11,9 @@ var _inputOn:bool = false
 var _gameplayInputOn:bool = true
 var _appInputOn:bool = true
 
+var _dead:bool = false
+var _health:int = 100
+
 var _targettingInfo:Dictionary = {
 	id = 1,
 	position = Vector3(),
@@ -69,8 +72,19 @@ func _process(_delta):
 	_targettingInfo.forward = ZqfUtils.yaw_to_flat_vector3(_motor.m_yaw)
 	Main.playerDebug = "real forward: " + str(-_head.global_transform.basis.z) + " tar forward: " + str(_targettingInfo.forward) + "\n"
 	Main.playerDebug += "pos: " + str(global_transform.origin) + "\n"
+	
+	_hud.update_player_status(_health)
+
+func hit(hitInfo) -> void:
+	var dmg = hitInfo.damage
+	_health -= dmg
+	if _health <= 0:
+		kill()
 
 func kill() -> void:
+	if _dead:
+		return
+	_dead = true
 	var info:Dictionary = {}
 	info.transform = global_transform
 	info.headTransform = _head.global_transform

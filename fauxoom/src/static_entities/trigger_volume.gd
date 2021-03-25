@@ -11,7 +11,6 @@ func _ready() -> void:
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	self.connect("body_entered", self, "_on_body_entered")
 	add_to_group(Groups.GAME_GROUP_NAME)
-
 	_spawnState = write_state()
 
 func write_state() -> Dictionary:
@@ -27,7 +26,6 @@ func restore_state(data:Dictionary) -> void:
 	active = data.active
 
 func game_on_reset() -> void:
-	print("Trigger volume saw game reset")
 	restore_state(_spawnState)
 
 func on_trigger_entities(target:String) -> void:

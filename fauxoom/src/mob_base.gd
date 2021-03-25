@@ -145,6 +145,7 @@ func apply_stun(dir:Vector3) -> void:
 	if _state != MobState.Stunned:
 		_prevState = _state
 		_state = MobState.Stunned
+	_attack.cancel()
 	_velocity = dir * 2
 	_thinkTick = 0.2
 

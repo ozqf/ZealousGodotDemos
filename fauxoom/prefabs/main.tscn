@@ -43,12 +43,10 @@ __meta__ = {
 }
 
 [node name="debug_text" type="Label" parent="static_menus/debug"]
-margin_top = 200.818
 margin_right = 512.0
-margin_bottom = 593.818
+margin_bottom = 600.0
 text = "Line 1
 Line 2"
-valign = 2
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
