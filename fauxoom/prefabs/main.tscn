@@ -223,11 +223,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="test_gameplay" type="Button" parent="static_menus/embedded_maps/VBoxContainer"]
+margin_top = 18.0
+margin_right = 384.0
+margin_bottom = 38.0
+text = "Gameplay Test"
+
 [node name="back" type="Button" parent="static_menus/embedded_maps/VBoxContainer"]
 margin_top = 18.0
 margin_right = 384.0
 margin_bottom = 38.0
-text = "back"
+text = "Back"
 
 [node name="custom_map_menu" type="Control" parent="static_menus"]
 visible = false

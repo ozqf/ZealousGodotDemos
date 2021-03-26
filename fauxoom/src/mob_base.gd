@@ -7,6 +7,7 @@ onready var _sprite:EntitySprite = $body
 onready var _attack = $attack
 
 const MOVE_SPEED:float = 3.0
+const MOVE_TIME:float = 1.5
 
 enum MobState {
 	Idle,
@@ -115,7 +116,7 @@ func _process(_delta:float) -> void:
 			return
 		
 		if _thinkTick <= 0:
-			_thinkTick = 2
+			_thinkTick = MOVE_TIME
 			if _attack.start_attack(_targetInfo.position):
 				_state = MobState.Attacking
 		else:

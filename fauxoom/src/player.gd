@@ -38,11 +38,24 @@ func _ready():
 
 	Game.register_player(self)
 
+func teleport(_trans:Transform) -> void:
+	# copy rotation, clear and pass to motor
+	# print("Player teleport transform " + str(_trans))
+	var _forward:Vector3 = _trans.basis.z
+	var _yaw:float = rad2deg(atan2(_forward.x, _forward.z))
+	# print("Player teleport yaw " + str(_yaw))
+	# var rot:Basis = _trans.basis
+	_trans.basis = Basis.IDENTITY
+	self.global_transform = _trans
+	_motor.set_yaw_degrees(_yaw)
+
 func get_targetting_info() -> Dictionary:
 	return _targettingInfo
 
 func game_on_reset() -> void:
-	print("Player saw game reset")
+	queue_free()
+
+func game_on_map_change() -> void:
 	queue_free()
 
 func _on_tree_exiting() -> void:
@@ -70,16 +83,30 @@ func _process(_delta):
 	_targettingInfo.position = _head.global_transform.origin
 	_targettingInfo.yawDegrees = _motor.m_yaw
 	_targettingInfo.forward = ZqfUtils.yaw_to_flat_vector3(_motor.m_yaw)
-	Main.playerDebug = "real forward: " + str(-_head.global_transform.basis.z) + " tar forward: " + str(_targettingInfo.forward) + "\n"
-	Main.playerDebug += "pos: " + str(global_transform.origin) + "\n"
+	var txt = ""
+	txt = "real forward: " + str(-_head.global_transform.basis.z) + "\n"
+	txt += "pos: " + str(global_transform.origin) + "\n"
+	txt += "yaw: " + str(_motor.m_yaw) + "\n"
+	Main.playerDebug = txt
 	
-	_hud.update_player_status(_health)
+	var grp = Groups.PLAYER_GROUP_NAME
+	var fn = Groups.PLAYER_FN_STATUS
+	get_tree().call_group(grp, fn, _health, _motor.m_yaw)
 
 func hit(hitInfo) -> void:
 	var dmg = hitInfo.damage
-	_health -= dmg
+	# _health -= dmg
 	if _health <= 0:
 		kill()
+	else:
+		var grp:String = Groups.PLAYER_GROUP_NAME
+		var fn:String = Groups.PLAYER_FN_HIT
+		var data:Dictionary = {
+			damage = dmg,
+			direction = hitInfo.direction,
+			selfYawDegrees = _motor.m_yaw
+		}
+		get_tree().call_group(grp, fn, data)
 
 func kill() -> void:
 	if _dead:

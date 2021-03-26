@@ -54,24 +54,6 @@ func get_dynamic_parent() -> Spatial:
 func on_clicked_reset() -> void:
 	get_tree().call_group("console", "console_on_exec", "reset", ["reset"])
 
-func game_on_player_died(_info:Dictionary) -> void:
-	print("Game - saw player died!")
-	if _state != GameState.Playing:
-		return
-	_state = GameState.Lost
-	_refresh_overlay()
-
-	var gib = _gib_t.instance()
-	add_child(gib)
-	gib.global_transform = _info.headTransform
-	_camera.detach()
-	_camera.attach_to(gib)
-
-func game_on_level_completed() -> void:
-	if _state == GameState.Playing:
-		_state = GameState.Won
-		_refresh_overlay()
-
 func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	if txt == "reset":
 		print("Game - reset")
@@ -107,21 +89,49 @@ func begin_game() -> void:
 	_refresh_overlay()
 	var player = _player_t.instance()
 	_entRoot.add_child(player)
-	player.global_transform = _playerOrigin
+	player.teleport(_playerOrigin)
 	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_PLAYER_SPAWNED, player)
+
+func _clear_dynamic_entities() -> void:
+	var l:int = _entRoot.get_child_count()
+	print("Game - freeing " + str(l) + " ents from root")
+	for _i in range(0, l):
+		_entRoot.get_child(_i).queue_free()
+
+func _set_to_pregame() -> void:
+	_state = GameState.Pregame
+	_refresh_overlay()
 
 func reset_game() -> void:
 	if _state == GameState.Pregame:
 		return
-	var l:int = _entRoot.get_child_count()
 	_camera.detach()
 	_camera.global_transform = Transform.IDENTITY
 	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_RESET)
-	print("Game - freeing " + str(l) + " ents from root")
-	for _i in range(0, l):
-		_entRoot.get_child(_i).queue_free()
-	_state = GameState.Pregame
+	_clear_dynamic_entities()
+	_set_to_pregame()
+
+func game_on_player_died(_info:Dictionary) -> void:
+	print("Game - saw player died!")
+	if _state != GameState.Playing:
+		return
+	_state = GameState.Lost
 	_refresh_overlay()
+
+	var gib = _gib_t.instance()
+	add_child(gib)
+	gib.global_transform = _info.headTransform
+	_camera.detach()
+	_camera.attach_to(gib)
+
+func game_on_level_completed() -> void:
+	if _state == GameState.Playing:
+		_state = GameState.Won
+		_refresh_overlay()
+
+func game_on_map_change() -> void:
+	_clear_dynamic_entities()
+	_set_to_pregame()
 
 ###############
 # registers

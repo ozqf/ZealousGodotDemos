@@ -55,7 +55,7 @@ transform = Transform( 4, 0, 0, 0, 7.5, 0, 0, 0, 1, 0, 1.5, -18 )
 triggerTargetName = "endtrigger"
 
 [node name="player_start" parent="static" instance=ExtResource( 9 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -10.145, 0, 23.696 )
+transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, -10, 0, 23.5 )
 
 [node name="horde_spawn" parent="static" instance=ExtResource( 8 )]
 transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 8, 0, -18 )

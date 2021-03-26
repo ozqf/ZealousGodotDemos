@@ -10,7 +10,6 @@
 [ext_resource path="res://prefabs/embedded_spawn.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/embedded_map_controller.gd" type="Script" id=9]
 
-
 [node name="test_level" type="Spatial"]
 script = ExtResource( 9 )
 

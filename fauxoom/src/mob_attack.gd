@@ -14,8 +14,8 @@ var _launchNode:Spatial = null
 var _body:Spatial = null
 
 var _tick:float = 0
-var _attackWindupTime:float = 0.5
-var _attackRecoverTime:float = 0.5
+var _attackWindupTime:float = 0.1 # 0.5
+var _attackRecoverTime:float = 0.1 # 0.5
 var _prjMask:int = -1
 
 func custom_init(launchNode:Spatial, body:Spatial) -> void:
@@ -32,7 +32,7 @@ func is_running() -> bool:
 
 # returns false if attack cannot start for some reason...
 func start_attack(_targetPos:Vector3) -> bool:
-	print("Start attack")
+	# print("Start attack")
 	_state = AttackState.Windup
 	_tick = _attackWindupTime
 	_launchNode.look_at(_targetPos, Vector3.UP)
@@ -42,7 +42,7 @@ func cancel() -> void:
 	_state = AttackState.Idle
 
 func _fire(target:Vector3) -> void:
-	print("Fire!")
+	# print("Fire!")
 	var prj = _prj_point_t.instance()
 	Game.get_dynamic_parent().add_child(prj)
 	var selfPos:Vector3 = _launchNode.global_transform.origin

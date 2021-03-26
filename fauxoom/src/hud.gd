@@ -12,23 +12,21 @@ var _currentWeap:Dictionary = Weapons.weapons["ssg"]
 var _akimbo:bool = false
 var _leftHandNext:bool = false
 
-var _indicators
-
 func _ready() -> void:
+	add_to_group(Groups.PLAYER_GROUP_NAME)
 	var _f = _centreSprite.connect("animation_finished", self, "_on_centre_animation_finished")
 	_f = _rightSprite.connect("animation_finished", self, "_on_right_animation_finished")
 	_f = _leftSprite.connect("animation_finished", self, "_on_left_animation_finished")
 	# _centreSprite.play(_currentWeap["idle"])
 	self.on_change_weapon("ssg")
 
-func add_hit(playerYaw:float, hitYaw:float) -> void:
+func player_hit(_data:Dictionary) -> void:
 	var hit = _hit_indicator_t.instance()
 	$centre.add_child(hit)
-	hit.spawn(playerYaw, hitYaw)
-	_indicators.push_back(hit)
+	hit.spawn(_data.selfYawDegrees, _data.direction)
 
-func update_player_status(health:int) -> void:
-	$player_status/health.text = "HEALTH " + str(health)
+func player_status_update(_health:int, _yawDegrees:float) -> void:
+	$player_status/health.text = "HEALTH " + str(_health)
 
 func _on_centre_animation_finished() -> void:
 	if !_centreSprite.animation == "idle":

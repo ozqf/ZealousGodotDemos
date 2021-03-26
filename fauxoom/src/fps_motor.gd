@@ -26,6 +26,16 @@ func init_motor(body:KinematicBody, head:Spatial) -> void:
 	_body = body
 	_head = head
 
+func set_yaw_degrees(_yawDegrees:float) -> void:
+	# set yaw to current rotation, or if spawned at an angle
+	# yaw will act like an offset instead!
+	var headRot:Vector3 = _body.rotation_degrees
+	headRot.x = 0
+	headRot.y = _yawDegrees
+	headRot.z = 0
+	_head.rotation_degrees = headRot
+	m_yaw = _yawDegrees
+
 func _read_input() -> Vector3:
 	var input:Vector3 = Vector3()
 	if Input.is_action_pressed("move_forward"):
@@ -45,6 +55,7 @@ func _read_rotation_keys(_delta:float) -> void:
 		m_yaw -= _delta * KEYBOARD_YAW_DEGREES
 
 func _apply_rotations(_delta: float):
+	m_yaw = ZqfUtils.cap_degrees(m_yaw)
 	var bodyRot:Vector3 = _head.rotation_degrees
 	bodyRot.y = m_yaw
 	_head.rotation_degrees = bodyRot
