@@ -36,4 +36,3 @@ func _process(_delta:float) -> void:
 		queue_free()
 	else:
 		_update_rotation()
- 
