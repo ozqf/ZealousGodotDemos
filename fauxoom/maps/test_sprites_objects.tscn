@@ -5,10 +5,11 @@
 [ext_resource path="res://prefabs/static_entities/trigger_volume.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/sprites/player/PLAYA1.png" type="Texture" id=4]
 [ext_resource path="res://assets/sprites/titan/CYBRA1.png" type="Texture" id=5]
-[ext_resource path="res://assets/sprites/player/player_frames.tres" type="SpriteFrames" id=6]
+[ext_resource path="res://assets/sprites/frames/player_frames.tres" type="SpriteFrames" id=6]
 [ext_resource path="res://src/player_animator.gd" type="Script" id=7]
 [ext_resource path="res://prefabs/embedded_spawn.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/embedded_map_controller.gd" type="Script" id=9]
+
 
 [node name="test_level" type="Spatial"]
 script = ExtResource( 9 )
