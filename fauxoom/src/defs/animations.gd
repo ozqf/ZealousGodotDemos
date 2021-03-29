@@ -1,8 +1,52 @@
 class_name Animations
 
+# path = "res://assets/sprites/sheets/64x64_projectiles.png",
+
 const data = {
+	# new format
 	player = {
 		name = "player",
+		path = "res://assets/sprites/frames/player_frames.tres",
+		anims = {
+			walk = {
+				frames = [
+					[ 0, 8, 16, 24 ],
+					[ 1, 9, 17, 25 ],
+					[ 2, 10, 18, 26 ],
+					[ 3, 11, 19, 27 ],
+					[ 4, 12, 20, 28 ],
+					[ 5, 13, 21, 29 ],
+					[ 6, 14, 22, 30 ],
+					[ 7, 15, 23, 31 ]
+				]
+			},
+			aim = {
+				frames = [[32],[33],[34],[35],[36],[37],[38],[39]]
+			}
+		}
+	},
+	punk = {
+		name = "punk",
+		path = "res://assets/sprites/frames/punk_frames.tres",
+		anims = {
+			walk = {
+				frames = [
+					[ 0, 8, 16, 24 ],
+					[ 1, 9, 17, 25 ],
+					[ 2, 10, 18, 26 ],
+					[ 3, 11, 19, 27 ],
+					[ 4, 12, 20, 28 ],
+					[ 5, 13, 21, 29 ],
+					[ 6, 14, 22, 30 ],
+					[ 7, 15, 23, 31 ]
+				]
+			}
+		}
+	},
+	
+	# old format - rewrite
+	player_old = {
+		name = "player_old",
 		framesPath = "res://assets/sprites/frames/player_frames.tres",
 		anims = [
 			{
@@ -40,8 +84,8 @@ const data = {
 			}
 		]
 	},
-	punk = {
-		name = "punk",
+	punk_old = {
+		name = "punk_old",
 		framesPath = "res://assets/sprites/frames/punk_frames.tres",
 		anims = [
 			{
@@ -90,21 +134,24 @@ const data = {
 			{ name = "plasmagun", frame = [[4]] },
 			{ name = "bfg", frame = [[5]] },
 			{ name = "chainsaw", frame = [[6]] },
-			{ name = "bullets_small", frame = [[7]] },
-			{ name = "bullets_large", frame = [[8]] },
-			{ name = "shells_small", frame = [[9]] },
-			{ name = "shells_large", frame = [[10]] },
-			{ name = "rockets_small", frame = [[11]] },
-			{ name = "rockets_large", frame = [[12]] },
-			{ name = "cells_small", frame = [[13]] },
-			{ name = "cells_large", frame = [[14]] },
-			{ name = "backpack", frame = [[15]] },
-			{ name = "health_tiny", frame = [[16], [17], [18], [19]] },
-			{ name = "armour_tiny", frame = [[20], [21], [22], [23]] },
-			{ name = "health_small", frame = [[24]] },
-			{ name = "health_large", frame = [[25]] },
-			{ name = "armour_green", frame = [[26], [27]] },
-			{ name = "armour_red", frame = [[28], [29]] },
+			{ name = "flame_launcher", frame = [[8]] },
+			{ name = "that_gun", frame = [[9]] },
+			{ name = "shotgun_alt", frame = [[10]] },
+			{ name = "bullets_small", frame = [[16]] },
+			{ name = "bullets_large", frame = [[17]] },
+			{ name = "shells_small", frame = [[18]] },
+			{ name = "shells_large", frame = [[19]] },
+			{ name = "rockets_small", frame = [[20]] },
+			{ name = "rockets_large", frame = [[21]] },
+			{ name = "cells_small", frame = [[22]] },
+			{ name = "cells_large", frame = [[23]] },
+			{ name = "backpack", frame = [[24]] },
+			{ name = "health_tiny", frame = [[32], [33], [34], [35]] },
+			{ name = "armour_tiny", frame = [[36], [37], [38], [39]] },
+			{ name = "health_small", frame = [[40]] },
+			{ name = "health_large", frame = [[41]] },
+			{ name = "armour_green", frame = [[42], [43]] },
+			{ name = "armour_red", frame = [[44], [45]] },
 		]
 	}
 }

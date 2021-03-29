@@ -142,7 +142,7 @@ _global_script_classes=[ {
 "base": "AnimatedSprite3D",
 "class": "PlayerAnimator",
 "language": "GDScript",
-"path": "res://src/player_animator.gd"
+"path": "res://src/custom_animator_3d.gd"
 }, {
 "base": "Node",
 "class": "PlayerAttack",
