@@ -230,9 +230,9 @@ margin_bottom = 38.0
 text = "Gameplay Test"
 
 [node name="back" type="Button" parent="static_menus/embedded_maps/VBoxContainer"]
-margin_top = 18.0
+margin_top = 42.0
 margin_right = 384.0
-margin_bottom = 38.0
+margin_bottom = 62.0
 text = "Back"
 
 [node name="custom_map_menu" type="Control" parent="static_menus"]

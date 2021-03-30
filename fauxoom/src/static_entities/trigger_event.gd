@@ -16,7 +16,7 @@ var _spawnState:Dictionary = {}
 func _ready() -> void:
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
-
+	visible = false
 	_spawnState = write_state()
 
 func write_state() -> Dictionary:

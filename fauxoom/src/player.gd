@@ -95,7 +95,7 @@ func _process(_delta):
 
 func hit(hitInfo) -> void:
 	var dmg = hitInfo.damage
-	# _health -= dmg
+	_health -= dmg
 	if _health <= 0:
 		kill()
 	else:

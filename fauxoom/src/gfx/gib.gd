@@ -15,6 +15,10 @@ func _process(_delta:float) -> void:
 		_timeToLive = 99999
 		self.queue_free()
 
+func drop() -> void:
+	self.linear_velocity = Vector3()
+	self.angular_velocity = Vector3()
+
 func launch(_power:float, ttlOverride:float) -> void:
 	if ttlOverride > 0:
 		_timeToLive = ttlOverride
@@ -32,9 +36,10 @@ func launch(_power:float, ttlOverride:float) -> void:
 	if randf() > 0.5:
 		angular.x *= -1
 	
-#	angular.y = rand_range(minSpin, maxSpin)
-#	if randf() > 0.5:
-#		angular.y *= -1
+	# tumbling effect when camera attached is too icky with Y enabled
+	# angular.y = rand_range(minSpin, maxSpin)
+	# if randf() > 0.5:
+	# angular.y *= -1
 	
 	angular.z = rand_range(minSpin, maxSpin)
 	if randf() > 0.5:

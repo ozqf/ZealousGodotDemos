@@ -48,18 +48,19 @@ func _fire_spread() -> void:
 	var t:Transform = _launchNode.global_transform
 	var origin:Vector3 = t.origin
 	#var originForward:Vector3 = -t.basis.z
-	var mask:int = (1 << 0)
+	#var mask:int = (1 << 0)
+	var mask:int = Interactions.get_player_prj_mask()
 	#var mask:int = -1
 	for _i in range(0, _extraPellets):
-		var spreadX:float = rand_range(-1000, 1000)
-		var spreadY:float = rand_range(-300, 300)
+		var spreadX:float = rand_range(-1500, 1500)
+		var spreadY:float = rand_range(-400, 400)
 		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(origin, t.basis, spreadX, spreadY)
 		var result:Dictionary = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, 1000, [_parentBody], mask)
 		if result:
 			_perform_hit(result, forward)
 
 func _fire_single() -> void:
-	var mask:int = (1 << 0)
+	var mask:int = Interactions.get_player_prj_mask()
 	#var mask:int = -1
 	var result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, [_parentBody], mask)
 	if result:
@@ -92,7 +93,11 @@ func _process(_delta:float) -> void:
 		_pendingWeapon = Weapons.ChaingunLabel
 	if Input.is_action_just_pressed("slot_5"):
 		_pendingWeapon = Weapons.RocketLauncherLabel
-	
+	if Input.is_action_just_pressed("slot_6"):
+		_pendingWeapon = Weapons.FlameThrowerLabel
+	if Input.is_action_just_pressed("slot_7"):
+		_pendingWeapon = Weapons.PlasmaGunLabel
+
 	if _tick <= 0:
 		_check_weapon_change()
 

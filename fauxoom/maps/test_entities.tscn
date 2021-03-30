@@ -91,6 +91,7 @@ transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 7.5, 0, 6.5 )
 
 [node name="3d_sprite_prop2" parent="static/mob_sprites" instance=ExtResource( 14 )]
 transform = Transform( -3, 0, 9.77524e-07, 0, 3, 0, -9.77524e-07, 0, -3, 10, 0, 7 )
+offset = Vector2( 0, 31 )
 frames = ExtResource( 16 )
 animationSet = "punk"
 

@@ -3,10 +3,11 @@ class_name MobBase
 
 signal on_mob_died(mob)
 
-onready var _sprite:EntitySprite = $body
+onready var _sprite:CustomAnimator3D = $sprite
+onready var _body:CollisionShape = $body
 onready var _attack = $attack
 
-const MOVE_SPEED:float = 3.0
+const MOVE_SPEED:float = 4.5
 const MOVE_TIME:float = 1.5
 
 enum MobState {
@@ -33,7 +34,7 @@ var _thinkTick:float = 0
 var _stunAccumulator:int = 0
 var _stunDamageMax:int = 20
 
-var _health:int = 100
+var _health:int = 50
 var _dead:bool = false
 
 var _velocity:Vector3 = Vector3()
@@ -118,6 +119,7 @@ func _process(_delta:float) -> void:
 		if _thinkTick <= 0:
 			_thinkTick = MOVE_TIME
 			if _attack.start_attack(_targetInfo.position):
+				_sprite.play_animation("aim")
 				_state = MobState.Attacking
 		else:
 			_thinkTick -= _delta
@@ -127,8 +129,12 @@ func _process(_delta:float) -> void:
 		if _targetInfo.id == 0:
 			# abort attack!
 			return
+		
+		rotation.y = ZqfUtils.yaw_between(global_transform.origin, _targetInfo.position)
+		
 		if !_attack.custom_update(_delta, _targetInfo.position):
 			_state = MobState.Hunting
+			_sprite.play_animation("walk")
 	elif _state == MobState.Idle:
 		return
 	elif _state == MobState.Spawning:
@@ -158,6 +164,8 @@ func hit(_hitInfo:HitInfo) -> void:
 		# die
 		_state = MobState.Dying
 		emit_signal("on_mob_died", self)
-		queue_free()
+		_sprite.play_animation("dead")
+		_body.disabled = true
+		# queue_free()
 	else:
 		apply_stun(_hitInfo.direction)

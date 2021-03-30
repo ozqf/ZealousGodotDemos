@@ -14,8 +14,8 @@ var _launchNode:Spatial = null
 var _body:Spatial = null
 
 var _tick:float = 0
-var _attackWindupTime:float = 0.1 # 0.5
-var _attackRecoverTime:float = 0.1 # 0.5
+var _attackWindupTime:float = 0.3 # 0.5
+var _attackRecoverTime:float = 0.3 # 0.5
 var _prjMask:int = -1
 
 func custom_init(launchNode:Spatial, body:Spatial) -> void:

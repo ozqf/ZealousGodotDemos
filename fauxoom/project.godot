@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://map_gen/src/byte_buffer.gd"
 }, {
+"base": "AnimatedSprite3D",
+"class": "CustomAnimator3D",
+"language": "GDScript",
+"path": "res://src/custom_animator_3d.gd"
+}, {
 "base": "Spatial",
 "class": "CustomMapLoader",
 "language": "GDScript",
@@ -139,11 +144,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/player.gd"
 }, {
-"base": "AnimatedSprite3D",
-"class": "PlayerAnimator",
-"language": "GDScript",
-"path": "res://src/custom_animator_3d.gd"
-}, {
 "base": "Node",
 "class": "PlayerAttack",
 "language": "GDScript",
@@ -184,6 +184,7 @@ _global_script_class_icons={
 "AsciMapLoader": "",
 "AttachableCamera": "",
 "ByteBuffer": "",
+"CustomAnimator3D": "",
 "CustomMapLoader": "",
 "EmbeddedSpawn": "",
 "EntityEditor": "",
@@ -206,7 +207,6 @@ _global_script_class_icons={
 "MouseLock": "",
 "OptionsMenu": "",
 "Player": "",
-"PlayerAnimator": "",
 "PlayerAttack": "",
 "Projectile": "",
 "SpawnPoint": "",
