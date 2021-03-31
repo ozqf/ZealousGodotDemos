@@ -145,7 +145,7 @@ func register_player(plyr:Player) -> void:
 		return
 	print("Game - register player")
 	_player = plyr
-	_camera.attach_to(_player.get_node("head"))
+	_camera.attach_to(_player.get_node("camera_mount"))
 
 func deregister_player(plyr:Player) -> void:
 	if plyr != _player:

@@ -2,22 +2,30 @@ extends Node
 class_name Inventory
 
 var _data:Dictionary = {
-	super_shotgun = {
-		count = 0,
-		max = 1
-	},
-	bullets = {
-		count = 100,
-		max = 300
-	},
-	shells = {
-		count = 0,
-		max = 50
-	}
+	super_shotgun = { count = 0, max = 1 },
+	bullets = { count = 100, max = 300 },
+	shells = { count = 0, max = 50 }
 }
 
 func get_count(itemType:String) -> int:
 	return _data[itemType].count
+
+func take_item(itemType:String, amount:int) -> int:
+	if !_data.has(itemType):
+		return 0
+	var item:Dictionary = _data[itemType]
+	var result:int
+	if item.count < amount:
+		result = item.count
+		item.count = 0
+	else:
+		result = amount
+		item.count -= amount
+	
+	if item.count == 0:
+		# emit warning that item is depleted
+		pass
+	return result
 
 func give_item(itemType:String, amount:int) -> int:
 	if !_data.has(itemType):

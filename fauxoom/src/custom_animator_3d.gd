@@ -26,7 +26,7 @@ func _ready() -> void:
 func play_animation(animName:String, followUpAnimName:String = "") -> bool:
 	if animName == "" || !_currentSet.anims.has(animName):
 		active = false
-		print("No animation '" + animName + "' in set '" + _currentSet.name + "'")
+		# print("No animation '" + animName + "' in set '" + _currentSet.name + "'")
 		return false
 	_currentAnimation = _currentSet.anims[animName]
 	if _currentAnimation.has("loopIndex"):
@@ -43,7 +43,7 @@ func play_animation(animName:String, followUpAnimName:String = "") -> bool:
 
 func _change_set_and_animation(setName:String, animName:String) -> void:
 	if setName == "" || !Animations.data.has(setName):
-		print("No animation set '" + setName + "' found")
+		# print("No animation set '" + setName + "' found")
 		active = false
 		return
 	_currentSet = Animations.data[setName]

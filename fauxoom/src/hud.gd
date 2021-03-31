@@ -7,10 +7,15 @@ onready var _centreSprite:AnimatedSprite = $gun/weapon_centre
 onready var _rightSprite:AnimatedSprite = $gun/weapon_right
 onready var _leftSprite:AnimatedSprite = $gun/weapon_left
 var _isShooting:bool = false
+var _centreTrans:Transform2D
+var _rightTrans:Transform2D
+var _leftTrans:Transform2D
 
 var _currentWeap:Dictionary = Weapons.weapons["ssg"]
 var _akimbo:bool = false
 var _leftHandNext:bool = false
+
+var _swayTime:float = 0.0
 
 func _ready() -> void:
 	add_to_group(Groups.PLAYER_GROUP_NAME)
@@ -19,6 +24,16 @@ func _ready() -> void:
 	_f = _leftSprite.connect("animation_finished", self, "_on_left_animation_finished")
 	# _centreSprite.play(_currentWeap["idle"])
 	self.on_change_weapon("ssg")
+	_centreTrans = _centreSprite.transform
+	_rightTrans = _rightSprite.transform
+	_leftTrans = _leftSprite.transform
+
+func _process(_delta:float) -> void:
+	_swayTime += (_delta * 12)
+	var t:Transform2D = _centreTrans
+	var mul:float = (1 + sin(_swayTime)) * 0.5
+	t.origin.y += mul * 32
+	_centreSprite.transform = t
 
 func player_hit(_data:Dictionary) -> void:
 	var hit = _hit_indicator_t.instance()
@@ -27,6 +42,8 @@ func player_hit(_data:Dictionary) -> void:
 
 func player_status_update(data:Dictionary) -> void:
 	$player_status/health.text = "HEALTH " + str(data.health)
+	$player_status/bullets.text = "BULLETS: " + str(data.bullets)
+	$player_status/shells.text = "SHELLS: " + str(data.shells)
 
 func _on_centre_animation_finished() -> void:
 	if !_centreSprite.animation == "idle":

@@ -22,6 +22,9 @@ func set_input_enabled(flag:bool) -> void:
 		return
 	_inputOn = flag
 
+func get_velocity() -> Vector3:
+	return _velocity
+
 func init_motor(body:KinematicBody, head:Spatial) -> void:
 	_body = body
 	_head = head

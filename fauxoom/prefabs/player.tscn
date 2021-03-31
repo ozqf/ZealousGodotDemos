@@ -39,6 +39,10 @@ shape = SubResource( 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
 visible = false
 
+[node name="camera_mount" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
+visible = false
+
 [node name="motor" type="Node" parent="."]
 script = ExtResource( 3 )
 
@@ -117,7 +121,7 @@ __meta__ = {
 
 [node name="hud_hit_indictator" parent="hud/centre" instance=ExtResource( 8 )]
 
-[node name="ColorRect" type="ColorRect" parent="hud/centre"]
+[node name="red_dot" type="ColorRect" parent="hud/centre"]
 margin_left = -2.0
 margin_top = -2.0
 margin_right = 2.0
@@ -129,25 +133,32 @@ __meta__ = {
 
 [node name="player_status" type="VBoxContainer" parent="hud"]
 margin_left = 8.0
-margin_top = 512.0
+margin_top = 473.0
 margin_right = 128.0
-margin_bottom = 600.0
+margin_bottom = 598.0
 alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="health" type="Label" parent="hud/player_status"]
-margin_top = 22.0
+margin_top = 24.0
 margin_right = 120.0
-margin_bottom = 53.0
+margin_bottom = 55.0
 text = "HEALTH 100
 "
 
-[node name="ammo" type="Label" parent="hud/player_status"]
-margin_top = 57.0
+[node name="bullets" type="Label" parent="hud/player_status"]
+margin_top = 59.0
 margin_right = 120.0
-margin_bottom = 88.0
+margin_bottom = 90.0
+text = "AMMO 100
+"
+
+[node name="shells" type="Label" parent="hud/player_status"]
+margin_top = 94.0
+margin_right = 120.0
+margin_bottom = 125.0
 text = "AMMO 100
 "
 

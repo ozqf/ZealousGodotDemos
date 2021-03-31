@@ -7,6 +7,7 @@ var _hitInfo_type = preload("res://src/defs/hit_info.gd")
 
 var _launchNode:Spatial = null
 var _parentBody:PhysicsBody = null
+var _inventory:Inventory = null
 var _active:bool = false
 var _tick:float = 0
 
@@ -21,9 +22,10 @@ var _hitInfo:HitInfo = null
 signal fire_ssg()
 signal change_weapon(nameString)
 
-func init_attack(launchNode:Spatial, ignoreBody:PhysicsBody) -> void:
+func init_attack(launchNode:Spatial, ignoreBody:PhysicsBody, inventory:Inventory) -> void:
 	_launchNode = launchNode
 	_parentBody = ignoreBody
+	_inventory = inventory
 
 	_hitInfo = _hitInfo_type.new()
 

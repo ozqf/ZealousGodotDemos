@@ -2,6 +2,7 @@ extends KinematicBody
 class_name Player
 
 onready var _head:Spatial = $head
+onready var _cameraMount:Spatial = $camera_mount
 onready var _motor:FPSMotor = $motor
 onready var _attack:PlayerAttack = $attack
 onready var _inventory:Inventory = $inventory
@@ -14,6 +15,7 @@ var _appInputOn:bool = true
 
 var _dead:bool = false
 var _health:int = 100
+var _swayTime:float = 0.0
 
 var _targettingInfo:Dictionary = {
 	id = 1,
@@ -37,7 +39,7 @@ func _ready():
 	
 	_motor.init_motor(self, _head)
 	_motor.set_input_enabled(false)
-	_attack.init_attack(_head, self)
+	_attack.init_attack(_head, self, _inventory)
 	_attack.set_attack_enabled(false)
 	
 	var _foo = _attack.connect("fire_ssg", _hud, "on_shoot_ssg")
@@ -88,6 +90,13 @@ func _refresh_input_on() -> void:
 
 func _process(_delta):
 	_refresh_input_on()
+	
+	var t:Transform = _head.transform
+	if _motor.get_velocity().length() > 0:
+		_swayTime += (_delta * 12)
+	t.origin.y += sin(_swayTime) * 0.05
+	_cameraMount.transform = t
+	
 	_targettingInfo.position = _head.global_transform.origin
 	_targettingInfo.yawDegrees = _motor.m_yaw
 	_targettingInfo.forward = ZqfUtils.yaw_to_flat_vector3(_motor.m_yaw)

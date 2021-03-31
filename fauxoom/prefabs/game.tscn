@@ -7,7 +7,7 @@
 script = ExtResource( 1 )
 
 [node name="attachable_camera" parent="." instance=ExtResource( 2 )]
-fov = 90.0
+fov = 80.0
 
 [node name="dynamic" type="Spatial" parent="."]
 
