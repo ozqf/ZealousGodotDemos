@@ -156,16 +156,17 @@ func apply_stun(dir:Vector3) -> void:
 	_velocity = dir * 2
 	_thinkTick = 0.2
 
-func hit(_hitInfo:HitInfo) -> void:
+func hit(_hitInfo:HitInfo) -> int:
 	if is_dead():
-		return
+		return 0
 	_health -= _hitInfo.damage
 	if _health <= 0:
 		# die
 		_state = MobState.Dying
 		emit_signal("on_mob_died", self)
-		_sprite.play_animation("dead")
+		_sprite.play_animation("dying")
 		_body.disabled = true
-		# queue_free()
+		return _hitInfo.damage + _health
 	else:
 		apply_stun(_hitInfo.direction)
+		return _hitInfo.damage

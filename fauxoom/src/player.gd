@@ -93,11 +93,14 @@ func _process(_delta):
 	var fn = Groups.PLAYER_FN_STATUS
 	get_tree().call_group(grp, fn, _health, _motor.m_yaw)
 
-func hit(hitInfo) -> void:
+func hit(hitInfo) -> int:
+	if _dead:
+		return 0
 	var dmg = hitInfo.damage
 	_health -= dmg
 	if _health <= 0:
 		kill()
+		return dmg + _health
 	else:
 		var grp:String = Groups.PLAYER_GROUP_NAME
 		var fn:String = Groups.PLAYER_FN_HIT
@@ -107,6 +110,7 @@ func hit(hitInfo) -> void:
 			selfYawDegrees = _motor.m_yaw
 		}
 		get_tree().call_group(grp, fn, data)
+		return dmg
 
 func kill() -> void:
 	if _dead:

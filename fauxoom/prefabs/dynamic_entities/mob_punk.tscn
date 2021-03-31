@@ -27,7 +27,7 @@ frames = ExtResource( 6 )
 script = ExtResource( 5 )
 active = true
 useParentYaw = true
-animationSet = "player"
+animationSet = "punk"
 defaultAnimation = "walk"
 
 [node name="body2" type="Sprite3D" parent="."]

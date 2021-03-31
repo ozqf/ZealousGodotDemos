@@ -7,6 +7,7 @@ func _ready() -> void:
 	_f = $VBoxContainer/test_gameplay.connect("pressed", self, "_on_test_gameplay")
 
 func _on_test_gameplay() -> void:
+	_on_back()
 	print("Test gameplay")
 	var txt:String = "map test_gameplay"
 	var tokens = ZqfUtils.tokenise(txt)

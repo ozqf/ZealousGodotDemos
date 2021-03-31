@@ -18,9 +18,11 @@ static func get_enemy_prj_mask() -> int:
 static func get_player_prj_mask() -> int:
 	return (WORLD | ACTORS)
 
-static func hitscan_hit(_hitInfo:HitInfo, _hitScanResult:Dictionary) -> void:
+# returns -1 if object had no hit function
+static func hitscan_hit(_hitInfo:HitInfo, _hitScanResult:Dictionary) -> int:
 	if _hitScanResult.collider.has_method("hit"):
-		_hitScanResult.collider.hit(_hitInfo)
+		return _hitScanResult.collider.hit(_hitInfo)
+	return -1
 
 static func triggerTargets(tree:SceneTree, targetNameString:String) -> void:
 	var tokens = ZqfUtils.tokenise(targetNameString)

@@ -98,6 +98,7 @@ __meta__ = {
 }
 
 [node name="crosshair_rect" type="TextureRect" parent="hud/centre"]
+visible = false
 margin_left = -32.0
 margin_top = -32.0
 margin_right = 32.0
@@ -111,6 +112,16 @@ __meta__ = {
 }
 
 [node name="hud_hit_indictator" parent="hud/centre" instance=ExtResource( 8 )]
+
+[node name="ColorRect" type="ColorRect" parent="hud/centre"]
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 2.0
+margin_bottom = 2.0
+color = Color( 1, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="player_status" type="VBoxContainer" parent="hud"]
 margin_left = 8.0

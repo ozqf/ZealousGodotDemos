@@ -1,7 +1,5 @@
 class_name Animations
 
-# path = "res://assets/sprites/sheets/64x64_projectiles.png",
-
 const data = {
 	# new format
 	player = {
@@ -53,7 +51,8 @@ const data = {
 				frames = [[48],[49],[50],[51],[52],[53],[54],[55]]
 			},
 			dying = {
-				frames = [[56],[57],[58],[59],[60]]
+				loopIndex = 4,
+				frames = [[56,57,58,59,60]]
 			},
 			dead = {
 				frames = [[60]]

@@ -1,5 +1,6 @@
 extends Spatial
 
+var _prefab_mob_punk = preload("res://prefabs/dynamic_entities/mob_punk.tscn")
 var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
 
 export var triggerName:String = ""
@@ -63,7 +64,7 @@ func on_trigger_entities(name:String) -> void:
 		_active = !_active
 
 func _spawn_child() -> void:
-	var mob = _prefab_mob_gunner.instance()
+	var mob = _prefab_mob_punk.instance()
 	get_parent().add_child(mob)
 	mob.global_transform = self.global_transform
 	mob.connect("on_mob_died", self, "_on_mob_died")

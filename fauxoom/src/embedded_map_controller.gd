@@ -1,8 +1,8 @@
 extends Spatial
 
-var _prefab_player = preload("res://prefabs/player.tscn")
-var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
-var _prefab_horde_spawn = preload("res://prefabs/static_entities/horde_spawn.tscn")
+# var _prefab_player = preload("res://prefabs/player.tscn")
+# var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
+# var _prefab_horde_spawn = preload("res://prefabs/static_entities/horde_spawn.tscn")
 
 onready var _camera:Camera = $Camera
 

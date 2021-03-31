@@ -2,6 +2,7 @@ extends Node
 class_name PlayerAttack
 
 var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
+var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
 var _hitInfo_type = preload("res://src/defs/hit_info.gd")
 
 var _launchNode:Spatial = null
@@ -33,14 +34,19 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> void:
 	#print("HIT at " + str(result.position))
 	# result.collider etc etc
 	_hitInfo.direction = forward
-	Interactions.hitscan_hit(_hitInfo, result)
+	var inflicted:int = Interactions.hitscan_hit(_hitInfo, result)
 
-	var impact:Spatial = _prefab_impact.instance()
 	var root:Node = get_tree().get_current_scene()
-	root.add_child(impact)
-	var t = impact.global_transform
-	t.origin = result.position
-	impact.global_transform = t
+	if inflicted == -1:
+		var impact:Spatial = _prefab_impact.instance()
+		root.add_child(impact)
+		var t = impact.global_transform
+		t.origin = result.position
+		impact.global_transform = t
+	else:
+		var blood = _prefab_blood_hit.instance()
+		root.add_child(blood)
+		blood.global_transform.origin = result.position
 
 func _fire_spread() -> void:
 	# fire single straight forward

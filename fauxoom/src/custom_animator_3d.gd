@@ -12,8 +12,10 @@ var _frame:int = 0
 var _maxFrames:int = 4
 
 var _currentSet:Dictionary = {}
+var _currentAnimation:Dictionary = {}
 var _currentFrames:Array
 var _pendingAnimation:String = ""
+var _loopIndex:int = 0
 
 var yawDegrees:float = 0
 
@@ -26,13 +28,18 @@ func play_animation(animName:String, followUpAnimName:String = "") -> bool:
 		active = false
 		print("No animation '" + animName + "' in set '" + _currentSet.name + "'")
 		return false
-	var animation:Dictionary = _currentSet.anims[animName]
-	_currentFrames = animation.frames
+	_currentAnimation = _currentSet.anims[animName]
+	if _currentAnimation.has("loopIndex"):
+		_loopIndex = _currentAnimation.loopIndex
+	else:
+		_loopIndex = 0
+	_currentFrames = _currentAnimation.frames
 	_maxFrames = _currentFrames[0].size()
+	_frame = 0
 	active = true
 	_pendingAnimation = followUpAnimName
-	return true
 	# print("Custom animator playing " + animName)
+	return true
 
 func _change_set_and_animation(setName:String, animName:String) -> void:
 	if setName == "" || !Animations.data.has(setName):
@@ -60,10 +67,10 @@ func _process(_delta:float) -> void:
 	if _tick > cap:
 		_tick = 0
 		_frame += 1
-		
 		# check for finish
 		if _frame >= _maxFrames:
-			_frame = 0
-		var dirIndex:int = _calc_dir_index()
-		var animatorFrame:int = _currentFrames[dirIndex][_frame]
-		frame = animatorFrame
+			_frame = _loopIndex
+	# refresh frame
+	var dirIndex:int = _calc_dir_index()
+	var animatorFrame:int = _currentFrames[dirIndex][_frame]
+	frame = animatorFrame
