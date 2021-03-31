@@ -44,8 +44,8 @@ func _ready():
 	game_on_wrote_map_text(MapEncoder.map_to_b64(Main.get_map()))
 
 func _process(_delta:float) -> void:
-	var newW:int = _newMapWidth.value
-	var newH:int = _newMapHeight.value
+	var newW:int = int(_newMapWidth.value)
+	var newH:int = int(_newMapHeight.value)
 	_newMap.text = "NEW MAP - " + str(newW) + "x" + str(newH)
 
 func on() -> void:
@@ -58,7 +58,7 @@ func off() -> void:
 	visible = false
 
 func _on_new_map() -> void:
-	var map:MapDef = MapEncoder.empty_map(_newMapWidth.value, _newMapHeight.value)
+	var map:MapDef = MapEncoder.empty_map(int(_newMapWidth.value), int(_newMapHeight.value))
 	map.set_all(1)
 	Main.set_pending_map(map)
 	Main.on_game_edit_level()

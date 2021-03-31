@@ -44,7 +44,7 @@ func _move_as_ray(_delta:float) -> void:
 		_hitInfo.damage = 15
 		_hitInfo.attackTeam = 1
 		_hitInfo.direction = _velocity.normalized()
-		Interactions.hitscan_hit(_hitInfo, hit)
+		var _inflicted:int = Interactions.hitscan_hit(_hitInfo, hit)
 		remove_self()
 		return
 	t.origin = origin + (_velocity * _delta)
@@ -58,7 +58,7 @@ func _process(_delta:float) -> void:
 			return
 		_move_as_ray(_delta)
 
-func launch(origin:Vector3, _forward:Vector3, ignoreBody:PhysicsBody, collisionMask:int) -> void:
+func launch(origin:Vector3, _forward:Vector3, _ignoreBody:PhysicsBody, collisionMask:int) -> void:
 	_time = _ttl
 	_mask = collisionMask
 	var t:Transform = global_transform

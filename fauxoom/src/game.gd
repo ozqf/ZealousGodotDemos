@@ -32,8 +32,8 @@ func _ready() -> void:
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	_refresh_overlay()
-	$game_state_overlay/death/menu/reset.connect("pressed", self, "on_clicked_reset")
-	$game_state_overlay/complete/menu/reset.connect("pressed", self, "on_clicked_reset")
+	var _result = $game_state_overlay/death/menu/reset.connect("pressed", self, "on_clicked_reset")
+	_result = $game_state_overlay/complete/menu/reset.connect("pressed", self, "on_clicked_reset")
 	Main.set_camera(_camera)
 
 func _process(_delta:float) -> void:

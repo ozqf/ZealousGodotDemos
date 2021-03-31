@@ -27,8 +27,8 @@ func spawn(playerYaw:float, attackDir:Vector3) -> void:
 	# print("Diff: " + str(_hitYaw - _playerYaw) + " indicator rotation " + str(_hitYaw - _playerYaw))
 	_ttl = TIME_TO_LIVE
 
-func player_status_update(_health:int, _yawDegrees:float) -> void:
-	_playerYaw = _yawDegrees
+func player_status_update(data:Dictionary) -> void:
+	_playerYaw = data.yawDegrees
 
 func _process(_delta:float) -> void:
 	_ttl -= _delta

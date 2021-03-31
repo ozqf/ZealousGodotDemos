@@ -25,8 +25,8 @@ func player_hit(_data:Dictionary) -> void:
 	$centre.add_child(hit)
 	hit.spawn(_data.selfYawDegrees, _data.direction)
 
-func player_status_update(_health:int, _yawDegrees:float) -> void:
-	$player_status/health.text = "HEALTH " + str(_health)
+func player_status_update(data:Dictionary) -> void:
+	$player_status/health.text = "HEALTH " + str(data.health)
 
 func _on_centre_animation_finished() -> void:
 	if !_centreSprite.animation == "idle":

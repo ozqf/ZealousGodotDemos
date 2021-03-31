@@ -4,6 +4,7 @@ class_name Player
 onready var _head:Spatial = $head
 onready var _motor:FPSMotor = $motor
 onready var _attack:PlayerAttack = $attack
+onready var _inventory:Inventory = $inventory
 onready var _hud:Hud = $hud
 
 var _inputOn:bool = false
@@ -19,6 +20,13 @@ var _targettingInfo:Dictionary = {
 	position = Vector3(),
 	forward = Vector3(),
 	yawDegrees = 0
+}
+
+var _status:Dictionary = {
+	health = 100,
+	yawDegrees = 0,
+	bullets = 50,
+	shells = 0
 }
 
 func _ready():
@@ -89,9 +97,22 @@ func _process(_delta):
 	txt += "yaw: " + str(_motor.m_yaw) + "\n"
 	Main.playerDebug = txt
 	
+	# update status info for UI
+	_status.bullets = _inventory.get_count("bullets")
+	_status.shells = _inventory.get_count("shells")
+	_status.yawDegrees = _motor.m_yaw
+	_status.health = _health
 	var grp = Groups.PLAYER_GROUP_NAME
 	var fn = Groups.PLAYER_FN_STATUS
-	get_tree().call_group(grp, fn, _health, _motor.m_yaw)
+	get_tree().call_group(grp, fn, _status)
+
+# returns amount taken
+func give_item(itemType:String, amount:int) -> int:
+	var took:int = _inventory.give_item(itemType, amount)
+	if took > 0:
+		print("Player took " + itemType + " x " + str(took))
+		print(_inventory.debug())
+	return took
 
 func hit(hitInfo) -> int:
 	if _dead:
