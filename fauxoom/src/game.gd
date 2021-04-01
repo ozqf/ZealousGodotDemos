@@ -121,8 +121,10 @@ func game_on_player_died(_info:Dictionary) -> void:
 	var gib = _gib_t.instance()
 	add_child(gib)
 	gib.global_transform = _info.headTransform
-	# gib.launch(1, 0)
-	gib.drop()
+	if _info.gib:
+		gib.launch(1, 0)
+	else:
+		gib.drop()
 	_camera.detach()
 	_camera.attach_to(gib)
 

@@ -92,9 +92,11 @@ func _process(_delta):
 	_refresh_input_on()
 	
 	var t:Transform = _head.transform
-	if _motor.get_velocity().length() > 0:
-		_swayTime += (_delta * 12)
-	t.origin.y += sin(_swayTime) * 0.05
+	var swayScale:float = _motor.get_sway_scale()
+	_swayTime += (_delta * (swayScale * 12))
+	# if _motor.get_velocity().length() > 0:
+	#	_swayTime += (_delta * 12)
+	t.origin.y += sin(_swayTime) * 0.025
 	_cameraMount.transform = t
 	
 	_targettingInfo.position = _head.global_transform.origin
@@ -111,6 +113,8 @@ func _process(_delta):
 	_status.shells = _inventory.get_count("shells")
 	_status.yawDegrees = _motor.m_yaw
 	_status.health = _health
+	_status.swayScale = swayScale
+	_status.swayTime = _swayTime
 	var grp = Groups.PLAYER_GROUP_NAME
 	var fn = Groups.PLAYER_FN_STATUS
 	get_tree().call_group(grp, fn, _status)
@@ -149,5 +153,6 @@ func kill() -> void:
 	var info:Dictionary = {}
 	info.transform = global_transform
 	info.headTransform = _head.global_transform
+	info.gib = false
 	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_PLAYER_DIED, info)
 	queue_free()

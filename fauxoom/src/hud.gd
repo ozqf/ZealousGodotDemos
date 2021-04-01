@@ -29,11 +29,29 @@ func _ready() -> void:
 	_leftTrans = _leftSprite.transform
 
 func _process(_delta:float) -> void:
-	_swayTime += (_delta * 12)
+	#_swayTime += (_delta * 12)
+	# x can sway from -1 to 1 (left to right)
+	var mulX:float = sin(_swayTime * 0.5)
+	# keep y between 0 and 1 so it never moves
+	# above original screen position
+	var mulY:float = (1 + sin(_swayTime)) * 0.5
+	var x:float = mulX * 16
+	var y:float = mulY * 16
+
 	var t:Transform2D = _centreTrans
-	var mul:float = (1 + sin(_swayTime)) * 0.5
-	t.origin.y += mul * 32
+	t.origin.x += x
+	t.origin.y += y
 	_centreSprite.transform = t
+
+	t = _rightTrans
+	t.origin.x += x
+	t.origin.y += y
+	_rightSprite.transform = t
+	
+	t = _leftTrans
+	t.origin.x += x
+	t.origin.y += y
+	_leftSprite.transform = t
 
 func player_hit(_data:Dictionary) -> void:
 	var hit = _hit_indicator_t.instance()
@@ -44,6 +62,7 @@ func player_status_update(data:Dictionary) -> void:
 	$player_status/health.text = "HEALTH " + str(data.health)
 	$player_status/bullets.text = "BULLETS: " + str(data.bullets)
 	$player_status/shells.text = "SHELLS: " + str(data.shells)
+	_swayTime = data.swayTime
 
 func _on_centre_animation_finished() -> void:
 	if !_centreSprite.animation == "idle":
