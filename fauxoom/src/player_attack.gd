@@ -46,9 +46,16 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> void:
 		t.origin = result.position
 		impact.global_transform = t
 	else:
-		var blood = _prefab_blood_hit.instance()
-		root.add_child(blood)
-		blood.global_transform.origin = result.position
+		var pos = result.position
+		for _i in range(0, 4):
+			var blood = _prefab_blood_hit.instance()
+			root.add_child(blood)
+			var _range:float = 0.1
+			var offset:Vector3 = Vector3(
+				rand_range(-_range, _range),
+				rand_range(-_range, _range),
+				rand_range(-_range, _range))
+			blood.global_transform.origin = (pos + offset)
 
 func _fire_spread() -> void:
 	# fire single straight forward

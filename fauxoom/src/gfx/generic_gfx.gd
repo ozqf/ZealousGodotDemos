@@ -9,6 +9,9 @@ var _active:bool = true
 func _ready():
 	frame = frameIndices[_currentFrame]
 	_tick = _frameTime
+	var _min:float = 1.0 / 10.0
+	var _max:float = 1.0 / 15.0
+	_frameTime = rand_range(_min, _max)
 
 func _process(delta):
 	if !_active:

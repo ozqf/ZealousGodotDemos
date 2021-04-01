@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/sprites/frames/item_frames.tres" type="SpriteFrames" id=1]
-[ext_resource path="res://src/gfx/blood_hit_sprite.gd" type="Script" id=2]
+[ext_resource path="res://src/gfx/generic_gfx.gd" type="Script" id=2]
 
 [node name="blood_hit_sprite" type="AnimatedSprite3D"]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
