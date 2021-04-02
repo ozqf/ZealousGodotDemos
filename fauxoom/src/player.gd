@@ -7,6 +7,7 @@ onready var _motor:FPSMotor = $motor
 onready var _attack:PlayerAttack = $attack
 onready var _inventory:Inventory = $inventory
 onready var _hud:Hud = $hud
+onready var _interactor:PlayerObjectInteractor = $head/interaction_ray_cast
 
 var _inputOn:bool = false
 
@@ -84,12 +85,14 @@ func game_on_level_completed() -> void:
 	# _attack.set_attack_enabled(false)
 
 func _refresh_input_on() -> void:
-	var flag:bool = Main.get_input_on()
-	_motor.set_input_enabled(_gameplayInputOn && flag)
-	_attack.set_attack_enabled(_gameplayInputOn && flag)
+	_appInputOn = Main.get_input_on()
+	_motor.set_input_enabled(_gameplayInputOn && _appInputOn)
+	_attack.set_attack_enabled(_gameplayInputOn && _appInputOn)
 
 func _process(_delta):
 	_refresh_input_on()
+	if _appInputOn && _gameplayInputOn && Input.is_action_just_pressed("interact"):
+		_interactor.use_target()
 	
 	var t:Transform = _head.transform
 	var swayScale:float = _motor.get_sway_scale()
@@ -115,6 +118,8 @@ func _process(_delta):
 	_status.health = _health
 	_status.swayScale = swayScale
 	_status.swayTime = _swayTime
+	_status.hasInteractionTarget = _interactor.get_is_colliding()
+	
 	var grp = Groups.PLAYER_GROUP_NAME
 	var fn = Groups.PLAYER_FN_STATUS
 	get_tree().call_group(grp, fn, _status)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://prefabs/gib.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=2]
@@ -28,6 +28,7 @@
 [ext_resource path="res://prefabs/items/item_super_shotgun.tscn" type="PackedScene" id=26]
 [ext_resource path="res://prefabs/items/item_shells_small.tscn" type="PackedScene" id=27]
 [ext_resource path="res://prefabs/items/item_shells_large.tscn" type="PackedScene" id=28]
+[ext_resource path="res://prefabs/static_entities/lever_switch.tscn" type="PackedScene" id=29]
 
 [node name="test_level" type="Spatial"]
 script = ExtResource( 12 )
@@ -36,7 +37,7 @@ script = ExtResource( 12 )
 environment = ExtResource( 13 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 11, 16 )
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 14, 11, 16 )
 
 [node name="dynamic" type="Spatial" parent="."]
 
@@ -52,18 +53,18 @@ transform = Transform( 0.999928, 0.00109075, 0.0119154, -0.00103226, 0.999987, -
 [node name="static" type="Spatial" parent="."]
 
 [node name="trigger_volume" parent="static" instance=ExtResource( 11 )]
-transform = Transform( 5, 0, 0, 0, 4, 0, 0, 0, 1, -12.5, 2, 5.5 )
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 8, -28.5, 2, 0 )
 triggerTargetName = "spawn_1"
 
 [node name="trigger_volume2" parent="static" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.5, -13.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.5, -13.5 )
 triggerTargetName = "endtrigger"
 
 [node name="player_start" parent="static" instance=ExtResource( 9 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 0, 11.5 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -7, 0, 2.5 )
 
 [node name="horde_spawn" parent="static" instance=ExtResource( 8 )]
-transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -11, 0, -4 )
+transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -45, 0, -3 )
 triggerName = "spawn_1"
 triggerTargetName = "endtrigger"
 maxLiveMobs = 1
@@ -75,13 +76,18 @@ transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107,
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -6 )
 
 [node name="OmniLight" type="OmniLight" parent="static"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2, -13.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 2, -8.5 )
+light_color = Color( 1, 0, 0, 1 )
 
 [node name="OmniLight2" type="OmniLight" parent="static"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2, -13.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.5, 2, -8.5 )
+light_color = Color( 1, 0, 0, 1 )
 
 [node name="blocker_volume" parent="static" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -16, 0, 5 )
+transform = Transform( 12, 0, 0, 0, 3, 0, 0, 0, 1, -13, 0, -6 )
+
+[node name="blocker_volume3" parent="static" instance=ExtResource( 3 )]
+transform = Transform( 12, 0, 0, 0, 3, 0, 0, 0, 1, -13, 0, 7 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="static"]
 transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 8, 0 )
@@ -275,22 +281,46 @@ transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 28, 14, -0.5, 0 )
 transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 28, 42, -0.5, 0 )
 
 [node name="world_volume6" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 28, -14, -0.5, 0 )
+transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 28, -28, -0.5, 0 )
+
+[node name="world_volume23" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, -47, -0.5, 0 )
+
+[node name="world_volume21" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 14, 0, 0, 0, 1, 0, 0, 0, 12, -7, -0.5, 0 )
+
+[node name="world_volume31" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 14, 0, 0, 0, 1, 0, 0, 0, 12, 15, 3.5, -9 )
 
 [node name="world_volume3" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 30, 0, 0, 0, 3, 0, 0, 0, 1, 0, 1.5, -14.5 )
+transform = Transform( 29, 0, 0, 0, 3, 0, 0, 0, 1, -27.5, 1.5, -14.5 )
+
+[node name="world_volume20" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 30, 0, 0, 0, 3, 0, 0, 0, 1, 17, 1.5, -14.5 )
 
 [node name="world_volume4" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 30, 0, 0, 0, 3, 0, 0, 0, 1, 0, 1.5, 14.5 )
+transform = Transform( 29, 0, 0, 0, 3, 0, 0, 0, 1, -27.5, 1.5, 14.5 )
 
 [node name="world_volume19" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 30, 0, 0, 0, 3, 0, 0, 0, 1, 30, 1.5, 14.5 )
+transform = Transform( 30, 0, 0, 0, 3, 0, 0, 0, 1, 14, 1.5, 14.5 )
+
+[node name="world_volume30" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 30, 0, 0, 0, 3, 0, 0, 0, 1, 44, 1.5, 14.5 )
 
 [node name="world_volume7" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -15.5, 1.5, 10 )
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -42.5, 1.5, 10 )
+
+[node name="world_volume24" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 10, 0, 0, 0, 3, 0, 0, 0, 1, -48, 1.5, 5.5 )
+
+[node name="world_volume25" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 10, 0, 0, 0, 3, 0, 0, 0, 1, -48, 1.5, -5.5 )
 
 [node name="world_volume8" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -15.5, 1.5, -10 )
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -42.5, 1.5, -10 )
+
+[node name="world_volume26" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -52.5, 1.5, 0 )
 
 [node name="world_volume9" parent="world" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 4, 15.5, 1.5, -13 )
@@ -299,22 +329,34 @@ transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 4, 15.5, 1.5, -13 )
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 4, 45.5, 1.5, 13 )
 
 [node name="world_volume" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.5, -13.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.5, -13.5 )
 
 [node name="world_volume5" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0.5, -13.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -13.5 )
 
 [node name="world_volume11" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 9, -4.5, 4.5, -9.5 )
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -13.5, 4.5, -9.9 )
+
+[node name="world_volume22" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -13.5, 4.5, 10.1 )
+
+[node name="world_volume28" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -0.5, 4.5, -9.9 )
+
+[node name="world_volume29" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -0.5, 4.5, 10.1 )
 
 [node name="world_volume12" parent="world" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, 10.5, 4.5, -4.5 )
 
 [node name="world_volume13" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -9.5, 4.5, 5.5 )
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -28.5, 4.5, 4.5 )
+
+[node name="world_volume27" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -28.5, 4.5, -4.5 )
 
 [node name="world_volume18" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 5, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 4.5, 5.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 8, -28.5, 4.5, 0 )
 
 [node name="world_volume14" parent="world" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 10.5, 2, 4.5 )
@@ -331,28 +373,31 @@ selfName = "endtrigger"
 type = 1
 
 [node name="barrier_volume" parent="." instance=ExtResource( 6 )]
-transform = Transform( 10, 0, 0, 0, 2, 0, 0, 0, 1, -15, 0, -5 )
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -43, 0, 5 )
 
 [node name="ai_test" parent="." instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 
 [node name="item_shells_small" parent="." instance=ExtResource( 27 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -1 )
 
 [node name="item_shells_small2" parent="." instance=ExtResource( 27 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 1 )
 
 [node name="item_super_shotgun" parent="." instance=ExtResource( 26 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0 )
 
 [node name="item_super_shotgun2" parent="." instance=ExtResource( 26 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0, 0 )
 
 [node name="item_shells_large" parent="." instance=ExtResource( 28 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, 1 )
 
 [node name="item_shells_large3" parent="." instance=ExtResource( 28 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 3 )
 
 [node name="item_shells_large2" parent="." instance=ExtResource( 28 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -1 )
+
+[node name="lever_switch" parent="." instance=ExtResource( 29 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -28.5, 1, 5 )

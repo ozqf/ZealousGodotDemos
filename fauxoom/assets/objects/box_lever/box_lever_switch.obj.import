@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/box_lever_switch.obj-dd99e309f0bac2fb92acd8ce9e856f67.mesh"
+
+[deps]
+
+files=[ "res://.import/box_lever_switch.obj-dd99e309f0bac2fb92acd8ce9e856f67.mesh" ]
+
+source_file="res://assets/objects/box_lever/box_lever_switch.obj"
+dest_files=[ "res://.import/box_lever_switch.obj-dd99e309f0bac2fb92acd8ce9e856f67.mesh", "res://.import/box_lever_switch.obj-dd99e309f0bac2fb92acd8ce9e856f67.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

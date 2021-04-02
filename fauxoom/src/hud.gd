@@ -6,6 +6,8 @@ var _hit_indicator_t = load("res://prefabs/ui/hud_hit_indicator.tscn")
 onready var _centreSprite:AnimatedSprite = $gun/weapon_centre
 onready var _rightSprite:AnimatedSprite = $gun/weapon_right
 onready var _leftSprite:AnimatedSprite = $gun/weapon_left
+onready var _prompt:Label = $centre/interact_prompt
+
 var _isShooting:bool = false
 var _centreTrans:Transform2D
 var _rightTrans:Transform2D
@@ -63,6 +65,7 @@ func player_status_update(data:Dictionary) -> void:
 	$player_status/bullets.text = "BULLETS: " + str(data.bullets)
 	$player_status/shells.text = "SHELLS: " + str(data.shells)
 	_swayTime = data.swayTime
+	_prompt.visible = data.hasInteractionTarget
 
 func _on_centre_animation_finished() -> void:
 	if !_centreSprite.animation == "idle":
