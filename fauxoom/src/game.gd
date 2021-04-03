@@ -18,6 +18,8 @@ var _state = GameState.Pregame
 
 var _playerOrigin:Transform = Transform.IDENTITY
 
+var _nextId:int = 1
+
 # live player
 var _player:Player = null;
 
@@ -140,6 +142,11 @@ func game_on_map_change() -> void:
 ###############
 # registers
 ###############
+
+func assign_id() -> int:
+	var id:int = _nextId
+	_nextId += 1
+	return id
 
 func register_player(plyr:Player) -> void:
 	if _player != null:

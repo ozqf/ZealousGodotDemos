@@ -3,7 +3,7 @@ class_name Player
 
 onready var _head:Spatial = $head
 onready var _cameraMount:Spatial = $camera_mount
-onready var _motor:FPSMotor = $motor
+onready var _motor:ZqfFPSMotor = $motor
 onready var _attack:PlayerAttack = $attack
 onready var _inventory:Inventory = $inventory
 onready var _hud:Hud = $hud

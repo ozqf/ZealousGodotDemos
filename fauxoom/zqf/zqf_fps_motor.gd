@@ -1,5 +1,5 @@
 extends Node
-class_name FPSMotor
+class_name ZqfFPSMotor
 
 const MOUSE_SENSITIVITY: float = 0.1
 const PITCH_CAP_DEGREES = 89

@@ -1,8 +1,6 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://assets/sprites/player/player_a1.png" type="Texture" id=1]
 [ext_resource path="res://src/mob_base.gd" type="Script" id=2]
-[ext_resource path="res://src/entity_sprite.gd" type="Script" id=3]
 [ext_resource path="res://src/mob_attack.gd" type="Script" id=4]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=5]
 [ext_resource path="res://assets/sprites/frames/punk_frames.tres" type="SpriteFrames" id=6]
@@ -29,16 +27,6 @@ active = true
 useParentYaw = true
 animationSet = "player"
 defaultAnimation = "walk"
-
-[node name="body2" type="Sprite3D" parent="."]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
-visible = false
-offset = Vector2( 0, 52 )
-billboard = 2
-shaded = true
-texture = ExtResource( 1 )
-script = ExtResource( 3 )
-useParentYaw = true
 
 [node name="body" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )

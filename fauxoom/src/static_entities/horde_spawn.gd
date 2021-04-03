@@ -19,6 +19,7 @@ var _tick:float = 0
 var _active:bool = false
 
 var _spawnState:Dictionary
+var noSelfSave:bool = false
 
 func _ready() -> void:
 	visible = false
@@ -42,6 +43,8 @@ func restore_state(data:Dictionary) -> void:
 	_active = data.active
 
 func game_on_reset() -> void:
+	if noSelfSave:
+		return
 	# print("Horde spawn saw game reset")
 	restore_state(_spawnState)
 

@@ -9,7 +9,7 @@ var _spawnState:Dictionary = {}
 func _ready() -> void:
 	visible = false
 	add_to_group(Groups.ENTS_GROUP_NAME)
-	self.connect("body_entered", self, "_on_body_entered")
+	var _result = self.connect("body_entered", self, "_on_body_entered")
 	add_to_group(Groups.GAME_GROUP_NAME)
 	_spawnState = write_state()
 
