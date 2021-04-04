@@ -6,7 +6,7 @@ const MOUSE_CLAIM:String = "gameUI"
 var _player_t = preload("res://prefabs/player.tscn")
 var _gib_t = preload("res://prefabs/gib.tscn")
 
-onready var _entRoot:Entities = $dynamic
+var _entRoot:Entities = null
 onready var _pregameUI:Control = $game_state_overlay/pregame
 onready var _completeUI:Control = $game_state_overlay/complete
 onready var _deathUI:Control = $game_state_overlay/death
@@ -18,7 +18,8 @@ var _state = GameState.Pregame
 
 var _playerOrigin:Transform = Transform.IDENTITY
 
-var _nextId:int = 1
+var _nextDynamicId:int = 1
+var _nextStaticId:int = -1
 
 # live player
 var _player:Player = null;
@@ -31,6 +32,7 @@ var _emptyTargetInfo:Dictionary = {
 
 func _ready() -> void:
 	print("Game singleton init")
+	_entRoot = Ents
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	_refresh_overlay()
@@ -43,6 +45,9 @@ func _process(_delta:float) -> void:
 	# if _state == GameState.Pregame:
 	# 	if Input.is_action_just_pressed("ui_select"):
 	# 		begin_game()
+
+func get_entity_prefab(name:String) -> Object:
+	return _entRoot.get_prefab(name)
 
 # disable of menu HAS to be triggered from here in web mode
 func _input(_event) -> void:
@@ -143,9 +148,14 @@ func game_on_map_change() -> void:
 # registers
 ###############
 
-func assign_id() -> int:
-	var id:int = _nextId
-	_nextId += 1
+func assign_dynamic_id() -> int:
+	var id:int = _nextDynamicId
+	_nextDynamicId += 1
+	return id
+
+func assign_static_id() -> int:
+	var id:int = _nextStaticId
+	_nextStaticId -= 1
 	return id
 
 func register_player(plyr:Player) -> void:
@@ -172,6 +182,12 @@ func deregister_player_start(_obj:Spatial) -> void:
 ###############
 # AI
 ###############
+
+func check_los_to_player(origin:Vector3) -> bool:
+	if !_player:
+		return false
+	var dest = _player.get_targetting_info().position
+	return ZqfUtils.los_check(_entRoot, origin, dest, 1)
 
 func mob_check_target_old(_current:Spatial) -> Spatial:
 	if !_player:

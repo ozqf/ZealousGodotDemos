@@ -17,8 +17,12 @@ const GAME_FN_LOAD_BASE64:String = "game_on_load_base64"
 const GAME_FN_SAVE_MAP_TEXT:String = "game_on_save_map_text"
 const GAME_FN_WROTE_MAP_TEXT:String = "game_on_wrote_map_text"
 
+# generic entity events group
 const ENTS_GROUP_NAME:String = "entities"
 const ENTS_FN_TRIGGER_ENTITIES:String = "on_trigger_entities"
+
+const STATIC_ENTS_GROUP_NAME:String = "static_entities"
+const DYANMIC_ENTS_GROUP_NAME:String = "dynamic_entities"
 
 const PLAYER_GROUP_NAME:String = "player"
 const PLAYER_FN_STATUS:String = "player_status_update"

@@ -124,6 +124,15 @@ static func quick_hitscan3D(_source:Spatial, _distance:float, ignoreArray, _mask
 	var space = _source.get_world().direct_space_state
 	return space.intersect_ray(_origin, _dest, ignoreArray, _mask)
 
+static func los_check(
+	_spatial:Spatial,
+	_origin:Vector3,
+	_dest:Vector3,
+	_mask:int) -> bool:
+	var result = _spatial.get_world().direct_space_state.intersect_ray(
+		_origin, _dest, [], _mask, true, false)
+	# if we have a result, LoS is blocked
+	return !result
 
 ###########################################################################
 # Strings

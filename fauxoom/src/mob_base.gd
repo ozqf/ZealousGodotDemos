@@ -6,9 +6,12 @@ signal on_mob_died(mob)
 onready var _sprite:CustomAnimator3D = $sprite
 onready var _body:CollisionShape = $body
 onready var _attack = $attack
+onready var _stats:MobStats = $stats
 
-const MOVE_SPEED:float = 4.5
+# const MOVE_SPEED:float = 4.5
 const MOVE_TIME:float = 1.5
+const LOS_CHECK_TIME:float = 0.25
+const STUN_TIME:float = 0.2
 
 enum MobState {
 	Idle,
@@ -20,8 +23,8 @@ enum MobState {
 	Dead
 }
 
-var _state = MobState.Hunting
-var _prevState = MobState.Hunting
+var _state = MobState.Idle
+var _prevState = MobState.Idle
 
 var _tarId:int = 0
 var _targetInfo: Dictionary = { id = 0 }
@@ -43,11 +46,39 @@ func _ready() -> void:
 	_attack.custom_init($head, self)
 	add_to_group(Groups.GAME_GROUP_NAME)
 
+	# check we have a valid entity def specified or we can't save!
+	var prefab = Game.get_entity_prefab(_stats.entityType)
+	assert(prefab != null)
+		
+
 func game_on_reset() -> void:
 	queue_free()
 
 func is_dead() -> bool:
 	return (_state == MobState.Dead || _state == MobState.Dying)
+
+func _change_state(_newState) -> void:
+	if _state == _newState:
+		return
+	_prevState = _state
+	_state = _newState
+	_thinkTick = 0
+	if _state == MobState.Hunting:
+		_thinkTick = MOVE_TIME
+		_sprite.play_animation("walk")
+	if _state == MobState.Attacking:
+		_sprite.play_animation("aim")
+	if _state == MobState.Stunned:
+		pass
+	if _state == MobState.Idle:
+		pass
+	if _state == MobState.Spawning:
+		pass
+	if _state == MobState.Dying:
+		_sprite.play_animation("dying")
+		_body.disabled = true
+	if _state == MobState.Dead:
+		pass
 
 func _calc_self_move(_delta:float) -> Vector3:
 	# look_at(_curTarget.global_transform.origin, Vector3.UP)
@@ -88,7 +119,7 @@ func _calc_self_move(_delta:float) -> Vector3:
 	var move:Vector3 = Vector3()
 	move.x = -sin(_moveYaw)
 	move.z = -cos(_moveYaw)
-	move *= MOVE_SPEED
+	move *= _stats.moveSpeed
 	return move
 	# return Vector3()
 
@@ -98,7 +129,7 @@ func move(_delta:float) -> void:
 
 func _tick_stunned(_delta:float) -> void:
 	if _thinkTick <= 0:
-		_state = _prevState
+		_change_state(_prevState)
 		return
 	else:
 		_thinkTick -= _delta
@@ -119,8 +150,7 @@ func _process(_delta:float) -> void:
 		if _thinkTick <= 0:
 			_thinkTick = MOVE_TIME
 			if _attack.start_attack(_targetInfo.position):
-				_sprite.play_animation("aim")
-				_state = MobState.Attacking
+				_change_state(MobState.Attacking)
 		else:
 			_thinkTick -= _delta
 			move(_delta)
@@ -133,9 +163,14 @@ func _process(_delta:float) -> void:
 		rotation.y = ZqfUtils.yaw_between(global_transform.origin, _targetInfo.position)
 		
 		if !_attack.custom_update(_delta, _targetInfo.position):
-			_state = MobState.Hunting
-			_sprite.play_animation("walk")
+			_change_state(MobState.Hunting)
 	elif _state == MobState.Idle:
+		if _thinkTick <= 0:
+			_thinkTick = LOS_CHECK_TIME
+			if Game.check_los_to_player(global_transform.origin):
+				_change_state(MobState.Hunting)
+		else:
+			_thinkTick -= _delta
 		return
 	elif _state == MobState.Spawning:
 		return
@@ -150,11 +185,10 @@ func _process(_delta:float) -> void:
 func apply_stun(dir:Vector3) -> void:
 	# stun
 	if _state != MobState.Stunned:
-		_prevState = _state
-		_state = MobState.Stunned
+		_change_state(MobState.Stunned)
 	_attack.cancel()
 	_velocity = dir * 2
-	_thinkTick = 0.2
+	_thinkTick = STUN_TIME
 
 func hit(_hitInfo:HitInfo) -> int:
 	if is_dead():
@@ -162,11 +196,12 @@ func hit(_hitInfo:HitInfo) -> int:
 	_health -= _hitInfo.damage
 	if _health <= 0:
 		# die
-		_state = MobState.Dying
+		_change_state(MobState.Dying)
 		emit_signal("on_mob_died", self)
-		_sprite.play_animation("dying")
-		_body.disabled = true
 		return _hitInfo.damage + _health
 	else:
+		# if not awake, wake up!
+		if _state == MobState.Idle:
+			_change_state(MobState.Hunting)
 		apply_stun(_hitInfo.direction)
 		return _hitInfo.damage

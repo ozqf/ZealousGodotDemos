@@ -7,23 +7,24 @@ const PLAYER:String = "player"
 const GIB:String = "gib"
 
 var _prefabs = {
-	punk = {
-		name = MOB_PUNK,
+	mob_punk = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_punk.tscn")
 	},
-	gunner = {
-		name = MOB_GUNNER,
+	mob_gunner = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
 	},
 	player = {
-		name = PLAYER,
 		prefab = preload("res://prefabs/player.tscn")
 	},
 	gib = {
-		name = GIB,
 		prefab = preload("res://prefabs/gib.tscn")
 	}
 }
 
 func get_prefab(_name:String) -> Object:
+	if !_prefabs.has(_name):
+		print("No EntityType '" + _name + "' found!")
+		return null
 	return _prefabs[_name].prefab
+
+
