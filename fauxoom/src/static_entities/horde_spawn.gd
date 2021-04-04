@@ -11,11 +11,11 @@ export var tickMax:float = 2
 export var totalMobs:int = 4
 export var maxLiveMobs:int = 2
 
+var _spawnPoints = []
+
 var _liveMobs:int = 0
 var _deadMobs:int = 0
-
 var _tick:float = 0
-
 var _active:bool = false
 
 var _spawnState:Dictionary
@@ -59,6 +59,12 @@ func _process(_delta:float) -> void:
 			_liveMobs += 1
 			_spawn_child()
 
+func start() -> void:
+	_active = true
+
+func set_spawn_points(newTransformsArray) -> void:
+	_spawnPoints = newTransformsArray
+
 func on_trigger_entities(name:String) -> void:
 	# print("Horde spawn saw trigger name " + name + " vs self name " + triggerName)
 	if name == "":
@@ -66,10 +72,18 @@ func on_trigger_entities(name:String) -> void:
 	if name == triggerName:
 		_active = !_active
 
+func pick_spawn_point() -> Transform:
+	var numPoints:int = _spawnPoints.size()
+	if numPoints == 0:
+		return self.global_transform
+	else:
+		var _i:int = int(rand_range(0, numPoints))
+		return _spawnPoints[_i]
+
 func _spawn_child() -> void:
 	var mob = _prefab_mob_punk.instance()
-	get_parent().add_child(mob)
-	mob.global_transform = self.global_transform
+	Game.get_dynamic_parent().add_child(mob)
+	mob.global_transform = pick_spawn_point()
 	mob.connect("on_mob_died", self, "_on_mob_died")
 
 func _on_mob_died(_mob) -> void:

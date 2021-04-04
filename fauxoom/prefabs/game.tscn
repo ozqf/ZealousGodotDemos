@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/game.gd" type="Script" id=1]
 [ext_resource path="res://prefabs/attachable_camera.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/entity_controller.gd" type="Script" id=3]
 
 [node name="game" type="Spatial"]
 script = ExtResource( 1 )
@@ -10,6 +11,7 @@ script = ExtResource( 1 )
 fov = 80.0
 
 [node name="dynamic" type="Spatial" parent="."]
+script = ExtResource( 3 )
 
 [node name="game_state_overlay" type="CanvasLayer" parent="."]
 layer = 2

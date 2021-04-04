@@ -6,7 +6,7 @@ const MOUSE_CLAIM:String = "gameUI"
 var _player_t = preload("res://prefabs/player.tscn")
 var _gib_t = preload("res://prefabs/gib.tscn")
 
-onready var _entRoot:Spatial = $dynamic
+onready var _entRoot:Entities = $dynamic
 onready var _pregameUI:Control = $game_state_overlay/pregame
 onready var _completeUI:Control = $game_state_overlay/complete
 onready var _deathUI:Control = $game_state_overlay/death
@@ -89,7 +89,7 @@ func _refresh_overlay() -> void:
 func begin_game() -> void:
 	_state = GameState.Playing
 	_refresh_overlay()
-	var player = _player_t.instance()
+	var player = _entRoot.get_prefab(Entities.PLAYER).instance()
 	_entRoot.add_child(player)
 	player.teleport(_playerOrigin)
 	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_PLAYER_SPAWNED, player)
@@ -120,7 +120,7 @@ func game_on_player_died(_info:Dictionary) -> void:
 	_state = GameState.Lost
 	_refresh_overlay()
 
-	var gib = _gib_t.instance()
+	var gib = _entRoot.get_prefab(Entities.GIB).instance()
 	add_child(gib)
 	gib.global_transform = _info.headTransform
 	if _info.gib:
