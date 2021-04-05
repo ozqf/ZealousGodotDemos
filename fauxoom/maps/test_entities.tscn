@@ -403,13 +403,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.5, -13.5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -13.5 )
 
 [node name="world_volume11" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -13.5, 4.5, -9.9 )
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -13.5, 4.5, -10 )
 
 [node name="world_volume22" parent="world" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -13.5, 4.5, 10.1 )
 
 [node name="world_volume28" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -0.5, 4.5, -9.9 )
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -0.5, 4.5, -10 )
 
 [node name="world_volume29" parent="world" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -0.5, 4.5, 10.1 )
@@ -449,10 +449,14 @@ type = 1
 [node name="barrier_volume" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -43, 0, 5 )
 
-[node name="barrier_volume3" parent="." instance=ExtResource( 6 )]
+[node name="survival_gate" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 12, -14, 0, 6 )
 selfName = "survival_gate"
 active = false
+
+[node name="save_test_barrier" parent="." instance=ExtResource( 6 )]
+transform = Transform( 2, 0, 0, 0, 3, 0, 0, 0, 1, -10, 0, -8 )
+selfName = "save_test_barrier"
 
 [node name="ai_test" parent="." instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
@@ -481,3 +485,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -1 )
 [node name="lever_switch" parent="." instance=ExtResource( 29 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -28.5, 1, 5 )
 triggerTargetName = "survivalControl survival_gate"
+
+[node name="lever_switch2" parent="." instance=ExtResource( 29 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7, 1, -8 )
+triggerTargetName = "save_test_barrier"

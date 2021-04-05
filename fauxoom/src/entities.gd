@@ -27,24 +27,10 @@ var _prefabs = {
 var _nextDynamicId:int = PLAYER_RESERVED_ID + 1
 var _nextStaticId:int = -1
 
+const QUICK_SAVE_FILE_NAME:String = "user://fauxoom_quick.json"
+
 func _ready() -> void:
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
-
-func console_on_exec(_txt:String, _tokens) -> void:
-	if _txt == "list_ents":
-		var staticEnts = get_tree().get_nodes_in_group(Groups.STATIC_ENTS_GROUP_NAME)
-		var dynEnts = get_tree().get_nodes_in_group(Groups.DYNAMIC_ENTS_GROUP_NAME)
-		print("Ents: "
-			+ str(staticEnts.size())
-			+ " static ents, "
-			+ str(dynEnts.size())
-			+ " dynamic ents, ")
-		print("Static:")
-		for _i in range(0, staticEnts.size()):
-			print(staticEnts[_i].get_parent().name)
-		print("Dynamic:")
-		for _i in range(0, dynEnts.size()):
-			print(dynEnts[_i].get_parent().name)
 
 func get_prefab(_name:String) -> Object:
 	if !_prefabs.has(_name):
@@ -61,4 +47,105 @@ func assign_static_id() -> int:
 	var id:int = _nextStaticId
 	_nextStaticId -= 1
 	return id
+
+func _delete_all_dynamic_entities() -> void:
+	var dynEnts = get_tree().get_nodes_in_group(Groups.DYNAMIC_ENTS_GROUP_NAME)
+	for ent in dynEnts:
+		ent.get_parent().queue_free()
+
+#################################################
+# save/load
+func _write_save_dict() -> Dictionary:
+	var staticEnts = get_tree().get_nodes_in_group(Groups.STATIC_ENTS_GROUP_NAME)
+	var dynEnts = get_tree().get_nodes_in_group(Groups.DYNAMIC_ENTS_GROUP_NAME)
+	var data = {
+		nextDynamicId = _nextDynamicId,
+		nextStaticId = _nextStaticId,
+		numStatic = staticEnts.size(),
+		numDynamic = dynEnts.size(),
+		dynamicData = [],
+		staticData = []
+	}
+	print("Static:")
+	for _i in range(0, staticEnts.size()):
+		var ent = staticEnts[_i]
+		data.staticData.push_back(ent.write_state())
+	print("Dynamic:")
+	for _i in range(0, dynEnts.size()):
+		var ent = dynEnts[_i]
+		data.dynamicData.push_back(ent.write_state())
+	return data
+
+func _write_save_file(filePath:String, data:Dictionary) -> void:
+	# write file
+	var file = File.new()
+	file.open(filePath, File.WRITE)
+	file.store_string(to_json(data))
+	file.close()
+
+func _stage_file_for_load(_name:String) -> Dictionary:
+	var file = File.new()
+	if !file.file_exists(_name):
+		print("No file to load")
+		return {}
+	file.open(_name, File.READ)
+	var data = parse_json(file.get_as_text())
+	file.close()
+	return data
+
+func _load_save_dict(data:Dictionary) -> void:
+	print("Read save")
+	print("Static ents: " + str(data.numStatic))
+	print("Dynamic ents: " + str(data.numDynamic))
+
+	_nextDynamicId = data.nextDynamicId
+	_nextStaticId = data.nextStaticId
+
+	# static entities - find and load
+	var staticEnts = get_tree().get_nodes_in_group(Groups.STATIC_ENTS_GROUP_NAME)
+	for entData in data.staticData:
+		var id:int = entData.id
+		print("Load static ent " + str(id))
+		# find entity
+		var ent = null
+		for staticEnt in staticEnts:
+			if staticEnt.id == id: 
+				ent = staticEnt
+				break
+		if ent == null:
+			print("Could not find static entity with Id " + str(id))
+			continue
+		ent.restore_state(entData)
+
+	# dynamic entities - delete all and recreate
+	# _delete_all_dynamic_entities()
+	# for entData in data.dynamicData:
+	# 	var prefab_t = get_prefab(entData.prefab)
+	# 	assert(prefab_t != null)
+	# 	var prefab = prefab_t.instance()
+	# 	add_child(prefab)
+	# 	prefab.entity.restore_state(entData)
+
+func console_on_exec(_txt:String, _tokens) -> void:
+	if _txt == "list_ents":
+		var staticEnts = get_tree().get_nodes_in_group(Groups.STATIC_ENTS_GROUP_NAME)
+		var dynEnts = get_tree().get_nodes_in_group(Groups.DYNAMIC_ENTS_GROUP_NAME)
+		print("Ents: "
+			+ str(staticEnts.size())
+			+ " static ents, "
+			+ str(dynEnts.size())
+			+ " dynamic ents, ")
+		print("Static:")
+		for _i in range(0, staticEnts.size()):
+			print(staticEnts[_i].get_parent().name)
+		print("Dynamic:")
+		for _i in range(0, dynEnts.size()):
+			print(dynEnts[_i].get_parent().name)
+	elif _txt == "save":
+		var data:Dictionary = _write_save_dict()
+		_write_save_file(QUICK_SAVE_FILE_NAME, data)
+	elif _txt == "load":
+		var data:Dictionary = _stage_file_for_load(QUICK_SAVE_FILE_NAME)
+		_load_save_dict(data)
+
 

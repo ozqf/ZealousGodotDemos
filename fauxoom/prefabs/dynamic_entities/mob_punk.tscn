@@ -49,5 +49,6 @@ script = ExtResource( 4 )
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
 
-[node name="entity" type="Node" parent="."]
+[node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )
+prefabName = "mob_punk"

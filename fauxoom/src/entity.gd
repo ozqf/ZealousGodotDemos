@@ -1,7 +1,20 @@
+# Entity class handles boilerplate for gameplay objects. assigning Ids
+# saving, loading etc. Should be added as a child of the root of
+# the actualy entity itself
+# Relies on the entities (Ents) autoloaded service to be present
 extends Node
 class_name Entity
 
+signal entity_restore_state(dict)
+signal entity_append_state(dict)
+
+# objects which are static should be loaded at the start of the map
+# (usually as part of an embedded scene file) and NEVER deleted
+# until map change.
 export var isStatic:bool = false
+# dynamic entities may or may not exist at any given time. in order to
+# restore a previously deleted entity, we must know what prefab it was
+# if this isn't set loading will not work!
 export var prefabName:String = ""
 export var triggerTargetName:String = ""
 var id:int = 0
@@ -36,18 +49,21 @@ func write_state() -> Dictionary:
 	# when restoring this entity!
 	if !isStatic:
 		assert(prefabName != "")
-	return {
+	var dict = {
 		prefab = prefabName,
 		id = id,
 		selfName = get_parent().name,
 		triggerTargetName = triggerTargetName,
 	}
+	emit_signal("entity_append_state", dict)
+	return dict
 
-func restore_state(data:Dictionary) -> void:
-	assert(data)
-	get_parent().name = data.selfName
-	triggerTargetName = data.triggerTargetName
-	id = data.id
+func restore_state(dict:Dictionary) -> void:
+	assert(dict)
+	get_parent().name = dict.selfName
+	triggerTargetName = dict.triggerTargetName
+	id = dict.id
+	emit_signal("entity_restore_state", dict)
 
 func game_on_reset() -> void:
 	# restore_state(_spawnState)

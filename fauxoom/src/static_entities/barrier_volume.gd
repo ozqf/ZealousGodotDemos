@@ -2,6 +2,7 @@ extends Node
 
 onready var _mesh:MeshInstance = $MeshInstance
 onready var _shape:CollisionShape = $CollisionShape
+onready var _ent:Entity = $Entity
 
 export var selfName:String = ""
 export var triggerTargetName:String = ""
@@ -14,11 +15,17 @@ func _ready() -> void:
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	set_active(active)
 	_spawnState = write_state()
+	_ent.triggerTargetName = triggerTargetName
+	var _err = _ent.connect("entity_restore_state", self, "restore_state")
+	_err = _ent.connect("entity_append_state", self, "append_state")
 
 func set_active(flag:bool) -> void:
 	active = flag
 	_shape.disabled = !active
 	_mesh.visible = active
+
+func append_state(_dict:Dictionary) -> void:
+	_dict.active = active
 
 func write_state() -> Dictionary:
 	return {
