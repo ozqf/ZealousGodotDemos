@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
+[ext_resource path="res://src/entity.gd" type="Script" id=1]
 [ext_resource path="res://src/mob_base.gd" type="Script" id=2]
 [ext_resource path="res://src/mob_attack.gd" type="Script" id=4]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=5]
@@ -43,3 +44,6 @@ material/0 = null
 
 [node name="attack" type="Node" parent="."]
 script = ExtResource( 4 )
+
+[node name="entity" type="Node" parent="."]
+script = ExtResource( 1 )

@@ -94,7 +94,7 @@ func _refresh_overlay() -> void:
 func begin_game() -> void:
 	_state = GameState.Playing
 	_refresh_overlay()
-	var player = _entRoot.get_prefab(Entities.PLAYER).instance()
+	var player = _entRoot.get_prefab(Entities.PREFAB_PLAYER).instance()
 	_entRoot.add_child(player)
 	player.teleport(_playerOrigin)
 	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_PLAYER_SPAWNED, player)
@@ -125,7 +125,7 @@ func game_on_player_died(_info:Dictionary) -> void:
 	_state = GameState.Lost
 	_refresh_overlay()
 
-	var gib = _entRoot.get_prefab(Entities.GIB).instance()
+	var gib = _entRoot.get_prefab(Entities.PREFAB_GIB).instance()
 	add_child(gib)
 	gib.global_transform = _info.headTransform
 	if _info.gib:

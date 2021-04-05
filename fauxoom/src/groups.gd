@@ -22,7 +22,7 @@ const ENTS_GROUP_NAME:String = "entities"
 const ENTS_FN_TRIGGER_ENTITIES:String = "on_trigger_entities"
 
 const STATIC_ENTS_GROUP_NAME:String = "static_entities"
-const DYANMIC_ENTS_GROUP_NAME:String = "dynamic_entities"
+const DYNAMIC_ENTS_GROUP_NAME:String = "dynamic_entities"
 
 const PLAYER_GROUP_NAME:String = "player"
 const PLAYER_FN_STATUS:String = "player_status_update"
