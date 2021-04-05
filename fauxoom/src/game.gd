@@ -47,7 +47,7 @@ func _process(_delta:float) -> void:
 	# 		begin_game()
 
 func get_entity_prefab(name:String) -> Object:
-	return _entRoot.get_prefab(name)
+	return _entRoot.get_prefab_def(name).prefab
 
 # disable of menu HAS to be triggered from here in web mode
 func _input(_event) -> void:
@@ -94,7 +94,8 @@ func _refresh_overlay() -> void:
 func begin_game() -> void:
 	_state = GameState.Playing
 	_refresh_overlay()
-	var player = _entRoot.get_prefab(Entities.PREFAB_PLAYER).instance()
+	var def = _entRoot.get_prefab_def(Entities.PREFAB_PLAYER)
+	var player = def.prefab.instance()
 	_entRoot.add_child(player)
 	player.teleport(_playerOrigin)
 	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_PLAYER_SPAWNED, player)
@@ -124,8 +125,9 @@ func game_on_player_died(_info:Dictionary) -> void:
 		return
 	_state = GameState.Lost
 	_refresh_overlay()
-
-	var gib = _entRoot.get_prefab(Entities.PREFAB_GIB).instance()
+	
+	var def = _entRoot.get_prefab_def(Entities.PREFAB_GIB)
+	var gib = def.prefab.instance()
 	add_child(gib)
 	gib.global_transform = _info.headTransform
 	if _info.gib:

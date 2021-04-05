@@ -127,9 +127,9 @@ func _process(_delta):
 # returns amount taken
 func give_item(itemType:String, amount:int) -> int:
 	var took:int = _inventory.give_item(itemType, amount)
-	if took > 0:
-		print("Player took " + itemType + " x " + str(took))
-		print(_inventory.debug())
+	#if took > 0:
+	#	print("Player took " + itemType + " x " + str(took))
+	#	print(_inventory.debug())
 	return took
 
 func hit(hitInfo) -> int:

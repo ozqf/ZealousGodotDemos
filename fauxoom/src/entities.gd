@@ -11,16 +11,32 @@ const PREFAB_GIB:String = "gib"
 
 var _prefabs = {
 	mob_punk = {
-		prefab = preload("res://prefabs/dynamic_entities/mob_punk.tscn")
+		prefab = preload("res://prefabs/dynamic_entities/mob_punk.tscn"),
+		entNodePath = "Entity"
 	},
 	mob_gunner = {
-		prefab = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
+		prefab = preload("res://prefabs/dynamic_entities/mob_gunner.tscn"),
+		entNodePath = "Entity"
 	},
 	player = {
-		prefab = preload("res://prefabs/player.tscn")
+		prefab = preload("res://prefabs/player.tscn"),
+		entNodePath = "Entity"
+	},
+	ssg = {
+		prefab = preload("res://prefabs/items/item_super_shotgun.tscn"),
+		entNodePath = "Entity"
+	},
+	shell_s = {
+		prefab = preload("res://prefabs/items/item_shells_small.tscn"),
+		entNodePath = "Entity"
+	},
+	shell_l = {
+		prefab = preload("res://prefabs/items/item_shells_large.tscn"),
+		entNodePath = "Entity"
 	},
 	gib = {
-		prefab = preload("res://prefabs/gib.tscn")
+		prefab = preload("res://prefabs/gib.tscn"),
+		entNodePath = "Entity"
 	}
 }
 
@@ -32,11 +48,11 @@ const QUICK_SAVE_FILE_NAME:String = "user://fauxoom_quick.json"
 func _ready() -> void:
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 
-func get_prefab(_name:String) -> Object:
+func get_prefab_def(_name:String) -> Dictionary:
 	if !_prefabs.has(_name):
 		print("No EntityType '" + _name + "' found!")
-		return null
-	return _prefabs[_name].prefab
+		return {}
+	return _prefabs[_name]
 
 func assign_dynamic_id() -> int:
 	var id:int = _nextDynamicId
@@ -118,13 +134,15 @@ func _load_save_dict(data:Dictionary) -> void:
 		ent.restore_state(entData)
 
 	# dynamic entities - delete all and recreate
-	# _delete_all_dynamic_entities()
-	# for entData in data.dynamicData:
-	# 	var prefab_t = get_prefab(entData.prefab)
-	# 	assert(prefab_t != null)
-	# 	var prefab = prefab_t.instance()
-	# 	add_child(prefab)
-	# 	prefab.entity.restore_state(entData)
+	_delete_all_dynamic_entities()
+	for entData in data.dynamicData:
+		print("Spawn dynamic ent type " + entData.prefab)
+		var def = get_prefab_def(entData.prefab)
+		assert(def != null)
+		var prefab = def.prefab.instance()
+		add_child(prefab)
+		print("Restore state")
+		prefab.get_node(def.entNodePath).restore_state(entData)
 
 func console_on_exec(_txt:String, _tokens) -> void:
 	if _txt == "list_ents":
