@@ -7,6 +7,7 @@ onready var _sprite:CustomAnimator3D = $sprite
 onready var _body:CollisionShape = $body
 onready var _attack = $attack
 onready var _stats:MobStats = $stats
+onready var _ent:Entity = $Entity
 
 # const MOVE_SPEED:float = 4.5
 const MOVE_TIME:float = 1.5
@@ -45,11 +46,20 @@ var _velocity:Vector3 = Vector3()
 func _ready() -> void:
 	_attack.custom_init($head, self)
 	add_to_group(Groups.GAME_GROUP_NAME)
+	var _r = _ent.connect("entity_restore_state", self, "restore_state")
+	_r = _ent.connect("entity_append_state", self, "append_state")
 
-	# check we have a valid entity def specified or we can't save!
-	var prefab = Game.get_entity_prefab(_stats.entityType)
-	assert(prefab != null)
-		
+func append_state(_dict:Dictionary) -> void:
+	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
+	_dict.hp = _health
+	_dict.state = _state
+	_dict.prevState = _prevState
+
+func restore_state(_dict:Dictionary) -> void:
+	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
+	_state = _dict.state
+	_prevState = _dict.prevState
+	_health = _dict.hp
 
 func game_on_reset() -> void:
 	queue_free()

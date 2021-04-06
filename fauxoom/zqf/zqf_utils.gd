@@ -94,6 +94,43 @@ static func get_window_to_screen_ratio() -> Vector2:
 	var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
 	return result
 
+static func transform_to_dict(t:Transform) -> Dictionary:
+	var origin:Vector3 = t.origin
+	var basis:Basis = t.basis
+	return {
+		px = origin.x,
+		py = origin.y,
+		pz = origin.z,
+		xx = basis.x.x,
+		xy = basis.x.y,
+		xz = basis.x.z,
+		yx = basis.y.x,
+		yy = basis.y.y,
+		yz = basis.y.z,
+		zx = basis.z.x,
+		zy = basis.z.y,
+		zz = basis.z.z,
+	}
+
+static func transform_from_dict(dict:Dictionary) -> Transform:
+	var t:Transform = Transform.IDENTITY
+	t.origin.x = dict.px
+	t.origin.y = dict.py
+	t.origin.z = dict.pz
+	
+	t.basis.x.x = dict.xx
+	t.basis.x.y = dict.xy
+	t.basis.x.z = dict.xz
+
+	t.basis.y.x = dict.yx
+	t.basis.y.y = dict.yy
+	t.basis.y.z = dict.yz
+
+	t.basis.z.x = dict.zx
+	t.basis.z.y = dict.zy
+	t.basis.z.z = dict.zz
+	return t
+
 #####################################
 # Spatial scan wrappers
 #####################################

@@ -31,6 +31,9 @@ func _ready():
 	else:
 		id = Ents.assign_dynamic_id()
 		add_to_group(Groups.DYNAMIC_ENTS_GROUP_NAME)
+		# check we have a valid entity def specified or we can't save!
+		var prefab = Game.get_entity_prefab(prefabName)
+		assert(prefab != null)
 	print("Ent " + get_parent().name + " id: " + str(id))
 
 func on_trigger_entities(target:String) -> void:

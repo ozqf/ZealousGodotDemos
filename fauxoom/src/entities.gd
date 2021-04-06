@@ -102,7 +102,7 @@ func _write_save_file(filePath:String, data:Dictionary) -> void:
 func _stage_file_for_load(_name:String) -> Dictionary:
 	var file = File.new()
 	if !file.file_exists(_name):
-		print("No file to load")
+		print("No file " + str(_name) + " to load")
 		return {}
 	file.open(_name, File.READ)
 	var data = parse_json(file.get_as_text())
@@ -164,6 +164,8 @@ func console_on_exec(_txt:String, _tokens) -> void:
 		_write_save_file(QUICK_SAVE_FILE_NAME, data)
 	elif _txt == "load":
 		var data:Dictionary = _stage_file_for_load(QUICK_SAVE_FILE_NAME)
+		if !data:
+			return
 		_load_save_dict(data)
 
 
