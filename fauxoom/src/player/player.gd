@@ -1,6 +1,7 @@
 extends KinematicBody
 class_name Player
 
+onready var _ent:Entity = $Entity
 onready var _head:Spatial = $head
 onready var _cameraMount:Spatial = $camera_mount
 onready var _motor:ZqfFPSMotor = $motor
@@ -43,11 +44,23 @@ func _ready():
 	_attack.init_attack(_head, self, _inventory)
 	_attack.set_attack_enabled(false)
 	
-	var _foo = _attack.connect("fire_ssg", _hud, "on_shoot_ssg")
-	_foo = _attack.connect("change_weapon", _hud, "on_change_weapon")
-	_foo = connect("tree_exiting", self, "_on_tree_exiting")
+	var _result = _attack.connect("fire_ssg", _hud, "on_shoot_ssg")
+	_result = _attack.connect("change_weapon", _hud, "on_change_weapon")
+	_result = connect("tree_exiting", self, "_on_tree_exiting")
+	_result = _ent.connect("entity_append_state", self, "append_state")
+	_result = _ent.connect("entity_restore_state", self, "restore_state")
 
 	Game.register_player(self)
+
+func append_state(_dict:Dictionary) -> void:
+	var t:Transform = Transform.IDENTITY
+	t.origin = self.global_transform.origin
+	t.basis = _head.global_transform.basis
+	_dict.xform = ZqfUtils.transform_to_dict(t)
+
+func restore_state(_dict:Dictionary) -> void:
+	var t:Transform = ZqfUtils.transform_from_dict(_dict.xform)
+	teleport(t)
 
 func teleport(_trans:Transform) -> void:
 	# copy rotation, clear and pass to motor

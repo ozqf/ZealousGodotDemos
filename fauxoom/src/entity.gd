@@ -34,7 +34,7 @@ func _ready():
 		# check we have a valid entity def specified or we can't save!
 		var prefab = Game.get_entity_prefab(prefabName)
 		assert(prefab != null)
-	print("Ent " + get_parent().name + " id: " + str(id))
+	# print("Ent " + get_parent().name + " id: " + str(id))
 
 func on_trigger_entities(target:String) -> void:
 	if target == "":

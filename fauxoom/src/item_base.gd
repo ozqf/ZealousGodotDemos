@@ -2,6 +2,7 @@ extends PhysicsBody
 
 onready var _sprite:AnimatedSprite3D = $sprite
 onready var _areaShape:CollisionShape = $Area/CollisionShape
+var _ent:Entity
 # move to separate class
 # https://godotengine.org/qa/40827/how-to-declare-a-global-named-enum
 #enum ItemType {
@@ -33,15 +34,24 @@ func _ready() -> void:
 	var _result = $Area.connect("body_entered", self, "on_body_entered")
 	_result = $Area.connect("body_exited", self, "on_body_exited")
 
+	_ent = get_parent().get_node("Entity")
+	_result = _ent.connect("entity_restore_state", self, "restore_state")
+	_result = _ent.connect("entity_append_state", self, "append_state")
+
+func append_state(_dict:Dictionary) -> void:
+	_dict.pos = ZqfUtils.v3_to_dict(get_parent().global_transform.origin)
+	_dict.active = _active
+
 func write_state() -> Dictionary:
 	return {
 		position = global_transform.origin,
 		active = _active
 	}
 
-func restore_state(data:Dictionary) -> void:
-	global_transform.origin = data.position
-	_set_active(data.active)
+func restore_state(_dict:Dictionary) -> void:
+	get_parent().global_transform.origin = ZqfUtils.v3_from_dict(_dict.pos)
+	# global_transform.origin = data.position
+	_set_active(_dict.active)
 
 func game_on_reset() -> void:
 	# print("Item saw reset")

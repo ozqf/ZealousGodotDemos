@@ -94,6 +94,12 @@ static func get_window_to_screen_ratio() -> Vector2:
 	var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
 	return result
 
+static func v3_to_dict(v:Vector3) -> Dictionary:
+	return { x = v.x, y = v.y, z = v.z }
+
+static func v3_from_dict(dict:Dictionary) -> Vector3:
+	return Vector3(dict.x, dict.y, dict.z)
+
 static func transform_to_dict(t:Transform) -> Dictionary:
 	var origin:Vector3 = t.origin
 	var basis:Basis = t.basis

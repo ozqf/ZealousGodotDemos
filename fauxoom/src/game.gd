@@ -3,6 +3,8 @@ class_name GameController
 
 const MOUSE_CLAIM:String = "gameUI"
 
+const QUICK_SAVE_FILE_NAME:String = "user://fauxoom_quick.json"
+
 var _player_t = preload("res://prefabs/player.tscn")
 var _gib_t = preload("res://prefabs/gib.tscn")
 
@@ -17,9 +19,6 @@ enum GameState { Pregame, Playing, Won, Lost }
 var _state = GameState.Pregame
 
 var _playerOrigin:Transform = Transform.IDENTITY
-
-var _nextDynamicId:int = 1
-var _nextStaticId:int = -1
 
 # live player
 var _player:Player = null;
@@ -61,11 +60,6 @@ func get_dynamic_parent() -> Spatial:
 func on_clicked_reset() -> void:
 	get_tree().call_group("console", "console_on_exec", "reset", ["reset"])
 
-func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
-	if txt == "reset":
-		print("Game - reset")
-		reset_game()
-
 func _refresh_overlay() -> void:
 	if _state == GameState.Pregame:
 		_pregameUI.visible = true
@@ -87,6 +81,46 @@ func _refresh_overlay() -> void:
 		_completeUI.visible = false
 		_deathUI.visible = false
 		MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
+
+func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
+	if txt == "reset":
+		print("Game - reset")
+		reset_game()
+	elif txt == "save":
+		var data:Dictionary = {
+			state = _state
+		}
+		data.ents = Ents.write_save_dict()
+		_write_save_file(QUICK_SAVE_FILE_NAME, data)
+	elif txt == "load":
+		var data:Dictionary = _stage_file_for_load(QUICK_SAVE_FILE_NAME)
+		if !data:
+			return
+		if _player:
+			# have to free immediately or new player will be spawned
+			# before this one is removed!
+			_player.free()
+		Ents.load_save_dict(data.ents)
+
+###############
+# save/load state
+###############
+func _write_save_file(filePath:String, data:Dictionary) -> void:
+	# write file
+	var file = File.new()
+	file.open(filePath, File.WRITE)
+	file.store_string(to_json(data))
+	file.close()
+
+func _stage_file_for_load(_name:String) -> Dictionary:
+	var file = File.new()
+	if !file.file_exists(_name):
+		print("No file " + str(_name) + " to load")
+		return {}
+	file.open(_name, File.READ)
+	var data = parse_json(file.get_as_text())
+	file.close()
+	return data
 
 ###############
 # game state
@@ -149,16 +183,6 @@ func game_on_map_change() -> void:
 ###############
 # registers
 ###############
-
-func assign_dynamic_id() -> int:
-	var id:int = _nextDynamicId
-	_nextDynamicId += 1
-	return id
-
-func assign_static_id() -> int:
-	var id:int = _nextStaticId
-	_nextStaticId -= 1
-	return id
 
 func register_player(plyr:Player) -> void:
 	if _player != null:

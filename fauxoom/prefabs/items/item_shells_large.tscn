@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://prefabs/items/item_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/entity.gd" type="Script" id=2]
 
 [node name="item_shells_large" type="Spatial"]
 
@@ -10,5 +11,9 @@ quantity = 20
 
 [node name="sprite" parent="item_base" index="0"]
 frame = 19
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 2 )
+prefabName = "shell_l"
 
 [editable path="item_base"]

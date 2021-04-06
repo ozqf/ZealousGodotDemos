@@ -1,6 +1,7 @@
 extends Spatial
 
 onready var _child_spawner = $horde_spawns/horde_spawn
+onready var _ent:Entity = $Entity
 
 export var selfName:String = ""
 export var triggerTargetName:String = ""
