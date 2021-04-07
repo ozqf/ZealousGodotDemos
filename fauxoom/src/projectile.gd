@@ -65,6 +65,7 @@ func launch(origin:Vector3, _forward:Vector3, _ignoreBody:PhysicsBody, collision
 	t.origin = origin
 	global_transform = t
 	_velocity = _forward * MAX_SPEED
+	look_at(origin + _velocity, t.basis.y)
 	# ignore body doesn't work - parent can die and then we get
 	# and 'access deleted object' error when performing a hitscan!
 	# _ignoreBody = [ ignoreBody ]

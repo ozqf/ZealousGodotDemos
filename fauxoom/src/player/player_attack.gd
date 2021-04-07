@@ -4,6 +4,7 @@ class_name PlayerAttack
 var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
 var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
 var _hitInfo_type = preload("res://src/defs/hit_info.gd")
+var _rocket_t = preload("res://prefabs/dynamic_entities/prj_player_rocket.tscn")
 
 var _launchNode:Spatial = null
 var _parentBody:PhysicsBody = null
@@ -18,6 +19,7 @@ var _refireTime:float = 1
 var _extraPellets:int = 10
 
 var _hitInfo:HitInfo = null
+var _prjMask:int = -1
 
 signal fire_ssg()
 signal change_weapon(nameString)
@@ -26,6 +28,7 @@ func init_attack(launchNode:Spatial, ignoreBody:PhysicsBody, inventory:Inventory
 	_launchNode = launchNode
 	_parentBody = ignoreBody
 	_inventory = inventory
+	_prjMask = Interactions.get_player_prj_mask()
 
 	_hitInfo = _hitInfo_type.new()
 
@@ -82,6 +85,14 @@ func _fire_single() -> void:
 		_perform_hit(result, -_launchNode.global_transform.basis.z)
 	pass
 
+func _fire_rocket() -> void:
+	var rocket = _rocket_t.instance()
+	Game.get_dynamic_parent().add_child(rocket)
+	var t:Transform = _launchNode.global_transform
+	var selfPos:Vector3 = t.origin
+	var forward = -t.basis.z
+	rocket.launch(selfPos, forward, null, _prjMask)
+
 func _check_weapon_change() -> void:
 	if _pendingWeapon == "":
 		return
@@ -118,5 +129,11 @@ func _process(_delta:float) -> void:
 
 		if Input.is_action_pressed("attack_1") || Input.is_action_pressed("move_special"):
 			_tick = _refireTime
-			_fire_spread()
+			var weap = Weapons.weapons[_currentWeapon]
+			var type:String = weap.projectileType
+
+			if type == "hitscan":
+				_fire_spread()
+			elif type == "player_rocket":
+				_fire_rocket()
 			self.emit_signal("fire_ssg")

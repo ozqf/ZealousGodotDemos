@@ -35,6 +35,7 @@ var _status:Dictionary = {
 
 func _ready():
 	# Main.set_camera(_head)
+	# _targettingInfo.id = Entities.PLAYER_RESERVED_ID
 	
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)

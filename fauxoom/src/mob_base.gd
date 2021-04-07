@@ -27,7 +27,6 @@ enum MobState {
 var _state = MobState.Idle
 var _prevState = MobState.Idle
 
-var _tarId:int = 0
 var _targetInfo: Dictionary = { id = 0 }
 
 var _moveTick:float = 0
@@ -48,18 +47,22 @@ func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
 	var _r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_append_state", self, "append_state")
+	var mobBasePath:String = self.filename
+	print("Mob base path: " + mobBasePath)
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
 	_dict.hp = _health
 	_dict.state = _state
 	_dict.prevState = _prevState
+	_dict.dead = _dead
 
 func restore_state(_dict:Dictionary) -> void:
 	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
 	_state = _dict.state
 	_prevState = _dict.prevState
 	_health = _dict.hp
+	_dead = _dict.dead
 
 func game_on_reset() -> void:
 	queue_free()

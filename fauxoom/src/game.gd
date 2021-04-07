@@ -3,6 +3,7 @@ class_name GameController
 
 const MOUSE_CLAIM:String = "gameUI"
 
+const CHECKPOINT_SAVE_FILE_NAME:String = "user://fauxoom_checkpoint.json"
 const QUICK_SAVE_FILE_NAME:String = "user://fauxoom_quick.json"
 
 var _player_t = preload("res://prefabs/player.tscn")
@@ -21,7 +22,8 @@ var _state = GameState.Pregame
 var _playerOrigin:Transform = Transform.IDENTITY
 
 # live player
-var _player:Player = null;
+var _player:Player = null
+var _pendingSaveName:String = ""
 
 var _emptyTargetInfo:Dictionary = {
 	id = 0,
@@ -38,8 +40,19 @@ func _ready() -> void:
 	var _result = $game_state_overlay/death/menu/reset.connect("pressed", self, "on_clicked_reset")
 	_result = $game_state_overlay/complete/menu/reset.connect("pressed", self, "on_clicked_reset")
 	Main.set_camera(_camera)
+	_pendingSaveName = CHECKPOINT_SAVE_FILE_NAME
+
+	# does checkpoint exist?
+	if ZqfUtils.does_file_exist(CHECKPOINT_SAVE_FILE_NAME):
+		print("Checkpoint file found")
+	else:
+		print("No checkpoint file found")
 
 func _process(_delta:float) -> void:
+	if _pendingSaveName != "":
+		var saveName = _pendingSaveName
+		_pendingSaveName = ""
+		save_game(saveName)
 	pass
 	# if _state == GameState.Pregame:
 	# 	if Input.is_action_just_pressed("ui_select"):
@@ -87,11 +100,7 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 		print("Game - reset")
 		reset_game()
 	elif txt == "save":
-		var data:Dictionary = {
-			state = _state
-		}
-		data.ents = Ents.write_save_dict()
-		_write_save_file(QUICK_SAVE_FILE_NAME, data)
+		_pendingSaveName = QUICK_SAVE_FILE_NAME
 	elif txt == "load":
 		var data:Dictionary = _stage_file_for_load(QUICK_SAVE_FILE_NAME)
 		if !data:
@@ -105,6 +114,14 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 ###############
 # save/load state
 ###############
+func save_game(fileName:String) -> void:
+	print("Writing save " + fileName)
+	var data:Dictionary = {
+		state = _state
+	}
+	data.ents = Ents.write_save_dict()
+	_write_save_file(fileName, data)
+
 func _write_save_file(filePath:String, data:Dictionary) -> void:
 	# write file
 	var file = File.new()

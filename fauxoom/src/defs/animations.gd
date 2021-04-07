@@ -65,6 +65,22 @@ const data = {
 			}
 		}
 	},
+	projectiles = {
+		name = "projectiles",
+		path = "res://assets/sprites/frames/64x64_projectile_frames.tres",
+		offset = 0,
+		anims = {
+			green_ball = {
+				frames = [[0, 1]]
+			},
+			yellow = {
+				frames = [[7, 8]]
+			},
+			rocket = {
+				frames = [[17],[18],[19],[20],[21],[22],[23],[24]]
+			}
+		}
+	},
 	
 	items = {
 		name = "items",

@@ -238,6 +238,14 @@ static func tokenise(_text:String) -> PoolStringArray:
 	return tokens
 
 #####################################
+# misc
+#####################################
+
+static func does_file_exist(path:String) -> bool:
+	var file = File.new()
+	return file.file_exists(path)
+
+#####################################
 # 3D sprite directions
 #####################################
 

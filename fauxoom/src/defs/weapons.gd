@@ -18,7 +18,8 @@ const weapons:Dictionary = {
 		"shoot": "pistol_shoot",
 		"ammoType": AmmoTypeBullets,
 		"refireTime": 0.3,
-		"extraPellets": 0
+		"extraPellets": 0,
+		"projectileType": "hitscan"
 	},
 	DualPistolsLabel: {
 		"idle": "pistol_idle",
@@ -26,41 +27,53 @@ const weapons:Dictionary = {
 		"ammoType": AmmoTypeBullets,
 		"akimbo": true,
 		"refireTime": 0.15,
-		"extraPellets": 0
+		"extraPellets": 0,
+		"projectileType": "hitscan",
+		"projectileDamage": 10
 	},
 	SuperShotgunLabel: {
 		"idle": "ssg_idle",
 		"shoot": "ssg_shoot",
 		"ammoType": AmmoTypeShells,
 		"refireTime": 1,
-		"extraPellets": 10
+		"extraPellets": 10,
+		"projectileType": "hitscan",
+		"projectileDamage": 10
 	},
 	ChaingunLabel: {
 		"idle": "cg_idle",
 		"shoot": "cg_shoot",
 		"ammoType": AmmoTypeBullets,
-		"refireTime": 0.1,
-		"extraPellets": 2
+		"refireTime": 0.02,
+		"extraPellets": 1,
+		"projectileType": "hitscan",
+		"projectileDamage": 10
 	},
 	RocketLauncherLabel: {
 		"idle": "rl_idle",
 		"shoot": "rl_shoot",
 		"ammoType": AmmoTypeRockets,
 		"refireTime": 1,
-		"extraPellets": 0
+		"extraPellets": 0,
+		"projectileType": "player_rocket",
+		"projectileDamage": 100
 	},
 	FlameThrowerLabel: {
 		"idle": "ft_idle",
 		"shoot": "ft_shoot",
 		"ammoType": AmmoTypeRockets,
 		"refireTime": 0.5,
-		"extraPellets": 0
+		"extraPellets": 0,
+		"projectileType": "player_flame",
+		"projectileDamage": 10
 	},
 	PlasmaGunLabel: {
 		"idle": "pg_idle",
 		"shoot": "pg_shoot",
 		"ammoType": AmmoTypeRockets,
 		"refireTime": 0.05,
-		"extraPellets": 0
+		"extraPellets": 0,
+		"projectileType": "player_plasma",
+		"projectileDamage": 10
 	}
 }
