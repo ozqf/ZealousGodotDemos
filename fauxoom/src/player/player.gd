@@ -58,10 +58,12 @@ func append_state(_dict:Dictionary) -> void:
 	t.origin = self.global_transform.origin
 	t.basis = _head.global_transform.basis
 	_dict.xform = ZqfUtils.transform_to_dict(t)
+	_inventory.append_state(_dict)
 
 func restore_state(_dict:Dictionary) -> void:
 	var t:Transform = ZqfUtils.transform_from_dict(_dict.xform)
 	teleport(t)
+	_inventory.restore_state(_dict)
 
 func teleport(_trans:Transform) -> void:
 	# copy rotation, clear and pass to motor

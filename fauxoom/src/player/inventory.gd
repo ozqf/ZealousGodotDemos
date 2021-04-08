@@ -7,6 +7,13 @@ var _data:Dictionary = {
 	shells = { count = 0, max = 50 }
 }
 
+func append_state(_dict:Dictionary) -> void:
+	_dict["inventory"] = _data.duplicate(true)
+
+func restore_state(_dict:Dictionary) -> void:
+	if "inventory" in _data:
+		_data = _dict.inventory.duplicate()
+
 func get_count(itemType:String) -> int:
 	return _data[itemType].count
 

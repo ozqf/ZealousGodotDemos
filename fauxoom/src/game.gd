@@ -3,8 +3,9 @@ class_name GameController
 
 const MOUSE_CLAIM:String = "gameUI"
 
-const CHECKPOINT_SAVE_FILE_NAME:String = "user://fauxoom_checkpoint.json"
-const QUICK_SAVE_FILE_NAME:String = "user://fauxoom_quick.json"
+const START_SAVE_FILE_NAME:String = "start"
+const CHECKPOINT_SAVE_FILE_NAME:String = "checkpoint"
+const QUICK_SAVE_FILE_NAME:String = "quick"
 
 var _player_t = preload("res://prefabs/player.tscn")
 var _gib_t = preload("res://prefabs/gib.tscn")
@@ -50,13 +51,16 @@ func _ready() -> void:
 
 func _process(_delta:float) -> void:
 	if _pendingSaveName != "":
-		var saveName = _pendingSaveName
+		var path = build_save_path(_pendingSaveName)
 		_pendingSaveName = ""
-		save_game(saveName)
+		save_game(path)
 	pass
 	# if _state == GameState.Pregame:
 	# 	if Input.is_action_just_pressed("ui_select"):
 	# 		begin_game()
+
+func build_save_path(fileName) -> String:
+	return "user://" + fileName + ".json"
 
 func get_entity_prefab(name:String) -> Object:
 	return _entRoot.get_prefab_def(name).prefab
@@ -96,31 +100,51 @@ func _refresh_overlay() -> void:
 		MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
 
 func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
+	var numTokens:int = _tokens.size()
 	if txt == "reset":
 		print("Game - reset")
 		reset_game()
-	elif txt == "save":
-		_pendingSaveName = QUICK_SAVE_FILE_NAME
-	elif txt == "load":
-		var data:Dictionary = _stage_file_for_load(QUICK_SAVE_FILE_NAME)
+	elif txt == "current_map":
+		print("Playing map " + get_tree().get_current_scene().filename)
+	elif _tokens[0] == "save":
+		var fileName:String = QUICK_SAVE_FILE_NAME
+		if numTokens >= 2:
+			fileName = _tokens[1]
+		_pendingSaveName = fileName
+	elif _tokens[0] == "load":
+		var fileName:String = QUICK_SAVE_FILE_NAME
+		if numTokens >= 2:
+			fileName = _tokens[1]
+		var path:String = build_save_path(fileName)
+		var data:Dictionary = _stage_file_for_load(path)
 		if !data:
+			return
+		var curScene = get_tree().get_current_scene().filename
+		var newScene = data.mapPath
+		if curScene != newScene:
+			print("Save is for a different map!")
 			return
 		if _player:
 			# have to free immediately or new player will be spawned
 			# before this one is removed!
 			_player.free()
+		get_tree().change_scene(data.mapPath)
+		
+		_state = data.state
+		_refresh_overlay()
 		Ents.load_save_dict(data.ents)
 
 ###############
 # save/load state
 ###############
-func save_game(fileName:String) -> void:
-	print("Writing save " + fileName)
+func save_game(filePath:String) -> void:
+	print("Writing save " + filePath)
 	var data:Dictionary = {
+		mapPath = get_tree().get_current_scene().filename,
 		state = _state
 	}
 	data.ents = Ents.write_save_dict()
-	_write_save_file(fileName, data)
+	_write_save_file(filePath, data)
 
 func _write_save_file(filePath:String, data:Dictionary) -> void:
 	# write file

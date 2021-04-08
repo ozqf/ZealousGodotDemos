@@ -47,8 +47,8 @@ func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
 	var _r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_append_state", self, "append_state")
-	var mobBasePath:String = self.filename
-	print("Mob base path: " + mobBasePath)
+	# var mobBasePath:String = self.filename
+	# print("Mob base path: " + mobBasePath)
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
