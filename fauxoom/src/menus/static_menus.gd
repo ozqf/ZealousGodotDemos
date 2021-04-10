@@ -39,7 +39,8 @@ func _on_goto_options() -> void:
 	_change_menu(MenuPage.Options)
 
 func _on_root_quit() -> void:
-	get_tree().quit()
+	get_tree().call_group("console", "console_on_exec", "exit", ["exit"])
+	# get_tree().quit()
 
 func _root_on() -> void:
 	_rootMenu.visible = true

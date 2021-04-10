@@ -1,6 +1,6 @@
 # Entity class handles boilerplate for gameplay objects. assigning Ids
 # saving, loading etc. Should be added as a child of the root of
-# the actualy entity itself
+# the actual entity itself
 # Relies on the entities (Ents) autoloaded service to be present
 extends Node
 class_name Entity
@@ -67,7 +67,3 @@ func restore_state(dict:Dictionary) -> void:
 	triggerTargetName = dict.triggerTargetName
 	id = dict.id
 	emit_signal("entity_restore_state", dict)
-
-func game_on_reset() -> void:
-	# restore_state(_spawnState)
-	pass

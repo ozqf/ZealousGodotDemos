@@ -45,6 +45,11 @@ var _nextStaticId:int = -1
 
 func _ready() -> void:
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
+	add_to_group(Groups.GAME_GROUP_NAME)
+
+func game_on_map_change() -> void:
+	_nextDynamicId = PLAYER_RESERVED_ID + 1
+	_nextStaticId = -1
 
 func get_prefab_def(_name:String) -> Dictionary:
 	if !_prefabs.has(_name):

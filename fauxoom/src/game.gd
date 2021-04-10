@@ -25,6 +25,8 @@ var _playerOrigin:Transform = Transform.IDENTITY
 # live player
 var _player:Player = null
 var _pendingSaveName:String = ""
+var _pendingLoadDict:Dictionary = {}
+var _justLoaded:bool = true
 
 var _emptyTargetInfo:Dictionary = {
 	id = 0,
@@ -41,7 +43,7 @@ func _ready() -> void:
 	var _result = $game_state_overlay/death/menu/reset.connect("pressed", self, "on_clicked_reset")
 	_result = $game_state_overlay/complete/menu/reset.connect("pressed", self, "on_clicked_reset")
 	Main.set_camera(_camera)
-	_pendingSaveName = CHECKPOINT_SAVE_FILE_NAME
+	# _pendingSaveName = CHECKPOINT_SAVE_FILE_NAME
 
 	# does checkpoint exist?
 	if ZqfUtils.does_file_exist(CHECKPOINT_SAVE_FILE_NAME):
@@ -54,7 +56,16 @@ func _process(_delta:float) -> void:
 		var path = build_save_path(_pendingSaveName)
 		_pendingSaveName = ""
 		save_game(path)
-	pass
+	if _pendingLoadDict:
+		print("Have pending ents - loading")
+		_justLoaded = false
+		var dict = _pendingLoadDict
+		_pendingLoadDict = {}
+		load_entity_dict(dict)
+	elif _justLoaded:
+		_justLoaded = false
+		print("Just loaded fresh map - writing reset save")
+		_pendingSaveName = START_SAVE_FILE_NAME
 	# if _state == GameState.Pregame:
 	# 	if Input.is_action_just_pressed("ui_select"):
 	# 		begin_game()
@@ -68,14 +79,18 @@ func get_entity_prefab(name:String) -> Object:
 # disable of menu HAS to be triggered from here in web mode
 func _input(_event) -> void:
 	if _event is InputEventKey:
-		if _state == GameState.Pregame && Input.is_action_just_pressed("ui_select"):
+		if _state == GameState.Pregame && Input.is_action_just_pressed("ui_select") && Main.get_input_on():
 			begin_game()
 
 func get_dynamic_parent() -> Spatial:
 	return self
 
+func on_restart_map() -> void:
+	get_tree().call_group("console", "console_on_exec", "load start", ["load", "start"])
+
 func on_clicked_reset() -> void:
-	get_tree().call_group("console", "console_on_exec", "reset", ["reset"])
+	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "checkpoint"])
+	# get_tree().call_group("console", "console_on_exec", "reset", ["reset"])
 
 func _refresh_overlay() -> void:
 	if _state == GameState.Pregame:
@@ -119,24 +134,31 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 		var data:Dictionary = _stage_file_for_load(path)
 		if !data:
 			return
+		_pendingLoadDict = data
+		print("Set pending ents dict")
 		var curScene = get_tree().get_current_scene().filename
 		var newScene = data.mapPath
 		if curScene != newScene:
-			print("Save is for a different map!")
-			return
-		if _player:
-			# have to free immediately or new player will be spawned
-			# before this one is removed!
-			_player.free()
-		get_tree().change_scene(data.mapPath)
+			print("Save is for a different map...")
+			Main.change_map(data.mapPath)
+			# get_tree().change_scene(data.mapPath)
+		else:
+			print("Save is same map - no change")
 		
-		_state = data.state
-		_refresh_overlay()
-		Ents.load_save_dict(data.ents)
 
 ###############
 # save/load state
 ###############
+func load_entity_dict(dict:Dictionary) -> void:
+	if _player:
+		# have to free immediately or new player will be spawned
+		# before this one is removed!
+		_player.free()
+	
+	set_game_state(dict.state)
+	_refresh_overlay()
+	Ents.load_save_dict(dict.ents)
+
 func save_game(filePath:String) -> void:
 	print("Writing save " + filePath)
 	var data:Dictionary = {
@@ -167,8 +189,7 @@ func _stage_file_for_load(_name:String) -> Dictionary:
 # game state
 ###############
 func begin_game() -> void:
-	_state = GameState.Playing
-	_refresh_overlay()
+	set_game_state(GameState.Playing)
 	var def = _entRoot.get_prefab_def(Entities.PREFAB_PLAYER)
 	var player = def.prefab.instance()
 	_entRoot.add_child(player)
@@ -182,24 +203,31 @@ func _clear_dynamic_entities() -> void:
 		_entRoot.get_child(_i).queue_free()
 
 func _set_to_pregame() -> void:
-	_state = GameState.Pregame
-	_refresh_overlay()
+	set_game_state(GameState.Pregame)
 
 func reset_game() -> void:
 	if _state == GameState.Pregame:
 		return
 	_camera.detach()
 	_camera.global_transform = Transform.IDENTITY
-	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_RESET)
+	# get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_RESET)
 	_clear_dynamic_entities()
 	_set_to_pregame()
+
+func set_game_state(gameState) -> void:
+	if _state == gameState:
+		return
+	_state = gameState
+	if _state == GameState.Pregame:
+		_camera.detach()
+		_camera.global_transform = Transform.IDENTITY
+	_refresh_overlay()
 
 func game_on_player_died(_info:Dictionary) -> void:
 	print("Game - saw player died!")
 	if _state != GameState.Playing:
 		return
-	_state = GameState.Lost
-	_refresh_overlay()
+	set_game_state(GameState.Lost)
 	
 	var def = _entRoot.get_prefab_def(Entities.PREFAB_GIB)
 	var gib = def.prefab.instance()
@@ -214,10 +242,11 @@ func game_on_player_died(_info:Dictionary) -> void:
 
 func game_on_level_completed() -> void:
 	if _state == GameState.Playing:
-		_state = GameState.Won
-		_refresh_overlay()
+		set_game_state(GameState.Won)
+	
 
 func game_on_map_change() -> void:
+	_justLoaded = true
 	_clear_dynamic_entities()
 	_set_to_pregame()
 

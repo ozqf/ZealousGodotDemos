@@ -59,7 +59,7 @@ func append_state(_dict:Dictionary) -> void:
 
 func restore_state(_dict:Dictionary) -> void:
 	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
-	_state = _dict.state
+	_change_state(_dict.state)
 	_prevState = _dict.prevState
 	_health = _dict.hp
 	_dead = _dict.dead

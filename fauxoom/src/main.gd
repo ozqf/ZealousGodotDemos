@@ -176,11 +176,16 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	if _tokens.size() >= 2:
 		if _tokens[0] == "map":
 			var path:String = "res://maps/" + _tokens[1] + ".tscn"
-			var grp:String = Groups.GAME_GROUP_NAME
-			var fn:String = Groups.GAME_FN_MAP_CHANGE
-			get_tree().call_group(grp, fn)
-			var _foo = get_tree().change_scene(path)
-			set_input_on()
+			change_map(path)
+	if txt == "quit" || txt == "exit":
+		get_tree().quit()
+
+func change_map(path:String) -> void:
+	var grp:String = Groups.GAME_GROUP_NAME
+	var fn:String = Groups.GAME_FN_MAP_CHANGE
+	get_tree().call_group(grp, fn)
+	var _foo = get_tree().change_scene(path)
+	set_input_on()
 
 # a globally accessible camera is required for 3D sprite frame selection
 func set_camera(cam:Camera) -> void:
