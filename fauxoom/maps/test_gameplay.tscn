@@ -1,5 +1,6 @@
 [gd_scene load_steps=16 format=2]
 
+[ext_resource path="res://prefabs/dynamic_entities/mob_punk.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=2]
 [ext_resource path="res://prefabs/world_inert/blocker_volume.tscn" type="PackedScene" id=3]
 [ext_resource path="res://prefabs/static_entities/trigger_event.tscn" type="PackedScene" id=4]
@@ -7,7 +8,6 @@
 [ext_resource path="res://prefabs/static_entities/horde_spawn.tscn" type="PackedScene" id=8]
 [ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=9]
 [ext_resource path="res://prefabs/static_entities/trigger_volume.tscn" type="PackedScene" id=10]
-[ext_resource path="res://prefabs/static_entities/mob_spawn_proxy.tscn" type="PackedScene" id=11]
 [ext_resource path="res://src/embedded_map_controller.gd" type="Script" id=12]
 [ext_resource path="res://default_world.tres" type="Environment" id=13]
 [ext_resource path="res://zqf/block_to_mesh.gd" type="Script" id=16]
@@ -27,6 +27,12 @@ transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0
 current = true
 
 [node name="dynamic" type="Spatial" parent="."]
+
+[node name="mob_punk" parent="dynamic" instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 7, 0, 17 )
+
+[node name="mob_punk2" parent="dynamic" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 17 )
 
 [node name="static" type="Spatial" parent="."]
 
@@ -60,9 +66,6 @@ triggerName = "spawn_1"
 triggerTargetName = "arena1counter"
 totalMobs = 16
 maxLiveMobs = 4
-
-[node name="mob_spawn_proxy" parent="static" instance=ExtResource( 11 )]
-transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 11, 0, 9 )
 
 [node name="trigger_event" parent="static" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, -8 )

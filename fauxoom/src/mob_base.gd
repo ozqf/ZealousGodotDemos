@@ -47,8 +47,19 @@ func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
 	var _r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_append_state", self, "append_state")
+	# move yaw is used for facing angle too so make sure it
+	# matches spawn transform
+	_moveYaw = rotation_degrees.y
 	# var mobBasePath:String = self.filename
 	# print("Mob base path: " + mobBasePath)
+
+func teleport(t:Transform) -> void:
+	global_transform = t
+	_moveYaw = rotation_degrees.y
+
+func force_awake() -> void:
+	if _state == MobState.Idle:
+		_state = MobState.Hunting
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
@@ -56,6 +67,7 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.state = _state
 	_dict.prevState = _prevState
 	_dict.dead = _dead
+	_dict.yaw = _moveYaw
 
 func restore_state(_dict:Dictionary) -> void:
 	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
@@ -63,6 +75,7 @@ func restore_state(_dict:Dictionary) -> void:
 	_prevState = _dict.prevState
 	_health = _dict.hp
 	_dead = _dict.dead
+	_moveYaw = _dict.yaw
 
 func game_on_reset() -> void:
 	queue_free()
@@ -180,8 +193,11 @@ func _process(_delta:float) -> void:
 	elif _state == MobState.Idle:
 		if _thinkTick <= 0:
 			_thinkTick = LOS_CHECK_TIME
-			if Game.check_los_to_player(global_transform.origin):
-				_change_state(MobState.Hunting)
+			if Game.check_player_in_front(global_transform.origin, _moveYaw):
+				if Game.check_los_to_player(global_transform.origin):
+					_change_state(MobState.Hunting)
+				else:
+					print("Player in front but cannot see!")
 		else:
 			_thinkTick -= _delta
 		return
@@ -214,7 +230,6 @@ func hit(_hitInfo:HitInfo) -> int:
 		return _hitInfo.damage + _health
 	else:
 		# if not awake, wake up!
-		if _state == MobState.Idle:
-			_change_state(MobState.Hunting)
+		force_awake()
 		apply_stun(_hitInfo.direction)
 		return _hitInfo.damage

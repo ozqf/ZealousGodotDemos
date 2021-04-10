@@ -12,6 +12,7 @@ func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
 
 func game_on_player_spawned(_player) -> void:
+	print("Embedded map control - player spawned")
 	_camera.current = false
 
 func game_on_reset() -> void:

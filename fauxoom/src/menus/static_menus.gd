@@ -22,6 +22,8 @@ func _ready() -> void:
 	var _f
 	_f = $root_menu/VBoxContainer/embedded_maps.connect("pressed", self, "_on_goto_embedded")
 	_f = $root_menu/VBoxContainer/custom_maps.connect("pressed", self, "_on_goto_custom")
+	_f = $root_menu/VBoxContainer/restart.connect("pressed", self, "_on_restart")
+	_f = $root_menu/VBoxContainer/load_checkpoint.connect("pressed", self, "_on_load_checkpoint")
 	_f = $root_menu/VBoxContainer/options.connect("pressed", self, "_on_goto_options")
 	_f = $root_menu/VBoxContainer/quit.connect("pressed", self, "_on_root_quit")
 	
@@ -37,6 +39,12 @@ func _on_goto_custom() -> void:
 
 func _on_goto_options() -> void:
 	_change_menu(MenuPage.Options)
+
+func _on_restart() -> void:
+	get_tree().call_group("console", "console_on_exec", "load start", ["load", "start"])
+
+func _on_load_checkpoint() -> void:
+	get_tree().call_group("console", "console_on_exec", "load start", ["load", "checkpoint"])
 
 func _on_root_quit() -> void:
 	get_tree().call_group("console", "console_on_exec", "exit", ["exit"])

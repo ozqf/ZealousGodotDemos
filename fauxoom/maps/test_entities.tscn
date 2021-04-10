@@ -43,6 +43,7 @@ environment = ExtResource( 13 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 14, 11, 16 )
+current = true
 
 [node name="dynamic" type="Spatial" parent="."]
 
@@ -56,7 +57,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 3, -7 )
 transform = Transform( 0.999928, 0.00109075, 0.0119154, -0.00103226, 0.999987, -0.00491392, -0.0119206, 0.00490127, 0.999917, 2, 5, -6 )
 
 [node name="mob_gunner" parent="dynamic" instance=ExtResource( 33 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -10 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -5, 0, -5 )
+
+[node name="mob_gunner2" parent="dynamic" instance=ExtResource( 33 )]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -8, 0, -5 )
+
+[node name="mob_gunner3" parent="dynamic" instance=ExtResource( 33 )]
+transform = Transform( 5.96046e-08, 0, 1, 0, 1, 0, -1, 0, 5.96046e-08, -7, 0, -11 )
 
 [node name="static" type="Spatial" parent="."]
 
@@ -467,25 +474,25 @@ selfName = "save_test_barrier"
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 
 [node name="item_shells_small" parent="." instance=ExtResource( 27 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -2 )
 
 [node name="item_shells_small2" parent="." instance=ExtResource( 27 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0 )
 
 [node name="item_super_shotgun" parent="." instance=ExtResource( 26 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -1 )
 
 [node name="item_super_shotgun2" parent="." instance=ExtResource( 26 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 0, 0 )
 
 [node name="item_shells_large" parent="." instance=ExtResource( 28 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, 1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0 )
 
 [node name="item_shells_large3" parent="." instance=ExtResource( 28 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 3 )
 
 [node name="item_shells_large2" parent="." instance=ExtResource( 28 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -2 )
 
 [node name="lever_switch" parent="." instance=ExtResource( 29 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -28.5, 1, 5 )

@@ -83,7 +83,9 @@ func pick_spawn_point() -> Transform:
 func _spawn_child() -> void:
 	var mob = _prefab_mob_punk.instance()
 	Game.get_dynamic_parent().add_child(mob)
-	mob.global_transform = pick_spawn_point()
+	# mob.global_transform = pick_spawn_point()
+	mob.teleport(pick_spawn_point())
+	mob.force_awake()
 	mob.connect("on_mob_died", self, "_on_mob_died")
 
 func _on_mob_died(_mob) -> void:

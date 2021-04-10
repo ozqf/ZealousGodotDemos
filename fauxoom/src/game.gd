@@ -83,13 +83,17 @@ func _input(_event) -> void:
 			begin_game()
 
 func get_dynamic_parent() -> Spatial:
-	return self
+	return _entRoot
 
 func on_restart_map() -> void:
 	get_tree().call_group("console", "console_on_exec", "load start", ["load", "start"])
 
-func on_clicked_reset() -> void:
+func on_clicked_retry() -> void:
 	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "checkpoint"])
+	# get_tree().call_group("console", "console_on_exec", "reset", ["reset"])
+
+func on_clicked_reset() -> void:
+	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "start"])
 	# get_tree().call_group("console", "console_on_exec", "reset", ["reset"])
 
 func _refresh_overlay() -> void:
@@ -144,7 +148,6 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 			# get_tree().change_scene(data.mapPath)
 		else:
 			print("Save is same map - no change")
-		
 
 ###############
 # save/load state
@@ -194,7 +197,6 @@ func begin_game() -> void:
 	var player = def.prefab.instance()
 	_entRoot.add_child(player)
 	player.teleport(_playerOrigin)
-	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_PLAYER_SPAWNED, player)
 
 func _clear_dynamic_entities() -> void:
 	var l:int = _entRoot.get_child_count()
@@ -246,6 +248,7 @@ func game_on_level_completed() -> void:
 	
 
 func game_on_map_change() -> void:
+	print("Game - saw map change")
 	_justLoaded = true
 	_clear_dynamic_entities()
 	_set_to_pregame()
@@ -261,6 +264,7 @@ func register_player(plyr:Player) -> void:
 	print("Game - register player")
 	_player = plyr
 	_camera.attach_to(_player.get_node("camera_mount"))
+	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_PLAYER_SPAWNED, _player)
 
 func deregister_player(plyr:Player) -> void:
 	if plyr != _player:
@@ -284,6 +288,21 @@ func check_los_to_player(origin:Vector3) -> bool:
 		return false
 	var dest = _player.get_targetting_info().position
 	return ZqfUtils.los_check(_entRoot, origin, dest, 1)
+
+func check_player_in_front(origin:Vector3, yawDegrees:float) -> bool:
+	if !_player:
+		return false
+	var dest = _player.get_targetting_info().position
+	var yawToPlayer:float = rad2deg(ZqfUtils.yaw_between(dest, origin))
+	yawDegrees = ZqfUtils.cap_degrees(yawDegrees - 90)
+	yawToPlayer = ZqfUtils.cap_degrees(yawToPlayer)
+	# var diff1:float = yawToPlayer - yawDegrees
+	var diff2:float = yawDegrees - yawToPlayer
+	# print("Mob yaw " + str(yawDegrees) + " vs to player angle " + str(yawToPlayer))
+	# print("  Diff1: " + str(diff1) + " diff2: " + str(diff2))
+	if diff2 >= 0 && diff2 <= 180:
+		return true
+	return false
 
 func mob_check_target_old(_current:Spatial) -> Spatial:
 	if !_player:
