@@ -36,7 +36,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 17 )
 
 [node name="static" type="Spatial" parent="."]
 
-[node name="trigger_counter" parent="static" instance=ExtResource( 20 )]
+[node name="arena1counter" parent="static" instance=ExtResource( 20 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -6 )
 selfName = "arena1counter"
 triggerTargetName = "exit_gate_1"
@@ -44,7 +44,7 @@ totalCount = 2
 
 [node name="trigger_volume" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 29.2, 0, 0, 0, 7.5, 0, 0, 0, 1, 0, 0.5, 0 )
-triggerTargetName = "spawn_1 gate_1"
+triggerTargetName = "spawn_1 spawn_2 gate_1"
 
 [node name="exit_trigger" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 4, 0, 0, 0, 7.5, 0, 0, 0, 1, 0, 1.5, -18 )
@@ -53,21 +53,21 @@ triggerTargetName = "endtrigger"
 [node name="player_start" parent="static" instance=ExtResource( 9 )]
 transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, -10, 0, 33.5 )
 
-[node name="horde_spawn" parent="static" instance=ExtResource( 8 )]
+[node name="spawn_1" parent="static" instance=ExtResource( 8 )]
 transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 8, 0, -18 )
 triggerName = "spawn_1"
 triggerTargetName = "arena1counter"
 totalMobs = 16
 maxLiveMobs = 4
 
-[node name="horde_spawn2" parent="static" instance=ExtResource( 8 )]
+[node name="spawn_2" parent="static" instance=ExtResource( 8 )]
 transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -8, 0, -18 )
 triggerName = "spawn_1"
 triggerTargetName = "arena1counter"
 totalMobs = 16
 maxLiveMobs = 4
 
-[node name="trigger_event" parent="static" instance=ExtResource( 4 )]
+[node name="endtrigger" parent="static" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, -8 )
 selfName = "endtrigger"
 type = 1
