@@ -1,5 +1,6 @@
 extends Spatial
 
+onready var _ent:Entity = $Entity
 
 export var selfName:String = ""
 export var triggerTargetName:String = ""
@@ -9,22 +10,20 @@ export var totalCount:int = 1
 
 var _currentCount:int = 0
 
-var _spawnState:Dictionary = {}
-
 func _ready() -> void:
-	add_to_group(Groups.ENTS_GROUP_NAME)
-	add_to_group(Groups.GAME_GROUP_NAME)
 	visible = false
-	_spawnState = write_state()
+	var _r = _ent.connect("entity_append_state", self, "append_state")
+	_r = _ent.connect("entity_restore_state", self, "restore_state")
+	_r = _ent.connect("entity_trigger", self, "on_trigger")
+	_ent.selfName = selfName
+	_ent.triggerTargetName = triggerTargetName
 
-func write_state() -> Dictionary:
-	return {
-		selfName = selfName,
-		triggerTargetName = triggerTargetName,
-		active = active,
-		totalCount = totalCount,
-		currentCount = _currentCount
-	}
+func append_state(_dict:Dictionary) -> void:
+	_dict.selfName = selfName
+	_dict.triggerTargetName = triggerTargetName
+	_dict.active = active
+	_dict.totalCount = totalCount
+	_dict.currentCount = _currentCount
 
 func restore_state(data:Dictionary) -> void:
 	selfName = data.selfName
@@ -33,15 +32,7 @@ func restore_state(data:Dictionary) -> void:
 	totalCount = data.totalCount
 	_currentCount = data.currentCount
 
-func game_on_reset() -> void:
-	restore_state(_spawnState)
-
-func on_trigger_entities(target:String) -> void:
-	if !active:
-		return
-	if target == "" || target != selfName:
-		return
-	
+func on_trigger() -> void:
 	_currentCount += 1
 	if _currentCount >= totalCount:
 		active = false

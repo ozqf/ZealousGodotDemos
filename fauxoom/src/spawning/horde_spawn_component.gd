@@ -1,4 +1,5 @@
 extends Spatial
+class_name HordeSpawnComponent
 
 var _prefab_mob_punk = preload("res://prefabs/dynamic_entities/mob_punk.tscn")
 var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
@@ -18,35 +19,25 @@ var _deadMobs:int = 0
 var _tick:float = 0
 var _active:bool = false
 
-var _spawnState:Dictionary
-var noSelfSave:bool = false
-
 func _ready() -> void:
 	visible = false
-	# print("Horde spawn ready")
-	add_to_group(Groups.ENTS_GROUP_NAME)
-	add_to_group(Groups.GAME_GROUP_NAME)
-	_spawnState = write_state()
+
+func append_state(_dict:Dictionary) -> void:
+	_dict.liveMobs = _liveMobs
+	_dict.deadMobs = _deadMobs
+	_dict.tick = _tick
+	_dict.active = _active
 
 func write_state() -> Dictionary:
-	return {
-		liveMobs = _liveMobs,
-		deadMobs = _deadMobs,
-		tick = _tick,
-		active = _active
-	}
+	var dict = {}
+	append_state(dict)
+	return dict
 
 func restore_state(data:Dictionary) -> void:
 	_liveMobs = data.liveMobs
 	_deadMobs = data.deadMobs
 	_tick = data.tick
 	_active = data.active
-
-func game_on_reset() -> void:
-	if noSelfSave:
-		return
-	# print("Horde spawn saw game reset")
-	restore_state(_spawnState)
 
 func _process(_delta:float) -> void:
 	if !_active:

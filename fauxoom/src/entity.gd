@@ -5,8 +5,9 @@
 extends Node
 class_name Entity
 
-signal entity_restore_state(dict)
 signal entity_append_state(dict)
+signal entity_restore_state(dict)
+signal entity_trigger()
 
 # objects which are static should be loaded at the start of the map
 # (usually as part of an embedded scene file) and NEVER deleted
@@ -16,6 +17,7 @@ export var isStatic:bool = false
 # restore a previously deleted entity, we must know what prefab it was
 # if this isn't set loading will not work!
 export var prefabName:String = ""
+export var selfName:String = ""
 export var triggerTargetName:String = ""
 var id:int = 0
 
@@ -39,9 +41,9 @@ func _ready():
 func on_trigger_entities(target:String) -> void:
 	if target == "":
 		return
-	if get_parent().name == target:
+	if selfName == target:
 		# trigger!
-		pass
+		emit_signal("entity_trigger")
 
 func _on_exiting_tree() -> void:
 	# deregister entity...?

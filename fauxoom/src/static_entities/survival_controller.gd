@@ -26,7 +26,6 @@ func _ready() -> void:
 	_northernTransforms.push_back($spawn_points/nw.global_transform)
 	_northernTransforms.push_back($spawn_points/ne.global_transform)
 	
-	_child_spawner.noSelfSave = true
 	_child_spawner.set_spawn_points(_northernTransforms)
 
 func _process(_delta:float) -> void:

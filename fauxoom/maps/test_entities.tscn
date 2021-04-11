@@ -31,7 +31,7 @@
 [ext_resource path="res://prefabs/static_entities/lever_switch.tscn" type="PackedScene" id=29]
 [ext_resource path="res://prefabs/point_entity.tscn" type="PackedScene" id=30]
 [ext_resource path="res://src/static_entities/survival_controller.gd" type="Script" id=31]
-[ext_resource path="res://src/static_entities/horde_spawn.gd" type="Script" id=32]
+[ext_resource path="res://src/spawning/horde_spawn_component.gd" type="Script" id=32]
 [ext_resource path="res://prefabs/dynamic_entities/mob_punk.tscn" type="PackedScene" id=33]
 [ext_resource path="res://src/entity.gd" type="Script" id=34]
 
@@ -81,6 +81,10 @@ transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -
 [node name="horde_spawn" parent="static" instance=ExtResource( 8 )]
 transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -10, 0, -29 )
 triggerName = "spawn_1"
+triggerTargetName = ""
+childType = 1
+tickMax = 2.0
+totalMobs = 4
 maxLiveMobs = 1
 
 [node name="mob_spawn_proxy" parent="static" instance=ExtResource( 10 )]
@@ -302,23 +306,15 @@ isStatic = true
 
 [node name="horde_spawn" type="Spatial" parent="static/survival_controller/horde_spawns"]
 script = ExtResource( 32 )
-totalMobs = 9999
-maxLiveMobs = 4
 
 [node name="horde_spawn2" type="Spatial" parent="static/survival_controller/horde_spawns"]
 script = ExtResource( 32 )
-totalMobs = 9999
-maxLiveMobs = 4
 
 [node name="horde_spawn3" type="Spatial" parent="static/survival_controller/horde_spawns"]
 script = ExtResource( 32 )
-totalMobs = 9999
-maxLiveMobs = 4
 
 [node name="horde_spawn4" type="Spatial" parent="static/survival_controller/horde_spawns"]
 script = ExtResource( 32 )
-totalMobs = 9999
-maxLiveMobs = 4
 
 [node name="spawn_points" type="Spatial" parent="static/survival_controller"]
 
