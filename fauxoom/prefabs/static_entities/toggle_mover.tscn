@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://prefabs/point_entity.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/entity.gd" type="Script" id=2]
+[ext_resource path="res://src/static_entities/toggle_mover.gd" type="Script" id=3]
+
+[node name="toggle_mover" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="a" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+
+[node name="b" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 2 )
+isStatic = true
+
+[node name="root" type="Spatial" parent="."]
