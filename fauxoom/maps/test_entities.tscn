@@ -70,7 +70,10 @@ transform = Transform( 5.96046e-08, 0, 1, 0, 1, 0, -1, 0, 5.96046e-08, -7, 0, -1
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, 12 )
 
 [node name="world_volume" parent="dynamic/toggle_mover/root" index="0" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 0 )
+
+[node name="world_volume2" parent="dynamic/toggle_mover/root" index="1" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, 0 )
 
 [node name="static" type="Spatial" parent="."]
 
