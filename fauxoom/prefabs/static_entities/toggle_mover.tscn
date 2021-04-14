@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://prefabs/point_entity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/entity.gd" type="Script" id=2]
 [ext_resource path="res://src/static_entities/toggle_mover.gd" type="Script" id=3]
+
+[sub_resource type="CubeMesh" id=1]
+size = Vector3( 0.2, 0.2, 0.2 )
 
 [node name="toggle_mover" type="Spatial"]
 script = ExtResource( 3 )
@@ -17,4 +20,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 script = ExtResource( 2 )
 isStatic = true
 
-[node name="root" type="Spatial" parent="."]
+[node name="root" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = null

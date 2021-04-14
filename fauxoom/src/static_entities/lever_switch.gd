@@ -6,31 +6,33 @@ onready var _shape:CollisionShape = $CollisionShape
 onready var _ent:Entity = $Entity
 
 export var on:bool = false
+# zero or negative reset time == never reset
+export var resetTime:float = -1
 export var triggerTargetName:String = ""
 
-var _state:Dictionary
+var _resetTick:float = 0
 
 func _ready() -> void:
-	add_to_group(Groups.GAME_GROUP_NAME)
 	_ent.triggerTargetName = triggerTargetName
-	_state = _write_state()
 	var _err = _ent.connect("entity_restore_state", self, "restore_state")
 	_err = _ent.connect("entity_append_state", self, "append_state")
 
-func game_on_reset() -> void:
-	restore_state(_state)
+func _process(_delta:float) -> void:
+	if !on:
+		return
+	if resetTime > 0:
+		_resetTick += _delta
+		if _resetTick >= resetTime:
+			_resetTick = 0
+			_set_on(false)
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.on = on
-
-func _write_state() -> Dictionary:
-	return {
-		on = on
-	}
+	_dict.resetTick = _resetTick
 
 func restore_state(data:Dictionary) -> void:
-	_state = data
-	_set_on(_state.on)
+	_set_on(data.on)
+	_resetTick = data.resetTick
 
 func _set_on(flag:bool) -> void:
 	on = flag

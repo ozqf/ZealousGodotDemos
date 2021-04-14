@@ -66,14 +66,14 @@ transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -
 [node name="mob_gunner3" parent="dynamic" instance=ExtResource( 33 )]
 transform = Transform( 5.96046e-08, 0, 1, 0, 1, 0, -1, 0, 5.96046e-08, -7, 0, -11 )
 
-[node name="toggle_mover" parent="dynamic" instance=ExtResource( 35 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, 12 )
+[node name="toggle_mover_test" parent="dynamic" instance=ExtResource( 35 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, 10 )
 
-[node name="world_volume" parent="dynamic/toggle_mover/root" index="0" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 0 )
+[node name="root" parent="dynamic/toggle_mover_test" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 
-[node name="world_volume2" parent="dynamic/toggle_mover/root" index="1" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, 0 )
+[node name="world_volume" parent="dynamic/toggle_mover_test/root" index="0" instance=ExtResource( 2 )]
+transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 0.75, 0, 1, -1.5 )
 
 [node name="static" type="Spatial" parent="."]
 
@@ -423,7 +423,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -13.5 )
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -13.5, 4.5, -10 )
 
 [node name="world_volume22" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -13.5, 4.5, 10.1 )
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -13.5, 4.5, 10 )
 
 [node name="world_volume28" parent="world" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -0.5, 4.5, -10 )
@@ -457,6 +457,9 @@ transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -7.5, 4.5, -22.5 )
 
 [node name="world_volume35" parent="world" instance=ExtResource( 2 )]
 transform = Transform( 2, 0, 0, 0, 10, 0, 0, 0, 1, -7, 4.5, -8.5 )
+
+[node name="world_volume37" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 2, 0, 0, 0, 10, 0, 0, 0, 1, -7, 4.5, 8.5 )
 
 [node name="world_volume36" parent="world" instance=ExtResource( 2 )]
 transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 12, -7, -0.5, 12 )
@@ -510,4 +513,9 @@ triggerTargetName = "survivalControl survival_gate"
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7, 1, -8 )
 triggerTargetName = "save_test_barrier"
 
-[editable path="dynamic/toggle_mover"]
+[node name="lever_switch3" parent="." instance=ExtResource( 29 )]
+transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -7, 1, 8 )
+resetTime = 2.0
+triggerTargetName = "toggle_mover_test"
+
+[editable path="dynamic/toggle_mover_test"]
