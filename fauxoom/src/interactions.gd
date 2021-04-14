@@ -25,6 +25,11 @@ static func hitscan_hit(_hitInfo:HitInfo, _hitScanResult:Dictionary) -> int:
 	return -1
 
 static func triggerTargets(tree:SceneTree, targetNameString:String) -> void:
+	if tree == null:
+		return
+	if targetNameString == null || targetNameString == "":
+		return
+	print("Trigger targets - " + targetNameString)
 	var tokens = ZqfUtils.tokenise(targetNameString)
 	var numTokens:int = tokens.size()
 	for _i in range(0, numTokens):

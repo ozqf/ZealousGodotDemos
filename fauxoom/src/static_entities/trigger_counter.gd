@@ -2,7 +2,6 @@ extends Spatial
 
 onready var _ent:Entity = $Entity
 
-export var selfName:String = ""
 export var triggerTargetName:String = ""
 export var active:bool = true
 
@@ -15,18 +14,18 @@ func _ready() -> void:
 	var _r = _ent.connect("entity_append_state", self, "append_state")
 	_r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_trigger", self, "on_trigger")
-	_ent.selfName = selfName
+	_ent.selfName = name
 	_ent.triggerTargetName = triggerTargetName
 
 func append_state(_dict:Dictionary) -> void:
-	_dict.selfName = selfName
+	_dict.selfName = name
 	_dict.triggerTargetName = triggerTargetName
 	_dict.active = active
 	_dict.totalCount = totalCount
 	_dict.currentCount = _currentCount
 
 func restore_state(data:Dictionary) -> void:
-	selfName = data.selfName
+	name = data.selfName
 	triggerTargetName = data.triggerTargetName
 	active = data.active
 	totalCount = data.totalCount

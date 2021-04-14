@@ -30,15 +30,16 @@ current = true
 
 [node name="mob_punk" parent="dynamic" instance=ExtResource( 1 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 7, 0, 17 )
+triggerTargets = "room_1_counter"
 
 [node name="mob_punk2" parent="dynamic" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 17 )
+triggerTargets = "room_1_counter"
 
 [node name="static" type="Spatial" parent="."]
 
 [node name="arena1counter" parent="static" instance=ExtResource( 20 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -6 )
-selfName = "arena1counter"
 triggerTargetName = "exit_gate_1"
 totalCount = 2
 
@@ -72,7 +73,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, -8 )
 selfName = "endtrigger"
 type = 1
 
-[node name="barrier_volume" parent="static" instance=ExtResource( 5 )]
+[node name="exit_gate_1" parent="static" instance=ExtResource( 5 )]
 transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 1, -2, 0, -14 )
 selfName = "exit_gate_1"
 
@@ -82,10 +83,18 @@ transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 1, -10, 0, -14 )
 [node name="barrier_volume4" parent="static" instance=ExtResource( 5 )]
 transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 1, 6, 0, -14 )
 
-[node name="barrier_volume2" parent="static" instance=ExtResource( 5 )]
+[node name="gate_1" parent="static" instance=ExtResource( 5 )]
 transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 1, 5, 0, 15 )
 selfName = "gate_1"
 active = false
+
+[node name="room_1_counter" parent="static" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 23 )
+triggerTargetName = "player_barrier_volume"
+totalCount = 2
+
+[node name="player_barrier_volume" parent="static" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 23 )
 
 [node name="world" type="Spatial" parent="."]
 

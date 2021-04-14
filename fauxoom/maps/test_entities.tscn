@@ -66,24 +66,45 @@ transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -
 [node name="mob_gunner3" parent="dynamic" instance=ExtResource( 33 )]
 transform = Transform( 5.96046e-08, 0, 1, 0, 1, 0, -1, 0, 5.96046e-08, -7, 0, -11 )
 
-[node name="toggle_mover_test" parent="dynamic" instance=ExtResource( 35 )]
+[node name="static" type="Spatial" parent="."]
+
+[node name="lever_switch" parent="static" instance=ExtResource( 29 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -28.5, 1, 5 )
+triggerTargetName = "survivalControl survival_gate"
+
+[node name="lever_switch2" parent="static" instance=ExtResource( 29 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7, 1, -8 )
+triggerTargetName = "save_test_barrier"
+
+[node name="lever_switch3" parent="static" instance=ExtResource( 29 )]
+transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -7, 1, 8 )
+resetTime = 2.0
+triggerTargetName = "toggle_mover_test"
+
+[node name="trigger_volume3" parent="static" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0.5, 6.5 )
+triggerTargetName = "toggle_mover_test"
+resetSeconds = 2.0
+noAutoHide = true
+
+[node name="toggle_mover_test" parent="static" instance=ExtResource( 35 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, 10 )
 
-[node name="root" parent="dynamic/toggle_mover_test" index="3"]
+[node name="root" parent="static/toggle_mover_test" index="3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 
-[node name="world_volume" parent="dynamic/toggle_mover_test/root" index="0" instance=ExtResource( 2 )]
+[node name="world_volume" parent="static/toggle_mover_test/root" index="0" instance=ExtResource( 2 )]
 transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 0.75, 0, 1, -1.5 )
-
-[node name="static" type="Spatial" parent="."]
 
 [node name="trigger_volume" parent="static" instance=ExtResource( 11 )]
 transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 1, -7, 2, -18.5 )
 triggerTargetName = "spawn_1"
+noAutoHide = true
 
 [node name="trigger_volume2" parent="static" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.5, -13.5 )
 triggerTargetName = "endtrigger"
+noAutoHide = true
 
 [node name="player_start" parent="static" instance=ExtResource( 9 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -2, 0, 4.5 )
@@ -505,17 +526,4 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 3 )
 [node name="item_shells_large2" parent="." instance=ExtResource( 28 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -2 )
 
-[node name="lever_switch" parent="." instance=ExtResource( 29 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -28.5, 1, 5 )
-triggerTargetName = "survivalControl survival_gate"
-
-[node name="lever_switch2" parent="." instance=ExtResource( 29 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7, 1, -8 )
-triggerTargetName = "save_test_barrier"
-
-[node name="lever_switch3" parent="." instance=ExtResource( 29 )]
-transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -7, 1, 8 )
-resetTime = 2.0
-triggerTargetName = "toggle_mover_test"
-
-[editable path="dynamic/toggle_mover_test"]
+[editable path="static/toggle_mover_test"]

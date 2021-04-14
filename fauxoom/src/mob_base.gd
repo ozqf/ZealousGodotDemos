@@ -14,6 +14,9 @@ const MOVE_TIME:float = 1.5
 const LOS_CHECK_TIME:float = 0.25
 const STUN_TIME:float = 0.2
 
+export var delaySpawn:bool = false
+export var triggerTargets:String = ""
+
 enum MobState {
 	Idle,
 	Spawning,
@@ -68,6 +71,7 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.prevState = _prevState
 	_dict.dead = _dead
 	_dict.yaw = _moveYaw
+	_dict.tars = triggerTargets
 
 func restore_state(_dict:Dictionary) -> void:
 	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
@@ -76,6 +80,7 @@ func restore_state(_dict:Dictionary) -> void:
 	_health = _dict.hp
 	_dead = _dict.dead
 	_moveYaw = _dict.yaw
+	triggerTargets = _dict.tars
 
 func game_on_reset() -> void:
 	queue_free()
@@ -227,6 +232,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		# die
 		_change_state(MobState.Dying)
 		emit_signal("on_mob_died", self)
+		Interactions.triggerTargets(get_tree(), triggerTargets)
 		return _hitInfo.damage + _health
 	else:
 		# if not awake, wake up!
