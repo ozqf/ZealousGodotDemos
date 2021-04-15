@@ -72,6 +72,15 @@ func _delete_all_dynamic_entities() -> void:
 	for ent in dynEnts:
 		ent.get_parent().queue_free()
 
+func find_static_entity_by_id(id:int) -> Node:
+	if id >= 0:
+		return null
+	var staticEnts = get_tree().get_nodes_in_group(Groups.STATIC_ENTS_GROUP_NAME)
+	for ent in staticEnts:
+		if ent.id == id:
+			return ent
+	return null
+
 #################################################
 # save/load
 func write_save_dict() -> Dictionary:

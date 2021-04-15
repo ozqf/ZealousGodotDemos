@@ -26,6 +26,7 @@ var _playerOrigin:Transform = Transform.IDENTITY
 var _player:Player = null
 var _pendingSaveName:String = ""
 var _pendingLoadDict:Dictionary = {}
+# this must default to true so that it triggers on initial startup
 var _justLoaded:bool = true
 
 var _emptyTargetInfo:Dictionary = {
@@ -58,13 +59,19 @@ func _process(_delta:float) -> void:
 		save_game(path)
 	if _pendingLoadDict:
 		print("Have pending ents - loading")
+		# we may have just switched maps but have entities to load.
+		# make sure to not trigger the initial spawns events
 		_justLoaded = false
+		# clear pending and run
 		var dict = _pendingLoadDict
 		_pendingLoadDict = {}
 		load_entity_dict(dict)
 	elif _justLoaded:
 		_justLoaded = false
 		print("Just loaded fresh map - writing reset save")
+		# tell initial spawns to run
+		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_RUN_MAP_SPAWNS)
+		# write restart savegame
 		_pendingSaveName = START_SAVE_FILE_NAME
 	# if _state == GameState.Pregame:
 	# 	if Input.is_action_just_pressed("ui_select"):
@@ -90,11 +97,9 @@ func on_restart_map() -> void:
 
 func on_clicked_retry() -> void:
 	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "checkpoint"])
-	# get_tree().call_group("console", "console_on_exec", "reset", ["reset"])
 
 func on_clicked_reset() -> void:
 	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "start"])
-	# get_tree().call_group("console", "console_on_exec", "reset", ["reset"])
 
 func _refresh_overlay() -> void:
 	if _state == GameState.Pregame:
@@ -212,7 +217,6 @@ func reset_game() -> void:
 		return
 	_camera.detach()
 	_camera.global_transform = Transform.IDENTITY
-	# get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_RESET)
 	_clear_dynamic_entities()
 	_set_to_pregame()
 

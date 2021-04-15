@@ -27,6 +27,8 @@ enum MobState {
 	Dead
 }
 
+var _sourceId:int = 0
+
 var _state = MobState.Idle
 var _prevState = MobState.Idle
 
@@ -56,6 +58,10 @@ func _ready() -> void:
 	# var mobBasePath:String = self.filename
 	# print("Mob base path: " + mobBasePath)
 
+func set_source(node:Node, sourceId:int) -> void:
+	_sourceId = sourceId
+	var _r = connect("on_mob_died", node, "_on_mob_died")
+
 func teleport(t:Transform) -> void:
 	global_transform = t
 	_moveYaw = rotation_degrees.y
@@ -72,6 +78,7 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.dead = _dead
 	_dict.yaw = _moveYaw
 	_dict.tars = triggerTargets
+	_dict.srcId = _sourceId
 
 func restore_state(_dict:Dictionary) -> void:
 	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
@@ -81,6 +88,16 @@ func restore_state(_dict:Dictionary) -> void:
 	_dead = _dict.dead
 	_moveYaw = _dict.yaw
 	triggerTargets = _dict.tars
+
+	# rewire to source
+	var id:int = _dict.srcId
+	if id == 0:
+		return
+	var node = Ents.find_static_entity_by_id(id)
+	if node == null:
+		print("Mob found no static ent " + str(id) + " to call on death")
+		return
+	set_source(node.get_root_node(), id)
 
 func game_on_reset() -> void:
 	queue_free()

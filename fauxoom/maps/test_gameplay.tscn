@@ -1,11 +1,11 @@
 [gd_scene load_steps=17 format=2]
 
-[ext_resource path="res://prefabs/dynamic_entities/mob_punk.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=2]
 [ext_resource path="res://prefabs/world_inert/blocker_volume.tscn" type="PackedScene" id=3]
 [ext_resource path="res://prefabs/static_entities/trigger_event.tscn" type="PackedScene" id=4]
 [ext_resource path="res://prefabs/static_entities/player_barrier_volume.tscn" type="PackedScene" id=5]
 [ext_resource path="res://prefabs/static_entities/lever_switch.tscn" type="PackedScene" id=6]
+[ext_resource path="res://prefabs/static_entities/mob_spawn_proxy.tscn" type="PackedScene" id=7]
 [ext_resource path="res://prefabs/static_entities/horde_spawn.tscn" type="PackedScene" id=8]
 [ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=9]
 [ext_resource path="res://prefabs/static_entities/trigger_volume.tscn" type="PackedScene" id=10]
@@ -28,14 +28,6 @@ transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0
 current = true
 
 [node name="dynamic" type="Spatial" parent="."]
-
-[node name="mob_punk" parent="dynamic" instance=ExtResource( 1 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 7, 0, 17 )
-triggerTargets = "room_1_counter"
-
-[node name="mob_punk2" parent="dynamic" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 17 )
-triggerTargets = "room_1_counter"
 
 [node name="static" type="Spatial" parent="."]
 
@@ -83,37 +75,47 @@ transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 1, -10, 0, -14 )
 [node name="barrier_volume4" parent="static" instance=ExtResource( 5 )]
 transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 1, 6, 0, -14 )
 
-[node name="room_1_exit_gate" parent="static" instance=ExtResource( 5 )]
+[node name="room_1" type="Spatial" parent="static"]
+
+[node name="room_1_exit_gate" parent="static/room_1" instance=ExtResource( 5 )]
 transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 1, 5, 0, 15 )
 
-[node name="room_1_counter" parent="static" instance=ExtResource( 20 )]
+[node name="room_1_counter" parent="static/room_1" instance=ExtResource( 20 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 23 )
 totalCount = 2
 
-[node name="room_1_side_gate_1" parent="static" instance=ExtResource( 5 )]
+[node name="room_1_side_gate_1" parent="static/room_1" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 4, 11, 0, 23 )
 
-[node name="room_1_side_gate_2" parent="static" instance=ExtResource( 5 )]
+[node name="room_1_side_gate_2" parent="static/room_1" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 4, 11, 0, 30 )
 
-[node name="room_1_side_gate_3" parent="static" instance=ExtResource( 5 )]
+[node name="room_1_side_gate_3" parent="static/room_1" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 4, 4, 0, 23 )
 
-[node name="room_1_side_gate_4" parent="static" instance=ExtResource( 5 )]
+[node name="room_1_side_gate_4" parent="static/room_1" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 4, 4, 0, 30 )
 
-[node name="room_1_trap_gate" parent="static" instance=ExtResource( 5 )]
+[node name="room_1_trap_gate" parent="static/room_1" instance=ExtResource( 5 )]
 transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 1, 5, 0, 31 )
 active = false
 
-[node name="room_1_trig_1" parent="static" instance=ExtResource( 10 )]
+[node name="room_1_trig_1" parent="static/room_1" instance=ExtResource( 10 )]
 transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 12, 8, 0.5, 22.5 )
 active = false
 noAutoHide = true
 
-[node name="lever_switch" parent="static" instance=ExtResource( 6 )]
+[node name="lever_switch" parent="static/room_1" instance=ExtResource( 6 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4, 1, 24.5 )
 triggerTargetName = "room_1_exit_gate"
+
+[node name="mob_spawn_proxy" parent="static/room_1" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 17 )
+type = 0
+
+[node name="mob_spawn_proxy2" parent="static/room_1" instance=ExtResource( 7 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 7, 0, 17 )
+type = 0
 
 [node name="world" type="Spatial" parent="."]
 
@@ -329,9 +331,11 @@ transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 3, 11.5, 1, 24.5 )
 
 [node name="world_volume63" parent="world/block2mesh/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 3, 4.5, 1, 24.5 )
-[connection signal="trigger" from="static/room_1_counter" to="static/room_1_trig_1" method="on_trigger"]
-[connection signal="trigger" from="static/room_1_trig_1" to="static/room_1_side_gate_1" method="on_trigger"]
-[connection signal="trigger" from="static/room_1_trig_1" to="static/room_1_trap_gate" method="on_trigger"]
-[connection signal="trigger" from="static/room_1_trig_1" to="static/room_1_side_gate_3" method="on_trigger"]
-[connection signal="trigger" from="static/room_1_trig_1" to="static/room_1_side_gate_4" method="on_trigger"]
-[connection signal="trigger" from="static/room_1_trig_1" to="static/room_1_side_gate_2" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/room_1_counter" to="static/room_1/room_1_trig_1" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/room_1_side_gate_2" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/room_1_side_gate_1" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/room_1_side_gate_4" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/room_1_side_gate_3" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/room_1_trap_gate" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/mob_spawn_proxy" to="static/room_1/room_1_counter" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/mob_spawn_proxy2" to="static/room_1/room_1_counter" method="on_trigger"]

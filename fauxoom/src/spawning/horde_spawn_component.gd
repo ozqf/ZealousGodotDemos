@@ -77,6 +77,8 @@ func _spawn_child() -> void:
 	# mob.global_transform = pick_spawn_point()
 	mob.teleport(pick_spawn_point())
 	mob.force_awake()
+	# no id to set this way since this isn't an entity!
+	# mob.sourceId = _ent.id
 	mob.connect("on_mob_died", self, "_on_mob_died")
 
 func _on_mob_died(_mob) -> void:

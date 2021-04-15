@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://prefabs/gib.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=2]
@@ -32,7 +32,6 @@
 [ext_resource path="res://prefabs/point_entity.tscn" type="PackedScene" id=30]
 [ext_resource path="res://src/static_entities/survival_controller.gd" type="Script" id=31]
 [ext_resource path="res://src/spawning/horde_spawn_component.gd" type="Script" id=32]
-[ext_resource path="res://prefabs/dynamic_entities/mob_punk.tscn" type="PackedScene" id=33]
 [ext_resource path="res://src/entity.gd" type="Script" id=34]
 [ext_resource path="res://prefabs/static_entities/toggle_mover.tscn" type="PackedScene" id=35]
 
@@ -57,15 +56,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 3, -7 )
 [node name="gib3" parent="dynamic" instance=ExtResource( 1 )]
 transform = Transform( 0.999928, 0.00109075, 0.0119154, -0.00103226, 0.999987, -0.00491392, -0.0119206, 0.00490127, 0.999917, 2, 5, -6 )
 
-[node name="mob_gunner" parent="dynamic" instance=ExtResource( 33 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -5, 0, -5 )
-
-[node name="mob_gunner2" parent="dynamic" instance=ExtResource( 33 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -8, 0, -5 )
-
-[node name="mob_gunner3" parent="dynamic" instance=ExtResource( 33 )]
-transform = Transform( 5.96046e-08, 0, 1, 0, 1, 0, -1, 0, 5.96046e-08, -7, 0, -11 )
-
 [node name="static" type="Spatial" parent="."]
 
 [node name="lever_switch" parent="static" instance=ExtResource( 29 )]
@@ -77,7 +67,7 @@ transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7, 1, 
 triggerTargetName = "save_test_barrier"
 
 [node name="lever_switch3" parent="static" instance=ExtResource( 29 )]
-transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -7, 1, 8 )
+transform = Transform( -1, 0, -2.62269e-07, 0, 1, 0, 2.62269e-07, 0, -1, -7, 1, 9 )
 resetTime = 2.0
 triggerTargetName = "toggle_mover_test"
 
@@ -107,7 +97,7 @@ triggerTargetName = "endtrigger"
 noAutoHide = true
 
 [node name="player_start" parent="static" instance=ExtResource( 9 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -2, 0, 4.5 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -7, 0, 4.5 )
 
 [node name="horde_spawn" parent="static" instance=ExtResource( 8 )]
 transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -10, 0, -29 )
@@ -115,7 +105,12 @@ triggerName = "spawn_1"
 maxLiveMobs = 1
 
 [node name="mob_spawn_proxy" parent="static" instance=ExtResource( 10 )]
-transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 3, 0, -2 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -9, 0, -5 )
+type = 0
+
+[node name="mob_spawn_proxy2" parent="static" instance=ExtResource( 10 )]
+transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -7, 0, -10 )
+type = 0
 
 [node name="sprite_object" parent="static" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -6 )
@@ -498,6 +493,9 @@ transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 12, -14, 0, 6 )
 active = false
 
 [node name="save_test_barrier" parent="." instance=ExtResource( 6 )]
+transform = Transform( 2, 0, 0, 0, 3, 0, 0, 0, 1, -6, 0, -8 )
+
+[node name="save_test_barrier2" parent="." instance=ExtResource( 6 )]
 transform = Transform( 2, 0, 0, 0, 3, 0, 0, 0, 1, -10, 0, -8 )
 
 [node name="ai_test" parent="." instance=ExtResource( 5 )]
@@ -523,5 +521,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 3 )
 
 [node name="item_shells_large2" parent="." instance=ExtResource( 28 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -2 )
+[connection signal="trigger" from="static/mob_spawn_proxy" to="save_test_barrier2" method="on_trigger"]
 
 [editable path="static/toggle_mover_test"]

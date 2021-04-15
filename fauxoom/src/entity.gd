@@ -20,6 +20,7 @@ export var prefabName:String = ""
 export var selfName:String = ""
 export var triggerTargetName:String = ""
 var id:int = 0
+var _rootOverride:Node = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,6 +38,16 @@ func _ready():
 		var prefab = Game.get_entity_prefab(prefabName)
 		assert(prefab != null)
 	# print("Ent " + get_parent().name + " id: " + str(id))
+
+# set this if getting from this entity component node to the actual root of the prefab
+# is not as simple as get_parent()
+func set_root_override(root:Node) -> void:
+	_rootOverride = root
+
+func get_root_node() -> Node:
+	if _rootOverride:
+		return _rootOverride
+	return get_parent()
 
 func on_trigger_entities(target:String) -> void:
 	if target == "":
