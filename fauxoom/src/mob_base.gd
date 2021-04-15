@@ -215,11 +215,13 @@ func _process(_delta:float) -> void:
 	elif _state == MobState.Idle:
 		if _thinkTick <= 0:
 			_thinkTick = LOS_CHECK_TIME
-			if Game.check_player_in_front(global_transform.origin, _moveYaw):
-				if Game.check_los_to_player(global_transform.origin):
+			# if Game.check_player_in_front(global_transform.origin, _moveYaw):
+			# 	if Game.check_los_to_player(global_transform.origin):
+			# 		_change_state(MobState.Hunting)
+			# 	else:
+			# 		print("Player in front but cannot see!")
+			if Game.check_los_to_player(global_transform.origin):
 					_change_state(MobState.Hunting)
-				else:
-					print("Player in front but cannot see!")
 		else:
 			_thinkTick -= _delta
 		return

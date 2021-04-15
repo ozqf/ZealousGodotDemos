@@ -1,5 +1,7 @@
 extends Spatial
 
+signal trigger()
+
 onready var _off:Spatial = $off
 onready var _on:Spatial = $on
 onready var _shape:CollisionShape = $CollisionShape
@@ -43,4 +45,5 @@ func _set_on(flag:bool) -> void:
 func use() -> void:
 	if !on:
 		_set_on(true)
+		emit_signal("trigger")
 		Interactions.triggerTargets(get_tree(), triggerTargetName)

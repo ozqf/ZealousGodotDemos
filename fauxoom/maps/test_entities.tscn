@@ -78,12 +78,10 @@ resetSeconds = 2.0
 noAutoHide = true
 
 [node name="toggle_mover_test" parent="static" instance=ExtResource( 35 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, 10 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 10 )
+offset = Vector3( 0, 2, 0 )
 
-[node name="root" parent="static/toggle_mover_test" index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
-
-[node name="world_volume" parent="static/toggle_mover_test/root" index="0" instance=ExtResource( 2 )]
+[node name="world_volume" parent="static/toggle_mover_test" instance=ExtResource( 2 )]
 transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 0.75, 0, 1, -1.5 )
 
 [node name="trigger_volume" parent="static" instance=ExtResource( 11 )]
@@ -521,6 +519,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 3 )
 
 [node name="item_shells_large2" parent="." instance=ExtResource( 28 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -2 )
+[connection signal="trigger" from="static/trigger_volume3" to="static/toggle_mover_test" method="on_trigger"]
 [connection signal="trigger" from="static/mob_spawn_proxy" to="save_test_barrier2" method="on_trigger"]
-
-[editable path="static/toggle_mover_test"]

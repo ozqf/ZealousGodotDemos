@@ -1,54 +1,49 @@
 extends Spatial
 
+# root is the node that will be moved around
+onready var _root:Spatial = $root
+# a and b are the global positions root will be moved between
+onready var _a:MeshInstance = $a
+onready var _b:MeshInstance = $b
 onready var _ent:Entity = $Entity
-onready var _marker:Spatial = $marker
 
 export var active:bool = false
 export var loop:bool = false
-export var seconds:float = 2
-export(Vector3) var offset:Vector3 = Vector3()
 
 var _time:float = 0
 var _dir:float = 1
-var _xformA:Transform
-var _xformB:Transform
 
 func _ready():
-	# _marker.visible = false
+	_root.mesh = null
+	_a.visible = false
+	_b.visible = false
 	var _r = _ent.connect("entity_append_state", self, "append_state")
 	_r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_trigger", self, "on_trigger")
 	_ent.selfName = name
-	_xformA = global_transform
-	_xformB = global_transform
-	_xformB.origin += offset
 
 func append_state(_dict:Dictionary) -> void:
-	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
+	_dict.xform = ZqfUtils.transform_to_dict(_root.global_transform)
 	_dict.time = _time
 	_dict.dir = _dir
 	_dict.active = active
 	_dict.loop = loop
 
 func restore_state(_dict:Dictionary) -> void:
-	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
+	_root.global_transform = ZqfUtils.transform_from_dict(_dict.xform)
 	_time = _dict.time
-	_dir = _dict.dir
-	active = _dict.active
-	loop = _dict.loop
+	_dict.dir = _dir
+	_dict.active = active
+	_dict.loop = loop
 
 func on_trigger() -> void:
 	if !active:
 		active = true
-	print("Toggle mover active")
 
 func _process(delta) -> void:
 	if !active:
 		return
-	var mul:float = seconds
-	if mul <= 0:
-		mul = 0.1
-	_time += (delta / mul) * _dir
+	_time += delta * _dir
 	if _time > 1:
 		_time = 1
 		_dir = -1
@@ -59,4 +54,4 @@ func _process(delta) -> void:
 		_dir = 1
 		if !loop:
 			active = false
-	global_transform = _xformA.interpolate_with(_xformB, _time)
+	_root.global_transform = _a.global_transform.interpolate_with(_b.global_transform, _time)
