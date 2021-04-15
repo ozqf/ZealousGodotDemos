@@ -1,4 +1,7 @@
 extends Spatial
+class_name TriggerCounter
+
+signal trigger()
 
 onready var _ent:Entity = $Entity
 
@@ -35,4 +38,6 @@ func on_trigger() -> void:
 	_currentCount += 1
 	if _currentCount >= totalCount:
 		active = false
+		print(name + " - emit")
+		emit_signal("trigger")
 		Interactions.triggerTargets(get_tree(), triggerTargetName)

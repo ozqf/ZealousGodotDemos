@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/attachable_camera.gd"
 }, {
+"base": "Spatial",
+"class": "BarrierVolume",
+"language": "GDScript",
+"path": "res://src/static_entities/barrier_volume.gd"
+}, {
 "base": "Reference",
 "class": "ByteBuffer",
 "language": "GDScript",
@@ -189,6 +194,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/defs/target_info.gd"
 }, {
+"base": "Spatial",
+"class": "TriggerCounter",
+"language": "GDScript",
+"path": "res://src/static_entities/trigger_counter.gd"
+}, {
+"base": "Spatial",
+"class": "TriggerVolume",
+"language": "GDScript",
+"path": "res://src/static_entities/trigger_volume.gd"
+}, {
 "base": "Reference",
 "class": "Weapons",
 "language": "GDScript",
@@ -208,6 +223,7 @@ _global_script_class_icons={
 "Animations": "",
 "AsciMapLoader": "",
 "AttachableCamera": "",
+"BarrierVolume": "",
 "ByteBuffer": "",
 "CustomAnimator3D": "",
 "CustomMapLoader": "",
@@ -241,6 +257,8 @@ _global_script_class_icons={
 "SpawnPoint": "",
 "SpriteObject": "",
 "TargetInfo": "",
+"TriggerCounter": "",
+"TriggerVolume": "",
 "Weapons": "",
 "ZqfFPSMotor": "",
 "ZqfUtils": ""
