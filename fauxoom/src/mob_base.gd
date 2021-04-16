@@ -243,13 +243,23 @@ func apply_stun(dir:Vector3) -> void:
 	_velocity = dir * 2
 	_thinkTick = STUN_TIME
 
+func regular_death() -> void:
+	_change_state(MobState.Dying)
+
+func gib_death() -> void:
+	Game.spawn_gibs(global_transform.origin, 6)
+	_change_state(MobState.Dying)
+
 func hit(_hitInfo:HitInfo) -> int:
 	if is_dead():
 		return 0
 	_health -= _hitInfo.damage
 	if _health <= 0:
 		# die
-		_change_state(MobState.Dying)
+		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+			gib_death()
+		else:
+			regular_death()
 		emit_signal("on_mob_died", self)
 		Interactions.triggerTargets(get_tree(), triggerTargets)
 		return _hitInfo.damage + _health

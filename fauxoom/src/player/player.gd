@@ -149,6 +149,8 @@ func give_item(itemType:String, amount:int) -> int:
 	return took
 
 func hit(hitInfo) -> int:
+	if hitInfo.attackTeam == Interactions.TEAM_PLAYER:
+		return 0
 	if _dead:
 		return 0
 	var dmg = hitInfo.damage

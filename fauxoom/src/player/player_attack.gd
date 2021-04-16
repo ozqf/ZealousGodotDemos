@@ -91,7 +91,7 @@ func _fire_rocket() -> void:
 	var t:Transform = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward = -t.basis.z
-	rocket.launch(selfPos, forward, null, _prjMask)
+	rocket.launch_prj(selfPos, forward, Ents.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
 
 func _check_weapon_change() -> void:
 	if _pendingWeapon == "":

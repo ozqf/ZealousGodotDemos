@@ -51,7 +51,7 @@ func _fire(target:Vector3) -> void:
 	forward.y = target.y - selfPos.y
 	forward.z = target.z - selfPos.z
 	#var diff:Vector3 = target - selfPos
-	prj.launch(selfPos, forward.normalized(), _body, _prjMask)
+	prj.launch_prj(selfPos, forward.normalized(), 0, Interactions.TEAM_ENEMY, _prjMask)
 
 # return false if attack has finished
 func custom_update(_delta:float, _targetPos:Vector3) -> bool:

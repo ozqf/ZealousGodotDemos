@@ -12,6 +12,14 @@ const DEBRIS:int = (1 << 8)
 
 const EDITOR_GEOMETRY:int = (1 << 19)
 
+const TEAM_NONE:int = 0
+const TEAM_ENEMY:int = 1
+const TEAM_PLAYER:int = 2
+const TEAM_NON_COMBATANT:int = 3
+
+const DAMAGE_TYPE_NONE:int = 0
+const DAMAGE_TYPE_EXPLOSIVE:int = 1
+
 static func get_enemy_prj_mask() -> int:
 	return (WORLD | PLAYER)
 
@@ -22,6 +30,12 @@ static func get_player_prj_mask() -> int:
 static func hitscan_hit(_hitInfo:HitInfo, _hitScanResult:Dictionary) -> int:
 	if _hitScanResult.collider.has_method("hit"):
 		return _hitScanResult.collider.hit(_hitInfo)
+	return -1
+
+# returns -1 if object had no hit function
+static func hit(_hitInfo:HitInfo, collider) -> int:
+	if collider.has_method("hit"):
+		return collider.hit(_hitInfo)
 	return -1
 
 static func triggerTargets(tree:SceneTree, targetNameString:String) -> void:

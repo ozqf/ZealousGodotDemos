@@ -4,7 +4,7 @@ var _timeToLive:float = 10
 
 func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
-	launch(1, 0)
+	launch_gib(1, 0)
 
 func game_on_reset() -> void:
 	self.queue_free()
@@ -19,7 +19,7 @@ func drop() -> void:
 	self.linear_velocity = Vector3()
 	self.angular_velocity = Vector3()
 
-func launch(_power:float, ttlOverride:float) -> void:
+func launch_gib(_power:float, ttlOverride:float) -> void:
 	if ttlOverride > 0:
 		_timeToLive = ttlOverride
 	var vel:Vector3 = Vector3()

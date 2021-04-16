@@ -1,9 +1,6 @@
 extends Spatial
 class_name MobSpawnProxy
 
-var _prefab_mob_punk = preload("res://prefabs/dynamic_entities/mob_punk.tscn")
-var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
-
 signal trigger()
 
 onready var _ent:Entity = $Entity
@@ -47,7 +44,7 @@ func on_trigger() -> void:
 		return
 	# spawn mob
 	_used = true
-	var mob = _prefab_mob_punk.instance()
+	var mob = Ents.get_prefab_def(Entities.PREFAB_MOB_PUNK).prefab.instance()
 	Game.get_dynamic_parent().add_child(mob)
 	mob.teleport(global_transform)
 	if spawnAlert:

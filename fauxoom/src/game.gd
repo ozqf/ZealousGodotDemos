@@ -240,11 +240,23 @@ func game_on_player_died(_info:Dictionary) -> void:
 	add_child(gib)
 	gib.global_transform = _info.headTransform
 	if _info.gib:
-		gib.launch(1, 0)
+		gib.launch_gib(1, 0)
 	else:
 		gib.drop()
 	_camera.detach()
 	_camera.attach_to(gib)
+
+# returns last gib spawned
+func spawn_gibs(origin:Vector3, count:int) -> Spatial:
+	var def = _entRoot.get_prefab_def(Entities.PREFAB_GIB)
+	var result = null;
+	for _i in range(0, count):
+		var gib = def.prefab.instance()
+		result = gib
+		add_child(gib)
+		gib.global_transform.origin = origin
+		gib.launch_gib(1, 0)
+	return result
 
 func game_on_level_completed() -> void:
 	if _state == GameState.Playing:
