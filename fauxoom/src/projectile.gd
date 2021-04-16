@@ -31,11 +31,14 @@ func _ready() -> void:
 
 func area_scan_result(bodies) -> void:
 	print("Projectile read " + str(bodies.size()) + " bodies hit")
+	_hitInfo.attackTeam = _team
+	_hitInfo.damageType = Interactions.DAMAGE_TYPE_EXPLOSIVE
+	_hitInfo.origin = global_transform.origin
 	for body in bodies:
-		_hitInfo.damageType = Interactions.DAMAGE_TYPE_EXPLOSIVE
+		var tarPos:Vector3 = body.global_transform.origin
 		_hitInfo.damage = 100
-		_hitInfo.attackTeam = _team
-		_hitInfo.direction = _velocity.normalized()
+		_hitInfo.direction = tarPos - _hitInfo.origin
+		_hitInfo.direction = _hitInfo.direction.normalized()
 		var _inflicted:int = Interactions.hit(_hitInfo, body)
 
 func _move_as_ray_2(_delta:float) -> void:
@@ -85,7 +88,7 @@ func _process(_delta:float) -> void:
 	elif _state == ProjectileState.Dying:
 		_time -= _delta
 		if _time <= 0:
-			remove_self() 
+			remove_self()
 
 func launch_prj(origin:Vector3, _forward:Vector3, sourceId:int, prjTeam:int, collisionMask:int) -> void:
 	_time = timeToLive

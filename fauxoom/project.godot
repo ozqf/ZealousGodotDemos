@@ -423,6 +423,7 @@ quick_load={
 3d_physics/layer_8="player_barrier"
 3d_physics/layer_9="debris"
 3d_physics/layer_10="interactive"
+3d_physics/layer_11="corpse"
 3d_physics/layer_20="editor_geometry"
 
 [rendering]

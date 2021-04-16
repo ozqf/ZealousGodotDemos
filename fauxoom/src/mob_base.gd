@@ -23,8 +23,11 @@ enum MobState {
 	Hunting,
 	Attacking,
 	Stunned,
+	# all corpse states below this point
 	Dying,
-	Dead
+	Dead,
+	Gibbing,
+	Gibbed
 }
 
 var _sourceId:int = 0
@@ -42,6 +45,9 @@ var _thinkTick:float = 0
 var _stunAccumulator:int = 0
 var _stunDamageMax:int = 20
 
+var _pushAccumulator:Vector3 = Vector3()
+
+var _maxHealth:int = 50
 var _health:int = 50
 var _dead:bool = false
 
@@ -75,7 +81,6 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.hp = _health
 	_dict.state = _state
 	_dict.prevState = _prevState
-	_dict.dead = _dead
 	_dict.yaw = _moveYaw
 	_dict.tars = triggerTargets
 	_dict.srcId = _sourceId
@@ -85,7 +90,6 @@ func restore_state(_dict:Dictionary) -> void:
 	_change_state(_dict.state)
 	_prevState = _dict.prevState
 	_health = _dict.hp
-	_dead = _dict.dead
 	_moveYaw = _dict.yaw
 	triggerTargets = _dict.tars
 
@@ -103,7 +107,7 @@ func game_on_reset() -> void:
 	queue_free()
 
 func is_dead() -> bool:
-	return (_state == MobState.Dead || _state == MobState.Dying)
+	return (_state >= MobState.Dying)
 
 func _change_state(_newState) -> void:
 	if _state == _newState:
@@ -114,18 +118,29 @@ func _change_state(_newState) -> void:
 	if _state == MobState.Hunting:
 		_thinkTick = MOVE_TIME
 		_sprite.play_animation("walk")
-	if _state == MobState.Attacking:
+	elif _state == MobState.Attacking:
 		_sprite.play_animation("aim")
-	if _state == MobState.Stunned:
+	elif _state == MobState.Stunned:
 		pass
-	if _state == MobState.Idle:
+	elif _state == MobState.Idle:
 		pass
-	if _state == MobState.Spawning:
+	elif _state == MobState.Spawning:
 		pass
-	if _state == MobState.Dying:
+	elif _state == MobState.Dying:
 		_sprite.play_animation("dying")
+		# _body.disabled = true
+		self.collision_layer = Interactions.CORPSE
+		self.collision_mask = Interactions.CORPSE | Interactions.WORLD
+	elif _state == MobState.Dead:
+		pass
+	elif _state == MobState.Gibbing:
+		_sprite.play_animation("dead_gib")
 		_body.disabled = true
-	if _state == MobState.Dead:
+		_sprite.visible = false
+	elif _state == MobState.Gibbed:
+		_sprite.play_animation("dead_gib")
+		_body.disabled = true
+		_sprite.visible = false
 		pass
 
 func _calc_self_move(_delta:float) -> Vector3:
@@ -231,6 +246,8 @@ func _process(_delta:float) -> void:
 		_tick_stunned(_delta)
 		return
 	elif _state == MobState.Dying:
+		_velocity = self.move_and_slide(_velocity)
+		_velocity *= 0.95
 		return
 	elif _state == MobState.Dead:
 		return
@@ -248,10 +265,25 @@ func regular_death() -> void:
 
 func gib_death() -> void:
 	Game.spawn_gibs(global_transform.origin, 6)
-	_change_state(MobState.Dying)
+	_change_state(MobState.Gibbed)
+
+func corpse_hit(_hitInfo:HitInfo) -> void:
+	print("Corpse hit - frame == " + str(_sprite.get_frame_number()))
+	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+		var gibbable:bool = (_state == MobState.Dying || _state == MobState.Dead)
+		if gibbable:
+			gib_death()
+	elif _sprite.get_frame_number() <= 1:
+		if _health < -_maxHealth:
+			gib_death()
+		else:
+			_health -= _hitInfo.damage
+			_sprite.set_frame_number(0)
+			_velocity += _hitInfo.direction * 3
 
 func hit(_hitInfo:HitInfo) -> int:
 	if is_dead():
+		corpse_hit(_hitInfo)
 		return 0
 	_health -= _hitInfo.damage
 	if _health <= 0:

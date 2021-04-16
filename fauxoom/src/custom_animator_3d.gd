@@ -50,6 +50,13 @@ func _change_set_and_animation(setName:String, animName:String) -> void:
 	frames = load(_currentSet.path)
 	play_animation(animName)
 
+func get_frame_number() -> int:
+	return _frame
+
+func set_frame_number(val:int) -> void:
+	_tick = 0
+	_frame = val
+
 func _calc_dir_index() -> int:
 	var cam:Transform = Main.get_camera_pos()
 	if useParentYaw:

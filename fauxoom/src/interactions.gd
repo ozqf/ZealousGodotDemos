@@ -9,6 +9,8 @@ const ITEMS:int = (1 << 5)
 const ACTOR_BARRIER:int = (1 << 6)
 const PLAYER_BARRIER:int = (1 << 7)
 const DEBRIS:int = (1 << 8)
+const INTERACTIVE:int = (1 << 9)
+const CORPSE:int = (1 << 10)
 
 const EDITOR_GEOMETRY:int = (1 << 19)
 
@@ -24,7 +26,7 @@ static func get_enemy_prj_mask() -> int:
 	return (WORLD | PLAYER)
 
 static func get_player_prj_mask() -> int:
-	return (WORLD | ACTORS)
+	return (WORLD | ACTORS | CORPSE)
 
 # returns -1 if object had no hit function
 static func hitscan_hit(_hitInfo:HitInfo, _hitScanResult:Dictionary) -> int:

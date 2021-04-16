@@ -31,7 +31,7 @@ defaultAnimation = "rocket"
 
 [node name="Area" type="Area" parent="."]
 collision_layer = 4
-collision_mask = 10
+collision_mask = 1034
 script = ExtResource( 4 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
