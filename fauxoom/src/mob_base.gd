@@ -130,7 +130,7 @@ func _change_state(_newState) -> void:
 		_sprite.play_animation("dying")
 		# _body.disabled = true
 		self.collision_layer = Interactions.CORPSE
-		self.collision_mask = Interactions.CORPSE | Interactions.WORLD
+		self.collision_mask = Interactions.CORPSE | Interactions.WORLD | Interactions.ACTOR_BARRIER
 	elif _state == MobState.Dead:
 		pass
 	elif _state == MobState.Gibbing:
@@ -263,33 +263,36 @@ func apply_stun(dir:Vector3) -> void:
 func regular_death() -> void:
 	_change_state(MobState.Dying)
 
-func gib_death() -> void:
-	Game.spawn_gibs(global_transform.origin, 6)
+func gib_death(dir:Vector3) -> void:
+	Game.spawn_gibs(global_transform.origin, dir, 6)
 	_change_state(MobState.Gibbed)
 
-func corpse_hit(_hitInfo:HitInfo) -> void:
+func corpse_hit(_hitInfo:HitInfo) -> int:
 	print("Corpse hit - frame == " + str(_sprite.get_frame_number()))
 	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
 		var gibbable:bool = (_state == MobState.Dying || _state == MobState.Dead)
 		if gibbable:
-			gib_death()
+			gib_death(_hitInfo.direction)
+		return 1
 	elif _sprite.get_frame_number() <= 1:
-		if _health < -_maxHealth:
-			gib_death()
+		if _health < -_maxHealth * 1000:
+			gib_death(_hitInfo.direction / 10)
 		else:
 			_health -= _hitInfo.damage
 			_sprite.set_frame_number(0)
 			_velocity += _hitInfo.direction * 3
+		return 1
+	else:
+		return Interactions.HIT_RESPONSE_PENETRATE
 
 func hit(_hitInfo:HitInfo) -> int:
 	if is_dead():
-		corpse_hit(_hitInfo)
-		return 0
+		return corpse_hit(_hitInfo)
 	_health -= _hitInfo.damage
 	if _health <= 0:
 		# die
 		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
-			gib_death()
+			gib_death(_hitInfo.direction)
 		else:
 			regular_death()
 		emit_signal("on_mob_died", self)

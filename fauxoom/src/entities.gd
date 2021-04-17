@@ -5,7 +5,9 @@ const EMPTY_ID:int = 0
 const PLAYER_RESERVED_ID:int = 1
 
 const PREFAB_MOB_PUNK:String = "mob_punk"
+const PREFAB_MOB_WORM:String = "mob_worm"
 const PREFAB_MOB_GUNNER:String = "mob_gunner"
+const PREFAB_MOB_SPIDER:String = "mob_spider"
 const PREFAB_PLAYER:String = "player"
 const PREFAB_GIB:String = "gib"
 
@@ -14,8 +16,16 @@ var _prefabs = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_punk.tscn"),
 		entNodePath = "Entity"
 	},
+	mob_worm = {
+		prefab = preload("res://prefabs/dynamic_entities/mob_flesh_worm.tscn"),
+		entNodePath = "Entity"
+	},
 	mob_gunner = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_gunner.tscn"),
+		entNodePath = "Entity"
+	},
+	mob_spider = {
+		prefab = preload("res://prefabs/dynamic_entities/mob_spider.tscn"),
 		entNodePath = "Entity"
 	},
 	player = {

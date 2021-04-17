@@ -5,7 +5,7 @@
 [ext_resource path="res://src/entity.gd" type="Script" id=3]
 [ext_resource path="res://src/mob_attack.gd" type="Script" id=4]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=5]
-[ext_resource path="res://assets/sprites/frames/punk_frames.tres" type="SpriteFrames" id=6]
+[ext_resource path="res://assets/sprites/frames/spider_frames.tres" type="SpriteFrames" id=6]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.75, 0.5 )
@@ -13,7 +13,7 @@ extents = Vector3( 0.5, 0.75, 0.5 )
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.2, 0.2, 1 )
 
-[node name="mob_punk" type="KinematicBody"]
+[node name="mob_spider" type="KinematicBody"]
 collision_layer = 2
 collision_mask = 71
 script = ExtResource( 2 )
@@ -29,7 +29,7 @@ frames = ExtResource( 6 )
 script = ExtResource( 5 )
 active = true
 useParentYaw = true
-animationSet = "punk"
+animationSet = "mob_spider"
 defaultAnimation = "walk"
 
 [node name="body" type="CollisionShape" parent="."]

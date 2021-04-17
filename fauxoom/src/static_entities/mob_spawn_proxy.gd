@@ -9,13 +9,14 @@ enum EnemyType {
 	Punk,
 	Gunner,
 	FleshWorm,
-	Gasbag
+	Spider
 }
 export(EnemyType) var type = EnemyType.Gunner
 export var delaySpawn:bool = false
 export var spawnAlert:bool = false
 
 var _used:bool = false
+var _prefabName:String = "mob_punk"
 
 func _ready() -> void:
 	visible = false
@@ -39,12 +40,21 @@ func _on_mob_died(_mob) -> void:
 	print("Spawn proxy saw child die")
 	emit_signal("trigger")
 
+func _select_prefab(enemyType:int) -> String:
+	if enemyType == EnemyType.FleshWorm:
+		return Entities.PREFAB_MOB_WORM
+	elif enemyType == EnemyType.Spider:
+		return Entities.PREFAB_MOB_SPIDER
+	else:
+		return Entities.PREFAB_MOB_PUNK
+
 func on_trigger() -> void:
 	if _used:
 		return
 	# spawn mob
 	_used = true
-	var mob = Ents.get_prefab_def(Entities.PREFAB_MOB_PUNK).prefab.instance()
+	var prefabLabel:String = _select_prefab(type)
+	var mob = Ents.get_prefab_def(prefabLabel).prefab.instance()
 	Game.get_dynamic_parent().add_child(mob)
 	mob.teleport(global_transform)
 	if spawnAlert:

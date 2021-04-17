@@ -20,6 +20,7 @@ var _extraPellets:int = 10
 
 var _hitInfo:HitInfo = null
 var _prjMask:int = -1
+var _ignore = []
 
 signal fire_ssg()
 signal change_weapon(nameString)
@@ -27,6 +28,7 @@ signal change_weapon(nameString)
 func init_attack(launchNode:Spatial, ignoreBody:PhysicsBody, inventory:Inventory) -> void:
 	_launchNode = launchNode
 	_parentBody = ignoreBody
+	_ignore.push_back(_parentBody)
 	_inventory = inventory
 	_prjMask = Interactions.get_player_prj_mask()
 
@@ -48,6 +50,9 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> void:
 		var t = impact.global_transform
 		t.origin = result.position
 		impact.global_transform = t
+	elif inflicted == -2:
+		# print("Penetration hit")
+		pass
 	else:
 		var pos = result.position
 		for _i in range(0, 4):
@@ -68,22 +73,30 @@ func _fire_spread() -> void:
 	#var originForward:Vector3 = -t.basis.z
 	#var mask:int = (1 << 0)
 	var mask:int = Interactions.get_player_prj_mask()
+	var corpseMask:int = Interactions.get_corpse_hit_mask()
 	#var mask:int = -1
 	for _i in range(0, _extraPellets):
 		var spreadX:float = rand_range(-1500, 1500)
 		var spreadY:float = rand_range(-400, 400)
 		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(origin, t.basis, spreadX, spreadY)
-		var result:Dictionary = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, 1000, [_parentBody], mask)
+		var result:Dictionary = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, 1000, _ignore, mask)
 		if result:
 			_perform_hit(result, forward)
+		# perform second scan for debris that will not interfer with the damage scan
+		result = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, 1000, _ignore, corpseMask)
+		if result:
+			_perform_hit(result, -_launchNode.global_transform.basis.z)
 
 func _fire_single() -> void:
 	var mask:int = Interactions.get_player_prj_mask()
 	#var mask:int = -1
-	var result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, [_parentBody], mask)
+	var result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, _ignore, mask)
 	if result:
 		_perform_hit(result, -_launchNode.global_transform.basis.z)
-	pass
+	# perform second scan for debris that will not interfer with the damage scan
+	result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, _ignore, Interactions.get_corpse_hit_mask())
+	if result:
+		_perform_hit(result, -_launchNode.global_transform.basis.z)
 
 func _fire_rocket() -> void:
 	var rocket = _rocket_t.instance()

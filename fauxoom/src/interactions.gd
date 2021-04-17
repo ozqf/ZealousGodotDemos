@@ -22,23 +22,31 @@ const TEAM_NON_COMBATANT:int = 3
 const DAMAGE_TYPE_NONE:int = 0
 const DAMAGE_TYPE_EXPLOSIVE:int = 1
 
+const HIT_RESPONSE_NONE:int = -1
+const HIT_RESPONSE_PENETRATE:int = -2
+
 static func get_enemy_prj_mask() -> int:
 	return (WORLD | PLAYER)
 
 static func get_player_prj_mask() -> int:
-	return (WORLD | ACTORS | CORPSE)
+	return (WORLD | ACTORS)
+
+static func get_corpse_hit_mask() -> int:
+	return CORPSE
 
 # returns -1 if object had no hit function
 static func hitscan_hit(_hitInfo:HitInfo, _hitScanResult:Dictionary) -> int:
 	if _hitScanResult.collider.has_method("hit"):
 		return _hitScanResult.collider.hit(_hitInfo)
-	return -1
+	print("No hit " + str(Ents.EMPTY_ID))
+	return HIT_RESPONSE_NONE
 
 # returns -1 if object had no hit function
+# returns -2 if object let hit through
 static func hit(_hitInfo:HitInfo, collider) -> int:
 	if collider.has_method("hit"):
 		return collider.hit(_hitInfo)
-	return -1
+	return HIT_RESPONSE_NONE
 
 static func triggerTargets(tree:SceneTree, targetNameString:String) -> void:
 	if tree == null:

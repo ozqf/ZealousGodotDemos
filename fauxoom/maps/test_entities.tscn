@@ -59,7 +59,7 @@ transform = Transform( 0.999928, 0.00109075, 0.0119154, -0.00103226, 0.999987, -
 [node name="static" type="Spatial" parent="."]
 
 [node name="lever_switch" parent="static" instance=ExtResource( 29 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -28.5, 1, 5 )
+transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -21, 1, 6.5 )
 triggerTargetName = "survivalControl survival_gate"
 
 [node name="lever_switch2" parent="static" instance=ExtResource( 29 )]
@@ -72,7 +72,7 @@ resetTime = 2.0
 triggerTargetName = "toggle_mover_test"
 
 [node name="trigger_volume3" parent="static" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0.5, 6.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 0.5, 5.5 )
 triggerTargetName = "toggle_mover_test"
 resetSeconds = 2.0
 noAutoHide = true
@@ -103,11 +103,15 @@ triggerName = "spawn_1"
 maxLiveMobs = 1
 
 [node name="mob_spawn_proxy" parent="static" instance=ExtResource( 10 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -9, 0, -5 )
-type = 0
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -8, 0, 10 )
+type = 2
+
+[node name="mob_spawn_proxy3" parent="static" instance=ExtResource( 10 )]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -5, 0, 10 )
+type = 3
 
 [node name="mob_spawn_proxy2" parent="static" instance=ExtResource( 10 )]
-transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -7, 0, -10 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -7, 0, -11 )
 type = 0
 
 [node name="sprite_object" parent="static" instance=ExtResource( 7 )]
@@ -122,10 +126,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.5, 2, -8.5 )
 light_color = Color( 1, 0, 0, 1 )
 
 [node name="blocker_volume" parent="static" instance=ExtResource( 3 )]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 12, -13, 0, -6 )
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 8, -13, 0, -10 )
 
 [node name="blocker_volume2" parent="static" instance=ExtResource( 3 )]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 12, -4, 0, -6 )
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 8, -4, 0, -10 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="static"]
 transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 8, 0 )
@@ -360,10 +364,10 @@ transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107,
 transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 13, -2, -12 )
 
 [node name="blocker_volume3" parent="static" instance=ExtResource( 3 )]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 12, -13, 0, 18 )
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 12, -13, 0, 22 )
 
 [node name="blocker_volume4" parent="static" instance=ExtResource( 3 )]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 12, -4, 0, 18 )
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 12, -4, 0, 22 )
 
 [node name="world" type="Spatial" parent="."]
 
@@ -436,6 +440,18 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -13.5 )
 [node name="world_volume11" parent="world" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -13.5, 4.5, -10 )
 
+[node name="world_volume40" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -11.5, 1.5, -8 )
+
+[node name="world_volume41" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -2.5, 1.5, -8 )
+
+[node name="world_volume42" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -11.5, 1.5, 8 )
+
+[node name="world_volume43" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -2.5, 1.5, 8 )
+
 [node name="world_volume22" parent="world" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -13.5, 4.5, 10 )
 
@@ -449,13 +465,19 @@ transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -0.5, 4.5, 10.1 )
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, 10.5, 4.5, -4.5 )
 
 [node name="world_volume13" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -28.5, 4.5, 4.5 )
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -21.5, 4.5, 6.5 )
 
 [node name="world_volume27" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -28.5, 4.5, -4.5 )
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -21.5, 4.5, -6.5 )
+
+[node name="world_volume38" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -34.5, 4.5, 6.5 )
+
+[node name="world_volume39" parent="world" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -34.5, 4.5, -6.5 )
 
 [node name="world_volume18" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 8, -28.5, 4.5, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 12, -21.5, 4.5, 0 )
 
 [node name="world_volume14" parent="world" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 10.5, 2, 4.5 )
@@ -470,7 +492,7 @@ transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 19.5, 2, 4.5 )
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -7.5, 4.5, -22.5 )
 
 [node name="world_volume35" parent="world" instance=ExtResource( 2 )]
-transform = Transform( 2, 0, 0, 0, 10, 0, 0, 0, 1, -7, 4.5, -8.5 )
+transform = Transform( 2, 0, 0, 0, 10, 0, 0, 0, 2, -7, 4.5, -9 )
 
 [node name="world_volume37" parent="world" instance=ExtResource( 2 )]
 transform = Transform( 2, 0, 0, 0, 10, 0, 0, 0, 1, -7, 4.5, 8.5 )
@@ -521,3 +543,4 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 3 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -2 )
 [connection signal="trigger" from="static/trigger_volume3" to="static/toggle_mover_test" method="on_trigger"]
 [connection signal="trigger" from="static/mob_spawn_proxy" to="save_test_barrier2" method="on_trigger"]
+[connection signal="trigger" from="static/mob_spawn_proxy3" to="save_test_barrier2" method="on_trigger"]
