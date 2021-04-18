@@ -6,7 +6,6 @@ onready var _ent:Entity = $Entity
 export var selfName:String = ""
 export var triggerTargetName:String = ""
 
-var _state:Dictionary
 var _active:bool = false
 
 var _spawnTransforms = []
@@ -14,9 +13,11 @@ var _northernTransforms = []
 
 func _ready() -> void:
 	visible = false
-	add_to_group(Groups.GAME_GROUP_NAME)
-	add_to_group(Groups.ENTS_GROUP_NAME)
-	_state = write_state()
+	_ent.connect("entity_append_state", self, "append_state")
+	_ent.connect("entity_restore_state", self, "restore_state")
+	_ent.connect("entity_trigger", self, "on_trigger")
+	_ent.selfName = selfName
+
 	var spawnPoints:Spatial = get_node("spawn_points")
 	var numPoints:int = spawnPoints.get_child_count()
 	for _i in range(0, numPoints):
@@ -32,26 +33,16 @@ func _process(_delta:float) -> void:
 	if !_active:
 		return
 
-func game_on_reset() -> void:
-	restore_state(_state)
+func on_trigger() -> void:
+	_active = true
+	print("Survival start")
+	_child_spawner.tickMax = 0.25
+	_child_spawner.totalMobs = 9999
+	_child_spawner.maxLiveMobs = 10
+	_child_spawner.on_trigger()
 
-func on_trigger_entities(target:String) -> void:
-	if target == "":
-		return
-	if target == selfName && _active == false:
-		_active = true
-		print("Survival start")
-		_child_spawner.tickMax = 0.1
-		_child_spawner.totalMobs = 10
-		_child_spawner.maxLiveMobs = 10
-		_child_spawner.start()
-
-func write_state() -> Dictionary:
-	return {
-		active = _active,
-		spawner_1 = _child_spawner.write_state()
-	}
+func append_state(_dict:Dictionary) -> void:
+	_dict.active = _active
 
 func restore_state(data:Dictionary) -> void:
 	_active = data.active
-	_child_spawner.restore_state(data.spawner_1)

@@ -10,8 +10,7 @@ onready var _stats:MobStats = $stats
 onready var _ent:Entity = $Entity
 
 # const MOVE_SPEED:float = 4.5
-const MOVE_TIME:float = 1.5
-const LOS_CHECK_TIME:float = 0.25
+# const MOVE_TIME:float = 1.5
 const STUN_TIME:float = 0.2
 
 export var delaySpawn:bool = false
@@ -47,7 +46,6 @@ var _stunDamageMax:int = 20
 
 var _pushAccumulator:Vector3 = Vector3()
 
-var _maxHealth:int = 50
 var _health:int = 50
 var _dead:bool = false
 
@@ -61,6 +59,7 @@ func _ready() -> void:
 	# move yaw is used for facing angle too so make sure it
 	# matches spawn transform
 	_moveYaw = rotation_degrees.y
+	_health = _stats.health
 	# var mobBasePath:String = self.filename
 	# print("Mob base path: " + mobBasePath)
 
@@ -116,7 +115,7 @@ func _change_state(_newState) -> void:
 	_state = _newState
 	_thinkTick = 0
 	if _state == MobState.Hunting:
-		_thinkTick = MOVE_TIME
+		_thinkTick = _stats.moveTime
 		_sprite.play_animation("walk")
 	elif _state == MobState.Attacking:
 		_sprite.play_animation("aim")
@@ -154,7 +153,7 @@ func _calc_self_move(_delta:float) -> Vector3:
 		var tarPos:Vector3 = _targetInfo.position
 		var _tarYaw:float = _targetInfo.yawDegrees
 		var dist:float = ZqfUtils.flat_distance_between(selfPos, tarPos)
-		if dist > 15:
+		if dist > 10:
 			_moveYaw = ZqfUtils.yaw_between(selfPos, tarPos)
 		elif dist > 3:
 			# var tarFacing:float = _calc_target_side(selfPos, tarPos, -tarTrans.basis.z)
@@ -170,7 +169,7 @@ func _calc_self_move(_delta:float) -> Vector3:
 			# 	_moveYaw += deg2rad(90)
 			
 			# apply some random evasion - very jittery
-			var quarter:float = deg2rad(90)
+			var quarter:float = deg2rad(45)
 			_moveYaw -= quarter
 			_moveYaw += rand_range(0, quarter * 2.0)
 		else:
@@ -211,7 +210,7 @@ func _process(_delta:float) -> void:
 			return
 		
 		if _thinkTick <= 0:
-			_thinkTick = MOVE_TIME
+			_thinkTick = _stats.moveTime
 			if _attack.start_attack(_targetInfo.position):
 				_change_state(MobState.Attacking)
 		else:
@@ -229,7 +228,7 @@ func _process(_delta:float) -> void:
 			_change_state(MobState.Hunting)
 	elif _state == MobState.Idle:
 		if _thinkTick <= 0:
-			_thinkTick = LOS_CHECK_TIME
+			_thinkTick = _stats.losCheckTime
 			# if Game.check_player_in_front(global_transform.origin, _moveYaw):
 			# 	if Game.check_los_to_player(global_transform.origin):
 			# 		_change_state(MobState.Hunting)
@@ -258,7 +257,7 @@ func apply_stun(dir:Vector3) -> void:
 		_change_state(MobState.Stunned)
 	_attack.cancel()
 	_velocity = dir * 2
-	_thinkTick = STUN_TIME
+	_thinkTick = _stats.stunTime
 
 func regular_death() -> void:
 	_change_state(MobState.Dying)
@@ -268,14 +267,14 @@ func gib_death(dir:Vector3) -> void:
 	_change_state(MobState.Gibbed)
 
 func corpse_hit(_hitInfo:HitInfo) -> int:
-	print("Corpse hit - frame == " + str(_sprite.get_frame_number()))
+	# print("Corpse hit - frame == " + str(_sprite.get_frame_number()))
 	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
 		var gibbable:bool = (_state == MobState.Dying || _state == MobState.Dead)
 		if gibbable:
 			gib_death(_hitInfo.direction)
 		return 1
 	elif _sprite.get_frame_number() <= 1:
-		if _health < -_maxHealth * 1000:
+		if _health < -_stats.health * 1000:
 			gib_death(_hitInfo.direction / 10)
 		else:
 			_health -= _hitInfo.damage
@@ -289,6 +288,8 @@ func hit(_hitInfo:HitInfo) -> int:
 	if is_dead():
 		return corpse_hit(_hitInfo)
 	_health -= _hitInfo.damage
+	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+			print("Explosive hit for " + str(_hitInfo.damage))
 	if _health <= 0:
 		# die
 		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:

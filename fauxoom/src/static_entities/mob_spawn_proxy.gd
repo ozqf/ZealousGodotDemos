@@ -20,7 +20,6 @@ var _prefabName:String = "mob_punk"
 
 func _ready() -> void:
 	visible = false
-	print("Spawn proxy ready")
 	add_to_group(Groups.GAME_GROUP_NAME)
 	var _result = _ent.connect("entity_append_state", self, "append_state")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
@@ -37,7 +36,7 @@ func restore_state(_dict:Dictionary) -> void:
 	_used = _dict.used
 
 func _on_mob_died(_mob) -> void:
-	print("Spawn proxy saw child die")
+	# print("Spawn proxy saw child die")
 	emit_signal("trigger")
 
 func _select_prefab(enemyType:int) -> String:

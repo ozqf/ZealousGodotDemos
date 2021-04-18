@@ -24,19 +24,27 @@ var _team:int = Interactions.TEAM_NONE
 var _ignoreBody = []
 var _hitInfo:HitInfo = _hitInfo_type.new()
 
+var _explosiveRadius:float = 3
+
 func _ready() -> void:
 	if has_node("Area"):
 		_area = $Area
 		var _r = _area.connect("scan_result", self, "area_scan_result")
 
 func area_scan_result(bodies) -> void:
-	print("Projectile read " + str(bodies.size()) + " bodies hit")
+	# print("Projectile read " + str(bodies.size()) + " bodies hit")
 	_hitInfo.attackTeam = _team
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_EXPLOSIVE
 	_hitInfo.origin = global_transform.origin
 	for body in bodies:
 		var tarPos:Vector3 = body.global_transform.origin
-		_hitInfo.damage = 100
+		var dist:float = _hitInfo.origin.distance_to(tarPos)
+		var percent:float = 1.0 - float(dist / _explosiveRadius)
+		if percent > 1:
+			percent = 1
+		if percent < 0:
+			percent = 0
+		_hitInfo.damage = int(100 * percent)
 		_hitInfo.direction = tarPos - _hitInfo.origin
 		_hitInfo.direction = _hitInfo.direction.normalized()
 		var _inflicted:int = Interactions.hit(_hitInfo, body)
@@ -61,6 +69,9 @@ func _move_as_ray(_delta:float) -> void:
 	var t:Transform = global_transform
 	var origin:Vector3 = t.origin
 	look_at(origin + _velocity, t.basis.y)
+	# step backward slightly, or ray can sometimes penetrate walls...
+	var forward = -global_transform.basis.z
+	origin -= (forward * 0.1)
 
 	var speed:float = _velocity.length()
 	if speed == 0:
@@ -72,10 +83,10 @@ func _move_as_ray(_delta:float) -> void:
 		_hitInfo.attackTeam = _team
 		_hitInfo.direction = _velocity.normalized()
 		var _inflicted:int = Interactions.hitscan_hit(_hitInfo, hit)
-		if _inflicted == Interactions.HIT_RESPONSE_PENETRATE:
-			print("Penetration hit!")
-		else:
-			print("Inflicted - " + str(_inflicted))
+		# if _inflicted == Interactions.HIT_RESPONSE_PENETRATE:
+			# print("Penetration hit!")
+		# else:
+			# print("Inflicted - " + str(_inflicted))
 		global_transform.origin = hit.position
 		die()
 		return

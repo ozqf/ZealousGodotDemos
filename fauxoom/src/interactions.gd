@@ -38,7 +38,6 @@ static func get_corpse_hit_mask() -> int:
 static func hitscan_hit(_hitInfo:HitInfo, _hitScanResult:Dictionary) -> int:
 	if _hitScanResult.collider.has_method("hit"):
 		return _hitScanResult.collider.hit(_hitInfo)
-	print("No hit " + str(Ents.EMPTY_ID))
 	return HIT_RESPONSE_NONE
 
 # returns -1 if object had no hit function

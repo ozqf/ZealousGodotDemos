@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://prefabs/gib.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=2]
@@ -31,7 +31,6 @@
 [ext_resource path="res://prefabs/static_entities/lever_switch.tscn" type="PackedScene" id=29]
 [ext_resource path="res://prefabs/point_entity.tscn" type="PackedScene" id=30]
 [ext_resource path="res://src/static_entities/survival_controller.gd" type="Script" id=31]
-[ext_resource path="res://src/spawning/horde_spawn_component.gd" type="Script" id=32]
 [ext_resource path="res://src/entity.gd" type="Script" id=34]
 [ext_resource path="res://prefabs/static_entities/toggle_mover.tscn" type="PackedScene" id=35]
 
@@ -325,17 +324,7 @@ isStatic = true
 
 [node name="horde_spawns" type="Spatial" parent="static/survival_controller"]
 
-[node name="horde_spawn" type="Spatial" parent="static/survival_controller/horde_spawns"]
-script = ExtResource( 32 )
-
-[node name="horde_spawn2" type="Spatial" parent="static/survival_controller/horde_spawns"]
-script = ExtResource( 32 )
-
-[node name="horde_spawn3" type="Spatial" parent="static/survival_controller/horde_spawns"]
-script = ExtResource( 32 )
-
-[node name="horde_spawn4" type="Spatial" parent="static/survival_controller/horde_spawns"]
-script = ExtResource( 32 )
+[node name="horde_spawn" parent="static/survival_controller/horde_spawns" instance=ExtResource( 8 )]
 
 [node name="spawn_points" type="Spatial" parent="static/survival_controller"]
 
