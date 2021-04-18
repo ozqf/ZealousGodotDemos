@@ -28,6 +28,7 @@ var _targettingInfo:Dictionary = {
 
 var _status:Dictionary = {
 	health = 100,
+	energy = 100,
 	yawDegrees = 0,
 	bullets = 50,
 	shells = 0
@@ -132,6 +133,7 @@ func _process(_delta):
 	_status.shells = _inventory.get_count("shells")
 	_status.yawDegrees = _motor.m_yaw
 	_status.health = _health
+	_status.energy = _motor.energy
 	_status.swayScale = swayScale
 	_status.swayTime = _swayTime
 	_status.hasInteractionTarget = _interactor.get_is_colliding()

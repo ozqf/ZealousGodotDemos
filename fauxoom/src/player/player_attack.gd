@@ -140,7 +140,7 @@ func _process(_delta:float) -> void:
 	if _tick <= 0:
 		_check_weapon_change()
 
-		if Input.is_action_pressed("attack_1") || Input.is_action_pressed("move_special"):
+		if Input.is_action_pressed("attack_1"): # || Input.is_action_pressed("move_special"):
 			_tick = _refireTime
 			var weap = Weapons.weapons[_currentWeapon]
 			var type:String = weap.projectileType

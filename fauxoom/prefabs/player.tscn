@@ -169,23 +169,29 @@ __meta__ = {
 }
 
 [node name="health" type="Label" parent="hud/player_status"]
-margin_top = 24.0
 margin_right = 120.0
-margin_bottom = 55.0
+margin_bottom = 31.0
 text = "HEALTH 100
 "
 
-[node name="bullets" type="Label" parent="hud/player_status"]
-margin_top = 59.0
+[node name="energy" type="Label" parent="hud/player_status"]
+margin_top = 35.0
 margin_right = 120.0
-margin_bottom = 90.0
+margin_bottom = 66.0
+text = "ENERGY 100
+"
+
+[node name="bullets" type="Label" parent="hud/player_status"]
+margin_top = 70.0
+margin_right = 120.0
+margin_bottom = 101.0
 text = "AMMO 100
 "
 
 [node name="shells" type="Label" parent="hud/player_status"]
-margin_top = 94.0
+margin_top = 105.0
 margin_right = 120.0
-margin_bottom = 125.0
+margin_bottom = 136.0
 text = "AMMO 100
 "
 

@@ -62,6 +62,7 @@ func player_hit(_data:Dictionary) -> void:
 
 func player_status_update(data:Dictionary) -> void:
 	$player_status/health.text = "HEALTH " + str(data.health)
+	$player_status/energy.text = "ENERGY " + str(data.energy)
 	$player_status/bullets.text = "BULLETS: " + str(data.bullets)
 	$player_status/shells.text = "SHELLS: " + str(data.shells)
 	_swayTime = data.swayTime

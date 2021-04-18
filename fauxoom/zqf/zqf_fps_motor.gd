@@ -9,10 +9,20 @@ const RUN_SPEED:float = 8.5
 const GROUND_ACCELERATION:float = 150.0
 const GROUND_FRICTION:float = 0.8
 
+const DASH_SPEED:float = 20.0
+const DASH_DURATION:float = 0.25
+const ENERGY_MAX:float = 100.0
+const DASH_ENERGY_COST:float = 50.0
+const ENERGY_GAIN_PER_SECOND:float = 50.0
+
 var _body:KinematicBody = null
 var _head:Spatial = null
 var _inputOn:bool = false
 var _velocity:Vector3 = Vector3()
+
+var _dashTime:float = 0
+var energy:float = ENERGY_MAX
+var _dashPushDir:Vector3 = Vector3()
 
 var m_yaw: float = 0
 var m_pitch: float = 0
@@ -78,6 +88,21 @@ func _physics_process(delta:float) -> void:
 		return
 	_read_rotation_keys(delta)
 	_apply_rotations(delta)
+
+	energy += ENERGY_GAIN_PER_SECOND * delta
+	if energy > ENERGY_MAX:
+		energy = ENERGY_MAX
+
+	if _dashTime > 0:
+		_dashTime -= delta
+		if _dashTime <= 0:
+			# stop dash
+			_velocity = Vector3()
+		else:
+			_velocity = _dashPushDir * DASH_SPEED
+			_velocity = _body.move_and_slide(_velocity)
+			return
+
 	var input:Vector3 = _read_input()
 	var t:Transform = _head.global_transform
 	var forward:Vector3 = t.basis.z
@@ -89,6 +114,19 @@ func _physics_process(delta:float) -> void:
 	pushDir.y = 0
 	pushDir = pushDir.normalized()
 	var pushing:bool = (pushDir.length() > 0)
+	
+	var dashOn:bool = Input.is_action_just_pressed("move_special")
+	if dashOn && energy >= DASH_ENERGY_COST && _dashTime <= 0:
+		_dashTime = DASH_DURATION
+		energy -= DASH_ENERGY_COST
+		# if current input, dash dir is just forwards
+		if pushing:
+			_dashPushDir = pushDir
+		else:
+			_dashPushDir = forward
+		_velocity = _dashPushDir * DASH_SPEED
+		_velocity = _body.move_and_slide(_velocity)
+		return
 	
 	# calculate current speed cap
 	if pushing:
