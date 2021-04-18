@@ -325,6 +325,7 @@ isStatic = true
 [node name="horde_spawns" type="Spatial" parent="static/survival_controller"]
 
 [node name="horde_spawn" parent="static/survival_controller/horde_spawns" instance=ExtResource( 8 )]
+type = 2
 
 [node name="spawn_points" type="Spatial" parent="static/survival_controller"]
 

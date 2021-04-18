@@ -1,6 +1,10 @@
 extends RigidBody
 
+onready var _sprite = $Sprite3D
+onready var _particles = $particles
+
 var _timeToLive:float = 10
+var _angleTick:int = 0
 
 func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
@@ -9,7 +13,31 @@ func _ready() -> void:
 func game_on_reset() -> void:
 	self.queue_free()
 
+func _run_sprite_spin() -> void:
+	_angleTick += 1
+	if _angleTick >= 4:
+		_angleTick = 0
+	if _angleTick == 0:
+		_sprite.flip_h = false
+		_sprite.flip_v = false
+	if _angleTick == 1:
+		_sprite.flip_h = true
+		_sprite.flip_v = false
+	if _angleTick == 2:
+		_sprite.flip_h = true
+		_sprite.flip_v = true
+	if _angleTick == 3:
+		_sprite.flip_h = false
+		_sprite.flip_v = true
+
 func _process(_delta:float) -> void:
+	if self.linear_velocity.length_squared() > 0.5:
+		_particles.emitting = true
+		_run_sprite_spin()
+	else:
+		_particles.emitting = false
+	
+
 	_timeToLive -= _delta
 	if _timeToLive <= 0:
 		_timeToLive = 99999

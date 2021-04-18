@@ -11,6 +11,14 @@ const PREFAB_MOB_SPIDER:String = "mob_spider"
 const PREFAB_PLAYER:String = "player"
 const PREFAB_GIB:String = "gib"
 
+
+enum EnemyType {
+	Punk,
+	Gunner,
+	FleshWorm,
+	Spider
+}
+
 var _prefabs = {
 	mob_punk = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_punk.tscn"),
@@ -66,6 +74,23 @@ func get_prefab_def(_name:String) -> Dictionary:
 		print("No EntityType '" + _name + "' found!")
 		return {}
 	return _prefabs[_name]
+
+func _select_prefab(enemyType:int) -> String:
+	if enemyType == EnemyType.FleshWorm:
+		return PREFAB_MOB_WORM
+	elif enemyType == EnemyType.Spider:
+		return PREFAB_MOB_SPIDER
+	else:
+		return PREFAB_MOB_PUNK
+
+func create_mob(enemyType:int, _transform:Transform, alert:bool):
+	var prefabLabel:String = _select_prefab(enemyType)
+	var mob = get_prefab_def(prefabLabel).prefab.instance()
+	Game.get_dynamic_parent().add_child(mob)
+	mob.teleport(_transform)
+	if alert:
+		mob.force_awake()
+	return mob
 
 func assign_dynamic_id() -> int:
 	var id:int = _nextDynamicId

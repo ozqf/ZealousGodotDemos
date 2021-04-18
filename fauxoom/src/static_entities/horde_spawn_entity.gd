@@ -10,7 +10,13 @@ onready var _ent:Entity = $Entity
 export var triggerName:String = ""
 export var triggerTargetName:String = ""
 
-export var childType:int = 1
+enum EnemyType {
+	Punk,
+	Gunner,
+	FleshWorm,
+	Spider
+}
+export(EnemyType) var type = EnemyType.Gunner
 export var tickMax:float = 2
 export var totalMobs:int = 4
 export var maxLiveMobs:int = 2
@@ -70,11 +76,11 @@ func pick_spawn_point() -> Transform:
 		return _spawnPoints[_i]
 
 func _spawn_child() -> void:
-	var mob = _prefab_mob_punk.instance()
-	Game.get_dynamic_parent().add_child(mob)
-	# mob.global_transform = pick_spawn_point()
-	mob.teleport(pick_spawn_point())
-	mob.force_awake()
+	# var mob = _prefab_mob_punk.instance()
+	# Game.get_dynamic_parent().add_child(mob)
+	# mob.teleport(pick_spawn_point())
+	# mob.force_awake()
+	var mob = Ents.create_mob(type, pick_spawn_point(), true)
 	# no id to set this way since this isn't an entity!
 	mob.set_source(self, _ent.id)
 	# mob.connect("on_mob_died", self, "_on_mob_died")

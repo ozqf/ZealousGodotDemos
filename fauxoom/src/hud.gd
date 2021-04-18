@@ -7,6 +7,11 @@ onready var _centreSprite:AnimatedSprite = $gun/weapon_centre
 onready var _rightSprite:AnimatedSprite = $gun/weapon_right
 onready var _leftSprite:AnimatedSprite = $gun/weapon_left
 onready var _prompt:Label = $centre/interact_prompt
+onready var _energyBar:TextureProgress = $centre/energy
+onready var _healthBar:TextureProgress = $centre/health
+
+var _maxHealthColour:Color = Color(0, 1, 0, 1)
+var _minHealthColour:Color = Color(1, 0, 0, 1)
 
 var _isShooting:bool = false
 var _centreTrans:Transform2D
@@ -65,6 +70,15 @@ func player_status_update(data:Dictionary) -> void:
 	$player_status/energy.text = "ENERGY " + str(data.energy)
 	$player_status/bullets.text = "BULLETS: " + str(data.bullets)
 	$player_status/shells.text = "SHELLS: " + str(data.shells)
+	var c:Color = Color(1, 1, 1, 1)
+	# _maxHealthColour _minHealthColour
+	var t:float = float(data.health) / 100.0
+	c.r = _minHealthColour.r + (_maxHealthColour.r - _minHealthColour.r) * t
+	c.g = _minHealthColour.g + (_maxHealthColour.g - _minHealthColour.g) * t
+	c.b = _minHealthColour.b + (_maxHealthColour.b - _minHealthColour.b) * t
+	$centre/red_dot.color = c
+	_energyBar.value = data.energy
+	_healthBar.value = data.health
 	_swayTime = data.swayTime
 	_prompt.visible = data.hasInteractionTarget
 

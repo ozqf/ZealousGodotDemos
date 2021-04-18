@@ -115,7 +115,7 @@ func _physics_process(delta:float) -> void:
 	pushDir = pushDir.normalized()
 	var pushing:bool = (pushDir.length() > 0)
 	
-	var dashOn:bool = Input.is_action_just_pressed("move_special")
+	var dashOn:bool = Input.is_action_pressed("move_special")
 	if dashOn && energy >= DASH_ENERGY_COST && _dashTime <= 0:
 		_dashTime = DASH_DURATION
 		energy -= DASH_ENERGY_COST
