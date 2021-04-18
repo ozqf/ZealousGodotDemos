@@ -1,8 +1,8 @@
 # simple entity wrapper for a horde spawner
 extends Spatial
 
-var _prefab_mob_punk = preload("res://prefabs/dynamic_entities/mob_punk.tscn")
-var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
+# var _prefab_mob_punk = preload("res://prefabs/dynamic_entities/mob_punk.tscn")
+# var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
 
 onready var _spawner:HordeSpawnComponent = $logic
 onready var _ent:Entity = $Entity
@@ -20,12 +20,16 @@ func _ready() -> void:
 	var _r = _ent.connect("entity_append_state", self, "append_state")
 	_r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_trigger", self, "on_trigger")
+	_r = _spawner.connect("spawn", self, "on_spawn")
 	_spawner.childType = childType
 	_spawner.tickMax = tickMax
 	_spawner.totalMobs = totalMobs
 	_spawner.maxLiveMobs = maxLiveMobs
 	_ent.selfName = triggerName
 	_ent.triggerTargetName = triggerTargetName
+
+func on_spawn() -> void:
+	print("Spawn enemy")
 
 func append_state(_dict:Dictionary) -> void:
 	_spawner.append_state(_dict)

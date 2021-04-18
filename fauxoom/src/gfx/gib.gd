@@ -26,12 +26,12 @@ func launch_gib(_dir:Vector3, _power:float, ttlOverride:float) -> void:
 	_dir.x += rand_range(-0.2, 0.2)
 	_dir.y += rand_range(-0.2, 0.2)
 	_dir.z += rand_range(-0.2, 0.2)
-	vel.x = _dir.x * 10
-	vel.y = _dir.y * 10
-	vel.z = _dir.z * 10
-	# vel.x = 0.5 * _power
-	# vel.y = 10 * _power
-	# vel.z = 0.5 * _power
+	# vel.x = _dir.x * 10
+	# vel.y = _dir.y * 10
+	# vel.z = _dir.z * 10
+	vel.x = rand_range(-7, 7) * _power
+	vel.y = rand_range(6, 8) * _power
+	vel.z = rand_range(-7, 7) * _power
 	self.linear_velocity = vel
 	
 	var minSpin = 1

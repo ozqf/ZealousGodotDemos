@@ -1,6 +1,8 @@
 extends Spatial
 class_name HordeSpawnComponent
 
+signal spawn()
+
 var _prefab_mob_punk = preload("res://prefabs/dynamic_entities/mob_punk.tscn")
 var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
 
@@ -18,6 +20,7 @@ var _liveMobs:int = 0
 var _deadMobs:int = 0
 var _tick:float = 0
 var _active:bool = false
+var sourceId:int = 0
 
 func _ready() -> void:
 	visible = false

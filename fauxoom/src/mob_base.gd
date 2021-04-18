@@ -264,7 +264,7 @@ func regular_death() -> void:
 	_change_state(MobState.Dying)
 
 func gib_death(dir:Vector3) -> void:
-	Game.spawn_gibs(global_transform.origin, dir, 6)
+	Game.spawn_gibs(global_transform.origin, dir, 8)
 	_change_state(MobState.Gibbed)
 
 func corpse_hit(_hitInfo:HitInfo) -> int:

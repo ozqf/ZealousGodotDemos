@@ -254,7 +254,11 @@ func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:
 		var gib = def.prefab.instance()
 		result = gib
 		add_child(gib)
-		gib.global_transform.origin = origin
+		var pos:Vector3 = origin
+		pos.x += rand_range(-0.5, 0.5)
+		pos.y += rand_range(0, 1.5)
+		pos.z += rand_range(-0.5, 0.5)
+		gib.global_transform.origin = pos
 		gib.launch_gib(dir, 1, 0)
 	return result
 
