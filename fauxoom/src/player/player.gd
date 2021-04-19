@@ -37,7 +37,7 @@ var _status:Dictionary = {
 func _ready():
 	# Main.set_camera(_head)
 	# _targettingInfo.id = Entities.PLAYER_RESERVED_ID
-	
+	add_to_group(Groups.SYSTEM_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	
@@ -53,6 +53,7 @@ func _ready():
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
 
 	Game.register_player(self)
+	system_config_change(Main.cfg)
 
 func append_state(_dict:Dictionary) -> void:
 	var t:Transform = Transform.IDENTITY
@@ -65,6 +66,11 @@ func restore_state(_dict:Dictionary) -> void:
 	var t:Transform = ZqfUtils.transform_from_dict(_dict.xform)
 	teleport(t)
 	_inventory.restore_state(_dict)
+
+func system_config_change(_cfg:Dictionary) -> void:
+	_motor.mouseSensitivity = _cfg.controls.sensitivity
+	_motor.invertedY = _cfg.controls.invertedY
+
 
 func teleport(_trans:Transform) -> void:
 	# copy rotation, clear and pass to motor

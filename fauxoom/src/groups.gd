@@ -3,6 +3,9 @@ class_name Groups
 const CONSOLE_GROUP_NAME:String = "console"
 const CONSOLE_FN_EXEC:String = "console_on_exec"
 
+const SYSTEM_GROUP_NAME:String = "system"
+const SYSTEM_FN_CONFIG_CHANGE:String = "system_config_change"
+
 const GAME_GROUP_NAME:String = "game"
 const GAME_FN_MAP_CHANGE:String = "game_on_map_change"
 const GAME_FN_RUN_MAP_SPAWNS:String = "game_run_map_spawns"

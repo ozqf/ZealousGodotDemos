@@ -13,9 +13,10 @@ var _northernTransforms = []
 
 func _ready() -> void:
 	visible = false
-	_ent.connect("entity_append_state", self, "append_state")
-	_ent.connect("entity_restore_state", self, "restore_state")
-	_ent.connect("entity_trigger", self, "on_trigger")
+	var _r
+	_r = _ent.connect("entity_append_state", self, "append_state")
+	_r = _ent.connect("entity_restore_state", self, "restore_state")
+	_r = _ent.connect("entity_trigger", self, "on_trigger")
 	_ent.selfName = selfName
 
 	var spawnPoints:Spatial = get_node("spawn_points")
@@ -36,9 +37,9 @@ func _process(_delta:float) -> void:
 func on_trigger() -> void:
 	_active = true
 	print("Survival start")
-	_child_spawner.tickMax = 0.25
-	_child_spawner.totalMobs = 9999
-	_child_spawner.maxLiveMobs = 10
+	# _child_spawner.tickMax = 0.25
+	# _child_spawner.totalMobs = 9999
+	# _child_spawner.maxLiveMobs = 10
 	_child_spawner.on_trigger()
 
 func append_state(_dict:Dictionary) -> void:

@@ -11,7 +11,7 @@ enum EnemyType {
 	FleshWorm,
 	Spider
 }
-export(EnemyType) var type = EnemyType.Gunner
+export(EnemyType) var type = EnemyType.Punk
 export var delaySpawn:bool = false
 export var spawnAlert:bool = false
 

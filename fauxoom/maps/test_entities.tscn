@@ -111,7 +111,6 @@ type = 3
 
 [node name="mob_spawn_proxy2" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -7, 0, -11 )
-type = 0
 
 [node name="sprite_object" parent="static" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -6 )
@@ -326,6 +325,9 @@ isStatic = true
 
 [node name="horde_spawn" parent="static/survival_controller/horde_spawns" instance=ExtResource( 8 )]
 type = 2
+tickMax = 0.5
+totalMobs = 16
+maxLiveMobs = 4
 
 [node name="spawn_points" type="Spatial" parent="static/survival_controller"]
 

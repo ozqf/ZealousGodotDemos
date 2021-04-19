@@ -546,7 +546,6 @@ margin_bottom = 130.0
 resizable = true
 
 [node name="options" type="Control" parent="static_menus"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -559,6 +558,14 @@ mouse_filter = 2
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="static_menus/options"]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0, 0, 0, 0.517647 )
+__meta__ = {
 "_edit_use_anchors_": false
 }
 
@@ -611,10 +618,40 @@ margin_left = 381.0
 margin_right = 405.0
 margin_bottom = 24.0
 
-[node name="sound_volume" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="static_menus/options/VBoxContainer"]
 margin_top = 48.0
 margin_right = 639.0
-margin_bottom = 64.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 32, 32 )
+
+[node name="windowed" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
+margin_top = 84.0
+margin_right = 639.0
+margin_bottom = 108.0
+alignment = 1
+
+[node name="Label" type="Label" parent="static_menus/options/VBoxContainer/windowed"]
+margin_left = 272.0
+margin_top = 5.0
+margin_right = 339.0
+margin_bottom = 19.0
+text = "Windowed"
+
+[node name="CheckBox" type="CheckBox" parent="static_menus/options/VBoxContainer/windowed"]
+margin_left = 343.0
+margin_right = 367.0
+margin_bottom = 24.0
+
+[node name="HSeparator3" type="HSeparator" parent="static_menus/options/VBoxContainer"]
+margin_top = 112.0
+margin_right = 639.0
+margin_bottom = 144.0
+rect_min_size = Vector2( 32, 32 )
+
+[node name="sound_volume" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
+margin_top = 148.0
+margin_right = 639.0
+margin_bottom = 164.0
 alignment = 1
 
 [node name="Label" type="Label" parent="static_menus/options/VBoxContainer/sound_volume"]
@@ -631,9 +668,9 @@ margin_bottom = 16.0
 rect_min_size = Vector2( 256, 0 )
 
 [node name="music_volume" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
-margin_top = 68.0
+margin_top = 168.0
 margin_right = 639.0
-margin_bottom = 84.0
+margin_bottom = 184.0
 alignment = 1
 
 [node name="Label" type="Label" parent="static_menus/options/VBoxContainer/music_volume"]
@@ -649,12 +686,14 @@ margin_right = 495.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 256, 0 )
 
+[node name="HSeparator2" type="HSeparator" parent="static_menus/options/VBoxContainer"]
+margin_top = 188.0
+margin_right = 639.0
+margin_bottom = 220.0
+rect_min_size = Vector2( 32, 32 )
+
 [node name="back" type="Button" parent="static_menus/options/VBoxContainer"]
-anchor_left = 0.302
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_top = 88.0
-margin_right = 128.0
-margin_bottom = 108.0
+margin_top = 224.0
+margin_right = 639.0
+margin_bottom = 244.0
 text = "BACK"

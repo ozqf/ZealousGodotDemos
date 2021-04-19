@@ -9,6 +9,8 @@ class_name ZqfUtils
 const DEG2RAD = 0.017453292519
 const RAD2DEG = 57.29577951308
 
+const ROOT_DIR = "res://"
+
 static func dot_product(x0: float, y0: float, x1: float, y1: float):
 	return x0 * x1 + y0 * y1
 
@@ -244,6 +246,26 @@ static func tokenise(_text:String) -> PoolStringArray:
 static func does_file_exist(path:String) -> bool:
 	var file = File.new()
 	return file.file_exists(path)
+
+static func does_dir_exist(path:String) -> bool:
+	var dir = Directory.new()
+	return dir.dir_exists(path)
+
+static func make_dir(path:String) -> void:
+	var dir = Directory.new()
+	if !dir.dir_exists(path):
+		dir.make_dir(path)
+
+# if returned dictionary is falsy, the file wasn't loaded
+static func load_dict_json_file(_path:String) -> Dictionary:
+	var file = File.new()
+	if !file.file_exists(_path):
+		print("No file " + str(_path) + " to load")
+		return {}
+	file.open(_path, File.READ)
+	var data = parse_json(file.get_as_text())
+	file.close()
+	return data
 
 #####################################
 # 3D sprite directions

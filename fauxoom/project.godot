@@ -278,8 +278,6 @@ Ents="*res://prefabs/services/entities.tscn"
 
 [display]
 
-window/size/borderless=true
-window/size/fullscreen=true
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 

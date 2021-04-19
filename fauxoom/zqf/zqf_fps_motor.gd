@@ -1,7 +1,6 @@
 extends Node
 class_name ZqfFPSMotor
 
-const MOUSE_SENSITIVITY: float = 0.1
 const PITCH_CAP_DEGREES = 89
 const KEYBOARD_YAW_DEGREES = 180
 
@@ -14,6 +13,9 @@ const DASH_DURATION:float = 0.25
 const ENERGY_MAX:float = 100.0
 const DASH_ENERGY_COST:float = 50.0
 const ENERGY_GAIN_PER_SECOND:float = 50.0
+
+var mouseSensitivity: float = 0.1
+var invertedY:bool = false
 
 var _body:KinematicBody = null
 var _head:Spatial = null
@@ -167,7 +169,7 @@ func _input(_event: InputEvent):
 		# var scrSizeRatio: Vector2 = Vector2(1, 1)
 
 		# Horizontal
-		var mMoveX: float = (_event.relative.x * MOUSE_SENSITIVITY) * scrSizeRatio.x
+		var mMoveX: float = (_event.relative.x * mouseSensitivity) * scrSizeRatio.x
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX
 		#var rotY: float = deg2rad(mMoveX)
@@ -176,6 +178,9 @@ func _input(_event: InputEvent):
 		# vertical
 		# TODO: Uninverted mouse!
 		# DISABLED - until there is a reason to mouse-look and UI to toggle inverted!
-		var mMoveY: float = (_event.relative.y * MOUSE_SENSITIVITY * scrSizeRatio.y)
-		m_pitch += mMoveY
+		var mMoveY: float = (_event.relative.y * mouseSensitivity * scrSizeRatio.y)
+		if invertedY:
+			m_pitch += mMoveY
+		else:
+			m_pitch -= mMoveY
 	pass

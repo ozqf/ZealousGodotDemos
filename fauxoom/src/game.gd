@@ -140,11 +140,11 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 		if numTokens >= 2:
 			fileName = _tokens[1]
 		var path:String = build_save_path(fileName)
-		var data:Dictionary = _stage_file_for_load(path)
+		var data:Dictionary = ZqfUtils.load_dict_json_file(path)
 		if !data:
 			return
 		_pendingLoadDict = data
-		print("Set pending ents dict")
+		print("Set pending ents dict from " + path)
 		var curScene = get_tree().get_current_scene().filename
 		var newScene = data.mapPath
 		if curScene != newScene:
@@ -182,16 +182,6 @@ func _write_save_file(filePath:String, data:Dictionary) -> void:
 	file.open(filePath, File.WRITE)
 	file.store_string(to_json(data))
 	file.close()
-
-func _stage_file_for_load(_name:String) -> Dictionary:
-	var file = File.new()
-	if !file.file_exists(_name):
-		print("No file " + str(_name) + " to load")
-		return {}
-	file.open(_name, File.READ)
-	var data = parse_json(file.get_as_text())
-	file.close()
-	return data
 
 ###############
 # game state
@@ -265,7 +255,6 @@ func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:
 func game_on_level_completed() -> void:
 	if _state == GameState.Playing:
 		set_game_state(GameState.Won)
-	
 
 func game_on_map_change() -> void:
 	print("Game - saw map change")

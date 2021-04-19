@@ -31,6 +31,9 @@ func _ready() -> void:
 	_f = _customMapMenu.connect("menu_navigate", self, "_on_navigate_callback")
 	_f = _optionsMenu.connect("menu_navigate", self, "_on_navigate_callback")
 
+	_optionsMenu.visible = false
+	_embeddedMapMenu.visible = false
+
 func _on_goto_embedded() -> void:
 	_change_menu(MenuPage.EmbeddedMaps)
 
