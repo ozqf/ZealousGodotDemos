@@ -76,14 +76,9 @@ func pick_spawn_point() -> Transform:
 		return _spawnPoints[_i]
 
 func _spawn_child() -> void:
-	# var mob = _prefab_mob_punk.instance()
-	# Game.get_dynamic_parent().add_child(mob)
-	# mob.teleport(pick_spawn_point())
-	# mob.force_awake()
 	var mob = Ents.create_mob(type, pick_spawn_point(), true)
-	# no id to set this way since this isn't an entity!
+	var _childId:int = mob.get_node("Entity").id
 	mob.set_source(self, _ent.id)
-	# mob.connect("on_mob_died", self, "_on_mob_died")
 
 func _on_mob_died(_mob) -> void:
 	_liveMobs -= 1

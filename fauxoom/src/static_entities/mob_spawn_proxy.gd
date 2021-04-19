@@ -17,6 +17,7 @@ export var spawnAlert:bool = false
 
 var _used:bool = false
 var _prefabName:String = "mob_punk"
+var _childId:int = 0
 
 func _ready() -> void:
 	visible = false
@@ -52,12 +53,7 @@ func on_trigger() -> void:
 		return
 	# spawn mob
 	_used = true
-	# var prefabLabel:String = _select_prefab(type)
-	# var mob = Ents.get_prefab_def(prefabLabel).prefab.instance()
-	# Game.get_dynamic_parent().add_child(mob)
-	# mob.teleport(global_transform)
-	# if spawnAlert:
-	# 	mob.force_awake()
 	var mob = Ents.create_mob(type, global_transform, spawnAlert)
-	# no id to set this way!
+	_childId = mob.get_node("Entity").id
+	# print("Spawned mob Id " + str(_childId))
 	mob.set_source(self, _ent.id)
