@@ -44,19 +44,24 @@ func _ready() -> void:
 	var _result = $game_state_overlay/death/menu/reset.connect("pressed", self, "on_clicked_reset")
 	_result = $game_state_overlay/complete/menu/reset.connect("pressed", self, "on_clicked_reset")
 	Main.set_camera(_camera)
-	# _pendingSaveName = CHECKPOINT_SAVE_FILE_NAME
-
+	
 	# does checkpoint exist?
 	if ZqfUtils.does_file_exist(CHECKPOINT_SAVE_FILE_NAME):
 		print("Checkpoint file found")
 	else:
 		print("No checkpoint file found")
 
+func write_save_file(fileName:String) -> void:
+	var path = build_save_path(fileName)
+	save_game(path)
+
 func _process(_delta:float) -> void:
 	if _pendingSaveName != "":
-		var path = build_save_path(_pendingSaveName)
+		# if we are writing a map start save, write the checkpoint too!
+		if _pendingSaveName == START_SAVE_FILE_NAME:
+			write_save_file(CHECKPOINT_SAVE_FILE_NAME)
+		write_save_file(_pendingSaveName)
 		_pendingSaveName = ""
-		save_game(path)
 	if _pendingLoadDict:
 		print("Have pending ents - loading")
 		# we may have just switched maps but have entities to load.

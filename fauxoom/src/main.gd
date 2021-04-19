@@ -48,8 +48,12 @@ var cfg:Dictionary = {
 		fullScreen = false
 	},
 	controls = {
-		sensitivity = 0.1,
+		sensitivity = 1,
 		invertedY = false
+	},
+	sound = {
+		sfx = 100,
+		bgm = 60
 	}
 }
 

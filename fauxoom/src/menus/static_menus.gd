@@ -3,17 +3,20 @@ extends Node
 signal menu_navigate(name)
 
 onready var _console:LineEdit = $console
+onready var _bg:ColorRect = $background
 # onready var _title:Control = $title_text
 onready var _rootMenu:Control = $root_menu
 onready var _embeddedMapMenu:Control = $embedded_maps
 onready var _customMapMenu:Control = $custom_map_menu
 onready var _optionsMenu:Control = $options
+onready var _bindsMenu:Control = $binds
 
 enum MenuPage {
 	Root,
 	EmbeddedMaps,
 	CustomMaps,
-	Options
+	Options,
+	Binds
 }
 
 var _menu = MenuPage.Root
@@ -25,11 +28,13 @@ func _ready() -> void:
 	_f = $root_menu/VBoxContainer/restart.connect("pressed", self, "_on_restart")
 	_f = $root_menu/VBoxContainer/load_checkpoint.connect("pressed", self, "_on_load_checkpoint")
 	_f = $root_menu/VBoxContainer/options.connect("pressed", self, "_on_goto_options")
+	_f = $root_menu/VBoxContainer/binds.connect("pressed", self, "_on_goto_binds")
 	_f = $root_menu/VBoxContainer/quit.connect("pressed", self, "_on_root_quit")
 	
 	_f = _embeddedMapMenu.connect("menu_navigate", self, "_on_navigate_callback")
 	_f = _customMapMenu.connect("menu_navigate", self, "_on_navigate_callback")
 	_f = _optionsMenu.connect("menu_navigate", self, "_on_navigate_callback")
+	_f = _bindsMenu.connect("menu_navigate", self, "_on_navigate_callback")
 
 	_optionsMenu.visible = false
 	_embeddedMapMenu.visible = false
@@ -42,6 +47,9 @@ func _on_goto_custom() -> void:
 
 func _on_goto_options() -> void:
 	_change_menu(MenuPage.Options)
+
+func _on_goto_binds() -> void:
+	_change_menu(MenuPage.Binds)
 
 func _on_restart() -> void:
 	get_tree().call_group("console", "console_on_exec", "load start", ["load", "start"])
@@ -69,10 +77,12 @@ func _change_menu(newMenuEnum) -> void:
 	on()
 
 func on() -> void:
-	_console.visible = true
-	_console.grab_focus()
+	_bg.visible = true
 	
+	_console.visible = false
 	if _menu == MenuPage.Root:
+		_console.visible = true
+		_console.grab_focus()
 		_rootMenu.visible = true
 	elif _menu == MenuPage.EmbeddedMaps:
 		_embeddedMapMenu.on()
@@ -80,11 +90,15 @@ func on() -> void:
 		_customMapMenu.on()
 	elif _menu == MenuPage.Options:
 		_optionsMenu.on()
+	elif _menu == MenuPage.Binds:
+		_bindsMenu.on()
 	else:
 		print("Unknown menu mode")
+		_change_menu(MenuPage.Root)
 		return
 
 func off() -> void:
+	_bg.visible = false
 	_console.visible = false
 	
 	if _menu == MenuPage.Root:
