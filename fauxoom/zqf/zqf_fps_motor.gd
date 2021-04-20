@@ -15,7 +15,7 @@ const ENERGY_MAX:float = 100.0
 const DASH_ENERGY_COST:float = 50.0
 const ENERGY_GAIN_PER_SECOND:float = 50.0
 
-var mouseSensitivity: float = 0.1
+var mouseSensitivity: float = 1
 var invertedY:bool = false
 
 var _body:KinematicBody = null

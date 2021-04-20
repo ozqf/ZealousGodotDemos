@@ -45,7 +45,8 @@ onready var _mouseLock:MouseLock = $mouse_lock
 
 var cfg:Dictionary = {
 	window = {
-		fullScreen = false
+		fullScreen = true,
+		fov = 80
 	},
 	controls = {
 		sensitivity = 1,
@@ -111,16 +112,18 @@ func _ready() -> void:
 	_debug_text_2.text += "1,2,3,4,5 - Weapon select\n"
 	# _debug_text_2.text += "Build time: 2021/1/3 19:22\n"
 
-	load_cfg(_DEFAULT_CFG_NAME)
+	# broadcast change if file load failed, have to give everyone the default
+	if !load_cfg(_DEFAULT_CFG_NAME):
+		broadcast_cfg_change()
 
 func _process(_delta) -> void:
 
 	_debug_text.text = "FPS: " + str(Engine.get_frames_per_second()) + "\n"
-	var time = OS.get_time()
-	_debug_text.text += str(time.hour) + ":" + str(time.minute) + ":" + str(time.second) + "\n"
-	var ratio:Vector2 = ZqfUtils.get_window_to_screen_ratio()
-	_debug_text.text += "Window/Scr ratio: " + str(ratio) + "\n"
-	_debug_text.text += playerDebug + "\n"
+#	var time = OS.get_time()
+#	_debug_text.text += str(time.hour) + ":" + str(time.minute) + ":" + str(time.second) + "\n"
+#	var ratio:Vector2 = ZqfUtils.get_window_to_screen_ratio()
+#	_debug_text.text += "Window/Scr ratio: " + str(ratio) + "\n"
+#	_debug_text.text += playerDebug + "\n"
 #	_debug_text.text = "Vec 1: " + str(debugV3_1) + "\n"
 #	_debug_text.text += "Vec 2: " + str(debugV3_2) + "\n"
 #	_debug_text.text += "Degrees: " + str(debugDegrees) + "\n"
@@ -134,9 +137,16 @@ func _input(_event: InputEvent) -> void:
 		if _inputOn:
 			print("Toggle menu on")
 			set_input_off()
-		else:
-			print("Toggle menu off")
-			set_input_on()
+		# else:
+		# 	print("Toggle menu off")
+		# 	set_input_on()
+
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN:
+		print("MAIN - focus in")
+	elif what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
+		print("MAIN - focus out")
+		set_input_off()
 
 func _parse_url_options(optionsStr:String) -> void:
 	# eg ?foo=bar&a=b

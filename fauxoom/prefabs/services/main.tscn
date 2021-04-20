@@ -5,7 +5,7 @@
 [ext_resource path="res://src/menus/custom_map_menu.gd" type="Script" id=3]
 [ext_resource path="res://src/menus/embedded_map_menu.gd" type="Script" id=4]
 [ext_resource path="res://src/mouse_lock.gd" type="Script" id=5]
-[ext_resource path="res://src/menus/options_menu.gd" type="Script" id=6]
+[ext_resource path="res://prefabs/services/static_menu_options.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/menus/binds_menu.gd" type="Script" id=7]
 
 [node name="main" type="Spatial"]
@@ -156,36 +156,45 @@ __meta__ = {
 }
 
 [node name="embedded_maps" type="Button" parent="static_menus/root_menu/VBoxContainer"]
-margin_top = 110.0
+margin_top = 98.0
 margin_right = 384.0
-margin_bottom = 130.0
+margin_bottom = 118.0
 text = "START CAMPAIGN"
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="restart" type="Button" parent="static_menus/root_menu/VBoxContainer"]
-margin_top = 134.0
+[node name="resume" type="Button" parent="static_menus/root_menu/VBoxContainer"]
+margin_top = 122.0
 margin_right = 384.0
-margin_bottom = 154.0
+margin_bottom = 142.0
+text = "RESUME GAME"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="restart" type="Button" parent="static_menus/root_menu/VBoxContainer"]
+margin_top = 146.0
+margin_right = 384.0
+margin_bottom = 166.0
 text = "RESTART LEVEL"
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="load_checkpoint" type="Button" parent="static_menus/root_menu/VBoxContainer"]
-margin_top = 158.0
+margin_top = 170.0
 margin_right = 384.0
-margin_bottom = 178.0
+margin_bottom = 190.0
 text = "LOAD CHECKPOINT"
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="custom_maps" type="Button" parent="static_menus/root_menu/VBoxContainer"]
-margin_top = 182.0
+margin_top = 194.0
 margin_right = 384.0
-margin_bottom = 202.0
+margin_bottom = 214.0
 disabled = true
 text = "CUSTOM MAPS"
 __meta__ = {
@@ -193,27 +202,27 @@ __meta__ = {
 }
 
 [node name="options" type="Button" parent="static_menus/root_menu/VBoxContainer"]
-margin_top = 206.0
+margin_top = 218.0
 margin_right = 384.0
-margin_bottom = 226.0
+margin_bottom = 238.0
 text = "OPTIONS"
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="binds" type="Button" parent="static_menus/root_menu/VBoxContainer"]
-margin_top = 230.0
+margin_top = 242.0
 margin_right = 384.0
-margin_bottom = 250.0
+margin_bottom = 262.0
 text = "BINDS"
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="quit" type="Button" parent="static_menus/root_menu/VBoxContainer"]
-margin_top = 254.0
+margin_top = 266.0
 margin_right = 384.0
-margin_bottom = 274.0
+margin_bottom = 286.0
 text = "QUIT"
 __meta__ = {
 "_edit_lock_": true
@@ -563,152 +572,7 @@ margin_right = 315.0
 margin_bottom = 130.0
 resizable = true
 
-[node name="options" type="Control" parent="static_menus"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -512.0
-margin_top = -300.0
-margin_right = 512.0
-margin_bottom = 300.0
-mouse_filter = 2
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="static_menus/options"]
-anchor_left = 0.5
-anchor_top = 0.497
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -319.0
-margin_top = -170.2
-margin_right = 320.0
-margin_bottom = 212.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="mouse_sensitivity" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
-margin_right = 639.0
-margin_bottom = 24.0
-alignment = 1
-
-[node name="Label" type="Label" parent="static_menus/options/VBoxContainer/mouse_sensitivity"]
-margin_left = 232.0
-margin_top = 5.0
-margin_right = 345.0
-margin_bottom = 19.0
-text = "Mouse Sensitivity"
-
-[node name="LineEdit" type="LineEdit" parent="static_menus/options/VBoxContainer/mouse_sensitivity"]
-margin_left = 349.0
-margin_right = 407.0
-margin_bottom = 24.0
-
-[node name="inverted_mouse" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
-margin_top = 28.0
-margin_right = 639.0
-margin_bottom = 52.0
-alignment = 1
-
-[node name="Label" type="Label" parent="static_menus/options/VBoxContainer/inverted_mouse"]
-margin_left = 234.0
-margin_top = 5.0
-margin_right = 377.0
-margin_bottom = 19.0
-text = "Inverted Mouse Y Axis"
-
-[node name="CheckBox" type="CheckBox" parent="static_menus/options/VBoxContainer/inverted_mouse"]
-margin_left = 381.0
-margin_right = 405.0
-margin_bottom = 24.0
-
-[node name="HSeparator" type="HSeparator" parent="static_menus/options/VBoxContainer"]
-margin_top = 56.0
-margin_right = 639.0
-margin_bottom = 88.0
-rect_min_size = Vector2( 32, 32 )
-
-[node name="windowed" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
-margin_top = 92.0
-margin_right = 639.0
-margin_bottom = 116.0
-alignment = 1
-
-[node name="Label" type="Label" parent="static_menus/options/VBoxContainer/windowed"]
-margin_left = 272.0
-margin_top = 5.0
-margin_right = 339.0
-margin_bottom = 19.0
-text = "Windowed"
-
-[node name="CheckBox" type="CheckBox" parent="static_menus/options/VBoxContainer/windowed"]
-margin_left = 343.0
-margin_right = 367.0
-margin_bottom = 24.0
-
-[node name="HSeparator3" type="HSeparator" parent="static_menus/options/VBoxContainer"]
-margin_top = 120.0
-margin_right = 639.0
-margin_bottom = 152.0
-rect_min_size = Vector2( 32, 32 )
-
-[node name="sound_volume" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
-margin_top = 156.0
-margin_right = 639.0
-margin_bottom = 172.0
-alignment = 1
-
-[node name="Label" type="Label" parent="static_menus/options/VBoxContainer/sound_volume"]
-margin_left = 143.0
-margin_top = 1.0
-margin_right = 235.0
-margin_bottom = 15.0
-text = "Sound Volume"
-
-[node name="HSlider" type="HSlider" parent="static_menus/options/VBoxContainer/sound_volume"]
-margin_left = 239.0
-margin_right = 495.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 256, 0 )
-value = 100.0
-
-[node name="music_volume" type="HBoxContainer" parent="static_menus/options/VBoxContainer"]
-margin_top = 176.0
-margin_right = 639.0
-margin_bottom = 192.0
-alignment = 1
-
-[node name="Label" type="Label" parent="static_menus/options/VBoxContainer/music_volume"]
-margin_left = 144.0
-margin_top = 1.0
-margin_right = 235.0
-margin_bottom = 15.0
-text = "Music Volume"
-
-[node name="HSlider" type="HSlider" parent="static_menus/options/VBoxContainer/music_volume"]
-margin_left = 239.0
-margin_right = 495.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 256, 0 )
-value = 60.0
-
-[node name="HSeparator2" type="HSeparator" parent="static_menus/options/VBoxContainer"]
-margin_top = 196.0
-margin_right = 639.0
-margin_bottom = 228.0
-rect_min_size = Vector2( 32, 32 )
-
-[node name="back" type="Button" parent="static_menus/options/VBoxContainer"]
-margin_top = 232.0
-margin_right = 639.0
-margin_bottom = 252.0
-text = "BACK"
+[node name="options" parent="static_menus" instance=ExtResource( 6 )]
 
 [node name="binds" type="Control" parent="static_menus"]
 visible = false

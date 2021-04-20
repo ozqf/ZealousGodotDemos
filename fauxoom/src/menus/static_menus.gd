@@ -24,6 +24,7 @@ var _menu = MenuPage.Root
 func _ready() -> void:
 	var _f
 	_f = $root_menu/VBoxContainer/embedded_maps.connect("pressed", self, "_on_goto_embedded")
+	_f = $root_menu/VBoxContainer/resume.connect("pressed", self, "_on_back_to_game")
 	_f = $root_menu/VBoxContainer/custom_maps.connect("pressed", self, "_on_goto_custom")
 	_f = $root_menu/VBoxContainer/restart.connect("pressed", self, "_on_restart")
 	_f = $root_menu/VBoxContainer/load_checkpoint.connect("pressed", self, "_on_load_checkpoint")
@@ -42,6 +43,9 @@ func _ready() -> void:
 func _on_goto_embedded() -> void:
 	_change_menu(MenuPage.EmbeddedMaps)
 
+func _on_back_to_game() -> void:
+	Main.set_input_on()
+
 func _on_goto_custom() -> void:
 	_change_menu(MenuPage.CustomMaps)
 
@@ -52,9 +56,11 @@ func _on_goto_binds() -> void:
 	_change_menu(MenuPage.Binds)
 
 func _on_restart() -> void:
+	Main.set_input_on()
 	get_tree().call_group("console", "console_on_exec", "load start", ["load", "start"])
 
 func _on_load_checkpoint() -> void:
+	Main.set_input_on()
 	get_tree().call_group("console", "console_on_exec", "load start", ["load", "checkpoint"])
 
 func _on_root_quit() -> void:

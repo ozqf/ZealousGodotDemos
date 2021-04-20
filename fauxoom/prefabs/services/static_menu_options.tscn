@@ -1,0 +1,171 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/menus/options_menu.gd" type="Script" id=1]
+
+[node name="options" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -300.0
+margin_right = 512.0
+margin_bottom = 300.0
+mouse_filter = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.497
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -319.0
+margin_top = -170.2
+margin_right = 320.0
+margin_bottom = 212.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mouse_sensitivity" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 639.0
+margin_bottom = 24.0
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/mouse_sensitivity"]
+margin_left = 232.0
+margin_top = 5.0
+margin_right = 345.0
+margin_bottom = 19.0
+text = "Mouse Sensitivity"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/mouse_sensitivity"]
+margin_left = 349.0
+margin_right = 407.0
+margin_bottom = 24.0
+
+[node name="inverted_mouse" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 28.0
+margin_right = 639.0
+margin_bottom = 52.0
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/inverted_mouse"]
+margin_left = 234.0
+margin_top = 5.0
+margin_right = 377.0
+margin_bottom = 19.0
+text = "Inverted Mouse Y Axis"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/inverted_mouse"]
+margin_left = 381.0
+margin_right = 405.0
+margin_bottom = 24.0
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+margin_top = 56.0
+margin_right = 639.0
+margin_bottom = 88.0
+rect_min_size = Vector2( 32, 32 )
+
+[node name="windowed" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 92.0
+margin_right = 639.0
+margin_bottom = 116.0
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/windowed"]
+margin_left = 272.0
+margin_top = 5.0
+margin_right = 339.0
+margin_bottom = 19.0
+text = "Windowed"
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/windowed"]
+margin_left = 343.0
+margin_right = 367.0
+margin_bottom = 24.0
+
+[node name="fov" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 120.0
+margin_right = 639.0
+margin_bottom = 136.0
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/fov"]
+margin_left = 147.0
+margin_top = 1.0
+margin_right = 231.0
+margin_bottom = 15.0
+text = "Field Of View"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/fov"]
+margin_left = 235.0
+margin_right = 491.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 256, 0 )
+min_value = 50.0
+max_value = 120.0
+value = 80.0
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
+margin_top = 140.0
+margin_right = 639.0
+margin_bottom = 172.0
+rect_min_size = Vector2( 32, 32 )
+
+[node name="sound_volume" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 176.0
+margin_right = 639.0
+margin_bottom = 192.0
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/sound_volume"]
+margin_left = 143.0
+margin_top = 1.0
+margin_right = 235.0
+margin_bottom = 15.0
+text = "Sound Volume"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/sound_volume"]
+margin_left = 239.0
+margin_right = 495.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 256, 0 )
+value = 100.0
+
+[node name="music_volume" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 196.0
+margin_right = 639.0
+margin_bottom = 212.0
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/music_volume"]
+margin_left = 144.0
+margin_top = 1.0
+margin_right = 235.0
+margin_bottom = 15.0
+text = "Music Volume"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/music_volume"]
+margin_left = 239.0
+margin_right = 495.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 256, 0 )
+value = 60.0
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+margin_top = 216.0
+margin_right = 639.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 32, 32 )
+
+[node name="back" type="Button" parent="VBoxContainer"]
+margin_top = 252.0
+margin_right = 639.0
+margin_bottom = 272.0
+text = "BACK"
