@@ -273,6 +273,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Main="*res://prefabs/services/main.tscn"
+Config="*res://prefabs/services/config.tscn"
 Game="*res://prefabs/services/game.tscn"
 Ents="*res://prefabs/services/entities.tscn"
 
