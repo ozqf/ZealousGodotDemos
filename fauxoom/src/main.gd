@@ -3,7 +3,7 @@ extends Spatial
 const _GAME_SCENE_PATH = "res://maps/grid_map.tscn"
 const _EDITOR_SCENE_PATH = "res://maps/level_editor.tscn"
 
-const _DEFAULT_CFG_NAME = "fauxoom"
+# const _DEFAULT_CFG_NAME = "fauxoom"
 
 # smaller test
 const _TEST_MAP:String = "774BAAgIAQEBAQEBAQEBAQAAAAAAAAEBAAAAAAAAAQEAAAICAAABAQAAAgIAAAEBAAAAAAAAAQEAAAAAAAABAQEBAQEBAQHvvgIDAAYA"
@@ -43,21 +43,6 @@ onready var _debug_text:Label = $static_menus/debug/debug_text
 onready var _debug_text_2:Label = $static_menus/debug/debug_text2
 onready var _mouseLock:MouseLock = $mouse_lock
 
-var cfg:Dictionary = {
-	window = {
-		fullScreen = true,
-		fov = 80
-	},
-	controls = {
-		sensitivity = 1,
-		invertedY = false
-	},
-	sound = {
-		sfx = 100,
-		bgm = 60
-	}
-}
-
 var playerDebug:String = ""
 
 var _state = AppState.Game
@@ -74,7 +59,7 @@ var _pendingMapDef:MapDef = null
 
 func _ready() -> void:
 	print("Game service start")
-	add_to_group(Groups.SYSTEM_GROUP_NAME)
+	add_to_group(Config.GROUP)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	set_input_off()
@@ -113,8 +98,8 @@ func _ready() -> void:
 	# _debug_text_2.text += "Build time: 2021/1/3 19:22\n"
 
 	# broadcast change if file load failed, have to give everyone the default
-	if !load_cfg(_DEFAULT_CFG_NAME):
-		broadcast_cfg_change()
+	# if !load_cfg(_DEFAULT_CFG_NAME):
+	# 	broadcast_cfg_change()
 
 func _process(_delta) -> void:
 
@@ -152,18 +137,13 @@ func _parse_url_options(optionsStr:String) -> void:
 	# eg ?foo=bar&a=b
 	print("Parse URL options " + str(optionsStr))
 
-func broadcast_cfg_change() -> void:
-	var grp = Groups.SYSTEM_GROUP_NAME
-	var fn = Groups.SYSTEM_FN_CONFIG_CHANGE
-	get_tree().call_group(grp, fn, cfg)
-
-func system_config_change(_cfg:Dictionary) -> void:
+func config_changed(_cfg:Dictionary) -> void:
 	_apply_window_settings()
-	save_cfg(cfg, _DEFAULT_CFG_NAME)
+	# save_cfg(cfg, _DEFAULT_CFG_NAME)
 
 func _apply_window_settings() -> void:
 	print("Apply window settings")
-	OS.window_fullscreen = cfg.window.fullScreen
+	OS.window_fullscreen = Config.cfg.r_fullscreen
  
 func get_map() -> MapDef:
 	if _mapDef == null:
@@ -222,40 +202,16 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	if txt == "quit" || txt == "exit":
 		get_tree().quit()
 	if _tokens[0] == "cfg_save":
-		var fileName:String = _DEFAULT_CFG_NAME
+		var fileName:String = Config.cfgName
 		if _tokens.size() >= 2:
 			fileName = _tokens[1]
-		save_cfg(cfg, fileName)
+		Config.save_cfg(fileName)
 	if _tokens[0] == "cfg_load":
-		var fileName:String = _DEFAULT_CFG_NAME
+		var fileName:String = Config.cfgName
 		if _tokens.size() >= 2:
 			fileName = _tokens[1]
-		load_cfg(fileName)
-
-func load_cfg(fileName:String) -> bool:
-	var path = "user://cfg/" + fileName + ".json"
-	print("Load cfg from " + path)
-	var dict:Dictionary = ZqfUtils.load_dict_json_file(path)
-	if !dict:
-		print("Failed to read cfg")
-		return false
-	cfg = dict
-	print("Read cfg")
-	broadcast_cfg_change()
-	return true
-
-func save_cfg(_dict:Dictionary, fileName) -> void:
-	var path = "user://cfg/" + fileName + ".json"
-	print("Writing cfg to " + path)
-	ZqfUtils.make_dir("user://cfg/")
-	var file = File.new()
-	var err = file.open(path, File.WRITE)
-	if err != 0:
-		print("Err " + str(err) + " opening " + path)
-		return
-	file.store_string(to_json(cfg))
-	file.close()
-	print("Write done")
+		if !Config.load_cfg(fileName):
+			print("Failed to load cfg")
 
 func change_map(path:String) -> void:
 	var grp:String = Groups.GAME_GROUP_NAME

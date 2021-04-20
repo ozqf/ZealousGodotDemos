@@ -4,7 +4,7 @@ const CONSOLE_GROUP_NAME:String = "console"
 const CONSOLE_FN_EXEC:String = "console_on_exec"
 
 const SYSTEM_GROUP_NAME:String = "system"
-const SYSTEM_FN_CONFIG_CHANGE:String = "system_config_change"
+const SYSTEM_FN_CONFIG_CHANGE:String = "config_changed"
 
 const GAME_GROUP_NAME:String = "game"
 const GAME_FN_MAP_CHANGE:String = "game_on_map_change"

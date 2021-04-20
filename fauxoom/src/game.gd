@@ -38,7 +38,7 @@ var _emptyTargetInfo:Dictionary = {
 func _ready() -> void:
 	print("Game singleton init")
 	_entRoot = Ents
-	add_to_group(Groups.SYSTEM_GROUP_NAME)
+	add_to_group(Config.GROUP)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	_refresh_overlay()
@@ -52,8 +52,8 @@ func _ready() -> void:
 	else:
 		print("No checkpoint file found")
 
-func system_config_change(_cfg:Dictionary) -> void:
-	_camera.fov = Main.cfg.window.fov
+func config_changed(_cfg:Dictionary) -> void:
+	_camera.fov = Config.cfg.r_fov
 
 func write_save_file(fileName:String) -> void:
 	var path = build_save_path(fileName)

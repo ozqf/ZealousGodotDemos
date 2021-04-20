@@ -24,12 +24,12 @@ func _ready() -> void:
 
 func on() -> void:
 	self.visible = true
-	_invertedY.pressed = Main.cfg.controls.invertedY
-	_windowed.pressed = !Main.cfg.window.fullScreen
-	_sensitivity.text = str(Main.cfg.controls.sensitivity)
-	_sfx.value = Main.cfg.sound.sfx
-	_bgm.value = Main.cfg.sound.bgm
-	_fov.value = Main.cfg.window.fov
+	_invertedY.pressed = Config.cfg.i_invertedY
+	_windowed.pressed = !Config.cfg.r_fullscreen
+	_sensitivity.text = str(Config.cfg.i_sensitivity)
+	_sfx.value = Config.cfg.s_sfx
+	_bgm.value = Config.cfg.s_bgm
+	_fov.value = Config.cfg.r_fov
 	_fovLabel.text = "Field of View (" + str(_fov.value) + ")"
 
 func off() -> void:
@@ -39,31 +39,31 @@ func _on_back() -> void:
 	self.emit_signal("menu_navigate", "back")
 
 func _fov_changed(val:float) -> void:
-	Main.cfg.window.fov = val
+	Config.cfg.r_fov = val
 	_fovLabel.text = "Field of View (" + str(val) + ")"
-	Main.broadcast_cfg_change()
+	Config.broadcast_cfg_change()
 
 func _sfx_changed(val:float) -> void:
-	Main.cfg.sound.sfx = val
-	Main.broadcast_cfg_change()
+	Config.cfg.s_sfx = val
+	Config.broadcast_cfg_change()
 
 func _bgm_changed(val:float) -> void:
-	Main.cfg.sound.bgm = val
-	Main.broadcast_cfg_change()
+	Config.cfg.s_bgm = val
+	Config.broadcast_cfg_change()
 
 func _sensitivity_changed(txt:String) -> void:
 	var f:float = float(txt)
 	if f == 0:
 		f = 10
-	Main.cfg.controls.sensitivity = f
+	Config.cfg.i_sensitivity = f
 	print("Sensitivity " + str(f))
-	Main.broadcast_cfg_change()
+	Config.broadcast_cfg_change()
 
 func _inverted_y_pressed() -> void:
-	Main.cfg.controls.invertedY = _invertedY.pressed
+	Config.cfg.i_invertedY = _invertedY.pressed
 	# print("InvertedY: " + str(_invertedY.pressed))
-	Main.broadcast_cfg_change()
+	Config.broadcast_cfg_change()
 
 func _windowed_pressed() -> void:
-	Main.cfg.window.fullScreen = !_windowed.pressed
-	Main.broadcast_cfg_change()
+	Config.cfg.r_fullscreen = !_windowed.pressed
+	Config.broadcast_cfg_change()

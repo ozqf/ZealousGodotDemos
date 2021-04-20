@@ -6,6 +6,8 @@ const GROUP_FN_CHANGE:String = "config_changed"
 
 const ROOT_DIRECTORY:String = "user://cfg/"
 
+export var cfgName:String = "fauxoom"
+
 var cfg:Dictionary = {
 	r_fullscreen = true,
 	r_fov = 80,
@@ -17,7 +19,9 @@ var cfg:Dictionary = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	# broadcast change if file load failed, have to give everyone the default
+	if !load_cfg(cfgName):
+		broadcast_cfg_change()
 
 
 ################################
@@ -25,7 +29,7 @@ func _ready():
 ################################
 
 func _apply_loaded_dict(other:Dictionary) -> void:
-	for key in other.keys:
+	for key in other.keys():
 		if !cfg.has(key):
 			print("Unrecognised setting " + key)
 			continue
@@ -33,6 +37,7 @@ func _apply_loaded_dict(other:Dictionary) -> void:
 
 func broadcast_cfg_change() -> void:
 	get_tree().call_group(GROUP, GROUP_FN_CHANGE, cfg)
+	save_cfg(cfgName)
 
 func load_cfg(fileName:String) -> bool:
 	var path = ROOT_DIRECTORY + fileName + ".json"

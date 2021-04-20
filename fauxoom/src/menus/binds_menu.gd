@@ -29,8 +29,8 @@ func _ready():
 func on() -> void:
 	_active = true
 	self.visible = true
-	# _invertedY.pressed = Main.cfg.controls.invertedY
-	# _windowed.pressed = !Main.cfg.window.fullScreen
+	# _invertedY.pressed = Config.cfg.i_invertedY
+	# _windowed.pressed = !Config.cfg.r_fullscreen
 
 func off() -> void:
 	_active = false
