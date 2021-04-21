@@ -58,7 +58,7 @@ var _mapDef:MapDef = null
 var _pendingMapDef:MapDef = null
 
 func _ready() -> void:
-	print("Game service start")
+	print("Main service start")
 	add_to_group(Config.GROUP)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
@@ -201,6 +201,8 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 			change_map(path)
 	if txt == "quit" || txt == "exit":
 		get_tree().quit()
+	if txt == "info":
+		print("OS name: " + OS.get_name())
 	if _tokens[0] == "cfg_save":
 		var fileName:String = Config.cfgName
 		if _tokens.size() >= 2:

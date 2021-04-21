@@ -40,6 +40,9 @@ func _ready() -> void:
 	_optionsMenu.visible = false
 	_embeddedMapMenu.visible = false
 
+	if OS.get_name() == "HTML5":
+		$root_menu/VBoxContainer/quit.visible = false
+
 func _on_goto_embedded() -> void:
 	_change_menu(MenuPage.EmbeddedMaps)
 
