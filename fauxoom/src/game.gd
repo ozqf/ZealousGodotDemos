@@ -20,6 +20,7 @@ enum GameState { Pregame, Playing, Won, Lost }
 
 var _state = GameState.Pregame
 
+var _hasPlayerStart:bool = false
 var _playerOrigin:Transform = Transform.IDENTITY
 
 # live player
@@ -95,8 +96,21 @@ func get_entity_prefab(name:String) -> Object:
 # disable of menu HAS to be triggered from here in web mode
 func _input(_event) -> void:
 	if _event is InputEventKey:
-		if _state == GameState.Pregame && Input.is_action_just_pressed("ui_select") && Main.get_input_on():
-			begin_game()
+		if !Main.get_input_on():
+			# menu is up, abort
+			return
+		if _state == GameState.Pregame:
+			if !_hasPlayerStart:
+				Main.set_input_off()
+				return
+			elif Input.is_action_just_pressed("ui_select"):
+				begin_game()
+		# var a = _state == GameState.Pregame
+		# var b = Input.is_action_just_pressed("ui_select")
+		# var c = Main.get_input_on()
+		# var d = _hasPlayerStart
+		# if a && b && c && d:
+		# 	begin_game()
 
 func get_dynamic_parent() -> Spatial:
 	return _entRoot
@@ -245,22 +259,6 @@ func game_on_player_died(_info:Dictionary) -> void:
 	_camera.detach()
 	_camera.attach_to(gib)
 
-# returns last gib spawned
-func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:
-	var def = _entRoot.get_prefab_def(Entities.PREFAB_GIB)
-	var result = null;
-	for _i in range(0, count):
-		var gib = def.prefab.instance()
-		result = gib
-		add_child(gib)
-		var pos:Vector3 = origin
-		pos.x += rand_range(-0.5, 0.5)
-		pos.y += rand_range(0, 1.5)
-		pos.z += rand_range(-0.5, 0.5)
-		gib.global_transform.origin = pos
-		gib.launch_gib(dir, 1, 0)
-	return result
-
 func game_on_level_completed() -> void:
 	if _state == GameState.Playing:
 		set_game_state(GameState.Won)
@@ -268,6 +266,7 @@ func game_on_level_completed() -> void:
 func game_on_map_change() -> void:
 	print("Game - saw map change")
 	_justLoaded = true
+	# _hasPlayerStart = false
 	_clear_dynamic_entities()
 	_set_to_pregame()
 
@@ -293,13 +292,32 @@ func deregister_player(plyr:Player) -> void:
 
 func register_player_start(_obj:Spatial) -> void:
 	_playerOrigin = _obj.global_transform
+	_hasPlayerStart = true
+	_refresh_overlay()
 
 func deregister_player_start(_obj:Spatial) -> void:
-	pass
+	_hasPlayerStart = false
+	_refresh_overlay()
 
 ###############
 # AI
 ###############
+
+# returns last gib spawned
+func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:
+	var def = _entRoot.get_prefab_def(Entities.PREFAB_GIB)
+	var result = null;
+	for _i in range(0, count):
+		var gib = def.prefab.instance()
+		result = gib
+		add_child(gib)
+		var pos:Vector3 = origin
+		pos.x += rand_range(-0.5, 0.5)
+		pos.y += rand_range(0, 1.5)
+		pos.z += rand_range(-0.5, 0.5)
+		gib.global_transform.origin = pos
+		gib.launch_gib(dir, 1, 0)
+	return result
 
 func check_los_to_player(origin:Vector3) -> bool:
 	if !_player:

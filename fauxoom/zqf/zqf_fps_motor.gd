@@ -126,7 +126,9 @@ func _physics_process(delta:float) -> void:
 		if pushing:
 			_dashPushDir = pushDir
 		else:
-			_dashPushDir = forward
+			_dashPushDir = -forward
+			_dashPushDir.y = 0
+			_dashPushDir = _dashPushDir.normalized()
 		_velocity = _dashPushDir * DASH_SPEED
 		_velocity = _body.move_and_slide(_velocity)
 		return

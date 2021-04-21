@@ -14,7 +14,23 @@ var cfg:Dictionary = {
 	i_sensitivity = 1,
 	i_invertedY = false,
 	s_sfx = 100,
-	s_bgm = 60
+	s_bgm = 60,
+	move_forward = 0,
+	move_backward = 0,
+	move_left = 0,
+	move_right = 0,
+	move_up = 0,
+	move_down = 0,
+	move_special = 0,
+	attack_1 = 0,
+	slot_1 = 0,
+	slot_2 = 0,
+	slot_3 = 0,
+	slot_4 = 0,
+	slot_5 = 0,
+	slot_6 = 0,
+	slot_7 = 0,
+	slot_8 = 0
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -22,7 +38,6 @@ func _ready():
 	# broadcast change if file load failed, have to give everyone the default
 	if !load_cfg(cfgName):
 		broadcast_cfg_change()
-
 
 ################################
 # saving/loading
