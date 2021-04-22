@@ -5,7 +5,7 @@
 [ext_resource path="res://src/entity.gd" type="Script" id=3]
 [ext_resource path="res://src/ai/mob_attack.gd" type="Script" id=4]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=5]
-[ext_resource path="res://assets/sprites/frames/worm_frames.tres" type="SpriteFrames" id=6]
+[ext_resource path="res://assets/sprites/frames/serpent_frames.tres" type="SpriteFrames" id=6]
 [ext_resource path="res://src/ai/mob_motor.gd" type="Script" id=7]
 
 [sub_resource type="BoxShape" id=1]
@@ -14,21 +14,21 @@ extents = Vector3( 0.5, 0.75, 0.5 )
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.2, 0.2, 1 )
 
-[node name="mob_flesh_worm" type="KinematicBody"]
+[node name="mob_serpent]" type="KinematicBody"]
 collision_layer = 2
 collision_mask = 71
 script = ExtResource( 2 )
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
-offset = Vector2( 0, 32 )
+offset = Vector2( 0, 48 )
 billboard = 2
 shaded = true
 frames = ExtResource( 6 )
 script = ExtResource( 5 )
 active = true
 useParentYaw = true
-animationSet = "flesh_worm"
+animationSet = "serpent"
 defaultAnimation = "walk"
 
 [node name="body" type="CollisionShape" parent="."]
@@ -53,7 +53,7 @@ script = ExtResource( 7 )
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
 health = 150
-moveSpeed = 6.5
+moveSpeed = 8.0
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )

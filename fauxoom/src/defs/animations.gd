@@ -115,6 +115,56 @@ const data = {
 			}
 		}
 	},
+	serpent = {
+		name = "serpent",
+		path = "res://assets/sprites/frames/serpent_frames.tres",
+		offset = 32,
+		anims = {
+			walk = {
+				frames = [
+					[ 0, 8, 16, 24 ],
+					[ 1, 9, 17, 25 ],
+					[ 2, 10, 18, 26 ],
+					[ 3, 11, 19, 27 ],
+					[ 4, 12, 20, 28 ],
+					[ 5, 13, 21, 29 ],
+					[ 6, 14, 22, 30 ],
+					[ 7, 15, 23, 31 ]
+				]
+			},
+			aim = {
+				frames = [[32],[33],[34],[35],[36],[37],[38],[39]]
+			},
+			shoot = {
+				frames = [
+					[ 32, 40, 48 ],
+					[ 33, 41, 49 ],
+					[ 34, 42, 50 ],
+					[ 35, 43, 51 ],
+					[ 36, 44, 52 ],
+					[ 37, 45, 53 ],
+					[ 38, 46, 54 ],
+					[ 39, 47, 55 ]
+				]
+			},
+			pain = {
+				frames = [[56],[57],[58],[59],[60],[61],[62],[63]]
+			},
+			dying = {
+				loopIndex = 4,
+				frames = [[64,65,66,67,68]]
+			},
+			dead = {
+				frames = [[68]]
+			},
+			dying_gib = {
+				frames = [[69,70,71,72,73,74,75,76]]
+			},
+			dead_gib = {
+				frames = [[76]]
+			}
+		}
+	},
 	mob_spider = {
 		name = "mob_spider",
 		path = "res://assets/sprites/frames/spider_frames.tres",

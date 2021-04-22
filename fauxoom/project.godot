@@ -137,7 +137,12 @@ _global_script_classes=[ {
 "base": "KinematicBody",
 "class": "MobBase",
 "language": "GDScript",
-"path": "res://src/mob_base.gd"
+"path": "res://src/ai/mob_base.gd"
+}, {
+"base": "Node",
+"class": "MobMotor",
+"language": "GDScript",
+"path": "res://src/ai/mob_motor.gd"
 }, {
 "base": "Spatial",
 "class": "MobSpawnProxy",
@@ -147,7 +152,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "MobStats",
 "language": "GDScript",
-"path": "res://src/mob_stats.gd"
+"path": "res://src/ai/mob_stats.gd"
 }, {
 "base": "Node",
 "class": "MouseLock",
@@ -251,6 +256,7 @@ _global_script_class_icons={
 "MapSpawnDef": "",
 "MeshGenerator": "",
 "MobBase": "",
+"MobMotor": "",
 "MobSpawnProxy": "",
 "MobStats": "",
 "MouseLock": "",
@@ -273,7 +279,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Fauxoom"
-run/main_scene="res://maps/splash.tscn"
+run/main_scene="res://maps/test_entities.tscn"
 config/icon="res://icon.png"
 
 [autoload]

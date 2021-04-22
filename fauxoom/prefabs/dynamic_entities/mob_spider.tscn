@@ -1,11 +1,12 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://src/mob_stats.gd" type="Script" id=1]
-[ext_resource path="res://src/mob_base.gd" type="Script" id=2]
+[ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
+[ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
 [ext_resource path="res://src/entity.gd" type="Script" id=3]
-[ext_resource path="res://src/mob_attack.gd" type="Script" id=4]
+[ext_resource path="res://src/ai/mob_attack.gd" type="Script" id=4]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=5]
 [ext_resource path="res://assets/sprites/frames/spider_frames.tres" type="SpriteFrames" id=6]
+[ext_resource path="res://src/ai/mob_motor.gd" type="Script" id=7]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.75, 0.5 )
@@ -45,6 +46,9 @@ material/0 = null
 
 [node name="attack" type="Node" parent="."]
 script = ExtResource( 4 )
+
+[node name="motor" type="Node" parent="."]
+script = ExtResource( 7 )
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )

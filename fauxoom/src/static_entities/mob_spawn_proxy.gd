@@ -9,8 +9,10 @@ enum EnemyType {
 	Punk,
 	Gunner,
 	FleshWorm,
+	Serpent,
 	Spider
 }
+
 export(EnemyType) var type = EnemyType.Punk
 export var delaySpawn:bool = false
 export var spawnAlert:bool = false

@@ -6,11 +6,10 @@ signal on_mob_died(mob)
 onready var _sprite:CustomAnimator3D = $sprite
 onready var _body:CollisionShape = $body
 onready var _attack = $attack
+onready var _motor:MobMotor = $motor
 onready var _stats:MobStats = $stats
 onready var _ent:Entity = $Entity
 
-# const MOVE_SPEED:float = 4.5
-# const MOVE_TIME:float = 1.5
 const STUN_TIME:float = 0.2
 
 export var delaySpawn:bool = false
@@ -53,6 +52,7 @@ var _velocity:Vector3 = Vector3()
 
 func _ready() -> void:
 	_attack.custom_init($head, self)
+	_motor.custom_init(self)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	var _r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_append_state", self, "append_state")
@@ -60,8 +60,6 @@ func _ready() -> void:
 	# matches spawn transform
 	_moveYaw = rotation_degrees.y
 	_health = _stats.health
-	# var mobBasePath:String = self.filename
-	# print("Mob base path: " + mobBasePath)
 
 func set_source(node:Node, sourceId:int) -> void:
 	_sourceId = sourceId
@@ -186,17 +184,19 @@ func _calc_self_move(_delta:float) -> Vector3:
 	# return Vector3()
 
 func move(_delta:float) -> void:
-	var move:Vector3 = _calc_self_move(_delta)
-	var _result = self.move_and_slide(move)
+	pass
+	# var move:Vector3 = _calc_self_move(_delta)
+	# var _result = self.move_and_slide(move)
 
 func _tick_stunned(_delta:float) -> void:
 	if _thinkTick <= 0:
 		_change_state(_prevState)
+		_motor.set_stunned(false)
 		return
 	else:
 		_thinkTick -= _delta
-	_velocity = self.move_and_slide(_velocity)
-	_velocity *= 0.95
+	# _velocity = self.move_and_slide(_velocity)
+	# _velocity *= 0.95
 
 func _process(_delta:float) -> void:
 	if _state == MobState.Hunting:
@@ -208,7 +208,7 @@ func _process(_delta:float) -> void:
 		# 	print("Mob lost target!")
 		if _targetInfo.id == 0:
 			return
-		
+		_motor.set_target(_targetInfo.position)
 		if _thinkTick <= 0:
 			_thinkTick = _stats.moveTime
 			if _attack.start_attack(_targetInfo.position):
@@ -245,8 +245,8 @@ func _process(_delta:float) -> void:
 		_tick_stunned(_delta)
 		return
 	elif _state == MobState.Dying:
-		_velocity = self.move_and_slide(_velocity)
-		_velocity *= 0.95
+		# _velocity = self.move_and_slide(_velocity)
+		# _velocity *= 0.95
 		return
 	elif _state == MobState.Dead:
 		return
@@ -255,8 +255,9 @@ func apply_stun(dir:Vector3) -> void:
 	# stun
 	if _state != MobState.Stunned:
 		_change_state(MobState.Stunned)
+		_motor.set_stunned(true)
 	_attack.cancel()
-	_velocity = dir * 2
+	# _velocity = dir * 2
 	_thinkTick = _stats.stunTime
 
 func regular_death() -> void:
@@ -279,7 +280,8 @@ func corpse_hit(_hitInfo:HitInfo) -> int:
 		else:
 			_health -= _hitInfo.damage
 			_sprite.set_frame_number(0)
-			_velocity += _hitInfo.direction * 3
+			# _velocity += _hitInfo.direction * 3
+			_motor.damage_hit(_hitInfo)
 		return 1
 	else:
 		return Interactions.HIT_RESPONSE_PENETRATE
@@ -296,6 +298,7 @@ func hit(_hitInfo:HitInfo) -> int:
 			gib_death(_hitInfo.direction)
 		else:
 			regular_death()
+		_motor.set_stunned(true)
 		emit_signal("on_mob_died", self)
 		Interactions.triggerTargets(get_tree(), triggerTargets)
 		return _hitInfo.damage + _health
@@ -303,4 +306,5 @@ func hit(_hitInfo:HitInfo) -> int:
 		# if not awake, wake up!
 		force_awake()
 		apply_stun(_hitInfo.direction)
+		_motor.damage_hit(_hitInfo)
 		return _hitInfo.damage

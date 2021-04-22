@@ -7,15 +7,16 @@ const PLAYER_RESERVED_ID:int = 1
 const PREFAB_MOB_PUNK:String = "mob_punk"
 const PREFAB_MOB_WORM:String = "mob_worm"
 const PREFAB_MOB_GUNNER:String = "mob_gunner"
+const PREFAB_MOB_SERPENT:String = "mob_serpent"
 const PREFAB_MOB_SPIDER:String = "mob_spider"
 const PREFAB_PLAYER:String = "player"
 const PREFAB_GIB:String = "gib"
-
 
 enum EnemyType {
 	Punk,
 	Gunner,
 	FleshWorm,
+	Serpent,
 	Spider
 }
 
@@ -30,6 +31,10 @@ var _prefabs = {
 	},
 	mob_gunner = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_gunner.tscn"),
+		entNodePath = "Entity"
+	},
+	mob_serpent = {
+		prefab = preload("res://prefabs/dynamic_entities/mob_serpent.tscn"),
 		entNodePath = "Entity"
 	},
 	mob_spider = {
@@ -80,6 +85,8 @@ func _select_prefab(enemyType:int) -> String:
 		return PREFAB_MOB_WORM
 	elif enemyType == EnemyType.Spider:
 		return PREFAB_MOB_SPIDER
+	elif enemyType == EnemyType.Serpent:
+		return PREFAB_MOB_SERPENT
 	else:
 		return PREFAB_MOB_PUNK
 

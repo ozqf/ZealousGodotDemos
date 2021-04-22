@@ -61,6 +61,8 @@ func write_save_file(fileName:String) -> void:
 	save_game(path)
 
 func _process(_delta:float) -> void:
+	if _state == GameState.Pregame && _hasPlayerStart:
+		begin_game()
 	if _pendingSaveName != "":
 		# if we are writing a map start save, write the checkpoint too!
 		if _pendingSaveName == START_SAVE_FILE_NAME:
@@ -129,7 +131,8 @@ func _refresh_overlay() -> void:
 		_pregameUI.visible = true
 		_completeUI.visible = false
 		_deathUI.visible = false
-		MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
+		# MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
+		MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
 	elif _state == GameState.Won:
 		_pregameUI.visible = false
 		_completeUI.visible = true

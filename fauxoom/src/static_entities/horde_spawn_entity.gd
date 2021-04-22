@@ -14,8 +14,10 @@ enum EnemyType {
 	Punk,
 	Gunner,
 	FleshWorm,
+	Serpent,
 	Spider
 }
+
 export(EnemyType) var type = EnemyType.Gunner
 export var tickMax:float = 2
 export var totalMobs:int = 4
