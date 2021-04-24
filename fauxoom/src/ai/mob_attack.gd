@@ -1,4 +1,5 @@
 extends Node
+class_name MobAttack
 
 var _prj_point_t = load("res://prefabs/dynamic_entities/prj_point.tscn")
 

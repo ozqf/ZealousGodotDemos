@@ -47,7 +47,7 @@ material/0 = null
 [node name="attack" type="Node" parent="."]
 script = ExtResource( 4 )
 
-[node name="motor" type="Node" parent="."]
+[node name="motor" type="Spatial" parent="."]
 script = ExtResource( 7 )
 
 [node name="stats" type="Node" parent="."]
@@ -57,4 +57,4 @@ moveSpeed = 8.0
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )
-prefabName = "mob_worm"
+prefabName = "mob_serpent"

@@ -15,6 +15,8 @@ const ENERGY_MAX:float = 100.0
 const DASH_ENERGY_COST:float = 50.0
 const ENERGY_GAIN_PER_SECOND:float = 50.0
 
+const GRAVITY:float = 20.0
+
 var mouseSensitivity: float = 1
 var invertedY:bool = false
 
@@ -133,25 +135,36 @@ func _physics_process(delta:float) -> void:
 		_velocity = _body.move_and_slide(_velocity)
 		return
 	
+	var flatVelocity:Vector3 = _velocity
+	flatVelocity.y = 0
 	# calculate current speed cap
 	if pushing:
-		var currentSpeed:float = _velocity.length()
+		var currentSpeed:float = flatVelocity.length()
 		var velocityCap = RUN_SPEED
 		# speed cap is run speed unless pushed externally
 		if currentSpeed > velocityCap:
 			velocityCap = currentSpeed
-		_velocity += (pushDir * GROUND_ACCELERATION) * delta
+		flatVelocity += (pushDir * GROUND_ACCELERATION) * delta
 		# apply speed cap
-		if _velocity.length() > velocityCap:
-			_velocity = _velocity.normalized() * velocityCap
+		if flatVelocity.length() > velocityCap:
+			flatVelocity = flatVelocity.normalized() * velocityCap
 	else:
 		# apply ground friction to stop player
-		_velocity *= GROUND_FRICTION
+		flatVelocity *= GROUND_FRICTION
 	
-	if _velocity.length() < 0.01:
-		_velocity = Vector3()
+	# force stop below threshold
+	if flatVelocity.length() < 0.01:
+		flatVelocity = Vector3()
 	
-	_velocity = _body.move_and_slide(_velocity)
+	_velocity.x = flatVelocity.x
+	_velocity.z = flatVelocity.z
+	if Input.is_action_pressed("move_up") && _body.is_on_floor():
+		print("Jump!")
+		_velocity.y = 7
+	# gravity
+	_velocity.y -= GRAVITY * delta
+	
+	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
 
 func _get_window_to_screen_ratio():
 	var real: Vector2 = OS.get_real_window_size()

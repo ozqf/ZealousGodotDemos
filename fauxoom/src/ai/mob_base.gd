@@ -5,7 +5,7 @@ signal on_mob_died(mob)
 
 onready var _sprite:CustomAnimator3D = $sprite
 onready var _body:CollisionShape = $body
-onready var _attack = $attack
+onready var _attack:MobAttack = $attack
 onready var _motor:MobMotor = $motor
 onready var _stats:MobStats = $stats
 onready var _ent:Entity = $Entity
@@ -112,15 +112,22 @@ func _change_state(_newState) -> void:
 	_prevState = _state
 	_state = _newState
 	_thinkTick = 0
+
+	# clean up old state
+	if _prevState == MobState.Attacking:
+		_motor.set_is_attacking(false)
+
+	# apply new state
 	if _state == MobState.Hunting:
 		_thinkTick = _stats.moveTime
 		_sprite.play_animation("walk")
 	elif _state == MobState.Attacking:
 		_sprite.play_animation("aim")
+		_motor.set_is_attacking(true)
 	elif _state == MobState.Stunned:
 		pass
 	elif _state == MobState.Idle:
-		pass
+		_motor.clear_target()
 	elif _state == MobState.Spawning:
 		pass
 	elif _state == MobState.Dying:
@@ -139,54 +146,6 @@ func _change_state(_newState) -> void:
 		_body.disabled = true
 		_sprite.visible = false
 		pass
-
-func _calc_self_move(_delta:float) -> Vector3:
-	# look_at(_curTarget.global_transform.origin, Vector3.UP)
-	if _moveTick <= 0:
-		# decide on next move
-		_moveTick = 1
-		var selfPos:Vector3 = global_transform.origin
-		# var tarTrans:Transform = _curTarget.global_transform
-		# var tarPos:Vector3 = tarTrans.origin
-		var tarPos:Vector3 = _targetInfo.position
-		var _tarYaw:float = _targetInfo.yawDegrees
-		var dist:float = ZqfUtils.flat_distance_between(selfPos, tarPos)
-		if dist > 10:
-			_moveYaw = ZqfUtils.yaw_between(selfPos, tarPos)
-		elif dist > 3:
-			# var tarFacing:float = _calc_target_side(selfPos, tarPos, -tarTrans.basis.z)
-			_moveYaw = ZqfUtils.yaw_between(selfPos, tarPos)
-			
-			# apply evasion from player aim direction
-			# var leftOfTar:bool = ZqfUtils.is_point_left_of_line3D_flat(tarPos, _targetInfo.forward, selfPos)
-			# if leftOfTar:
-			# 	print("left at " + str(selfPos))
-			# 	_moveYaw -= deg2rad(90)
-			# else:
-			# 	print("right at " + str(selfPos))
-			# 	_moveYaw += deg2rad(90)
-			
-			# apply some random evasion - very jittery
-			var quarter:float = deg2rad(45)
-			_moveYaw -= quarter
-			_moveYaw += rand_range(0, quarter * 2.0)
-		else:
-			_moveYaw = rand_range(0, PI * 2)
-	else:
-		_moveTick -= _delta
-	
-	rotation.y = _moveYaw
-	var move:Vector3 = Vector3()
-	move.x = -sin(_moveYaw)
-	move.z = -cos(_moveYaw)
-	move *= _stats.moveSpeed
-	return move
-	# return Vector3()
-
-func move(_delta:float) -> void:
-	pass
-	# var move:Vector3 = _calc_self_move(_delta)
-	# var _result = self.move_and_slide(move)
 
 func _tick_stunned(_delta:float) -> void:
 	if _thinkTick <= 0:
@@ -215,7 +174,6 @@ func _process(_delta:float) -> void:
 				_change_state(MobState.Attacking)
 		else:
 			_thinkTick -= _delta
-			move(_delta)
 	elif _state == MobState.Attacking:
 		_targetInfo = Game.mob_check_target(_targetInfo)
 		if _targetInfo.id == 0:
