@@ -3,6 +3,8 @@ extends Control
 signal menu_navigate(name)
 
 onready var _root:Control = $VBoxContainer
+onready var _popUp:Control = $rebinding_popup
+onready var _popUpLabel:Label = $rebinding_popup/Label
 
 var _actions = [
 	{ tag = "move_forward", label = "Move Forward" },
@@ -30,6 +32,7 @@ var _isRebinding:String = ""
 
 func _ready():
 	add_to_group(Config.GROUP)
+	off()
 
 func config_changed(_cfg:Dictionary) -> void:
 	if _loaded:
@@ -87,12 +90,20 @@ func write_to_config() -> void:
 func _begin_rebind(tag:String) -> void:
 	print("Begin rebind of action " +tag)
 	_isRebinding = tag
+	Main.isRebinding = true
+	_popUp.visible = true
+	_popUpLabel.text = "Press new key for " + tag + "\nEscape to cancel"
 
 func _find_action(tag:String) -> Dictionary:
 	for action in _actions:
 		if action.tag == tag:
 			return action
 	return {}
+
+func _stop_rebind() -> void:
+	_isRebinding = ""
+	Main.isRebinding = false
+	_popUp.visible = false
 
 func on() -> void:
 	_active = true
@@ -101,6 +112,7 @@ func on() -> void:
 	# _windowed.pressed = !Config.cfg.r_fullscreen
 
 func off() -> void:
+	_stop_rebind()
 	_active = false
 	self.visible = false
 
@@ -116,6 +128,9 @@ func _input(_event: InputEvent):
 		return
 	if _event is InputEventKey:
 		print("Key event " + str(_event))
+		if _event.scancode == KEY_ESCAPE:
+			_stop_rebind()
+			return
 		_rebind(_isRebinding, _event, true)
 		_isRebinding = ""
 	if _event is InputEventMouseButton:
@@ -140,7 +155,9 @@ func _rebind(tag:String, keyCode, writeConfig:bool) -> void:
 	InputMap.action_add_event(tag, keyCode)
 	var action = _find_action(tag)
 	action.scancode = keyCode.scancode
-	action.button.text = str(keyCode.scancode)
+	# action.button.text = str(keyCode.scancode)
+	action.button.text = OS.get_scancode_string(keyCode.scancode)
 	if writeConfig:
 		write_to_config()
+	_stop_rebind()
 	

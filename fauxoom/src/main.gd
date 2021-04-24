@@ -52,6 +52,7 @@ var _url:String = ""
 var _paramStr:String = ""
 
 var _inputOn:bool = false
+var isRebinding:bool = false
 
 # current map being played or edited.
 var _mapDef:MapDef = null
@@ -114,10 +115,16 @@ func _process(_delta) -> void:
 #	_debug_text.text += "Degrees: " + str(debugDegrees) + "\n"
 #	_debug_text.text += "Index " + str(debug_int) + "\n"
 
-func _input(_event: InputEvent) -> void:
+func get_menu_keycode() -> int:
 	var menuCode = KEY_ESCAPE
 	if _web_mode():
 		menuCode = KEY_TAB
+	return menuCode
+
+func _input(_event: InputEvent) -> void:
+	if isRebinding:
+		return
+	var menuCode = get_menu_keycode()
 	if _event is InputEventKey && _event.scancode == menuCode && _event.pressed && !_event.echo:
 		if _inputOn:
 			print("Toggle menu on")
