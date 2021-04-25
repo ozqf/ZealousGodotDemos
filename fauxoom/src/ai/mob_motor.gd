@@ -28,7 +28,7 @@ var _body:KinematicBody = null
 var _velocity:Vector3 = Vector3()
 
 var _state:int = STATE_IDLE
-var _speed:float = 4.5
+var speed:float = 4.5
 var _acceleration:float = 25.0
 var _stunned:bool = false
 var _hasTarget:bool = false
@@ -103,13 +103,30 @@ func move_idle(_delta:float) -> void:
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
 	_velocity *= 0.95
 
+func move_leap(_delta:float, _speed:float) -> void:
+	var dir = _velocity.normalized()
+	_velocity = dir * _speed
+	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+
+func start_leap(_delta:float, _speed:float) -> void:
+	var selfPos:Vector3 = _body.global_transform.origin
+	var moveYaw:float = ZqfUtils.yaw_between(selfPos, _target)
+	_body.rotation.y = moveYaw
+	var dir:Vector3 = Vector3()
+	dir.x = -sin(moveYaw)
+	dir.z = -cos(moveYaw)
+	dir *= _speed
+
+	_velocity = dir
+	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+
 func move_hunt(_delta:float) -> void:
 	_velocity.y -= 20 * _delta
 	if !_body.is_on_floor():
 		_velocity = _body.move_and_slide(_velocity, Vector3.UP)
 		return
 	_tick -= _delta
-	var speed:float = 4.5
+	# var speed:float = 4.5
 	var moveYaw:float = _calc_move_yaw()
 	# if !_floorInFront.is_colliding():
 	# 	speed = 0
@@ -119,9 +136,9 @@ func move_hunt(_delta:float) -> void:
 	move.z = -cos(moveYaw)
 	move *= speed
 	_velocity += (move * _acceleration) * _delta
-	if _velocity.length() > _speed:
+	if _velocity.length() > speed:
 		_velocity = _velocity.normalized()
-		_velocity *= _speed
+		_velocity *= speed
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
 
 func __process(_delta:float) -> void:

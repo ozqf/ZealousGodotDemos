@@ -1,0 +1,46 @@
+extends AITicker
+
+const LEAP_STATE:int = -1
+
+func custom_init(mob) -> void:
+	mob.motor.speed = 8
+	.custom_init(mob)
+
+func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
+	_tick -= _delta
+	if _state == STATE_MOVE:
+		var pos:Vector3 = _mob.global_transform.origin
+		var tar:Vector3 = _targetInfo.position
+		
+		var dist:float = ZqfUtils.flat_distance_between(pos, tar)
+		if dist < 8:
+			if _tick <= 0:
+			# print("LEAP!")
+				change_state(LEAP_STATE)
+				_mob.sprite.play_animation("leap")
+				_mob.motor.set_target(_targetInfo.position)
+				_mob.motor.start_leap(_delta, 14)
+				_tick = 0.5
+			else:
+				_mob.motor.move_idle(_delta)
+		else:
+			_mob.motor.set_target(_targetInfo.position)
+			_mob.motor.move_hunt(_delta)
+		# if _tick <= 0:
+		# 	_cycles = 0
+		# 	lastTarPos = _targetInfo.position
+		# 	_mob.face_target_flat(lastTarPos)
+		# 	change_state(STATE_WINDUP)
+	elif _state == LEAP_STATE:
+		_mob.motor.move_leap(_delta, 14)
+		#_mob.motor.move_idle(_delta)
+		if _tick <= 0:
+			change_state(STATE_WINDDOWN)
+			_tick = 1.25
+	elif _state == STATE_WINDDOWN:
+		_mob.motor.move_idle(_delta)
+		if _tick <= 0:
+			change_state(STATE_MOVE)
+	else:
+		change_state(STATE_MOVE)
+	

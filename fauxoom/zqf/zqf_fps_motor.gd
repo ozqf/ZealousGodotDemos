@@ -159,7 +159,6 @@ func _physics_process(delta:float) -> void:
 	_velocity.x = flatVelocity.x
 	_velocity.z = flatVelocity.z
 	if Input.is_action_pressed("move_up") && _body.is_on_floor():
-		print("Jump!")
 		_velocity.y = 7
 	# gravity
 	_velocity.y -= GRAVITY * delta
