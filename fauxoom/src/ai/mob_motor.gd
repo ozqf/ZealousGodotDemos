@@ -98,26 +98,38 @@ func _calc_move_yaw() -> float:
 				r = 0
 	return moveYaw + _yawOffset
 
-func _process(_delta:float) -> void:
-	_velocity.y += 20 * _delta
-	if _stunned || _isAttacking || _state == STATE_IDLE:
-		# assume idle
-		_velocity = _body.move_and_slide(_velocity)
-		_velocity *= 0.95
-	elif _state == STATE_HUNT:
-		_tick -= _delta
-		var speed:float = 4.5
-		var moveYaw:float = _calc_move_yaw()
-		if !_floorInFront.is_colliding():
-			speed = 0
-		_body.rotation.y = moveYaw
-		var move:Vector3 = Vector3()
-		move.x = -sin(moveYaw)
-		move.z = -cos(moveYaw)
-		move *= speed
-		_velocity += (move * _acceleration) * _delta
-		if _velocity.length() > _speed:
-			_velocity = _velocity.normalized()
-			_velocity *= _speed
-		_velocity = _body.move_and_slide(_velocity)
+func move_idle(_delta:float) -> void:
+	_velocity.y -= 20 * _delta
+	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+	_velocity *= 0.95
 
+func move_hunt(_delta:float) -> void:
+	_velocity.y -= 20 * _delta
+	if !_body.is_on_floor():
+		_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+		return
+	_tick -= _delta
+	var speed:float = 4.5
+	var moveYaw:float = _calc_move_yaw()
+	# if !_floorInFront.is_colliding():
+	# 	speed = 0
+	_body.rotation.y = moveYaw
+	var move:Vector3 = Vector3()
+	move.x = -sin(moveYaw)
+	move.z = -cos(moveYaw)
+	move *= speed
+	_velocity += (move * _acceleration) * _delta
+	if _velocity.length() > _speed:
+		_velocity = _velocity.normalized()
+		_velocity *= _speed
+	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+
+func __process(_delta:float) -> void:
+	_velocity.y -= 20 * _delta
+	if _stunned || _isAttacking || _state == STATE_IDLE:
+		move_idle(_delta)
+		# # assume idle
+		# _velocity = _body.move_and_slide(_velocity, Vector3.UP)
+		# _velocity *= 0.95
+	elif _state == STATE_HUNT:
+		move_hunt(_delta)

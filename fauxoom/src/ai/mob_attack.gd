@@ -42,7 +42,7 @@ func start_attack(_targetPos:Vector3) -> bool:
 func cancel() -> void:
 	_state = AttackState.Idle
 
-func _fire(target:Vector3) -> void:
+func fire(target:Vector3) -> void:
 	# print("Fire!")
 	var prj = _prj_point_t.instance()
 	Game.get_dynamic_parent().add_child(prj)
@@ -57,7 +57,7 @@ func _fire(target:Vector3) -> void:
 # return false if attack has finished
 func custom_update(_delta:float, _targetPos:Vector3) -> bool:
 	if _state == AttackState.Attacking:
-		_fire(_targetPos)
+		fire(_targetPos)
 		_tick = _attackRecoverTime
 		_state = AttackState.Winddown
 	elif _state == AttackState.Windup:

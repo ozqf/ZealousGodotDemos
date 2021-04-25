@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Spatial",
+"class": "AITicker",
+"language": "GDScript",
+"path": "res://src/ai/ai_ticker.gd"
+}, {
 "base": "Reference",
 "class": "Animations",
 "language": "GDScript",
@@ -144,7 +149,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/ai/mob_base.gd"
 }, {
-"base": "Node",
+"base": "Spatial",
 "class": "MobMotor",
 "language": "GDScript",
 "path": "res://src/ai/mob_motor.gd"
@@ -235,6 +240,7 @@ _global_script_classes=[ {
 "path": "res://zqf/zqf_utils.gd"
 } ]
 _global_script_class_icons={
+"AITicker": "",
 "Animations": "",
 "AsciMapLoader": "",
 "AttachableCamera": "",

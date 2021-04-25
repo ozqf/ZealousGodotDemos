@@ -1,16 +1,22 @@
 extends KinematicBody
-class_name MobBase
+# AITicker wants to reference mobbase class but as it is a child of mob base
+# we get a circular dependency
+# waiting for Godot 4 to fix this apparently...
+# https://www.reddit.com/r/godot/comments/hu213d/class_was_found_in_global_scope_but_its_script/
+# class_name MobBase
+
+const STUN_TIME:float = 0.2
 
 signal on_mob_died(mob)
 
-onready var _sprite:CustomAnimator3D = $sprite
-onready var _body:CollisionShape = $body
-onready var _attack:MobAttack = $attack
-onready var _motor:MobMotor = $motor
+onready var sprite:CustomAnimator3D = $sprite
+onready var collisionShape:CollisionShape = $body
+onready var head:Spatial = $head
+onready var motor:MobMotor = $motor
+onready var attack:MobAttack = $attack
 onready var _stats:MobStats = $stats
 onready var _ent:Entity = $Entity
-
-const STUN_TIME:float = 0.2
+onready var _ticker:AITicker = $ticker
 
 export var delaySpawn:bool = false
 export var triggerTargets:String = ""
@@ -48,11 +54,12 @@ var _pushAccumulator:Vector3 = Vector3()
 var _health:int = 50
 var _dead:bool = false
 
-var _velocity:Vector3 = Vector3()
+# var velocity:Vector3 = Vector3()
 
 func _ready() -> void:
-	_attack.custom_init($head, self)
-	_motor.custom_init(self)
+	attack.custom_init($head, self)
+	motor.custom_init(self)
+	_ticker.custom_init(self)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	var _r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_append_state", self, "append_state")
@@ -115,50 +122,69 @@ func _change_state(_newState) -> void:
 
 	# clean up old state
 	if _prevState == MobState.Attacking:
-		_motor.set_is_attacking(false)
-
+		motor.set_is_attacking(false)
+	
+	if _prevState == MobState.Hunting:
+		_ticker.stop_hunt()
+	var _err
 	# apply new state
 	if _state == MobState.Hunting:
+		_ticker.start_hunt()
 		_thinkTick = _stats.moveTime
-		_sprite.play_animation("walk")
+		_err = sprite.play_animation("walk")
 	elif _state == MobState.Attacking:
-		_sprite.play_animation("aim")
-		_motor.set_is_attacking(true)
+		_err = sprite.play_animation("aim")
+		motor.set_is_attacking(true)
 	elif _state == MobState.Stunned:
 		pass
 	elif _state == MobState.Idle:
-		_motor.clear_target()
+		motor.clear_target()
 	elif _state == MobState.Spawning:
 		pass
 	elif _state == MobState.Dying:
-		_sprite.play_animation("dying")
-		# _body.disabled = true
+		_err = sprite.play_animation("dying")
+		# collisionShape.disabled = true
 		self.collision_layer = Interactions.CORPSE
 		self.collision_mask = Interactions.CORPSE | Interactions.WORLD | Interactions.ACTOR_BARRIER
 	elif _state == MobState.Dead:
 		pass
 	elif _state == MobState.Gibbing:
-		_sprite.play_animation("dead_gib")
-		_body.disabled = true
-		_sprite.visible = false
+		_err = sprite.play_animation("dead_gib")
+		collisionShape.disabled = true
+		sprite.visible = false
 	elif _state == MobState.Gibbed:
-		_sprite.play_animation("dead_gib")
-		_body.disabled = true
-		_sprite.visible = false
+		_err = sprite.play_animation("dead_gib")
+		collisionShape.disabled = true
+		sprite.visible = false
 		pass
 
 func _tick_stunned(_delta:float) -> void:
 	if _thinkTick <= 0:
 		_change_state(_prevState)
-		_motor.set_stunned(false)
+		motor.set_stunned(false)
 		return
 	else:
 		_thinkTick -= _delta
-	# _velocity = self.move_and_slide(_velocity)
-	# _velocity *= 0.95
+	motor.move_idle(_delta)
+	# velocity = self.move_and_slide(velocity)
+	# velocity *= 0.95
+
+
+func face_target_flat(tar:Vector3) -> void:
+	var pos:Vector3 = global_transform.origin
+	tar.y = pos.y
+	look_at(tar, Vector3.UP)
+
 
 func _process(_delta:float) -> void:
 	if _state == MobState.Hunting:
+		_targetInfo = Game.mob_check_target(_targetInfo)
+		if _targetInfo.id == 0:
+			# lost target
+			_change_state(MobState.Idle)
+		else:
+			_ticker.custom_tick(_delta, _targetInfo)
+	if _state == -1:
 		# var wasEmpty:bool = (_targetInfo.id == 0)
 		_targetInfo = Game.mob_check_target(_targetInfo)
 		# if _targetInfo.id != 0 && wasEmpty:
@@ -167,10 +193,10 @@ func _process(_delta:float) -> void:
 		# 	print("Mob lost target!")
 		if _targetInfo.id == 0:
 			return
-		_motor.set_target(_targetInfo.position)
+		motor.set_target(_targetInfo.position)
 		if _thinkTick <= 0:
 			_thinkTick = _stats.moveTime
-			if _attack.start_attack(_targetInfo.position):
+			if attack.start_attack(_targetInfo.position):
 				_change_state(MobState.Attacking)
 		else:
 			_thinkTick -= _delta
@@ -182,7 +208,7 @@ func _process(_delta:float) -> void:
 		
 		rotation.y = ZqfUtils.yaw_between(global_transform.origin, _targetInfo.position)
 		
-		if !_attack.custom_update(_delta, _targetInfo.position):
+		if !attack.custom_update(_delta, _targetInfo.position):
 			_change_state(MobState.Hunting)
 	elif _state == MobState.Idle:
 		if _thinkTick <= 0:
@@ -196,6 +222,7 @@ func _process(_delta:float) -> void:
 					_change_state(MobState.Hunting)
 		else:
 			_thinkTick -= _delta
+		motor.move_idle(_delta)
 		return
 	elif _state == MobState.Spawning:
 		return
@@ -203,43 +230,45 @@ func _process(_delta:float) -> void:
 		_tick_stunned(_delta)
 		return
 	elif _state == MobState.Dying:
-		# _velocity = self.move_and_slide(_velocity)
-		# _velocity *= 0.95
+		# velocity = self.move_and_slide(velocity)
+		# velocity *= 0.95
+		motor.move_idle(_delta)
 		return
 	elif _state == MobState.Dead:
+		motor.move_idle(_delta)
 		return
 
-func apply_stun(dir:Vector3) -> void:
+func apply_stun(_dir:Vector3) -> void:
 	# stun
 	if _state != MobState.Stunned:
 		_change_state(MobState.Stunned)
-		_motor.set_stunned(true)
-	_attack.cancel()
-	# _velocity = dir * 2
+		motor.set_stunned(true)
+	attack.cancel()
+	# velocity = _dir * 2
 	_thinkTick = _stats.stunTime
 
 func regular_death() -> void:
 	_change_state(MobState.Dying)
 
 func gib_death(dir:Vector3) -> void:
-	Game.spawn_gibs(global_transform.origin, dir, 8)
+	var _err = Game.spawn_gibs(global_transform.origin, dir, 8)
 	_change_state(MobState.Gibbed)
 
 func corpse_hit(_hitInfo:HitInfo) -> int:
-	# print("Corpse hit - frame == " + str(_sprite.get_frame_number()))
+	# print("Corpse hit - frame == " + str(sprite.get_frame_number()))
 	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
 		var gibbable:bool = (_state == MobState.Dying || _state == MobState.Dead)
 		if gibbable:
 			gib_death(_hitInfo.direction)
 		return 1
-	elif _sprite.get_frame_number() <= 1:
+	elif sprite.get_frame_number() <= 1:
 		if _health < -_stats.health * 1000:
 			gib_death(_hitInfo.direction / 10)
 		else:
 			_health -= _hitInfo.damage
-			_sprite.set_frame_number(0)
-			# _velocity += _hitInfo.direction * 3
-			_motor.damage_hit(_hitInfo)
+			sprite.set_frame_number(0)
+			# velocity += _hitInfo.direction * 3
+			motor.damage_hit(_hitInfo)
 		return 1
 	else:
 		return Interactions.HIT_RESPONSE_PENETRATE
@@ -256,7 +285,7 @@ func hit(_hitInfo:HitInfo) -> int:
 			gib_death(_hitInfo.direction)
 		else:
 			regular_death()
-		_motor.set_stunned(true)
+		motor.set_stunned(true)
 		emit_signal("on_mob_died", self)
 		Interactions.triggerTargets(get_tree(), triggerTargets)
 		return _hitInfo.damage + _health
@@ -264,5 +293,5 @@ func hit(_hitInfo:HitInfo) -> int:
 		# if not awake, wake up!
 		force_awake()
 		apply_stun(_hitInfo.direction)
-		_motor.damage_hit(_hitInfo)
+		motor.damage_hit(_hitInfo)
 		return _hitInfo.damage

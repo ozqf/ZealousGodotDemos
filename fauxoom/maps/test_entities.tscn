@@ -103,21 +103,22 @@ maxLiveMobs = 1
 
 [node name="mob_spawn_proxy" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -9, 0, 11 )
-type = 2
+delaySpawn = true
 
 [node name="mob_spawn_proxy3" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -3, 0, 16 )
-type = 4
+delaySpawn = true
 
 [node name="mob_spawn_proxy4" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -11, 0, 16 )
-type = 3
+delaySpawn = true
 
 [node name="mob_spawn_proxy2" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -7, 0, -11 )
 
 [node name="mob_spawn_proxy5" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -2, 3, -8 )
+delaySpawn = true
 
 [node name="sprite_object" parent="static" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -6 )
@@ -346,7 +347,7 @@ isStatic = true
 [node name="horde_spawns" type="Spatial" parent="static/survival_controller"]
 
 [node name="horde_spawn" parent="static/survival_controller/horde_spawns" instance=ExtResource( 8 )]
-type = 3
+type = 0
 tickMax = 0.5
 totalMobs = 16
 maxLiveMobs = 4
