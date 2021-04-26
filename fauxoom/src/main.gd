@@ -50,6 +50,7 @@ var _camera:Camera = null
 var _emptyTrans:Transform = Transform.IDENTITY
 var _url:String = ""
 var _paramStr:String = ""
+var _masterBusId:int = 0
 
 var _inputOn:bool = false
 var isRebinding:bool = false
@@ -59,7 +60,9 @@ var _mapDef:MapDef = null
 var _pendingMapDef:MapDef = null
 
 func _ready() -> void:
-	print("Main service start")
+	print("Main service start")#
+	_masterBusId = AudioServer.get_bus_index("Master")
+	print("Master bus index: " + str(_masterBusId))
 	add_to_group(Config.GROUP)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)

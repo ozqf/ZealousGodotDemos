@@ -124,8 +124,10 @@ func _change_state(_newState) -> void:
 	if _prevState == MobState.Attacking:
 		motor.set_is_attacking(false)
 	
-	if _prevState == MobState.Hunting:
+	# disable AI ticker if necessary
+	if _state != MobState.Hunting:
 		_ticker.stop_hunt()
+	
 	var _err
 	# apply new state
 	if _state == MobState.Hunting:

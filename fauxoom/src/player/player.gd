@@ -9,6 +9,7 @@ onready var _attack:PlayerAttack = $attack
 onready var _inventory:Inventory = $inventory
 onready var _hud:Hud = $hud
 onready var _interactor:PlayerObjectInteractor = $head/interaction_ray_cast
+onready var _audio:AudioStreamPlayer = $AudioStreamPlayer
 
 var _inputOn:bool = false
 
@@ -47,6 +48,7 @@ func _ready():
 	_attack.set_attack_enabled(false)
 	
 	var _result = _attack.connect("fire_ssg", _hud, "on_shoot_ssg")
+	_result = _attack.connect("fire_ssg", self, "on_shoot_ssg")
 	_result = _attack.connect("change_weapon", _hud, "on_change_weapon")
 	_result = connect("tree_exiting", self, "_on_tree_exiting")
 	_result = _ent.connect("entity_append_state", self, "append_state")
@@ -54,6 +56,9 @@ func _ready():
 
 	Game.register_player(self)
 	config_changed(Config.cfg)
+
+func on_shoot_ssg() -> void:
+	_audio.play()
 
 func append_state(_dict:Dictionary) -> void:
 	var t:Transform = Transform.IDENTITY

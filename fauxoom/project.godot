@@ -144,11 +144,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/ai/mob_attack.gd"
 }, {
-"base": "KinematicBody",
-"class": "MobBase",
-"language": "GDScript",
-"path": "res://src/ai/mob_base.gd"
-}, {
 "base": "Spatial",
 "class": "MobMotor",
 "language": "GDScript",
@@ -267,7 +262,6 @@ _global_script_class_icons={
 "MapSpawnDef": "",
 "MeshGenerator": "",
 "MobAttack": "",
-"MobBase": "",
 "MobMotor": "",
 "MobSpawnProxy": "",
 "MobStats": "",

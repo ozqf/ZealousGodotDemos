@@ -1,10 +1,36 @@
 extends AITicker
 
+var _hitInfo_type = preload("res://src/defs/hit_info.gd")
+
 const LEAP_STATE:int = -1
 
+onready var _area:Area = $Area
+onready var _shape:CollisionShape = $Area/CollisionShape
+
+var _hitInfo:HitInfo = _hitInfo_type.new()
+
 func custom_init(mob) -> void:
+	_hitInfo.attackTeam = Interactions.TEAM_ENEMY
 	mob.motor.speed = 8
+	_damage_area_off()
+	var _err = _area.connect("body_entered", self, "_on_body_entered")
 	.custom_init(mob)
+
+func _on_body_entered(body:PhysicsBody) -> void:
+	# can touch self!
+	if body == _mob:
+		return
+	print("Hit!")
+	_damage_area_off()
+	Interactions.hit(_hitInfo, body)
+
+func _damage_area_off() -> void:
+	_area.visible = false
+	_shape.disabled = true
+
+func stop_hunt() -> void:
+	_damage_area_off()
+	.stop_hunt()
 
 func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
 	_tick -= _delta
@@ -20,6 +46,8 @@ func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
 				_mob.sprite.play_animation("leap")
 				_mob.motor.set_target(_targetInfo.position)
 				_mob.motor.start_leap(_delta, 14)
+				# _area.visible = true # just for debugging
+				_shape.disabled = false
 				_tick = 0.5
 			else:
 				_mob.motor.move_idle(_delta)
@@ -35,6 +63,7 @@ func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
 		_mob.motor.move_leap(_delta, 14)
 		#_mob.motor.move_idle(_delta)
 		if _tick <= 0:
+			_damage_area_off()
 			change_state(STATE_WINDDOWN)
 			_tick = 1.25
 	elif _state == STATE_WINDDOWN:
