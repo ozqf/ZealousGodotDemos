@@ -231,11 +231,14 @@ margin_bottom = 136.0
 text = "AMMO 100
 "
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="MeshInstance" type="MeshInstance" parent="hud"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, -0.4 )
 visible = false
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="hud"]
+stream = ExtResource( 13 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="hud"]
 stream = ExtResource( 13 )

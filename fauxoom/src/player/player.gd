@@ -1,6 +1,7 @@
 extends KinematicBody
 class_name Player
 
+
 onready var _ent:Entity = $Entity
 onready var _head:Spatial = $head
 onready var _cameraMount:Spatial = $camera_mount
@@ -9,7 +10,6 @@ onready var _attack:PlayerAttack = $attack
 onready var _inventory:Inventory = $inventory
 onready var _hud:Hud = $hud
 onready var _interactor:PlayerObjectInteractor = $head/interaction_ray_cast
-onready var _audio:AudioStreamPlayer = $AudioStreamPlayer
 
 var _inputOn:bool = false
 
@@ -58,7 +58,8 @@ func _ready():
 	config_changed(Config.cfg)
 
 func on_shoot_ssg() -> void:
-	_audio.play()
+	# _audio.play()
+	pass
 
 func append_state(_dict:Dictionary) -> void:
 	var t:Transform = Transform.IDENTITY

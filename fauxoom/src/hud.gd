@@ -2,6 +2,10 @@ extends CanvasLayer
 class_name Hud
 
 var _hit_indicator_t = load("res://prefabs/ui/hud_hit_indicator.tscn")
+var _ssgShoot:AudioStream = preload("res://assets/sounds/ssg/ssg_fire.wav")
+var _ssgOpen:AudioStream = preload("res://assets/sounds/ssg/ssg_open.wav")
+var _ssgLoad:AudioStream = preload("res://assets/sounds/ssg/ssg_load.wav")
+var _ssgClose:AudioStream = preload("res://assets/sounds/ssg/ssg_close.wav")
 
 onready var _centreSprite:AnimatedSprite = $gun/weapon_centre
 onready var _rightSprite:AnimatedSprite = $gun/weapon_right
@@ -9,6 +13,8 @@ onready var _leftSprite:AnimatedSprite = $gun/weapon_left
 onready var _prompt:Label = $centre/interact_prompt
 onready var _energyBar:TextureProgress = $centre/energy
 onready var _healthBar:TextureProgress = $centre/health
+onready var _audio:AudioStreamPlayer = $AudioStreamPlayer
+onready var _audio2:AudioStreamPlayer = $AudioStreamPlayer2
 
 var _maxHealthColour:Color = Color(0, 1, 0, 1)
 var _minHealthColour:Color = Color(1, 0, 0, 1)
@@ -23,6 +29,7 @@ var _akimbo:bool = false
 var _leftHandNext:bool = false
 
 var _swayTime:float = 0.0
+var _lastSoundFrame:int = -1
 
 func _ready() -> void:
 	add_to_group(Groups.PLAYER_GROUP_NAME)
@@ -49,6 +56,20 @@ func _process(_delta:float) -> void:
 	t.origin.x += x
 	t.origin.y += y
 	_centreSprite.transform = t
+
+	if _centreSprite.animation == "ssg_shoot":
+		if _centreSprite.frame == 4 && _lastSoundFrame < 4:
+			_lastSoundFrame = 4
+			_audio2.stream = _ssgOpen
+			_audio2.play()
+		elif _centreSprite.frame == 7 && _lastSoundFrame < 7:
+			_lastSoundFrame = 7
+			_audio2.stream = _ssgLoad
+			_audio2.play()
+		elif _centreSprite.frame == 9 && _lastSoundFrame < 9:
+			_lastSoundFrame = 9
+			_audio2.stream = _ssgClose
+			_audio2.play()
 
 	t = _rightTrans
 	t.origin.x += x
@@ -137,3 +158,6 @@ func on_shoot_ssg() -> void:
 		# print("Shoot centre")
 		_centreSprite.play(_currentWeap["shoot"])
 		_isShooting = true
+	_audio.stream = _ssgShoot
+	_audio.play()
+	_lastSoundFrame = -1
