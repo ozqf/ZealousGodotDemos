@@ -149,11 +149,20 @@ func _parse_url_options(optionsStr:String) -> void:
 
 func config_changed(_cfg:Dictionary) -> void:
 	_apply_window_settings()
+	_refresh_audio_volumes(_cfg.s_sfx, _cfg.s_bgm)
 	# save_cfg(cfg, _DEFAULT_CFG_NAME)
 
 func _apply_window_settings() -> void:
 	print("Apply window settings")
 	OS.window_fullscreen = Config.cfg.r_fullscreen
+
+func _refresh_audio_volumes(_sndVolume:float, _bgmVolume:float) -> void:
+	var level:float = _sndVolume / 100.0
+	var maxDb:float = 0
+	var minDb:float = -40
+	var val:float = minDb * (1 - level) + (maxDb * level)
+	print("Set sfx db to " + str(val) + " from level " + str(level))
+	AudioServer.set_bus_volume_db(_masterBusId, val)
  
 func get_map() -> MapDef:
 	if _mapDef == null:

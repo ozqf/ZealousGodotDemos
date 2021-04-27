@@ -98,10 +98,11 @@ func _calc_move_yaw() -> float:
 				r = 0
 	return moveYaw + _yawOffset
 
-func move_idle(_delta:float) -> void:
+func move_idle(_delta:float, friction:float = 0.95) -> void:
 	_velocity.y -= 20 * _delta
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
-	_velocity *= 0.95
+	_velocity.x *= friction
+	_velocity.z *= friction
 
 func move_leap(_delta:float, _speed:float) -> void:
 	var dir = _velocity.normalized()
@@ -128,8 +129,10 @@ func move_hunt(_delta:float) -> void:
 	_tick -= _delta
 	# var speed:float = 4.5
 	var moveYaw:float = _calc_move_yaw()
-	# if !_floorInFront.is_colliding():
-	# 	speed = 0
+	if _floorInFront != null && !_floorInFront.is_colliding():
+		# print("No floor!")
+		move_idle(_delta, 0.5)
+		return
 	_body.rotation.y = moveYaw
 	var move:Vector3 = Vector3()
 	move.x = -sin(moveYaw)

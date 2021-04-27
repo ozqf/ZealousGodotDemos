@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/punk_death_3.wav-aaeb9028a05070a69fed231ab7777a11.sample"
+
+[deps]
+
+source_file="res://assets/sounds/mob/punk/punk_death_3.wav"
+dest_files=[ "res://.import/punk_death_3.wav-aaeb9028a05070a69fed231ab7777a11.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

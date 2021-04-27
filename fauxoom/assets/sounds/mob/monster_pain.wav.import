@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/monster_pain.wav-5d084d73dad8af5f7372f1316c56eb9e.sample"
+
+[deps]
+
+source_file="res://assets/sounds/mob/monster_pain.wav"
+dest_files=[ "res://.import/monster_pain.wav-5d084d73dad8af5f7372f1316c56eb9e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

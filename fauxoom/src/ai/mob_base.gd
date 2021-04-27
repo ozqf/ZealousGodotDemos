@@ -8,6 +8,7 @@ extends KinematicBody
 const STUN_TIME:float = 0.2
 
 signal on_mob_died(mob)
+signal mob_event(tag)
 
 onready var sprite:CustomAnimator3D = $sprite
 onready var collisionShape:CollisionShape = $body
@@ -187,10 +188,11 @@ func _process(_delta:float) -> void:
 		else:
 			_ticker.custom_tick(_delta, _targetInfo)
 	if _state == -1:
-		# var wasEmpty:bool = (_targetInfo.id == 0)
+		var wasEmpty:bool = (_targetInfo.id == 0)
 		_targetInfo = Game.mob_check_target(_targetInfo)
-		# if _targetInfo.id != 0 && wasEmpty:
-		# 	print("Mob got target!")
+		if _targetInfo.id != 0 && wasEmpty:
+			print("Mob got target!")
+			emit_signal("mob_event", "alert")
 		# elif _targetInfo.id == 0 && !wasEmpty:
 		# 	print("Mob lost target!")
 		if _targetInfo.id == 0:
@@ -294,6 +296,7 @@ func hit(_hitInfo:HitInfo) -> int:
 	else:
 		# if not awake, wake up!
 		force_awake()
+		emit_signal("mob_event", "pain")
 		apply_stun(_hitInfo.direction)
 		motor.damage_hit(_hitInfo)
 		return _hitInfo.damage
