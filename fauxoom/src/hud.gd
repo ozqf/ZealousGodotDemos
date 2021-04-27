@@ -7,6 +7,9 @@ var _ssgOpen:AudioStream = preload("res://assets/sounds/ssg/ssg_open.wav")
 var _ssgLoad:AudioStream = preload("res://assets/sounds/ssg/ssg_load.wav")
 var _ssgClose:AudioStream = preload("res://assets/sounds/ssg/ssg_close.wav")
 
+var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
+var _rocketShoot:AudioStream = preload("res://assets/sounds/weapon/rocket_fire.wav")
+
 onready var _centreSprite:AnimatedSprite = $gun/weapon_centre
 onready var _rightSprite:AnimatedSprite = $gun/weapon_right
 onready var _leftSprite:AnimatedSprite = $gun/weapon_left
@@ -24,6 +27,7 @@ var _centreTrans:Transform2D
 var _rightTrans:Transform2D
 var _leftTrans:Transform2D
 
+var _currentWeapName:String = "ssg"
 var _currentWeap:Dictionary = Weapons.weapons["ssg"]
 var _akimbo:bool = false
 var _leftHandNext:bool = false
@@ -139,11 +143,29 @@ func _apply_weapon_change(_weap:Dictionary) -> void:
 func on_change_weapon(_name:String) -> void:
 	if !Weapons.weapons.has(_name):
 		_name = "pistol"
-	
+	_currentWeapName = _name
 	_currentWeap = Weapons.weapons[_name]
 	self._apply_weapon_change(_currentWeap)
 
-func on_shoot_ssg() -> void:
+func _play_ssg_shot() -> void:
+	_audio.stream = _ssgShoot
+	_audio.volume_db = -5
+	_audio.play()
+	_lastSoundFrame = -1
+
+func _play_pistol_shot() -> void:
+	_audio.stream = _pistolShoot
+	_audio.volume_db = -5
+	_audio.play()
+	_lastSoundFrame = -1
+
+func _play_rocket_shot() -> void:
+	_audio.stream = _rocketShoot
+	_audio.volume_db = -5
+	_audio.play()
+	_lastSoundFrame = -1
+
+func on_player_shoot() -> void:
 	if _akimbo:
 		if _leftHandNext:
 			_leftHandNext = false
@@ -158,6 +180,11 @@ func on_shoot_ssg() -> void:
 		# print("Shoot centre")
 		_centreSprite.play(_currentWeap["shoot"])
 		_isShooting = true
-	_audio.stream = _ssgShoot
-	_audio.play()
-	_lastSoundFrame = -1
+	if _currentWeapName == Weapons.PistolLabel:
+		_play_pistol_shot()
+	elif _currentWeapName == Weapons.DualPistolsLabel:
+		_play_pistol_shot()
+	elif _currentWeapName == Weapons.SuperShotgunLabel:
+		_play_ssg_shot()
+	elif _currentWeapName == Weapons.RocketLauncherLabel:
+		_play_rocket_shot()

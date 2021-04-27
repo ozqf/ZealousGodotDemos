@@ -47,8 +47,8 @@ func _ready():
 	_attack.init_attack(_head, self, _inventory)
 	_attack.set_attack_enabled(false)
 	
-	var _result = _attack.connect("fire_ssg", _hud, "on_shoot_ssg")
-	_result = _attack.connect("fire_ssg", self, "on_shoot_ssg")
+	var _result = _attack.connect("fire", _hud, "on_player_shoot")
+	_result = _attack.connect("fire", self, "on_player_shoot")
 	_result = _attack.connect("change_weapon", _hud, "on_change_weapon")
 	_result = connect("tree_exiting", self, "_on_tree_exiting")
 	_result = _ent.connect("entity_append_state", self, "append_state")
@@ -57,7 +57,7 @@ func _ready():
 	Game.register_player(self)
 	config_changed(Config.cfg)
 
-func on_shoot_ssg() -> void:
+func on_player_shoot() -> void:
 	# _audio.play()
 	pass
 

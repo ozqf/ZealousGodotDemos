@@ -5,10 +5,12 @@ var _alert2:AudioStream = preload("res://assets/sounds/mob/punk/punk_alert_2.wav
 var _alert3:AudioStream = preload("res://assets/sounds/mob/punk/punk_alert_3.wav")
 
 var _pain:AudioStream = preload("res://assets/sounds/mob/punk/punk_pain.wav")
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 
+var _death1:AudioStream = preload("res://assets/sounds/mob/punk/punk_death_1.wav")
+var _death2:AudioStream = preload("res://assets/sounds/mob/punk/punk_death_2.wav")
+var _death3:AudioStream = preload("res://assets/sounds/mob/punk/punk_death_3.wav")
+
+var _slop:AudioStream = preload("res://assets/sounds/impact/slop.wav")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,11 +26,29 @@ func alert() -> void:
 		stream = _alert3
 	play(0)
 
+func death() -> void:
+	var r = randf()
+	if r > 0.666:
+		stream = _death1
+	elif r > 0.333:
+		stream = _death2
+	else:
+		stream = _death3
+	play(0)
+
+func gib() -> void:
+	stream = _slop
+	play(0)
+
 func on_event(tag:String) -> void:
 	if tag == "pain":
 		print("Pain!")
 		stream = _pain
 		play(0)
+	elif tag == "death":
+		death()
+	elif tag == "gib":
+		gib()
 	elif tag == "alert":
 		print("Alert!")
 		alert()

@@ -22,7 +22,7 @@ var _hitInfo:HitInfo = null
 var _prjMask:int = -1
 var _ignore = []
 
-signal fire_ssg()
+signal fire()
 signal change_weapon(nameString)
 
 func init_attack(launchNode:Spatial, ignoreBody:PhysicsBody, inventory:Inventory) -> void:
@@ -149,4 +149,4 @@ func _process(_delta:float) -> void:
 				_fire_spread()
 			elif type == "player_rocket":
 				_fire_rocket()
-			self.emit_signal("fire_ssg")
+			self.emit_signal("fire")

@@ -80,6 +80,7 @@ func teleport(t:Transform) -> void:
 func force_awake() -> void:
 	if _state == MobState.Idle:
 		_state = MobState.Hunting
+	emit_signal("mob_event", "alert")
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
@@ -192,7 +193,6 @@ func _process(_delta:float) -> void:
 		_targetInfo = Game.mob_check_target(_targetInfo)
 		if _targetInfo.id != 0 && wasEmpty:
 			print("Mob got target!")
-			emit_signal("mob_event", "alert")
 		# elif _targetInfo.id == 0 && !wasEmpty:
 		# 	print("Mob lost target!")
 		if _targetInfo.id == 0:
@@ -223,7 +223,7 @@ func _process(_delta:float) -> void:
 			# 	else:
 			# 		print("Player in front but cannot see!")
 			if Game.check_los_to_player(global_transform.origin):
-					_change_state(MobState.Hunting)
+				force_awake()
 		else:
 			_thinkTick -= _delta
 		motor.move_idle(_delta)
@@ -252,9 +252,11 @@ func apply_stun(_dir:Vector3) -> void:
 	_thinkTick = _stats.stunTime
 
 func regular_death() -> void:
+	emit_signal("mob_event", "death")
 	_change_state(MobState.Dying)
 
 func gib_death(dir:Vector3) -> void:
+	emit_signal("mob_event", "gib")
 	var _err = Game.spawn_gibs(global_transform.origin, dir, 8)
 	_change_state(MobState.Gibbed)
 

@@ -75,9 +75,9 @@ func clear_target() -> void:
 	change_state(STATE_IDLE)
 
 func damage_hit(_hitInfo:HitInfo) -> void:
-	var strength:float = 1.5
+	var strength:float = 1
 	if _stunned:
-		strength = 3.0
+		strength = 1.5
 	_velocity += _hitInfo.direction * strength
 
 func _calc_move_yaw() -> float:
