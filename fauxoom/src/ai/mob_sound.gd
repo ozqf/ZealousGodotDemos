@@ -42,7 +42,6 @@ func gib() -> void:
 
 func on_event(tag:String) -> void:
 	if tag == "pain":
-		print("Pain!")
 		stream = _pain
 		play(0)
 	elif tag == "death":
@@ -50,5 +49,4 @@ func on_event(tag:String) -> void:
 	elif tag == "gib":
 		gib()
 	elif tag == "alert":
-		print("Alert!")
 		alert()

@@ -8,12 +8,13 @@ const RocketLauncherLabel:String = "rl"
 const FlameThrowerLabel:String = "ft"
 const PlasmaGunLabel:String = "pg"
 
-const AmmoTypeBullets:String = "Bullets"
-const AmmoTypeShells:String = "Shells"
-const AmmoTypeRockets:String = "Rockets"
+const AmmoTypeBullets:String = "bullets"
+const AmmoTypeShells:String = "shells"
+const AmmoTypeRockets:String = "rockets"
 
 const weapons:Dictionary = {
 	PistolLabel: {
+		"name": PistolLabel,
 		"idle": "pistol_idle",
 		"shoot": "pistol_shoot",
 		"ammoType": AmmoTypeBullets,
@@ -22,6 +23,7 @@ const weapons:Dictionary = {
 		"projectileType": "hitscan"
 	},
 	DualPistolsLabel: {
+		"name": DualPistolsLabel,
 		"idle": "pistol_idle",
 		"shoot": "pistol_shoot",
 		"ammoType": AmmoTypeBullets,
@@ -32,6 +34,7 @@ const weapons:Dictionary = {
 		"projectileDamage": 10
 	},
 	SuperShotgunLabel: {
+		"name": SuperShotgunLabel,
 		"idle": "ssg_idle",
 		"shoot": "ssg_shoot",
 		"ammoType": AmmoTypeShells,
@@ -41,6 +44,7 @@ const weapons:Dictionary = {
 		"projectileDamage": 10
 	},
 	ChaingunLabel: {
+		"name": ChaingunLabel,
 		"idle": "cg_idle",
 		"shoot": "cg_shoot",
 		"ammoType": AmmoTypeBullets,
@@ -50,6 +54,7 @@ const weapons:Dictionary = {
 		"projectileDamage": 10
 	},
 	RocketLauncherLabel: {
+		"name": RocketLauncherLabel,
 		"idle": "rl_idle",
 		"shoot": "rl_shoot",
 		"ammoType": AmmoTypeRockets,
@@ -59,6 +64,7 @@ const weapons:Dictionary = {
 		"projectileDamage": 100
 	},
 	FlameThrowerLabel: {
+		"name": FlameThrowerLabel,
 		"idle": "ft_idle",
 		"shoot": "ft_shoot",
 		"ammoType": AmmoTypeRockets,
@@ -68,6 +74,7 @@ const weapons:Dictionary = {
 		"projectileDamage": 10
 	},
 	PlasmaGunLabel: {
+		"name": PlasmaGunLabel,
 		"idle": "pg_idle",
 		"shoot": "pg_shoot",
 		"ammoType": AmmoTypeRockets,

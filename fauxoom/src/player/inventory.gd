@@ -2,6 +2,7 @@ extends Node
 class_name Inventory
 
 var _data:Dictionary = {
+	pistol = { count = 1, max = 2 },
 	super_shotgun = { count = 0, max = 1 },
 	bullets = { count = 100, max = 300 },
 	shells = { count = 0, max = 50 }
@@ -15,7 +16,16 @@ func restore_state(_dict:Dictionary) -> void:
 		_data = _dict.inventory.duplicate()
 
 func get_count(itemType:String) -> int:
+	if !_data.has(itemType):
+		return 0
 	return _data[itemType].count
+
+func give_all() -> void:
+	print("Give all")
+	var keys = _data.keys()
+	for key in keys:
+		_data[key].count = _data[key].max
+		print(key + ": " + str(_data[key].count))
 
 func take_item(itemType:String, amount:int) -> int:
 	if !_data.has(itemType):

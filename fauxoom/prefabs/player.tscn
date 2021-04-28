@@ -239,6 +239,8 @@ material/0 = null
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="hud"]
 stream = ExtResource( 13 )
+bus = "game"
 
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="hud"]
 stream = ExtResource( 13 )
+bus = "game"

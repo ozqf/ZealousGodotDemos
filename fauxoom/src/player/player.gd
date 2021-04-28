@@ -16,6 +16,7 @@ var _inputOn:bool = false
 var _gameplayInputOn:bool = true
 var _appInputOn:bool = true
 
+var _godMode:bool = false
 var _dead:bool = false
 var _health:int = 100
 var _swayTime:float = 0.0
@@ -104,6 +105,18 @@ func _on_tree_exiting() -> void:
 func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 	if _txt == "kill":
 		kill()
+	if _txt == "god":
+		_godMode = !_godMode
+		print("Godmode: " + str(_godMode))
+	if _tokens[0] == "give":
+		if _tokens.size() == 2 && _tokens[1] == "all":
+			_inventory.give_all()
+		if _tokens.size() == 3:
+			var count = int(_tokens[2])
+			_inventory.give_item(_tokens[1], count)
+	if _txt == "inventory":
+		_inventory.debug()
+		
 
 func game_on_level_completed() -> void:
 #	print("Player disable input")
@@ -167,7 +180,8 @@ func hit(hitInfo) -> int:
 	if _dead:
 		return 0
 	var dmg = hitInfo.damage
-	_health -= dmg
+	if !_godMode:
+		_health -= dmg
 	if _health <= 0:
 		kill()
 		return dmg + _health

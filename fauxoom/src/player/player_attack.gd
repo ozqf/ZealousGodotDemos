@@ -116,17 +116,37 @@ func _check_weapon_change() -> void:
 	_extraPellets = weap.extraPellets
 	self.emit_signal("change_weapon", _currentWeapon)
 
+func check_ammo_count(ammoType, requiredCount:int) -> bool:
+	if ammoType == Weapons.AmmoTypeBullets:
+		return true
+	var count = _inventory.get_count(ammoType)
+	return (count >= requiredCount)
+
+func _check_current_ammo_empty(weap) -> void:
+	if _pendingWeapon == "" && !check_ammo_count(weap.ammoType, 1):
+		# switch to something with ammo
+		_pendingWeapon = Weapons.PistolLabel
+
 func _process(_delta:float) -> void:
 	if _tick >= 0:
 		_tick -= _delta
 	if !_active:
 		return
 	
-	if Input.is_action_just_pressed("slot_1"):
-		_pendingWeapon = Weapons.PistolLabel
+	var weap = Weapons.weapons[_currentWeapon]
+
+	# if Input.is_action_just_pressed("slot_1"):
+	# 	_pendingWeapon = Weapons.PistolLabel
 	if Input.is_action_just_pressed("slot_2"):
-		_pendingWeapon = Weapons.DualPistolsLabel
-	if Input.is_action_just_pressed("slot_3"):
+		var pistolCount:int = _inventory.get_count("pistol")
+		if pistolCount == 1:
+			_pendingWeapon = Weapons.PistolLabel
+		else:
+			if weap.name == Weapons.DualPistolsLabel:
+				_pendingWeapon = Weapons.PistolLabel
+			else:
+				_pendingWeapon = Weapons.DualPistolsLabel
+	if Input.is_action_just_pressed("slot_3") && check_ammo_count("shells", 1):
 		_pendingWeapon = Weapons.SuperShotgunLabel
 	if Input.is_action_just_pressed("slot_4"):
 		_pendingWeapon = Weapons.ChaingunLabel
@@ -136,13 +156,15 @@ func _process(_delta:float) -> void:
 		_pendingWeapon = Weapons.FlameThrowerLabel
 	if Input.is_action_just_pressed("slot_7"):
 		_pendingWeapon = Weapons.PlasmaGunLabel
-
+	
 	if _tick <= 0:
+		_check_current_ammo_empty(weap)
 		_check_weapon_change()
 
 		if Input.is_action_pressed("attack_1"): # || Input.is_action_pressed("move_special"):
 			_tick = _refireTime
-			var weap = Weapons.weapons[_currentWeapon]
+			if weap.ammoType == "shells":
+				_inventory.take_item("shells", 2)
 			var type:String = weap.projectileType
 
 			if type == "hitscan":

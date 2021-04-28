@@ -50,7 +50,9 @@ var _camera:Camera = null
 var _emptyTrans:Transform = Transform.IDENTITY
 var _url:String = ""
 var _paramStr:String = ""
-var _masterBusId:int = 0
+var _masterBusId:int = -1
+var _gameBusId:int = -1
+var _bgmBusId:int = -1
 
 var _inputOn:bool = false
 var isRebinding:bool = false
@@ -62,6 +64,8 @@ var _pendingMapDef:MapDef = null
 func _ready() -> void:
 	print("Main service start")#
 	_masterBusId = AudioServer.get_bus_index("Master")
+	_gameBusId = AudioServer.get_bus_index("game")
+	_bgmBusId = AudioServer.get_bus_index("bgm")
 	print("Master bus index: " + str(_masterBusId))
 	add_to_group(Config.GROUP)
 	add_to_group(Groups.GAME_GROUP_NAME)
@@ -156,13 +160,22 @@ func _apply_window_settings() -> void:
 	print("Apply window settings")
 	OS.window_fullscreen = Config.cfg.r_fullscreen
 
-func _refresh_audio_volumes(_sndVolume:float, _bgmVolume:float) -> void:
-	var level:float = _sndVolume / 100.0
+func _set_bus_volume_percent(busIndex:int, percentage:float) -> void:
+	var level:float = percentage / 100.0
 	var maxDb:float = 0
 	var minDb:float = -40
 	var val:float = minDb * (1 - level) + (maxDb * level)
-	print("Set sfx db to " + str(val) + " from level " + str(level))
-	AudioServer.set_bus_volume_db(_masterBusId, val)
+	AudioServer.set_bus_volume_db(busIndex, val)
+
+func _refresh_audio_volumes(_sndVolume:float, _bgmVolume:float) -> void:
+	_set_bus_volume_percent(_gameBusId, _sndVolume)
+	_set_bus_volume_percent(_bgmBusId, _bgmVolume)
+	# var level:float = _sndVolume / 100.0
+	# var maxDb:float = 0
+	# var minDb:float = -40
+	# var val:float = minDb * (1 - level) + (maxDb * level)
+	# print("Set sfx db to " + str(val) + " from level " + str(level))
+	# AudioServer.set_bus_volume_db(_gameBusId, val)
  
 func get_map() -> MapDef:
 	if _mapDef == null:

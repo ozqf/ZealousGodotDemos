@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/D_EVIL_24k.ogg-afd6d66f539cd78d8c7f112fc59fa812.oggstr"
+
+[deps]
+
+source_file="res://assets/music/action_light/D_EVIL_24k.ogg"
+dest_files=[ "res://.import/D_EVIL_24k.ogg-afd6d66f539cd78d8c7f112fc59fa812.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

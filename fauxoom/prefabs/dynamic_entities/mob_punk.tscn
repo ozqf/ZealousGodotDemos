@@ -72,4 +72,5 @@ script = ExtResource( 8 )
 stream = ExtResource( 9 )
 unit_db = 5.0
 max_distance = 50.0
+bus = "game"
 script = ExtResource( 10 )

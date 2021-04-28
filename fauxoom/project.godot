@@ -57,7 +57,7 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "Entities",
 "language": "GDScript",
-"path": "res://src/entities.gd"
+"path": "res://src/services/entities.gd"
 }, {
 "base": "Node",
 "class": "Entity",
@@ -77,7 +77,7 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "GameController",
 "language": "GDScript",
-"path": "res://src/game.gd"
+"path": "res://src/services/game.gd"
 }, {
 "base": "Spatial",
 "class": "GridEditor",
@@ -294,6 +294,7 @@ Main="*res://prefabs/services/main.tscn"
 Config="*res://prefabs/services/config.tscn"
 Game="*res://prefabs/services/game.tscn"
 Ents="*res://prefabs/services/entities.tscn"
+Bgm="*res://prefabs/services/bgm.tscn"
 
 [display]
 
