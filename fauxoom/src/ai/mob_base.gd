@@ -149,7 +149,7 @@ func _change_state(_newState) -> void:
 		_err = sprite.play_animation("dying")
 		# collisionShape.disabled = true
 		self.collision_layer = Interactions.CORPSE
-		self.collision_mask = Interactions.CORPSE | Interactions.WORLD | Interactions.ACTOR_BARRIER
+		self.collision_mask = Interactions.WORLD | Interactions.ACTOR_BARRIER
 	elif _state == MobState.Dead:
 		pass
 	elif _state == MobState.Gibbing:
