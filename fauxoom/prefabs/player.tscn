@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/sprites/player/player_a1.png" type="Texture" id=1]
 [ext_resource path="res://src/player/player.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://src/entity.gd" type="Script" id=11]
 [ext_resource path="res://assets/ui/green_ring_64.png" type="Texture" id=12]
 [ext_resource path="res://assets/sounds/ssg/ssg_fire.wav" type="AudioStream" id=13]
+[ext_resource path="res://assets/sounds/item/item_generic.wav" type="AudioStream" id=14]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.75, 0.5 )
@@ -84,7 +85,7 @@ __meta__ = {
 }
 
 [node name="weapon_centre" type="AnimatedSprite" parent="hud/gun"]
-position = Vector2( 510.589, 471.944 )
+position = Vector2( 510.589, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
 animation = "cg_shoot"
@@ -92,8 +93,18 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="weapon_centre2" type="AnimatedSprite" parent="hud/gun"]
+visible = false
+position = Vector2( 510.589, 344 )
+scale = Vector2( 2, 2 )
+frames = ExtResource( 4 )
+animation = "saw_idle"
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="weapon_left" type="AnimatedSprite" parent="hud/gun"]
-position = Vector2( 388.406, 472.342 )
+position = Vector2( 388.406, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
 animation = "cg_shoot"
@@ -103,7 +114,7 @@ __meta__ = {
 }
 
 [node name="weapon_right" type="AnimatedSprite" parent="hud/gun"]
-position = Vector2( 634.247, 472.342 )
+position = Vector2( 634.247, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
 animation = "cg_shoot"
@@ -195,39 +206,39 @@ __meta__ = {
 }
 
 [node name="player_status" type="VBoxContainer" parent="hud"]
-margin_left = 8.0
-margin_top = 473.0
+margin_top = 384.0
 margin_right = 128.0
-margin_bottom = 598.0
+margin_bottom = 600.0
 alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="health" type="Label" parent="hud/player_status"]
-margin_right = 120.0
-margin_bottom = 31.0
+margin_top = 80.0
+margin_right = 128.0
+margin_bottom = 111.0
 text = "HEALTH 100
 "
 
 [node name="energy" type="Label" parent="hud/player_status"]
-margin_top = 35.0
-margin_right = 120.0
-margin_bottom = 66.0
+margin_top = 115.0
+margin_right = 128.0
+margin_bottom = 146.0
 text = "ENERGY 100
 "
 
 [node name="bullets" type="Label" parent="hud/player_status"]
-margin_top = 70.0
-margin_right = 120.0
-margin_bottom = 101.0
+margin_top = 150.0
+margin_right = 128.0
+margin_bottom = 181.0
 text = "AMMO 100
 "
 
 [node name="shells" type="Label" parent="hud/player_status"]
-margin_top = 105.0
-margin_right = 120.0
-margin_bottom = 136.0
+margin_top = 185.0
+margin_right = 128.0
+margin_bottom = 216.0
 text = "AMMO 100
 "
 
@@ -244,3 +255,8 @@ bus = "game"
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="hud"]
 stream = ExtResource( 13 )
 bus = "game"
+
+[node name="audio_pickup" type="AudioStreamPlayer" parent="hud"]
+stream = ExtResource( 14 )
+volume_db = -7.591
+pitch_scale = 0.79

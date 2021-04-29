@@ -582,6 +582,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0 )
 stream = ExtResource( 32 )
 autoplay = true
 max_distance = 20.0
+bus = "game"
 [connection signal="trigger" from="static/trigger_volume3" to="static/toggle_mover_test" method="on_trigger"]
 [connection signal="trigger" from="static/mob_spawn_proxy" to="save_test_barrier2" method="on_trigger"]
 [connection signal="trigger" from="static/mob_spawn_proxy3" to="save_test_barrier2" method="on_trigger"]
