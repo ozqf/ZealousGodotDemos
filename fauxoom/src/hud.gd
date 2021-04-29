@@ -2,6 +2,12 @@ extends CanvasLayer
 class_name Hud
 
 var _hit_indicator_t = load("res://prefabs/ui/hud_hit_indicator.tscn")
+
+var _pickupSample:AudioStream = preload("res://assets/sounds/item/item_generic.wav")
+var _respawnSample:AudioStream = preload("res://assets/sounds/item/item_respawn.wav")
+var _reloadSample:AudioStream = preload("res://assets/sounds/item/weapon_reload.wav")
+var _reloadSample2:AudioStream = preload("res://assets/sounds/item/weapon_reload_light.wav")
+
 var _ssgShoot:AudioStream = preload("res://assets/sounds/ssg/ssg_fire.wav")
 var _ssgOpen:AudioStream = preload("res://assets/sounds/ssg/ssg_open.wav")
 var _ssgLoad:AudioStream = preload("res://assets/sounds/ssg/ssg_load.wav")
@@ -18,6 +24,7 @@ onready var _energyBar:TextureProgress = $centre/energy
 onready var _healthBar:TextureProgress = $centre/health
 onready var _audio:AudioStreamPlayer = $AudioStreamPlayer
 onready var _audio2:AudioStreamPlayer = $AudioStreamPlayer2
+onready var _pickupAudio:AudioStreamPlayer = $audio_pickup
 
 var _maxHealthColour:Color = Color(0, 1, 0, 1)
 var _minHealthColour:Color = Color(1, 0, 0, 1)
@@ -165,6 +172,16 @@ func _play_rocket_shot() -> void:
 	_audio.play()
 	_lastSoundFrame = -1
 
+func player_pickup(_description:String) -> void:
+	# var pitch:float = rand_range(0.9, 1.1)
+	# _pickupAudio.pitch_scale = pitch
+	if _description == "weapon":
+		_pickupAudio.stream = _reloadSample
+	else:
+		_pickupAudio.stream = _pickupSample
+	_pickupAudio.play()
+	pass
+
 func on_player_shoot() -> void:
 	if _akimbo:
 		if _leftHandNext:
@@ -179,6 +196,7 @@ func on_player_shoot() -> void:
 	else:
 		# print("Shoot centre")
 		_centreSprite.play(_currentWeap["shoot"])
+		_centreSprite.frame = 0
 		_isShooting = true
 	if _currentWeapName == Weapons.PistolLabel:
 		_play_pistol_shot()

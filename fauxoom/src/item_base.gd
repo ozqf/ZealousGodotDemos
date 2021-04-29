@@ -5,12 +5,11 @@ onready var _areaShape:CollisionShape = $Area/CollisionShape
 var _ent:Entity
 # move to separate class
 # https://godotengine.org/qa/40827/how-to-declare-a-global-named-enum
-#enum ItemType {
-#	None,
-#	Shotgun,
-#	SuperShotgun
-#}
-# export(ItemType) var type = ItemType.None
+enum SoundType {
+	Generic,
+	Weapon
+}
+export(SoundType) var soundType = SoundType.Generic
 
 # two item types are specified, as items like weapons will give two
 # items (the weapon itself + ammunition)
@@ -69,6 +68,12 @@ func _set_active(flag:bool) -> void:
 	_active = flag
 	_sprite.visible = _active
 	_areaShape.disabled = !_active
+	var grp = Groups.PLAYER_GROUP_NAME
+	var fn = Groups.PLAYER_FN_PICKUP
+	var description = ""
+	if soundType == SoundType.Weapon:
+		description = "weapon"
+	get_tree().call_group(grp, fn, description)
 
 func _process(_delta:float) -> void:
 	

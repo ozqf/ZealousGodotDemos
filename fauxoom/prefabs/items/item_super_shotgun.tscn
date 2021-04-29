@@ -6,6 +6,7 @@
 [node name="item_super_shotgun" type="Spatial"]
 
 [node name="item_base" parent="." instance=ExtResource( 1 )]
+soundType = 1
 type = "super_shotgun"
 subType = "shells"
 subQuantity = 8

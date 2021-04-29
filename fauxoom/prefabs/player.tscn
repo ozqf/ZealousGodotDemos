@@ -13,7 +13,7 @@
 [ext_resource path="res://src/entity.gd" type="Script" id=11]
 [ext_resource path="res://assets/ui/green_ring_64.png" type="Texture" id=12]
 [ext_resource path="res://assets/sounds/ssg/ssg_fire.wav" type="AudioStream" id=13]
-[ext_resource path="res://assets/sounds/item/item_generic.wav" type="AudioStream" id=14]
+[ext_resource path="res://assets/sounds/item/item_powerup_generic.wav" type="AudioStream" id=14]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.75, 0.5 )
@@ -260,3 +260,4 @@ bus = "game"
 stream = ExtResource( 14 )
 volume_db = -7.591
 pitch_scale = 0.79
+bus = "game"
