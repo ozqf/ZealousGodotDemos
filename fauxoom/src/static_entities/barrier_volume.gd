@@ -4,6 +4,7 @@ class_name BarrierVolume
 onready var _mesh:MeshInstance = $MeshInstance
 onready var _shape:CollisionShape = $CollisionShape
 onready var _ent:Entity = $Entity
+onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 export var triggerTargetName:String = ""
 export var active:bool = true
@@ -22,6 +23,7 @@ func set_active(flag:bool) -> void:
 	active = flag
 	_shape.disabled = !active
 	_mesh.visible = active
+	_audio.play()
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.active = active

@@ -6,6 +6,7 @@ onready var _off:Spatial = $off
 onready var _on:Spatial = $on
 onready var _shape:CollisionShape = $CollisionShape
 onready var _ent:Entity = $Entity
+onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 export var on:bool = false
 # zero or negative reset time == never reset
@@ -46,4 +47,5 @@ func use() -> void:
 	if !on:
 		_set_on(true)
 		emit_signal("trigger")
+		_audio.play()
 		Interactions.triggerTargets(get_tree(), triggerTargetName)

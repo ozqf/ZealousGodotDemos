@@ -2,6 +2,7 @@ extends Spatial
 
 onready var _ent:Entity = $Entity
 onready var _marker:Spatial = $marker
+onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 export var active:bool = false
 export var loop:bool = false
@@ -40,6 +41,7 @@ func restore_state(_dict:Dictionary) -> void:
 func on_trigger() -> void:
 	if !active:
 		active = true
+		_audio.play()
 	print("Toggle mover active")
 
 func _process(delta) -> void:

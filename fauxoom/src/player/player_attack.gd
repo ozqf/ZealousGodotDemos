@@ -146,7 +146,9 @@ func _process(_delta:float) -> void:
 				_pendingWeapon = Weapons.PistolLabel
 			else:
 				_pendingWeapon = Weapons.DualPistolsLabel
-	if Input.is_action_just_pressed("slot_3") && check_ammo_count("shells", 1):
+	var hasShells = check_ammo_count("shells", 1)
+	var hasSSG = check_ammo_count("super_shotgun", 1)
+	if Input.is_action_just_pressed("slot_3") && hasShells && hasSSG:
 		_pendingWeapon = Weapons.SuperShotgunLabel
 	if Input.is_action_just_pressed("slot_4"):
 		_pendingWeapon = Weapons.ChaingunLabel

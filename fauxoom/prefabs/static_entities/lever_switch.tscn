@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/objects/box_lever/box_lever_off.tres" type="Material" id=1]
 [ext_resource path="res://assets/objects/box_lever/box_lever_switch.obj" type="ArrayMesh" id=2]
 [ext_resource path="res://src/static_entities/lever_switch.gd" type="Script" id=3]
 [ext_resource path="res://assets/objects/box_lever/box_lever_on.tres" type="Material" id=4]
 [ext_resource path="res://src/entity.gd" type="Script" id=5]
+[ext_resource path="res://assets/sounds/world/switch.wav" type="AudioStream" id=6]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.5, 0.05 )
@@ -32,3 +33,7 @@ material/0 = ExtResource( 4 )
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 5 )
 isStatic = true
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 6 )
+bus = "game"
