@@ -7,7 +7,7 @@ onready var _head:Spatial = $head
 onready var _cameraMount:Spatial = $camera_mount
 onready var _motor:ZqfFPSMotor = $motor
 onready var _attack:PlayerAttack = $attack
-onready var _inventory:Inventory = $inventory
+onready var _inventory = $inventory
 onready var _hud:Hud = $hud
 onready var _interactor:PlayerObjectInteractor = $head/interaction_ray_cast
 
@@ -45,6 +45,7 @@ func _ready():
 	
 	_motor.init_motor(self, _head)
 	_motor.set_input_enabled(false)
+	_inventory.custom_init(_head)
 	_attack.init_attack(_head, self, _inventory)
 	_attack.set_attack_enabled(false)
 	

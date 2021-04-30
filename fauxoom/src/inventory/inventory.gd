@@ -1,12 +1,27 @@
 extends Node
-class_name Inventory
+# sigh... really waiting for Godot 4 and I can have two classes reference each other...
+# in this case, Inventory <-> InvWeapon
+# class_name Inventory
 
 var _data:Dictionary = {
 	pistol = { count = 1, max = 2 },
 	super_shotgun = { count = 0, max = 1 },
 	bullets = { count = 100, max = 300 },
-	shells = { count = 0, max = 50 }
+	shells = { count = 0, max = 50 },
+	rockets = { count = 0, max = 50 }
 }
+
+var weapons = []
+
+func custom_init(launchNode:Spatial) -> void:
+	# gather weapons
+	var children = self.get_children()
+	for child in children:
+		if !(child is InvWeapon):
+			continue
+		weapons.push_back(child)
+		child.custom_init(self, launchNode)
+	print("Inventory found " + str(weapons.size()) + " weapons")
 
 func append_state(_dict:Dictionary) -> void:
 	_dict["inventory"] = _data.duplicate(true)

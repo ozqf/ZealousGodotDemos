@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://assets/sprites/player/player_a1.png" type="Texture" id=1]
 [ext_resource path="res://src/player/player.gd" type="Script" id=2]
@@ -8,12 +8,14 @@
 [ext_resource path="res://assets/sprites/hud/crosshair_green.png" type="Texture" id=6]
 [ext_resource path="res://src/hud.gd" type="Script" id=7]
 [ext_resource path="res://prefabs/ui/hud_hit_indicator.tscn" type="PackedScene" id=8]
-[ext_resource path="res://src/player/inventory.gd" type="Script" id=9]
+[ext_resource path="res://src/inventory/inventory.gd" type="Script" id=9]
 [ext_resource path="res://src/player/player_object_interactor.gd" type="Script" id=10]
 [ext_resource path="res://src/entity.gd" type="Script" id=11]
 [ext_resource path="res://assets/ui/green_ring_64.png" type="Texture" id=12]
 [ext_resource path="res://assets/sounds/ssg/ssg_fire.wav" type="AudioStream" id=13]
 [ext_resource path="res://assets/sounds/item/item_powerup_generic.wav" type="AudioStream" id=14]
+[ext_resource path="res://src/inventory/inv_pistol.gd" type="Script" id=15]
+[ext_resource path="res://src/inventory/inv_chainsaw.gd" type="Script" id=16]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.75, 0.5 )
@@ -68,6 +70,28 @@ script = ExtResource( 5 )
 [node name="inventory" type="Node" parent="."]
 script = ExtResource( 9 )
 
+[node name="chainsaw" type="Node" parent="inventory"]
+script = ExtResource( 16 )
+hudName = "Saw"
+
+[node name="pistol" type="Node" parent="inventory"]
+script = ExtResource( 15 )
+hudName = "Pistol"
+inventoryType = "pistol"
+ammoType = "bullets"
+slot = 2
+idle = "pistol_idle"
+fire_1 = "pistol_shoot"
+
+[node name="super_shotgun" type="Node" parent="inventory"]
+script = ExtResource( 15 )
+hudName = "Super shotgun"
+inventoryType = "ssg"
+ammoType = "shells"
+slot = 3
+idle = "ssg_idle"
+fire_1 = "ssg_shoot"
+
 [node name="hud" type="CanvasLayer" parent="."]
 script = ExtResource( 7 )
 
@@ -88,7 +112,7 @@ __meta__ = {
 position = Vector2( 510.589, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
-animation = "cg_shoot"
+animation = "pistol_idle"
 __meta__ = {
 "_edit_lock_": true
 }
@@ -98,26 +122,28 @@ visible = false
 position = Vector2( 510.589, 344 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
-animation = "saw_idle"
+animation = "hand_idle"
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="weapon_left" type="AnimatedSprite" parent="hud/gun"]
+visible = false
 position = Vector2( 388.406, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
-animation = "cg_shoot"
+animation = "pistol_idle"
 flip_h = true
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="weapon_right" type="AnimatedSprite" parent="hud/gun"]
+visible = false
 position = Vector2( 634.247, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
-animation = "cg_shoot"
+animation = "pistol_idle"
 __meta__ = {
 "_edit_lock_": true
 }
@@ -138,7 +164,7 @@ margin_right = 77.0
 margin_bottom = 239.0
 custom_colors/font_color = Color( 1, 1, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
-text = "Press E to Use"
+text = "USE"
 align = 1
 valign = 1
 __meta__ = {
@@ -218,6 +244,7 @@ __meta__ = {
 margin_top = 80.0
 margin_right = 128.0
 margin_bottom = 111.0
+rect_min_size = Vector2( 0, 24 )
 text = "HEALTH 100
 "
 
@@ -225,6 +252,7 @@ text = "HEALTH 100
 margin_top = 115.0
 margin_right = 128.0
 margin_bottom = 146.0
+rect_min_size = Vector2( 0, 24 )
 text = "ENERGY 100
 "
 
@@ -232,6 +260,7 @@ text = "ENERGY 100
 margin_top = 150.0
 margin_right = 128.0
 margin_bottom = 181.0
+rect_min_size = Vector2( 0, 24 )
 text = "AMMO 100
 "
 
@@ -239,6 +268,7 @@ text = "AMMO 100
 margin_top = 185.0
 margin_right = 128.0
 margin_bottom = 216.0
+rect_min_size = Vector2( 0, 24 )
 text = "AMMO 100
 "
 
@@ -261,3 +291,51 @@ stream = ExtResource( 14 )
 volume_db = -7.591
 pitch_scale = 0.79
 bus = "game"
+
+[node name="ammo_counts" type="VBoxContainer" parent="hud"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -128.0
+margin_top = -344.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bullets" type="HBoxContainer" parent="hud/ammo_counts"]
+margin_top = 312.0
+margin_right = 128.0
+margin_bottom = 326.0
+alignment = 2
+
+[node name="Label" type="Label" parent="hud/ammo_counts/bullets"]
+margin_left = 54.0
+margin_right = 108.0
+margin_bottom = 14.0
+text = "BULLETS"
+
+[node name="Label2" type="Label" parent="hud/ammo_counts/bullets"]
+margin_left = 112.0
+margin_right = 128.0
+margin_bottom = 14.0
+text = "50"
+
+[node name="shells" type="HBoxContainer" parent="hud/ammo_counts"]
+margin_top = 330.0
+margin_right = 128.0
+margin_bottom = 344.0
+alignment = 2
+
+[node name="Label" type="Label" parent="hud/ammo_counts/shells"]
+margin_left = 63.0
+margin_right = 108.0
+margin_bottom = 14.0
+text = "SHELLS"
+
+[node name="Label2" type="Label" parent="hud/ammo_counts/shells"]
+margin_left = 112.0
+margin_right = 128.0
+margin_bottom = 14.0
+text = "50"

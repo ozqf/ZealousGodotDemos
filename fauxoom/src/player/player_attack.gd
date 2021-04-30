@@ -8,7 +8,8 @@ var _rocket_t = preload("res://prefabs/dynamic_entities/prj_player_rocket.tscn")
 
 var _launchNode:Spatial = null
 var _parentBody:PhysicsBody = null
-var _inventory:Inventory = null
+# var _inventory:Inventory = null
+var _inventory = null
 var _active:bool = false
 var _tick:float = 0
 
@@ -25,7 +26,7 @@ var _ignore = []
 signal fire()
 signal change_weapon(nameString)
 
-func init_attack(launchNode:Spatial, ignoreBody:PhysicsBody, inventory:Inventory) -> void:
+func init_attack(launchNode:Spatial, ignoreBody:PhysicsBody, inventory) -> void:
 	_launchNode = launchNode
 	_parentBody = ignoreBody
 	_ignore.push_back(_parentBody)

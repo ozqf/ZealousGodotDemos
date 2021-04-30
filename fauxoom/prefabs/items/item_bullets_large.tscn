@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://prefabs/items/item_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/entity.gd" type="Script" id=2]
+
+[node name="item_bullets_large" type="Spatial"]
+
+[node name="item_base" parent="." instance=ExtResource( 1 )]
+type = "bullets"
+quantity = 50
+
+[node name="sprite" parent="item_base" index="0"]
+frame = 17
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 2 )
+prefabName = "bullet_l"
+
+[editable path="item_base"]

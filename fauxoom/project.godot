@@ -110,9 +110,9 @@ _global_script_classes=[ {
 "path": "res://src/interactions.gd"
 }, {
 "base": "Node",
-"class": "Inventory",
+"class": "InvWeapon",
 "language": "GDScript",
-"path": "res://src/player/inventory.gd"
+"path": "res://src/inventory/inv_weapon.gd"
 }, {
 "base": "Reference",
 "class": "MapDef",
@@ -255,7 +255,7 @@ _global_script_class_icons={
 "HordeSpawnComponent": "",
 "Hud": "",
 "Interactions": "",
-"Inventory": "",
+"InvWeapon": "",
 "MapDef": "",
 "MapEncoder": "",
 "MapGen": "",

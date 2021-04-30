@@ -50,6 +50,8 @@ const weapons:Dictionary = {
 		"name": SuperShotgunLabel,
 		"idle": "ssg_idle",
 		"shoot": "ssg_shoot",
+		# "idle": "hand_idle",
+		# "shoot": "hand_throw",
 		"y": 472,
 		"ammoType": AmmoTypeShells,
 		"refireTime": 1,

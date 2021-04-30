@@ -53,8 +53,16 @@ var _prefabs = {
 		prefab = preload("res://prefabs/items/item_shells_small.tscn"),
 		entNodePath = "Entity"
 	},
+	bullet_l = {
+		prefab = preload("res://prefabs/items/item_bullets_large.tscn"),
+		entNodePath = "Entity"
+	},
 	shell_l = {
 		prefab = preload("res://prefabs/items/item_shells_large.tscn"),
+		entNodePath = "Entity"
+	},
+	rocket_l = {
+		prefab = preload("res://prefabs/items/item_rockets_large.tscn"),
 		entNodePath = "Entity"
 	},
 	gib = {
