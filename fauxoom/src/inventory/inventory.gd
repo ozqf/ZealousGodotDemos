@@ -12,15 +12,19 @@ var _data:Dictionary = {
 }
 
 var weapons = []
+var _currentWeaponIndex:int = -1
+# var _currentWeapon:InvWeapon = null
 
-func custom_init(launchNode:Spatial) -> void:
+func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody) -> void:
 	# gather weapons
 	var children = self.get_children()
 	for child in children:
 		if !(child is InvWeapon):
 			continue
 		weapons.push_back(child)
-		child.custom_init(self, launchNode)
+		child.custom_init(self, launchNode, ignoreBody)
+		# if _currentWeapon == null:
+		# 	set_current_weapon(child)
 	print("Inventory found " + str(weapons.size()) + " weapons")
 
 func append_state(_dict:Dictionary) -> void:
@@ -30,9 +34,54 @@ func restore_state(_dict:Dictionary) -> void:
 	if "inventory" in _data:
 		_data = _dict.inventory.duplicate()
 
+func set_current_weapon(index:int) -> void:
+	print("Set weapon index " + str(index))
+	if _currentWeaponIndex >= 0:
+		var prev = weapons[index]
+		prev.deequip()
+	_currentWeaponIndex = index
+	if _currentWeaponIndex >= 0:
+		var prev = weapons[_currentWeaponIndex]
+		prev.equip()
+
+func get_current_weapon() -> InvWeapon:
+	if _currentWeaponIndex < 0:
+		return null
+	return weapons[_currentWeaponIndex]
+
+func change_weapon_by_slot(_slotNumber:int) -> void:
+	var numWeapons:int = weapons.size()
+	var i:int = 0
+	var current = get_current_weapon()
+	# if current weapon is the same slot number, select
+	# from that index onward to cycle through items in that slot
+	if current != null:
+		if _slotNumber == current.slot:
+			i = i + 1
+			if i >= numWeapons:
+				i = 0
+	var fail:int = 0
+	var result:int
+	while true:
+		var weap = weapons[i]
+		if weap.slot == _slotNumber && weap.can_equip():
+			result = i
+			break;
+		i += 1
+		if i >= numWeapons:
+			i = 0
+		# if we've been round the list already, nothing available
+		# matches this slot
+		fail += 1
+		if fail > numWeapons + 1:
+			print("Select by slot ran away!")
+			return
+	if result != _currentWeaponIndex:
+		set_current_weapon(result)
+
 func get_count(itemType:String) -> int:
-	if !_data.has(itemType):
-		return 0
+	if itemType == "" || !_data.has(itemType):
+		return -1
 	return _data[itemType].count
 
 func give_all() -> void:

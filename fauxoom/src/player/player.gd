@@ -45,7 +45,7 @@ func _ready():
 	
 	_motor.init_motor(self, _head)
 	_motor.set_input_enabled(false)
-	_inventory.custom_init(_head)
+	_inventory.custom_init(_head, self)
 	_attack.init_attack(_head, self, _inventory)
 	_attack.set_attack_enabled(false)
 	

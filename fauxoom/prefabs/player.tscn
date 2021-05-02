@@ -70,16 +70,13 @@ script = ExtResource( 5 )
 [node name="inventory" type="Node" parent="."]
 script = ExtResource( 9 )
 
-[node name="chainsaw" type="Node" parent="inventory"]
-script = ExtResource( 16 )
-hudName = "Saw"
-
 [node name="pistol" type="Node" parent="inventory"]
 script = ExtResource( 15 )
 hudName = "Pistol"
 inventoryType = "pistol"
 ammoType = "bullets"
 slot = 2
+refireTime = 0.15
 idle = "pistol_idle"
 fire_1 = "pistol_shoot"
 
@@ -91,6 +88,10 @@ ammoType = "shells"
 slot = 3
 idle = "ssg_idle"
 fire_1 = "ssg_shoot"
+
+[node name="chainsaw" type="Node" parent="inventory"]
+script = ExtResource( 16 )
+hudName = "Saw"
 
 [node name="hud" type="CanvasLayer" parent="."]
 script = ExtResource( 7 )

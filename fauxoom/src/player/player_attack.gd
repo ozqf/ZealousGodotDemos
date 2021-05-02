@@ -129,6 +129,31 @@ func _check_current_ammo_empty(weap) -> void:
 		_pendingWeapon = Weapons.PistolLabel
 
 func _process(_delta:float) -> void:
+	var pendingSlot:int = -1
+	if Input.is_action_just_pressed("slot_1"):
+		pendingSlot = 1
+	if Input.is_action_just_pressed("slot_2"):
+		pendingSlot = 2
+	if Input.is_action_just_pressed("slot_3"):
+		pendingSlot = 3
+	if Input.is_action_just_pressed("slot_4"):
+		pendingSlot = 4
+	if Input.is_action_just_pressed("slot_5"):
+		pendingSlot = 5
+	if Input.is_action_just_pressed("slot_6"):
+		pendingSlot = 6
+	if Input.is_action_just_pressed("slot_7"):
+		pendingSlot = 7
+	
+	if pendingSlot != -1:
+		_inventory.change_weapon_by_slot(pendingSlot)
+
+	var weap:InvWeapon = _inventory.get_current_weapon()
+	var primary:bool = Input.is_action_pressed("attack_1")
+	if weap != null:
+		weap.read_input(primary, false)
+
+func _process_old(_delta:float) -> void:
 	if _tick >= 0:
 		_tick -= _delta
 	if !_active:
