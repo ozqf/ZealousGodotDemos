@@ -76,13 +76,15 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> void:
 				rand_range(-_range, _range))
 			blood.global_transform.origin = (pos + offset)
 
-func _fire_single() -> void:
+func _fire_single(forward:Vector3, scanRange:float) -> void:
 	var mask:int = Interactions.get_player_prj_mask()
 	#var mask:int = -1
-	var result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, _ignoreBody, mask)
+	# var result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, _ignoreBody, mask)
+	var origin:Vector3 = _launchNode.global_transform.origin
+	var result:Dictionary = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, scanRange, _ignoreBody, mask)
 	if result:
-		_perform_hit(result, -_launchNode.global_transform.basis.z)
+		_perform_hit(result, forward)
 	# perform second scan for debris that will not interfer with the damage scan
 	result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, _ignoreBody, Interactions.get_corpse_hit_mask())
 	if result:
-		_perform_hit(result, -_launchNode.global_transform.basis.z)
+		_perform_hit(result, forward)

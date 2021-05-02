@@ -17,7 +17,7 @@ var _currentWeaponIndex:int = -1
 
 func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody) -> void:
 	# gather weapons
-	var children = self.get_children()
+	var children = $weapons.get_children()
 	for child in children:
 		if !(child is InvWeapon):
 			continue

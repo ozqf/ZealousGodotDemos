@@ -5,8 +5,8 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 		return
 	if _primaryOn:
 		tick = refireTime
-		_fire_single()
-		print("Pistol shoot")
+		_fire_single(-_launchNode.global_transform.basis.z, 1000)
+		print(self.name + " shoot")
 
 func _process(_delta:float) -> void:
 	if tick > 0:

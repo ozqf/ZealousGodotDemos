@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://assets/sprites/player/player_a1.png" type="Texture" id=1]
 [ext_resource path="res://src/player/player.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://assets/sounds/item/item_powerup_generic.wav" type="AudioStream" id=14]
 [ext_resource path="res://src/inventory/inv_pistol.gd" type="Script" id=15]
 [ext_resource path="res://src/inventory/inv_chainsaw.gd" type="Script" id=16]
+[ext_resource path="res://src/inventory/inv_super_shotgun.gd" type="Script" id=17]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.75, 0.5 )
@@ -70,28 +71,37 @@ script = ExtResource( 5 )
 [node name="inventory" type="Node" parent="."]
 script = ExtResource( 9 )
 
-[node name="pistol" type="Node" parent="inventory"]
+[node name="weapons" type="Node" parent="inventory"]
+
+[node name="chainsaw" type="Node" parent="inventory/weapons"]
+script = ExtResource( 16 )
+hudName = "Saw"
+
+[node name="pistol" type="Node" parent="inventory/weapons"]
 script = ExtResource( 15 )
 hudName = "Pistol"
 inventoryType = "pistol"
 ammoType = "bullets"
+ammoPerShot = null
 slot = 2
 refireTime = 0.15
 idle = "pistol_idle"
 fire_1 = "pistol_shoot"
+akimbo = null
 
-[node name="super_shotgun" type="Node" parent="inventory"]
-script = ExtResource( 15 )
-hudName = "Super shotgun"
-inventoryType = "ssg"
+[node name="super_shotgun" type="Node" parent="inventory/weapons"]
+script = ExtResource( 17 )
+hudName = "Super Shotgun"
+inventoryType = "super_shotgun"
 ammoType = "shells"
+ammoPerShot = null
 slot = 3
-idle = "ssg_idle"
-fire_1 = "ssg_shoot"
+refireTime = null
+idle = null
+fire_1 = null
+akimbo = null
 
-[node name="chainsaw" type="Node" parent="inventory"]
-script = ExtResource( 16 )
-hudName = "Saw"
+[node name="ammo" type="Node" parent="inventory"]
 
 [node name="hud" type="CanvasLayer" parent="."]
 script = ExtResource( 7 )
@@ -113,7 +123,7 @@ __meta__ = {
 position = Vector2( 510.589, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
-animation = "pistol_idle"
+animation = "hand_punch"
 __meta__ = {
 "_edit_lock_": true
 }
@@ -123,7 +133,7 @@ visible = false
 position = Vector2( 510.589, 344 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
-animation = "hand_idle"
+animation = "hand_punch"
 __meta__ = {
 "_edit_lock_": true
 }
@@ -133,7 +143,7 @@ visible = false
 position = Vector2( 388.406, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
-animation = "pistol_idle"
+animation = "hand_punch"
 flip_h = true
 __meta__ = {
 "_edit_lock_": true
@@ -144,7 +154,40 @@ visible = false
 position = Vector2( 634.247, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
-animation = "pistol_idle"
+animation = "hand_punch"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="bottom" type="Control" parent="hud"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="right" type="AnimatedSprite" parent="hud/bottom"]
+visible = false
+position = Vector2( -320, -160 )
+scale = Vector2( 2.5, 2.5 )
+frames = ExtResource( 4 )
+animation = "hand_punch"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="left" type="AnimatedSprite" parent="hud/bottom"]
+visible = false
+position = Vector2( -704, -160 )
+scale = Vector2( 2.5, 2.5 )
+frames = ExtResource( 4 )
+animation = "hand_punch"
+flip_h = true
 __meta__ = {
 "_edit_lock_": true
 }
@@ -302,6 +345,7 @@ margin_left = -128.0
 margin_top = -344.0
 alignment = 2
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
