@@ -9,7 +9,7 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 			var spreadY:float = rand_range(-400, 400)
 			var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
 			_fire_single(forward, 1000)
-		.play_fire_1()
+		.play_fire_1(false)
 		self.emit_signal("weapon_action", self, "fire")
 
 func _process(_delta:float) -> void:

@@ -21,7 +21,7 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 		.play_fire_1()
 		_isAttacking = true
 	else:
-		_isAttacking = false
+		_isAttacking = false 
 
 func _process(_delta:float) -> void:
 	if tick > 0:

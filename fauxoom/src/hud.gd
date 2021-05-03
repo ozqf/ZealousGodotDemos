@@ -39,14 +39,19 @@ var _currentWeap:Dictionary = Weapons.weapons["ssg"]
 var _akimbo:bool = false
 var _leftHandNext:bool = false
 
+var currentIdleAnim:String = "pistol_idle"
+var centreNextAnim:String = ""
+var rightNextAnim:String = ""
+var leftNextAnim:String = ""
+
 var _swayTime:float = 0.0
 var _lastSoundFrame:int = -1
 
 func _ready() -> void:
 	add_to_group(Groups.PLAYER_GROUP_NAME)
-	# var _f = centreSprite.connect("animation_finished", self, "_on_centre_animation_finished")
-	# _f = rightSprite.connect("animation_finished", self, "_on_right_animation_finished")
-	# _f = leftSprite.connect("animation_finished", self, "_on_left_animation_finished")
+	var _f = centreSprite.connect("animation_finished", self, "_on_centre_animation_finished")
+	_f = rightSprite.connect("animation_finished", self, "_on_right_animation_finished")
+	_f = leftSprite.connect("animation_finished", self, "_on_left_animation_finished")
 	# centreSprite.play(_currentWeap["idle"])
 	self.on_change_weapon("ssg")
 	_centreTrans = centreSprite.transform
@@ -69,6 +74,9 @@ func hide_all_sprites() -> void:
 	centreSprite.visible = false
 	rightSprite.visible = false
 	leftSprite.visible = false
+	centreNextAnim = ""
+	rightNextAnim = ""
+	leftNextAnim = ""
 
 func set_to_idle_defunct(weap:InvWeapon) -> void:
 	if weap == null || weap.idle == "":
@@ -139,22 +147,31 @@ func player_status_update(data:Dictionary) -> void:
 	_prompt.visible = data.hasInteractionTarget
 
 func _on_centre_animation_finished() -> void:
-	if !centreSprite.animation == "idle":
+	# if !centreSprite.animation == "idle":
 		#print("Centre anim finished " + centreSprite.animation)
-		_isShooting = false
-		centreSprite.play(_currentWeap["idle"])
+		# _isShooting = false
+		# centreSprite.play(_currentWeap["idle"])
+	if centreNextAnim != "":
+		centreSprite.play(centreNextAnim)
+		centreNextAnim = ""
 
 func _on_right_animation_finished() -> void:
-	if !rightSprite.animation == "idle":
+	# if !rightSprite.animation == "idle":
 		# print("Right anim finished")
-		_isShooting = false
-		rightSprite.play(_currentWeap["idle"])
+		# _isShooting = false
+		# rightSprite.play(_currentWeap["idle"])
+	if rightNextAnim != "":
+		rightSprite.play(rightNextAnim)
+		rightNextAnim = ""
 
 func _on_left_animation_finished() -> void:
-	if !leftSprite.animation == "idle":
+	# if !leftSprite.animation == "idle":
 		# print("Left anim finished")
-		_isShooting = false
-		leftSprite.play(_currentWeap["idle"])
+		# _isShooting = false
+		# leftSprite.play(_currentWeap["idle"])
+	if leftNextAnim != "":
+		leftSprite.play(leftNextAnim)
+		leftNextAnim = ""
 
 func _apply_weapon_change(_weap:Dictionary) -> void:
 	if _weap.has("akimbo"):

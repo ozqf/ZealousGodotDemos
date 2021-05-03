@@ -54,6 +54,7 @@ func play_idle() -> void:
 	_hud.hide_all_sprites()
 	if idle == null || idle == "":
 		return
+	_hud.currentIdleAnim = idle
 	if akimbo:
 		_hud.rightSprite.visible = true
 		_hud.rightSprite.play(idle)
@@ -63,18 +64,27 @@ func play_idle() -> void:
 		_hud.centreSprite.visible = true
 		_hud.centreSprite.play(idle)
 
-func play_fire_1() -> void:
+func play_fire_1(loop:bool = true) -> void:
 	if _hud == null || fire_1 == null || fire_1 == "":
 		return
 	if akimbo:
 		if _leftNext:
 			_leftNext = false
 			_hud.leftSprite.play(fire_1)
+			_hud.leftSprite.frame = 0
+			if !loop:
+				_hud.leftNextAnim = idle
 		else:
 			_leftNext = true
 			_hud.rightSprite.play(fire_1)
+			_hud.rightSprite.frame = 0
+			if !loop:
+				_hud.rightNextAnim = idle
 	else:
 		_hud.centreSprite.play(fire_1)
+		_hud.centreSprite.frame = 0
+		if !loop:
+			_hud.centreNextAnim = idle
 
 func is_cycling() -> bool:
 	return tick > 0
