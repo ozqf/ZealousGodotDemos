@@ -1,8 +1,6 @@
 extends Spatial
 class_name Projectile
 
-var _hitInfo_type = preload("res://src/defs/hit_info.gd")
-
 export var maxSpeed:float = 15.0
 export var timeToLive:float = 10
 
@@ -22,11 +20,12 @@ var _mask:int = -1
 var _team:int = Interactions.TEAM_NONE
 # var _sourceId:int = 0
 var _ignoreBody = []
-var _hitInfo:HitInfo = _hitInfo_type.new()
+var _hitInfo:HitInfo = null
 
 var _explosiveRadius:float = 3
 
 func _ready() -> void:
+	_hitInfo = Game.new_hit_info()
 	if has_node("Area"):
 		_area = $Area
 		var _r = _area.connect("scan_result", self, "area_scan_result")

@@ -8,6 +8,7 @@ const KEYBOARD_YAW_DEGREES = 180
 const RUN_SPEED:float = 8.5
 const GROUND_ACCELERATION:float = 150.0
 const GROUND_FRICTION:float = 0.8
+const AIR_ACCELERATION:float = 50.0
 
 const DASH_SPEED:float = 20.0
 const DASH_DURATION:float = 0.25
@@ -113,6 +114,7 @@ func _physics_process(delta:float) -> void:
 	var forward:Vector3 = t.basis.z
 	var left:Vector3 = t.basis.x
 	var pushDir:Vector3 = Vector3()
+	var isOnFloor:bool = _body.is_on_floor()
 	
 	pushDir += (forward * input.z)
 	pushDir += (left * input.x)
@@ -144,7 +146,10 @@ func _physics_process(delta:float) -> void:
 		# speed cap is run speed unless pushed externally
 		if currentSpeed > velocityCap:
 			velocityCap = currentSpeed
-		flatVelocity += (pushDir * GROUND_ACCELERATION) * delta
+		var accel:float = GROUND_ACCELERATION
+		if !isOnFloor:
+			accel = AIR_ACCELERATION
+		flatVelocity += (pushDir * accel) * delta
 		# apply speed cap
 		if flatVelocity.length() > velocityCap:
 			flatVelocity = flatVelocity.normalized() * velocityCap
@@ -158,7 +163,7 @@ func _physics_process(delta:float) -> void:
 	
 	_velocity.x = flatVelocity.x
 	_velocity.z = flatVelocity.z
-	if Input.is_action_pressed("move_up") && _body.is_on_floor():
+	if Input.is_action_pressed("move_up") && isOnFloor:
 		_velocity.y = 7
 	# gravity
 	_velocity.y -= GRAVITY * delta

@@ -62,6 +62,7 @@ var _mapDef:MapDef = null
 var _pendingMapDef:MapDef = null
 
 func _ready() -> void:
+	self.pause_mode = PAUSE_MODE_PROCESS
 	print("Main service start")#
 	_masterBusId = AudioServer.get_bus_index("Master")
 	_gameBusId = AudioServer.get_bus_index("game")
@@ -205,12 +206,18 @@ func set_input_on() -> void:
 	_menus.off()
 	# MouseLock.remove_claim(get_tree(), "main_menu")
 	_mouseLock.on_remove_mouse_claim("main_menu")
+	var grp = Groups.GAME_GROUP_NAME
+	var fn = Groups.GAME_FN_UNPAUSE
+	get_tree().call_group(grp, fn)
 
 func set_input_off() -> void:
 	_inputOn = false
 	_menus.on()
 	# MouseLock.add_claim(get_tree(), "main_menu")
 	_mouseLock.on_add_mouse_claim("main_menu")
+	var grp = Groups.GAME_GROUP_NAME
+	var fn = Groups.GAME_FN_PAUSE
+	get_tree().call_group(grp, fn)
 
 func _web_mode() -> bool:
 	return (OS.get_name() == "HTML5")

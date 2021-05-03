@@ -47,7 +47,7 @@ func _ready():
 	_motor.set_input_enabled(false)
 	_inventory.connect("weapon_changed", _hud, "inventory_weapon_changed")
 	_inventory.custom_init(_head, self, _hud)
-	_attack.init_attack(_head, self, _inventory)
+	_attack.init_attack(_interactor, _inventory)
 	_attack.set_attack_enabled(false)
 	
 	var _result
@@ -135,8 +135,8 @@ func _refresh_input_on() -> void:
 
 func _process(_delta):
 	_refresh_input_on()
-	if _appInputOn && _gameplayInputOn && Input.is_action_just_pressed("interact"):
-		_interactor.use_target()
+	# if _appInputOn && _gameplayInputOn && Input.is_action_just_pressed("interact"):
+	# 	_interactor.use_target()
 	
 	var t:Transform = _head.transform
 	var swayScale:float = _motor.get_sway_scale()

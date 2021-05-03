@@ -9,6 +9,7 @@ const QUICK_SAVE_FILE_NAME:String = "quick"
 
 var _player_t = preload("res://prefabs/player.tscn")
 var _gib_t = preload("res://prefabs/gib.tscn")
+var _hitInfo_type = preload("res://src/defs/hit_info.gd")
 
 var _entRoot:Entities = null
 onready var _pregameUI:Control = $game_state_overlay/pregame
@@ -52,6 +53,9 @@ func _ready() -> void:
 		print("Checkpoint file found")
 	else:
 		print("No checkpoint file found")
+
+func new_hit_info() -> HitInfo:
+	return _hitInfo_type.new()
 
 func config_changed(_cfg:Dictionary) -> void:
 	_camera.fov = Config.cfg.r_fov
@@ -272,6 +276,18 @@ func game_on_map_change() -> void:
 	# _hasPlayerStart = false
 	_clear_dynamic_entities()
 	_set_to_pregame()
+
+func game_pause() -> void:
+	print("Game pause")
+	get_tree().paused = true
+	# _entRoot.pause_mode = PAUSE_MODE_STOP
+	# get_tree().get_current_scene().pause_mode = PAUSE_MODE_STOP
+
+func game_unpause() -> void:
+	print("Game resume")
+	get_tree().paused = false
+	# _entRoot.pause_mode = PAUSE_MODE_INHERIT
+	# get_tree().get_current_scene().pause_mode = PAUSE_MODE_INHERIT
 
 ###############
 # registers

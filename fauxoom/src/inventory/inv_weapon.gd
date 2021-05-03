@@ -5,7 +5,6 @@ signal weapon_action(weapon, actionName)
 
 var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
 var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
-var _hitInfo_type = preload("res://src/defs/hit_info.gd")
 
 export var hudName:String = ""
 export var inventoryType:String = ""
@@ -33,7 +32,7 @@ func custom_init(inventory, launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> 
 	_launchNode = launchNode
 	_inventory = inventory
 	_ignoreBody = [ ignoreBody ]
-	_hitInfo = _hitInfo_type.new()
+	_hitInfo = Game.new_hit_info()
 	_hud = hud
 
 func can_equip() -> bool:

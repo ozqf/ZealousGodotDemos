@@ -193,6 +193,7 @@ position = Vector2( -320, -160 )
 scale = Vector2( 2.5, 2.5 )
 frames = ExtResource( 4 )
 animation = "hand_punch"
+frame = 1
 __meta__ = {
 "_edit_lock_": true
 }
@@ -212,6 +213,7 @@ position = Vector2( 320, -160 )
 scale = Vector2( 2.5, 2.5 )
 frames = ExtResource( 4 )
 animation = "hand_punch"
+frame = 1
 flip_h = true
 __meta__ = {
 "_edit_lock_": true

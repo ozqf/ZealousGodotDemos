@@ -7,6 +7,8 @@ const SYSTEM_GROUP_NAME:String = "system"
 const SYSTEM_FN_CONFIG_CHANGE:String = "config_changed"
 
 const GAME_GROUP_NAME:String = "game"
+const GAME_FN_PAUSE:String = "game_pause"
+const GAME_FN_UNPAUSE:String = "game_unpause"
 const GAME_FN_MAP_CHANGE:String = "game_on_map_change"
 const GAME_FN_RUN_MAP_SPAWNS:String = "game_run_map_spawns"
 # reset isn't a thing now. Uses 'load checkpoint' instead

@@ -64,13 +64,18 @@ func get_current_weapon() -> InvWeapon:
 		return null
 	return weapons[_currentWeaponIndex]
 
-func change_weapon_by_slot(_slotNumber:int) -> void:
+# returns 1 if weapon was successfully changed
+# returns 0 if weapon change is currently blocked
+# returns -1 if no weapon was found
+func change_weapon_by_slot(_slotNumber:int) -> int:
 	# slots are 1 and up only
 	if _slotNumber <= 0:
-		return
+		return -1
 	var numWeapons:int = weapons.size()
 	var i:int = 0
 	var current = get_current_weapon()
+	if current.is_cycling():
+		return 0
 	# if current weapon is the same slot number, select
 	# from that index onward to cycle through items in that slot
 	if current != null:
@@ -93,9 +98,10 @@ func change_weapon_by_slot(_slotNumber:int) -> void:
 		fail += 1
 		if fail > numWeapons + 1:
 			print("Select by slot ran away!")
-			return
+			return -1
 	if result != _currentWeaponIndex:
 		set_current_weapon(result)
+	return 1
 
 func get_count(itemType:String) -> int:
 	if itemType == "" || !_data.has(itemType):

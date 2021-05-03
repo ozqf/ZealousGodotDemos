@@ -1,15 +1,14 @@
 extends AITicker
 
-var _hitInfo_type = preload("res://src/defs/hit_info.gd")
-
 const LEAP_STATE:int = -1
 
 onready var _area:Area = $Area
 onready var _shape:CollisionShape = $Area/CollisionShape
 
-var _hitInfo:HitInfo = _hitInfo_type.new()
+var _hitInfo:HitInfo = null
 
 func custom_init(mob) -> void:
+	_hitInfo = Game.new_hit_info()
 	_hitInfo.attackTeam = Interactions.TEAM_ENEMY
 	mob.motor.speed = 8
 	_damage_area_off()

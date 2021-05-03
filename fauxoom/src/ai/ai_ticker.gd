@@ -7,6 +7,7 @@ const STATE_ATTACK:int = 2
 const STATE_WINDDOWN:int = 3
 
 export var maxCycles:int = 1
+export var faceTargetDuringWindup:bool = true
 
 var _state:int = -1
 var _tick:float = 0.0
@@ -55,8 +56,9 @@ func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
 			change_state(STATE_WINDUP)
 	elif _state == STATE_WINDUP:
 		_mob.motor.move_idle(_delta)
-		# lastTarPos = _targetInfo.position
-		# _mob.face_target_flat(lastTarPos)
+		if faceTargetDuringWindup:
+			lastTarPos = _targetInfo.position
+			_mob.face_target_flat(lastTarPos)
 		if _tick <= 0:
 			change_state(STATE_ATTACK)
 	elif _state == STATE_ATTACK:
