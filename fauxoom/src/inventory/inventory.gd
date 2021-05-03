@@ -2,10 +2,14 @@ extends Node
 # sigh... really waiting for Godot 4 and I can have two classes reference each other...
 # in this case, Inventory <-> InvWeapon
 # class_name Inventory
+signal weapon_changed(newWeapon, oldWeapon)
 
 var _data:Dictionary = {
+	chainsaw = { count = 1, max = 1 },
 	pistol = { count = 1, max = 2 },
 	super_shotgun = { count = 0, max = 1 },
+	rocket_launcher = { count = 0, max = 1 },
+
 	bullets = { count = 100, max = 300 },
 	shells = { count = 0, max = 50 },
 	rockets = { count = 0, max = 50 }
@@ -15,17 +19,18 @@ var weapons = []
 var _currentWeaponIndex:int = -1
 # var _currentWeapon:InvWeapon = null
 
-func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody) -> void:
+func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
 	# gather weapons
 	var children = $weapons.get_children()
 	for child in children:
 		if !(child is InvWeapon):
 			continue
 		weapons.push_back(child)
-		child.custom_init(self, launchNode, ignoreBody)
+		child.custom_init(self, launchNode, ignoreBody, hud)
 		# if _currentWeapon == null:
 		# 	set_current_weapon(child)
 	print("Inventory found " + str(weapons.size()) + " weapons")
+	set_current_weapon(0)
 
 func append_state(_dict:Dictionary) -> void:
 	_dict["inventory"] = _data.duplicate(true)
@@ -35,14 +40,19 @@ func restore_state(_dict:Dictionary) -> void:
 		_data = _dict.inventory.duplicate()
 
 func set_current_weapon(index:int) -> void:
-	print("Set weapon index " + str(index))
+	if index == _currentWeaponIndex:
+		return
+	print("Set weapon index from " + str(_currentWeaponIndex) + " to " + str(index))
+	var prevWeap = null
 	if _currentWeaponIndex >= 0:
-		var prev = weapons[index]
-		prev.deequip()
+		prevWeap = weapons[_currentWeaponIndex]
+		prevWeap.deequip()
 	_currentWeaponIndex = index
+	var newWeap = null
 	if _currentWeaponIndex >= 0:
-		var prev = weapons[_currentWeaponIndex]
-		prev.equip()
+		newWeap = weapons[_currentWeaponIndex]
+		newWeap.equip()
+	self.emit_signal("weapon_changed", newWeap, prevWeap)
 
 func get_current_weapon() -> InvWeapon:
 	if _currentWeaponIndex < 0:

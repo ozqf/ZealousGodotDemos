@@ -1,6 +1,8 @@
 extends Node
 class_name InvWeapon
 
+signal weapon_action(weapon, actionName)
+
 var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
 var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
 var _hitInfo_type = preload("res://src/defs/hit_info.gd")
@@ -18,17 +20,21 @@ export var fire_1:String = ""
 
 export var akimbo:bool = false
 
+var _equipped:bool = false
 var _launchNode:Spatial = null
 var _ignoreBody = []
+var _hud = null
 var _inventory = null
 var _hitInfo:HitInfo = null
 var tick:float = 0
+var _leftNext:bool = false
 
-func custom_init(inventory, launchNode:Spatial, ignoreBody:PhysicsBody) -> void:
+func custom_init(inventory, launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
 	_launchNode = launchNode
 	_inventory = inventory
 	_ignoreBody = [ ignoreBody ]
 	_hitInfo = _hitInfo_type.new()
+	_hud = hud
 
 func can_equip() -> bool:
 	var count:int = _inventory.get_count(ammoType)
@@ -37,10 +43,38 @@ func can_equip() -> bool:
 	return count > ammoPerShot
 
 func equip() -> void:
-	print("Equip " + self.name)
+	# print("Equip " + self.name)
+	_equipped = true
+	play_idle()
 
 func deequip() -> void:
-	print("Deequip " + self.name)
+	_equipped = false
+
+func play_idle() -> void:
+	_hud.hide_all_sprites()
+	if idle == null || idle == "":
+		return
+	if akimbo:
+		_hud.rightSprite.visible = true
+		_hud.rightSprite.play(idle)
+		_hud.leftSprite.visible = true
+		_hud.leftSprite.play(idle)
+	else:
+		_hud.centreSprite.visible = true
+		_hud.centreSprite.play(idle)
+
+func play_fire_1() -> void:
+	if _hud == null || fire_1 == null || fire_1 == "":
+		return
+	if akimbo:
+		if _leftNext:
+			_leftNext = false
+			_hud.leftSprite.play(fire_1)
+		else:
+			_leftNext = true
+			_hud.rightSprite.play(fire_1)
+	else:
+		_hud.centreSprite.play(fire_1)
 
 func is_cycling() -> bool:
 	return tick > 0
@@ -85,6 +119,6 @@ func _fire_single(forward:Vector3, scanRange:float) -> void:
 	if result:
 		_perform_hit(result, forward)
 	# perform second scan for debris that will not interfer with the damage scan
-	result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, _ignoreBody, Interactions.get_corpse_hit_mask())
+	result = ZqfUtils.quick_hitscan3D(_launchNode, scanRange, _ignoreBody, Interactions.get_corpse_hit_mask())
 	if result:
 		_perform_hit(result, forward)

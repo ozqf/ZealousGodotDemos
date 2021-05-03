@@ -116,7 +116,7 @@ triggerName = "spawn_1"
 maxLiveMobs = 1
 
 [node name="mob_spawn_proxy" parent="static" instance=ExtResource( 10 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -9, 0, 11 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -7, 0, -11 )
 
 [node name="mob_spawn_proxy3" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -3, 0, 16 )
@@ -127,7 +127,7 @@ transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -
 delaySpawn = true
 
 [node name="mob_spawn_proxy2" parent="static" instance=ExtResource( 10 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -7, 0, -11 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -7, 0, 11 )
 
 [node name="mob_spawn_proxy6" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -15, 0, -10 )
@@ -226,6 +226,13 @@ defaultAnimation = ""
 [node name="3d_sprite_prop12" parent="static/gun_sprites" instance=ExtResource( 14 )]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 10, 0, 1 )
 frames = ExtResource( 25 )
+animationSet = ""
+defaultAnimation = ""
+
+[node name="3d_sprite_prop23" parent="static/gun_sprites" instance=ExtResource( 14 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 8, 0, 1 )
+frames = ExtResource( 25 )
+frame = 11
 animationSet = ""
 defaultAnimation = ""
 

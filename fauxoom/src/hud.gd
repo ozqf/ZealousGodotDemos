@@ -16,14 +16,14 @@ var _ssgClose:AudioStream = preload("res://assets/sounds/ssg/ssg_close.wav")
 var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
 var _rocketShoot:AudioStream = preload("res://assets/sounds/weapon/rocket_fire.wav")
 
-onready var _centreSprite:AnimatedSprite = $gun/weapon_centre
-onready var _rightSprite:AnimatedSprite = $gun/weapon_right
-onready var _leftSprite:AnimatedSprite = $gun/weapon_left
+onready var centreSprite:AnimatedSprite = $gun/weapon_centre
+onready var rightSprite:AnimatedSprite = $gun/weapon_right
+onready var leftSprite:AnimatedSprite = $gun/weapon_left
 onready var _prompt:Label = $centre/interact_prompt
 onready var _energyBar:TextureProgress = $centre/energy
 onready var _healthBar:TextureProgress = $centre/health
-onready var _audio:AudioStreamPlayer = $AudioStreamPlayer
-onready var _audio2:AudioStreamPlayer = $AudioStreamPlayer2
+onready var audio:AudioStreamPlayer = $AudioStreamPlayer
+onready var audio2:AudioStreamPlayer = $AudioStreamPlayer2
 onready var _pickupAudio:AudioStreamPlayer = $audio_pickup
 
 var _maxHealthColour:Color = Color(0, 1, 0, 1)
@@ -44,14 +44,38 @@ var _lastSoundFrame:int = -1
 
 func _ready() -> void:
 	add_to_group(Groups.PLAYER_GROUP_NAME)
-	var _f = _centreSprite.connect("animation_finished", self, "_on_centre_animation_finished")
-	_f = _rightSprite.connect("animation_finished", self, "_on_right_animation_finished")
-	_f = _leftSprite.connect("animation_finished", self, "_on_left_animation_finished")
-	# _centreSprite.play(_currentWeap["idle"])
+	# var _f = centreSprite.connect("animation_finished", self, "_on_centre_animation_finished")
+	# _f = rightSprite.connect("animation_finished", self, "_on_right_animation_finished")
+	# _f = leftSprite.connect("animation_finished", self, "_on_left_animation_finished")
+	# centreSprite.play(_currentWeap["idle"])
 	self.on_change_weapon("ssg")
-	_centreTrans = _centreSprite.transform
-	_rightTrans = _rightSprite.transform
-	_leftTrans = _leftSprite.transform
+	_centreTrans = centreSprite.transform
+	_rightTrans = rightSprite.transform
+	_leftTrans = leftSprite.transform
+
+func inventory_weapon_changed(_newWeap:InvWeapon, _prevWeap:InvWeapon) -> void:
+	if _prevWeap != null:
+		print("HUD disconnect from " + _prevWeap.name)
+		_prevWeap.disconnect("weapon_action", self, "weapon_action")
+	if _newWeap != null:
+		print("HUD connect to " + _newWeap.name)
+		var _err = _newWeap.connect("weapon_action", self, "weapon_action")
+	# set_to_idle(_newWeap)
+
+func weapon_action(_weap:InvWeapon, _actionName:String) -> void:
+	print("HUD saw weapon action " + _actionName)
+
+func hide_all_sprites() -> void:
+	centreSprite.visible = false
+	rightSprite.visible = false
+	leftSprite.visible = false
+
+func set_to_idle_defunct(weap:InvWeapon) -> void:
+	if weap == null || weap.idle == "":
+		hide_all_sprites()
+		return
+	centreSprite.visible = true
+	centreSprite.play(_currentWeap["idle"])
 
 func _process(_delta:float) -> void:
 	#_swayTime += (_delta * 12)
@@ -66,31 +90,31 @@ func _process(_delta:float) -> void:
 	var t:Transform2D = _centreTrans
 	t.origin.x += x
 	t.origin.y += y
-	_centreSprite.transform = t
+	centreSprite.transform = t
 
-	if _centreSprite.animation == "ssg_shoot":
-		if _centreSprite.frame == 4 && _lastSoundFrame < 4:
+	if centreSprite.animation == "ssg_shoot":
+		if centreSprite.frame == 4 && _lastSoundFrame < 4:
 			_lastSoundFrame = 4
-			_audio2.stream = _ssgOpen
-			_audio2.play()
-		elif _centreSprite.frame == 7 && _lastSoundFrame < 7:
+			audio2.stream = _ssgOpen
+			audio2.play()
+		elif centreSprite.frame == 7 && _lastSoundFrame < 7:
 			_lastSoundFrame = 7
-			_audio2.stream = _ssgLoad
-			_audio2.play()
-		elif _centreSprite.frame == 9 && _lastSoundFrame < 9:
+			audio2.stream = _ssgLoad
+			audio2.play()
+		elif centreSprite.frame == 9 && _lastSoundFrame < 9:
 			_lastSoundFrame = 9
-			_audio2.stream = _ssgClose
-			_audio2.play()
+			audio2.stream = _ssgClose
+			audio2.play()
 
 	t = _rightTrans
 	t.origin.x += x
 	t.origin.y += y
-	_rightSprite.transform = t
+	rightSprite.transform = t
 	
 	t = _leftTrans
 	t.origin.x += x
 	t.origin.y += y
-	_leftSprite.transform = t
+	leftSprite.transform = t
 
 func player_hit(_data:Dictionary) -> void:
 	var hit = _hit_indicator_t.instance()
@@ -115,37 +139,37 @@ func player_status_update(data:Dictionary) -> void:
 	_prompt.visible = data.hasInteractionTarget
 
 func _on_centre_animation_finished() -> void:
-	if !_centreSprite.animation == "idle":
-		#print("Centre anim finished " + _centreSprite.animation)
+	if !centreSprite.animation == "idle":
+		#print("Centre anim finished " + centreSprite.animation)
 		_isShooting = false
-		_centreSprite.play(_currentWeap["idle"])
+		centreSprite.play(_currentWeap["idle"])
 
 func _on_right_animation_finished() -> void:
-	if !_rightSprite.animation == "idle":
+	if !rightSprite.animation == "idle":
 		# print("Right anim finished")
 		_isShooting = false
-		_rightSprite.play(_currentWeap["idle"])
+		rightSprite.play(_currentWeap["idle"])
 
 func _on_left_animation_finished() -> void:
-	if !_leftSprite.animation == "idle":
+	if !leftSprite.animation == "idle":
 		# print("Left anim finished")
 		_isShooting = false
-		_leftSprite.play(_currentWeap["idle"])
+		leftSprite.play(_currentWeap["idle"])
 
 func _apply_weapon_change(_weap:Dictionary) -> void:
 	if _weap.has("akimbo"):
 		_akimbo = true
-		_centreSprite.hide()
-		_rightSprite.show()
-		_leftSprite.show()
-		_rightSprite.play(_currentWeap["idle"])
-		_leftSprite.play(_currentWeap["idle"])
+		centreSprite.hide()
+		rightSprite.show()
+		leftSprite.show()
+		rightSprite.play(_currentWeap["idle"])
+		leftSprite.play(_currentWeap["idle"])
 	else:
 		_akimbo = false
-		_rightSprite.hide()
-		_leftSprite.hide()
-		_centreSprite.show()
-		_centreSprite.play(_currentWeap["idle"])
+		rightSprite.hide()
+		leftSprite.hide()
+		centreSprite.show()
+		centreSprite.play(_currentWeap["idle"])
 
 func on_change_weapon(_name:String) -> void:
 	if !Weapons.weapons.has(_name):
@@ -155,21 +179,21 @@ func on_change_weapon(_name:String) -> void:
 	self._apply_weapon_change(_currentWeap)
 
 func _play_ssg_shot() -> void:
-	_audio.stream = _ssgShoot
-	_audio.volume_db = -5
-	_audio.play()
+	audio.stream = _ssgShoot
+	audio.volume_db = -5
+	audio.play()
 	_lastSoundFrame = -1
 
 func _play_pistol_shot() -> void:
-	_audio.stream = _pistolShoot
-	_audio.volume_db = -5
-	_audio.play()
+	audio.stream = _pistolShoot
+	audio.volume_db = -5
+	audio.play()
 	_lastSoundFrame = -1
 
 func _play_rocket_shot() -> void:
-	_audio.stream = _rocketShoot
-	_audio.volume_db = -5
-	_audio.play()
+	audio.stream = _rocketShoot
+	audio.volume_db = -5
+	audio.play()
 	_lastSoundFrame = -1
 
 func player_pickup(_description:String) -> void:
@@ -186,17 +210,17 @@ func on_player_shoot() -> void:
 	if _akimbo:
 		if _leftHandNext:
 			_leftHandNext = false
-			_rightSprite.play(_currentWeap["idle"])
-			_leftSprite.play(_currentWeap["shoot"])
+			rightSprite.play(_currentWeap["idle"])
+			leftSprite.play(_currentWeap["shoot"])
 		else:
 			_leftHandNext = true
-			_leftSprite.play(_currentWeap["idle"])
-			_rightSprite.play(_currentWeap["shoot"])
+			leftSprite.play(_currentWeap["idle"])
+			rightSprite.play(_currentWeap["shoot"])
 		_isShooting = true
 	else:
 		# print("Shoot centre")
-		_centreSprite.play(_currentWeap["shoot"])
-		_centreSprite.frame = 0
+		centreSprite.play(_currentWeap["shoot"])
+		centreSprite.frame = 0
 		_isShooting = true
 	if _currentWeapName == Weapons.PistolLabel:
 		_play_pistol_shot()
