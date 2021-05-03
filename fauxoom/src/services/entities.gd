@@ -53,6 +53,10 @@ var _prefabs = {
 		prefab = preload("res://prefabs/items/item_chainsaw.tscn"),
 		entNodePath = "Entity"
 	},
+	rocket_launcher = {
+		prefab = preload("res://prefabs/items/item_rocket_launcher.tscn"),
+		entNodePath = "Entity"
+	},
 	shell_s = {
 		prefab = preload("res://prefabs/items/item_shells_small.tscn"),
 		entNodePath = "Entity"

@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://prefabs/items/item_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/entity.gd" type="Script" id=2]
+
+[node name="item_rocket_launcher" type="Spatial"]
+
+[node name="item_base" parent="." instance=ExtResource( 1 )]
+soundType = 1
+type = "rocket_launcher"
+subType = "rockets"
+subQuantity = 5
+
+[node name="sprite" parent="item_base" index="0"]
+frame = 3
+
+[node name="CollisionShape" parent="item_base/Area" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00840425, 0.5, -0.00785017 )
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 2 )
+prefabName = "rocket_launcher"
+
+[editable path="item_base"]
