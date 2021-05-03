@@ -5,7 +5,7 @@ extends Node
 signal weapon_changed(newWeapon, oldWeapon)
 
 var _data:Dictionary = {
-	chainsaw = { count = 1, max = 1 },
+	chainsaw = { count = 0, max = 1 },
 	pistol = { count = 1, max = 2 },
 	super_shotgun = { count = 0, max = 1 },
 	rocket_launcher = { count = 0, max = 1 },
@@ -35,7 +35,7 @@ func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
 		# if _currentWeapon == null:
 		# 	set_current_weapon(child)
 	print("Inventory found " + str(weapons.size()) + " weapons")
-	set_current_weapon(0)
+	select_first_weapon()
 
 func append_state(_dict:Dictionary) -> void:
 	_dict["inventory"] = _data.duplicate(true)
@@ -58,6 +58,15 @@ func set_current_weapon(index:int) -> void:
 		newWeap = weapons[_currentWeaponIndex]
 		newWeap.equip()
 	self.emit_signal("weapon_changed", newWeap, prevWeap)
+
+# find the first selectable weapon and equip it
+func select_first_weapon() -> void:
+	var numWeapons:int = weapons.size()
+	for i in range(0, numWeapons):
+		var weap = weapons[i]
+		if weap.can_equip():
+			set_current_weapon(i)
+			return
 
 func get_current_weapon() -> InvWeapon:
 	if _currentWeaponIndex < 0:

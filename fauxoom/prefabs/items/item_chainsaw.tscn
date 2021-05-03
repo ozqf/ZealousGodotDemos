@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://prefabs/items/item_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/entity.gd" type="Script" id=2]
+
+[node name="item_chainsaw" type="Spatial"]
+
+[node name="item_base" parent="." instance=ExtResource( 1 )]
+soundType = 1
+type = "chainsaw"
+subQuantity = 0
+
+[node name="sprite" parent="item_base" index="0"]
+frame = 6
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 2 )
+prefabName = "chainsaw"
+
+[editable path="item_base"]

@@ -94,16 +94,16 @@ func _ready() -> void:
 	else:
 		print("JS not available")
 	
-	_debug_text_2.text = ""
-	if _web_mode():
-		_debug_text_2.text += "URL: " + _url + "\n"
-	else:
-		_debug_text_2.text += "CmdLine: " + str(OS.get_cmdline_args().join(", ")) + "\n"
+	_debug_text_2.text = "Fauxoom PRE-ALPHA"
+	# if _web_mode():
+	# 	_debug_text_2.text += "URL: " + _url + "\n"
+	# else:
+		# _debug_text_2.text += "CmdLine: " + str(OS.get_cmdline_args().join(", ")) + "\n"
 		# _debug_text_2.text += "Exe path: " + OS.get_executable_path() + "\n"
-		_debug_text_2.text += "Platform: " + OS.get_name() + "\n"
-	_debug_text_2.text += "ESCAPE or TAB to toggle mouse capture\n"
-	_debug_text_2.text += "WASD - move | Mouse - aim/shoot\n"
-	_debug_text_2.text += "1,2,3,4,5 - Weapon select\n"
+		# _debug_text_2.text += "Platform: " + OS.get_name() + "\n"
+	# _debug_text_2.text += "ESCAPE or TAB to toggle mouse capture\n"
+	# _debug_text_2.text += "WASD - move | Mouse - aim/shoot\n"
+	# _debug_text_2.text += "1,2,3,4,5 - Weapon select\n"
 	# _debug_text_2.text += "Build time: 2021/1/3 19:22\n"
 
 	# broadcast change if file load failed, have to give everyone the default

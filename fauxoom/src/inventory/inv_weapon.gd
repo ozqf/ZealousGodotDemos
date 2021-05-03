@@ -34,12 +34,21 @@ func custom_init(inventory, launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> 
 	_ignoreBody = [ ignoreBody ]
 	_hitInfo = Game.new_hit_info()
 	_hud = hud
+	custom_init_b()
+
+func custom_init_b() -> void:
+	pass
 
 func can_equip() -> bool:
-	var count:int = _inventory.get_count(ammoType)
-	if count == -1:
+	if inventoryType == "":
 		return true
-	return count > ammoPerShot
+	var weaponCount:int = _inventory.get_count(inventoryType)
+	if weaponCount == 0:
+		return false
+	var ammoCount:int = _inventory.get_count(ammoType)
+	if ammoCount == -1:
+		return true
+	return ammoCount > ammoPerShot
 
 func equip() -> void:
 	# print("Equip " + self.name)

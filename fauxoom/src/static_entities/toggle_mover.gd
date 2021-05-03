@@ -42,7 +42,7 @@ func on_trigger() -> void:
 	if !active:
 		active = true
 		_audio.play()
-	print("Toggle mover active")
+	# print("Toggle mover active")
 
 func _process(delta) -> void:
 	if !active:

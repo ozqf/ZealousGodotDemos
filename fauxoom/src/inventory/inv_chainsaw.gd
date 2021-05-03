@@ -3,6 +3,9 @@ extends InvWeapon
 export var empty_animation:String = ""
 export var _isAttacking:bool = false
 
+func custom_init_b() -> void:
+	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SAW
+
 func equip() -> void:
 	.equip()
 	_hud.centreSprite.offset.y = -60
