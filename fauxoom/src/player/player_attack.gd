@@ -13,6 +13,9 @@ var _inventory = null
 var _active:bool = false
 var _tick:float = 0
 
+var _meleeTick:float = 0
+var _meleeTime:float = 1
+
 var _currentWeapon:String = Weapons.PistolLabel
 var _pendingWeapon:String = Weapons.PistolLabel
 
@@ -22,9 +25,6 @@ var _extraPellets:int = 10
 var _hitInfo:HitInfo = null
 var _prjMask:int = -1
 var _ignore = []
-
-signal fire()
-signal change_weapon(nameString)
 
 func init_attack(launchNode:Spatial, ignoreBody:PhysicsBody, inventory) -> void:
 	_launchNode = launchNode
@@ -38,165 +38,38 @@ func init_attack(launchNode:Spatial, ignoreBody:PhysicsBody, inventory) -> void:
 func set_attack_enabled(flag:bool) -> void:
 	_active = flag
 
-func _perform_hit(result:Dictionary, forward:Vector3) -> void:
-	#print("HIT at " + str(result.position))
-	# result.collider etc etc
-	_hitInfo.direction = forward
-	var inflicted:int = Interactions.hitscan_hit(_hitInfo, result)
-
-	var root:Node = get_tree().get_current_scene()
-	if inflicted == -1:
-		var impact:Spatial = _prefab_impact.instance()
-		root.add_child(impact)
-		var t = impact.global_transform
-		t.origin = result.position
-		impact.global_transform = t
-	elif inflicted == -2:
-		# print("Penetration hit")
-		pass
-	else:
-		var pos = result.position
-		for _i in range(0, 4):
-			var blood = _prefab_blood_hit.instance()
-			root.add_child(blood)
-			var _range:float = 0.1
-			var offset:Vector3 = Vector3(
-				rand_range(-_range, _range),
-				rand_range(-_range, _range),
-				rand_range(-_range, _range))
-			blood.global_transform.origin = (pos + offset)
-
-func _fire_spread() -> void:
-	# fire single straight forward
-	_fire_single()
-	var t:Transform = _launchNode.global_transform
-	var origin:Vector3 = t.origin
-	#var originForward:Vector3 = -t.basis.z
-	#var mask:int = (1 << 0)
-	var mask:int = Interactions.get_player_prj_mask()
-	var corpseMask:int = Interactions.get_corpse_hit_mask()
-	#var mask:int = -1
-	for _i in range(0, _extraPellets):
-		var spreadX:float = rand_range(-1500, 1500)
-		var spreadY:float = rand_range(-400, 400)
-		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(origin, t.basis, spreadX, spreadY)
-		var result:Dictionary = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, 1000, _ignore, mask)
-		if result:
-			_perform_hit(result, forward)
-		# perform second scan for debris that will not interfer with the damage scan
-		result = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, 1000, _ignore, corpseMask)
-		if result:
-			_perform_hit(result, -_launchNode.global_transform.basis.z)
-
-func _fire_single() -> void:
-	var mask:int = Interactions.get_player_prj_mask()
-	#var mask:int = -1
-	var result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, _ignore, mask)
-	if result:
-		_perform_hit(result, -_launchNode.global_transform.basis.z)
-	# perform second scan for debris that will not interfer with the damage scan
-	result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, _ignore, Interactions.get_corpse_hit_mask())
-	if result:
-		_perform_hit(result, -_launchNode.global_transform.basis.z)
-
-func _fire_rocket() -> void:
-	var rocket = _rocket_t.instance()
-	Game.get_dynamic_parent().add_child(rocket)
-	var t:Transform = _launchNode.global_transform
-	var selfPos:Vector3 = t.origin
-	var forward = -t.basis.z
-	rocket.launch_prj(selfPos, forward, Ents.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
-
-func _check_weapon_change() -> void:
-	if _pendingWeapon == "":
-		return
-	_currentWeapon = _pendingWeapon
-	_pendingWeapon = ""
-	var weap = Weapons.weapons[_currentWeapon]
-	_refireTime = weap.refireTime
-	_extraPellets = weap.extraPellets
-	self.emit_signal("change_weapon", _currentWeapon)
-
-func check_ammo_count(ammoType, requiredCount:int) -> bool:
-	if ammoType == Weapons.AmmoTypeBullets:
-		return true
-	var count = _inventory.get_count(ammoType)
-	return (count >= requiredCount)
-
-func _check_current_ammo_empty(weap) -> void:
-	if _pendingWeapon == "" && !check_ammo_count(weap.ammoType, 1):
-		# switch to something with ammo
-		_pendingWeapon = Weapons.PistolLabel
-
 func _process(_delta:float) -> void:
-	var pendingSlot:int = -1
-	if Input.is_action_just_pressed("slot_1"):
-		pendingSlot = 1
-	if Input.is_action_just_pressed("slot_2"):
-		pendingSlot = 2
-	if Input.is_action_just_pressed("slot_3"):
-		pendingSlot = 3
-	if Input.is_action_just_pressed("slot_4"):
-		pendingSlot = 4
-	if Input.is_action_just_pressed("slot_5"):
-		pendingSlot = 5
-	if Input.is_action_just_pressed("slot_6"):
-		pendingSlot = 6
-	if Input.is_action_just_pressed("slot_7"):
-		pendingSlot = 7
+	if _active:
+		var pendingSlot:int = -1
+		if Input.is_action_just_pressed("slot_1"):
+			pendingSlot = 1
+		if Input.is_action_just_pressed("slot_2"):
+			pendingSlot = 2
+		if Input.is_action_just_pressed("slot_3"):
+			pendingSlot = 3
+		if Input.is_action_just_pressed("slot_4"):
+			pendingSlot = 4
+		if Input.is_action_just_pressed("slot_5"):
+			pendingSlot = 5
+		if Input.is_action_just_pressed("slot_6"):
+			pendingSlot = 6
+		if Input.is_action_just_pressed("slot_7"):
+			pendingSlot = 7
+		
+		if pendingSlot != -1:
+			_inventory.change_weapon_by_slot(pendingSlot)
 	
-	if pendingSlot != -1:
-		_inventory.change_weapon_by_slot(pendingSlot)
+	var primary:bool = Input.is_action_pressed("attack_1")
+	if !_active:
+		primary = false
+
+	if _meleeTick > 0:
+		primary = false
+		_meleeTick -= _delta
+	elif Input.is_action_just_pressed("offhand_melee"):
+		_meleeTick = _meleeTime
+		_inventory.offhand.offhand_punch()
 
 	var weap:InvWeapon = _inventory.get_current_weapon()
-	var primary:bool = Input.is_action_pressed("attack_1")
 	if weap != null:
 		weap.read_input(primary, false)
-
-func _process_old(_delta:float) -> void:
-	if _tick >= 0:
-		_tick -= _delta
-	if !_active:
-		return
-	
-	var weap = Weapons.weapons[_currentWeapon]
-
-	# if Input.is_action_just_pressed("slot_1"):
-	# 	_pendingWeapon = Weapons.PistolLabel
-	if Input.is_action_just_pressed("slot_2"):
-		var pistolCount:int = _inventory.get_count("pistol")
-		if pistolCount == 1:
-			_pendingWeapon = Weapons.PistolLabel
-		else:
-			if weap.name == Weapons.DualPistolsLabel:
-				_pendingWeapon = Weapons.PistolLabel
-			else:
-				_pendingWeapon = Weapons.DualPistolsLabel
-	var hasShells = check_ammo_count("shells", 1)
-	var hasSSG = check_ammo_count("super_shotgun", 1)
-	if Input.is_action_just_pressed("slot_3") && hasShells && hasSSG:
-		_pendingWeapon = Weapons.SuperShotgunLabel
-	if Input.is_action_just_pressed("slot_4"):
-		_pendingWeapon = Weapons.ChaingunLabel
-	if Input.is_action_just_pressed("slot_5"):
-		_pendingWeapon = Weapons.RocketLauncherLabel
-	if Input.is_action_just_pressed("slot_6"):
-		_pendingWeapon = Weapons.FlameThrowerLabel
-	if Input.is_action_just_pressed("slot_7"):
-		_pendingWeapon = Weapons.PlasmaGunLabel
-	
-	if _tick <= 0:
-		_check_current_ammo_empty(weap)
-		_check_weapon_change()
-
-		if Input.is_action_pressed("attack_1"): # || Input.is_action_pressed("move_special"):
-			_tick = _refireTime
-			if weap.ammoType == "shells":
-				_inventory.take_item("shells", 2)
-			var type:String = weap.projectileType
-
-			if type == "hitscan":
-				_fire_spread()
-			elif type == "player_rocket":
-				_fire_rocket()
-			self.emit_signal("fire")

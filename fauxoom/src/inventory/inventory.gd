@@ -17,6 +17,7 @@ var _data:Dictionary = {
 
 var weapons = []
 var _currentWeaponIndex:int = -1
+var offhand:InvWeapon = null
 # var _currentWeapon:InvWeapon = null
 
 func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
@@ -25,7 +26,11 @@ func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
 	for child in children:
 		if !(child is InvWeapon):
 			continue
-		weapons.push_back(child)
+		
+		if child.name == "offhand":
+			offhand = child
+		else:
+			weapons.push_back(child)
 		child.custom_init(self, launchNode, ignoreBody, hud)
 		# if _currentWeapon == null:
 		# 	set_current_weapon(child)
@@ -60,6 +65,9 @@ func get_current_weapon() -> InvWeapon:
 	return weapons[_currentWeaponIndex]
 
 func change_weapon_by_slot(_slotNumber:int) -> void:
+	# slots are 1 and up only
+	if _slotNumber <= 0:
+		return
 	var numWeapons:int = weapons.size()
 	var i:int = 0
 	var current = get_current_weapon()

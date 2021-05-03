@@ -50,9 +50,10 @@ func _ready():
 	_attack.init_attack(_head, self, _inventory)
 	_attack.set_attack_enabled(false)
 	
-	var _result = _attack.connect("fire", _hud, "on_player_shoot")
-	_result = _attack.connect("fire", self, "on_player_shoot")
-	_result = _attack.connect("change_weapon", _hud, "on_change_weapon")
+	var _result
+	# _result  = _attack.connect("fire", _hud, "on_player_shoot")
+	# _result = _attack.connect("fire", self, "on_player_shoot")
+	# _result = _attack.connect("change_weapon", _hud, "on_change_weapon")
 	_result = connect("tree_exiting", self, "_on_tree_exiting")
 	_result = _ent.connect("entity_append_state", self, "append_state")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")

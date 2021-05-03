@@ -27,5 +27,5 @@ func _process(_delta:float) -> void:
 	if tick > 0:
 		tick -= _delta
 	if _equipped == true && _isAttacking == false && tick <= 0:
-		print("Chainsaw to idle")
+		# print("Chainsaw to idle")
 		.play_idle()

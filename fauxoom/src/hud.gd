@@ -16,12 +16,21 @@ var _ssgClose:AudioStream = preload("res://assets/sounds/ssg/ssg_close.wav")
 var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
 var _rocketShoot:AudioStream = preload("res://assets/sounds/weapon/rocket_fire.wav")
 
+# player sprites
+onready var gunsContainer:Control = $gun
 onready var centreSprite:AnimatedSprite = $gun/weapon_centre
 onready var rightSprite:AnimatedSprite = $gun/weapon_right
 onready var leftSprite:AnimatedSprite = $gun/weapon_left
+
+onready var _handRight:AnimatedSprite = $bottom_right/right_hand
+onready var _handLeft:AnimatedSprite = $bottom_left/left_hand
+
+# player status
 onready var _prompt:Label = $centre/interact_prompt
 onready var _energyBar:TextureProgress = $centre/energy
 onready var _healthBar:TextureProgress = $centre/health
+
+# audio
 onready var audio:AudioStreamPlayer = $AudioStreamPlayer
 onready var audio2:AudioStreamPlayer = $AudioStreamPlayer2
 onready var _pickupAudio:AudioStreamPlayer = $audio_pickup
@@ -52,6 +61,9 @@ func _ready() -> void:
 	var _f = centreSprite.connect("animation_finished", self, "_on_centre_animation_finished")
 	_f = rightSprite.connect("animation_finished", self, "_on_right_animation_finished")
 	_f = leftSprite.connect("animation_finished", self, "_on_left_animation_finished")
+	_f = _handRight.connect("animation_finished", self, "_on_right_hand_animation_finished")
+	_f = _handLeft.connect("animation_finished", self, "_on_left_hand_animation_finished")
+
 	# centreSprite.play(_currentWeap["idle"])
 	self.on_change_weapon("ssg")
 	_centreTrans = centreSprite.transform
@@ -147,31 +159,35 @@ func player_status_update(data:Dictionary) -> void:
 	_prompt.visible = data.hasInteractionTarget
 
 func _on_centre_animation_finished() -> void:
-	# if !centreSprite.animation == "idle":
-		#print("Centre anim finished " + centreSprite.animation)
-		# _isShooting = false
-		# centreSprite.play(_currentWeap["idle"])
 	if centreNextAnim != "":
 		centreSprite.play(centreNextAnim)
 		centreNextAnim = ""
 
 func _on_right_animation_finished() -> void:
-	# if !rightSprite.animation == "idle":
-		# print("Right anim finished")
-		# _isShooting = false
-		# rightSprite.play(_currentWeap["idle"])
 	if rightNextAnim != "":
 		rightSprite.play(rightNextAnim)
 		rightNextAnim = ""
 
 func _on_left_animation_finished() -> void:
-	# if !leftSprite.animation == "idle":
-		# print("Left anim finished")
-		# _isShooting = false
-		# leftSprite.play(_currentWeap["idle"])
 	if leftNextAnim != "":
 		leftSprite.play(leftNextAnim)
 		leftNextAnim = ""
+	
+func _on_right_hand_animation_finished() -> void:
+	_handRight.visible = false
+	_handLeft.visible = false
+	gunsContainer.visible = true
+
+func _on_left_hand_animation_finished() -> void:
+	_handRight.visible = false
+	_handLeft.visible = false
+	gunsContainer.visible = true
+
+func play_offhand_punch() -> void:
+	gunsContainer.visible = false
+	_handLeft.visible = true
+	_handLeft.frame = 0
+	_handLeft.play()
 
 func _apply_weapon_change(_weap:Dictionary) -> void:
 	if _weap.has("akimbo"):
