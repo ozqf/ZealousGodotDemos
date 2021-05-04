@@ -23,6 +23,7 @@ const DAMAGE_TYPE_NONE:int = 0
 const DAMAGE_TYPE_EXPLOSIVE:int = 1
 const DAMAGE_TYPE_SAW:int = 2
 const DAMAGE_TYPE_PUNCH:int = 3
+const DAMAGE_TYPE_SIEGE:int = 4
 
 const HIT_RESPONSE_NONE:int = -1
 const HIT_RESPONSE_PENETRATE:int = -2

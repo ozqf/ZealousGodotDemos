@@ -1,10 +1,11 @@
 extends InvWeapon
 
+var _rocketShoot:AudioStream = preload("res://assets/sounds/weapon/rocket_fire.wav")
 var _rocket_t = preload("res://prefabs/dynamic_entities/prj_player_rocket.tscn")
 var _prjMask:int = -1
 
 func _ready() -> void:
-    _prjMask = Interactions.get_player_prj_mask()
+	_prjMask = Interactions.get_player_prj_mask()
 
 func _fire_rocket() -> void:
 	var rocket = _rocket_t.instance()
@@ -13,6 +14,8 @@ func _fire_rocket() -> void:
 	var selfPos:Vector3 = t.origin
 	var forward = -t.basis.z
 	rocket.launch_prj(selfPos, forward, Ents.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
+	_hud.audio.stream = _rocketShoot
+	_hud.audio.play()
 
 func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 	if tick > 0:

@@ -1,5 +1,12 @@
 extends InvWeapon
 
+var _ssgShoot:AudioStream = preload("res://assets/sounds/ssg/ssg_fire.wav")
+var _ssgOpen:AudioStream = preload("res://assets/sounds/ssg/ssg_open.wav")
+var _ssgLoad:AudioStream = preload("res://assets/sounds/ssg/ssg_load.wav")
+var _ssgClose:AudioStream = preload("res://assets/sounds/ssg/ssg_close.wav")
+
+var _lastSoundFrame:int = -1
+
 func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 	if tick <= 0 && _primaryOn:
 		tick = refireTime
@@ -10,8 +17,29 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 			var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
 			_fire_single(forward, 1000)
 		.play_fire_1(false)
+		_hud.audio.stream = _ssgShoot
+		_hud.audio.play()
+		_lastSoundFrame = - 1
 		self.emit_signal("weapon_action", self, "fire")
+
+func run_reload_sounds() -> void:
+	if !_equipped:
+		return
+	var frame:int = _hud.centreSprite.frame
+	if frame == 4 && _lastSoundFrame < 4:
+		_lastSoundFrame = 4
+		_hud.audio2.stream = _ssgOpen
+		_hud.audio2.play()
+	elif frame == 7 && _lastSoundFrame < 7:
+		_lastSoundFrame = 7
+		_hud.audio2.stream = _ssgLoad
+		_hud.audio2.play()
+	elif frame == 9 && _lastSoundFrame < 9:
+		_lastSoundFrame = 9
+		_hud.audio2.stream = _ssgClose
+		_hud.audio2.play()
 
 func _process(_delta:float) -> void:
 	if tick > 0:
 		tick -= _delta
+		run_reload_sounds()
