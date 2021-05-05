@@ -3,7 +3,6 @@
 [ext_resource path="res://src/services/game.gd" type="Script" id=1]
 [ext_resource path="res://prefabs/attachable_camera.tscn" type="PackedScene" id=2]
 
-
 [node name="game" type="Spatial"]
 script = ExtResource( 1 )
 
@@ -128,3 +127,30 @@ __meta__ = {
 margin_right = 256.0
 margin_bottom = 20.0
 text = "RESTART"
+
+[node name="hint_text" type="Control" parent="game_state_overlay"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -256.0
+margin_top = -300.0
+margin_right = 256.0
+margin_bottom = 300.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hint_label_top" type="Label" parent="game_state_overlay/hint_text"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -192.0
+margin_top = 128.0
+margin_right = 192.0
+margin_bottom = 256.0
+text = "HUD hint text goes here"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

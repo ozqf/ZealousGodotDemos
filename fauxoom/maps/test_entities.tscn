@@ -93,6 +93,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 0.5, 5.5 )
 triggerTargetName = "toggle_mover_test"
 resetSeconds = 2.0
 noAutoHide = true
+hintMessage = "This is a trigger!"
 
 [node name="toggle_mover_test" parent="static" instance=ExtResource( 35 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 8.5 )

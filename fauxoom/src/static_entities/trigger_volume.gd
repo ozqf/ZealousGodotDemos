@@ -12,6 +12,7 @@ export var resetSeconds:float = 0
 export var active:bool = true
 # purely for debugging so volume can be visualised
 export var noAutoHide:bool = false
+export var hintMessage:String = ""
 
 var _resetTick:float = 0
 
@@ -32,6 +33,8 @@ func set_active(flag:bool) -> void:
 		visible = true
 	else:
 		visible = false
+	if !active && hintMessage != "":
+		Game.show_hint_text(hintMessage)
 
 func _process(_delta:float) -> void:
 	if resetSeconds > 0 && !active:
@@ -51,6 +54,7 @@ func restore_state(data:Dictionary) -> void:
 func on_trigger() -> void:
 	var was = active
 	set_active(!active)
+	
 	print("trigger vol " + name + " triggered - was " + str(was) + " now " + str(active))
 
 func _on_body_entered(_body:PhysicsBody) -> void:
