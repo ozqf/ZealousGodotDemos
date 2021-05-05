@@ -6,7 +6,7 @@ signal weapon_changed(newWeapon, oldWeapon)
 
 var _data:Dictionary = {
 	chainsaw = { count = 0, max = 1 },
-	pistol = { count = 1, max = 2 },
+	pistol = { count = 0, max = 2 },
 	super_shotgun = { count = 0, max = 1 },
 	rocket_launcher = { count = 0, max = 1 },
 
@@ -18,6 +18,7 @@ var _data:Dictionary = {
 var weapons = []
 var _currentWeaponIndex:int = -1
 var offhand:InvWeapon = null
+var empty:InvWeapon = null
 # var _currentWeapon:InvWeapon = null
 
 func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
@@ -29,6 +30,8 @@ func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
 		
 		if child.name == "offhand":
 			offhand = child
+		# elif child.name == "empty":
+		# 	empty = child
 		else:
 			weapons.push_back(child)
 		child.custom_init(self, launchNode, ignoreBody, hud)
@@ -70,10 +73,17 @@ func set_current_weapon(index:int) -> void:
 		prevWeap.deequip()
 	_currentWeaponIndex = index
 	var newWeap = null
+	# if index == -1:
+	# 	newWeap = empty
+	# 	newWeap.equip()
 	if _currentWeaponIndex >= 0:
 		newWeap = weapons[_currentWeaponIndex]
 		newWeap.equip()
-	self.emit_signal("weapon_changed", newWeap, prevWeap)
+	if newWeap != null:
+		print("Switched to " + newWeap.name)
+	else:
+		print("Switched to no weapon")
+	# self.emit_signal("weapon_changed", newWeap, prevWeap)
 
 # find the first selectable weapon and equip it
 func select_first_weapon() -> void:
@@ -83,10 +93,11 @@ func select_first_weapon() -> void:
 		if weap.can_equip():
 			set_current_weapon(i)
 			return
+	set_current_weapon(-1)
 
 func get_current_weapon() -> InvWeapon:
-	if _currentWeaponIndex < 0:
-		return null
+	if _currentWeaponIndex == -1:
+		return empty
 	return weapons[_currentWeaponIndex]
 
 # returns 1 if weapon was successfully changed

@@ -75,9 +75,6 @@ func show_hint_text(txt:String) -> void:
 	_hintLabelTop.text = txt
 	_hintLabelTop.visible = true
 
-
-var tick:float = 0
-
 func _process(_delta:float) -> void:
 	if get_tree().paused == false:
 		if _hintTextTick <= 0:

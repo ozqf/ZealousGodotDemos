@@ -186,6 +186,9 @@ transform = Transform( 9, 0, 0, 0, 1, 0, 0, 0, 4, -0.5, -0.5, 34 )
 [node name="world_volume25" parent="world/block2mesh/volumes" instance=ExtResource( 2 )]
 transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, -11, -0.5, 34 )
 
+[node name="world_volume64" parent="world/block2mesh/volumes" instance=ExtResource( 2 )]
+transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, -11, 4.5, 34 )
+
 [node name="world_volume7" parent="world/block2mesh/volumes" instance=ExtResource( 2 )]
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 6, 0, -0.5, -17 )
 
