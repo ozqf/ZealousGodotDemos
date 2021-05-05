@@ -20,8 +20,9 @@
 [ext_resource path="res://src/inventory/inv_rocket_launcher.gd" type="Script" id=18]
 [ext_resource path="res://src/inventory/inv_offhand.gd" type="Script" id=19]
 
-[sub_resource type="BoxShape" id=1]
-extents = Vector3( 0.5, 0.75, 0.5 )
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.5
+height = 0.8
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.25, 0.25, 0.25 )
@@ -46,7 +47,7 @@ __meta__ = {
 }
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.9, 0 )
 shape = SubResource( 1 )
 
 [node name="head" type="Spatial" parent="."]
