@@ -37,12 +37,28 @@ func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
 	print("Inventory found " + str(weapons.size()) + " weapons")
 	select_first_weapon()
 
-func append_state(_dict:Dictionary) -> void:
-	_dict["inventory"] = _data.duplicate(true)
+func append_state(_saveDict:Dictionary) -> void:
+	var save = { 
+		weap = _currentWeaponIndex
+	}
+	var keys = _data.keys()
+	for key in keys:
+		save[key] = _data[key].count
+	
+	_saveDict["inventory"] = save
 
-func restore_state(_dict:Dictionary) -> void:
-	if "inventory" in _data:
-		_data = _dict.inventory.duplicate()
+func restore_state(_restoreDict:Dictionary) -> void:
+	if !("inventory" in _restoreDict):
+		return
+	var loadData = _restoreDict["inventory"]
+	var keys = _data.keys()
+	for key in keys:
+		if !(key in loadData):
+			continue
+		_data[key].count = loadData[key]
+	if !("weap" in loadData):
+		return
+	set_current_weapon(loadData.weap)
 
 func set_current_weapon(index:int) -> void:
 	if index == _currentWeaponIndex:
