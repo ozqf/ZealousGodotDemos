@@ -71,10 +71,10 @@ func hit(_hitInfo:HitInfo) -> int:
 	if _dead:
 		return 0
 	if !check_damage_type(_hitInfo.damageType):
-		print("Bad damage type " + str(_hitInfo.damageType) + " vs " + str(_acceptedDamageType))
+		# print("Bad damage type " + str(_hitInfo.damageType) + " vs " + str(_acceptedDamageType))
 		return 0
 	health -= _hitInfo.damage
-	print("breakable hp: " + str(health))
+	# print("breakable hp: " + str(health))
 	if health <= 0:
 		_shape.disabled = true
 		_meshes.visible = false
