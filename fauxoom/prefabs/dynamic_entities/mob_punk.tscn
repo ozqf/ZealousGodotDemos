@@ -6,7 +6,7 @@
 [ext_resource path="res://src/ai/mob_attack.gd" type="Script" id=4]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=5]
 [ext_resource path="res://assets/sprites/frames/punk_frames.tres" type="SpriteFrames" id=6]
-[ext_resource path="res://src/ai/mob_motor.gd" type="Script" id=7]
+[ext_resource path="res://prefabs/mob_components/mob_motor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/ai/ai_ticker.gd" type="Script" id=8]
 [ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=9]
 [ext_resource path="res://src/ai/mob_sound.gd" type="Script" id=10]
@@ -50,13 +50,7 @@ material/0 = null
 [node name="attack" type="Node" parent="."]
 script = ExtResource( 4 )
 
-[node name="motor" type="Spatial" parent="."]
-script = ExtResource( 7 )
-
-[node name="floor_in_front" type="RayCast" parent="motor"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.5 )
-enabled = true
-cast_to = Vector3( 0, -0.4, 0 )
+[node name="motor" parent="." instance=ExtResource( 7 )]
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
