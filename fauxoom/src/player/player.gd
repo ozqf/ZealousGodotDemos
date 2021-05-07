@@ -1,6 +1,7 @@
 extends KinematicBody
 class_name Player
 
+const MAX_HEALTH:int = 100
 
 onready var _ent:Entity = $Entity
 onready var _head:Spatial = $head
@@ -18,7 +19,7 @@ var _appInputOn:bool = true
 
 var _godMode:bool = false
 var _dead:bool = false
-var _health:int = 100
+var _health:int = MAX_HEALTH
 var _swayTime:float = 0.0
 
 var _targettingInfo:Dictionary = {
@@ -171,6 +172,13 @@ func _process(_delta):
 
 # returns amount taken
 func give_item(itemType:String, amount:int) -> int:
+	if itemType == "health":
+		if _health >= MAX_HEALTH:
+			return 0
+		_health += amount
+		if _health > MAX_HEALTH:
+			_health = MAX_HEALTH
+		return amount
 	var took:int = _inventory.give_item(itemType, amount)
 	# if took > 0:
 	# 	pass

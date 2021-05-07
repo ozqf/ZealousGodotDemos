@@ -45,6 +45,15 @@ var _prefabs = {
 		prefab = preload("res://prefabs/player.tscn"),
 		entNodePath = "Entity"
 	},
+	hp_l = {
+		prefab = preload("res://prefabs/items/item_health_large.tscn"),
+		entNodePath = "Entity"
+	},
+
+	pistol = {
+		prefab = preload("res://prefabs/items/item_pistol.tscn"),
+		entNodePath = "Entity"
+	},
 	ssg = {
 		prefab = preload("res://prefabs/items/item_super_shotgun.tscn"),
 		entNodePath = "Entity"
@@ -57,6 +66,7 @@ var _prefabs = {
 		prefab = preload("res://prefabs/items/item_rocket_launcher.tscn"),
 		entNodePath = "Entity"
 	},
+
 	shell_s = {
 		prefab = preload("res://prefabs/items/item_shells_small.tscn"),
 		entNodePath = "Entity"
