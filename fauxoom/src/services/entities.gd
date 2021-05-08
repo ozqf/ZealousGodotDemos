@@ -50,6 +50,10 @@ var _prefabs = {
 		entNodePath = "Entity"
 	},
 
+	chainsaw = {
+		prefab = preload("res://prefabs/items/item_chainsaw.tscn"),
+		entNodePath = "Entity"
+	},
 	pistol = {
 		prefab = preload("res://prefabs/items/item_pistol.tscn"),
 		entNodePath = "Entity"
@@ -58,8 +62,8 @@ var _prefabs = {
 		prefab = preload("res://prefabs/items/item_super_shotgun.tscn"),
 		entNodePath = "Entity"
 	},
-	chainsaw = {
-		prefab = preload("res://prefabs/items/item_chainsaw.tscn"),
+	pg = {
+		prefab = preload("res://prefabs/items/item_plasma_gun.tscn"),
 		entNodePath = "Entity"
 	},
 	rocket_launcher = {

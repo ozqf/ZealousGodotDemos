@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/sprites/player/player_a1.png" type="Texture" id=1]
 [ext_resource path="res://src/player/player.gd" type="Script" id=2]
@@ -20,8 +20,9 @@
 [ext_resource path="res://src/inventory/inv_rocket_launcher.gd" type="Script" id=18]
 [ext_resource path="res://src/inventory/inv_offhand.gd" type="Script" id=19]
 [ext_resource path="res://src/inventory/inv_empty.gd" type="Script" id=20]
+[ext_resource path="res://src/inventory/inv_plasma_gun.gd" type="Script" id=21]
 
-[sub_resource type="CapsuleShape" id=3]
+[sub_resource type="CapsuleShape" id=1]
 radius = 0.5
 height = 0.8
 
@@ -49,7 +50,7 @@ __meta__ = {
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.9, 0 )
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="head" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
@@ -104,6 +105,15 @@ ammoType = "shells"
 slot = 3
 idle = "ssg_idle"
 fire_1 = "ssg_shoot"
+
+[node name="plasma_gun" type="Node" parent="inventory/weapons"]
+script = ExtResource( 21 )
+hudName = "Plasma Gun"
+inventoryType = "plasma_gun"
+ammoType = "plasma"
+slot = 4
+idle = "pg_idle"
+fire_1 = "pg_shoot"
 
 [node name="rocket_launcher" type="Node" parent="inventory/weapons"]
 script = ExtResource( 18 )

@@ -28,6 +28,9 @@ var _hitInfo:HitInfo = null
 var tick:float = 0
 var _leftNext:bool = false
 
+#########################################
+# init and select/deselect logic
+#########################################
 func custom_init(inventory, launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
 	_launchNode = launchNode
 	_inventory = inventory
@@ -58,6 +61,12 @@ func equip() -> void:
 func deequip() -> void:
 	_equipped = false
 
+func is_cycling() -> bool:
+	return tick > 0
+
+#########################################
+# default attack logic
+#########################################
 func play_idle() -> void:
 	_hud.hide_all_sprites()
 	if idle == null || idle == "":
@@ -93,9 +102,6 @@ func play_fire_1(loop:bool = true) -> void:
 		_hud.centreSprite.frame = 0
 		if !loop:
 			_hud.centreNextAnim = idle
-
-func is_cycling() -> bool:
-	return tick > 0
 
 func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 	pass

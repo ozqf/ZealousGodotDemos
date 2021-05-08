@@ -63,4 +63,5 @@ prefabName = "mob_serpent"
 [node name="ticker" parent="." instance=ExtResource( 8 )]
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+bus = "game"
 script = ExtResource( 9 )

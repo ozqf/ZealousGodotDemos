@@ -22,6 +22,14 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 		_lastSoundFrame = - 1
 		self.emit_signal("weapon_action", self, "fire")
 
+func is_cycling() -> bool:
+	if !_equipped:
+		return false
+	#if tick < (refireTime - (3 * (1.0 / 10.0))):
+	if tick < refireTime - 0.4:
+		return false
+	return true
+
 func run_reload_sounds() -> void:
 	if !_equipped:
 		return
@@ -42,4 +50,5 @@ func run_reload_sounds() -> void:
 func _process(_delta:float) -> void:
 	if tick > 0:
 		tick -= _delta
-		run_reload_sounds()
+		if _equipped:
+			run_reload_sounds()
