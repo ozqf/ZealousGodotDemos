@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://src/ai/ai_ticker.gd" type="Script" id=8]
 [ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=9]
 [ext_resource path="res://src/ai/mob_sound.gd" type="Script" id=10]
+[ext_resource path="res://prefabs/mob_components/orb_shield.tscn" type="PackedScene" id=11]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.75, 0.5 )
@@ -68,3 +69,11 @@ unit_db = 5.0
 max_distance = 50.0
 bus = "game"
 script = ExtResource( 10 )
+
+[node name="orb" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
+[node name="orb" type="Spatial" parent="orb"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5 )
+
+[node name="orb_shield" parent="orb/orb" instance=ExtResource( 11 )]

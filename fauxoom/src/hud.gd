@@ -30,6 +30,13 @@ onready var _prompt:Label = $centre/interact_prompt
 onready var _energyBar:TextureProgress = $centre/energy
 onready var _healthBar:TextureProgress = $centre/health
 
+onready var _healthCount:Label = $player_status/health/count
+onready var _energyCount:Label = $player_status/energy/count
+onready var _bulletCount:Label = $ammo_counts/bullets/count
+onready var _shellCount:Label = $ammo_counts/shells/count
+onready var _plasmaCount:Label = $ammo_counts/plasma/count
+onready var _rocketCount:Label = $ammo_counts/rockets/count
+
 # audio
 onready var audio:AudioStreamPlayer = $AudioStreamPlayer
 onready var audio2:AudioStreamPlayer = $AudioStreamPlayer2
@@ -142,10 +149,7 @@ func player_hit(_data:Dictionary) -> void:
 	hit.spawn(_data.selfYawDegrees, _data.direction)
 
 func player_status_update(data:Dictionary) -> void:
-	$player_status/health.text = "HEALTH " + str(data.health)
-	$player_status/energy.text = "ENERGY " + str(data.energy)
-	$player_status/bullets.text = "BULLETS: " + str(data.bullets)
-	$player_status/shells.text = "SHELLS: " + str(data.shells)
+	# crosshair
 	var c:Color = Color(1, 1, 1, 1)
 	# _maxHealthColour _minHealthColour
 	var t:float = float(data.health) / 100.0
@@ -157,6 +161,15 @@ func player_status_update(data:Dictionary) -> void:
 	_healthBar.value = data.health 
 	_swayTime = data.swayTime 
 	_prompt.visible = data.hasInteractionTarget
+
+	# counts
+	_healthCount.text = str(data.health)
+	_energyCount.text = str(data.energy)
+
+	_bulletCount.text = str(data.bullets)
+	_shellCount.text = str(data.shells)
+	_plasmaCount.text = str(data.plasma)
+	_rocketCount.text = str(data.rockets)
 
 func _on_centre_animation_finished() -> void:
 	if centreNextAnim != "":

@@ -327,37 +327,37 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="health" type="Label" parent="hud/player_status"]
-margin_top = 80.0
+[node name="health" type="HBoxContainer" parent="hud/player_status"]
+margin_top = 184.0
 margin_right = 128.0
-margin_bottom = 111.0
-rect_min_size = Vector2( 0, 24 )
-text = "HEALTH 100
-"
+margin_bottom = 198.0
 
-[node name="energy" type="Label" parent="hud/player_status"]
-margin_top = 115.0
-margin_right = 128.0
-margin_bottom = 146.0
-rect_min_size = Vector2( 0, 24 )
-text = "ENERGY 100
-"
+[node name="Label" type="Label" parent="hud/player_status/health"]
+margin_right = 50.0
+margin_bottom = 14.0
+text = "HEALTH"
 
-[node name="bullets" type="Label" parent="hud/player_status"]
-margin_top = 150.0
-margin_right = 128.0
-margin_bottom = 181.0
-rect_min_size = Vector2( 0, 24 )
-text = "AMMO 100
-"
+[node name="count" type="Label" parent="hud/player_status/health"]
+margin_left = 54.0
+margin_right = 70.0
+margin_bottom = 14.0
+text = "50"
 
-[node name="shells" type="Label" parent="hud/player_status"]
-margin_top = 185.0
+[node name="energy" type="HBoxContainer" parent="hud/player_status"]
+margin_top = 202.0
 margin_right = 128.0
 margin_bottom = 216.0
-rect_min_size = Vector2( 0, 24 )
-text = "AMMO 100
-"
+
+[node name="Label" type="Label" parent="hud/player_status/energy"]
+margin_right = 49.0
+margin_bottom = 14.0
+text = "ENERGY"
+
+[node name="count" type="Label" parent="hud/player_status/energy"]
+margin_left = 53.0
+margin_right = 69.0
+margin_bottom = 14.0
+text = "50"
 
 [node name="MeshInstance" type="MeshInstance" parent="hud"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, -0.4 )
@@ -393,9 +393,9 @@ __meta__ = {
 }
 
 [node name="bullets" type="HBoxContainer" parent="hud/ammo_counts"]
-margin_top = 312.0
+margin_top = 276.0
 margin_right = 128.0
-margin_bottom = 326.0
+margin_bottom = 290.0
 alignment = 2
 
 [node name="Label" type="Label" parent="hud/ammo_counts/bullets"]
@@ -404,16 +404,16 @@ margin_right = 108.0
 margin_bottom = 14.0
 text = "BULLETS"
 
-[node name="Label2" type="Label" parent="hud/ammo_counts/bullets"]
+[node name="count" type="Label" parent="hud/ammo_counts/bullets"]
 margin_left = 112.0
 margin_right = 128.0
 margin_bottom = 14.0
 text = "50"
 
 [node name="shells" type="HBoxContainer" parent="hud/ammo_counts"]
-margin_top = 330.0
+margin_top = 294.0
 margin_right = 128.0
-margin_bottom = 344.0
+margin_bottom = 308.0
 alignment = 2
 
 [node name="Label" type="Label" parent="hud/ammo_counts/shells"]
@@ -422,7 +422,43 @@ margin_right = 108.0
 margin_bottom = 14.0
 text = "SHELLS"
 
-[node name="Label2" type="Label" parent="hud/ammo_counts/shells"]
+[node name="count" type="Label" parent="hud/ammo_counts/shells"]
+margin_left = 112.0
+margin_right = 128.0
+margin_bottom = 14.0
+text = "50"
+
+[node name="plasma" type="HBoxContainer" parent="hud/ammo_counts"]
+margin_top = 312.0
+margin_right = 128.0
+margin_bottom = 326.0
+alignment = 2
+
+[node name="Label" type="Label" parent="hud/ammo_counts/plasma"]
+margin_left = 56.0
+margin_right = 108.0
+margin_bottom = 14.0
+text = "PLASMA"
+
+[node name="count" type="Label" parent="hud/ammo_counts/plasma"]
+margin_left = 112.0
+margin_right = 128.0
+margin_bottom = 14.0
+text = "50"
+
+[node name="rockets" type="HBoxContainer" parent="hud/ammo_counts"]
+margin_top = 330.0
+margin_right = 128.0
+margin_bottom = 344.0
+alignment = 2
+
+[node name="Label" type="Label" parent="hud/ammo_counts/rockets"]
+margin_left = 52.0
+margin_right = 108.0
+margin_bottom = 14.0
+text = "ROCKETS"
+
+[node name="count" type="Label" parent="hud/ammo_counts/rockets"]
 margin_left = 112.0
 margin_right = 128.0
 margin_bottom = 14.0

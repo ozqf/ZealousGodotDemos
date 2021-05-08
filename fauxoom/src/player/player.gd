@@ -159,6 +159,8 @@ func _process(_delta):
 	# update status info for UI
 	_status.bullets = _inventory.get_count("bullets")
 	_status.shells = _inventory.get_count("shells")
+	_status.plasma = _inventory.get_count("plasma")
+	_status.rockets = _inventory.get_count("rockets")
 	_status.yawDegrees = _motor.m_yaw
 	_status.health = _health
 	_status.energy = _motor.energy
