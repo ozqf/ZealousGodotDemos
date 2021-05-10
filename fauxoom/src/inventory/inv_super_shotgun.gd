@@ -49,6 +49,8 @@ func run_reload_sounds() -> void:
 
 func _process(_delta:float) -> void:
 	if tick > 0:
+		if !_equipped:
+			_delta /= 2.0
 		tick -= _delta
 		if _equipped:
 			run_reload_sounds()

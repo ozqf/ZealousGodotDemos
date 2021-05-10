@@ -10,7 +10,8 @@ enum EnemyType {
 	Gunner,
 	FleshWorm,
 	Serpent,
-	Spider
+	Spider,
+	Titan
 }
 
 export(EnemyType) var type = EnemyType.Punk
@@ -42,13 +43,13 @@ func _on_mob_died(_mob) -> void:
 	# print("Spawn proxy saw child die")
 	emit_signal("trigger")
 
-func _select_prefab(enemyType:int) -> String:
-	if enemyType == EnemyType.FleshWorm:
-		return Entities.PREFAB_MOB_WORM
-	elif enemyType == EnemyType.Spider:
-		return Entities.PREFAB_MOB_SPIDER
-	else:
-		return Entities.PREFAB_MOB_PUNK
+# func _select_prefab(enemyType:int) -> String:
+# 	if enemyType == EnemyType.FleshWorm:
+# 		return Entities.PREFAB_MOB_WORM
+# 	elif enemyType == EnemyType.Spider:
+# 		return Entities.PREFAB_MOB_SPIDER
+# 	else:
+# 		return Entities.PREFAB_MOB_PUNK
 
 func on_trigger() -> void:
 	if _used:

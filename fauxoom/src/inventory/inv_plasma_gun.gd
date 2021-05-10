@@ -5,6 +5,14 @@ var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.w
 func custom_init_b() -> void:
 	_hitInfo.damage = 100
 
+func is_cycling() -> bool:
+	if !_equipped:
+		return false
+	#if tick < (refireTime - (3 * (1.0 / 10.0))):
+	if tick < refireTime - 0.4:
+		return false
+	return true
+
 func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 	if tick > 0:
 		return
@@ -17,4 +25,6 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 
 func _process(_delta:float) -> void:
 	if tick > 0:
+		if !_equipped:
+			_delta /= 2.0
 		tick -= _delta

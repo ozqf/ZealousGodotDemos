@@ -148,7 +148,7 @@ triggerTargetName = "endtrigger"
 noAutoHide = true
 
 [node name="player_start" parent="static" instance=ExtResource( 9 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -7, 0, 4.5 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1, 0, 8.5 )
 
 [node name="horde_spawn" parent="static" instance=ExtResource( 8 )]
 transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -10, 0, -29 )
@@ -171,6 +171,10 @@ transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -
 
 [node name="mob_spawn_proxy6" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -15, 0, -10 )
+
+[node name="mob_spawn_proxy7" parent="static" instance=ExtResource( 10 )]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -19, 0, 0 )
+type = 5
 
 [node name="mob_spawn_proxy5" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -16, 3, 12 )
@@ -389,8 +393,9 @@ isStatic = true
 
 [node name="horde_spawn" parent="static/survival_controller/horde_spawns" instance=ExtResource( 8 )]
 type = 0
-totalMobs = 16
-maxLiveMobs = 4
+tickMax = 1.5
+totalMobs = 999
+maxLiveMobs = 6
 
 [node name="spawn_points" type="Spatial" parent="static/survival_controller"]
 

@@ -9,6 +9,7 @@ const PREFAB_MOB_WORM:String = "mob_worm"
 const PREFAB_MOB_GUNNER:String = "mob_gunner"
 const PREFAB_MOB_SERPENT:String = "mob_serpent"
 const PREFAB_MOB_SPIDER:String = "mob_spider"
+const PREFAB_MOB_TITAN:String = "mob_titan"
 const PREFAB_PLAYER:String = "player"
 const PREFAB_GIB:String = "gib"
 
@@ -17,7 +18,8 @@ enum EnemyType {
 	Gunner,
 	FleshWorm,
 	Serpent,
-	Spider
+	Spider,
+	Titan
 }
 
 var _prefabs = {
@@ -41,6 +43,11 @@ var _prefabs = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_spider.tscn"),
 		entNodePath = "Entity"
 	},
+	mob_titan = {
+		prefab = preload("res://prefabs/dynamic_entities/mob_titan.tscn"),
+		entNodePath = "Entity"
+	},
+
 	player = {
 		prefab = preload("res://prefabs/player.tscn"),
 		entNodePath = "Entity"
@@ -117,6 +124,8 @@ func _select_prefab(enemyType:int) -> String:
 		return PREFAB_MOB_SPIDER
 	elif enemyType == EnemyType.Serpent:
 		return PREFAB_MOB_SERPENT
+	elif enemyType == EnemyType.Titan:
+		return PREFAB_MOB_TITAN
 	else:
 		return PREFAB_MOB_PUNK
 

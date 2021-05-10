@@ -3,12 +3,12 @@
 [sub_resource type="SphereShape" id=1]
 radius = 0.25
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=2]
 flags_unshaded = true
 albedo_color = Color( 0.137255, 0.137255, 1, 1 )
 
-[sub_resource type="SphereMesh" id=2]
-material = SubResource( 3 )
+[sub_resource type="SphereMesh" id=3]
+material = SubResource( 2 )
 radius = 0.25
 height = 0.5
 
@@ -16,8 +16,10 @@ height = 0.5
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )
+disabled = true
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
+visible = false
 cast_shadow = 0
-mesh = SubResource( 2 )
+mesh = SubResource( 3 )
 material/0 = null

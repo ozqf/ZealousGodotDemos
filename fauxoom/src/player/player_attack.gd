@@ -20,21 +20,24 @@ func init_attack(interactor:PlayerObjectInteractor, inventory) -> void:
 func set_attack_enabled(flag:bool) -> void:
 	_active = flag
 
+func check_action_press_or_release(actionName:String) -> bool:
+	return (Input.is_action_just_pressed(actionName) || Input.is_action_just_released(actionName))
+
 func _process(_delta:float) -> void:
 	if _active:
-		if Input.is_action_just_pressed("slot_1"):
+		if check_action_press_or_release("slot_1"):
 			_pendingSlot = 1
-		if Input.is_action_just_pressed("slot_2"):
+		if check_action_press_or_release("slot_2"):
 			_pendingSlot = 2
-		if Input.is_action_just_pressed("slot_3"):
+		if check_action_press_or_release("slot_3"):
 			_pendingSlot = 3
-		if Input.is_action_just_pressed("slot_4"):
+		if check_action_press_or_release("slot_4"):
 			_pendingSlot = 4
-		if Input.is_action_just_pressed("slot_5"):
+		if check_action_press_or_release("slot_5"):
 			_pendingSlot = 5
-		if Input.is_action_just_pressed("slot_6"):
+		if check_action_press_or_release("slot_6"):
 			_pendingSlot = 6
-		if Input.is_action_just_pressed("slot_7"):
+		if check_action_press_or_release("slot_7"):
 			_pendingSlot = 7
 		
 		if _pendingSlot != -1:

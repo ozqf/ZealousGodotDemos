@@ -210,6 +210,61 @@ const data = {
 			}
 		}
 	},
+	mob_titan = {
+		name = "mob_titan",
+		path = "res://assets/sprites/frames/titan_frames.tres",
+		offset = 64,
+		anims = {
+			walk = {
+				frames = [
+					[ 0, 8, 16, 24, 32 ],
+					[ 1, 9, 17, 25, 33 ],
+					[ 2, 10, 18, 26, 34 ],
+					[ 3, 11, 19, 27, 35 ],
+					[ 4, 12, 20, 28, 36 ],
+					[ 5, 13, 21, 29, 37 ],
+					[ 6, 14, 22, 30, 38 ],
+					[ 7, 15, 23, 31, 39 ]
+				]
+			},
+			aim = {
+				frames = [
+					[ 48 ],
+					[ 49 ],
+					[ 50 ],
+					[ 51 ],					
+
+					[ 52 ],
+					[ 53 ],
+					[ 54 ],
+					[ 55 ],
+				]
+			},
+			shoot = {
+				frames = [
+					[ 40, 48 ],
+					[ 41, 49 ],
+					[ 42, 50 ],
+					[ 43, 51 ],					
+
+					[ 44, 52 ],
+					[ 45, 53 ],
+					[ 46, 54 ],
+					[ 47, 55 ],
+				]
+			},
+			pain = {
+				frames = [[0],[1],[2],[3],[4],[5],[6],[7]]
+			},
+			dying = {
+				loopIndex = 8,
+				frames = [[56,57,58,59,60,61,62,63,64]]
+			},
+			dead = {
+				frames = [[64]]
+			}
+		}
+	},
 	projectiles = {
 		name = "projectiles",
 		path = "res://assets/sprites/frames/64x64_projectile_frames.tres",

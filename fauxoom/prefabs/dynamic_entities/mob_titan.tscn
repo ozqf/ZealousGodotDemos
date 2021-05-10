@@ -5,7 +5,7 @@
 [ext_resource path="res://src/entity.gd" type="Script" id=3]
 [ext_resource path="res://src/ai/mob_attack.gd" type="Script" id=4]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=5]
-[ext_resource path="res://assets/sprites/frames/punk_frames.tres" type="SpriteFrames" id=6]
+[ext_resource path="res://assets/sprites/frames/titan_frames.tres" type="SpriteFrames" id=6]
 [ext_resource path="res://prefabs/mob_components/mob_motor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/ai/ai_ticker.gd" type="Script" id=8]
 [ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=9]
@@ -13,31 +13,31 @@
 [ext_resource path="res://prefabs/mob_components/orb_shield.tscn" type="PackedScene" id=11]
 
 [sub_resource type="CapsuleShape" id=1]
-radius = 0.5
+radius = 1.2
 height = 0.7
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.2, 0.2, 1 )
 
-[node name="mob_punk" type="KinematicBody"]
+[node name="mob_titan" type="KinematicBody"]
 collision_layer = 2
 collision_mask = 71
 script = ExtResource( 2 )
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
-offset = Vector2( 0, 32 )
+offset = Vector2( 0, 64 )
 billboard = 2
 shaded = true
 frames = ExtResource( 6 )
 script = ExtResource( 5 )
 active = true
 useParentYaw = true
-animationSet = "punk"
+animationSet = "mob_titan"
 defaultAnimation = "walk"
 
 [node name="body" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.85, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.55, 0 )
 shape = SubResource( 1 )
 
 [node name="head" type="Spatial" parent="."]
@@ -56,10 +56,13 @@ script = ExtResource( 4 )
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
+entityType = "mob_titan"
+health = 2000
+moveSpeed = 5.5
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )
-prefabName = "mob_punk"
+prefabName = "mob_titan"
 
 [node name="ticker" type="Spatial" parent="."]
 script = ExtResource( 8 )
