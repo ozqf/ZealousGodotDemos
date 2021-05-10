@@ -19,7 +19,6 @@ onready var _stats:MobStats = $stats
 onready var _ent:Entity = $Entity
 onready var _ticker:AITicker = $ticker
 
-export var delaySpawn:bool = false
 export var triggerTargets:String = ""
 
 enum MobState {
@@ -48,8 +47,6 @@ var _moveYaw:float = 0
 var _thinkTick:float = 0
 
 var _stunAccumulator:int = 0
-var _stunDamageMax:int = 20
-
 var _pushAccumulator:Vector3 = Vector3()
 
 var _health:int = 50
@@ -181,6 +178,8 @@ func face_target_flat(tar:Vector3) -> void:
 
 
 func _process(_delta:float) -> void:
+	_stunAccumulator = 0
+
 	if _state == MobState.Hunting:
 		_targetInfo = Game.mob_check_target(_targetInfo)
 		if _targetInfo.id == 0:
@@ -299,6 +298,8 @@ func hit(_hitInfo:HitInfo) -> int:
 		# if not awake, wake up!
 		force_awake()
 		emit_signal("mob_event", "pain")
-		apply_stun(_hitInfo.direction)
+		_stunAccumulator += _hitInfo.damage
+		if _stunAccumulator > _stats.stunThreshold:
+			apply_stun(_hitInfo.direction)
 		motor.damage_hit(_hitInfo)
 		return _hitInfo.damage

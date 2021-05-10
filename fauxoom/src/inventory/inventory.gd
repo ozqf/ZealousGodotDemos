@@ -39,7 +39,7 @@ func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
 		child.custom_init(self, launchNode, ignoreBody, hud)
 		# if _currentWeapon == null:
 		# 	set_current_weapon(child)
-	print("Inventory found " + str(weapons.size()) + " weapons")
+	# print("Inventory found " + str(weapons.size()) + " weapons")
 	select_first_weapon()
 
 func append_state(_saveDict:Dictionary) -> void:
@@ -68,7 +68,7 @@ func restore_state(_restoreDict:Dictionary) -> void:
 func set_current_weapon(index:int) -> void:
 	if index == _currentWeaponIndex:
 		return
-	print("Set weapon index from " + str(_currentWeaponIndex) + " to " + str(index))
+	# print("Set weapon index from " + str(_currentWeaponIndex) + " to " + str(index))
 	var prevWeap = null
 	if _currentWeaponIndex >= 0:
 		prevWeap = weapons[_currentWeaponIndex]
@@ -81,10 +81,10 @@ func set_current_weapon(index:int) -> void:
 	if _currentWeaponIndex >= 0:
 		newWeap = weapons[_currentWeaponIndex]
 		newWeap.equip()
-	if newWeap != null:
-		print("Switched to " + newWeap.name)
-	else:
-		print("Switched to no weapon")
+	# if newWeap != null:
+	# 	print("Switched to " + newWeap.name)
+	# else:
+	# 	print("Switched to no weapon")
 	# self.emit_signal("weapon_changed", newWeap, prevWeap)
 
 # find the first selectable weapon and equip it
@@ -135,7 +135,7 @@ func change_weapon_by_slot(_slotNumber:int) -> int:
 		# matches this slot
 		fail += 1
 		if fail > numWeapons + 1:
-			print("Select by slot ran away!")
+			# print("Select by slot ran away!")
 			return -1
 	if result != _currentWeaponIndex:
 		set_current_weapon(result)

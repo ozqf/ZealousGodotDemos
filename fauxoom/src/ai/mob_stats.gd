@@ -7,3 +7,4 @@ export var moveSpeed:float = 4.5
 export var moveTime:float = 1.5
 export var losCheckTime:float = 0.25
 export var stunTime:float = 0.2
+export var stunThreshold:int = 1

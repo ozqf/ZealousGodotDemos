@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -6,7 +6,8 @@
 [ext_resource path="res://src/ai/mob_attack.gd" type="Script" id=4]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=5]
 [ext_resource path="res://assets/sprites/frames/worm_frames.tres" type="SpriteFrames" id=6]
-[ext_resource path="res://src/ai/mob_motor.gd" type="Script" id=7]
+[ext_resource path="res://prefabs/mob_components/mob_motor.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/ai/ticker_worm.gd" type="Script" id=8]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.75, 0.5 )
@@ -47,9 +48,7 @@ material/0 = null
 [node name="attack" type="Node" parent="."]
 script = ExtResource( 4 )
 
-[node name="motor" type="Spatial" parent="."]
-script = ExtResource( 7 )
-moveStyle = 1
+[node name="motor" parent="." instance=ExtResource( 7 )]
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
@@ -59,3 +58,6 @@ moveSpeed = 6.5
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )
 prefabName = "mob_worm"
+
+[node name="ticker" type="Spatial" parent="."]
+script = ExtResource( 8 )

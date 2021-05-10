@@ -19,6 +19,10 @@ var _mob
 
 func custom_init(mob) -> void:
 	_mob = mob
+	custom_init_b()
+
+func custom_init_b() -> void:
+	pass
 
 func start_hunt() -> void:
 	change_state(0)

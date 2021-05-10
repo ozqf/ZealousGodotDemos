@@ -52,14 +52,10 @@ func restore_state(data:Dictionary) -> void:
 	set_active(data.active)
 
 func on_trigger() -> void:
-	var was = active
 	set_active(!active)
-	
-	print("trigger vol " + name + " triggered - was " + str(was) + " now " + str(active))
 
 func _on_body_entered(_body:PhysicsBody) -> void:
 	if triggerTargetName != "":
 		Interactions.triggerTargets(get_tree(), triggerTargetName)
-	print(name + " - emit")
 	emit_signal("trigger")
 	set_active(false)
