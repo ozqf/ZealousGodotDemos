@@ -22,6 +22,7 @@ func game_on_level_completed() -> void:
 	_camera.current = true
 
 func start_play() -> void:
+	print("Embedded map start play")
 	var l:int = _startEnts.size()
 	for _i in range (0, l):
 		var ent = _startEnts[_i]

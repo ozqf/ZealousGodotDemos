@@ -13,6 +13,8 @@ var _state:int = -1
 var _tick:float = 0.0
 var _cycles:int = 0
 
+var _attackMode:int = 0
+
 var lastTarPos:Vector3 = Vector3()
 
 var _mob
@@ -58,12 +60,12 @@ func change_state(newState:int) -> void:
 func custom_change_state(_newState:int, _oldState:int) -> bool:
 	return false
 
-func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
-	_tick -= _delta
+func custom_tick_state(_delta:float, _targetInfo:Dictionary) -> void:
 	if _state == STATE_MOVE:
 		_mob.motor.set_target(_targetInfo.position)
-		_mob.motor.move_hunt(_delta)
-		if _tick <= 0:
+		if _targetInfo.trueDistance > 5:
+			_mob.motor.move_hunt(_delta)
+		if _tick <= 0 && _targetInfo.trueDistance <= 5:
 			_cycles = 0
 			lastTarPos = _targetInfo.position
 			_mob.face_target_flat(lastTarPos)
@@ -91,3 +93,8 @@ func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
 			change_state(STATE_MOVE)
 	else:
 		change_state(STATE_MOVE)
+
+func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
+	_tick -= _delta
+	custom_tick_state(_delta, _targetInfo)
+	

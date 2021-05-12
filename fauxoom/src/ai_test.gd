@@ -11,7 +11,7 @@ func _process(_delta:float) -> void:
 	if info.id == 0:
 		return
 	var selfPos:Vector3 = global_transform.origin
-	var tarForward:Vector3 = info.forward
+	var tarForward:Vector3 = info.flatForward
 	var tarPos:Vector3 = info.position
 	var isLeft:bool = ZqfUtils.is_point_left_of_line3D_flat(tarPos, tarForward, selfPos)
 	if isLeft:

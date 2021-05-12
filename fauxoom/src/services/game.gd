@@ -120,16 +120,17 @@ func get_entity_prefab(name:String) -> Object:
 
 # disable of menu HAS to be triggered from here in web mode
 func _input(_event) -> void:
-	if _event is InputEventKey:
-		if !Main.get_input_on():
-			# menu is up, abort
-			return
-		if _state == GameState.Pregame:
-			if !_hasPlayerStart:
-				Main.set_input_off()
-				return
-			elif Input.is_action_just_pressed("ui_select"):
-				begin_game()
+	pass
+	# if _event is InputEventKey:
+	# 	if !Main.get_input_on():
+	# 		# menu is up, abort
+	# 		return
+	# 	if _state == GameState.Pregame:
+	# 		if !_hasPlayerStart:
+	# 			Main.set_input_off()
+	# 			return
+	# 		elif Input.is_action_just_pressed("ui_select"):
+	# 			begin_game()
 		# var a = _state == GameState.Pregame
 		# var b = Input.is_action_just_pressed("ui_select")
 		# var c = Main.get_input_on()
@@ -239,11 +240,12 @@ func _write_save_file(filePath:String, data:Dictionary) -> void:
 # game state
 ###############
 func begin_game() -> void:
-	set_game_state(GameState.Playing)
-	var def = _entRoot.get_prefab_def(Entities.PREFAB_PLAYER)
-	var player = def.prefab.instance()
-	_entRoot.add_child(player)
-	player.teleport(_playerOrigin)
+	print("Game - begin play")
+	# set_game_state(GameState.Playing)
+	# var def = _entRoot.get_prefab_def(Entities.PREFAB_PLAYER)
+	# var player = def.prefab.instance()
+	# _entRoot.add_child(player)
+	# player.teleport(_playerOrigin)
 
 func _clear_dynamic_entities() -> void:
 	var l:int = _entRoot.get_child_count()
@@ -319,6 +321,7 @@ func register_player(plyr:Player) -> void:
 	if _player != null:
 		print("Cannot register another player!")
 		return
+	set_game_state(GameState.Playing)
 	print("Game - register player")
 	_player = plyr
 	_camera.attach_to(_player.get_node("camera_mount"))

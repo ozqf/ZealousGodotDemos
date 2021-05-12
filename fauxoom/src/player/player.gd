@@ -26,6 +26,7 @@ var _targettingInfo:Dictionary = {
 	id = 1,
 	position = Vector3(),
 	forward = Vector3(),
+	flatForward = Vector3(),
 	yawDegrees = 0
 }
 
@@ -149,11 +150,14 @@ func _process(_delta):
 	
 	_targettingInfo.position = _head.global_transform.origin
 	_targettingInfo.yawDegrees = _motor.m_yaw
-	_targettingInfo.forward = ZqfUtils.yaw_to_flat_vector3(_motor.m_yaw)
+	_targettingInfo.forward = -_head.global_transform.basis.z
+	_targettingInfo.flatForward = ZqfUtils.yaw_to_flat_vector3(_motor.m_yaw)
+	_targettingInfo.velocity = _motor.get_velocity()
+
 	var txt = ""
-	txt = "real forward: " + str(-_head.global_transform.basis.z) + "\n"
-	txt += "pos: " + str(global_transform.origin) + "\n"
-	txt += "yaw: " + str(_motor.m_yaw) + "\n"
+	txt = "real forward: " + str(_targettingInfo.forward) + "\n"
+	txt += "pos: " + str(_targettingInfo.position) + "\n"
+	txt += "yaw: " + str(_targettingInfo.yawDegrees) + "\n"
 	Main.playerDebug = txt
 	
 	# update status info for UI

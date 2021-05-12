@@ -50,6 +50,12 @@ static func yaw_between(origin:Vector3, target:Vector3) -> float:
 	var dz = origin.z - target.z
 	return atan2(dx, dz)
 
+static func distance_between(origin:Vector3, target:Vector3) -> float:
+	var dx = target.x - origin.x
+	var dy = target.y - origin.y
+	var dz = target.z - origin.z
+	return sqrt((dx * dx) + (dy * dy) + (dz * dz))
+
 static func flat_distance_between(origin:Vector3, target:Vector3) -> float:
 	var dz = target.z - origin.z
 	var dx = target.x - origin.x

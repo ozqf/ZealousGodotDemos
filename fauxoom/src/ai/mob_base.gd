@@ -39,7 +39,16 @@ var _sourceId:int = 0
 var _state = MobState.Idle
 var _prevState = MobState.Idle
 
-var _targetInfo: Dictionary = { id = 0 }
+# this dictionary is initialised locally as empty
+# here but at runtime will be an external copy shared
+# by other AI, so consider it read only!
+# var _targetInfo: Dictionary = { id = 0 }
+
+var _tickInfo:Dictionary = {
+	id = 0,
+	trueDistance = 0,
+	flatDistance = 0
+}
 
 var _moveTick:float = 0
 var _moveYaw:float = 0
@@ -77,7 +86,7 @@ func teleport(t:Transform) -> void:
 func force_awake() -> void:
 	if _state == MobState.Idle:
 		_state = MobState.Hunting
-	emit_signal("mob_event", "alert")
+	emit_mob_event("alert")
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
@@ -176,43 +185,31 @@ func face_target_flat(tar:Vector3) -> void:
 	tar.y = pos.y
 	look_at(tar, Vector3.UP)
 
+var _tarInfoFields = [ "id", "position", "forward", "flatForward", "yawDegrees" ]
+
+func build_tick_info(targetInfo:Dictionary) -> void:
+	if targetInfo.id == 0:
+		_tickInfo.id = 0
+		return
+	# copy targetting data
+	for key in _tarInfoFields:
+		_tickInfo[key] = targetInfo[key]
+	var selfPos:Vector3 = global_transform.origin
+	var tarPos:Vector3 = _tickInfo.position
+	_tickInfo.trueDistance = ZqfUtils.distance_between(selfPos, tarPos)
+	_tickInfo.flatDistance = ZqfUtils.flat_distance_between(selfPos, tarPos)
 
 func _process(_delta:float) -> void:
 	_stunAccumulator = 0
 
 	if _state == MobState.Hunting:
-		_targetInfo = Game.mob_check_target(_targetInfo)
-		if _targetInfo.id == 0:
+		build_tick_info(Game.mob_check_target(_tickInfo))
+		if _tickInfo.id == 0:
 			# lost target
 			_change_state(MobState.Idle)
 		else:
-			_ticker.custom_tick(_delta, _targetInfo)
-	if _state == -1:
-		var wasEmpty:bool = (_targetInfo.id == 0)
-		_targetInfo = Game.mob_check_target(_targetInfo)
-		if _targetInfo.id != 0 && wasEmpty:
-			print("Mob got target!")
-		# elif _targetInfo.id == 0 && !wasEmpty:
-		# 	print("Mob lost target!")
-		if _targetInfo.id == 0:
-			return
-		motor.set_target(_targetInfo.position)
-		if _thinkTick <= 0:
-			_thinkTick = _stats.moveTime
-			if attack.start_attack(_targetInfo.position):
-				_change_state(MobState.Attacking)
-		else:
-			_thinkTick -= _delta
-	elif _state == MobState.Attacking:
-		_targetInfo = Game.mob_check_target(_targetInfo)
-		if _targetInfo.id == 0:
-			# abort attack!
-			return
-		
-		rotation.y = ZqfUtils.yaw_between(global_transform.origin, _targetInfo.position)
-		
-		if !attack.custom_update(_delta, _targetInfo.position):
-			_change_state(MobState.Hunting)
+			_ticker.custom_tick(_delta, _tickInfo)
+	
 	elif _state == MobState.Idle:
 		if _thinkTick <= 0:
 			_thinkTick = _stats.losCheckTime
@@ -250,12 +247,16 @@ func apply_stun(_dir:Vector3) -> void:
 	# velocity = _dir * 2
 	_thinkTick = _stats.stunTime
 
+func emit_mob_event(eventType:String) -> void:
+	emit_signal("mob_event", eventType)
+
 func regular_death() -> void:
-	emit_signal("mob_event", "death")
+	# emit_signal("mob_event", "death")
+	emit_mob_event("death")
 	_change_state(MobState.Dying)
 
 func gib_death(dir:Vector3) -> void:
-	emit_signal("mob_event", "gib")
+	emit_mob_event("gib")
 	var _err = Game.spawn_gibs(global_transform.origin, dir, 8)
 	_change_state(MobState.Gibbed)
 
@@ -297,7 +298,7 @@ func hit(_hitInfo:HitInfo) -> int:
 	else:
 		# if not awake, wake up!
 		force_awake()
-		emit_signal("mob_event", "pain")
+		emit_mob_event("pain")
 		_stunAccumulator += _hitInfo.damage
 		if _stunAccumulator > _stats.stunThreshold:
 			apply_stun(_hitInfo.direction)
