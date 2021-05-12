@@ -26,6 +26,9 @@ var _state = GameState.Pregame
 var _hasPlayerStart:bool = false
 var _playerOrigin:Transform = Transform.IDENTITY
 
+# cheats
+var _noTarget:bool = false
+
 # live player
 var _player:Player = null
 var _pendingSaveName:String = ""
@@ -174,6 +177,9 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	if txt == "reset":
 		print("Game - reset")
 		reset_game()
+	elif txt == "notarget":
+		_noTarget = !_noTarget
+		print("No Target: " + str(_noTarget))
 	elif txt == "current_map":
 		print("Playing map " + get_tree().get_current_scene().filename)
 	elif _tokens[0] == "save":
@@ -381,11 +387,11 @@ func mob_check_target_old(_current:Spatial) -> Spatial:
 	return _player as Spatial
 
 func mob_check_target(_current:Dictionary) -> Dictionary:
-	if !_player:
+	if !_player || _noTarget:
 		return _emptyTargetInfo
 	return _player.get_targetting_info()
 
 func get_player_target() -> Dictionary:
-	if !_player:
+	if !_player || _noTarget:
 		return _emptyTargetInfo
 	return _player.get_targetting_info()

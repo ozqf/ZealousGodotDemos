@@ -171,14 +171,14 @@ delaySpawn = true
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -7.6, 0, -23.7 )
 
 [node name="mob_spawn_proxy6" parent="static" instance=ExtResource( 10 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -15, 0, -10 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -15, 0, -13 )
 
 [node name="mob_spawn_proxy7" parent="static" instance=ExtResource( 10 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -19, 0, 12 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -17, 0, 12 )
 type = 5
 
 [node name="mob_spawn_proxy5" parent="static" instance=ExtResource( 10 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -16, 3, 12 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -15, 0, 13 )
 
 [node name="sprite_object" parent="static" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -6 )

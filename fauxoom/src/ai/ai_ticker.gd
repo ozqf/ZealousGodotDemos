@@ -33,7 +33,12 @@ func stop_hunt() -> void:
 func change_state(newState:int) -> void:
 	if newState == _state:
 		return
+	var oldState:int = _state
 	_state = newState
+	
+	if custom_change_state(_state, oldState):
+		return
+	
 	if _state == STATE_MOVE:
 		_mob.sprite.play_animation("walk")
 		_tick = 1
@@ -47,6 +52,11 @@ func change_state(newState:int) -> void:
 	elif _state == STATE_WINDDOWN:
 		_mob.sprite.play_animation("aim")
 		_tick = 0.25
+
+# return true if state change was handled
+# false to allow base function to handle it instead
+func custom_change_state(_newState:int, _oldState:int) -> bool:
+	return false
 
 func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
 	_tick -= _delta
