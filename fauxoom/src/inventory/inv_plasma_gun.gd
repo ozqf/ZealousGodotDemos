@@ -1,6 +1,7 @@
 extends InvWeapon
 
 var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
+var _trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
 
 func custom_init_b() -> void:
 	_hitInfo.damage = 100
@@ -13,12 +14,18 @@ func is_cycling() -> bool:
 		return false
 	return true
 
+func _draw_trail(origin:Vector3, dest:Vector3) -> void:
+	var trail = _trail_t.instance()
+	Game.get_dynamic_parent().add_child(trail)
+	trail.spawn(origin, dest)
+
 func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 	if tick > 0:
 		return
 	if _primaryOn:
 		tick = refireTime
-		_fire_single(-_launchNode.global_transform.basis.z, 1000)
+		var hitPos:Vector3 = _fire_single(-_launchNode.global_transform.basis.z, 1000)
+		_draw_trail(_launchNode.global_transform.origin, hitPos)
 		.play_fire_1(false)
 		_hud.audio.stream = _pistolShoot
 		_hud.audio.play()

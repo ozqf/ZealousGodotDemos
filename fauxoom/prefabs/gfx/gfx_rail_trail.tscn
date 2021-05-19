@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/gfx/gfx_line_trail.gd" type="Script" id=1]
+
+[node name="gfx_rail_trail" type="ImmediateGeometry"]
+script = ExtResource( 1 )
