@@ -115,13 +115,15 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		print("Godmode: " + str(_godMode))
 	if _tokens[0] == "give":
 		if _tokens.size() == 2 && _tokens[1] == "all":
-			_inventory.give_all()
+			give_all()
 		if _tokens.size() == 3:
 			var count = int(_tokens[2])
 			_inventory.give_item(_tokens[1], count)
 	if _txt == "inventory":
 		_inventory.debug()
-		
+
+func give_all() -> void:
+	_inventory.give_all()
 
 func game_on_level_completed() -> void:
 #	print("Player disable input")

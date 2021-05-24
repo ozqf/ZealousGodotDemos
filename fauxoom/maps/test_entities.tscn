@@ -150,6 +150,7 @@ noAutoHide = true
 
 [node name="player_start" parent="static" instance=ExtResource( 9 )]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1, 0, 8.5 )
+inventoryState = 2
 
 [node name="horde_spawn" parent="static" instance=ExtResource( 8 )]
 transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -10, 0, -29 )
@@ -178,7 +179,7 @@ transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -
 type = 5
 
 [node name="mob_spawn_proxy5" parent="static" instance=ExtResource( 10 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -15, 0, 13 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -9, 0, 4 )
 
 [node name="sprite_object" parent="static" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -6 )
@@ -696,7 +697,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 3 )
 
 [node name="mob_flesh_worm" parent="." instance=ExtResource( 44 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 4 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 9 )
 [connection signal="trigger" from="static/trigger_volume3" to="static/toggle_mover_test" method="on_trigger"]
 [connection signal="trigger" from="static/mob_spawn_proxy" to="save_test_barrier2" method="on_trigger"]
 [connection signal="trigger" from="static/mob_spawn_proxy3" to="save_test_barrier2" method="on_trigger"]

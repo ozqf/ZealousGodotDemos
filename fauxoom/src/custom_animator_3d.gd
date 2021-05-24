@@ -6,6 +6,8 @@ export var useParentYaw:bool = false
 export var animationSet:String = ""
 export var defaultAnimation:String = ""
 
+var _yawOverride:Spatial = null
+
 var _frameRate:float = 5
 var _tick:float = 0
 var _frame:int = 0
@@ -21,6 +23,9 @@ var yawDegrees:float = 0
 
 func _ready() -> void:
 	_change_set_and_animation(animationSet, defaultAnimation)
+
+func set_yaw_override(yawSourceOverride:Spatial) -> void:
+	_yawOverride = yawSourceOverride
 
 # returns true if animation was successfully changed
 func play_animation(animName:String, followUpAnimName:String = "") -> bool:
@@ -59,7 +64,9 @@ func set_frame_number(val:int) -> void:
 
 func _calc_dir_index() -> int:
 	var cam:Transform = Main.get_camera_pos()
-	if useParentYaw:
+	if _yawOverride != null:
+		yawDegrees = _yawOverride.rotation_degrees.y
+	elif useParentYaw:
 		yawDegrees = get_parent().rotation_degrees.y
 	else:
 		yawDegrees = rotation_degrees.y

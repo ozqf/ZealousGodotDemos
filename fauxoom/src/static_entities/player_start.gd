@@ -2,7 +2,14 @@ extends Spatial
 
 var _player_t = preload("res://prefabs/player.tscn")
 
+enum InventoryState {
+	Resume,
+	None,
+	All
+}
+
 export var delaySpawn:bool = false
+export(InventoryState) var inventoryState = InventoryState.Resume
 
 func _ready() -> void:
 	visible = false
@@ -27,4 +34,5 @@ func start_play(_dynamicParentNode:Spatial) -> void:
 	var player = def.prefab.instance()
 	_dynamicParentNode.add_child(player)
 	player.teleport(self.global_transform)
-
+	if inventoryState == InventoryState.All:
+		player.give_all()

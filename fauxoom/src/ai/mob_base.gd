@@ -73,6 +73,7 @@ func _ready() -> void:
 	# move yaw is used for facing angle too so make sure it
 	# matches spawn transform
 	_moveYaw = rotation_degrees.y
+	sprite.set_yaw_override(head)
 	_health = _stats.health
 
 func set_source(node:Node, sourceId:int) -> void:
