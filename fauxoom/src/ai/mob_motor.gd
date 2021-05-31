@@ -52,7 +52,7 @@ func leap() -> void:
 	change_state(STATE_LEAP)
 	var selfPos:Vector3 = _body.global_transform.origin
 	var moveYaw:float = ZqfUtils.yaw_between(selfPos, _target)
-	_body.rotation.y = moveYaw
+	# _body.rotation.y = moveYaw
 	var move:Vector3 = Vector3()
 	move.x = -sin(moveYaw)
 	move.y = 6.5
@@ -112,7 +112,7 @@ func move_leap(_delta:float, _speed:float) -> void:
 func start_leap(_delta:float, _speed:float) -> void:
 	var selfPos:Vector3 = _body.global_transform.origin
 	var moveYaw:float = ZqfUtils.yaw_between(selfPos, _target)
-	_body.rotation.y = moveYaw
+	# _body.rotation.y = moveYaw
 	var dir:Vector3 = Vector3()
 	dir.x = -sin(moveYaw)
 	dir.z = -cos(moveYaw)
@@ -133,7 +133,7 @@ func move_hunt(_delta:float) -> void:
 		# print("No floor!")
 		move_idle(_delta, 0.5)
 		return
-	_body.rotation.y = moveYaw
+	# _body.rotation.y = moveYaw
 	var move:Vector3 = Vector3()
 	move.x = -sin(moveYaw)
 	move.z = -cos(moveYaw)

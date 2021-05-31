@@ -72,7 +72,7 @@ func _ready() -> void:
 	_r = _ent.connect("entity_append_state", self, "append_state")
 	# move yaw is used for facing angle too so make sure it
 	# matches spawn transform
-	_moveYaw = rotation_degrees.y
+	# _moveYaw = rotation_degrees.y
 	sprite.set_yaw_override(head)
 	_health = _stats.health
 
@@ -81,8 +81,11 @@ func set_source(node:Node, sourceId:int) -> void:
 	var _r = connect("on_mob_died", node, "_on_mob_died")
 
 func teleport(t:Transform) -> void:
-	global_transform = t
-	_moveYaw = rotation_degrees.y
+	var pos = t.origin
+	global_transform.origin = pos
+	# TODO - apply yaw
+	# global_transform = t
+	# _moveYaw = rotation_degrees.y
 
 func force_awake() -> void:
 	if _state == MobState.Idle:
@@ -103,7 +106,7 @@ func restore_state(_dict:Dictionary) -> void:
 	_change_state(_dict.state)
 	_prevState = _dict.prevState
 	_health = _dict.hp
-	_moveYaw = _dict.yaw
+	# _moveYaw = _dict.yaw
 	triggerTargets = _dict.tars
 
 	# rewire to source
@@ -184,7 +187,7 @@ func _tick_stunned(_delta:float) -> void:
 func face_target_flat(tar:Vector3) -> void:
 	var pos:Vector3 = global_transform.origin
 	tar.y = pos.y
-	look_at(tar, Vector3.UP)
+	# look_at(tar, Vector3.UP)
 
 var _tarInfoFields = [ "id", "position", "forward", "flatForward", "yawDegrees" ]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=9]
 [ext_resource path="res://src/ai/mob_sound.gd" type="Script" id=10]
 [ext_resource path="res://prefabs/mob_components/orb_shield.tscn" type="PackedScene" id=11]
+[ext_resource path="res://zqf/zqf_orbiter.gd" type="Script" id=12]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -71,10 +72,15 @@ max_distance = 50.0
 bus = "game"
 script = ExtResource( 10 )
 
-[node name="orb" type="Spatial" parent="."]
+[node name="orbs" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 
-[node name="orb" type="Spatial" parent="orb"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5 )
+[node name="Spatial" type="Spatial" parent="orbs"]
+transform = Transform( 1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0 )
 
-[node name="orb_shield" parent="orb/orb" instance=ExtResource( 11 )]
+[node name="orb" type="Spatial" parent="orbs/Spatial"]
+script = ExtResource( 12 )
+degreesPerSecond = Vector3( 0, 180, 0 )
+
+[node name="orb_shield" parent="orbs/Spatial/orb" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5 )
