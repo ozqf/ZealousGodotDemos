@@ -33,6 +33,6 @@ func start_play(_dynamicParentNode:Spatial) -> void:
 	var def = Ents.get_prefab_def(Entities.PREFAB_PLAYER)
 	var player = def.prefab.instance()
 	_dynamicParentNode.add_child(player)
-	player.teleport(self.global_transform)
+	player.spawn(self.global_transform)
 	if inventoryState == InventoryState.All:
 		player.give_all()

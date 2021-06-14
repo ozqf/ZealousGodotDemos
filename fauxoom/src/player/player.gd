@@ -17,6 +17,9 @@ var _inputOn:bool = false
 var _gameplayInputOn:bool = true
 var _appInputOn:bool = true
 
+var _startTransform:Transform = Transform.IDENTITY
+var _recoverTransform:Transform = Transform.IDENTITY
+
 var _godMode:bool = false
 var _dead:bool = false
 var _health:int = MAX_HEALTH
@@ -83,6 +86,11 @@ func config_changed(_cfg:Dictionary) -> void:
 	_motor.mouseSensitivity = _cfg.i_sensitivity
 	_motor.invertedY = _cfg.i_invertedY
 
+func spawn(xform:Transform) -> void:
+	_startTransform = xform
+	_recoverTransform = xform
+	teleport(xform)
+
 func teleport(_trans:Transform) -> void:
 	# copy rotation, clear and pass to motor
 	# print("Player teleport transform " + str(_trans))
@@ -110,6 +118,9 @@ func _on_tree_exiting() -> void:
 func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 	if _txt == "kill":
 		kill()
+	if _txt == "resetplayer":
+		print("Reset player")
+		teleport(_startTransform)
 	if _txt == "god":
 		_godMode = !_godMode
 		print("Godmode: " + str(_godMode))
