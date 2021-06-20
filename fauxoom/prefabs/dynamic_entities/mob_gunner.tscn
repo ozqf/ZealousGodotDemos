@@ -6,10 +6,9 @@
 [ext_resource path="res://src/ai/mob_attack.gd" type="Script" id=4]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=5]
 
-
-
-[sub_resource type="BoxShape" id=1]
-extents = Vector3( 0.5, 0.75, 0.5 )
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.5
+height = 0.7
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.2, 0.2, 1 )
@@ -32,7 +31,7 @@ animationSet = "player"
 defaultAnimation = "walk"
 
 [node name="body" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.85, 0 )
 shape = SubResource( 1 )
 
 [node name="head" type="Spatial" parent="."]

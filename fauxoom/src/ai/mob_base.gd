@@ -50,9 +50,6 @@ var _tickInfo:Dictionary = {
 	flatDistance = 0
 }
 
-var _moveTick:float = 0
-var _moveYaw:float = 0
-
 var _thinkTick:float = 0
 
 var _stunAccumulator:int = 0
@@ -97,7 +94,6 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.hp = _health
 	_dict.state = _state
 	_dict.prevState = _prevState
-	_dict.yaw = _moveYaw
 	_dict.tars = triggerTargets
 	_dict.srcId = _sourceId
 
@@ -205,6 +201,7 @@ func build_tick_info(targetInfo:Dictionary) -> void:
 
 func _process(_delta:float) -> void:
 	_stunAccumulator = 0
+	head.rotation.y = motor.moveYaw
 
 	if _state == MobState.Hunting:
 		build_tick_info(Game.mob_check_target(_tickInfo))

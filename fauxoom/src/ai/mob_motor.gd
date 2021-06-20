@@ -27,6 +27,7 @@ var _body:KinematicBody = null
 
 var _velocity:Vector3 = Vector3()
 
+var moveYaw:float = 0.0
 var _state:int = STATE_IDLE
 var speed:float = 4.5
 var _acceleration:float = 25.0
@@ -51,7 +52,7 @@ func leap() -> void:
 		return
 	change_state(STATE_LEAP)
 	var selfPos:Vector3 = _body.global_transform.origin
-	var moveYaw:float = ZqfUtils.yaw_between(selfPos, _target)
+	moveYaw = ZqfUtils.yaw_between(selfPos, _target)
 	# _body.rotation.y = moveYaw
 	var move:Vector3 = Vector3()
 	move.x = -sin(moveYaw)
@@ -83,7 +84,7 @@ func damage_hit(_hitInfo:HitInfo) -> void:
 func _calc_move_yaw() -> float:
 	var selfPos:Vector3 = _body.global_transform.origin
 	var dist:float = ZqfUtils.flat_distance_between(selfPos, _target)
-	var moveYaw:float = ZqfUtils.yaw_between(selfPos, _target)
+	var directYaw:float = ZqfUtils.yaw_between(selfPos, _target)
 	if moveStyle == MobMoveStyle.CloseEvasive:
 		if _tick <= 0:
 			_tick = _thinkTime
@@ -96,7 +97,7 @@ func _calc_move_yaw() -> float:
 				_yawOffset = -offset
 			else:
 				r = 0
-	return moveYaw + _yawOffset
+	return directYaw + _yawOffset
 
 func move_idle(_delta:float, friction:float = 0.95) -> void:
 	_velocity.y -= 20 * _delta
@@ -128,7 +129,7 @@ func move_hunt(_delta:float) -> void:
 		return
 	_tick -= _delta
 	# var speed:float = 4.5
-	var moveYaw:float = _calc_move_yaw()
+	moveYaw = _calc_move_yaw()
 	if _floorInFront != null && !_floorInFront.is_colliding():
 		# print("No floor!")
 		move_idle(_delta, 0.5)
