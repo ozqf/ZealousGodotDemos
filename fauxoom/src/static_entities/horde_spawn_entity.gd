@@ -3,6 +3,7 @@ extends Spatial
 
 var _prefab_mob_punk = preload("res://prefabs/dynamic_entities/mob_punk.tscn")
 var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
+const Enums = preload("res://src/enums.gd")
 
 # onready var _spawner:HordeSpawnComponent = $logic
 onready var _ent:Entity = $Entity
@@ -10,15 +11,8 @@ onready var _ent:Entity = $Entity
 export var triggerName:String = ""
 export var triggerTargetName:String = ""
 
-enum EnemyType {
-	Punk,
-	Gunner,
-	FleshWorm,
-	Serpent,
-	Spider
-}
+export(Enums.EnemyType) var type = Enums.EnemyType.Gunner
 
-export(EnemyType) var type = EnemyType.Gunner
 export var tickMax:float = 2
 export var totalMobs:int = 4
 export var maxLiveMobs:int = 2

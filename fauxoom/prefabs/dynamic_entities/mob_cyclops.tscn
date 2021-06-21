@@ -1,0 +1,82 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
+[ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
+[ext_resource path="res://src/entity.gd" type="Script" id=3]
+[ext_resource path="res://src/ai/mob_attack.gd" type="Script" id=4]
+[ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=5]
+[ext_resource path="res://assets/sprites/frames/cyclops_frames.tres" type="SpriteFrames" id=6]
+[ext_resource path="res://prefabs/mob_components/mob_motor.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/ai/ticker_titan.gd" type="Script" id=8]
+[ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=9]
+[ext_resource path="res://src/ai/mob_sound.gd" type="Script" id=10]
+[ext_resource path="res://prefabs/mob_components/orb_shield.tscn" type="PackedScene" id=11]
+
+[sub_resource type="SphereShape" id=1]
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 0.2, 0.2, 1 )
+
+[node name="mob_cyclops" type="KinematicBody"]
+collision_layer = 2
+collision_mask = 71
+script = ExtResource( 2 )
+
+[node name="sprite" type="AnimatedSprite3D" parent="."]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, -0.5, 0 )
+offset = Vector2( 0, 64 )
+billboard = 2
+shaded = true
+frames = ExtResource( 6 )
+script = ExtResource( 5 )
+active = true
+useParentYaw = true
+animationSet = "cyclops"
+defaultAnimation = "walk"
+
+[node name="body" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0 )
+shape = SubResource( 1 )
+
+[node name="head" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
+visible = false
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="attack" type="Node" parent="."]
+script = ExtResource( 4 )
+
+[node name="motor" parent="." instance=ExtResource( 7 )]
+
+[node name="stats" type="Node" parent="."]
+script = ExtResource( 1 )
+entityType = "mob_titan"
+health = 400
+moveSpeed = 5.5
+stunThreshold = 100
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 3 )
+prefabName = "mob_cyclops"
+
+[node name="ticker" type="Spatial" parent="."]
+script = ExtResource( 8 )
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 9 )
+unit_db = 5.0
+max_distance = 50.0
+bus = "game"
+script = ExtResource( 10 )
+
+[node name="orb" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
+[node name="orb" type="Spatial" parent="orb"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5 )
+
+[node name="orb_shield" parent="orb/orb" instance=ExtResource( 11 )]

@@ -1,20 +1,13 @@
 extends Spatial
 class_name MobSpawnProxy
 
+const Enums = preload("res://src/enums.gd")
+
 signal trigger()
 
 onready var _ent:Entity = $Entity
 
-enum EnemyType {
-	Punk,
-	Gunner,
-	FleshWorm,
-	Serpent,
-	Spider,
-	Titan
-}
-
-export(EnemyType) var type = EnemyType.Punk
+export(Enums.EnemyType) var type = Enums.EnemyType.Punk
 export var delaySpawn:bool = false
 export var spawnAlert:bool = false
 
@@ -56,6 +49,7 @@ func on_trigger() -> void:
 		return
 	# spawn mob
 	_used = true
+	# print("Proxy spawning mob type " + str(type))
 	var mob = Ents.create_mob(type, global_transform, spawnAlert)
 	_childId = mob.get_node("Entity").id
 	# print("Spawned mob Id " + str(_childId))

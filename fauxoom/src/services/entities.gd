@@ -1,26 +1,20 @@
 extends Spatial
 class_name Entities
 
+const Enums = preload("res://src/enums.gd")
+
 const EMPTY_ID:int = 0
 const PLAYER_RESERVED_ID:int = 1
 
 const PREFAB_MOB_PUNK:String = "mob_punk"
 const PREFAB_MOB_WORM:String = "mob_worm"
+const PREFAB_MOB_CYCLOPS:String = "mob_cyclops"
 const PREFAB_MOB_GUNNER:String = "mob_gunner"
 const PREFAB_MOB_SERPENT:String = "mob_serpent"
 const PREFAB_MOB_SPIDER:String = "mob_spider"
 const PREFAB_MOB_TITAN:String = "mob_titan"
 const PREFAB_PLAYER:String = "player"
 const PREFAB_GIB:String = "gib"
-
-enum EnemyType {
-	Punk,
-	Gunner,
-	FleshWorm,
-	Serpent,
-	Spider,
-	Titan
-}
 
 var _prefabs = {
 	mob_punk = {
@@ -33,6 +27,10 @@ var _prefabs = {
 	},
 	mob_gunner = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_gunner.tscn"),
+		entNodePath = "Entity"
+	},
+	mob_cyclops = {
+		prefab = preload("res://prefabs/dynamic_entities/mob_cyclops.tscn"),
 		entNodePath = "Entity"
 	},
 	mob_serpent = {
@@ -118,15 +116,20 @@ func get_prefab_def(_name:String) -> Dictionary:
 	return _prefabs[_name]
 
 func _select_prefab(enemyType:int) -> String:
-	if enemyType == EnemyType.FleshWorm:
+	if enemyType == Enums.EnemyType.FleshWorm:
 		return PREFAB_MOB_WORM
-	elif enemyType == EnemyType.Spider:
+	elif enemyType == Enums.EnemyType.Spider:
 		return PREFAB_MOB_SPIDER
-	elif enemyType == EnemyType.Serpent:
+	elif enemyType == Enums.EnemyType.Serpent:
 		return PREFAB_MOB_SERPENT
-	elif enemyType == EnemyType.Titan:
+	elif enemyType == Enums.EnemyType.Cyclops:
+		return PREFAB_MOB_CYCLOPS
+	elif enemyType == Enums.EnemyType.Titan:
 		return PREFAB_MOB_TITAN
+	elif enemyType == Enums.EnemyType.Punk:
+		return PREFAB_MOB_PUNK
 	else:
+		print("Ents - unknown enemy type " + str(enemyType))
 		return PREFAB_MOB_PUNK
 
 func create_mob(enemyType:int, _transform:Transform, alert:bool):

@@ -59,6 +59,21 @@ one off
 
 ### Issues
 
+#### Register new entity
+
+> In entities.gd
+	> Add an entry for the new entity pointing at its prefab in entities.gd. This is required for save/load of dynamic entities.
+	> Add a PREFAB_NAME_OF_ENTITY_TYPE string constant
+> Sprite (custom_animator_3d.gd) node on mob instance
+	> set Animation Set to set defined in animations.gd
+> Enums - EntityType
+	> entities.gd -> selects prefab to spawn
+	> mob_spawn_proxy.gd
+	> horde_spawn_entity.gd
+
+
+
+
 #### Spawning map entities
 
 System to support custom levels/entity setups and levels embedded via Godot scenes.

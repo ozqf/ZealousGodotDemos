@@ -4,6 +4,7 @@
 [ext_resource path="res://src/services/bgm.gd" type="Script" id=2]
 
 [node name="bgm" type="AudioStreamPlayer"]
+pause_mode = 2
 stream = ExtResource( 1 )
 bus = "bgm"
 script = ExtResource( 2 )

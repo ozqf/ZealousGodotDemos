@@ -245,10 +245,10 @@ __meta__ = {
 }
 
 [node name="interact_prompt" type="Label" parent="hud/centre"]
-margin_left = -71.0
-margin_top = 208.0
-margin_right = 77.0
-margin_bottom = 239.0
+margin_left = -72.0
+margin_top = 20.0
+margin_right = 76.0
+margin_bottom = 51.0
 custom_colors/font_color = Color( 1, 1, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "USE"

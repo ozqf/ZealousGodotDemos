@@ -186,6 +186,7 @@ type = 5
 
 [node name="mob_spawn_proxy5" parent="static" instance=ExtResource( 10 )]
 transform = Transform( 0, 0, 1, 0, 1, 0, -1, 0, 0, -11, 3, -8 )
+type = 4
 
 [node name="sprite_object" parent="static" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -6 )
