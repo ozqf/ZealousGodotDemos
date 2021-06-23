@@ -129,7 +129,7 @@ func start_leap(_delta:float, _speed:float) -> void:
 	_velocity = dir
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
 
-func move_hunt(_delta:float) -> void:
+func _hunt_ground(_delta:float) -> void:
 	if moveType == MobMoveType.Ground:
 		_velocity.y -= 20 * _delta
 		if !_body.is_on_floor():
@@ -153,12 +153,37 @@ func move_hunt(_delta:float) -> void:
 		_velocity *= speed
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
 
-func __process_not_run(_delta:float) -> void:
-	_velocity.y -= 20 * _delta
-	if _stunned || _isAttacking || _state == STATE_IDLE:
-		move_idle(_delta)
-		# # assume idle
-		# _velocity = _body.move_and_slide(_velocity, Vector3.UP)
-		# _velocity *= 0.95
-	elif _state == STATE_HUNT:
-		move_hunt(_delta)
+func _hunt_flying(_delta:float) -> void:
+	moveYaw = _calc_move_yaw()
+	var move:Vector3 = Vector3()
+	move.x = -sin(moveYaw)
+	move.z = -cos(moveYaw)
+	# calc y component
+	# aim to float a little above target
+	var diffY:float = _target.y - (_body.global_transform.origin.y - 1)
+	if diffY > 0.2:
+		move.y = 0.5
+	elif diffY < 0.2:
+		move.y = -0.5
+	move *= speed
+	_velocity += (move * _acceleration) * _delta
+	if _velocity.length() > speed:
+		_velocity = _velocity.normalized()
+		_velocity *= speed
+	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+
+func move_hunt(_delta:float) -> void:
+	if moveType == MobMoveType.Flying:
+		_hunt_flying(_delta)
+	else:
+		_hunt_ground(_delta)
+
+# func __process_not_run(_delta:float) -> void:
+# 	_velocity.y -= 20 * _delta
+# 	if _stunned || _isAttacking || _state == STATE_IDLE:
+# 		move_idle(_delta)
+# 		# # assume idle
+# 		# _velocity = _body.move_and_slide(_velocity, Vector3.UP)
+# 		# _velocity *= 0.95
+# 	elif _state == STATE_HUNT:
+# 		move_hunt(_delta)

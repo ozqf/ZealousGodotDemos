@@ -12,6 +12,7 @@ export var faceTargetDuringWindup:bool = true
 var _state:int = -1
 var _tick:float = 0.0
 var _cycles:int = 0
+var isSniper:bool = false
 
 var _attackMode:int = 0
 
@@ -60,16 +61,22 @@ func change_state(newState:int) -> void:
 func custom_change_state(_newState:int, _oldState:int) -> bool:
 	return false
 
+func _start_attack(_delta:float, _targetInfo:Dictionary) -> void:
+	_cycles = 0
+	lastTarPos = _targetInfo.position
+	_mob.face_target_flat(lastTarPos)
+	change_state(STATE_WINDUP)
+
 func custom_tick_state(_delta:float, _targetInfo:Dictionary) -> void:
 	if _state == STATE_MOVE:
+		if isSniper:
+			_start_attack(_delta, _targetInfo)
+			return
 		_mob.motor.set_target(_targetInfo.position)
 		if _targetInfo.trueDistance > 5:
 			_mob.motor.move_hunt(_delta)
-		if _tick <= 0 && _targetInfo.trueDistance <= 5:
-			_cycles = 0
-			lastTarPos = _targetInfo.position
-			_mob.face_target_flat(lastTarPos)
-			change_state(STATE_WINDUP)
+		if _tick <= 0 && _targetInfo.trueDistance <= 25:
+			_start_attack(_delta, _targetInfo)
 	elif _state == STATE_WINDUP:
 		_mob.motor.move_idle(_delta)
 		if faceTargetDuringWindup:

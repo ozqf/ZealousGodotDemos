@@ -52,12 +52,13 @@ script = ExtResource( 4 )
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
 moveType = 1
+moveStyle = 1
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
 entityType = "mob_titan"
-health = 400
-moveSpeed = 5.5
+health = 200
+moveSpeed = 8.5
 stunThreshold = 100
 
 [node name="Entity" type="Node" parent="."]
@@ -76,6 +77,7 @@ script = ExtResource( 10 )
 
 [node name="orb" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+visible = false
 
 [node name="orb" type="Spatial" parent="orb"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5 )

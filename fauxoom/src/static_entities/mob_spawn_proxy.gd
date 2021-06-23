@@ -10,6 +10,7 @@ onready var _ent:Entity = $Entity
 export(Enums.EnemyType) var type = Enums.EnemyType.Punk
 export var delaySpawn:bool = false
 export var spawnAlert:bool = false
+export var sniper:bool = false
 
 var _used:bool = false
 var _prefabName:String = "mob_punk"
@@ -54,3 +55,4 @@ func on_trigger() -> void:
 	_childId = mob.get_node("Entity").id
 	# print("Spawned mob Id " + str(_childId))
 	mob.set_source(self, _ent.id)
+	mob.set_behaviour(sniper)

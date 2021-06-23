@@ -57,6 +57,7 @@ var _pushAccumulator:Vector3 = Vector3()
 
 var _health:int = 50
 var _dead:bool = false
+var _isSniper:bool = false
 
 # var velocity:Vector3 = Vector3()
 
@@ -77,6 +78,11 @@ func set_source(node:Node, sourceId:int) -> void:
 	_sourceId = sourceId
 	var _r = connect("on_mob_died", node, "_on_mob_died")
 
+func set_behaviour(sniper:bool) -> void:
+	print("Mob is sniper")
+	_isSniper = sniper
+	_ticker.isSniper = _isSniper
+
 func teleport(t:Transform) -> void:
 	var pos = t.origin
 	global_transform.origin = pos
@@ -96,6 +102,7 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.prevState = _prevState
 	_dict.tars = triggerTargets
 	_dict.srcId = _sourceId
+	_dict.snipe = _isSniper
 
 func restore_state(_dict:Dictionary) -> void:
 	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
@@ -104,6 +111,7 @@ func restore_state(_dict:Dictionary) -> void:
 	_health = _dict.hp
 	# _moveYaw = _dict.yaw
 	triggerTargets = _dict.tars
+	set_behaviour(_dict.snipe)
 
 	# rewire to source
 	var id:int = _dict.srcId
