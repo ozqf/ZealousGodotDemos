@@ -43,6 +43,8 @@ var _yawOffset:float = 0.0
 func custom_init(body:KinematicBody) -> void:
 	_body = body
 	_floorInFront = $floor_in_front
+	if moveType == MobMoveType.Flying:
+		print("Mob motor is flying")
 
 func change_state(state:int) -> void:
 	_state = state
@@ -62,6 +64,10 @@ func leap() -> void:
 
 func set_stunned(flag:bool) -> void:
 	_stunned = flag
+
+func mob_died() -> void:
+	set_stunned(true)
+	moveType = MobMoveType.Ground
 
 func set_is_attacking(flag:bool) -> void:
 	_isAttacking = flag
@@ -83,7 +89,7 @@ func damage_hit(_hitInfo:HitInfo) -> void:
 
 func _calc_move_yaw() -> float:
 	var selfPos:Vector3 = _body.global_transform.origin
-	var dist:float = ZqfUtils.flat_distance_between(selfPos, _target)
+	var _dist:float = ZqfUtils.flat_distance_between(selfPos, _target)
 	var directYaw:float = ZqfUtils.yaw_between(selfPos, _target)
 	if moveStyle == MobMoveStyle.CloseEvasive:
 		if _tick <= 0:
@@ -100,7 +106,8 @@ func _calc_move_yaw() -> float:
 	return directYaw + _yawOffset
 
 func move_idle(_delta:float, friction:float = 0.95) -> void:
-	_velocity.y -= 20 * _delta
+	if moveType == MobMoveType.Ground:
+		_velocity.y -= 20 * _delta
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
 	_velocity.x *= friction
 	_velocity.z *= friction
@@ -123,10 +130,11 @@ func start_leap(_delta:float, _speed:float) -> void:
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
 
 func move_hunt(_delta:float) -> void:
-	_velocity.y -= 20 * _delta
-	if !_body.is_on_floor():
-		_velocity = _body.move_and_slide(_velocity, Vector3.UP)
-		return
+	if moveType == MobMoveType.Ground:
+		_velocity.y -= 20 * _delta
+		if !_body.is_on_floor():
+			_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+			return
 	_tick -= _delta
 	# var speed:float = 4.5
 	moveYaw = _calc_move_yaw()
@@ -145,7 +153,7 @@ func move_hunt(_delta:float) -> void:
 		_velocity *= speed
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
 
-func __process(_delta:float) -> void:
+func __process_not_run(_delta:float) -> void:
 	_velocity.y -= 20 * _delta
 	if _stunned || _isAttacking || _state == STATE_IDLE:
 		move_idle(_delta)

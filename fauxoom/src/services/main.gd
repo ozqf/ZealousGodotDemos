@@ -146,7 +146,7 @@ func _notification(what):
 		print("MAIN - focus in")
 	elif what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
 		print("MAIN - focus out")
-		set_input_off()
+		# set_input_off()
 
 func _parse_url_options(optionsStr:String) -> void:
 	# eg ?foo=bar&a=b

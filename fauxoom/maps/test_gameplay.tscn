@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://prefabs/static_entities/toggle_mover.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=2]
@@ -12,6 +12,8 @@
 [ext_resource path="res://prefabs/static_entities/trigger_volume.tscn" type="PackedScene" id=10]
 [ext_resource path="res://env_daylight.tres" type="Environment" id=11]
 [ext_resource path="res://src/embedded_map_controller.gd" type="Script" id=12]
+[ext_resource path="res://prefabs/items/item_super_shotgun.tscn" type="PackedScene" id=13]
+[ext_resource path="res://prefabs/items/item_plasma_gun.tscn" type="PackedScene" id=14]
 [ext_resource path="res://zqf/block_to_mesh.gd" type="Script" id=16]
 [ext_resource path="res://assets/world/materials/mat_default_ground.tres" type="Material" id=17]
 [ext_resource path="res://assets/world/materials/mat_default_wall.tres" type="Material" id=18]
@@ -78,6 +80,9 @@ transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 1, -10, 0, -14 )
 [node name="barrier_volume4" parent="static" instance=ExtResource( 5 )]
 transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 1, 6, 0, -14 )
 
+[node name="item_super_shotgun" parent="static" instance=ExtResource( 13 )]
+transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, -7, 0, 34 )
+
 [node name="room_1" type="Spatial" parent="static"]
 
 [node name="room_1_exit_gate" parent="static/room_1" instance=ExtResource( 5 )]
@@ -131,6 +136,9 @@ transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 4, 3.5, 1, 4 )
 
 [node name="world_volume67" parent="static/room_1/side_doors" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 4, 3.5, 1, -3 )
+
+[node name="item_plasma_gun" parent="static" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 34 )
 
 [node name="world" type="Spatial" parent="."]
 
@@ -351,8 +359,8 @@ transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 3, 11.5, 1, 24.5 )
 [node name="world_volume63" parent="world/block2mesh/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 3, 4.5, 1, 24.5 )
 [connection signal="trigger" from="static/room_1/room_1_counter" to="static/room_1/room_1_trig_1" method="on_trigger"]
-[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/room_1_trap_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/side_doors" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/room_1_trap_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_exit_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_trap_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/mob_spawn_proxy" to="static/room_1/room_1_counter" method="on_trigger"]

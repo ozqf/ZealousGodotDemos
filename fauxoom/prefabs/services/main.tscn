@@ -8,7 +8,6 @@
 [ext_resource path="res://prefabs/services/static_menu_options.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/menus/binds_menu.gd" type="Script" id=7]
 
-
 [node name="main" type="Spatial"]
 script = ExtResource( 1 )
 

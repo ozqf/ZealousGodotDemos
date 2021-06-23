@@ -292,7 +292,7 @@ func hit(_hitInfo:HitInfo) -> int:
 			gib_death(_hitInfo.direction)
 		else:
 			regular_death()
-		motor.set_stunned(true)
+		motor.mob_died()
 		emit_signal("on_mob_died", self)
 		Interactions.triggerTargets(get_tree(), triggerTargets)
 		return _hitInfo.damage + _health

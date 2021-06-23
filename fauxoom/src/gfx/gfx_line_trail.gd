@@ -6,7 +6,7 @@ var _origin:Vector3 = Vector3()
 var _dest:Vector3 = Vector3()
 
 func spawn(a:Vector3, b:Vector3) -> void:
-	print("Trail: " + str(a) + " to " + str(b))
+	# print("Trail: " + str(a) + " to " + str(b))
 	_origin = a
 	_dest = b
 
