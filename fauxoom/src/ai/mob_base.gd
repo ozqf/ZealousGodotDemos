@@ -311,5 +311,6 @@ func hit(_hitInfo:HitInfo) -> int:
 		_stunAccumulator += _hitInfo.damage
 		if _stunAccumulator > _stats.stunThreshold:
 			apply_stun(_hitInfo.direction)
-		motor.damage_hit(_hitInfo)
+		if !_isSniper:
+			motor.damage_hit(_hitInfo)
 		return _hitInfo.damage

@@ -4,7 +4,7 @@ var _rocketShoot:AudioStream = preload("res://assets/sounds/weapon/rocket_fire.w
 var _rocket_t = preload("res://prefabs/dynamic_entities/prj_player_rocket.tscn")
 var _prjMask:int = -1
 
-func _ready() -> void:
+func custom_init_b() -> void:
 	_prjMask = Interactions.get_player_prj_mask()
 
 func _fire_rocket() -> void:

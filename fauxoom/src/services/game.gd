@@ -26,6 +26,8 @@ var _state = GameState.Pregame
 var _hasPlayerStart:bool = false
 var _playerOrigin:Transform = Transform.IDENTITY
 
+var _navService:NavService = null
+
 # cheats
 var _noTarget:bool = false
 
@@ -61,6 +63,13 @@ func _ready() -> void:
 		print("Checkpoint file found")
 	else:
 		print("No checkpoint file found")
+
+func register_nav_service(_newNavService:NavService) -> void:
+	_navService = _newNavService
+	print("Registered nav service")
+
+func deregister_nav_service(_newNavService:NavService) -> void:
+	_navService = null
 
 func new_hit_info() -> HitInfo:
 	return _hitInfo_type.new()

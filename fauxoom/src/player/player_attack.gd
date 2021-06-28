@@ -21,7 +21,10 @@ func set_attack_enabled(flag:bool) -> void:
 	_active = flag
 
 func check_action_press_or_release(actionName:String) -> bool:
-	return (Input.is_action_just_pressed(actionName) || Input.is_action_just_released(actionName))
+	# need to use is_action_just_released as it is the only
+	# event fired from the mousewheel...
+	# return (Input.is_action_just_pressed(actionName) || Input.is_action_just_released(actionName))
+	return (Input.is_action_just_released(actionName))
 
 func _process(_delta:float) -> void:
 	if _active:

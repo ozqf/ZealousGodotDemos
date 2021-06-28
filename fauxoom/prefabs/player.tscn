@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/sprites/player/player_a1.png" type="Texture" id=1]
 [ext_resource path="res://src/player/player.gd" type="Script" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://src/inventory/inv_offhand.gd" type="Script" id=19]
 [ext_resource path="res://src/inventory/inv_empty.gd" type="Script" id=20]
 [ext_resource path="res://src/inventory/inv_plasma_gun.gd" type="Script" id=21]
+[ext_resource path="res://src/inventory/inv_debugger.gd" type="Script" id=22]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -131,6 +132,14 @@ slot = -1
 [node name="empty" type="Node" parent="inventory/weapons"]
 script = ExtResource( 20 )
 slot = -1
+
+[node name="debugger" type="Node" parent="inventory/weapons"]
+script = ExtResource( 22 )
+hudName = "Debugger"
+inventoryType = "debugger"
+refireTime = 0.1
+idle = "pg_idle"
+fire_1 = "pg_shoot"
 
 [node name="ammo" type="Node" parent="inventory"]
 

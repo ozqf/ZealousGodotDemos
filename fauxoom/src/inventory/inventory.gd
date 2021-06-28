@@ -106,6 +106,7 @@ func get_current_weapon() -> InvWeapon:
 # returns 0 if weapon change is currently blocked
 # returns -1 if no weapon was found
 func change_weapon_by_slot(_slotNumber:int) -> int:
+	# print("Change weapon by slot " + str(_slotNumber))
 	# slots are 1 and up only
 	if _slotNumber <= 0:
 		return -1

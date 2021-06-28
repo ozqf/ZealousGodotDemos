@@ -15,9 +15,13 @@
 		> doors/gates
 		> counters
 		> relays
+	> Gameplay structure
+		> Level to level progression
+		> Scoring
 	> Basic enemy AI
 		> Moving
 		> LoS check
+		> Navigation - mesh...?, nodes for big stuff?
 		> Attack-sequences
 			> single
 			> burst
@@ -38,6 +42,10 @@
 	> View sway
 	> Movement accel/friction
 	> Dash mechanic...?
+> Aesthetic
+	> Look into light-baking/GI
+	> Skybox
+	> Fog
 > music
 	> convert some Freedoom midis to mp3
 > Menus
@@ -60,6 +68,9 @@ one off
 ### Issues
 
 #### Register new entity
+
+Scheme for handling saving/loading of game states requires significant wiring
+when restoring 'dynamic' entities that may or may not exist (eg knowing the prefab to restore)
 
 > In entities.gd
 	> Add an entry for the new entity pointing at its prefab in entities.gd. This is required for save/load of dynamic entities.

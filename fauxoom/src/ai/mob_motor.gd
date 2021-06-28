@@ -54,7 +54,7 @@ func leap() -> void:
 		return
 	change_state(STATE_LEAP)
 	var selfPos:Vector3 = _body.global_transform.origin
-	moveYaw = ZqfUtils.yaw_between(selfPos, _target)
+	_set_move_yaw(ZqfUtils.yaw_between(selfPos, _target))
 	# _body.rotation.y = moveYaw
 	var move:Vector3 = Vector3()
 	move.x = -sin(moveYaw)
@@ -76,6 +76,10 @@ func set_target(target:Vector3) -> void:
 	_hasTarget = true
 	_target = target
 	_state = STATE_HUNT
+
+func _set_move_yaw(radians:float) -> void:
+	moveYaw = radians
+	rotation.y = moveYaw
 
 func clear_target() -> void:
 	_hasTarget = false
@@ -137,7 +141,7 @@ func _hunt_ground(_delta:float) -> void:
 			return
 	_tick -= _delta
 	# var speed:float = 4.5
-	moveYaw = _calc_move_yaw()
+	_set_move_yaw(_calc_move_yaw())
 	if _floorInFront != null && !_floorInFront.is_colliding():
 		# print("No floor!")
 		move_idle(_delta, 0.5)
@@ -154,7 +158,7 @@ func _hunt_ground(_delta:float) -> void:
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
 
 func _hunt_flying(_delta:float) -> void:
-	moveYaw = _calc_move_yaw()
+	_set_move_yaw(_calc_move_yaw())
 	var move:Vector3 = Vector3()
 	move.x = -sin(moveYaw)
 	move.z = -cos(moveYaw)
