@@ -1,0 +1,176 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/world/materials/mat_default_csg.tres" type="Material" id=1]
+[ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=2]
+[ext_resource path="res://prefabs/items/item_pistol.tscn" type="PackedScene" id=3]
+[ext_resource path="res://prefabs/static_entities/mob_spawn_proxy.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Environment" id=1]
+ambient_light_color = Color( 0.129412, 0.133333, 0.164706, 1 )
+ambient_light_energy = 2.85
+
+[node name="csg_test" type="Spatial"]
+
+[node name="csg_area_01" type="Spatial" parent="."]
+
+[node name="CSGCombiner" type="CSGCombiner" parent="csg_area_01"]
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
+width = 16.0
+height = 1.0
+depth = 16.0
+material = ExtResource( 1 )
+
+[node name="CSGBox2" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 8.5 )
+width = 16.0
+depth = 1.0
+material = ExtResource( 1 )
+
+[node name="CSGBox4" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 1, 0 )
+width = 1.0
+depth = 16.0
+material = ExtResource( 1 )
+
+[node name="CSGBox9" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 1, 0 )
+width = 1.0
+depth = 16.0
+material = ExtResource( 1 )
+
+[node name="CSGBox5" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2, -3.5 )
+width = 1.0
+height = 4.0
+depth = 1.0
+material = ExtResource( 1 )
+
+[node name="CSGBox6" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2, 3.5 )
+width = 1.0
+height = 4.0
+depth = 1.0
+material = ExtResource( 1 )
+
+[node name="CSGBox7" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2, -3.5 )
+width = 1.0
+height = 4.0
+depth = 1.0
+material = ExtResource( 1 )
+
+[node name="CSGBox8" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2, 3.5 )
+width = 1.0
+height = 4.0
+depth = 1.0
+material = ExtResource( 1 )
+
+[node name="CSGBox3" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -20 )
+width = 24.0
+height = 12.0
+depth = 24.0
+material = ExtResource( 1 )
+
+[node name="CSGBox10" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 2, -9 )
+operation = 2
+width = 1.0
+height = 1.0
+depth = 1.0
+material = ExtResource( 1 )
+
+[node name="CSGBox11" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 14, 0, 0, 0, 5, 0, 0, 0, 22, 0, 2, -20 )
+operation = 2
+width = 1.0
+height = 1.0
+depth = 1.0
+material = ExtResource( 1 )
+
+[node name="CSGBox12" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 3, 0, 0, 0, 4, 0, 0, 0, 13, -7.5, 1.5, -20 )
+operation = 2
+width = 1.0
+height = 1.0
+depth = 1.0
+material = ExtResource( 1 )
+
+[node name="CSGBox13" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 3, 0, 0, 0, 4, 0, 0, 0, 13, 7.5, 1.5, -20 )
+operation = 2
+width = 1.0
+height = 1.0
+depth = 1.0
+material = ExtResource( 1 )
+
+[node name="CSGCylinder" type="CSGCylinder" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 6, -19.5 )
+operation = 2
+material = ExtResource( 1 )
+
+[node name="entities" type="Spatial" parent="."]
+
+[node name="item_pistol" parent="entities" instance=ExtResource( 3 )]
+
+[node name="player_start" parent="entities" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6 )
+
+[node name="mob_spawn_proxy" parent="entities" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -6, -0.5, -10 )
+
+[node name="mob_spawn_proxy3" parent="entities" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, -1.49012e-08, -5 )
+
+[node name="mob_spawn_proxy4" parent="entities" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4, -1.49012e-08, -5 )
+
+[node name="mob_spawn_proxy2" parent="entities" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6, -0.5, -10 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
+
+[node name="lights" type="Spatial" parent="."]
+
+[node name="OmniLight" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4, 2, -27.5 )
+light_energy = 1.5
+shadow_enabled = true
+
+[node name="OmniLight2" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 2, -27.5 )
+light_energy = 1.5
+shadow_enabled = true
+
+[node name="OmniLight3" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4, 2, -12.5 )
+light_energy = 1.5
+shadow_enabled = true
+
+[node name="OmniLight4" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 2, -12.5 )
+light_energy = 1.5
+shadow_enabled = true
+
+[node name="OmniLight6" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.6, 2, -19.5 )
+light_energy = 1.5
+shadow_enabled = true
+
+[node name="OmniLight7" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.4, 2, -19.5 )
+light_energy = 1.5
+shadow_enabled = true
+
+[node name="OmniLight5" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.9407e-08, 2, -20.4 )
+shadow_enabled = true
+
+[node name="DirectionalLight" type="DirectionalLight" parent="lights"]
+transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 6, 0 )
+shadow_enabled = true

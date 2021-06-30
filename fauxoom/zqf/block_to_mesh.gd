@@ -58,9 +58,20 @@ func _cube_tris(size:float) -> PoolVector3Array:
 
 	return tris
 
+func gather_nodes(root:Spatial, resultsArray) -> void:
+	var numChildren:int = root.get_child_count()
+	if numChildren == 0:
+		resultsArray.push_back(root)
+		return
+	for _i in range(0, numChildren):
+		gather_nodes(root.get_child(_i), resultsArray)
+
 func _build() -> void:
-	var volumesNode = get_node("volumes")
-	var numVolumes:int = volumesNode.get_child_count()
+	# var volumesNode = get_node("volumes")
+	var volumes = []
+	gather_nodes(get_node("volumes"), volumes)
+	var numVolumes:int = volumes.size()
+	# var numVolumes:int = volumesNode.get_child_count()
 	
 	groundMesh.start_mesh()
 	ceilingMesh.start_mesh()
@@ -69,7 +80,8 @@ func _build() -> void:
 	var triSize:float = 0.5
 
 	for _i in range(0, numVolumes):
-		var child:Spatial = volumesNode.get_child(_i)
+		# var child:Spatial = volumesNode.get_child(_i)
+		var child:Spatial = volumes[_i]
 		child.visible = false
 		var t:Transform = child.global_transform
 		var pos:Vector3 = t.origin
