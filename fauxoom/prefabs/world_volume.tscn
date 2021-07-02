@@ -9,6 +9,7 @@ extents = Vector3( 0.5, 0.5, 0.5 )
 [node name="world_volume" type="KinematicBody"]
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
+use_in_baked_light = true
 mesh = ExtResource( 1 )
 material/0 = ExtResource( 2 )
 

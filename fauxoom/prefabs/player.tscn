@@ -55,7 +55,6 @@ shape = SubResource( 1 )
 
 [node name="head" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
-visible = false
 
 [node name="interaction_ray_cast" type="RayCast" parent="head"]
 enabled = true
@@ -63,6 +62,11 @@ cast_to = Vector3( 0, 0, -1.5 )
 collision_mask = 524800
 collide_with_areas = true
 script = ExtResource( 10 )
+
+[node name="SpotLight" type="SpotLight" parent="head"]
+visible = false
+spot_range = 20.7789
+spot_angle = 35.0
 
 [node name="camera_mount" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
