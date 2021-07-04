@@ -1,5 +1,7 @@
 extends Area
 
+export var launchSpeed:float = 80
+
 var _bodies = []
 
 func _ready() -> void:
@@ -19,7 +21,7 @@ func on_body_exited(_body:PhysicsBody) -> void:
 
 func _process(_delta:float) -> void:
 	var forward:Vector3 = global_transform.basis.y
-	forward = forward.normalized() * 80
+	forward = forward.normalized() * launchSpeed
 	for _i in range(0, _bodies.size()):
 		var body:Node = _bodies[_i]
 		if body.has_method("touch_booster"):

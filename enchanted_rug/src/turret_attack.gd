@@ -4,18 +4,21 @@ var _projectile_t = preload("res://prefabs/projectiles/prj_ball_large.tscn")
 var _column_projectile_t = preload("res://prefabs/projectiles/prj_column.tscn")
 
 enum ProjectileType {
-	Point = 0,
-	Small = 1,
-	Large = 2,
-	Column = 3
+	Point,
+	Column,
+	Small,
+	Large
 }
 
 export var targetName:String = ""
 export(ProjectileType) var projectileType = ProjectileType.Point
 export var refireRate:float = 1
-export var projectileRoll:float = 0
+# export var projectileRoll:float = 0
 export var projectileRollRate:float = 0
 export var alternateRoll:bool = false
+export var ignoreAimX:bool = false
+export var ignoreAimY:bool = false
+export var ignoreAimZ:bool = false
 
 var _active:bool = false
 var _refireTick:float = 0
@@ -31,9 +34,12 @@ func game_trigger(triggerTargetName:String) -> void:
 func _fire(forward:Vector3, _spinStart:float = 0, _spinRate:float = 0) -> void:
 	var pos:Vector3 = global_transform.origin
 
-	# var prj = _projectile_t.instance()
-	var prj = _column_projectile_t.instance()
-
+	var prj
+	if projectileType == ProjectileType.Column:
+		prj = _column_projectile_t.instance()
+	else:
+		prj = _projectile_t.instance()
+	
 	get_tree().get_current_scene().add_child(prj)
 	prj.launch(pos, forward, _spinStart, _spinRate)
 
@@ -48,17 +54,30 @@ func _process(_delta:float) -> void:
 	var tar:Dictionary = Main.get_target()
 	if tar.valid == false:
 		return
-	look_at(tar.position, Vector3.UP)
-
-	var t:Transform = global_transform
-	var forward:Vector3 = -t.basis.z
-
+	
+	var forward:Vector3
+	var calcAim:bool = !ignoreAimX || !ignoreAimX || !ignoreAimX
+	if calcAim:
+		look_at(tar.position, Vector3.UP)
+		var t:Transform = global_transform
+		forward = -t.basis.z
+		if ignoreAimX:
+			forward.x = 0
+		if ignoreAimY:
+			forward.y = 0
+		if ignoreAimZ:
+			forward.z = 0
+		forward = forward.normalized()
+	else:
+		var t:Transform = global_transform
+		forward = -t.basis.z
+	
 	if _refireTick <= 0:
 		_refireTick = refireRate
 		_fire(forward, 0, projectileRollRate * _rollDir)
-#		_fire(forward, 45, projectileRollRate * _rollDir)
-#		_fire(forward, 90, projectileRollRate * _rollDir)
-#		_fire(forward, 135, projectileRollRate * _rollDir)
+		_fire(forward, 45, projectileRollRate * _rollDir)
+		_fire(forward, 90, projectileRollRate * _rollDir)
+		_fire(forward, 135, projectileRollRate * _rollDir)
 		
 		if alternateRoll:
 			_rollDir *= -1

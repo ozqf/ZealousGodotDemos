@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/player.tscn" type="PackedScene" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://prefabs/projectiles/prj_block.tscn" type="PackedScene" id=17]
 [ext_resource path="res://prefabs/ocean.tscn" type="PackedScene" id=18]
 [ext_resource path="res://prefabs/arena_cylinder.tscn" type="PackedScene" id=19]
+[ext_resource path="res://island_fog_env.tres" type="Environment" id=20]
 
 [node name="test_level" type="Spatial"]
 
@@ -101,6 +102,9 @@ material = ExtResource( 13 )
 [node name="MeshInstance" parent="world_static" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 35, 0 )
 
+[node name="MeshInstance3" parent="world_static" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 35, -25 )
+
 [node name="MeshInstance2" parent="world_static" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 67, 0 )
 
@@ -150,9 +154,19 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 40 )
 [node name="dome_arena" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -168, -1, -147 )
 
-[node name="turret" parent="dome_arena" instance=ExtResource( 16 )]
+[node name="turret1" parent="dome_arena" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.52588e-05, 12, 0 )
 targetName = "turret1"
+ignoreAimY = true
+
+[node name="turret2" parent="dome_arena" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 118, 20, -38 )
+targetName = "turret2"
+projectileRollRate = 22.5
+alternateRoll = true
+ignoreAimX = true
+ignoreAimY = true
+ignoreAimZ = true
 
 [node name="prj_ball_large" parent="dome_arena" instance=ExtResource( 17 )]
 transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 32, 1.52588e-05, 6, 0 )
@@ -197,3 +211,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -278, 15, -173 )
 
 [node name="arena_cylinder" parent="arena_cylinder" instance=ExtResource( 19 )]
 transform = Transform( 32, 0, 0, 0, 16, 0, 0, 0, 32, 0, 0, 0 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 20 )

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+flags_unshaded = true
+albedo_color = Color( 1, 1, 1, 0.188235 )
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 0.2, 0.1, 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.974138 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[node name="speed_trail" type="CPUParticles"]
+material_override = SubResource( 1 )
+cast_shadow = 0
+amount = 48
+lifetime = 2.0
+local_coords = false
+mesh = SubResource( 2 )
+gravity = Vector3( 0, 0, 0 )
+scale_amount_curve = SubResource( 3 )

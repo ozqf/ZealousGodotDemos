@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/player.gd" type="Script" id=1]
 [ext_resource path="res://src/mouse_look.gd" type="Script" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://src/player_debug_menu.gd" type="Script" id=4]
 [ext_resource path="res://src/draw_vector3.gd" type="Script" id=5]
 [ext_resource path="res://shared/materials/mat_vertex_as_albedo.tres" type="Material" id=6]
+[ext_resource path="res://zqf/zqf_count_overlaps.gd" type="Script" id=7]
+[ext_resource path="res://shared/materials/mat_blue_transparent.tres" type="Material" id=8]
+[ext_resource path="res://gfx/speed_trail.tscn" type="PackedScene" id=9]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.5
@@ -15,6 +18,9 @@ size = Vector3( 0.5, 0.5, 0.5 )
 
 [sub_resource type="CubeMesh" id=3]
 size = Vector3( 1, 0.1, 2 )
+
+[sub_resource type="CapsuleShape" id=4]
+radius = 2.0
 
 [node name="player" type="KinematicBody"]
 collision_layer = 4
@@ -85,6 +91,30 @@ cast_to = Vector3( 0, -100, 0 )
 
 [node name="ui" type="CanvasLayer" parent="."]
 script = ExtResource( 4 )
+
+[node name="hud" type="Control" parent="ui"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -300.0
+margin_right = 512.0
+margin_bottom = 300.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="ui/hud"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -300.0
+margin_right = 32.0
+margin_bottom = 300.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ColorRect" type="ColorRect" parent="ui"]
 margin_right = 256.0
@@ -165,7 +195,24 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
 mesh = SubResource( 3 )
 material/0 = null
 
+[node name="speed_trail" parent="body/rug" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0, 0.5 )
+
+[node name="speed_trail2" parent="body/rug" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, 0.5 )
+
+[node name="rug_blue_power" type="MeshInstance" parent="body"]
+transform = Transform( 1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.045, 0, -0.5, 0 )
+mesh = SubResource( 3 )
+material/0 = ExtResource( 8 )
+
 [node name="torso" type="MeshInstance" parent="body"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0 )
 mesh = SubResource( 2 )
 material/0 = null
+
+[node name="near_world_area" type="Area" parent="."]
+script = ExtResource( 7 )
+
+[node name="CollisionShape" type="CollisionShape" parent="near_world_area"]
+shape = SubResource( 4 )

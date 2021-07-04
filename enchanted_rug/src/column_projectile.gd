@@ -80,9 +80,10 @@ func launch(pos:Vector3, dir:Vector3, _spinStartDegrees:float = 0, _spinRateDegr
 	t.origin = pos
 	global_transform = t
 
-	var flatDir:Vector3 = Vector3(dir.x, 0, dir.z)
-	flatDir = flatDir.normalized()
-	look_at(pos + flatDir, Vector3.UP)
+	look_at(pos + dir, Vector3.UP)
+	# var flatDir:Vector3 = Vector3(dir.x, 0, dir.z)
+	# flatDir = flatDir.normalized()
+	# look_at(pos + flatDir, Vector3.UP)
 	
 	var rot:Vector3 = rotation_degrees
 	rot.z = _spinStartDegrees
