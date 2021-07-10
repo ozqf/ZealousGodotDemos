@@ -1,5 +1,7 @@
 extends KinematicBody
 
+var _impact_t = preload("res://prefabs/gfx/gfx_quick_impact.tscn")
+
 export var speed:float = 125.0
 var _ttl:float = 10
 var _dead:bool = false
@@ -10,6 +12,10 @@ func remove() -> void:
 		return
 	_dead = true
 	queue_free()
+
+	var gfx = _impact_t.instance()
+	get_parent().add_child(gfx)
+	gfx.global_transform.origin = global_transform.origin
 
 func _physics_process(delta) -> void:
 	if !_launched:

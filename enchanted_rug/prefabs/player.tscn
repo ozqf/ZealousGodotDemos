@@ -212,6 +212,7 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="near_world_area" type="Area" parent="."]
+collision_layer = 32
 script = ExtResource( 7 )
 
 [node name="CollisionShape" type="CollisionShape" parent="near_world_area"]

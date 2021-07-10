@@ -114,6 +114,8 @@ attack_1={
 3d_physics/layer_2="world_effect"
 3d_physics/layer_3="player"
 3d_physics/layer_4="projectile"
+3d_physics/layer_5="enemy"
+3d_physics/layer_6="sensor"
 
 [rendering]
 

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/gfx_quick_shrink.gd" type="Script" id=1]
+[ext_resource path="res://prefabs/gfx/gfx_quick_impact_curve.tres" type="Curve" id=2]
+
+[sub_resource type="SphereMesh" id=1]
+radial_segments = 16
+rings = 4
+
+[node name="gfx_quick_impact" type="MeshInstance"]
+mesh = SubResource( 1 )
+material/0 = null
+script = ExtResource( 1 )
+curve = ExtResource( 2 )

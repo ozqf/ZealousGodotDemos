@@ -383,7 +383,15 @@ func _apply_move_2(inputDir:Vector3, _delta:float, _isPressingBoost:bool) -> Str
 	velocity += externalPush
 	
 	# move
+	var prevVelocity:Vector3 = velocity
 	velocity = move_and_slide(velocity)
+	if velocity != prevVelocity:
+		var dot:float = velocity.normalized().dot(prevVelocity.normalized());
+		# if hit is shallow, maintain speed
+		if dot > 0.5:
+			print("Velocity change during move dot: " + str(dot))
+			var newNormal:Vector3 = velocity.normalized()
+			velocity = newNormal * prevVelocity.length()
 
 	_vars.velocity = velocity
 	return ""
@@ -445,7 +453,7 @@ func _update_body_rotation(_delta:float) -> void:
 	_body.look_at(dest, up)
 
 func _is_near_geometry() -> bool:
-	return _nearWorld.total_overlaps() > 1
+	return _nearWorld.total_overlaps() > 0
 
 func _physics_process(_delta:float) -> void:
 	# if Input.is_action_just_pressed("reset"):

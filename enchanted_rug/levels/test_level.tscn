@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/player.tscn" type="PackedScene" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://prefabs/ocean.tscn" type="PackedScene" id=18]
 [ext_resource path="res://prefabs/arena_cylinder.tscn" type="PackedScene" id=19]
 [ext_resource path="res://island_fog_env.tres" type="Environment" id=20]
+[ext_resource path="res://prefabs/actors/mob_fodder.tscn" type="PackedScene" id=21]
 
 [node name="test_level" type="Spatial"]
 
@@ -48,7 +49,28 @@ transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 256, 0, 62.5, -512 )
 transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 256, 256, 62.5, -512 )
 
 [node name="green_world_volume8" parent="world_mesh/volumes" instance=ExtResource( 3 )]
-transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 256, 256, 62.5, 0 )
+transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 128, 256, 62.5, -64 )
+
+[node name="green_world_volume11" parent="world_mesh/volumes" instance=ExtResource( 3 )]
+transform = Transform( 256, 0, 0, 0, 64, 0, 0, 0, 128, 256, 94.5, 64 )
+
+[node name="green_world_volume16" parent="world_mesh/volumes" instance=ExtResource( 3 )]
+transform = Transform( 128, 0, 0, 0, 64, 0, 0, 0, 64, 192, 30.5, 96 )
+
+[node name="green_world_volume17" parent="world_mesh/volumes" instance=ExtResource( 3 )]
+transform = Transform( 64, 0, 0, 0, 64, 0, 0, 0, 128, 480, 30.5, 64 )
+
+[node name="green_world_volume12" parent="world_mesh/volumes" instance=ExtResource( 3 )]
+transform = Transform( 128, 0, 0, 0, 128, 0, 0, 0, 128, 192, 62.5, 192 )
+
+[node name="green_world_volume13" parent="world_mesh/volumes" instance=ExtResource( 3 )]
+transform = Transform( 128, 0, 0, 0, 128, 0, 0, 0, 128, 448, 62.5, 192 )
+
+[node name="green_world_volume15" parent="world_mesh/volumes" instance=ExtResource( 3 )]
+transform = Transform( 128, 0, 0, 0, 128, 0, 0, 0, 128, 448, 62.5, -64 )
+
+[node name="green_world_volume14" parent="world_mesh/volumes" instance=ExtResource( 3 )]
+transform = Transform( 128, 0, 0, 0, 64, 0, 0, 0, 128, 320, 94.5, 192 )
 
 [node name="green_world_volume9" parent="world_mesh/volumes" instance=ExtResource( 3 )]
 transform = Transform( 256, 0, 0, 0, 128, 0, 0, 0, 256, 512, 62.5, -256 )
@@ -72,6 +94,9 @@ transform = Transform( 8, 0, 0, 0, 64, 0, 0, 0, 8, 108, 30, 106 )
 transform = Transform( 8, 0, 0, 0, 64, 0, 0, 0, 8, -84, 30, 106 )
 
 [node name="world_volume9" parent="world_mesh/volumes" instance=ExtResource( 1 )]
+transform = Transform( 12, 0, 0, 0, 256, 0, 0, 0, 12, -114, 123, 0 )
+
+[node name="world_volume11" parent="world_mesh/volumes" instance=ExtResource( 1 )]
 transform = Transform( 8, 0, 0, 0, 64, 0, 0, 0, 8, 108, 30, -114 )
 
 [node name="world_volume10" parent="world_mesh/volumes" instance=ExtResource( 1 )]
@@ -96,6 +121,9 @@ material = ExtResource( 14 )
 [node name="mesh_sides" type="MeshInstance" parent="world_mesh"]
 script = ExtResource( 11 )
 material = ExtResource( 13 )
+
+[node name="mob_fodder" parent="world_mesh" instance=ExtResource( 21 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -1, 31 )
 
 [node name="world_static" type="Spatial" parent="."]
 
@@ -131,14 +159,22 @@ transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0
 shadow_enabled = true
 directional_shadow_max_distance = 500.0
 
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 306, 35, 58 )
+omni_range = 170.0
+
 [node name="wind_volume" parent="." instance=ExtResource( 5 )]
 transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 22, 0 )
 
 [node name="wind_volume3" parent="." instance=ExtResource( 5 )]
-transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 22, -25 )
+transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 35, -25 )
 
 [node name="wind_volume2" parent="." instance=ExtResource( 5 )]
 transform = Transform( -2.62268e-07, 6, 0, -6, -2.62268e-07, 0, 0, 0, 6, 26, 8, 7 )
+
+[node name="wind_volume4" parent="." instance=ExtResource( 5 )]
+transform = Transform( -2.62268e-07, 6, 0, -6, -2.62268e-07, 0, 0, 0, 6, 26, 8, -18 )
+launchSpeed = 40.0
 
 [node name="arena_frustum" parent="." instance=ExtResource( 6 )]
 transform = Transform( -16, 0, 2.08538e-05, 0, 16, 0, -5.21346e-06, 0, -64, -50, 18, -250 )
