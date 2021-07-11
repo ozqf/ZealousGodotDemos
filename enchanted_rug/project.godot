@@ -12,26 +12,32 @@ _global_script_classes=[ {
 "base": "MeshInstance",
 "class": "MeshGenerator",
 "language": "GDScript",
-"path": "res://zqf/mesh_generator.gd"
+"path": "res://zgu/mesh_generator.gd"
 }, {
 "base": "Node",
 "class": "MouseLook",
 "language": "GDScript",
 "path": "res://src/mouse_look.gd"
 }, {
+"base": "Node",
+"class": "ProjectileMovement",
+"language": "GDScript",
+"path": "res://src/projectile_movement.gd"
+}, {
 "base": "Area",
 "class": "ZqfCountOverlaps",
 "language": "GDScript",
-"path": "res://zqf/zqf_count_overlaps.gd"
+"path": "res://zgu/zgu_count_overlaps.gd"
 }, {
 "base": "Node",
 "class": "ZqfUtils",
 "language": "GDScript",
-"path": "res://zqf/zqf_utils.gd"
+"path": "res://zgu/zqf_utils.gd"
 } ]
 _global_script_class_icons={
 "MeshGenerator": "",
 "MouseLook": "",
+"ProjectileMovement": "",
 "ZqfCountOverlaps": "",
 "ZqfUtils": ""
 }

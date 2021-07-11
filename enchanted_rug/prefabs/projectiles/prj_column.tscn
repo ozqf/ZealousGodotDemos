@@ -1,15 +1,16 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/column_projectile.gd" type="Script" id=1]
 [ext_resource path="res://shared/materials/mat_projectile_red.tres" type="Material" id=2]
+[ext_resource path="res://src/projectile_movement.gd" type="Script" id=3]
 
-[sub_resource type="CylinderMesh" id=2]
+[sub_resource type="CylinderMesh" id=1]
+height = 1.0
+
+[sub_resource type="CylinderShape" id=2]
 height = 1.0
 
 [sub_resource type="CylinderShape" id=3]
-height = 1.0
-
-[sub_resource type="CylinderShape" id=4]
 height = 1.0
 
 [node name="column_prj" type="Spatial"]
@@ -20,24 +21,24 @@ collision_layer = 8
 
 [node name="MeshInstance" type="MeshInstance" parent="up"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-mesh = SubResource( 2 )
+mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="up"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 
 [node name="down" type="KinematicBody" parent="."]
 collision_layer = 8
 
 [node name="MeshInstance" type="MeshInstance" parent="down"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
-mesh = SubResource( 2 )
+mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="down"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 
 [node name="floor" type="RayCast" parent="."]
 enabled = true
@@ -46,3 +47,6 @@ cast_to = Vector3( 0, -100, 0 )
 [node name="ceiling" type="RayCast" parent="."]
 enabled = true
 cast_to = Vector3( 0, 100, 0 )
+
+[node name="ProjectileMovement" type="Node" parent="."]
+script = ExtResource( 3 )

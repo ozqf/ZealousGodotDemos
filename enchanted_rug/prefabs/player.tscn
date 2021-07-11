@@ -6,9 +6,11 @@
 [ext_resource path="res://src/player_debug_menu.gd" type="Script" id=4]
 [ext_resource path="res://src/draw_vector3.gd" type="Script" id=5]
 [ext_resource path="res://shared/materials/mat_vertex_as_albedo.tres" type="Material" id=6]
-[ext_resource path="res://zqf/zqf_count_overlaps.gd" type="Script" id=7]
+[ext_resource path="res://zgu/zgu_count_overlaps.gd" type="Script" id=7]
 [ext_resource path="res://shared/materials/mat_blue_transparent.tres" type="Material" id=8]
 [ext_resource path="res://gfx/speed_trail.tscn" type="PackedScene" id=9]
+
+
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.5

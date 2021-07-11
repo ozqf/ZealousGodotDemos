@@ -2,6 +2,7 @@ extends Spatial
 
 onready var _floor:RayCast = $floor
 onready var _ceiling:RayCast = $ceiling
+onready var _moveStats:ProjectileMovement = $ProjectileMovement
 
 export var speed:float = 1
 export var minSpeed:float = 1
@@ -75,6 +76,9 @@ func _physics_process(delta) -> void:
 		_currentCeilingScale = ceilingScale
 	$up.scale = Vector3(1, _currentCeilingScale, 1)
 
+func copy_settings(move:ProjectileMovement) -> void:
+	move.apply_to(self)
+
 func launch(pos:Vector3, dir:Vector3, _spinStartDegrees:float = 0, _spinRateDegrees:float = 0) -> void:
 	var t:Transform = global_transform
 	t.origin = pos
@@ -84,7 +88,7 @@ func launch(pos:Vector3, dir:Vector3, _spinStartDegrees:float = 0, _spinRateDegr
 	# var flatDir:Vector3 = Vector3(dir.x, 0, dir.z)
 	# flatDir = flatDir.normalized()
 	# look_at(pos + flatDir, Vector3.UP)
-	
+
 	var rot:Vector3 = rotation_degrees
 	rot.z = _spinStartDegrees
 	rotation_degrees = rot

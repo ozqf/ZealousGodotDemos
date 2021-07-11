@@ -17,6 +17,10 @@ func remove() -> void:
 	get_parent().add_child(gfx)
 	gfx.global_transform.origin = global_transform.origin
 
+func copy_settings(move:ProjectileMovement) -> void:
+	speed = move.speed
+	# move.apply_to(self)
+
 func _physics_process(delta) -> void:
 	if !_launched:
 		return

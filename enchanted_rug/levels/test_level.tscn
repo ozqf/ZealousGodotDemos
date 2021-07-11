@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/player.tscn" type="PackedScene" id=2]
@@ -9,8 +9,8 @@
 [ext_resource path="res://prefabs/arena_dome.tscn" type="PackedScene" id=7]
 [ext_resource path="res://prefabs/world/pipe_curve_long.tscn" type="PackedScene" id=8]
 [ext_resource path="res://prefabs/world/pipe_short.tscn" type="PackedScene" id=9]
-[ext_resource path="res://zqf/block_to_mesh.gd" type="Script" id=10]
-[ext_resource path="res://zqf/mesh_generator.gd" type="Script" id=11]
+[ext_resource path="res://zgu/block_to_mesh.gd" type="Script" id=10]
+[ext_resource path="res://zgu/mesh_generator.gd" type="Script" id=11]
 [ext_resource path="res://shared/materials/mat_ground.tres" type="Material" id=12]
 [ext_resource path="res://shared/materials/mat_wall.tres" type="Material" id=13]
 [ext_resource path="res://shared/materials/mat_ceiling.tres" type="Material" id=14]
@@ -21,6 +21,7 @@
 [ext_resource path="res://prefabs/arena_cylinder.tscn" type="PackedScene" id=19]
 [ext_resource path="res://island_fog_env.tres" type="Environment" id=20]
 [ext_resource path="res://prefabs/actors/mob_fodder.tscn" type="PackedScene" id=21]
+[ext_resource path="res://src/projectile_movement.gd" type="Script" id=22]
 
 [node name="test_level" type="Spatial"]
 
@@ -125,6 +126,9 @@ material = ExtResource( 13 )
 [node name="mob_fodder" parent="world_mesh" instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -1, 31 )
 
+[node name="mob_fodder2" parent="world_mesh" instance=ExtResource( 21 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -1, 41 )
+
 [node name="world_static" type="Spatial" parent="."]
 
 [node name="MeshInstance" parent="world_static" instance=ExtResource( 9 )]
@@ -193,6 +197,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -168, -1, -147 )
 [node name="turret1" parent="dome_arena" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.52588e-05, 12, 0 )
 targetName = "turret1"
+refireRate = 0.1
 ignoreAimY = true
 
 [node name="turret2" parent="dome_arena" instance=ExtResource( 16 )]
@@ -203,6 +208,23 @@ alternateRoll = true
 ignoreAimX = true
 ignoreAimY = true
 ignoreAimZ = true
+
+[node name="turret3" parent="dome_arena" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -64, 74, 90 )
+targetName = "turret3"
+projectileType = 1
+refireRate = 0.1
+projectileRollRate = 45.0
+ignoreAimX = true
+ignoreAimY = true
+ignoreAimZ = true
+
+[node name="ProjectileMovement" type="Node" parent="dome_arena/turret3"]
+script = ExtResource( 22 )
+speed = 25.0
+minSpeed = 25.0
+maxSpeed = 25.0
+acceleration = 0.0
 
 [node name="prj_ball_large" parent="dome_arena" instance=ExtResource( 17 )]
 transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 32, 1.52588e-05, 6, 0 )

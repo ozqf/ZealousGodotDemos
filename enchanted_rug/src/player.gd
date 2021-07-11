@@ -389,7 +389,7 @@ func _apply_move_2(inputDir:Vector3, _delta:float, _isPressingBoost:bool) -> Str
 		var dot:float = velocity.normalized().dot(prevVelocity.normalized());
 		# if hit is shallow, maintain speed
 		if dot > 0.5:
-			print("Velocity change during move dot: " + str(dot))
+			# print("Velocity change during move dot: " + str(dot))
 			var newNormal:Vector3 = velocity.normalized()
 			velocity = newNormal * prevVelocity.length()
 
