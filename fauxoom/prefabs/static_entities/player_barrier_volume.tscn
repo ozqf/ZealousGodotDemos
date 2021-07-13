@@ -12,7 +12,7 @@ size = Vector3( 1, 1, 1 )
 
 [sub_resource type="SpatialMaterial" id=3]
 flags_transparent = true
-albedo_color = Color( 0, 0.6, 1, 0.498039 )
+albedo_color = Color( 0, 0.6, 1, 0.329412 )
 
 [node name="player_barrier_volume" type="KinematicBody"]
 collision_layer = 128

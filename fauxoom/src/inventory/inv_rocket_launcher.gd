@@ -16,6 +16,7 @@ func _fire_rocket() -> void:
 	rocket.launch_prj(selfPos, forward, Ents.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
 	_hud.audio.stream = _rocketShoot
 	_hud.audio.play()
+	_inventory.take_item(ammoType, ammoPerShot)
 
 func is_cycling() -> bool:
 	if !_equipped:

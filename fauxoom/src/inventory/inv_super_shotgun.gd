@@ -20,6 +20,7 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 		_hud.audio.stream = _ssgShoot
 		_hud.audio.play()
 		_lastSoundFrame = - 1
+		_inventory.take_item(ammoType, ammoPerShot)
 		self.emit_signal("weapon_action", self, "fire")
 
 func is_cycling() -> bool:

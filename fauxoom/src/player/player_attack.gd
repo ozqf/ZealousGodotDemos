@@ -65,4 +65,8 @@ func _process(_delta:float) -> void:
 
 	var weap:InvWeapon = _inventory.get_current_weapon()
 	if weap != null:
+		if weap.is_cycling() == false && weap.can_equip() == false:
+			_inventory.select_next_weapon()
+			return
 		weap.read_input(primary, secondary)
+			

@@ -165,7 +165,7 @@ noAutoHide = true
 
 [node name="player_start" parent="static" instance=ExtResource( 9 )]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1, 0, 8.5 )
-inventoryState = 2
+inventoryState = 1
 
 [node name="horde_spawn" parent="static" instance=ExtResource( 8 )]
 transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -10, -8, -37 )

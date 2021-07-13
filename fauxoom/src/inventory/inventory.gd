@@ -87,6 +87,24 @@ func set_current_weapon(index:int) -> void:
 	# 	print("Switched to no weapon")
 	# self.emit_signal("weapon_changed", newWeap, prevWeap)
 
+func select_next_weapon() -> void:
+	if _currentWeaponIndex == -1:
+		return
+	var escape:int = 0
+	var i:int = _currentWeaponIndex
+	while true:
+		i += 1
+		escape += 1
+		if escape > 100:
+			return
+		if i >= weapons.size():
+			i = 0
+		var weap:InvWeapon = weapons[i]
+		if weap.can_equip():
+			set_current_weapon(i)
+			return
+		
+
 # find the first selectable weapon and equip it
 func select_first_weapon() -> void:
 	var numWeapons:int = weapons.size()

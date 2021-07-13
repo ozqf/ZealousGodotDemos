@@ -107,6 +107,7 @@ script = ExtResource( 17 )
 hudName = "Super Shotgun"
 inventoryType = "super_shotgun"
 ammoType = "shells"
+ammoPerShot = 2
 slot = 3
 idle = "ssg_idle"
 fire_1 = "ssg_shoot"

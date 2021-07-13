@@ -29,6 +29,7 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 		.play_fire_1(false)
 		_hud.audio.stream = _pistolShoot
 		_hud.audio.play()
+		_inventory.take_item(ammoType, ammoPerShot)
 
 func _process(_delta:float) -> void:
 	if tick > 0:

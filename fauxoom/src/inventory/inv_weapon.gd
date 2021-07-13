@@ -51,7 +51,7 @@ func can_equip() -> bool:
 	var ammoCount:int = _inventory.get_count(ammoType)
 	if ammoCount == -1:
 		return true
-	return ammoCount > ammoPerShot
+	return ammoCount >= ammoPerShot
 
 func equip() -> void:
 	# print("Equip " + self.name)
