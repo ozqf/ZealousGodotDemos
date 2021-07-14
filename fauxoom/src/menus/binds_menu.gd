@@ -30,6 +30,8 @@ var _loaded:bool = false
 var _active:bool = false
 var _isRebinding:String = ""
 
+export var verbose:bool = false
+
 func _ready():
 	add_to_group(Config.GROUP)
 	off()
@@ -68,7 +70,8 @@ func _build():
 	load_scancodes_from_config()
 
 func load_scancodes_from_config() -> void:
-	print("Loading input binds")
+	if verbose:
+		print("Loading input binds")
 	for action in _actions:
 		if !Config.cfg.has(action.tag):
 			continue
@@ -88,7 +91,8 @@ func write_to_config() -> void:
 	Config.broadcast_cfg_change()
 
 func _begin_rebind(tag:String) -> void:
-	print("Begin rebind of action " +tag)
+	if verbose:
+		print("Begin rebind of action " +tag)
 	_isRebinding = tag
 	Main.isRebinding = true
 	_popUp.visible = true
@@ -127,21 +131,24 @@ func _input(_event: InputEvent):
 	if _isRebinding == "":
 		return
 	if _event is InputEventKey:
-		print("Key event " + str(_event))
+		if verbose:
+			print("Key event " + str(_event))
 		if _event.scancode == KEY_ESCAPE:
 			_stop_rebind()
 			return
 		_rebind(_isRebinding, _event, true)
 		_isRebinding = ""
 	if _event is InputEventMouseButton:
-		print("mouse button event " + str(_event))
+		if verbose:
+			print("mouse button event " + str(_event))
 
 ######################
 # binds
 ######################
 
 func _rebind(tag:String, keyCode, writeConfig:bool) -> void:
-	print("Rebind " + tag + " to keycode " + str(keyCode))
+	if verbose:
+		print("Rebind " + tag + " to keycode " + str(keyCode))
 	# remove current binding to this action - only removes first atm
 	if !InputMap.get_action_list(tag).empty():
 		InputMap.action_erase_event(tag, InputMap.get_action_list(tag)[0])

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/world/materials/mat_default_csg.tres" type="Material" id=1]
 [ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://zqf/hide_on_start.gd" type="Script" id=5]
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=6]
 [ext_resource path="res://maps/LightMap.png" type="Texture" id=7]
+[ext_resource path="res://assets/world/materials/mat_default_wall.tres" type="Material" id=8]
 
 [sub_resource type="Environment" id=1]
 ambient_light_color = Color( 0.129412, 0.133333, 0.164706, 1 )
@@ -45,12 +46,6 @@ width = 1.0
 depth = 16.0
 material = ExtResource( 1 )
 
-[node name="CSGBox9" type="CSGBox" parent="csg_area_01/CSGCombiner"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 1, 0 )
-width = 1.0
-depth = 16.0
-material = ExtResource( 1 )
-
 [node name="CSGBox5" type="CSGBox" parent="csg_area_01/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2, -3.5 )
 width = 1.0
@@ -65,12 +60,18 @@ height = 4.0
 depth = 1.0
 material = ExtResource( 1 )
 
+[node name="CSGBox9" type="CSGBox" parent="csg_area_01/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 1, 0 )
+width = 1.0
+depth = 16.0
+material = ExtResource( 1 )
+
 [node name="CSGBox7" type="CSGBox" parent="csg_area_01/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2, -3.5 )
 width = 1.0
 height = 4.0
 depth = 1.0
-material = ExtResource( 1 )
+material = ExtResource( 8 )
 
 [node name="CSGBox8" type="CSGBox" parent="csg_area_01/CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2, 3.5 )
@@ -151,6 +152,7 @@ environment = SubResource( 1 )
 
 [node name="lights" type="Spatial" parent="."]
 script = ExtResource( 5 )
+hideOnStart = false
 
 [node name="OmniLight" type="OmniLight" parent="lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4, 2, -27.5 )
