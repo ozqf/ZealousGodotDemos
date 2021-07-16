@@ -18,13 +18,13 @@ func _fire_rocket() -> void:
 	_hud.audio.play()
 	_inventory.take_item(ammoType, ammoPerShot)
 
-func is_cycling() -> bool:
-	if !_equipped:
-		return false
-	#if tick < (refireTime - (3 * (1.0 / 10.0))):
-	if tick < refireTime - 0.4:
-		return false
-	return true
+# func is_cycling() -> bool:
+# 	if !_equipped:
+# 		return false
+# 	#if tick < (refireTime - (3 * (1.0 / 10.0))):
+# 	if tick < refireTime - 0.4:
+# 		return false
+# 	return true
 
 func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 	if tick > 0:

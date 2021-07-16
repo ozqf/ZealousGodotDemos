@@ -97,6 +97,16 @@ hudName = "Pistol"
 inventoryType = "pistol"
 ammoType = "bullets"
 slot = 2
+refireTime = 0.25
+idle = "pistol_idle"
+fire_1 = "pistol_shoot"
+
+[node name="dual_pistols" type="Node" parent="inventory/weapons"]
+script = ExtResource( 15 )
+hudName = "Dual Pistols"
+inventoryType = "pistol"
+ammoType = "bullets"
+slot = 2
 refireTime = 0.15
 idle = "pistol_idle"
 fire_1 = "pistol_shoot"

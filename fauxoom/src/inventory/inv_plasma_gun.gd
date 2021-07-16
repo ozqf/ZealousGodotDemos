@@ -6,13 +6,13 @@ var _trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
 func custom_init_b() -> void:
 	_hitInfo.damage = 100
 
-func is_cycling() -> bool:
-	if !_equipped:
-		return false
-	#if tick < (refireTime - (3 * (1.0 / 10.0))):
-	if tick < refireTime - 0.4:
-		return false
-	return true
+# func is_cycling() -> bool:
+# 	if !_equipped:
+# 		return false
+# 	#if tick < (refireTime - (3 * (1.0 / 10.0))):
+# 	if tick < refireTime - 0.4:
+# 		return false
+# 	return true
 
 func _draw_trail(origin:Vector3, dest:Vector3) -> void:
 	var trail = _trail_t.instance()
