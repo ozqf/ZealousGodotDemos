@@ -2,6 +2,8 @@ extends Area
 
 signal scan_result(bodies)
 
+export var showVolume:bool = false
+
 onready var _collisionShape:CollisionShape = $CollisionShape
 
 # var _on:bool = false
@@ -10,7 +12,8 @@ var _bodies = []
 
 func run() -> void:
 	_ticks = 2
-	$MeshInstance.visible = true
+	if showVolume:
+		$MeshInstance.visible = true
 	_collisionShape.disabled = false
 	var _r = connect("body_entered", self, "_body_entered")
 

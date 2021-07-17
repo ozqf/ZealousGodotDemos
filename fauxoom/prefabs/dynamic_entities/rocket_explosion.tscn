@@ -1,3 +1,24 @@
-[gd_scene format=2]
+[gd_scene load_steps=5 format=2]
 
-[node name="Spatial" type="Spatial"]
+[ext_resource path="res://assets/sprites/frames/explosion_frames.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://zqf/zgu_animated_sprite_3d_controller.gd" type="Script" id=2]
+[ext_resource path="res://zqf/timed_self_cull.gd" type="Script" id=3]
+[ext_resource path="res://assets/sounds/impact/explode.wav" type="AudioStream" id=4]
+
+[node name="explosion" type="Spatial"]
+script = ExtResource( 3 )
+time = 1.0
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
+billboard = 1
+frames = ExtResource( 1 )
+animation = "explosion_nuke"
+script = ExtResource( 2 )
+hideOnLoop = true
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 4 )
+unit_db = 4.0
+autoplay = true
+bus = "game"

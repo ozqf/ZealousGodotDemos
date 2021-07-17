@@ -1,0 +1,56 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=2]
+
+[ext_resource path="res://assets/sprites/sheets/64x64_projectiles.png" type="Texture" id=1]
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 3
+atlas = ExtResource( 1 )
+region = Rect2( 0, 896, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 3
+atlas = ExtResource( 1 )
+region = Rect2( 128, 896, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 3
+atlas = ExtResource( 1 )
+region = Rect2( 256, 896, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 3
+atlas = ExtResource( 1 )
+region = Rect2( 384, 896, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 3
+atlas = ExtResource( 1 )
+region = Rect2( 512, 896, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 3
+atlas = ExtResource( 1 )
+region = Rect2( 0, 768, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 3
+atlas = ExtResource( 1 )
+region = Rect2( 128, 768, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 3
+atlas = ExtResource( 1 )
+region = Rect2( 256, 768, 128, 128 )
+
+[resource]
+animations = [ {
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "explosion_nuke",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ],
+"loop": true,
+"name": "explosion",
+"speed": 5.0
+} ]

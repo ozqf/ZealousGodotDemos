@@ -4,6 +4,8 @@ class_name Projectile
 export var maxSpeed:float = 15.0
 export var timeToLive:float = 10
 
+export var deathSpawnPrefab:Resource = null
+
 enum ProjectileState {
 	Idle,
 	InFlight,
@@ -62,6 +64,13 @@ func die() -> void:
 	_time = 1
 	if _area != null:
 		_area.run()
+	if deathSpawnPrefab != null:
+		var velNormal:Vector3 = _velocity.normalized()
+		var instance = deathSpawnPrefab.instance()
+		var t:Transform = global_transform
+		t.origin -= velNormal * 0.3
+		instance.global_transform = t
+		get_parent().add_child(instance)
 
 func _move_as_ray(_delta:float) -> void:
 
