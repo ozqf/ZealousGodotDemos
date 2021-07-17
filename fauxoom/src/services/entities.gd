@@ -92,6 +92,10 @@ var _prefabs = {
 		prefab = preload("res://prefabs/items/item_rockets_large.tscn"),
 		entNodePath = "Entity"
 	},
+	fullpack = {
+		prefab = preload("res://prefabs/items/item_full_pack.tscn"),
+		entNodePath = "Entity"
+	},
 	gib = {
 		prefab = preload("res://prefabs/gib.tscn"),
 		entNodePath = "Entity"

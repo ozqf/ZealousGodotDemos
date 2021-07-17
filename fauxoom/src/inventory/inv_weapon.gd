@@ -117,7 +117,9 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> void:
 		var impact:Spatial = _prefab_impact.instance()
 		root.add_child(impact)
 		var t = impact.global_transform
-		t.origin = result.position
+		# move the sprite back along the line of travel a little or
+		# the impact sprite will clip into the wall
+		t.origin = result.position - (forward * 0.2)
 		impact.global_transform = t
 	elif inflicted == -2:
 		# print("Penetration hit")

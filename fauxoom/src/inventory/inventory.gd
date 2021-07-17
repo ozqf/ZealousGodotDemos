@@ -190,6 +190,10 @@ func take_item(itemType:String, amount:int) -> int:
 	return result
 
 func give_item(itemType:String, amount:int) -> int:
+	print("Touched item " + itemType)
+	if itemType == "fullpack":
+		give_all()
+		return 1
 	if !_data.has(itemType):
 		return 0
 	var item:Dictionary = _data[itemType]
