@@ -9,6 +9,7 @@ const QUICK_SAVE_FILE_NAME:String = "quick"
 
 var _player_t = preload("res://prefabs/player.tscn")
 var _gib_t = preload("res://prefabs/gib.tscn")
+var _head_gib_t = preload("res://prefabs/player_gib.tscn")
 var _hitInfo_type = preload("res://src/defs/hit_info.gd")
 
 var _entRoot:Entities = null
@@ -288,9 +289,11 @@ func game_on_player_died(_info:Dictionary) -> void:
 		return
 	set_game_state(GameState.Lost)
 	
-	var def = _entRoot.get_prefab_def(Entities.PREFAB_GIB)
-	var gib = def.prefab.instance()
+	# var def = _entRoot.get_prefab_def(Entities.PREFAB_GIB)
+	# var gib = def.prefab.instance()
+	var gib = _head_gib_t.instance()
 	add_child(gib)
+	gib.enable_rotation()
 	gib.global_transform = _info.headTransform
 	if _info.gib:
 		gib.launch_gib(1, 0)

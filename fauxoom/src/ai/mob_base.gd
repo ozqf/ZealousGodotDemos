@@ -79,7 +79,6 @@ func set_source(node:Node, sourceId:int) -> void:
 	var _r = connect("on_mob_died", node, "_on_mob_died")
 
 func set_behaviour(sniper:bool) -> void:
-	print("Mob is sniper")
 	_isSniper = sniper
 	_ticker.isSniper = _isSniper
 

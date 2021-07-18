@@ -42,7 +42,7 @@ shaded = true
 frames = ExtResource( 2 )
 frame = 13
 
-[node name="CPUParticles" type="CPUParticles" parent="."]
+[node name="particles" type="CPUParticles" parent="."]
 mesh = SubResource( 5 )
 gravity = Vector3( 0, -2, 0 )
 color = Color( 1, 0, 0, 1 )

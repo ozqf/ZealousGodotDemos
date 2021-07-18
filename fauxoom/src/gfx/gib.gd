@@ -45,7 +45,25 @@ func _process(_delta:float) -> void:
 
 func drop() -> void:
 	self.linear_velocity = Vector3()
-	self.angular_velocity = Vector3()
+	var angular:Vector3 = Vector3()
+	
+	var minSpin = 1
+	var maxSpin = 5
+	angular.x = rand_range(minSpin, maxSpin)
+	if randf() > 0.5:
+		angular.x *= -1
+	
+	angular.z = rand_range(minSpin, maxSpin)
+	if randf() > 0.5:
+		angular.z *= -1
+	
+	self.angular_velocity = angular
+	
+
+func enable_rotation() -> void:
+	axis_lock_angular_x = false
+	axis_lock_angular_y = true
+	axis_lock_angular_z = false
 
 func launch_gib(_dir:Vector3, _power:float, ttlOverride:float) -> void:
 	if ttlOverride > 0:

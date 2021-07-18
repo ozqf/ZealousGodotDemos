@@ -190,7 +190,7 @@ func take_item(itemType:String, amount:int) -> int:
 	return result
 
 func give_item(itemType:String, amount:int) -> int:
-	print("Touched item " + itemType)
+	# print("Touched item " + itemType)
 	if itemType == "fullpack":
 		give_all()
 		return 1

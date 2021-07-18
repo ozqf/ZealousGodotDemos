@@ -193,6 +193,7 @@ func write_save_dict() -> Dictionary:
 func restore_dynamic_entity(dict:Dictionary) -> void:
 	var def = get_prefab_def(dict.prefab)
 	assert(def != null)
+	print("Restoring prefab " + dict.prefab)
 	var prefab = def.prefab.instance()
 	add_child(prefab)
 	prefab.get_node(def.entNodePath).restore_state(dict)

@@ -54,7 +54,7 @@ visible = false
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="CPUParticles" type="CPUParticles" parent="."]
+[node name="particles" type="CPUParticles" parent="."]
 material_override = SubResource( 3 )
 cast_shadow = 0
 amount = 12

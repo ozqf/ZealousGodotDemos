@@ -19,13 +19,15 @@ export(int) var quantity:int = 1
 export(String) var subType:String = ""
 export(int) var subQuantity:int = 1
 
-export(int) var respawnTime:int = 0
+var _selfRespawnTick:float = 20
 # export(String) var targetName:String = ""
 var _active:bool = true
-
+var _dead:bool = false
+var _settings = null
 var _player = null
-
 var _spawnState:Dictionary
+var _bRespawns:bool = false
+var _respawnTime:float = 20
 
 func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
@@ -37,9 +39,15 @@ func _ready() -> void:
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
 	_result = _ent.connect("entity_append_state", self, "append_state")
 
+func set_settings(settings) -> void:
+	_bRespawns = settings.respawns
+	_respawnTime = settings.selfRespawnTime
+
 func append_state(_dict:Dictionary) -> void:
 	_dict.pos = ZqfUtils.v3_to_dict(get_parent().global_transform.origin)
 	_dict.active = _active
+	_dict.tick = _selfRespawnTick
+	_dict.bRespawns = _bRespawns
 
 func write_state() -> Dictionary:
 	return {
@@ -49,6 +57,8 @@ func write_state() -> Dictionary:
 
 func restore_state(_dict:Dictionary) -> void:
 	get_parent().global_transform.origin = ZqfUtils.v3_from_dict(_dict.pos)
+	_selfRespawnTick = _dict.tick
+	_bRespawns = _dict.bRespawns
 	# global_transform.origin = data.position
 	_set_active(_dict.active)
 
@@ -64,10 +74,7 @@ func on_body_exited(body:Node) -> void:
 	if body == _player:
 		_player = null
 
-func _set_active(flag:bool) -> void:
-	_active = flag
-	_sprite.visible = _active
-	_areaShape.disabled = !_active
+func broadcast_pickup() -> void:
 	var grp = Groups.PLAYER_GROUP_NAME
 	var fn = Groups.PLAYER_FN_PICKUP
 	var description = ""
@@ -75,9 +82,40 @@ func _set_active(flag:bool) -> void:
 		description = "weapon"
 	get_tree().call_group(grp, fn, description)
 
-func _process(_delta:float) -> void:
+func _set_active(flag:bool) -> void:
+	# broadcast pickup for sound
+	# print("Set item_base active: " + str(flag))
 	
-	if !_active || !_player:
+	# hide object until respawn
+	_active = flag
+	_areaShape.disabled = !_active
+
+	if flag == true:
+		_sprite.modulate = Color.white
+	else:
+		broadcast_pickup()
+		if _bRespawns:
+			_selfRespawnTick = _respawnTime 
+		else:
+			print("Culling item " + str(_ent.prefabName))
+			get_parent().queue_free()
+
+func _process(_delta:float) -> void:
+	# tick respawn timer
+	if !_active:
+		if _selfRespawnTick <= 0:
+			_set_active(true)
+		else:
+			var step:float = 1 - (_selfRespawnTick / _respawnTime)
+			var stepColour:float = 0.5 + (step * 0.5)
+			var colour:Color = Color(stepColour, 0.3, 0.3, stepColour)
+			_sprite.modulate = colour
+
+			_selfRespawnTick -= _delta
+			return
+	
+	# check for a player overlap and drop out if none
+	if !_player:
 		return
 	
 	# attempt to give item(s)

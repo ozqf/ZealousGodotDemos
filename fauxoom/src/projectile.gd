@@ -4,7 +4,12 @@ class_name Projectile
 export var maxSpeed:float = 15.0
 export var timeToLive:float = 10
 
+# all projectiles have an animator
+onready var animator:CustomAnimator3D = $CustomAnimator3D
+
+# these are optional - setup in _ready
 export var deathSpawnPrefab:Resource = null
+var _particles = null
 
 enum ProjectileState {
 	Idle,
@@ -31,6 +36,8 @@ func _ready() -> void:
 	if has_node("Area"):
 		_area = $Area
 		var _r = _area.connect("scan_result", self, "area_scan_result")
+	if has_node("particles"):
+		_particles = $particles
 
 func area_scan_result(bodies) -> void:
 	# print("Projectile read " + str(bodies.size()) + " bodies hit")
@@ -62,6 +69,10 @@ func remove_self() -> void:
 func die() -> void:
 	_state = ProjectileState.Dying
 	_time = 1
+	animator.hide()
+	if _particles != null:
+		_particles.emitting = false
+
 	if _area != null:
 		_area.run()
 	if deathSpawnPrefab != null:
