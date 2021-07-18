@@ -30,6 +30,12 @@ var _bRespawns:bool = false
 var _respawnTime:float = 20
 
 func _ready() -> void:
+	# hide editor volume - only on the prefab to
+	# make it easier to select in the editor
+	$editor_volume.hide()
+
+
+
 	add_to_group(Groups.GAME_GROUP_NAME)
 	_spawnState = write_state()
 	var _result = $Area.connect("body_entered", self, "on_body_entered")
