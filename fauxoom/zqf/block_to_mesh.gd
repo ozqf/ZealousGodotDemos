@@ -73,6 +73,9 @@ func _cube_tris(size:float) -> PoolVector3Array:
 	return tris
 
 func gather_nodes(root:Spatial, resultsArray) -> void:
+	# if root.has_method("is_invisible_wall"):
+	if root is ZGUInvisibleWall:
+		return
 	var numChildren:int = root.get_child_count()
 	if numChildren == 0:
 		resultsArray.push_back(root)
