@@ -229,6 +229,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/defs/weapons.gd"
 }, {
+"base": "Spatial",
+"class": "ZGUBlock2Mesh",
+"language": "GDScript",
+"path": "res://zqf/block_to_mesh.gd"
+}, {
 "base": "KinematicBody",
 "class": "ZGUInvisibleWall",
 "language": "GDScript",
@@ -294,6 +299,7 @@ _global_script_class_icons={
 "TriggerTeleport": "",
 "TriggerVolume": "",
 "Weapons": "",
+"ZGUBlock2Mesh": "",
 "ZGUInvisibleWall": "",
 "ZqfConfig": "",
 "ZqfFPSMotor": "",
@@ -318,6 +324,10 @@ Bgm="*res://prefabs/services/bgm.tscn"
 
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "ZealousBlockMesh" )
 
 [input]
 

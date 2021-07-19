@@ -1,4 +1,5 @@
 extends Spatial
+class_name ZGUBlock2Mesh
 
 export var pixelsPerMetre:int = 64
 export var buildOnStart:bool = true

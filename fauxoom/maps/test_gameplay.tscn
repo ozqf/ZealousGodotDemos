@@ -398,9 +398,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 27 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 27 )
 [connection signal="trigger" from="static/trigger_volume" to="static/room_1/room_1_exit_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/room_1_counter" to="static/room_1/room_1_trig_1" method="on_trigger"]
-[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/side_doors" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/room_1_trap_gate" method="on_trigger"]
-[connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_exit_gate" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/side_doors" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_trap_gate" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_exit_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/mob_spawn_proxy" to="static/room_1/room_1_counter" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/mob_spawn_proxy2" to="static/room_1/room_1_counter" method="on_trigger"]
