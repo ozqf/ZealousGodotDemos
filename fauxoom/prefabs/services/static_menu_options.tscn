@@ -136,7 +136,7 @@ margin_left = 239.0
 margin_right = 495.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 256, 0 )
-value = 100.0
+value = 75.0
 
 [node name="music_volume" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 196.0

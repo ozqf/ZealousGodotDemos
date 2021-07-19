@@ -77,7 +77,7 @@ func gather_nodes(root:Spatial, resultsArray) -> void:
 	if root is ZGUInvisibleWall:
 		return
 	var numChildren:int = root.get_child_count()
-	if numChildren == 0:
+	if numChildren == 0 || root is MeshInstance:
 		resultsArray.push_back(root)
 		return
 	for _i in range(0, numChildren):
@@ -118,7 +118,9 @@ func build() -> void:
 		for _j in range(0, tris.size()):
 			tris[_j] = rot.xform(tris[_j]) + pos
 		
-
+		if (child is MeshInstance):
+			var _mesh:MeshInstance = child as MeshInstance
+		
 		# TODO - a proper pixels-per-metre implementation here!
 		
 		# scale UVs to tile over tris

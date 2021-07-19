@@ -162,6 +162,10 @@ func _apply_window_settings() -> void:
 	OS.window_fullscreen = Config.cfg.r_fullscreen
 
 func _set_bus_volume_percent(busIndex:int, percentage:float) -> void:
+	if percentage <= 0:
+		AudioServer.set_bus_mute(busIndex, true)
+	else:
+		AudioServer.set_bus_mute(busIndex, false)
 	var level:float = percentage / 100.0
 	var maxDb:float = 0
 	var minDb:float = -40

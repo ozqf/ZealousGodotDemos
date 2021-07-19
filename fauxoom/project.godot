@@ -102,7 +102,7 @@ _global_script_classes=[ {
 "base": "CanvasLayer",
 "class": "Hud",
 "language": "GDScript",
-"path": "res://src/hud.gd"
+"path": "res://src/ui/hud.gd"
 }, {
 "base": "Reference",
 "class": "Interactions",

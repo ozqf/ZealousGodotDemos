@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://assets/sprites/player/player_a1.png" type="Texture" id=1]
 [ext_resource path="res://src/player/player.gd" type="Script" id=2]
@@ -6,7 +6,7 @@
 [ext_resource path="res://assets/sprites/guns/ssg_frames.tres" type="SpriteFrames" id=4]
 [ext_resource path="res://src/player/player_attack.gd" type="Script" id=5]
 [ext_resource path="res://assets/sprites/hud/crosshair_green.png" type="Texture" id=6]
-[ext_resource path="res://src/hud.gd" type="Script" id=7]
+[ext_resource path="res://src/ui/hud.gd" type="Script" id=7]
 [ext_resource path="res://prefabs/ui/hud_hit_indicator.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/inventory/inventory.gd" type="Script" id=9]
 [ext_resource path="res://src/player/player_object_interactor.gd" type="Script" id=10]
@@ -22,6 +22,8 @@
 [ext_resource path="res://src/inventory/inv_empty.gd" type="Script" id=20]
 [ext_resource path="res://src/inventory/inv_plasma_gun.gd" type="Script" id=21]
 [ext_resource path="res://src/inventory/inv_debugger.gd" type="Script" id=22]
+[ext_resource path="res://src/ui/hud_pickup_messages.gd" type="Script" id=23]
+[ext_resource path="res://src/ui/hud_inventory.gd" type="Script" id=24]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -403,87 +405,137 @@ volume_db = -7.591
 pitch_scale = 0.79
 bus = "game"
 
-[node name="ammo_counts" type="VBoxContainer" parent="hud"]
+[node name="VBoxContainer" type="VBoxContainer" parent="hud"]
+anchor_left = 1.0
+anchor_top = 0.507
+anchor_right = 1.0
+anchor_bottom = 0.507
+margin_left = -128.0
+margin_top = -64.2
+margin_bottom = 63.8
+alignment = 1
+script = ExtResource( 23 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="hud/VBoxContainer"]
+margin_top = 29.0
+margin_right = 128.0
+margin_bottom = 43.0
+text = "Pickup message 1"
+align = 2
+
+[node name="Label2" type="Label" parent="hud/VBoxContainer"]
+margin_top = 47.0
+margin_right = 128.0
+margin_bottom = 61.0
+text = "abcdefghijklmnopqr"
+align = 2
+
+[node name="Label3" type="Label" parent="hud/VBoxContainer"]
+margin_top = 65.0
+margin_right = 128.0
+margin_bottom = 79.0
+text = "Got 10 shells"
+align = 2
+
+[node name="Label4" type="Label" parent="hud/VBoxContainer"]
+margin_top = 83.0
+margin_right = 128.0
+margin_bottom = 97.0
+text = "Got Super Shotgun"
+align = 2
+
+[node name="bottom_right_panel" type="VBoxContainer" parent="hud"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -128.0
-margin_top = -344.0
+margin_left = -256.0
+margin_top = -600.0
 alignment = 2
+script = ExtResource( 24 )
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="bullets" type="HBoxContainer" parent="hud/ammo_counts"]
-margin_top = 276.0
-margin_right = 128.0
-margin_bottom = 290.0
+[node name="ammo_counts" type="VBoxContainer" parent="hud/bottom_right_panel"]
+margin_top = 532.0
+margin_right = 256.0
+margin_bottom = 600.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bullets" type="HBoxContainer" parent="hud/bottom_right_panel/ammo_counts"]
+margin_right = 256.0
+margin_bottom = 14.0
 alignment = 2
 
-[node name="Label" type="Label" parent="hud/ammo_counts/bullets"]
-margin_left = 54.0
-margin_right = 108.0
+[node name="Label" type="Label" parent="hud/bottom_right_panel/ammo_counts/bullets"]
+margin_left = 182.0
+margin_right = 236.0
 margin_bottom = 14.0
 text = "BULLETS"
 
-[node name="count" type="Label" parent="hud/ammo_counts/bullets"]
-margin_left = 112.0
-margin_right = 128.0
+[node name="count" type="Label" parent="hud/bottom_right_panel/ammo_counts/bullets"]
+margin_left = 240.0
+margin_right = 256.0
 margin_bottom = 14.0
 text = "50"
 
-[node name="shells" type="HBoxContainer" parent="hud/ammo_counts"]
-margin_top = 294.0
-margin_right = 128.0
-margin_bottom = 308.0
+[node name="shells" type="HBoxContainer" parent="hud/bottom_right_panel/ammo_counts"]
+margin_top = 18.0
+margin_right = 256.0
+margin_bottom = 32.0
 alignment = 2
 
-[node name="Label" type="Label" parent="hud/ammo_counts/shells"]
-margin_left = 63.0
-margin_right = 108.0
+[node name="Label" type="Label" parent="hud/bottom_right_panel/ammo_counts/shells"]
+margin_left = 191.0
+margin_right = 236.0
 margin_bottom = 14.0
 text = "SHELLS"
 
-[node name="count" type="Label" parent="hud/ammo_counts/shells"]
-margin_left = 112.0
-margin_right = 128.0
+[node name="count" type="Label" parent="hud/bottom_right_panel/ammo_counts/shells"]
+margin_left = 240.0
+margin_right = 256.0
 margin_bottom = 14.0
 text = "50"
 
-[node name="plasma" type="HBoxContainer" parent="hud/ammo_counts"]
-margin_top = 312.0
-margin_right = 128.0
-margin_bottom = 326.0
+[node name="plasma" type="HBoxContainer" parent="hud/bottom_right_panel/ammo_counts"]
+margin_top = 36.0
+margin_right = 256.0
+margin_bottom = 50.0
 alignment = 2
 
-[node name="Label" type="Label" parent="hud/ammo_counts/plasma"]
-margin_left = 56.0
-margin_right = 108.0
+[node name="Label" type="Label" parent="hud/bottom_right_panel/ammo_counts/plasma"]
+margin_left = 184.0
+margin_right = 236.0
 margin_bottom = 14.0
 text = "PLASMA"
 
-[node name="count" type="Label" parent="hud/ammo_counts/plasma"]
-margin_left = 112.0
-margin_right = 128.0
+[node name="count" type="Label" parent="hud/bottom_right_panel/ammo_counts/plasma"]
+margin_left = 240.0
+margin_right = 256.0
 margin_bottom = 14.0
 text = "50"
 
-[node name="rockets" type="HBoxContainer" parent="hud/ammo_counts"]
-margin_top = 330.0
-margin_right = 128.0
-margin_bottom = 344.0
+[node name="rockets" type="HBoxContainer" parent="hud/bottom_right_panel/ammo_counts"]
+margin_top = 54.0
+margin_right = 256.0
+margin_bottom = 68.0
 alignment = 2
 
-[node name="Label" type="Label" parent="hud/ammo_counts/rockets"]
-margin_left = 52.0
-margin_right = 108.0
+[node name="Label" type="Label" parent="hud/bottom_right_panel/ammo_counts/rockets"]
+margin_left = 180.0
+margin_right = 236.0
 margin_bottom = 14.0
 text = "ROCKETS"
 
-[node name="count" type="Label" parent="hud/ammo_counts/rockets"]
-margin_left = 112.0
-margin_right = 128.0
+[node name="count" type="Label" parent="hud/bottom_right_panel/ammo_counts/rockets"]
+margin_left = 240.0
+margin_right = 256.0
 margin_bottom = 14.0
 text = "50"
