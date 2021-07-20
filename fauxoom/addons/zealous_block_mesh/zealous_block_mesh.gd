@@ -34,6 +34,7 @@ func _exit_tree():
 	remove_control_from_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, _showGizmoToggleButton)
 	remove_spatial_gizmo_plugin(_gizmo)
 
+# should this plugin be run for the given node?
 func handles(obj) -> bool:
 	if obj is ZGUBlock2Mesh:
 		return true

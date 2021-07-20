@@ -264,6 +264,15 @@ transform = Transform( 30, 0, 0, 0, 4, 0, 0, 0, 1, 0, 6, -14.5 )
 [node name="world_volume15" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 1, 13, 2, 14.5 )
 
+[node name="world_volume22" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
+transform = Transform( 8, 0, 0, 0, 4, 0, 0, 0, 1, 10, 2, 4.5 )
+
+[node name="world_volume23" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
+transform = Transform( 10.08, 0, 0, 0, 4, 0, 0, 0, 1, 0, 2, 4.5 )
+
+[node name="world_volume24" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
+transform = Transform( 8.064, 0, 0, 0, 4, 0, 0, 0, 1, -10, 2, 4.5 )
+
 [node name="world_volume18" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 21, 11.5, 3, 25.5 )
 
@@ -318,6 +327,18 @@ transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -5.5, 4.5, 4.5 )
 [node name="world_volume14" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, 5.5, 4.5, 4.5 )
 
+[node name="world_volume25" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 4.5 )
+
+[node name="world_volume27" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -4.5 )
+
+[node name="world_volume28" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 8, 5.5, 9, 0 )
+
+[node name="world_volume29" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 8, -5.5, 9, 0 )
+
 [node name="world_volume21" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 4, 0.5, 3.5, 34 )
 
@@ -338,6 +359,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 2.5, 37.5 )
 
 [node name="world_volume68" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 2, 14.5, 1.5, 37 )
+
+[node name="world_volume69" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 8, 16, 0.5, 40 )
 
 [node name="world_volume67" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
 transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 1, 13, 2.5, 36.5 )
@@ -393,7 +417,7 @@ transform = Transform( 8, 0, 0, 0, 64, 0, 0, 0, 8, 29.5, -13.5, 10.5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 24.5 )
 
 [node name="item_shells_large2" parent="." instance=ExtResource( 15 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.5 )
 
 [node name="item_shells_large4" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 0.5 )
@@ -404,7 +428,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 0.5 )
 respawns = true
 
 [node name="item_shells_large3" parent="." instance=ExtResource( 15 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.5 )
 
 [node name="item_shells_small" parent="." instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 27 )
@@ -413,8 +437,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 27 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 27 )
 [connection signal="trigger" from="static/trigger_volume" to="static/room_1/room_1_exit_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/room_1_counter" to="static/room_1/room_1_trig_1" method="on_trigger"]
-[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/room_1_trap_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/side_doors" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/room_1_trap_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_exit_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_trap_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/mob_spawn_proxy" to="static/room_1/room_1_counter" method="on_trigger"]

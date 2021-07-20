@@ -23,6 +23,13 @@ func redraw(gizmo):
 		return
 	_draw_box_grid(gizmo)
 
+# handle value callback
+func set_handle(gizmo:EditorSpatialGizmo, index:int, camera:Camera, point:Vector2):
+	var v = 0
+	# get_handle_value doesn't exist...?
+	# var v = gizmo.get_handle_value(index)
+	print("Handle " + str(index) + " value: " + str(v))
+
 func _draw_box_grid(gizmo):
 	gizmo.clear()
 	
@@ -129,7 +136,10 @@ func _draw_box_grid(gizmo):
 
 #	handles.push_back(Vector3(0, 0, 0))
 #	handles.push_back(Vector3(0, spatial.my_custom_value, 0))
-	handles.push_back(Vector3(0, 3, 0))
+	# handles.push_back(Vector3(0, 3, 0))
+	# x scale
+	handles.push_back(Vector3(-radius.x - scl.x, 0, 0))
+	handles.push_back(Vector3(radius.x + scl.x, 0, 0))
 	
 #	var mat:SpatialMaterial = get_material("main", gizmo)
 #	mat.flags_no_depth_test = true
