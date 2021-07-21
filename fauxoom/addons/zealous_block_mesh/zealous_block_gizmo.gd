@@ -1,39 +1,39 @@
-extends EditorSpatialGizmoPlugin
+extends EditorSpatialGizmo
 
-var bShow:bool = true
+var value:float = 1
 
 var _drawCentre:bool = true
 var _drawBounds:bool = true
 
-func get_name() -> String:
-	return "Zealous Grid"
-
-func _init() -> void:
-	create_material("main", Color(1, 0, 1), false, true)
-	create_handle_material("handles")
-
-func has_gizmo(spatial) -> bool:
-#	var result = spatial is MeshInstance
-	var result = spatial is PhysicsBody
-#	print("Has custom gizmo " + str(result))
-	return result
-
-func redraw(gizmo):
-	if !bShow:
-		return
-	_draw_box_grid(gizmo)
 
 # handle value callback
-func set_handle(gizmo:EditorSpatialGizmo, index:int, camera:Camera, point:Vector2):
+func set_handle(index:int, camera:Camera, point:Vector2):
 	var v = 0
+#	v = gizmo.get_handle_name(index)
 	# get_handle_value doesn't exist...?
 	# var v = gizmo.get_handle_value(index)
-	print("Handle " + str(index) + " value: " + str(v))
+#	print("Handle " + str(index) + " value: " + str(v) + " has - " + str(gizmo.has_method("get_handle_value")))
+#	print("Handle " + str(index) + " value: " + str(v) + " has - " + str(self.has_method("get_handle_value")))
+	print("Handle " + str(index) + " value: " + str(v) + " has - " + str(point))
 
-func _draw_box_grid(gizmo):
-	gizmo.clear()
+func get_handle_name(index:int):
+	if index == 0:
+		return "-x"
+	elif index == 1:
+		return "+x"
+	return "?"
+
+func get_handle_value(index:int):
+	return value
+
+func commit_handle(index:int, restore, cancel:bool = false):
+	print("Commit handle " + str(index) + " restore " + str(restore))
+	# value = restore
+
+func redraw():
+	self.clear()
 	
-	var spatial:Spatial = gizmo.get_spatial_node()
+	var spatial:Spatial = self.get_spatial_node()
 #	var targetSize:Vector3 = Vector3(1, 1, 1)
 	var targetSize:Vector3 = spatial.scale
 #	targetSize.x += 1
@@ -135,18 +135,17 @@ func _draw_box_grid(gizmo):
 	var handles = PoolVector3Array()
 
 #	handles.push_back(Vector3(0, 0, 0))
-#	handles.push_back(Vector3(0, spatial.my_custom_value, 0))
+	handles.push_back(Vector3(0, value, 0))
 	# handles.push_back(Vector3(0, 3, 0))
+	
 	# x scale
-	handles.push_back(Vector3(-radius.x - scl.x, 0, 0))
-	handles.push_back(Vector3(radius.x + scl.x, 0, 0))
+#	handles.push_back(Vector3(-radius.x - scl.x, 0, 0))
+#	handles.push_back(Vector3(radius.x + scl.x, 0, 0))
 	
 #	var mat:SpatialMaterial = get_material("main", gizmo)
 #	mat.flags_no_depth_test = true
 	
-	gizmo.add_lines(lines, get_material("main", gizmo), false)
-	gizmo.add_handles(handles, get_material("handles", gizmo))
-
-
-# You should implement the rest of handle-related callbacks
-# (get_handle_name(), get_handle_value(), commit_handle()...).
+	var mat = get_plugin().get_material("main", self)
+	add_lines(lines, mat)
+	var hmat = get_plugin().get_material("handles", self)
+	add_handles(handles, hmat)

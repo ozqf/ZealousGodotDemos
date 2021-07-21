@@ -1,8 +1,8 @@
 tool
 extends EditorPlugin
 
-const _gizmo_t = preload("res://addons/zealous_block_mesh/zealous_block_gizmo.gd")
-var _gizmo = _gizmo_t.new()
+const _gizmo_plugin_t = preload("res://addons/zealous_block_mesh/zealous_block_gizmo_plugin.gd")
+var _gizmo = _gizmo_plugin_t.new()
 
 var _generateButton:Button
 var _showGizmoToggleButton:Button
