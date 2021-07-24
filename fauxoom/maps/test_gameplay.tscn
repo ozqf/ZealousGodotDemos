@@ -326,6 +326,7 @@ transform = Transform( 0.866025, 0, -1, 0, 3, 0, 0.5, 0, 1.73205, -11.5, 1.5, 30
 
 [node name="world_volume17" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
 transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, 4, 2, 36.5 )
+visible = false
 
 [node name="world_volume11" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -5.5, 4.5, -4.5 )
@@ -370,7 +371,7 @@ transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 2, 8, 3.5, 31 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 3.5, 36.5 )
 
 [node name="world_volume65" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 3.5, 42.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 3.5, 50.5 )
 
 [node name="world_volume66" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 2.5, 37.5 )
@@ -455,8 +456,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 27 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 27 )
 [connection signal="trigger" from="static/trigger_volume" to="static/room_1/room_1_exit_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/room_1_counter" to="static/room_1/room_1_trig_1" method="on_trigger"]
-[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/room_1_trap_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/side_doors" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/room_1_trig_1" to="static/room_1/room_1_trap_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_exit_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_trap_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/mob_spawn_proxy" to="static/room_1/room_1_counter" method="on_trigger"]

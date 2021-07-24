@@ -13,11 +13,12 @@ func get_name() -> String:
 	return "Zealous Grid"
 
 func _init() -> void:
-	create_material("main", Color(1, 0, 1), false, true)
+	create_material("purple", Color(1, 0, 1), false, true)
+	create_material("cyan", Color(0, 1, 1), false, true)
 	create_handle_material("handles")
 
 func create_gizmo(spatial):
-	if !(spatial is PhysicsBody):
+	if !(spatial is ZealousBlock):
 		return null
 	return gizmo_t.new()
 
