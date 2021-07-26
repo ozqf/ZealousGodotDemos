@@ -2,6 +2,7 @@ extends EditorSpatialGizmo
 
 # var value:float = 1
 
+var _drawInternal:bool = false
 var _drawCentre:bool = true
 var _drawBounds:bool = true
 
@@ -31,6 +32,13 @@ func commit_handle(index:int, restore, cancel:bool = false):
 	# value = restore
 
 func redraw():
+	_draw_grid_gizmo()
+#	_draw_signal_gizmo()
+
+func _draw_signal_gizmo():
+	pass
+
+func _draw_grid_gizmo():
 	self.clear()
 	
 	var foo = self.get_spatial_node()
@@ -49,88 +57,135 @@ func redraw():
 	
 	var _min:Vector3 = radius * -1
 	
-	var lines = PoolVector3Array()
+	var purpleLines = PoolVector3Array()
+	var cyanLines = PoolVector3Array()
 	
 	#####################################
 	# centre widget - extends of object from inside - not really useful
 	# draw infront doesn't work
 	#####################################
-	lines.push_back(Vector3(0, radius.y, 0))
-	lines.push_back(Vector3(0, -radius.y, 0))
-	
-	lines.push_back(Vector3(-radius.x, 0, 0))
-	lines.push_back(Vector3(radius.x, 0, 0))
+	if _drawInternal:
+		purpleLines.push_back(Vector3(0, radius.y, 0))
+		purpleLines.push_back(Vector3(0, -radius.y, 0))
+		
+		purpleLines.push_back(Vector3(-radius.x, 0, 0))
+		purpleLines.push_back(Vector3(radius.x, 0, 0))
 
-	lines.push_back(Vector3(0, 0, -radius.z))
-	lines.push_back(Vector3(0, 0, radius.z))
+		purpleLines.push_back(Vector3(0, 0, -radius.z))
+		purpleLines.push_back(Vector3(0, 0, radius.z))
 	
 	#####################################
-	# lines out from centre
+	# lines out from centre of each plane
 	#####################################
 	if _drawCentre:
-		# x
-		lines.push_back(Vector3(-radius.x - scl.x, radius.y, 0))
-		lines.push_back(Vector3(radius.x + scl.x, radius.y, 0))
+		# top
+		purpleLines.push_back(Vector3(-radius.x - scl.x, radius.y, 0))
+		purpleLines.push_back(Vector3(radius.x + scl.x, radius.y, 0))
+
+		purpleLines.push_back(Vector3(0, radius.y, -radius.z - scl.z))
+		purpleLines.push_back(Vector3(0, radius.y, radius.z + scl.z))
 		
-		lines.push_back(Vector3(-radius.x - scl.x, -radius.y, 0))
-		lines.push_back(Vector3(radius.x + scl.x, -radius.y, 0))
+		# bottom
+		purpleLines.push_back(Vector3(-radius.x - scl.x, -radius.y, 0))
+		purpleLines.push_back(Vector3(radius.x + scl.x, -radius.y, 0))
+
+		purpleLines.push_back(Vector3(0, -radius.y, -radius.z - scl.z))
+		purpleLines.push_back(Vector3(0, -radius.y, radius.z + scl.z))
 		
-		# y
-		lines.push_back(Vector3(radius.x, -radius.y - scl.y, 0))
-		lines.push_back(Vector3(radius.x, radius.y + scl.y, 0))
+		# left
+		# across
+		purpleLines.push_back(Vector3(-radius.x, 0, -radius.z - scl.z))
+		purpleLines.push_back(Vector3(-radius.x, 0, radius.z + scl.z))
+		# up
+		purpleLines.push_back(Vector3(-radius.x, -radius.y - scl.y, 0))
+		purpleLines.push_back(Vector3(-radius.x, radius.y + scl.y, 0))
 		
-		lines.push_back(Vector3(-radius.x, -radius.y - scl.y, 0))
-		lines.push_back(Vector3(-radius.x, radius.y + scl.y, 0))
+		# right
+		# across
+		purpleLines.push_back(Vector3(radius.x, 0, -radius.z - scl.z))
+		purpleLines.push_back(Vector3(radius.x, 0, radius.z + scl.z))
+		# up
+		purpleLines.push_back(Vector3(radius.x, -radius.y - scl.y, 0))
+		purpleLines.push_back(Vector3(radius.x, radius.y + scl.y, 0))
+		
+		# front 
+		# across
+		purpleLines.push_back(Vector3(-radius.x - scl.x, 0, -radius.z))
+		purpleLines.push_back(Vector3(radius.x + scl.x, 0, -radius.z))
+		
+		# up
+		purpleLines.push_back(Vector3(0, radius.y - scl.y, -radius.z))
+		purpleLines.push_back(Vector3(0, radius.y + scl.y, -radius.z))
+
+		# back 
+		# across
+		purpleLines.push_back(Vector3(-radius.x - scl.x, 0, radius.z))
+		purpleLines.push_back(Vector3(radius.x + scl.x, 0, radius.z))
+		
+		# up
+		purpleLines.push_back(Vector3(0, radius.y - scl.y, radius.z))
+		purpleLines.push_back(Vector3(0, radius.y + scl.y, radius.z))
+
+
+		# purpleLines.push_back(Vector3(-radius.x - scl.x, -radius.y, 0))
+		# purpleLines.push_back(Vector3(radius.x + scl.x, -radius.y, 0))
+		
+		# # y
+		# purpleLines.push_back(Vector3(radius.x, -radius.y - scl.y, 0))
+		# purpleLines.push_back(Vector3(radius.x, radius.y + scl.y, 0))
+		
+		# purpleLines.push_back(Vector3(-radius.x, -radius.y - scl.y, 0))
+		# purpleLines.push_back(Vector3(-radius.x, radius.y + scl.y, 0))
 	
-		# z
-		lines.push_back(Vector3(0, -radius.y, -radius.z - scl.z))
-		lines.push_back(Vector3(0, -radius.y, radius.z + scl.z))
+		# # z
+		# purpleLines.push_back(Vector3(0, -radius.y, -radius.z - scl.z))
+		# purpleLines.push_back(Vector3(0, -radius.y, radius.z + scl.z))
 		
-		lines.push_back(Vector3(0, radius.y, -radius.z - scl.z))
-		lines.push_back(Vector3(0, radius.y, radius.z + scl.z))
+		# purpleLines.push_back(Vector3(0, radius.y, -radius.z - scl.z))
+		# purpleLines.push_back(Vector3(0, radius.y, radius.z + scl.z))
 	
 	#####################################
 	# edges of block
 	#####################################
 	if _drawBounds:
 			# x
-		lines.push_back(Vector3(radius.x + scl.x, radius.y, radius.z))
-		lines.push_back(Vector3(-radius.x - scl.x, radius.y, radius.z))
+		cyanLines.push_back(Vector3(radius.x + scl.x, radius.y, radius.z))
+		cyanLines.push_back(Vector3(-radius.x - scl.x, radius.y, radius.z))
 	
-		lines.push_back(Vector3(radius.x + scl.x, radius.y, -radius.z))
-		lines.push_back(Vector3(-radius.x - scl.x, radius.y, -radius.z))
+		cyanLines.push_back(Vector3(radius.x + scl.x, radius.y, -radius.z))
+		cyanLines.push_back(Vector3(-radius.x - scl.x, radius.y, -radius.z))
 	
-		lines.push_back(Vector3(radius.x + scl.x, -radius.y, radius.z))
-		lines.push_back(Vector3(-radius.x - scl.x, -radius.y, radius.z))
+		cyanLines.push_back(Vector3(radius.x + scl.x, -radius.y, radius.z))
+		cyanLines.push_back(Vector3(-radius.x - scl.x, -radius.y, radius.z))
 	
-		lines.push_back(Vector3(-radius.x - scl.x, -radius.y, -radius.z))
-		lines.push_back(Vector3(radius.x + scl.x, -radius.y, -radius.z))
+		cyanLines.push_back(Vector3(-radius.x - scl.x, -radius.y, -radius.z))
+		cyanLines.push_back(Vector3(radius.x + scl.x, -radius.y, -radius.z))
 	
 		# y
-		lines.push_back(Vector3(radius.x, radius.y + scl.y, radius.z))
-		lines.push_back(Vector3(radius.x, -radius.y - scl.y, radius.z))
+		cyanLines.push_back(Vector3(radius.x, radius.y + scl.y, radius.z))
+		cyanLines.push_back(Vector3(radius.x, -radius.y - scl.y, radius.z))
 	
-		lines.push_back(Vector3(radius.x, radius.y + scl.y, -radius.z))
-		lines.push_back(Vector3(radius.x, -radius.y - scl.y, -radius.z))
+		cyanLines.push_back(Vector3(radius.x, radius.y + scl.y, -radius.z))
+		cyanLines.push_back(Vector3(radius.x, -radius.y - scl.y, -radius.z))
 	
-		lines.push_back(Vector3(-radius.x, radius.y + scl.y, radius.z))
-		lines.push_back(Vector3(-radius.x, -radius.y - scl.y, radius.z))
+		cyanLines.push_back(Vector3(-radius.x, radius.y + scl.y, radius.z))
+		cyanLines.push_back(Vector3(-radius.x, -radius.y - scl.y, radius.z))
 	
-		lines.push_back(Vector3(-radius.x, radius.y + scl.y, -radius.z))
-		lines.push_back(Vector3(-radius.x, -radius.y - scl.y, -radius.z))
+		cyanLines.push_back(Vector3(-radius.x, radius.y + scl.y, -radius.z))
+		cyanLines.push_back(Vector3(-radius.x, -radius.y - scl.y, -radius.z))
 	
 		# z
-		lines.push_back(Vector3(-radius.x, -radius.y, radius.z + scl.z))
-		lines.push_back(Vector3(-radius.x, -radius.y, -radius.z  - scl.z))
+		cyanLines.push_back(Vector3(-radius.x, -radius.y, radius.z + scl.z))
+		cyanLines.push_back(Vector3(-radius.x, -radius.y, -radius.z  - scl.z))
 	
-		lines.push_back(Vector3(radius.x, -radius.y, radius.z + scl.z))
-		lines.push_back(Vector3(radius.x, -radius.y, -radius.z  - scl.z))
+		cyanLines.push_back(Vector3(radius.x, -radius.y, radius.z + scl.z))
+		cyanLines.push_back(Vector3(radius.x, -radius.y, -radius.z  - scl.z))
 	
-		lines.push_back(Vector3(-radius.x, radius.y, radius.z + scl.z))
-		lines.push_back(Vector3(-radius.x, radius.y, -radius.z  - scl.z))
+		cyanLines.push_back(Vector3(-radius.x, radius.y, radius.z + scl.z))
+		cyanLines.push_back(Vector3(-radius.x, radius.y, -radius.z  - scl.z))
 	
-		lines.push_back(Vector3(radius.x, radius.y, radius.z + scl.z))
-		lines.push_back(Vector3(radius.x, radius.y, -radius.z  - scl.z))
+		cyanLines.push_back(Vector3(radius.x, radius.y, radius.z + scl.z))
+		cyanLines.push_back(Vector3(radius.x, radius.y, -radius.z  - scl.z))
 	
 	var numChildren:int = spatial.get_child_count()
 	var offset:Vector3 = Vector3()
@@ -139,12 +194,16 @@ func redraw():
 		if (child is CollisionShape):
 			offset = child.transform.origin
 	
-	var numLines = lines.size()
+	var numLines = purpleLines.size()
 	for _i in range(0, numLines):
-		lines[_i] += offset
+		purpleLines[_i] += offset
 	
-#	lines.push_back(Vector3(10, 20, 10))
-#	lines.push_back(Vector3(10, 10, 10))
+	numLines = cyanLines.size()
+	for _i in range(0, numLines):
+		cyanLines[_i] += offset
+	
+#	purpleLines.push_back(Vector3(10, 20, 10))
+#	purpleLines.push_back(Vector3(10, 10, 10))
 
 	var handles = PoolVector3Array()
 
@@ -159,7 +218,9 @@ func redraw():
 #	var mat:SpatialMaterial = get_material("main", gizmo)
 #	mat.flags_no_depth_test = true
 	
-	var mat = get_plugin().get_material("purple", self)
-	add_lines(lines, mat)
+	var purpleMat = get_plugin().get_material("purple", self)
+	add_lines(purpleLines, purpleMat)
+	var cyanMat = get_plugin().get_material("cyan", self)
+	add_lines(cyanLines, cyanMat)
 	var hmat = get_plugin().get_material("handles", self)
 	add_handles(handles, hmat)
