@@ -73,10 +73,17 @@ func custom_tick_state(_delta:float, _targetInfo:Dictionary) -> void:
 			_start_attack(_delta, _targetInfo)
 			return
 		_mob.motor.set_target(_targetInfo.position)
+		var yawDegrees:float = rad2deg(_mob.motor.moveYaw)
 		if _targetInfo.trueDistance > 5:
 			_mob.motor.move_hunt(_delta)
+			# print("Hunt yaw: " + str(yawDegrees))
 		if _tick <= 0 && _targetInfo.trueDistance <= 25:
 			_start_attack(_delta, _targetInfo)
+			yawDegrees = ZqfUtils.yaw_between(_mob.global_transform.origin, _targetInfo.position)
+			yawDegrees = rad2deg(yawDegrees)
+			# print("Attack yaw: " + str(yawDegrees))
+		# apply rotation
+		_mob.sprite.yawDegrees = yawDegrees
 	elif _state == STATE_WINDUP:
 		_mob.motor.move_idle(_delta)
 		if faceTargetDuringWindup:

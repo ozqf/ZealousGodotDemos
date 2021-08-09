@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://prefabs/static_entities/toggle_mover.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=2]
@@ -16,9 +16,6 @@
 [ext_resource path="res://prefabs/items/item_rocket_launcher.tscn" type="PackedScene" id=14]
 [ext_resource path="res://prefabs/items/item_shells_large.tscn" type="PackedScene" id=15]
 [ext_resource path="res://zqf/block_to_mesh.gd" type="Script" id=16]
-[ext_resource path="res://assets/world/materials/mat_mossy_rock.tres" type="Material" id=17]
-[ext_resource path="res://assets/world/materials/mat_mud.tres" type="Material" id=18]
-[ext_resource path="res://assets/world/materials/mat_mould.tres" type="Material" id=19]
 [ext_resource path="res://prefabs/static_entities/trigger_counter.tscn" type="PackedScene" id=20]
 [ext_resource path="res://prefabs/items/item_bullets_large.tscn" type="PackedScene" id=21]
 [ext_resource path="res://assets/world/materials/mat_default_ceiling.tres" type="Material" id=22]
@@ -493,9 +490,9 @@ transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 3, 4.5, 1, 24.5 )
 
 [node name="block2mesh_terrain" type="Spatial" parent="world"]
 script = ExtResource( 16 )
-wallMaterial = ExtResource( 17 )
-groundMaterial = ExtResource( 19 )
-ceilingMaterial = ExtResource( 18 )
+wallMaterial = ExtResource( 23 )
+groundMaterial = ExtResource( 24 )
+ceilingMaterial = ExtResource( 22 )
 
 [node name="volumes" type="Spatial" parent="world/block2mesh_terrain"]
 

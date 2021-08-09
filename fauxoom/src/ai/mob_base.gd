@@ -224,7 +224,7 @@ func _process(_delta:float) -> void:
 			_change_state(MobState.Idle)
 		else:
 			_ticker.custom_tick(_delta, _tickInfo)
-		sprite.yawDegrees = rad2deg(motor.moveYaw)
+		# sprite.yawDegrees = rad2deg(motor.moveYaw)
 	elif _state == MobState.Idle:
 		if _thinkTick <= 0:
 			_thinkTick = _stats.losCheckTime
