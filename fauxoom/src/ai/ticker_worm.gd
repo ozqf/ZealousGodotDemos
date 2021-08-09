@@ -5,7 +5,7 @@ func custom_init_b() -> void:
 
 func custom_change_state(_newstate, _oldState):
 	if _newstate == STATE_WINDUP:
-		print("Pinkie attack! change state")
+		# print("Pinkie attack! change state")
 		_tick = 1
 		_state = STATE_MOVE
 		return true

@@ -11,7 +11,7 @@ script = ExtResource( 3 )
 soundType = 1
 type = "rocket_launcher"
 subType = "rockets"
-subQuantity = 5
+subQuantity = 10
 
 [node name="sprite" parent="item_base" index="0"]
 frame = 3

@@ -54,6 +54,7 @@ func on_trigger_entities(target:String) -> void:
 		return
 	if selfName == target:
 		# trigger!
+		print(prefabName + " " + selfName + " triggered")
 		emit_signal("entity_trigger")
 
 func _on_exiting_tree() -> void:

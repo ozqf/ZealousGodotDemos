@@ -7,6 +7,9 @@ signal trigger()
 
 onready var _ent:Entity = $Entity
 
+export var triggerName:String = ""
+export var triggerTargetName:String = ""
+
 export(Enums.EnemyType) var type = Enums.EnemyType.Punk
 export var delaySpawn:bool = false
 export var spawnAlert:bool = false
@@ -22,6 +25,8 @@ func _ready() -> void:
 	var _result = _ent.connect("entity_append_state", self, "append_state")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
 	_result = _ent.connect("entity_trigger", self, "on_trigger")
+	_ent.selfName = triggerName
+	_ent.triggerTargetName = triggerTargetName
 
 func game_run_map_spawns() -> void:
 	if !delaySpawn:
@@ -55,4 +60,5 @@ func on_trigger() -> void:
 	_childId = mob.get_node("Entity").id
 	# print("Spawned mob Id " + str(_childId))
 	mob.set_source(self, _ent.id)
+	mob.set_trigger_names("", _ent.triggerTargetName)
 	mob.set_behaviour(sniper)

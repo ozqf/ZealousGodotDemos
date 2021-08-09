@@ -68,8 +68,10 @@ func _calc_dir_index() -> int:
 		yawDegrees = _yawOverride.rotation_degrees.y
 	elif useParentYaw:
 		yawDegrees = get_parent().rotation_degrees.y
-	else:
-		yawDegrees = rotation_degrees.y
+	# else:
+	# 	yawDegrees = rotation_degrees.y
+	# rotation_degrees.y = yawDegrees
+	# print("enemy yaw " + str(yawDegrees))
 	var i:int = ZqfUtils.sprite_index(cam, self.global_transform, yawDegrees, _currentFrames.size())
 	return i
 

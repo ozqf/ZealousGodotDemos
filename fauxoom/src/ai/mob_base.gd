@@ -71,8 +71,15 @@ func _ready() -> void:
 	# move yaw is used for facing angle too so make sure it
 	# matches spawn transform
 	# _moveYaw = rotation_degrees.y
-	sprite.set_yaw_override(head)
+
+	# we will manually control rotation!
+	# sprite.set_yaw_override(head)
 	_health = _stats.health
+	_ent.triggerTargetName = triggerTargets
+
+func set_trigger_names(selfName:String, targets:String) -> void:
+	_ent.selfName = selfName
+	_ent.triggerTargetName = targets
 
 func set_source(node:Node, sourceId:int) -> void:
 	_sourceId = sourceId
@@ -208,7 +215,7 @@ func build_tick_info(targetInfo:Dictionary) -> void:
 
 func _process(_delta:float) -> void:
 	_stunAccumulator = 0
-	head.rotation.y = motor.moveYaw
+	# head.rotation.y = motor.moveYaw
 
 	if _state == MobState.Hunting:
 		build_tick_info(Game.mob_check_target(_tickInfo))
@@ -217,7 +224,7 @@ func _process(_delta:float) -> void:
 			_change_state(MobState.Idle)
 		else:
 			_ticker.custom_tick(_delta, _tickInfo)
-	
+		sprite.yawDegrees = rad2deg(motor.moveYaw)
 	elif _state == MobState.Idle:
 		if _thinkTick <= 0:
 			_thinkTick = _stats.losCheckTime
@@ -301,7 +308,7 @@ func hit(_hitInfo:HitInfo) -> int:
 			regular_death()
 		motor.mob_died()
 		emit_signal("on_mob_died", self)
-		Interactions.triggerTargets(get_tree(), triggerTargets)
+		Interactions.triggerTargets(get_tree(), _ent.triggerTargetName)
 		return _hitInfo.damage + _health
 	else:
 		# if not awake, wake up!

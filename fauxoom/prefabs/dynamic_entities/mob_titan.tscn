@@ -32,7 +32,6 @@ shaded = true
 frames = ExtResource( 6 )
 script = ExtResource( 5 )
 active = true
-useParentYaw = true
 animationSet = "mob_titan"
 defaultAnimation = "walk"
 

@@ -76,7 +76,7 @@ func load_scancodes_from_config() -> void:
 		if !Config.cfg.has(action.tag):
 			continue
 		var cfgCode = Config.cfg[action.tag]
-		print("Rebinding " + str(action.tag) + " to " + str(cfgCode))
+		# print("Rebinding " + str(action.tag) + " to " + str(cfgCode))
 		# defaults in config will be 0 - keep godot value
 		if cfgCode == 0:
 			continue

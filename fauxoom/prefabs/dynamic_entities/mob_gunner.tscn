@@ -26,7 +26,6 @@ shaded = true
 frames = ExtResource( 3 )
 script = ExtResource( 5 )
 active = true
-useParentYaw = true
 animationSet = "player"
 defaultAnimation = "walk"
 
