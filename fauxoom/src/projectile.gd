@@ -52,7 +52,7 @@ func area_scan_result(bodies) -> void:
 			percent = 1
 		if percent < 0:
 			percent = 0
-		_hitInfo.damage = int(100 * percent)
+		_hitInfo.damage = int(150 * percent)
 		_hitInfo.direction = tarPos - _hitInfo.origin
 		_hitInfo.direction = _hitInfo.direction.normalized()
 		var _inflicted:int = Interactions.hit(_hitInfo, body)

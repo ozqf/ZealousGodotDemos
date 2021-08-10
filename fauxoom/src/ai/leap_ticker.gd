@@ -38,6 +38,7 @@ func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
 		var tar:Vector3 = _targetInfo.position
 		
 		var dist:float = ZqfUtils.flat_distance_between(pos, tar)
+		self.set_rotation_to_movement()
 		if dist < 8:
 			if _tick <= 0:
 			# print("LEAP!")
