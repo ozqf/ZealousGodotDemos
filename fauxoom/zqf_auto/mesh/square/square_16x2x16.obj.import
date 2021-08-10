@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/square_16x2x16.obj-e252e7a39a8d935578d07faadbd7ca2c.mesh"
+
+[deps]
+
+files=[ "res://.import/square_16x2x16.obj-e252e7a39a8d935578d07faadbd7ca2c.mesh" ]
+
+source_file="res://zqf_auto/mesh/square/square_16x2x16.obj"
+dest_files=[ "res://.import/square_16x2x16.obj-e252e7a39a8d935578d07faadbd7ca2c.mesh", "res://.import/square_16x2x16.obj-e252e7a39a8d935578d07faadbd7ca2c.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

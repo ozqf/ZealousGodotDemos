@@ -1,0 +1,16 @@
+Godot Engine v3.2.3.stable.official - https://godotengine.org
+OpenGL ES 3.0 Renderer: GeForce GTX 970/PCIe/SSE2
+ 
+--- Block 2 mesh ready ---
+Set ground material: res://assets/world/materials/mat_default_ground.tres
+ground tex size: 128, 128
+Set ceiling material: res://assets/world/materials/mat_default_ceiling.tres
+ceiling tex size: 64, 64
+Set wall material: res://assets/world/materials/mat_default_wall.tres
+wall tex size: 128, 128
+--- Block 2 mesh build ---
+B2Mesh found 4 volumes
+Adding volume 0: MeshInstance
+Adding volume 1: CollisionShape
+Adding volume 2: MeshInstance
+Adding volume 3: CollisionShape

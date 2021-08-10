@@ -10,7 +10,7 @@
 [ext_resource path="res://prefabs/static_entities/horde_spawn.tscn" type="PackedScene" id=8]
 [ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=9]
 [ext_resource path="res://prefabs/static_entities/trigger_volume.tscn" type="PackedScene" id=10]
-[ext_resource path="res://env_daylight.tres" type="Environment" id=11]
+[ext_resource path="res://env/env_daylight.tres" type="Environment" id=11]
 [ext_resource path="res://src/embedded_map_controller.gd" type="Script" id=12]
 [ext_resource path="res://prefabs/items/item_super_shotgun.tscn" type="PackedScene" id=13]
 [ext_resource path="res://prefabs/items/item_rocket_launcher.tscn" type="PackedScene" id=14]
@@ -26,6 +26,7 @@
 [ext_resource path="res://assets/world/materials/mat_default_ground.tres" type="Material" id=24]
 [ext_resource path="res://prefabs/items/item_pistol.tscn" type="PackedScene" id=26]
 [ext_resource path="res://prefabs/items/item_rockets_large.tscn" type="PackedScene" id=27]
+
 
 [node name="test_level" type="Spatial"]
 script = ExtResource( 12 )

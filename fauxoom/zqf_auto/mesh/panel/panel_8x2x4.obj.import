@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/panel_8x2x4.obj-a6023494293e6ed6d675c9e53c441f34.mesh"
+
+[deps]
+
+files=[ "res://.import/panel_8x2x4.obj-a6023494293e6ed6d675c9e53c441f34.mesh" ]
+
+source_file="res://zqf_auto/mesh/panel/panel_8x2x4.obj"
+dest_files=[ "res://.import/panel_8x2x4.obj-a6023494293e6ed6d675c9e53c441f34.mesh", "res://.import/panel_8x2x4.obj-a6023494293e6ed6d675c9e53c441f34.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
