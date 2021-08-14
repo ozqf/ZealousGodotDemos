@@ -237,3 +237,6 @@ func kill() -> void:
 	info.gib = false
 	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_PLAYER_DIED, info)
 	queue_free()
+
+func void_volume_touch() -> void:
+	kill()

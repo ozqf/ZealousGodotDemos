@@ -282,7 +282,8 @@ func gib_death(dir:Vector3) -> void:
 	_change_state(MobState.Gibbed)
 
 func headshot_death() -> void:
-	pass
+	emit_mob_event("death")
+	_change_state(MobState.Dying)
 
 func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
 	var numParticles = 4
@@ -342,6 +343,7 @@ func hit(_hitInfo:HitInfo) -> int:
 			corpse.spawn(_hitInfo, global_transform)
 			# corpse.global_transform = global_transform
 			# print("Spawned corpse at " + str(corpse.global_transform.origin))
+			_change_state(MobState.Dying)
 			queue_free()
 			return 1
 		
@@ -366,3 +368,11 @@ func hit(_hitInfo:HitInfo) -> int:
 		if !_isSniper:
 			motor.damage_hit(_hitInfo)
 		return _hitInfo.damage
+
+func void_volume_touch() -> void:
+	var info:HitInfo = Game.new_hit_info()
+	info.direction = Vector3(0, 1, 0)
+	info.damage = 999999
+	info.damageType = Interactions.DAMAGE_TYPE_VOID
+	info.origin = global_transform.origin
+	hit(info)

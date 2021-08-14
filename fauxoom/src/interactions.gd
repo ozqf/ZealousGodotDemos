@@ -26,6 +26,7 @@ const DAMAGE_TYPE_PUNCH:int = 3
 const DAMAGE_TYPE_SIEGE:int = 4
 const DAMAGE_TYPE_PLASMA:int = 5
 const DAMAGE_TYPE_SHARPNEL:int = 6
+const DAMAGE_TYPE_VOID:int = 7
 
 const HIT_RESPONSE_NONE:int = -1
 const HIT_RESPONSE_PENETRATE:int = -2

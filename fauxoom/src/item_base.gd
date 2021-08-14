@@ -1,4 +1,4 @@
-extends PhysicsBody
+extends KinematicBody
 
 onready var _sprite:AnimatedSprite3D = $sprite
 onready var _areaShape:CollisionShape = $Area/CollisionShape
@@ -28,6 +28,8 @@ var _player = null
 var _spawnState:Dictionary
 var _bRespawns:bool = false
 var _respawnTime:float = 20
+
+var _velocity:Vector3 = Vector3()
 
 var _hasTriggeredTargets:bool = false
 
@@ -109,6 +111,10 @@ func _set_active(flag:bool) -> void:
 			get_parent().queue_free()
 
 func _process(_delta:float) -> void:
+	_velocity.y += -20 * _delta
+	_velocity.x *= 0.95
+	_velocity.z *= 0.95
+	_velocity = move_and_slide(_velocity)
 	# tick respawn timer
 	if !_active:
 		if _selfRespawnTick <= 0:

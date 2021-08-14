@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://zqf/hide_on_start.gd" type="Script" id=1]
-[ext_resource path="res://zqf/zgu_invisible_wall.gd" type="Script" id=2]
+[ext_resource path="res://src/static_entities/void_volume.gd" type="Script" id=2]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.5, 0.5 )
@@ -11,19 +11,20 @@ size = Vector3( 1, 1, 1 )
 
 [sub_resource type="SpatialMaterial" id=3]
 flags_transparent = true
-albedo_color = Color( 0.921569, 1, 0, 0.498039 )
+albedo_color = Color( 0.509804, 0.258824, 0.258824, 0.498039 )
 
-[node name="blocker_volume" type="StaticBody"]
-collision_layer = 64
-collision_mask = 64
+[node name="void_volume" type="Area"]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -0.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5 )
 shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -0.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5 )
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 script = ExtResource( 1 )
+hideOnStart = false

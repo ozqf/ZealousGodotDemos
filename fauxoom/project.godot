@@ -239,7 +239,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://zqf/block_to_mesh.gd"
 }, {
-"base": "KinematicBody",
+"base": "PhysicsBody",
 "class": "ZGUInvisibleWall",
 "language": "GDScript",
 "path": "res://zqf/zgu_invisible_wall.gd"
