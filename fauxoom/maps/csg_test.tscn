@@ -5,9 +5,10 @@
 [ext_resource path="res://prefabs/items/item_super_shotgun.tscn" type="PackedScene" id=3]
 [ext_resource path="res://prefabs/static_entities/mob_spawn_proxy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://zqf/hide_on_start.gd" type="Script" id=5]
-[ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=6]
+[ext_resource path="res://prefabs/world_inert/world_volume.tscn" type="PackedScene" id=6]
 [ext_resource path="res://maps/LightMap.png" type="Texture" id=7]
 [ext_resource path="res://assets/world/materials/mat_default_wall.tres" type="Material" id=8]
+
 
 [sub_resource type="Environment" id=1]
 ambient_light_color = Color( 0.129412, 0.133333, 0.164706, 1 )

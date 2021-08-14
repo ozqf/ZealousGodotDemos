@@ -1,7 +1,7 @@
 [gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://prefabs/gib.tscn" type="PackedScene" id=1]
-[ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=2]
+[ext_resource path="res://prefabs/world_inert/world_volume.tscn" type="PackedScene" id=2]
 [ext_resource path="res://prefabs/world_inert/blocker_volume.tscn" type="PackedScene" id=3]
 [ext_resource path="res://prefabs/static_entities/trigger_event.tscn" type="PackedScene" id=4]
 [ext_resource path="res://prefabs/ai_test.tscn" type="PackedScene" id=5]
@@ -44,14 +44,15 @@
 [ext_resource path="res://prefabs/items/item_pistol.tscn" type="PackedScene" id=42]
 [ext_resource path="res://prefabs/items/item_plasma_gun.tscn" type="PackedScene" id=43]
 [ext_resource path="res://prefabs/dynamic_entities/mob_flesh_worm.tscn" type="PackedScene" id=44]
-[ext_resource path="res://prefabs/world_volume_wedge.tscn" type="PackedScene" id=45]
+[ext_resource path="res://prefabs/world_inert/world_volume_wedge.tscn" type="PackedScene" id=45]
 [ext_resource path="res://prefabs/static_entities/trigger_teleport.tscn" type="PackedScene" id=46]
 [ext_resource path="res://src/navigation_service.gd" type="Script" id=47]
 [ext_resource path="res://assets/world/materials/mat_default_ceiling.tres" type="Material" id=48]
 [ext_resource path="res://assets/world/materials/mat_default_ground.tres" type="Material" id=49]
 [ext_resource path="res://zqf/block_to_mesh.gd" type="Script" id=50]
-[ext_resource path="res://prefabs/world_volume_corner.tscn" type="PackedScene" id=51]
+[ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=51]
 [ext_resource path="res://prefabs/items/item_full_pack.tscn" type="PackedScene" id=52]
+
 
 [sub_resource type="Environment" id=1]
 ambient_light_color = Color( 0.439216, 0.439216, 0.439216, 1 )

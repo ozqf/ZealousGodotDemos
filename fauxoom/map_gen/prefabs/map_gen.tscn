@@ -2,8 +2,9 @@
 
 [ext_resource path="res://map_gen/src/map_gen.gd" type="Script" id=1]
 [ext_resource path="res://zqf/mesh_generator.gd" type="Script" id=2]
-[ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=3]
+[ext_resource path="res://prefabs/world_inert/world_volume.tscn" type="PackedScene" id=3]
 [ext_resource path="res://env/default_world.tres" type="Environment" id=4]
+
 
 
 

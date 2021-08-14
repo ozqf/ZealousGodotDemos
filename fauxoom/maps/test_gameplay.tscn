@@ -1,7 +1,7 @@
 [gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://prefabs/static_entities/toggle_mover.tscn" type="PackedScene" id=1]
-[ext_resource path="res://prefabs/world_volume.tscn" type="PackedScene" id=2]
+[ext_resource path="res://prefabs/world_inert/world_volume.tscn" type="PackedScene" id=2]
 [ext_resource path="res://prefabs/world_inert/blocker_volume.tscn" type="PackedScene" id=3]
 [ext_resource path="res://prefabs/static_entities/trigger_event.tscn" type="PackedScene" id=4]
 [ext_resource path="res://prefabs/static_entities/player_barrier_volume.tscn" type="PackedScene" id=5]
@@ -24,10 +24,10 @@
 [ext_resource path="res://assets/world/materials/mat_default_ceiling.tres" type="Material" id=22]
 [ext_resource path="res://assets/world/materials/mat_default_wall.tres" type="Material" id=23]
 [ext_resource path="res://assets/world/materials/mat_default_ground.tres" type="Material" id=24]
-[ext_resource path="res://prefabs/world_volume_corner.tscn" type="PackedScene" id=25]
+[ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=25]
 [ext_resource path="res://prefabs/items/item_pistol.tscn" type="PackedScene" id=26]
 [ext_resource path="res://prefabs/items/item_rockets_large.tscn" type="PackedScene" id=27]
-[ext_resource path="res://prefabs/world_volume_wedge_corner.tscn" type="PackedScene" id=28]
+[ext_resource path="res://prefabs/world_inert/world_volume_wedge_corner.tscn" type="PackedScene" id=28]
 [ext_resource path="res://prefabs/world_inert/void_volume.tscn" type="PackedScene" id=29]
 
 [node name="test_level" type="Spatial"]
@@ -47,6 +47,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -9 )
 
 [node name="item_bullets_large2" parent="dynamic" instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 20 )
+
+[node name="item_bullets_large4" parent="dynamic" instance=ExtResource( 21 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 4, 22.5 )
+
+[node name="item_bullets_large5" parent="dynamic" instance=ExtResource( 21 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23.5, 0, 24.5 )
 
 [node name="item_bullets_large3" parent="dynamic" instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 26 )
@@ -177,7 +183,7 @@ selfRespawnTime = 10.0
 [node name="room_1" type="Spatial" parent="static"]
 
 [node name="world_volume_wedge_corner" parent="static/room_1" instance=ExtResource( 28 )]
-transform = Transform( 3.5, 0, 0, 0, 2, 0, 0, 0, 3, 13, 0, 31 )
+transform = Transform( 3.5, 0, 0, 0, 2, 0, 0, 0, 3, 13, 0, 33 )
 
 [node name="room_1_exit_gate" parent="static/room_1" instance=ExtResource( 5 )]
 transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 1, 5, 0, 16 )
@@ -238,11 +244,21 @@ triggerTargetName = "room_1_counter2"
 sniper = true
 
 [node name="mob_spawn_proxy12" parent="static/room_1" instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 4, 38 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 4, 40 )
 sniper = true
 
 [node name="mob_spawn_proxy13" parent="static/room_1" instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 21, 4, 38 )
+transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 21, 4, 40 )
+sniper = true
+
+[node name="mob_spawn_proxy15" parent="static/room_1" instance=ExtResource( 7 )]
+transform = Transform( 1.31135e-07, 0, -1, 0, 1, 0, 1, 0, 1.31135e-07, 13, 4, 26 )
+
+[node name="mob_spawn_proxy16" parent="static/room_1" instance=ExtResource( 7 )]
+transform = Transform( 1.31135e-07, 0, -1, 0, 1, 0, 1, 0, 1.31135e-07, 13, 4, 23 )
+
+[node name="mob_spawn_proxy17" parent="static/room_1" instance=ExtResource( 7 )]
+transform = Transform( -1, 0, -8.74232e-08, 0, 1, 0, 8.74232e-08, 0, -1, 14, 4, 14 )
 sniper = true
 
 [node name="mob_spawn_proxy14" parent="static/room_1" instance=ExtResource( 7 )]
@@ -355,16 +371,40 @@ ceilingMaterial = ExtResource( 22 )
 [node name="volumes" type="Spatial" parent="world/block2mesh_tech"]
 
 [node name="world_volume_corner" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
-transform = Transform( 7, 0, 0, 0, 4, 0, 0, 0, 1, 5, 4, 37 )
+transform = Transform( 7, 0, 0, 0, 4, 0, 0, 0, 1, 5, 4, 39 )
+
+[node name="world_volume_corner33" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 6, 11.3, 4.7, 33 )
+
+[node name="world_volume_corner34" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 6, 11.3, 5.9, 33 )
+
+[node name="world_volume_corner35" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 6, 11.3, 6.9, 33 )
+
+[node name="world_volume_corner24" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 7, 0, 0, 0, 1, 0, 0, 0, 1, 5, 3, 38 )
+
+[node name="world_volume_corner23" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 10, 4, 4, 30 )
+
+[node name="world_volume_corner25" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 5, 5, 3, 20.5 )
+
+[node name="world_volume_corner21" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 3, 11, 4, 40 )
+
+[node name="world_volume_corner22" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 20, 0, 0, 0, 4, 0, 0, 0, 1, 12, 4, 42 )
 
 [node name="world_volume_corner14" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
-transform = Transform( 14, 0, 0, 0, 4, 0, 0, 0, 3, 12, 0, 37 )
+transform = Transform( 14, 0, 0, 0, 4, 0, 0, 0, 3, 12, 0, 39 )
 
 [node name="world_volume_corner15" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
-transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 14, 20, -1, 23 )
+transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 17, 20, -1, 22 )
 
 [node name="world_volume_corner6" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 6, 12, 3, 31 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 6, 12, 3, 33 )
 
 [node name="world_volume_corner7" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 3, 16, -1, 23 )
@@ -374,6 +414,9 @@ transform = Transform( 3, 0, 0, 0, 1, 0, 0, 0, 3, 17, -1, 23 )
 
 [node name="world_volume_corner13" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
 transform = Transform( 3, 0, 0, 0, 1, 0, 0, 0, 3, 17, 3, 23 )
+
+[node name="world_volume_corner32" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 6, 0, 0, 0, 0.5, 0, 0, 0, 3, 20, 3.5, 23 )
 
 [node name="world_volume_corner11" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
 transform = Transform( 3, 0, 0, 0, 5, 0, 0, 0, 1, 17, -1, 22 )
@@ -392,6 +435,39 @@ transform = Transform( 7, 0, 0, 0, 1, 0, 0, 0, 4, 5, 3, 12 )
 
 [node name="world_volume_corner2" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
 transform = Transform( 6.9, 0, 0, 0, 4, 0, 0, 0, 1, 11, 4, 30 )
+
+[node name="world_volume_corner16" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 7, 0, 0, 0, 8, 0, 0, 0, 2, 13, 0, 31 )
+
+[node name="world_volume_corner27" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 2, 11, 4, 31 )
+
+[node name="world_volume_corner17" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 4, 19, 0, 27 )
+
+[node name="world_volume_corner28" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 7, 0, 0, 0, 4, 0, 0, 0, 1, 12, 4, 27 )
+
+[node name="world_volume_corner18" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 3, 0, 0, 0, 4, 0, 0, 0, 10, 17, 4, 12 )
+
+[node name="world_volume_corner29" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 14, 0, 0, 0, 4, 0, 0, 0, 1, 4, 4, 11 )
+
+[node name="world_volume_corner30" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 3, 4, 4, 12 )
+
+[node name="world_volume_corner19" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 21, 26, 0, 22 )
+
+[node name="world_volume_corner20" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 11, 0, 0, 0, 8, 0, 0, 0, 1, 20, 0, 21 )
+
+[node name="world_volume_corner31" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 20, 30, 0, 22 )
+
+[node name="world_volume_corner26" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 5, 0, 0, 0, 1, 0, 0, 0, 6, 12, 3, 12 )
 
 [node name="world_volume_corner3" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 15, 11, 4, 15 )
@@ -602,9 +678,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 4, 0.5, 3.5, 34 )
 
 [node name="world_volume49" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 4, 4.5, 3.5, 34 )
-
-[node name="world_volume75" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 8, 4.5, 6, 34 )
 
 [node name="world_volume48" parent="world/block2mesh_tech/volumes" instance=ExtResource( 2 )]
 transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 6, 8, 3.5, 33 )

@@ -21,6 +21,7 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 			_fire_single(forward, 1000)
 		.play_fire_1(false)
 		_hud.audio.stream = _ssgShoot
+		_hud.audio.pitch_scale = rand_range(0.85, 1)
 		_hud.audio.play()
 		_lastSoundFrame = - 1
 		_inventory.take_item(ammoType, ammoPerShot)

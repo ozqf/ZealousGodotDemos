@@ -30,7 +30,7 @@ defaultAnimation = "headshot_stand"
 [node name="headshot_spurt" type="CPUParticles" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0 )
 emitting = false
-amount = 16
+amount = 24
 mesh = ExtResource( 4 )
 direction = Vector3( 0, 1, 0 )
 spread = 20.0

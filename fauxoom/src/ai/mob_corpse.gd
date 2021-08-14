@@ -63,7 +63,7 @@ func hit(_hitInfo:HitInfo) -> int:
 func headshot_death() -> void:
 	_headshotSpurt.emitting = true
 	_state = CorpseState.HeadshotSpurt
-	_tick = 1.5
+	_tick = 1
 	var pos:Vector3 = global_transform.origin
 	pos.y += 1.3
 	_spawn_hit_particles(pos, true)

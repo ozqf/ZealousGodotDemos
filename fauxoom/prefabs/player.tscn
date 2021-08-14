@@ -99,7 +99,7 @@ hudName = "Pistol"
 inventoryType = "pistol"
 ammoType = "bullets"
 slot = 2
-refireTime = 0.25
+refireTime = 0.15
 idle = "pistol_idle"
 fire_1 = "pistol_shoot"
 

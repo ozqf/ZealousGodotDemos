@@ -239,7 +239,7 @@ func _process(_delta:float) -> void:
 			# 		_change_state(MobState.Hunting)
 			# 	else:
 			# 		print("Player in front but cannot see!")
-			if Game.check_los_to_player(global_transform.origin):
+			if Game.check_los_to_player(head.global_transform.origin):
 				force_awake()
 		else:
 			_thinkTick -= _delta
