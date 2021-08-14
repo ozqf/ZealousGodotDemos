@@ -5,6 +5,9 @@ extends KinematicBody
 # https://www.reddit.com/r/godot/comments/hu213d/class_was_found_in_global_scope_but_its_script/
 # class_name MobBase
 
+var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
+var _punk_corpse_t = preload("res://prefabs/corpses/punk_corpse.tscn")
+
 const STUN_TIME:float = 0.2
 
 signal on_mob_died(mob)
@@ -278,6 +281,25 @@ func gib_death(dir:Vector3) -> void:
 	var _err = Game.spawn_gibs(global_transform.origin, dir, 8)
 	_change_state(MobState.Gibbed)
 
+func headshot_death() -> void:
+	pass
+
+func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
+	var numParticles = 4
+	var _range:float = 0.15
+	if deathHit:
+		numParticles = 12
+		_range =- 0.35
+	var root:Node = get_tree().get_current_scene()
+	for _i in range(0, numParticles):
+		var blood = _prefab_blood_hit.instance()
+		root.add_child(blood)
+		var offset:Vector3 = Vector3(
+			rand_range(-_range, _range),
+			rand_range(-_range, _range),
+			rand_range(-_range, _range))
+		blood.global_transform.origin = (pos + offset)
+
 func corpse_hit(_hitInfo:HitInfo) -> int:
 	# print("Corpse hit - frame == " + str(sprite.get_frame_number()))
 	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
@@ -286,7 +308,8 @@ func corpse_hit(_hitInfo:HitInfo) -> int:
 			gib_death(_hitInfo.direction)
 		return 1
 	elif sprite.get_frame_number() <= 1:
-		if _health < -_stats.health * 1000:
+		_spawn_hit_particles(_hitInfo.origin, false)
+		if _health < -_stats.health * 5:
 			gib_death(_hitInfo.direction / 10)
 		else:
 			_health -= _hitInfo.damage
@@ -305,15 +328,33 @@ func hit(_hitInfo:HitInfo) -> int:
 			print("Explosive hit for " + str(_hitInfo.damage))
 	if _health <= 0:
 		# die
-		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
-			gib_death(_hitInfo.direction)
-		else:
-			regular_death()
+
+		# triggers and important things
 		motor.mob_died()
 		emit_signal("on_mob_died", self)
 		Interactions.triggerTargets(get_tree(), _ent.triggerTargetName)
+
+		# fx
+		print("Prefab " + str(_ent.prefabName) + " died at " + str(global_transform.origin))
+		if _ent.prefabName == "mob_punk":
+			var corpse = _punk_corpse_t.instance()
+			get_tree().get_current_scene().add_child(corpse)
+			corpse.global_transform = global_transform
+			print("Spawned corpse at " + str(corpse.global_transform.origin))
+			queue_free()
+			return 1
+		var selfPos:Vector3 = global_transform.origin
+		var hitHeight:float = _hitInfo.origin.y - selfPos.y
+		if hitHeight > 1:
+			headshot_death()
+		elif _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+			gib_death(_hitInfo.direction)
+		else:
+			regular_death()
+		_spawn_hit_particles(_hitInfo.origin, true)
 		return _hitInfo.damage + _health
 	else:
+		_spawn_hit_particles(_hitInfo.origin, false)
 		# if not awake, wake up!
 		force_awake()
 		emit_mob_event("pain")

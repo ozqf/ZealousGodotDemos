@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/frames/punk_corpse_frames.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://src/ai/mob_corpse.gd" type="Script" id=3]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.5
+height = 0.7
+
+[node name="punk_corpse" type="KinematicBody"]
+collision_layer = 256
+collision_mask = 5
+script = ExtResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.85, 0 )
+shape = SubResource( 1 )
+
+[node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
+offset = Vector2( 0, 32 )
+billboard = 2
+frames = ExtResource( 2 )
+script = ExtResource( 1 )
+animationSet = "punk_corpse"
+defaultAnimation = "headshot_stand"

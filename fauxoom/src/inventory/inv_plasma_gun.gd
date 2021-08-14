@@ -5,6 +5,7 @@ var _trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
 
 func custom_init_b() -> void:
 	_hitInfo.damage = 100
+	_hitInfo.damage = Interactions.DAMAGE_TYPE_PLASMA
 
 # func is_cycling() -> bool:
 # 	if !_equipped:

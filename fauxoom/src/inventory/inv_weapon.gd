@@ -6,6 +6,7 @@ signal weapon_action(weapon, actionName)
 var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
 var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
 
+export var damageType:int = 0
 export var hudName:String = ""
 export var inventoryType:String = ""
 export var ammoType:String = ""
@@ -110,7 +111,14 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> void:
 	#print("HIT at " + str(result.position))
 	# result.collider etc etc
 	_hitInfo.direction = forward
-	var inflicted:int = Interactions.hitscan_hit(_hitInfo, result)
+	_hitInfo.origin = result.position
+	var interactionResult:int = Interactions.hitscan_hit(_hitInfo, result)
+
+	# mask upper and lower range
+	# var resultCode:int = interactionResult & (0xFFFF)
+	# var inflicted:int = interactionResult & (0xFFFF0000)
+	# print("Result code: " + str(resultCode) + " inflicted: " + str(inflicted))
+	var inflicted:int = interactionResult
 
 	var root:Node = get_tree().get_current_scene()
 	if inflicted == -1:
@@ -124,17 +132,17 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> void:
 	elif inflicted == -2:
 		# print("Penetration hit")
 		pass
-	else:
-		var pos = result.position
-		for _i in range(0, 4):
-			var blood = _prefab_blood_hit.instance()
-			root.add_child(blood)
-			var _range:float = 0.1
-			var offset:Vector3 = Vector3(
-				rand_range(-_range, _range),
-				rand_range(-_range, _range),
-				rand_range(-_range, _range))
-			blood.global_transform.origin = (pos + offset)
+	# else:
+	# 	var pos = result.position
+	# 	for _i in range(0, 4):
+	# 		var blood = _prefab_blood_hit.instance()
+	# 		root.add_child(blood)
+	# 		var _range:float = 0.1
+	# 		var offset:Vector3 = Vector3(
+	# 			rand_range(-_range, _range),
+	# 			rand_range(-_range, _range),
+	# 			rand_range(-_range, _range))
+	# 		blood.global_transform.origin = (pos + offset)
 
 func _fire_single(forward:Vector3, scanRange:float) -> Vector3:
 	var mask:int = Interactions.get_player_prj_mask()

@@ -94,6 +94,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/defs/hit_info.gd"
 }, {
+"base": "Reference",
+"class": "HitResponse",
+"language": "GDScript",
+"path": "res://src/defs/hit_response.gd"
+}, {
 "base": "Spatial",
 "class": "HordeSpawnComponent",
 "language": "GDScript",
@@ -277,6 +282,7 @@ _global_script_class_icons={
 "GridEditor": "",
 "Groups": "",
 "HitInfo": "",
+"HitResponse": "",
 "HordeSpawnComponent": "",
 "Hud": "",
 "Interactions": "",

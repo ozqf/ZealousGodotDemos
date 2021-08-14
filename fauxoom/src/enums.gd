@@ -8,3 +8,9 @@ enum EnemyType {
 	Spider,
 	Titan
 }
+
+# enum HitResponeeType {
+# 	None,
+# 	Damaged,
+# 	Killed
+# }

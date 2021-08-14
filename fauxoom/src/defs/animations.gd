@@ -51,8 +51,8 @@ const data = {
 				frames = [[48],[49],[50],[51],[52],[53],[54],[55]]
 			},
 			dying = {
-				loopIndex = 4,
-				frames = [[56,57,58,59,60]]
+				loopIndex = 5,
+				frames = [[48,56,57,58,59,60]]
 			},
 			dead = {
 				frames = [[60]]
@@ -62,6 +62,37 @@ const data = {
 			},
 			dead_gib = {
 				frames = [[69]]
+			}
+		}
+	},
+	punk_corpse = {
+		name = "punk",
+		path = "res://assets/sprites/frames/punk_corpse_frames.tres",
+		offset = 32,
+		anims = {
+			pain = {
+				frames = [[0],[1],[2],[3],[4],[5],[6],[7]]
+			},
+			dying = {
+				loopIndex = 5,
+				frames = [[0,8,9,10,11,12]]
+			},
+			dead = {
+				frames = [[12]]
+			},
+			headshot_stand = {
+				frames = [[22]]
+			},
+			headshot_dying = {
+				loopIndex = 4,
+				frames = [[22, 24, 25, 26, 27]]
+			},
+			dying_gib = {
+				loopIndex = 8,
+				frames = [[13,14,15,16,17,18,19,20,21]]
+			},
+			dead_gib = {
+				frames = [[21]]
 			}
 		}
 	},
