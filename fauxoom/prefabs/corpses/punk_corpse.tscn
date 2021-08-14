@@ -1,15 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/frames/punk_corpse_frames.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://src/ai/mob_corpse.gd" type="Script" id=3]
+[ext_resource path="res://assets/gfx/particle_quad.tres" type="QuadMesh" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
 height = 0.7
 
 [node name="punk_corpse" type="KinematicBody"]
-collision_layer = 256
+collision_layer = 1024
 collision_mask = 5
 script = ExtResource( 3 )
 
@@ -25,3 +26,13 @@ frames = ExtResource( 2 )
 script = ExtResource( 1 )
 animationSet = "punk_corpse"
 defaultAnimation = "headshot_stand"
+
+[node name="headshot_spurt" type="CPUParticles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0 )
+emitting = false
+amount = 16
+mesh = ExtResource( 4 )
+direction = Vector3( 0, 1, 0 )
+spread = 20.0
+gravity = Vector3( 0, -20, 0 )
+initial_velocity = 10.0

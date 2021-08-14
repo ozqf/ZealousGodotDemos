@@ -5,7 +5,8 @@ var _trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
 
 func custom_init_b() -> void:
 	_hitInfo.damage = 100
-	_hitInfo.damage = Interactions.DAMAGE_TYPE_PLASMA
+	_hitInfo.damageType = Interactions.DAMAGE_TYPE_PLASMA
+	print("Init plasma - dmg " + str(_hitInfo.damage) + " type " + str(_hitInfo.damageType))
 
 # func is_cycling() -> bool:
 # 	if !_equipped:
@@ -24,6 +25,7 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 	if tick > 0:
 		return
 	if _primaryOn:
+		print("Fire plasma - dmg " + str(_hitInfo.damage) + " type " + str(_hitInfo.damageType))
 		tick = refireTime
 		var hitPos:Vector3 = _fire_single(-_launchNode.global_transform.basis.z, 1000)
 		_draw_trail(_launchNode.global_transform.origin, hitPos)

@@ -339,10 +339,12 @@ func hit(_hitInfo:HitInfo) -> int:
 		if _ent.prefabName == "mob_punk":
 			var corpse = _punk_corpse_t.instance()
 			get_tree().get_current_scene().add_child(corpse)
-			corpse.global_transform = global_transform
-			print("Spawned corpse at " + str(corpse.global_transform.origin))
+			corpse.spawn(_hitInfo, global_transform)
+			# corpse.global_transform = global_transform
+			# print("Spawned corpse at " + str(corpse.global_transform.origin))
 			queue_free()
 			return 1
+		
 		var selfPos:Vector3 = global_transform.origin
 		var hitHeight:float = _hitInfo.origin.y - selfPos.y
 		if hitHeight > 1:
