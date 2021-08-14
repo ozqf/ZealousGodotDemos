@@ -37,7 +37,7 @@ script = ExtResource( 12 )
 environment = ExtResource( 11 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, -15, 13, 16 )
+transform = Transform( 0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, -15, 13, 1 )
 current = true
 
 [node name="dynamic" type="Spatial" parent="."]
@@ -248,7 +248,6 @@ sniper = true
 [node name="mob_spawn_proxy14" parent="static/room_1" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 23, 0, 35 )
 type = 2
-sniper = true
 
 [node name="mob_spawn_proxy10" parent="static/room_1" instance=ExtResource( 7 )]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 10, 4, 15 )

@@ -57,7 +57,8 @@ moveStyle = 1
 script = ExtResource( 1 )
 entityType = "mob_titan"
 health = 200
-moveSpeed = 8.5
+moveSpeed = 10.0
+moveTime = 1.0
 stunThreshold = 100
 
 [node name="Entity" type="Node" parent="."]
