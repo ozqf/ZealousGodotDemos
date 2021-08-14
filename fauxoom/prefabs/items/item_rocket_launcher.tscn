@@ -9,9 +9,9 @@ script = ExtResource( 3 )
 
 [node name="item_base" parent="." instance=ExtResource( 1 )]
 soundType = 1
-type = "rocket_launcher"
-subType = "rockets"
-subQuantity = 10
+type = "rockets"
+quantity = 10
+subType = "rocket_launcher"
 
 [node name="sprite" parent="item_base" index="0"]
 frame = 3

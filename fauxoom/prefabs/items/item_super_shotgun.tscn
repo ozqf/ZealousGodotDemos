@@ -9,9 +9,9 @@ script = ExtResource( 3 )
 
 [node name="item_base" parent="." instance=ExtResource( 1 )]
 soundType = 1
-type = "super_shotgun"
-subType = "shells"
-subQuantity = 8
+type = "shells"
+quantity = 8
+subType = "super_shotgun"
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 2 )

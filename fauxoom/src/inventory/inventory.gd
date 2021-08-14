@@ -154,11 +154,20 @@ func change_weapon_by_slot(_slotNumber:int) -> int:
 		# matches this slot
 		fail += 1
 		if fail > numWeapons + 1:
-			# print("Select by slot ran away!")
+			print("Select by slot " + str(_slotNumber) + " ran away!")
 			return -1
 	if result != _currentWeaponIndex:
 		set_current_weapon(result)
 	return 1
+
+func find_weapon_slot_by_name(weaponName:String) -> int:
+	var num:int = weapons.size()
+	for _i in range(0, num):
+		if weapons[_i].inventoryType == weaponName:
+			print("Found slot " + str(weapons[_i].slot) + " for item " + weaponName)
+			return weapons[_i].slot
+	print("Found no slot for weapon " + weaponName)
+	return -1
 
 func get_count(itemType:String) -> int:
 	if itemType == "" || !_data.has(itemType):
@@ -197,16 +206,21 @@ func give_item(itemType:String, amount:int) -> int:
 	if !_data.has(itemType):
 		return 0
 	var item:Dictionary = _data[itemType]
+	var previousCount:int = item.count
 	if item.count >= item.max:
 		return 0
 	var capacity:int = int(abs(item.count - item.max))
 	if capacity < amount:
 		amount = amount - (amount - capacity)
 		item.count = item.max
-		return amount
 	else:
 		item.count += amount
-		return amount
+	if previousCount == 0:
+		var slotNumber:int = find_weapon_slot_by_name(itemType)
+		if slotNumber != -1:
+			var result:int = change_weapon_by_slot(slotNumber)
+			print("Changing to slot " + str(slotNumber) + " for weapon " + itemType + " result " + str(result))
+	return amount
 
 func debug() -> String:
 	var txt:String = "--Inventory--\n"

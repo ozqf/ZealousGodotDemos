@@ -29,6 +29,8 @@ var _spawnState:Dictionary
 var _bRespawns:bool = false
 var _respawnTime:float = 20
 
+var _hasTriggeredTargets:bool = false
+
 func _ready() -> void:
 	# hide editor volume - only on the prefab to
 	# make it easier to select in the editor
@@ -127,14 +129,20 @@ func _process(_delta:float) -> void:
 	# attempt to give item(s)
 	# if either is taken, despawn
 	var despawn:bool = false
+	var triggerTargets:bool = false
 	if type != "" && quantity > 0:
 		var taken:int = _player.give_item(type, quantity)
 		if taken > 0:
 			despawn = true
+		triggerTargets = true
 	if subType != "" && subQuantity > 0:
 		var taken:int = _player.give_item(subType, subQuantity)
 		if taken > 0:
 			despawn = true
+		triggerTargets = true
+	if triggerTargets && !_hasTriggeredTargets:
+		_hasTriggeredTargets = true
+		_ent.trigger()
 	
 	if despawn:
 		_set_active(false)

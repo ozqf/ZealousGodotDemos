@@ -7,13 +7,12 @@ onready var _shape:CollisionShape = $Area/CollisionShape
 
 var _hitInfo:HitInfo = null
 
-func custom_init(mob) -> void:
+func custom_init_b() -> void:
 	_hitInfo = Game.new_hit_info()
 	_hitInfo.attackTeam = Interactions.TEAM_ENEMY
-	mob.motor.speed = 8
+#	_mob.motor.speed = 8
 	_damage_area_off()
 	var _err = _area.connect("body_entered", self, "_on_body_entered")
-	.custom_init(mob)
 
 func _on_body_entered(body:PhysicsBody) -> void:
 	# can touch self!

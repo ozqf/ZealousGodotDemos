@@ -326,6 +326,11 @@ Game="*res://prefabs/services/game.tscn"
 Ents="*res://prefabs/services/entities.tscn"
 Bgm="*res://prefabs/services/bgm.tscn"
 
+[debug]
+
+gdscript/warnings/unused_variable=false
+gdscript/warnings/return_value_discarded=false
+
 [display]
 
 window/stretch/mode="viewport"
@@ -495,5 +500,4 @@ attack_2={
 
 [rendering]
 
-quality/driver/driver_name="GLES2"
 environment/default_environment="res://default_env.tres"

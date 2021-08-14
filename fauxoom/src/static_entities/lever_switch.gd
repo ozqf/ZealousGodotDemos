@@ -46,6 +46,7 @@ func _set_on(flag:bool) -> void:
 func use() -> void:
 	if !on:
 		_set_on(true)
-		emit_signal("trigger")
+		_ent.trigger()
 		_audio.play()
-		Interactions.triggerTargets(get_tree(), triggerTargetName)
+		emit_signal("trigger")
+		# Interactions.triggerTargets(get_tree(), triggerTargetName)

@@ -15,7 +15,7 @@ var _xformA:Transform
 var _xformB:Transform
 
 func _ready():
-	# _marker.visible = false
+	_marker.visible = false
 	var _r = _ent.connect("entity_append_state", self, "append_state")
 	_r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_trigger", self, "on_trigger")

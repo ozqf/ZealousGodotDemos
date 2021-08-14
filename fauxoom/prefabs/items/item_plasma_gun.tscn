@@ -9,9 +9,9 @@ script = ExtResource( 3 )
 
 [node name="item_base" parent="." instance=ExtResource( 1 )]
 soundType = 1
-type = "plasma_gun"
-subType = "plasma"
-subQuantity = 10
+type = "plasma"
+quantity = 10
+subType = "plasma_gun"
 
 [node name="sprite" parent="item_base" index="0"]
 frame = 4

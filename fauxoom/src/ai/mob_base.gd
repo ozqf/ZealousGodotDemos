@@ -64,7 +64,7 @@ var _isSniper:bool = false
 func _ready() -> void:
 	attack.custom_init($head, self)
 	motor.custom_init(self)
-	_ticker.custom_init(self)
+	_ticker.custom_init(self, _stats)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	var _r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_append_state", self, "append_state")
@@ -148,7 +148,10 @@ func _change_state(_newState) -> void:
 	
 	# disable AI ticker if necessary
 	if _state != MobState.Hunting:
-		_ticker.stop_hunt()
+		if _prevState == MobState.Stunned:
+			_ticker.stun_ended()
+		else:
+			_ticker.stop_hunt()
 	
 	var _err
 	# apply new state
@@ -160,7 +163,7 @@ func _change_state(_newState) -> void:
 		_err = sprite.play_animation("aim")
 		motor.set_is_attacking(true)
 	elif _state == MobState.Stunned:
-		pass
+		_err = sprite.play_animation("pain")
 	elif _state == MobState.Idle:
 		motor.clear_target()
 	elif _state == MobState.Spawning:

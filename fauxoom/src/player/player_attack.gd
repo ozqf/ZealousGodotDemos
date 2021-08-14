@@ -69,4 +69,3 @@ func _process(_delta:float) -> void:
 			_inventory.select_next_weapon()
 			return
 		weap.read_input(primary, secondary)
-			

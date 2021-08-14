@@ -57,6 +57,10 @@ func on_trigger_entities(target:String) -> void:
 		print(prefabName + " " + selfName + " triggered")
 		emit_signal("entity_trigger")
 
+func trigger() -> void:
+	# emit_signal("trigger")
+	Interactions.triggerTargets(get_tree(), triggerTargetName)
+
 func _on_exiting_tree() -> void:
 	# deregister entity...?
 	pass

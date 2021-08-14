@@ -9,19 +9,23 @@ const STATE_WINDDOWN:int = 3
 export var maxCycles:int = 1
 export var faceTargetDuringWindup:bool = true
 
+var _stats:MobStats
+
 var _state:int = -1
 var _tick:float = 0.0
 var _cycles:int = 0
 var isSniper:bool = false
 
 var _attackMode:int = 0
+var _revengeAttack:bool = false
 
 var lastTarPos:Vector3 = Vector3()
 
 var _mob
 
-func custom_init(mob) -> void:
+func custom_init(mob, stats:MobStats) -> void:
 	_mob = mob
+	_stats = stats
 	custom_init_b()
 
 func custom_init_b() -> void:
@@ -29,9 +33,17 @@ func custom_init_b() -> void:
 
 func start_hunt() -> void:
 	change_state(0)
+	if _revengeAttack:
+		# end move think immediately and try to attack
+		# next tick
+		_tick = 0
+		_revengeAttack = false
 
 func stop_hunt() -> void:
 	pass
+
+func stun_ended() -> void:
+	_revengeAttack = true
 
 func change_state(newState:int) -> void:
 	if newState == _state:
@@ -44,13 +56,13 @@ func change_state(newState:int) -> void:
 	
 	if _state == STATE_MOVE:
 		_mob.sprite.play_animation("walk")
-		_tick = 1
+		_tick = _stats.moveTime
 	elif _state == STATE_WINDUP:
 		_mob.sprite.play_animation("aim")
 		_tick = 0.25
 	elif _state == STATE_ATTACK:
 		_mob.sprite.play_animation("shoot")
-		_mob.attack.fire(lastTarPos)
+		_mob.attack.fire(lastTarPos) 
 		_tick = 0.1
 	elif _state == STATE_WINDDOWN:
 		_mob.sprite.play_animation("aim")
