@@ -38,7 +38,10 @@ var _status:Dictionary = {
 	energy = 100,
 	yawDegrees = 0,
 	bullets = 50,
-	shells = 0
+	shells = 0,
+	currentLoaded = 0,
+	currentLoadedMax = 0,
+	currentAmmo = 0
 }
 
 func _ready():
@@ -184,6 +187,8 @@ func _process(_delta):
 	_status.swayScale = swayScale
 	_status.swayTime = _swayTime
 	_status.hasInteractionTarget = _interactor.get_is_colliding()
+
+	_inventory.write_hud_status(_status)
 	
 	var grp = Groups.PLAYER_GROUP_NAME
 	var fn = Groups.PLAYER_FN_STATUS

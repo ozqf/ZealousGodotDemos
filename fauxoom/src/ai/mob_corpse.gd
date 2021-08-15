@@ -20,6 +20,12 @@ var _state = CorpseState.None
 var _tick:float = 0
 var _damageTaken:int = 0
 
+func _ready() -> void:
+	add_to_group(Groups.GAME_GROUP_NAME)
+
+func game_cleanup_temp_ents() -> void:
+	queue_free()
+
 func damage_hit(_hitInfo:HitInfo) -> void:
 	var strength:float = 1.5
 	_velocity += _hitInfo.direction * strength

@@ -43,6 +43,11 @@ func custom_init(inventory, launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> 
 func custom_init_b() -> void:
 	pass
 
+func write_hud_status(statusDict:Dictionary) -> void:
+	statusDict.currentLoaded = 0
+	statusDict.currentLoadedMax = 0
+	statusDict.currentAmmo = _inventory.get_count(ammoType)
+
 func can_equip() -> bool:
 	if inventoryType == "":
 		return true

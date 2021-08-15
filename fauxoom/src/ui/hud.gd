@@ -30,8 +30,16 @@ onready var _prompt:Label = $centre/interact_prompt
 onready var _energyBar:TextureProgress = $centre/energy
 onready var _healthBar:TextureProgress = $centre/health
 
+# left side - immediate status
 onready var _healthCount:Label = $player_status/health/count
 onready var _energyCount:Label = $player_status/energy/count
+onready var _ammoCount:Label = $player_status/ammo/count
+
+# right side - weapon bar
+onready var _bulletCount:Label = $bottom_right_panel/ammo_counts/bullets/count
+onready var _shellCount:Label = $bottom_right_panel/ammo_counts/shells/count
+onready var _plasmaCount:Label = $bottom_right_panel/ammo_counts/plasma/count
+onready var _rocketCount:Label = $bottom_right_panel/ammo_counts/rockets/count
 
 # audio
 onready var audio:AudioStreamPlayer = $AudioStreamPlayer
@@ -161,6 +169,15 @@ func player_status_update(data:Dictionary) -> void:
 	# counts
 	_healthCount.text = str(data.health)
 	_energyCount.text = str(data.energy)
+	if data.currentLoadedMax > 0:
+		_ammoCount.text = str(data.currentLoaded) + " / " + str(data.currentLoadedMax) + " - " + str(data.currentAmmo)
+	else:
+		_ammoCount.text = str(data.currentAmmo)
+
+	_bulletCount.text = str(data.bullets)
+	_shellCount.text = str(data.shells)
+	_plasmaCount.text = str(data.plasma)
+	_rocketCount.text = str(data.rockets)
 
 func _on_centre_animation_finished() -> void:
 	if centreNextAnim != "":

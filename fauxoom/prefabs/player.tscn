@@ -354,9 +354,9 @@ __meta__ = {
 }
 
 [node name="health" type="HBoxContainer" parent="hud/player_status"]
-margin_top = 184.0
+margin_top = 166.0
 margin_right = 128.0
-margin_bottom = 198.0
+margin_bottom = 180.0
 
 [node name="Label" type="Label" parent="hud/player_status/health"]
 margin_right = 50.0
@@ -366,6 +366,22 @@ text = "HEALTH"
 [node name="count" type="Label" parent="hud/player_status/health"]
 margin_left = 54.0
 margin_right = 70.0
+margin_bottom = 14.0
+text = "50"
+
+[node name="ammo" type="HBoxContainer" parent="hud/player_status"]
+margin_top = 184.0
+margin_right = 128.0
+margin_bottom = 198.0
+
+[node name="Label" type="Label" parent="hud/player_status/ammo"]
+margin_right = 44.0
+margin_bottom = 14.0
+text = "AMMO"
+
+[node name="count" type="Label" parent="hud/player_status/ammo"]
+margin_left = 48.0
+margin_right = 64.0
 margin_bottom = 14.0
 text = "50"
 

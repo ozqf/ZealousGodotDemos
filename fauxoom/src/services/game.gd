@@ -110,6 +110,7 @@ func _process(_delta:float) -> void:
 		# clear pending and run
 		var dict = _pendingLoadDict
 		_pendingLoadDict = {}
+		_cleanup_temp_entities()
 		load_entity_dict(dict)
 	elif _justLoaded:
 		_justLoaded = false
@@ -127,6 +128,9 @@ func build_save_path(fileName) -> String:
 
 func get_entity_prefab(name:String) -> Object:
 	return _entRoot.get_prefab_def(name).prefab
+
+func _cleanup_temp_entities() -> void:
+	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_CLEANUP_TEMP_ENTS)
 
 # disable of menu HAS to be triggered from here in web mode
 func _input(_event) -> void:
@@ -187,6 +191,7 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	var numTokens:int = _tokens.size()
 	if txt == "reset":
 		print("Game - reset")
+		_cleanup_temp_entities()
 		reset_game()
 	elif txt == "notarget":
 		_noTarget = !_noTarget
@@ -207,6 +212,7 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 		if !data:
 			return
 		_pendingLoadDict = data
+		_cleanup_temp_entities()
 		print("Set pending ents dict from " + path)
 		var curScene = get_tree().get_current_scene().filename
 		var newScene = data.mapPath

@@ -169,6 +169,17 @@ func find_weapon_slot_by_name(weaponName:String) -> int:
 	print("Found no slot for weapon " + weaponName)
 	return -1
 
+func write_hud_status(statusDict:Dictionary) -> void:
+	var weap:InvWeapon = get_current_weapon()
+	if weap != null:
+		# print("Inventory - write weapon status")
+		weap.write_hud_status(statusDict)
+	else:
+		# print("Inventory - no weapon for status")
+		statusDict.currentLoaded = 0
+		statusDict.currentLoadedMax = 0
+		statusDict.currentAmmo = -1
+
 func get_count(itemType:String) -> int:
 	if itemType == "" || !_data.has(itemType):
 		return -1

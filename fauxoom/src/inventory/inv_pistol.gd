@@ -1,13 +1,24 @@
 extends InvWeapon
 
 var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
+var _pistolReload:AudioStream = preload("res://assets/sounds/item/weapon_reload_light.wav")
 var _awaitOff:bool = false
 
 var _spreadScale:float = 0
 var _reloading:bool = false
-var _maxLoaded:int = 12
-var _loaded:int = 12
-var _automatic:bool = false
+var _reloadTime:float = 1
+var _maxLoaded:int = 18
+var _loaded:int = 18
+var _automatic:bool = true
+
+func _start_reload() -> void:
+	tick = _reloadTime
+	_reloading = true
+
+func write_hud_status(statusDict:Dictionary) -> void:
+	statusDict.currentLoaded = _loaded
+	statusDict.currentLoadedMax = _maxLoaded
+	statusDict.currentAmmo = _inventory.get_count(ammoType)
 
 func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 	if _reloading:
@@ -38,9 +49,7 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 
 		_loaded -= 1
 		if _loaded == 0:
-			tick = 2
-			_reloading = true
-			# _loaded = _maxLoaded
+			_start_reload()
 
 		# apply some inaccuracy for next shot
 		_spreadScale += 0.35
@@ -49,6 +58,8 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 		_hud.audio.stream = _pistolShoot
 		_hud.audio.play()
 		_inventory.take_item(ammoType, ammoPerShot)
+	elif _secondaryOn && _loaded < _maxLoaded:
+		_start_reload()
 	# elif _secondaryOn:
 	# 	_awaitOff = true
 	# 	tick = refireTime * 2.0
@@ -64,6 +75,8 @@ func _process(_delta:float) -> void:
 	if tick > 0:
 		tick -= _delta
 	if tick <= 0 && _reloading:
+		_hud.audio2.stream = _pistolReload
+		_hud.audio2.play()
 		_reloading = false
 		_loaded = _maxLoaded
 	if _spreadScale > 1:

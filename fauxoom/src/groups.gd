@@ -11,6 +11,7 @@ const GAME_FN_PAUSE:String = "game_pause"
 const GAME_FN_UNPAUSE:String = "game_unpause"
 const GAME_FN_MAP_CHANGE:String = "game_on_map_change"
 const GAME_FN_RUN_MAP_SPAWNS:String = "game_run_map_spawns"
+const GAME_FN_CLEANUP_TEMP_ENTS:String = "game_cleanup_temp_ents"
 # reset isn't a thing now. Uses 'load checkpoint' instead
 # const GAME_FN_RESET:String = "game_on_reset"
 const GAME_FN_PLAYER_SPAWNED:String = "game_on_player_spawned"
