@@ -56,7 +56,7 @@ script = ExtResource( 4 )
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
-moveSpeed = 5.0
+moveSpeed = 6.0
 moveTime = 0.5
 
 [node name="Entity" type="Node" parent="."]

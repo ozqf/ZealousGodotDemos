@@ -4,6 +4,7 @@ class_name InvWeapon
 signal weapon_action(weapon, actionName)
 
 var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
+var _prefab_impact_debris_t = preload("res://prefabs/gfx/bullet_hit_debris.tscn")
 var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
 
 export var damageType:int = 0
@@ -17,6 +18,7 @@ export var refireTime:float = 1.0
 
 export var idle:String = ""
 export var fire_1:String = ""
+export var reload:String = ""
 
 export var akimbo:bool = false
 
@@ -40,6 +42,7 @@ func custom_init(inventory, launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> 
 	_hud = hud
 	custom_init_b()
 
+# overload this function to add additional custom setup
 func custom_init_b() -> void:
 	pass
 
@@ -134,6 +137,14 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> void:
 		# the impact sprite will clip into the wall
 		t.origin = result.position - (forward * 0.2)
 		impact.global_transform = t
+		var debris:Spatial = _prefab_impact_debris_t.instance()
+		root.add_child(debris)
+		debris.global_transform = t
+		var rigidBody:RigidBody = debris.find_node("RigidBody")
+		if rigidBody != null:
+			var launchVel:Vector3 = result.normal
+			launchVel *= rand_range(2, 12)
+			rigidBody.linear_velocity = launchVel
 	elif inflicted == -2:
 		# print("Penetration hit")
 		pass

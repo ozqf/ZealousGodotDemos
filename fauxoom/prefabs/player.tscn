@@ -99,9 +99,10 @@ hudName = "Pistol"
 inventoryType = "pistol"
 ammoType = "bullets"
 slot = 2
-refireTime = 0.15
+refireTime = 0.2
 idle = "pistol_idle"
 fire_1 = "pistol_shoot"
+maxLoaded = 18
 
 [node name="dual_pistols" type="Node" parent="inventory/weapons"]
 script = ExtResource( 15 )
@@ -180,7 +181,7 @@ __meta__ = {
 position = Vector2( 510.589, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
-animation = "ssg_idle"
+animation = "pistol_reloading"
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -191,7 +192,7 @@ visible = false
 position = Vector2( 510.589, 344 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
-animation = "saw_idle"
+animation = "pistol_reloading"
 __meta__ = {
 "_edit_lock_": true
 }
@@ -212,7 +213,7 @@ visible = false
 position = Vector2( 634.247, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
-animation = "hand_punch"
+animation = "pistol_reloading"
 __meta__ = {
 "_edit_lock_": true
 }
@@ -235,7 +236,6 @@ position = Vector2( -320, -160 )
 scale = Vector2( 2.5, 2.5 )
 frames = ExtResource( 4 )
 animation = "hand_punch"
-frame = 1
 __meta__ = {
 "_edit_lock_": true
 }
@@ -255,7 +255,6 @@ position = Vector2( 320, -160 )
 scale = Vector2( 2.5, 2.5 )
 frames = ExtResource( 4 )
 animation = "hand_punch"
-frame = 1
 flip_h = true
 __meta__ = {
 "_edit_lock_": true

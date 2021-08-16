@@ -57,11 +57,12 @@ func hit(_hitInfo:HitInfo) -> int:
 		_damageTaken += _hitInfo.damage
 		var selfPos:Vector3 = global_transform.origin
 		var hitHeight:float = _hitInfo.origin.y - selfPos.y
-		if _damageTaken > 50 && hitHeight > 1.2:
+		if _damageTaken > 100 && hitHeight > 1.2:
 			headshot_death()
 		else:
 			damage_hit(_hitInfo)
-			_sprite.set_frame_number(0)
+			if _sprite.get_frame_number() == 1:
+				_sprite.set_frame_number(0)
 			_spawn_hit_particles(_hitInfo.origin, false)
 			
 	return Interactions.HIT_RESPONSE_PENETRATE

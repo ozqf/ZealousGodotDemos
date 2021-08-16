@@ -67,6 +67,7 @@ var _isSniper:bool = false
 func _ready() -> void:
 	attack.custom_init($head, self)
 	motor.custom_init(self)
+	motor.speed = _stats.moveSpeed
 	_ticker.custom_init(self, _stats)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	var _r = _ent.connect("entity_restore_state", self, "restore_state")
