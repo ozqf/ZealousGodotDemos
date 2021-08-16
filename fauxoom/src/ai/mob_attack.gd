@@ -3,6 +3,9 @@ class_name MobAttack
 
 var _prj_point_t = load("res://prefabs/dynamic_entities/prj_point.tscn")
 
+export var minUseRange:float = 0
+export var maxUseRange:float = 9999
+
 enum AttackState {
 	Idle,
 	Windup,
@@ -15,6 +18,7 @@ var _launchNode:Spatial = null
 var _body:Spatial = null
 
 var _tick:float = 0
+var _repeats:int = 1
 var _attackWindupTime:float = 0.3 # 0.5
 var _attackRecoverTime:float = 0.3 # 0.5
 var _prjMask:int = -1
@@ -55,7 +59,7 @@ func fire(target:Vector3) -> void:
 	prj.launch_prj(selfPos, forward.normalized(), 0, Interactions.TEAM_ENEMY, _prjMask)
 
 # return false if attack has finished
-func custom_update(_delta:float, _targetPos:Vector3) -> bool:
+func atk_custom_update(_delta:float, _targetPos:Vector3) -> bool:
 	if _state == AttackState.Attacking:
 		fire(_targetPos)
 		_tick = _attackRecoverTime

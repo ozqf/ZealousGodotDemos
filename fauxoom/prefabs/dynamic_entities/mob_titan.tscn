@@ -48,7 +48,9 @@ visible = false
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="attack" type="Node" parent="."]
+[node name="attacks" type="Node" parent="."]
+
+[node name="attack" type="Node" parent="attacks"]
 script = ExtResource( 4 )
 
 [node name="motor" parent="." instance=ExtResource( 7 )]

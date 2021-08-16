@@ -16,6 +16,7 @@ var _tick:float = 0.0
 var _cycles:int = 0
 var isSniper:bool = false
 
+var _attackIndex:int = -1
 var _attackMode:int = 0
 var _revengeAttack:bool = false
 
@@ -62,7 +63,7 @@ func change_state(newState:int) -> void:
 		_tick = 0.25
 	elif _state == STATE_ATTACK:
 		_mob.sprite.play_animation("shoot")
-		_mob.attack.fire(lastTarPos) 
+		_mob.attacks[_attackIndex].fire(lastTarPos) 
 		_tick = 0.1
 	elif _state == STATE_WINDDOWN:
 		_mob.sprite.play_animation("aim")
@@ -74,10 +75,25 @@ func custom_change_state(_newState:int, _oldState:int) -> bool:
 	return false
 
 func _start_attack(_delta:float, _targetInfo:Dictionary) -> void:
+	var index:int = _select_attack(_targetInfo)
+	if index < 0:
+		return
 	_cycles = 0
 	lastTarPos = _targetInfo.position
 	_mob.face_target_flat(lastTarPos)
 	change_state(STATE_WINDUP)
+
+func _select_attack(_targetInfo:Dictionary) -> int:
+	var dist:float = _targetInfo.trueDistance
+	var numAttacks:int = _mob.attacks.size()
+	for _i in range (0, numAttacks):
+		var att:MobAttack = _mob.attacks[_i]
+		if dist < att.minUseRange:
+			continue
+		elif dist > att.maxUseRange:
+			continue
+		return _i
+	return -1
 
 func set_rotation_to_movement() -> void:
 	_mob.sprite.yawDegrees = rad2deg(_mob.motor.moveYaw)

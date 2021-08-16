@@ -22,6 +22,8 @@ onready var _camera:AttachableCamera = $attachable_camera
 
 enum GameState { Pregame, Playing, Won, Lost }
 
+var allowQuickSwitching:bool = true
+
 var _state = GameState.Pregame
 
 var _hasPlayerStart:bool = false
@@ -60,6 +62,7 @@ func _ready() -> void:
 	_hintLabelTop.visible = false
 
 	# does checkpoint exist?
+	# if so we can have a 'continue' option
 	if ZqfUtils.does_file_exist(CHECKPOINT_SAVE_FILE_NAME):
 		print("Checkpoint file found")
 	else:
@@ -94,9 +97,10 @@ func _process(_delta:float) -> void:
 			_hintLabelTop.visible = false
 		else:
 			_hintTextTick -= _delta
-	if _state == GameState.Pregame && _hasPlayerStart:
-		begin_game()
+	# if _state == GameState.Pregame && _hasPlayerStart:
+	# 	begin_game()
 	if _pendingSaveName != "":
+		print("Have pending save " + _pendingSaveName)
 		# if we are writing a map start save, write the checkpoint too!
 		if _pendingSaveName == START_SAVE_FILE_NAME:
 			write_save_file(CHECKPOINT_SAVE_FILE_NAME)
@@ -156,12 +160,15 @@ func get_dynamic_parent() -> Spatial:
 	return _entRoot
 
 func on_restart_map() -> void:
+	print("Game - on_restart_map")
 	get_tree().call_group("console", "console_on_exec", "load start", ["load", "start"])
 
 func on_clicked_retry() -> void:
+	print("Game - on_clicked_retry")
 	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "checkpoint"])
 
 func on_clicked_reset() -> void:
+	print("Game - on_clicked_reset")
 	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "start"])
 
 func _refresh_overlay() -> void:
@@ -255,8 +262,8 @@ func _write_save_file(filePath:String, data:Dictionary) -> void:
 ###############
 # game state
 ###############
-func begin_game() -> void:
-	print("Game - begin play")
+# func begin_game() -> void:
+# 	print("Game - begin play")
 	# set_game_state(GameState.Playing)
 	# var def = _entRoot.get_prefab_def(Entities.PREFAB_PLAYER)
 	# var player = def.prefab.instance()

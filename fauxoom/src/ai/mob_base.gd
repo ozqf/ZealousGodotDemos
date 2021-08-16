@@ -1,3 +1,14 @@
+# ### MONSTERS ###
+
+#	> mob_base
+#		> ticker
+#		> attack
+#	> stats - stores readonly values to configure enemy health, behaviour etc
+
+# mob_base, controls highest level state of a mob
+# eg is the mob idle, alert, stunned etc.
+# actual """thinking""" and attack AI is performed by
+# (and overridden) in the AITicker class.
 extends KinematicBody
 # AITicker wants to reference mobbase class but as it is a child of mob base
 # we get a circular dependency
@@ -13,11 +24,14 @@ const STUN_TIME:float = 0.2
 signal on_mob_died(mob)
 signal mob_event(tag)
 
+# all this stuff is public has AITicker and attacks
+# will use it
 onready var sprite:CustomAnimator3D = $sprite
 onready var collisionShape:CollisionShape = $body
 onready var head:Spatial = $head
 onready var motor:MobMotor = $motor
-onready var attack:MobAttack = $attack
+# onready var attack:MobAttack = $attack
+onready var attacks = []
 onready var _stats:MobStats = $stats
 onready var _ent:Entity = $Entity
 onready var _ticker:AITicker = $ticker
@@ -28,7 +42,7 @@ enum MobState {
 	Idle,
 	Spawning,
 	Hunting,
-	Attacking,
+	# Attacking,
 	Stunned,
 	# all corpse states below this point
 	Dying,
@@ -65,7 +79,8 @@ var _isSniper:bool = false
 # var velocity:Vector3 = Vector3()
 
 func _ready() -> void:
-	attack.custom_init($head, self)
+	# attack.custom_init($head, self)
+	_gather_attacks()
 	motor.custom_init(self)
 	motor.speed = _stats.moveSpeed
 	_ticker.custom_init(self, _stats)
@@ -80,6 +95,18 @@ func _ready() -> void:
 	# sprite.set_yaw_override(head)
 	_health = _stats.health
 	_ent.triggerTargetName = triggerTargets
+
+func _gather_attacks() -> void:
+	var attackNode:Node = get_node_or_null("attacks")
+	if attackNode == null:
+		return
+	var numAttacks:int = attackNode.get_child_count()
+	for _i in range (0, numAttacks):
+		var attack = attackNode.get_child(_i)
+		if attack is MobAttack:
+			attacks.push_back(attack)
+			attack.custom_init($head, self)
+	print("Mob " + self.name + " has " + str(attacks.size()) + " attacks")
 
 func set_trigger_names(selfName:String, targets:String) -> void:
 	_ent.selfName = selfName
@@ -147,8 +174,8 @@ func _change_state(_newState) -> void:
 	_thinkTick = 0
 
 	# clean up old state
-	if _prevState == MobState.Attacking:
-		motor.set_is_attacking(false)
+	# if _prevState == MobState.Attacking:
+	# 	motor.set_is_attacking(false)
 	
 	# disable AI ticker if necessary
 	if _state != MobState.Hunting:
@@ -163,9 +190,9 @@ func _change_state(_newState) -> void:
 		_ticker.start_hunt()
 		_thinkTick = _stats.moveTime
 		_err = sprite.play_animation("walk")
-	elif _state == MobState.Attacking:
-		_err = sprite.play_animation("aim")
-		motor.set_is_attacking(true)
+	# elif _state == MobState.Attacking:
+	# 	_err = sprite.play_animation("aim")
+	# 	motor.set_is_attacking(true)
 	elif _state == MobState.Stunned:
 		_err = sprite.play_animation("pain")
 	elif _state == MobState.Idle:
@@ -265,7 +292,8 @@ func apply_stun(_dir:Vector3) -> void:
 	if _state != MobState.Stunned:
 		_change_state(MobState.Stunned)
 		motor.set_stunned(true)
-	attack.cancel()
+	for _i in range(0, attacks.size()):
+		attacks[_i].cancel()
 	# velocity = _dir * 2
 	_thinkTick = _stats.stunTime
 

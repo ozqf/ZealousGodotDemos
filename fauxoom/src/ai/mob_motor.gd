@@ -46,13 +46,13 @@ func custom_init(body:KinematicBody) -> void:
 	if moveType == MobMoveType.Flying:
 		print("Mob motor is flying")
 
-func change_state(state:int) -> void:
+func motor_change_state(state:int) -> void:
 	_state = state
 
 func leap() -> void:
 	if !_hasTarget:
 		return
-	change_state(STATE_LEAP)
+	motor_change_state(STATE_LEAP)
 	var selfPos:Vector3 = _body.global_transform.origin
 	_set_move_yaw(ZqfUtils.yaw_between(selfPos, _target))
 	# _body.rotation.y = moveYaw
@@ -83,7 +83,7 @@ func _set_move_yaw(radians:float) -> void:
 
 func clear_target() -> void:
 	_hasTarget = false
-	change_state(STATE_IDLE)
+	motor_change_state(STATE_IDLE)
 
 func damage_hit(_hitInfo:HitInfo) -> void:
 	var strength:float = 1
@@ -123,7 +123,7 @@ func move_leap(_delta:float, _speed:float) -> void:
 
 func start_leap(_delta:float, _speed:float) -> void:
 	var selfPos:Vector3 = _body.global_transform.origin
-	var moveYaw:float = ZqfUtils.yaw_between(selfPos, _target)
+	moveYaw = ZqfUtils.yaw_between(selfPos, _target)
 	# _body.rotation.y = moveYaw
 	var dir:Vector3 = Vector3()
 	dir.x = -sin(moveYaw)
