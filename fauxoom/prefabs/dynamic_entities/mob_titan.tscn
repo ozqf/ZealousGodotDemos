@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=9]
 [ext_resource path="res://src/ai/mob_sound.gd" type="Script" id=10]
 [ext_resource path="res://prefabs/mob_components/orb_shield.tscn" type="PackedScene" id=11]
+[ext_resource path="res://src/patterns/pattern.gd" type="Script" id=12]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -52,6 +53,19 @@ material/0 = null
 
 [node name="attack" type="Node" parent="attacks"]
 script = ExtResource( 4 )
+maxUseRange = 8.0
+attackCount = 15
+repeatTime = 0.0
+
+[node name="attack2" type="Node" parent="attacks"]
+script = ExtResource( 4 )
+minUseRange = 5.0
+
+[node name="pattern" type="Node" parent="attacks/attack2"]
+script = ExtResource( 12 )
+count = 8
+minOffset = Vector3( -1.5, -0.5, -1.5 )
+maxOffset = Vector3( 1.5, 0.5, 1.5 )
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
 
@@ -59,7 +73,7 @@ script = ExtResource( 4 )
 script = ExtResource( 1 )
 entityType = "mob_titan"
 health = 2000
-moveSpeed = 5.5
+moveSpeed = 2.0
 stunThreshold = 100
 
 [node name="Entity" type="Node" parent="."]

@@ -137,6 +137,8 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> void:
 		# the impact sprite will clip into the wall
 		t.origin = result.position - (forward * 0.2)
 		impact.global_transform = t
+
+		# fire debris
 		var debris:Spatial = _prefab_impact_debris_t.instance()
 		root.add_child(debris)
 		debris.global_transform = t

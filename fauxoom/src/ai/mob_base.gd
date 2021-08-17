@@ -17,6 +17,7 @@ extends KinematicBody
 # class_name MobBase
 
 var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
+var _prefab_impact_debris_t = preload("res://prefabs/gfx/blood_hit_debris.tscn")
 var _punk_corpse_t = preload("res://prefabs/corpses/punk_corpse.tscn")
 
 const STUN_TIME:float = 0.2
@@ -314,7 +315,7 @@ func headshot_death() -> void:
 	emit_mob_event("death")
 	_change_state(MobState.Dying)
 
-func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
+func _spawn_hit_particles(pos:Vector3, _forward:Vector3,  deathHit:bool) -> void:
 	var numParticles = 4
 	var _range:float = 0.15
 	if deathHit:
@@ -329,6 +330,15 @@ func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
 			rand_range(-_range, _range),
 			rand_range(-_range, _range))
 		blood.global_transform.origin = (pos + offset)
+	# spawn debris particles
+	var debris:Spatial = _prefab_impact_debris_t.instance()
+	root.add_child(debris)
+	debris.global_transform.origin = pos
+	var rigidBody:RigidBody = debris.find_node("RigidBody")
+	if rigidBody != null:
+		var launchVel:Vector3 = -_forward
+		launchVel *= rand_range(2, 12)
+		rigidBody.linear_velocity = launchVel
 
 func corpse_hit(_hitInfo:HitInfo) -> int:
 	# print("Corpse hit - frame == " + str(sprite.get_frame_number()))
@@ -338,7 +348,7 @@ func corpse_hit(_hitInfo:HitInfo) -> int:
 			gib_death(_hitInfo.direction)
 		return 1
 	elif sprite.get_frame_number() <= 1:
-		_spawn_hit_particles(_hitInfo.origin, false)
+		_spawn_hit_particles(_hitInfo.origin, _hitInfo.direction, false)
 		if _health < -_stats.health * 5:
 			gib_death(_hitInfo.direction / 10)
 		else:
@@ -384,10 +394,10 @@ func hit(_hitInfo:HitInfo) -> int:
 			gib_death(_hitInfo.direction)
 		else:
 			regular_death()
-		_spawn_hit_particles(_hitInfo.origin, true)
+		_spawn_hit_particles(_hitInfo.origin, _hitInfo.direction, true)
 		return _hitInfo.damage + _health
 	else:
-		_spawn_hit_particles(_hitInfo.origin, false)
+		_spawn_hit_particles(_hitInfo.origin, _hitInfo.direction, false)
 		# if not awake, wake up!
 		force_awake()
 		emit_mob_event("pain")

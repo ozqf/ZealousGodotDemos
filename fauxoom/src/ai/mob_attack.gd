@@ -5,6 +5,21 @@ var _prj_point_t = load("res://prefabs/dynamic_entities/prj_point.tscn")
 
 export var minUseRange:float = 0
 export var maxUseRange:float = 9999
+export var attackCount:int = 1
+
+export var windUpTime:float = 0.25
+export var windDownTime:float = 0.25
+export var repeatTime:float = 0.1
+export var attackAnimTime:float = 0.1
+
+# TODO - implement attack cooldowns
+# make this attack unusable for the duration, and other attacks
+# must be used instead. Stops enemies from spamming powerful attacks
+export var cooldown:float = 0
+# limits number of times this mob can fire this attack
+export var ammo:int = -1
+
+export var faceTargetDuringWindup:bool = true
 
 enum AttackState {
 	Idle,
@@ -16,6 +31,7 @@ var _state = AttackState.Idle
 
 var _launchNode:Spatial = null
 var _body:Spatial = null
+var _pattern:Pattern = null
 
 var _tick:float = 0
 var _repeats:int = 1
@@ -27,6 +43,7 @@ func custom_init(launchNode:Spatial, body:Spatial) -> void:
 	_launchNode = launchNode
 	_body = body
 	_prjMask = Interactions.get_enemy_prj_mask()
+	_pattern = get_node_or_null("pattern") as Pattern
 
 func _tick_down(_delta:float) -> bool:
 	_tick -= _delta
@@ -48,15 +65,26 @@ func cancel() -> void:
 
 func fire(target:Vector3) -> void:
 	# print("Fire!")
-	var prj = _prj_point_t.instance()
-	Game.get_dynamic_parent().add_child(prj)
+	
 	var selfPos:Vector3 = _launchNode.global_transform.origin
 	var forward:Vector3 = Vector3()
 	forward.x = target.x - selfPos.x
 	forward.y = target.y - selfPos.y
 	forward.z = target.z - selfPos.z
-	#var diff:Vector3 = target - selfPos
-	prj.launch_prj(selfPos, forward.normalized(), 0, Interactions.TEAM_ENEMY, _prjMask)
+
+	if _pattern == null:
+		var prj = _prj_point_t.instance()
+		Game.get_dynamic_parent().add_child(prj)
+		prj.launch_prj(selfPos, forward.normalized(), 0, Interactions.TEAM_ENEMY, _prjMask)
+		return
+	print("Pattern attack!")
+	for _i in range(0, _pattern.count):
+		var offset:Vector3 = _pattern.get_random_offset()
+		var pos = selfPos + offset
+		print("Shoot pos " + str(pos) + " offset " + str(offset))
+		var prj = _prj_point_t.instance()
+		Game.get_dynamic_parent().add_child(prj)
+		prj.launch_prj(pos, forward.normalized(), 0, Interactions.TEAM_ENEMY, _prjMask)
 
 # return false if attack has finished
 func atk_custom_update(_delta:float, _targetPos:Vector3) -> bool:

@@ -5,9 +5,11 @@ const STATE_MOVE:int = 0
 const STATE_WINDUP:int = 1
 const STATE_ATTACK:int = 2
 const STATE_WINDDOWN:int = 3
+const STATE_REPEAT:int = 4
 
-export var maxCycles:int = 1
-export var faceTargetDuringWindup:bool = true
+# state info read from attack when started
+# var _maxCycles:int = 1
+# var _faceTargetDuringWindup:bool = true
 
 var _stats:MobStats
 
@@ -31,6 +33,9 @@ func custom_init(mob, stats:MobStats) -> void:
 
 func custom_init_b() -> void:
 	pass
+
+func get_attack() -> MobAttack:
+	return _mob.attacks[_attackIndex]
 
 func start_hunt() -> void:
 	change_state(0)
@@ -60,14 +65,14 @@ func change_state(newState:int) -> void:
 		_tick = _stats.moveTime
 	elif _state == STATE_WINDUP:
 		_mob.sprite.play_animation("aim")
-		_tick = 0.25
+		_tick = get_attack().windUpTime
 	elif _state == STATE_ATTACK:
 		_mob.sprite.play_animation("shoot")
 		_mob.attacks[_attackIndex].fire(lastTarPos) 
-		_tick = 0.1
+		_tick = get_attack().attackAnimTime
 	elif _state == STATE_WINDDOWN:
 		_mob.sprite.play_animation("aim")
-		_tick = 0.25
+		_tick = get_attack().windDownTime
 
 # return true if state change was handled
 # false to allow base function to handle it instead
@@ -75,9 +80,10 @@ func custom_change_state(_newState:int, _oldState:int) -> bool:
 	return false
 
 func _start_attack(_delta:float, _targetInfo:Dictionary) -> void:
-	var index:int = _select_attack(_targetInfo)
-	if index < 0:
+	_attackIndex = _select_attack(_targetInfo)
+	if _attackIndex < 0:
 		return
+	# maxCycles = _mob.attacks[_attackIndex].attackCount
 	_cycles = 0
 	lastTarPos = _targetInfo.position
 	_mob.face_target_flat(lastTarPos)
@@ -118,7 +124,7 @@ func custom_tick_state(_delta:float, _targetInfo:Dictionary) -> void:
 	
 	elif _state == STATE_WINDUP:
 		_mob.motor.move_idle(_delta)
-		if faceTargetDuringWindup:
+		if get_attack().faceTargetDuringWindup:
 			lastTarPos = _targetInfo.position
 			_mob.face_target_flat(lastTarPos)
 		if _tick <= 0:
@@ -128,9 +134,9 @@ func custom_tick_state(_delta:float, _targetInfo:Dictionary) -> void:
 		# _mob.face_target_flat(_targetInfo.position)
 		if _tick <= 0:
 			_cycles += 1
-			if _cycles < maxCycles:
+			if _cycles < get_attack().attackCount:
 				change_state(STATE_WINDUP)
-				_tick = 0.02
+				_tick = get_attack().repeatTime
 			else:
 				change_state(STATE_WINDDOWN)
 	elif _state == STATE_WINDDOWN:

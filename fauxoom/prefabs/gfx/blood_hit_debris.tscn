@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://zqf/timed_self_cull.gd" type="Script" id=1]
+
+[sub_resource type="PhysicsMaterial" id=1]
+
+[sub_resource type="SphereShape" id=2]
+radius = 0.05
+
+[sub_resource type="SphereMesh" id=3]
+radius = 0.05
+height = 0.1
+
+[sub_resource type="SpatialMaterial" id=4]
+albedo_color = Color( 0.835294, 0, 0, 1 )
+
+[node name="bullet_hit_debris" type="Spatial"]
+script = ExtResource( 1 )
+time = 2.0
+
+[node name="RigidBody" type="RigidBody" parent="."]
+collision_layer = 256
+physics_material_override = SubResource( 1 )
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
+shape = SubResource( 2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="RigidBody"]
+mesh = SubResource( 3 )
+material/0 = SubResource( 4 )
