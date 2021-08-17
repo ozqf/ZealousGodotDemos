@@ -1,17 +1,11 @@
 extends Node
 class_name Pattern
 
-export var patternType:int = 0
-export var count:int = 5
-export var arcX:float = 0
-export var arcY:float = 0
+const Enums = preload("res://src/enums.gd")
 
-export var minOffset:Vector3 = Vector3()
-export var maxOffset:Vector3 = Vector3()
+# export(Enums.EnemyType) var type = Enums.EnemyType.Gunner
 
-func get_random_offset() -> Vector3:
-    var v:Vector3 = Vector3()
-    v.x = rand_range(minOffset.x, maxOffset.x)
-    v.y = rand_range(minOffset.y, maxOffset.y)
-    v.z = rand_range(minOffset.z, maxOffset.z)
-    return v
+# export var patternType:int = 0
+
+func fill_items(_origin:Vector3, _forward:Vector3, _itemArray, _nextItem) -> int:
+	return _nextItem

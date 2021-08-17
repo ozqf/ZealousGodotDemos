@@ -9,6 +9,14 @@ enum EnemyType {
 	Titan
 }
 
+enum PatternType {
+	None,
+	Arc,
+	Scatter,
+	CubeVolume,
+	SphereVolume
+}
+
 # enum HitResponeeType {
 # 	None,
 # 	Damaged,

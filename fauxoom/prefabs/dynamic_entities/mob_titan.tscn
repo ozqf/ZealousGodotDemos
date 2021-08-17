@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -11,7 +11,8 @@
 [ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=9]
 [ext_resource path="res://src/ai/mob_sound.gd" type="Script" id=10]
 [ext_resource path="res://prefabs/mob_components/orb_shield.tscn" type="PackedScene" id=11]
-[ext_resource path="res://src/patterns/pattern.gd" type="Script" id=12]
+[ext_resource path="res://src/patterns/pattern_cube_volume.gd" type="Script" id=12]
+[ext_resource path="res://src/patterns/pattern_arc.gd" type="Script" id=13]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -62,10 +63,12 @@ script = ExtResource( 4 )
 minUseRange = 5.0
 
 [node name="pattern" type="Node" parent="attacks/attack2"]
+script = ExtResource( 13 )
+
+[node name="pattern" type="Node" parent="attacks/attack2/pattern"]
 script = ExtResource( 12 )
-count = 8
-minOffset = Vector3( -1.5, -0.5, -1.5 )
-maxOffset = Vector3( 1.5, 0.5, 1.5 )
+minOffset = Vector3( -1, -1, -1 )
+maxOffset = Vector3( 1, 1, 1 )
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
 

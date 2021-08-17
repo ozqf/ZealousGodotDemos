@@ -39,11 +39,21 @@ var _attackWindupTime:float = 0.3 # 0.5
 var _attackRecoverTime:float = 0.3 # 0.5
 var _prjMask:int = -1
 
+var _patternBuffer
+
 func custom_init(launchNode:Spatial, body:Spatial) -> void:
 	_launchNode = launchNode
 	_body = body
 	_prjMask = Interactions.get_enemy_prj_mask()
 	_pattern = get_node_or_null("pattern") as Pattern
+	# allocate buffer for pattern if necessary
+	if _pattern != null:
+		_patternBuffer = []
+		for _i in range(0, 100):
+			_patternBuffer.push_back({
+				pos = Vector3(),
+				forward = Vector3()
+			})
 
 func _tick_down(_delta:float) -> bool:
 	_tick -= _delta
@@ -71,20 +81,29 @@ func fire(target:Vector3) -> void:
 	forward.x = target.x - selfPos.x
 	forward.y = target.y - selfPos.y
 	forward.z = target.z - selfPos.z
+	forward = forward.normalized()
 
 	if _pattern == null:
 		var prj = _prj_point_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
-		prj.launch_prj(selfPos, forward.normalized(), 0, Interactions.TEAM_ENEMY, _prjMask)
+		prj.launch_prj(selfPos, forward, 0, Interactions.TEAM_ENEMY, _prjMask)
 		return
-	print("Pattern attack!")
-	for _i in range(0, _pattern.count):
-		var offset:Vector3 = _pattern.get_random_offset()
-		var pos = selfPos + offset
-		print("Shoot pos " + str(pos) + " offset " + str(offset))
+	var numItems:int = 0
+	numItems = _pattern.fill_items(selfPos, forward, _patternBuffer, numItems)
+	print("Pattern attack got " + str(numItems) + " items")
+	for _i in range (0, numItems):
+		var item:Dictionary = _patternBuffer[_i]
 		var prj = _prj_point_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
-		prj.launch_prj(pos, forward.normalized(), 0, Interactions.TEAM_ENEMY, _prjMask)
+		prj.launch_prj(item.pos, item.forward, 0, Interactions.TEAM_ENEMY, _prjMask)
+
+	# for _i in range(0, _pattern.count):
+	# 	var offset:Vector3 = _pattern.get_random_offset()
+	# 	var pos = selfPos + offset
+	# 	print("Shoot pos " + str(pos) + " offset " + str(offset))
+	# 	var prj = _prj_point_t.instance()
+	# 	Game.get_dynamic_parent().add_child(prj)
+	# 	prj.launch_prj(pos, forward.normalized(), 0, Interactions.TEAM_ENEMY, _prjMask)
 
 # return false if attack has finished
 func atk_custom_update(_delta:float, _targetPos:Vector3) -> bool:
