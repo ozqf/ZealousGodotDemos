@@ -66,6 +66,9 @@ func change_state(newState:int) -> void:
 	elif _state == STATE_WINDUP:
 		_mob.sprite.play_animation("aim")
 		_tick = get_attack().windUpTime
+		if _mob.aimLaser != null && _mob.attacks[_attackIndex].showAimLaser:
+			_mob.aimLaser.on(_tick)
+			_mob.head.look_at(lastTarPos, Vector3.UP)
 	elif _state == STATE_ATTACK:
 		_mob.sprite.play_animation("shoot")
 		_mob.attacks[_attackIndex].fire(lastTarPos) 
@@ -110,6 +113,7 @@ func set_rotation_to_target(pos:Vector3) -> void:
 	_mob.sprite.yawDegrees = yawDegrees
 
 func custom_tick_state(_delta:float, _targetInfo:Dictionary) -> void:
+	
 	if _state == STATE_MOVE:
 		if isSniper:
 			_start_attack(_delta, _targetInfo)
@@ -125,6 +129,7 @@ func custom_tick_state(_delta:float, _targetInfo:Dictionary) -> void:
 	elif _state == STATE_WINDUP:
 		_mob.motor.move_idle(_delta)
 		if get_attack().faceTargetDuringWindup:
+			_mob.head.look_at(_targetInfo.position, Vector3.UP)
 			lastTarPos = _targetInfo.position
 			_mob.face_target_flat(lastTarPos)
 		if _tick <= 0:

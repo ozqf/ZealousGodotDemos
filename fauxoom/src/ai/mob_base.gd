@@ -37,6 +37,9 @@ onready var _stats:MobStats = $stats
 onready var _ent:Entity = $Entity
 onready var _ticker:AITicker = $ticker
 
+# optional component
+var aimLaser = null
+
 export var triggerTargets:String = ""
 
 enum MobState {
@@ -81,6 +84,7 @@ var _isSniper:bool = false
 
 func _ready() -> void:
 	# attack.custom_init($head, self)
+	aimLaser = self.get_node_or_null("head/mob_aim_laser")
 	_gather_attacks()
 	motor.custom_init(self)
 	motor.speed = _stats.moveSpeed

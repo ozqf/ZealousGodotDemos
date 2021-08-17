@@ -11,7 +11,6 @@ func _ready() -> void:
 func fill_items(_origin:Vector3, _forward:Vector3, _itemArray, _nextItem) -> int:
 	if count <= 1:
 		return _nextItem
-	print("Arc pattern adding " + str(count))
 	var radians:float = atan2(_forward.x, _forward.z)
 	var degrees:float = rad2deg(radians)
 	var halfArcDegrees:float = arcDegreesX / 2.0
@@ -32,5 +31,4 @@ func fill_items(_origin:Vector3, _forward:Vector3, _itemArray, _nextItem) -> int
 			_nextItem += 1
 		else:
 			_nextItem = _childPattern.fill_items(_origin, newForward, _itemArray, _nextItem)
-	print("Arc finished with " + str(_nextItem) + " total")
 	return _nextItem

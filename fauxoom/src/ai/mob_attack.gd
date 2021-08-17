@@ -12,6 +12,8 @@ export var windDownTime:float = 0.25
 export var repeatTime:float = 0.1
 export var attackAnimTime:float = 0.1
 
+export var showAimLaser:bool = false
+
 # TODO - implement attack cooldowns
 # make this attack unusable for the duration, and other attacks
 # must be used instead. Stops enemies from spamming powerful attacks
@@ -20,6 +22,7 @@ export var cooldown:float = 0
 export var ammo:int = -1
 
 export var faceTargetDuringWindup:bool = true
+export var faceTargetDuringAttack:bool = true
 
 enum AttackState {
 	Idle,
@@ -63,12 +66,12 @@ func is_running() -> bool:
 	return (_state != AttackState.Idle)
 
 # returns false if attack cannot start for some reason...
-func start_attack(_targetPos:Vector3) -> bool:
-	# print("Start attack")
-	_state = AttackState.Windup
-	_tick = _attackWindupTime
-	_launchNode.look_at(_targetPos, Vector3.UP)
-	return true
+# func start_attack(_targetPos:Vector3) -> bool:
+# 	# print("Start attack")
+# 	_state = AttackState.Windup
+# 	_tick = _attackWindupTime
+# 	_launchNode.look_at(_targetPos, Vector3.UP)
+# 	return true
 
 func cancel() -> void:
 	_state = AttackState.Idle
@@ -106,18 +109,18 @@ func fire(target:Vector3) -> void:
 	# 	prj.launch_prj(pos, forward.normalized(), 0, Interactions.TEAM_ENEMY, _prjMask)
 
 # return false if attack has finished
-func atk_custom_update(_delta:float, _targetPos:Vector3) -> bool:
-	if _state == AttackState.Attacking:
-		fire(_targetPos)
-		_tick = _attackRecoverTime
-		_state = AttackState.Winddown
-	elif _state == AttackState.Windup:
-		if _tick_down(_delta):
-			_state = AttackState.Attacking
-	elif _state == AttackState.Winddown:
-		if _tick_down(_delta):
-			_state = AttackState.Idle
-			return false
-	else:
-		return false
-	return true
+# func atk_custom_update(_delta:float, _targetPos:Vector3) -> bool:
+# 	if _state == AttackState.Attacking:
+# 		fire(_targetPos)
+# 		_tick = _attackRecoverTime
+# 		_state = AttackState.Winddown
+# 	elif _state == AttackState.Windup:
+# 		if _tick_down(_delta):
+# 			_state = AttackState.Attacking
+# 	elif _state == AttackState.Winddown:
+# 		if _tick_down(_delta):
+# 			_state = AttackState.Idle
+# 			return false
+# 	else:
+# 		return false
+# 	return true

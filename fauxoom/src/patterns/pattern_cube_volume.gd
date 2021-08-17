@@ -13,11 +13,9 @@ func get_random_offset() -> Vector3:
 	return v
 
 func fill_items(_origin:Vector3, _forward:Vector3, _itemArray, _nextItem) -> int:
-	print("Volume pattern adding " + str(count))
 	for _i in range(0, count):
 		var pos:Vector3 = _origin + get_random_offset()
 		_itemArray[_nextItem].pos = pos
 		_itemArray[_nextItem].forward = _forward
 		_nextItem += 1
-	print("Volume pattern finished with " + str(_nextItem) + " total")
 	return _nextItem
