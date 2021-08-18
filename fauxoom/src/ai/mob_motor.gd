@@ -98,7 +98,7 @@ func _calc_move_yaw() -> float:
 	if moveStyle == MobMoveStyle.CloseEvasive:
 		if _tick <= 0:
 			_tick = _thinkTime
-			var offset:float = deg2rad(45)
+			var offset:float = deg2rad(65)
 			# _yawOffset = rand_range(-offset, offset)
 			var r = randf()
 			if r > 0.66:
@@ -106,7 +106,7 @@ func _calc_move_yaw() -> float:
 			elif r > 0.33:
 				_yawOffset = -offset
 			else:
-				r = 0
+				_yawOffset = 0
 	return directYaw + _yawOffset
 
 func move_idle(_delta:float, friction:float = 0.95) -> void:

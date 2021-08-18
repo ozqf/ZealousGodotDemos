@@ -71,7 +71,8 @@ faceTargetDuringAttack = false
 
 [node name="pattern" type="Node" parent="attacks/attack2"]
 script = ExtResource( 13 )
-count = 5
+count = 7
+arcDegreesX = 180.0
 
 [node name="pattern" type="Node" parent="attacks/attack2/pattern"]
 script = ExtResource( 12 )
