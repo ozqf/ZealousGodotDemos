@@ -28,7 +28,7 @@ static func is_point_left_of_line3D_flat(lineOrigin: Vector3, lineSize: Vector3,
 	var lineNormalX: float = lineSize.z
 	var lineNormalZ: float = -lineSize.x
 	var dp: float = dot_product(vx, vz, lineNormalX, lineNormalZ)
-	return (dp > 0)
+	return (dp < 0)
 
 static func yaw_to_flat_vector3(yawDegrees:float) -> Vector3:
 	var radians:float = deg2rad(yawDegrees)
