@@ -13,6 +13,7 @@ export var repeatTime:float = 0.1
 export var attackAnimTime:float = 0.1
 
 export var showAimLaser:bool = false
+export var showOmniCharge:bool = false
 
 # TODO - implement attack cooldowns
 # make this attack unusable for the duration, and other attacks
@@ -52,7 +53,7 @@ func custom_init(launchNode:Spatial, body:Spatial) -> void:
 	# allocate buffer for pattern if necessary
 	if _pattern != null:
 		_patternBuffer = []
-		for _i in range(0, 100):
+		for _i in range(0, 256):
 			_patternBuffer.push_back({
 				pos = Vector3(),
 				forward = Vector3()
@@ -93,7 +94,7 @@ func fire(target:Vector3) -> void:
 		return
 	var numItems:int = 0
 	numItems = _pattern.fill_items(selfPos, forward, _patternBuffer, numItems)
-	print("Pattern attack got " + str(numItems) + " items")
+	# print("Pattern attack got " + str(numItems) + " items")
 	for _i in range (0, numItems):
 		var item:Dictionary = _patternBuffer[_i]
 		var prj = _prj_point_t.instance()

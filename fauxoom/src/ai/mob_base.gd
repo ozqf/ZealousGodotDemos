@@ -39,6 +39,7 @@ onready var _ticker:AITicker = $ticker
 
 # optional component
 var aimLaser = null
+var omniCharge:OmniAttackCharge
 
 export var triggerTargets:String = ""
 
@@ -83,8 +84,8 @@ var _isSniper:bool = false
 # var velocity:Vector3 = Vector3()
 
 func _ready() -> void:
-	# attack.custom_init($head, self)
 	aimLaser = self.get_node_or_null("head/mob_aim_laser")
+	omniCharge = self.get_node_or_null("head/omni_attack_charge")
 	_gather_attacks()
 	motor.custom_init(self)
 	motor.speed = _stats.moveSpeed

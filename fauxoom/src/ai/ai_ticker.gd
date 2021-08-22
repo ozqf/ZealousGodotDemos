@@ -66,9 +66,12 @@ func change_state(newState:int) -> void:
 	elif _state == STATE_WINDUP:
 		_mob.sprite.play_animation("aim")
 		_tick = get_attack().windUpTime
-		if _mob.aimLaser != null && _mob.attacks[_attackIndex].showAimLaser:
+		_mob.head.look_at(lastTarPos, Vector3.UP)
+		var atk = _mob.attacks[_attackIndex]
+		if _mob.aimLaser != null && atk.showAimLaser:
 			_mob.aimLaser.on(_tick)
-			_mob.head.look_at(lastTarPos, Vector3.UP)
+		if _mob.omniCharge != null && atk.showOmniCharge:
+			_mob.omniCharge.on(_tick)
 	elif _state == STATE_ATTACK:
 		_mob.sprite.play_animation("shoot")
 		_mob.attacks[_attackIndex].fire(lastTarPos) 

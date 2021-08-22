@@ -34,7 +34,9 @@ var _acceleration:float = 25.0
 var _stunned:bool = false
 var _hasTarget:bool = false
 var _isAttacking:bool = false
+
 var _target:Vector3 = Vector3()
+var _targetForward:Vector3 = Vector3()
 
 var _thinkTime:float = 1
 var _tick:float = 0.0
@@ -77,6 +79,9 @@ func set_target(target:Vector3) -> void:
 	_target = target
 	_state = STATE_HUNT
 
+func set_target_forward(targetForward:Vector3) -> void:
+	_targetForward = targetForward
+
 func _set_move_yaw(radians:float) -> void:
 	moveYaw = radians
 	rotation.y = moveYaw
@@ -98,13 +103,19 @@ func _calc_move_yaw() -> float:
 	if moveStyle == MobMoveStyle.CloseEvasive:
 		if _tick <= 0:
 			_tick = _thinkTime
+			var selfForward:Vector3 = -_body.global_transform.basis.z
+			var tarIsToLeft:bool = ZqfUtils.is_point_left_of_line3D_flat(selfPos, selfForward, _target)
 			var offset:float = deg2rad(65)
-			# _yawOffset = rand_range(-offset, offset)
-			var r = randf()
-			if r > 0.66:
-				_yawOffset = offset
-			elif r > 0.33:
+			if tarIsToLeft:
 				_yawOffset = -offset
+			elif !tarIsToLeft:
+				_yawOffset = offset
+			# _yawOffset = rand_range(-offset, offset)
+			# var r = randf()
+			# if r > 0.66:
+			# 	_yawOffset = offset
+			# elif r > 0.33:
+			# 	_yawOffset = -offset
 			else:
 				_yawOffset = 0
 	return directYaw + _yawOffset

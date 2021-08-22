@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://src/patterns/pattern_cube_volume.gd" type="Script" id=12]
 [ext_resource path="res://src/patterns/pattern_arc.gd" type="Script" id=13]
 [ext_resource path="res://prefabs/gfx/mob_aim_laser.tscn" type="PackedScene" id=14]
+[ext_resource path="res://prefabs/gfx/omni_attack_charge.tscn" type="PackedScene" id=15]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -45,6 +46,9 @@ shape = SubResource( 1 )
 [node name="head" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0 )
 
+[node name="omni_attack_charge" parent="head" instance=ExtResource( 15 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
+
 [node name="mob_aim_laser" parent="head" instance=ExtResource( 14 )]
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
@@ -55,37 +59,41 @@ material/0 = null
 
 [node name="attacks" type="Node" parent="."]
 
-[node name="attack" type="Node" parent="attacks"]
+[node name="360_aoe" type="Node" parent="attacks"]
 script = ExtResource( 4 )
 maxUseRange = 8.0
-attackCount = 15
-repeatTime = 0.0
-
-[node name="attack2" type="Node" parent="attacks"]
-script = ExtResource( 4 )
-minUseRange = 5.0
-windUpTime = 0.5
-showAimLaser = true
+windUpTime = 1.0
+showOmniCharge = true
 faceTargetDuringWindup = false
 faceTargetDuringAttack = false
 
-[node name="pattern" type="Node" parent="attacks/attack2"]
+[node name="pattern" type="Node" parent="attacks/360_aoe"]
 script = ExtResource( 13 )
-count = 7
-arcDegreesX = 180.0
+count = 16
+arcDegreesX = 270.0
 
-[node name="pattern" type="Node" parent="attacks/attack2/pattern"]
+[node name="pattern" type="Node" parent="attacks/360_aoe/pattern"]
 script = ExtResource( 12 )
 minOffset = Vector3( -0.5, -1, -0.5 )
 maxOffset = Vector3( 0.5, 1, 0.5 )
 
+[node name="rapid_burst" type="Node" parent="attacks"]
+script = ExtResource( 4 )
+minUseRange = 8.0
+attackCount = 15
+repeatTime = 0.0
+
+[node name="pattern" type="Node" parent="attacks/rapid_burst"]
+script = ExtResource( 13 )
+
 [node name="motor" parent="." instance=ExtResource( 7 )]
+moveStyle = 1
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
 entityType = "mob_titan"
-health = 2000
-moveSpeed = 2.0
+health = 3000
+moveSpeed = 5.5
 stunThreshold = 100
 
 [node name="Entity" type="Node" parent="."]
@@ -104,6 +112,7 @@ script = ExtResource( 10 )
 
 [node name="orb" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+visible = false
 
 [node name="orb" type="Spatial" parent="orb"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5 )
