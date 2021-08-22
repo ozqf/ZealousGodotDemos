@@ -26,7 +26,9 @@ material/0 = SubResource( 2 )
 [node name="CPUParticles" type="CPUParticles" parent="."]
 lifetime = 0.33
 mesh = SubResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 2.0
 direction = Vector3( 0, 1, 0 )
-spread = 180.0
+spread = 0.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 5.0
+radial_accel = -25.0

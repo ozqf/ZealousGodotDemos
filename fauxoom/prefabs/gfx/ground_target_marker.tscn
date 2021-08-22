@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://prefabs/gfx/mob_aim_laser.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/primitives/cube_1x1x1.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://src/gfx/ground_target_marker.gd" type="Script" id=3]
+
+[node name="ground_target_marker" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="mob_aim_laser" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -10, 0, 1, -4.37114e-07, 0, 5, 0 )
+
+[node name="ground" type="Spatial" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="ground"]
+transform = Transform( 1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+mesh = ExtResource( 2 )
+material/0 = null
+
+[node name="MeshInstance2" type="MeshInstance" parent="ground"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0, 0 )
+mesh = ExtResource( 2 )
+material/0 = null

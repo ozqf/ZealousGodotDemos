@@ -6,6 +6,9 @@ onready var _c:MeshInstance = $rotator/Spatial/MeshInstance3
 onready var _d:MeshInstance = $rotator/Spatial/MeshInstance4
 onready var _rotator:Spatial = $rotator
 
+# onready var _defaultLength:float = 50
+onready var _ignoreRaycast:bool = false
+
 var _on:bool = false
 var _tick:float = 0
 var _duration:float = 1
@@ -53,7 +56,7 @@ func _process(delta) -> void:
 	if _tick > _duration:
 		off()
 		return
-	if is_colliding():
+	if _ignoreRaycast || is_colliding():
 		var origin:Vector3 = global_transform.origin
 		var dest:Vector3 = get_collision_point()
 		var dist:float = ZqfUtils.distance_between(origin, dest)
