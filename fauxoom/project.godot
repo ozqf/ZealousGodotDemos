@@ -343,6 +343,7 @@ Config="*res://prefabs/services/config.tscn"
 Game="*res://prefabs/services/game.tscn"
 Ents="*res://prefabs/services/entities.tscn"
 Bgm="*res://prefabs/services/bgm.tscn"
+AI="*res://prefabs/services/ai_manager.tscn"
 
 [debug]
 

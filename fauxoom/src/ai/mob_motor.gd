@@ -22,8 +22,12 @@ enum MobMoveStyle {
 export(MobMoveType) var moveType = MobMoveType.Ground
 export(MobMoveStyle) var moveStyle = MobMoveStyle.CloseStraight
 export var inactiveWhenAttacking:bool = false
+export var evadeDegrees:float = 65
+export var panicEvadeDegreesMin:float = 100
+export var panicEvadeDegreesMax:float = 180
 
 var _body:KinematicBody = null
+var _mob = null
 
 var _velocity:Vector3 = Vector3()
 
@@ -38,12 +42,13 @@ var _isAttacking:bool = false
 var _target:Vector3 = Vector3()
 var _targetForward:Vector3 = Vector3()
 
-var _thinkTime:float = 1
+var _thinkTime:float = 0.25
 var _tick:float = 0.0
 var _yawOffset:float = 0.0
 
 func custom_init(body:KinematicBody) -> void:
 	_body = body
+	_mob = _body
 	_floorInFront = $floor_in_front
 	if moveType == MobMoveType.Flying:
 		print("Mob motor is flying")
@@ -106,8 +111,14 @@ func _calc_move_yaw() -> float:
 			var selfForward:Vector3 = -_body.global_transform.basis.z
 
 			var tarAimIsToLeft:bool = ZqfUtils.is_point_left_of_line3D_flat(_target, _targetForward, selfPos)
-			print("Tar aim is to left: " + str(tarAimIsToLeft))
-			var offset:float = deg2rad(65)
+			# print("Tar aim is to left: " + str(tarAimIsToLeft))
+			var offset:float = 0
+			if _mob.get_health_percentage() < 50 && _dist < 30:
+				# panic move
+				offset = deg2rad(rand_range(panicEvadeDegreesMin, panicEvadeDegreesMax))
+			else:
+				# normal move
+				offset = deg2rad(evadeDegrees)
 			if tarAimIsToLeft:
 				_yawOffset = -offset
 			elif !tarAimIsToLeft:

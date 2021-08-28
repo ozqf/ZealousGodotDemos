@@ -78,12 +78,15 @@ var _stunAccumulator:int = 0
 var _pushAccumulator:Vector3 = Vector3()
 
 var _health:int = 50
+var _healthMax:int = 50
 var _dead:bool = false
 var _isSniper:bool = false
 
-# var velocity:Vector3 = Vector3()
-
 func _ready() -> void:
+	_health = _stats.health
+	if _health <= 0:
+		_health = 50
+	_healthMax = _health
 	aimLaser = self.get_node_or_null("head/mob_aim_laser")
 	omniCharge = self.get_node_or_null("head/omni_attack_charge")
 	_gather_attacks()
@@ -93,14 +96,10 @@ func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
 	var _r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_append_state", self, "append_state")
-	# move yaw is used for facing angle too so make sure it
-	# matches spawn transform
-	# _moveYaw = rotation_degrees.y
-
-	# we will manually control rotation!
-	# sprite.set_yaw_override(head)
-	_health = _stats.health
 	_ent.triggerTargetName = triggerTargets
+
+func get_health_percentage() -> float:
+	return (float(_health) / float(_healthMax)) * 100
 
 func _gather_attacks() -> void:
 	var attackNode:Node = get_node_or_null("attacks")
