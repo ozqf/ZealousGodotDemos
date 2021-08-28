@@ -5,6 +5,8 @@ onready var _toTarget:Spatial = $to_target
 onready var _to_left:Spatial = $to_left
 onready var _to_right:Spatial = $to_right
 
+export var _autoRotateDegrees:float = 0
+
 var _mat_green = preload("res://assets/mat_green.tres")
 var _mat_red = preload("res://assets/mat_red.tres")
 
@@ -31,7 +33,7 @@ func _process(_delta:float) -> void:
 		_toTarget.look_at(tarPos, Vector3.UP)
 		_tick = 1
 	
-	_yawDegrees += 45 * _delta
+	_yawDegrees += _autoRotateDegrees * _delta
 	rotation_degrees = Vector3(0, _yawDegrees, 0)
 
 	var targetIsToLeft:bool = ZqfUtils.is_point_left_of_line3D_flat(selfPos, selfForward, tarPos)

@@ -13,5 +13,5 @@ func custom_init_b() -> void:
 
 # func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
 # 	_tick -= _delta
-# 	_mob.motor.set_target(_targetInfo.position)
+# 	_mob.motor.set_move_target(_targetInfo.position)
 # 	_mob.motor.move_hunt(_delta)

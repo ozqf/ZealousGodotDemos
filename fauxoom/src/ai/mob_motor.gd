@@ -74,12 +74,12 @@ func mob_died() -> void:
 func set_is_attacking(flag:bool) -> void:
 	_isAttacking = flag
 
-func set_target(target:Vector3) -> void:
+func set_move_target(target:Vector3) -> void:
 	_hasTarget = true
 	_target = target
 	_state = STATE_HUNT
 
-func set_target_forward(targetForward:Vector3) -> void:
+func set_move_target_forward(targetForward:Vector3) -> void:
 	_targetForward = targetForward
 
 func _set_move_yaw(radians:float) -> void:
@@ -104,12 +104,23 @@ func _calc_move_yaw() -> float:
 		if _tick <= 0:
 			_tick = _thinkTime
 			var selfForward:Vector3 = -_body.global_transform.basis.z
-			var tarIsToLeft:bool = ZqfUtils.is_point_left_of_line3D_flat(selfPos, selfForward, _target)
+
+			var tarAimIsToLeft:bool = ZqfUtils.is_point_left_of_line3D_flat(_target, _targetForward, selfPos)
+			print("Tar aim is to left: " + str(tarAimIsToLeft))
 			var offset:float = deg2rad(65)
-			if tarIsToLeft:
+			if tarAimIsToLeft:
 				_yawOffset = -offset
-			elif !tarIsToLeft:
+			elif !tarAimIsToLeft:
 				_yawOffset = offset
+
+
+			# var tarIsToLeft:bool = ZqfUtils.is_point_left_of_line3D_flat(selfPos, selfForward, _target)
+			# var offset:float = deg2rad(65)
+			# if tarIsToLeft:
+			# 	_yawOffset = -offset
+			# elif !tarIsToLeft:
+			# 	_yawOffset = offset
+			
 			# _yawOffset = rand_range(-offset, offset)
 			# var r = randf()
 			# if r > 0.66:
@@ -169,6 +180,8 @@ func _hunt_ground(_delta:float) -> void:
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
 
 func _hunt_flying(_delta:float) -> void:
+	# print("Hunt flying")
+	_tick -= _delta
 	_set_move_yaw(_calc_move_yaw())
 	var move:Vector3 = Vector3()
 	move.x = -sin(moveYaw)

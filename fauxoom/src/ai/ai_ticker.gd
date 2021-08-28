@@ -121,7 +121,8 @@ func custom_tick_state(_delta:float, _targetInfo:Dictionary) -> void:
 		if isSniper:
 			_start_attack(_delta, _targetInfo)
 			return
-		_mob.motor.set_target(_targetInfo.position)
+		_mob.motor.set_move_target(_targetInfo.position)
+		_mob.motor.set_move_target_forward(_targetInfo.forward)
 		if _targetInfo.trueDistance > 5:
 			_mob.motor.move_hunt(_delta)
 			set_rotation_to_movement()

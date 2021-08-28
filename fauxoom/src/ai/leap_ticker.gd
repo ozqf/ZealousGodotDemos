@@ -43,7 +43,8 @@ func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
 			# print("LEAP!")
 				change_state(LEAP_STATE)
 				_mob.sprite.play_animation("leap")
-				_mob.motor.set_target(_targetInfo.position)
+				_mob.motor.set_move_target(_targetInfo.position)
+				_mob.motor.set_move_target_forward(_targetInfo.forward)
 				_mob.motor.start_leap(_delta, 14)
 				# _area.visible = true # just for debugging
 				_shape.disabled = false
@@ -51,7 +52,8 @@ func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
 			else:
 				_mob.motor.move_idle(_delta)
 		else:
-			_mob.motor.set_target(_targetInfo.position)
+			_mob.motor.set_move_target(_targetInfo.position)
+			_mob.motor.set_move_target_forward(_targetInfo.forward)
 			_mob.motor.move_hunt(_delta)
 		# if _tick <= 0:
 		# 	_cycles = 0
