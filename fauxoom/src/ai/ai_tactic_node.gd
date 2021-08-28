@@ -1,16 +1,22 @@
 extends Spatial
 
+var info:Dictionary = {}
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	info = {
+		canSeePlayer = false,
+		distToPlayer = 99999
+	}
 
+func _enter_tree() -> void:
+	AI.register_tactic_node(self)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _exit_tree() -> void:
+	AI.deregister_tactic_node(self)
+	# var aStar = AStar.new()
+	# aStar.
+
+func custom_update(_delta:float) -> void:
+	var pos:Vector3 = global_transform.origin
+	info.canSeePlayer = AI.check_los_to_player(pos)
+	info.distToPlayer = AI.get_distance_to_player(pos)

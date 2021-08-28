@@ -29,8 +29,6 @@ var _state = GameState.Pregame
 var _hasPlayerStart:bool = false
 var _playerOrigin:Transform = Transform.IDENTITY
 
-var _navService:NavService = null
-
 # cheats
 var _noTarget:bool = false
 
@@ -67,13 +65,6 @@ func _ready() -> void:
 		print("Checkpoint file found")
 	else:
 		print("No checkpoint file found")
-
-func register_nav_service(_newNavService:NavService) -> void:
-	_navService = _newNavService
-	print("Registered nav service")
-
-func deregister_nav_service(_newNavService:NavService) -> void:
-	_navService = null
 
 func new_hit_info() -> HitInfo:
 	return _hitInfo_type.new()
@@ -368,10 +359,6 @@ func deregister_player_start(_obj:Spatial) -> void:
 	_hasPlayerStart = false
 	_refresh_overlay()
 
-###############
-# AI
-###############
-
 # returns last gib spawned
 func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:
 	var def = _entRoot.get_prefab_def(Entities.PREFAB_GIB)
@@ -387,39 +374,3 @@ func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:
 		gib.global_transform.origin = pos
 		gib.launch_gib(dir, 1, 0)
 	return result
-
-func check_los_to_player(origin:Vector3) -> bool:
-	if !_player:
-		return false
-	var dest = _player.get_targetting_info().position
-	return ZqfUtils.los_check(_entRoot, origin, dest, 1)
-
-func check_player_in_front(origin:Vector3, yawDegrees:float) -> bool:
-	if !_player:
-		return false
-	var dest = _player.get_targetting_info().position
-	var yawToPlayer:float = rad2deg(ZqfUtils.yaw_between(dest, origin))
-	yawDegrees = ZqfUtils.cap_degrees(yawDegrees - 90)
-	yawToPlayer = ZqfUtils.cap_degrees(yawToPlayer)
-	# var diff1:float = yawToPlayer - yawDegrees
-	var diff2:float = yawDegrees - yawToPlayer
-	# print("Mob yaw " + str(yawDegrees) + " vs to player angle " + str(yawToPlayer))
-	# print("  Diff1: " + str(diff1) + " diff2: " + str(diff2))
-	if diff2 >= 0 && diff2 <= 180:
-		return true
-	return false
-
-func mob_check_target_old(_current:Spatial) -> Spatial:
-	if !_player:
-		return null
-	return _player as Spatial
-
-func mob_check_target(_current:Dictionary) -> Dictionary:
-	if !_player || _noTarget:
-		return _emptyTargetInfo
-	return _player.get_targetting_info()
-
-func get_player_target() -> Dictionary:
-	if !_player || _noTarget:
-		return _emptyTargetInfo
-	return _player.get_targetting_info()

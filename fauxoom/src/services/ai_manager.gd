@@ -1,6 +1,10 @@
 extends Spatial
 
+# Other services
 var _entRoot:Entities = null
+var _navService:NavService = null
+
+var _tacticNodes = []
 
 # live player
 var _player:Player = null
@@ -18,12 +22,63 @@ var _emptyTargetInfo:Dictionary = {
 func _ready():
 	print("AI singleton init")
 	_entRoot = Ents
+	add_to_group(Config.GROUP)
+	add_to_group(Groups.CONSOLE_GROUP_NAME)
+	add_to_group(Groups.GAME_GROUP_NAME)
+
+func game_on_player_spawned(player) -> void:
+	print("AI singleton - got player")
+	_player = player
+
+func game_on_player_died(_info:Dictionary) -> void:
+	if _player != null:
+		_player = null
+
+func _process(_delta:float) -> void:
+	var numNodes:int = _tacticNodes.size()
+	for _i in range(0, numNodes):
+		var n = _tacticNodes[_i]
+		n.custom_update(_delta)
+
+###############
+# Registeration
+###############
+
+func register_nav_service(_newNavService:NavService) -> void:
+	_navService = _newNavService
+	print("Registered nav service")
+
+func deregister_nav_service(_newNavService:NavService) -> void:
+	_navService = null
+
+func register_tactic_node(newTacticNode) -> void:
+	var i:int = _tacticNodes.find(newTacticNode)
+	if i != -1:
+		return
+	_tacticNodes.push_back(newTacticNode)
+	print("AI singleton has " + str(_tacticNodes.size()) + " tactic nodes")
+
+func deregister_tactic_node(tacticNode) -> void:
+	var i:int = _tacticNodes.find(tacticNode)
+	if i == -1:
+		return
+	_tacticNodes.remove(i)
+	print("AI singleton has " + str(_tacticNodes.size()) + " tactic nodes")
+
+###############
+# AI Queries
+###############
 
 func check_los_to_player(origin:Vector3) -> bool:
 	if !_player:
 		return false
 	var dest = _player.get_targetting_info().position
 	return ZqfUtils.los_check(_entRoot, origin, dest, 1)
+
+func get_distance_to_player(origin:Vector3) -> float:
+	if !_player:
+		return 999999.0
+	return ZqfUtils.distance_between(origin, _player.global_transform.origin)
 
 func check_player_in_front(origin:Vector3, yawDegrees:float) -> bool:
 	if !_player:

@@ -19,7 +19,7 @@ func _ready() -> void:
 	pass
 
 func _process(_delta:float) -> void:
-	var info:Dictionary = Game.get_player_target()
+	var info:Dictionary = AI.get_player_target()
 	if info.id == 0:
 		return
 	var selfPos:Vector3 = global_transform.origin

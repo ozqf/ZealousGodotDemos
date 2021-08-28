@@ -257,7 +257,7 @@ func _process(_delta:float) -> void:
 	# head.rotation.y = motor.moveYaw
 
 	if _state == MobState.Hunting:
-		build_tick_info(Game.mob_check_target(_tickInfo))
+		build_tick_info(AI.mob_check_target(_tickInfo))
 		if _tickInfo.id == 0:
 			# lost target
 			_change_state(MobState.Idle)
@@ -267,12 +267,12 @@ func _process(_delta:float) -> void:
 	elif _state == MobState.Idle:
 		if _thinkTick <= 0:
 			_thinkTick = _stats.losCheckTime
-			# if Game.check_player_in_front(global_transform.origin, _moveYaw):
+			# if AI.check_player_in_front(global_transform.origin, _moveYaw):
 			# 	if Game.check_los_to_player(global_transform.origin):
 			# 		_change_state(MobState.Hunting)
 			# 	else:
 			# 		print("Player in front but cannot see!")
-			if Game.check_los_to_player(head.global_transform.origin):
+			if AI.check_los_to_player(head.global_transform.origin):
 				force_awake()
 		else:
 			_thinkTick -= _delta
