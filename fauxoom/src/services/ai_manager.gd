@@ -92,7 +92,6 @@ func find_closest_navmesh_point(to:Vector3) -> Vector3:
 	if _navService == null:
 		return Vector3()
 	return _navService.get_closest_point(to)
-	
 
 func get_path_to_point(from:Vector3, to:Vector3) -> PoolVector3Array:
 	if _navService == null:
