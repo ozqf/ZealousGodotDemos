@@ -6,13 +6,16 @@ onready var _testNavDest:Spatial = $test_nav_dest
 var _entRoot:Entities = null
 var _navService:NavService = null
 
+# specially placed AI nodes
 var _tacticNodes = []
 
 # live player
 var _player:Player = null
 
-# cheats
+# cheats/debugging
 var _noTarget:bool = false
+var _point_t = preload("res://prefabs/point_entity.tscn")
+var _debugPathPoints = []
 
 var _emptyTargetInfo:Dictionary = {
 	id = 0,
@@ -82,6 +85,39 @@ func set_test_nav_dest(pos:Vector3) -> void:
 	_testNavDest.global_transform.origin = pos
 
 ###############
+# Navigation Queries
+###############
+
+func find_closest_navmesh_point(to:Vector3) -> Vector3:
+	if _navService == null:
+		return Vector3()
+	return _navService.get_closest_point(to)
+	
+
+func get_path_to_point(from:Vector3, to:Vector3) -> PoolVector3Array:
+	if _navService == null:
+		return PoolVector3Array()
+	return _navService.get_simple_path(from, to)
+
+func debug_path(path:PoolVector3Array) -> void:
+	# clear current nodes
+	for i in range(0, _debugPathPoints.size()):
+		_debugPathPoints[i].queue_free()
+	_debugPathPoints.clear()
+	
+	print("Path: " + str(path.size()) + " nodes")
+	var previous = null
+	for i in range(0, path.size()):
+		print(str(path[i]))
+		var pointObj = _point_t.instance()
+		add_child(pointObj)
+		pointObj.global_transform.origin = path[i]
+		_debugPathPoints.push_back(pointObj)
+		if previous != null:
+			previous.look_at(path[i], Vector3.UP)
+		previous = pointObj
+
+###############
 # AI Queries
 ###############
 
@@ -126,7 +162,7 @@ func get_player_target() -> Dictionary:
 		return _emptyTargetInfo
 	return _player.get_targetting_info()
 
-func find_flee_position(_agent:Dictionary) -> bool:
+func _find_closest_node(_agent:Dictionary, canSeePlayer:bool) -> bool:
 	var resultNodeIndex:int = -1
 	var resultNodePos:Vector3 = Vector3()
 	var resultNodeDistSqr:float = 999999.0
@@ -136,7 +172,7 @@ func find_flee_position(_agent:Dictionary) -> bool:
 	for _i in range(0, numNodes):
 		var n = _tacticNodes[_i]
 		# if can see player, not safe!
-		if n.canSeePlayer:
+		if n.canSeePlayer != canSeePlayer:
 			# print(str(_i) + " cannot see player - skipping")
 			continue
 		var candidatePos:Vector3 = n.global_transform.origin
@@ -144,7 +180,6 @@ func find_flee_position(_agent:Dictionary) -> bool:
 		if resultNodeIndex == -1:
 			# first valid node
 			resultNodeIndex = _i
-			
 			resultNodePos = candidatePos
 			resultNodeDistSqr = candidateDistSqr
 		else:
@@ -162,3 +197,9 @@ func find_flee_position(_agent:Dictionary) -> bool:
 		_agent.nodeIndex = resultNodeIndex
 		_agent.target = resultNodePos
 		return true
+
+func find_flee_position(_agent:Dictionary) -> bool:
+	return _find_closest_node(_agent, false)
+
+func find_melee_position(_agent:Dictionary) -> bool:
+	return _find_closest_node(_agent, true)

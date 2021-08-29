@@ -135,6 +135,26 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 			_inventory.give_item(_tokens[1], count)
 	if _txt == "inventory":
 		_inventory.debug()
+	# ai test find melee
+	if _txt == "findplayer":
+		var dest:Vector3 = global_transform.origin
+		var to:Vector3 = AI.find_closest_navmesh_point(dest)
+		AI.set_test_nav_dest(to)
+
+	if _txt == "findmelee":
+		var agent:Dictionary = {
+			position = global_transform.origin,
+			target = Vector3(),
+			nodeIndex = -1
+		}
+		if AI.find_melee_position(agent):
+			print("Melee target " + str(agent.nodeIndex) + " at " + str(agent.target))
+			AI.set_test_nav_dest(agent.target)
+			var navPos:Vector3 = AI.find_closest_navmesh_point(agent.target)
+			print("Closest nav pos " + str(navPos))
+		else:
+			print("No viable Melee target")
+	# ai test find flee
 	if _txt == "findflee":
 		var agent:Dictionary = {
 			position = global_transform.origin,
@@ -144,9 +164,12 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		if AI.find_flee_position(agent):
 			print("Flee target " + str(agent.nodeIndex) + " at " + str(agent.target))
 			AI.set_test_nav_dest(agent.target)
+			var navPos:Vector3 = AI.find_closest_navmesh_point(agent.target)
+			print("Closest nav pos " + str(navPos))
+			var path = AI.get_path_to_point(agent.position, agent.target)
+			AI.debug_path(path)
 		else:
 			print("No viable flee target")
-
 
 func give_all() -> void:
 	_inventory.give_all()
