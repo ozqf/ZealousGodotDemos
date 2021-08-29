@@ -137,9 +137,9 @@ func _input(_event: InputEvent) -> void:
 		if _inputOn:
 			print("Toggle menu on")
 			set_input_off()
-		# else:
-		# 	print("Toggle menu off")
-		# 	set_input_on()
+		elif !_web_mode():
+			print("Toggle menu off")
+			set_input_on()
 
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN:

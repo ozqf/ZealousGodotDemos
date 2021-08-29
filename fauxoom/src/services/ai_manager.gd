@@ -1,5 +1,7 @@
 extends Spatial
 
+onready var _testNavDest:Spatial = $test_nav_dest
+
 # Other services
 var _entRoot:Entities = null
 var _navService:NavService = null
@@ -25,6 +27,13 @@ func _ready():
 	add_to_group(Config.GROUP)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
+
+func console_on_exec(_txt: String, _tokens:PoolStringArray) -> void:
+	if _txt == "ainodes":
+		print("=== AI Nodes ===")
+		for _i in range(0, _tacticNodes.size()):
+			var n = _tacticNodes[_i]
+			print(str(_i) + " Can see player " + str(n.canSeePlayer) + " dist: " + str(n.distToPlayer))
 
 func game_on_player_spawned(player) -> void:
 	print("AI singleton - got player")
@@ -64,6 +73,13 @@ func deregister_tactic_node(tacticNode) -> void:
 		return
 	_tacticNodes.remove(i)
 	print("AI singleton has " + str(_tacticNodes.size()) + " tactic nodes")
+
+###############
+# Debugging
+###############
+
+func set_test_nav_dest(pos:Vector3) -> void:
+	_testNavDest.global_transform.origin = pos
 
 ###############
 # AI Queries
@@ -109,3 +125,40 @@ func get_player_target() -> Dictionary:
 	if !_player || _noTarget:
 		return _emptyTargetInfo
 	return _player.get_targetting_info()
+
+func find_flee_position(_agent:Dictionary) -> bool:
+	var resultNodeIndex:int = -1
+	var resultNodePos:Vector3 = Vector3()
+	var resultNodeDistSqr:float = 999999.0
+
+	var from:Vector3 = _agent.position
+	var numNodes:int = _tacticNodes.size()
+	for _i in range(0, numNodes):
+		var n = _tacticNodes[_i]
+		# if can see player, not safe!
+		if n.canSeePlayer:
+			# print(str(_i) + " cannot see player - skipping")
+			continue
+		var candidatePos:Vector3 = n.global_transform.origin
+		var candidateDistSqr:float = ZqfUtils.distance_between_sqr(from, candidatePos)
+		if resultNodeIndex == -1:
+			# first valid node
+			resultNodeIndex = _i
+			
+			resultNodePos = candidatePos
+			resultNodeDistSqr = candidateDistSqr
+		else:
+			# compare distance with current result - favour nearest
+			if candidateDistSqr < resultNodeDistSqr:
+				# print("Replacing " + str(resultNodeIndex) + " with " + )
+				resultNodeIndex = _i
+				resultNodePos = candidatePos
+				resultNodeDistSqr = candidateDistSqr
+
+	if resultNodeIndex == -1:
+		_agent.nodeIndex = -1
+		return false
+	else:
+		_agent.nodeIndex = resultNodeIndex
+		_agent.target = resultNodePos
+		return true

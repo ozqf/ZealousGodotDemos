@@ -494,10 +494,22 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 6.5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0, 5.2 )
 
 [node name="ai_tactic_node3" parent="static" instance=ExtResource( 54 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, 6.3 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, 6.5 )
 
 [node name="ai_tactic_node4" parent="static" instance=ExtResource( 54 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0, 7.9 )
+
+[node name="ai_tactic_node5" parent="static" instance=ExtResource( 54 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -6.5 )
+
+[node name="ai_tactic_node6" parent="static" instance=ExtResource( 54 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0, -7.8 )
+
+[node name="ai_tactic_node7" parent="static" instance=ExtResource( 54 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, -6.5 )
+
+[node name="ai_tactic_node8" parent="static" instance=ExtResource( 54 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0, -5.1 )
 
 [node name="world" type="Navigation" parent="."]
 script = ExtResource( 47 )

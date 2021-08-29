@@ -135,6 +135,18 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 			_inventory.give_item(_tokens[1], count)
 	if _txt == "inventory":
 		_inventory.debug()
+	if _txt == "findflee":
+		var agent:Dictionary = {
+			position = global_transform.origin,
+			target = Vector3(),
+			nodeIndex = -1
+		}
+		if AI.find_flee_position(agent):
+			print("Flee target " + str(agent.nodeIndex) + " at " + str(agent.target))
+			AI.set_test_nav_dest(agent.target)
+		else:
+			print("No viable flee target")
+
 
 func give_all() -> void:
 	_inventory.give_all()
