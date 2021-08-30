@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://influence_map/influence_map.gd" type="Script" id=1]
+
+[sub_resource type="PlaneMesh" id=1]
+
+[node name="influence_map" type="MeshInstance"]
+transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+script = ExtResource( 1 )
