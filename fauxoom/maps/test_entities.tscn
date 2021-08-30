@@ -74,7 +74,8 @@ agent/max_slope = 46.0
 script = ExtResource( 12 )
 
 [node name="influence_map" parent="." instance=ExtResource( 55 )]
-transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0.1, 0 )
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0.005, 0 )
+cellSize = 1.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )
@@ -621,7 +622,7 @@ transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 4, 15.5, 1.5, -13 )
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 4, 45.5, 1.5, 12 )
 
 [node name="world_volume34" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.5, 7.5, 33 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 5.5, 1 )
 
 [node name="world_volume" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.5, -13.5 )
