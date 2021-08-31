@@ -23,8 +23,12 @@ var _tickInfo:Dictionary = {
 	flatDistance = 0
 }
 
-var _autoUpdate:bool = false
+var _autoUpdate:bool = true
 var _tick:float = 1
+
+# agent influence templates
+var _playerTemplate:Image
+var _playerTemplateRect:Rect2 = Rect2()
 
 func _ready():
 	# force cell size atm
@@ -45,8 +49,16 @@ func _ready():
 	_worldMax.x = 0 + (_halfWidth * cellSize)
 	_worldMax.y = 0 + (_halfHeight * cellSize)
 	scale = Vector3(_halfWidth * cellSize, 1, _halfHeight * cellSize)
-
+	
+	_playerTemplate = _build_template(9, 9, Color(0, 1, 0, 1))
 	_build_texture()
+
+func _build_template(newWidth:int, newHeight:int, colour:Color) -> Image:
+	var newImage:Image = Image.new()
+	newImage.create(newWidth, newHeight, false, Image.FORMAT_RGBAF)
+	newImage.fill(colour)
+	# _playerTemplateRect.size = Vector2(8, 8)
+	return newImage
 
 func _build_texture() -> void:
 	_tex = ImageTexture.new()
@@ -62,7 +74,7 @@ func _build_texture() -> void:
 	self.material_override = _material
 
 func _reset() -> void:
-	_img.fill(Color(0, 0, 1, 1))
+	_img.fill(Color(0, 0, 0, 1))
 	_tex.create_from_image(_img)
 	_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, _tex)
 	_texRect.texture = _tex
@@ -124,7 +136,28 @@ func _rebuild() -> void:
 	_tickInfo = AI.get_player_target()
 	if _tickInfo.id != 0:
 		var gridPos:Vector2 = world_to_grid(_tickInfo.position)
-		_img.set_pixel(int(gridPos.x), int(gridPos.y), Color.green)
+		var playerGridPos:Vector2 = gridPos
+		# var rect:Rect2 = _playerTemplate.
+		var blitPos:Vector2 = gridPos
+		blitPos.x -= _playerTemplate.get_width() / 2.0
+		blitPos.y -= _playerTemplate.get_height() / 2.0
+		# blit template
+		_img.blit_rect(_playerTemplate, _playerTemplate.get_used_rect(), blitPos)
+
+		# blit forward from player
+		var step:float = 8
+		var forward:Vector3 = _tickInfo.flatForward
+		forward = forward * step
+		for _i in range (0, 3):
+			gridPos.x += -forward.x
+			gridPos.y += forward.z
+
+			blitPos = gridPos
+			blitPos.x -= _playerTemplate.get_width() / 2.0
+			blitPos.y -= _playerTemplate.get_height() / 2.0
+			_img.blit_rect(_playerTemplate, _playerTemplate.get_used_rect(), blitPos)
+
+		_img.set_pixel(int(playerGridPos.x), int(playerGridPos.y), Color.white)
 		# _img.set_pixel(0, 25, Color.red)
 	
 	# paint enemies
