@@ -14,7 +14,7 @@ dest_files=[ "res://.import/sphere_blend_17x17.png-40eeb1f84f74590dcee93ae9a4faa
 
 [params]
 
-compress/mode=0
+compress/mode=3
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
@@ -25,7 +25,7 @@ flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
-process/premult_alpha=false
+process/premult_alpha=true
 process/HDR_as_SRGB=false
 process/invert_color=false
 stream=false

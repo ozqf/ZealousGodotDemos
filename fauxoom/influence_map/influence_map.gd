@@ -9,7 +9,7 @@ export var height:int = 50
 export var cellSize:float = 1
 export var tickRate:float = 0.2
 
-export var enemyTemplateTexture:StreamTexture = null
+export var enemyTemplateTexture:StreamTexture
 
 var _material:SpatialMaterial = null
 var _img:Image
@@ -48,8 +48,8 @@ func _ready():
 		width = 1
 	if height <= 0:
 		height = 1
-	_halfWidth = width / 2
-	_halfHeight = height / 2
+	_halfWidth = int(width / 2.0)
+	_halfHeight = int(height / 2.0)
 	# assuming zero zero atm
 	var pos:Vector3 = global_transform.origin
 	_worldMin.x = pos.x - (_halfWidth * cellSize)
@@ -59,8 +59,22 @@ func _ready():
 	scale = Vector3(_halfWidth * cellSize, 1, _halfHeight * cellSize)
 	
 	_playerTemplate = _build_template(9, 9, Color(0, 1, 0, 1))
-	# if enemyTemplateTexture == null:
 	_enemyTemplate = _build_template(9, 9, Color(1, 0, 0, 1))
+
+#	var image = load("res://influence_map/assets/sphere_blend_17x17.png")
+#	var data:Image = image.get_data()
+	_enemyTemplate = enemyTemplateTexture.get_data()
+	_enemyTemplate.convert(Image.FORMAT_RGBAF)
+	# _enemyTemplate = enemyTemplateTexture
+
+	# enemyTemplateTexture = ImageTexture.new()
+	# enemyTemplateTexture.load("res://influence_map/assets/sphere_blend_17x17.png")
+	# _enemyTemplate = enemyTemplateTexture.get_data()
+	# if enemyTemplateTexture == null:
+	# 	print("Enemy template texture is null")
+	# 	_enemyTemplate = _build_template(9, 9, Color(1, 0, 0, 1))
+	# else:
+	# 	_enemyTemplate = enemyTemplateTexture.get_data()
 	# _enemyTemplate = Image.new()
 	# _enemyTemplate.load("res://influence_map/assets/sphere_blend_17x17.png")
 	_build_texture()
@@ -90,6 +104,7 @@ func _build_texture() -> void:
 	_img.set_pixel(0, 0, Color(1, 0, 0, 1))
 	# _img.set_pixel(0, 25, Color.red)
 	_img.unlock()
+	print("Source format " + str(_enemyTemplate.get_format()) + " target format: " + str(_img.get_format()))
 	_tex.create_from_image(_img)
 	_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, _tex)
 	self.material_override = _material
