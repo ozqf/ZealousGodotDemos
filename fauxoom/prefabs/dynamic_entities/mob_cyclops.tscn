@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://src/patterns/pattern_cube_volume.gd" type="Script" id=12]
 [ext_resource path="res://prefabs/gfx/omni_attack_charge.tscn" type="PackedScene" id=13]
 [ext_resource path="res://src/ai/mob_motor_default.gd" type="Script" id=14]
+[ext_resource path="res://influence_map/influence_agent.tscn" type="PackedScene" id=15]
 
 [sub_resource type="SphereShape" id=1]
 
@@ -24,6 +25,8 @@ size = Vector3( 0.2, 0.2, 1 )
 collision_layer = 2
 collision_mask = 71
 script = ExtResource( 2 )
+
+[node name="influence_agent" parent="." instance=ExtResource( 15 )]
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, -0.5, 0 )

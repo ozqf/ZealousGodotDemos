@@ -9,6 +9,8 @@ export var height:int = 50
 export var cellSize:float = 1
 export var tickRate:float = 0.2
 
+export var enemyTemplateTexture:StreamTexture = null
+
 var _material:SpatialMaterial = null
 var _img:Image
 var _tex:ImageTexture
@@ -30,10 +32,15 @@ var _tick:float = 1
 var _playerTemplate:Image
 var _playerTemplateRect:Rect2 = Rect2()
 
+# agent enemy template
+var _enemyTemplate:Image
+
+var _agents = []
+
 func _ready():
 	# force cell size atm
 	cellSize = 1
-
+	add_to_group(Groups.INFLUENCE_GROUP)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	if _material == null:
 		_material = SpatialMaterial.new()
@@ -44,14 +51,28 @@ func _ready():
 	_halfWidth = width / 2
 	_halfHeight = height / 2
 	# assuming zero zero atm
-	_worldMin.x = 0 - (_halfWidth * cellSize)
-	_worldMin.y = 0 - (_halfHeight * cellSize)
-	_worldMax.x = 0 + (_halfWidth * cellSize)
-	_worldMax.y = 0 + (_halfHeight * cellSize)
+	var pos:Vector3 = global_transform.origin
+	_worldMin.x = pos.x - (_halfWidth * cellSize)
+	_worldMin.y = pos.z - (_halfHeight * cellSize)
+	_worldMax.x = pos.x + (_halfWidth * cellSize)
+	_worldMax.y = pos.z + (_halfHeight * cellSize)
 	scale = Vector3(_halfWidth * cellSize, 1, _halfHeight * cellSize)
 	
 	_playerTemplate = _build_template(9, 9, Color(0, 1, 0, 1))
+	# if enemyTemplateTexture == null:
+	_enemyTemplate = _build_template(9, 9, Color(1, 0, 0, 1))
+	# _enemyTemplate = Image.new()
+	# _enemyTemplate.load("res://influence_map/assets/sphere_blend_17x17.png")
 	_build_texture()
+
+func influence_map_add(node) -> void:
+	_agents.push_back(node)
+
+func influence_map_remove(node) -> void:
+	var i:int = _agents.find(node)
+	if i == -1:
+		return
+	_agents.remove(i)
 
 func _build_template(newWidth:int, newHeight:int, colour:Color) -> Image:
 	var newImage:Image = Image.new()
@@ -128,6 +149,15 @@ func world_to_grid(_worldPos:Vector3) -> Vector2:
 		y = height - 1
 	return Vector2(x, y)
 
+func _draw_template_by_world_pos(template:Image, worldPos:Vector3) -> void:
+	var gridPos:Vector2 = world_to_grid(worldPos)
+	var blitPos:Vector2 = gridPos
+	blitPos.x -= template.get_width() / 2.0
+	blitPos.y -= template.get_height() / 2.0
+	# blit template
+	_img.blit_rect(template, template.get_used_rect(), blitPos)
+
+
 func _rebuild() -> void:
 	_reset()
 	_img.lock()
@@ -161,6 +191,9 @@ func _rebuild() -> void:
 		# _img.set_pixel(0, 25, Color.red)
 	
 	# paint enemies
+	for _i in range(0, _agents.size()):
+		var agent:Spatial = _agents[_i]
+		_draw_template_by_world_pos(_enemyTemplate, agent.global_transform.origin)
 	
 	_img.unlock()
 	_tex.create_from_image(_img)

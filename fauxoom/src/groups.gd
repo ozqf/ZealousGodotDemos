@@ -6,6 +6,10 @@ const CONSOLE_FN_EXEC:String = "console_on_exec"
 const SYSTEM_GROUP_NAME:String = "system"
 const SYSTEM_FN_CONFIG_CHANGE:String = "config_changed"
 
+const INFLUENCE_GROUP:String = "influence_map"
+const INFLUENCE_FN_ADD:String = "influence_map_add"
+const INFLUENCE_FN_REMOVE:String = "influence_map_remove"
+
 const GAME_GROUP_NAME:String = "game"
 const GAME_FN_PAUSE:String = "game_pause"
 const GAME_FN_UNPAUSE:String = "game_unpause"

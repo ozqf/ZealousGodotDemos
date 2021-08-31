@@ -378,6 +378,10 @@ func hit(_hitInfo:HitInfo) -> int:
 		emit_signal("on_mob_died", self)
 		Interactions.triggerTargets(get_tree(), _ent.triggerTargetName)
 
+		var influenceNode = get_node_or_null("influence_agent")
+		if influenceNode != null:
+			influenceNode.queue_free()
+
 		# fx
 		print("Prefab " + str(_ent.prefabName) + " died at " + str(global_transform.origin))
 		if _ent.prefabName == "mob_punk":

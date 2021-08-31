@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://influence_map/influence_agent.gd" type="Script" id=1]
+
+[node name="influence_agent" type="Spatial"]
+script = ExtResource( 1 )
