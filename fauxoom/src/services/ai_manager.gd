@@ -5,6 +5,7 @@ onready var _testNavDest:Spatial = $test_nav_dest
 # Other services
 var _entRoot:Entities = null
 var _navService:NavService = null
+var _influenceMap = null
 
 # specially placed AI nodes
 var _tacticNodes = []
@@ -30,6 +31,7 @@ func _ready():
 	add_to_group(Config.GROUP)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
+	add_to_group(Groups.INFLUENCE_GROUP)
 
 func console_on_exec(_txt: String, _tokens:PoolStringArray) -> void:
 	if _txt == "ainodes":
@@ -76,6 +78,15 @@ func deregister_tactic_node(tacticNode) -> void:
 		return
 	_tacticNodes.remove(i)
 	print("AI singleton has " + str(_tacticNodes.size()) + " tactic nodes")
+
+func influence_register_map(newInfluenceMap) -> void:
+	_influenceMap = newInfluenceMap
+	print("AI Manager got influence map")
+
+func influence_deregister_map(newInfluenceMap) -> void:
+	if _influenceMap == newInfluenceMap:
+		_influenceMap = null
+		print("AI Manager removed influence map")
 
 ###############
 # Debugging

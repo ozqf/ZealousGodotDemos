@@ -9,6 +9,8 @@ const SYSTEM_FN_CONFIG_CHANGE:String = "config_changed"
 const INFLUENCE_GROUP:String = "influence_map"
 const INFLUENCE_FN_ADD:String = "influence_map_add"
 const INFLUENCE_FN_REMOVE:String = "influence_map_remove"
+const INFLUENCE_FN_REGISTER_MAP:String = "influence_register_map"
+const INFLUENCE_FN_DEREGISTER_MAP:String = "influence_deregister_map"
 
 const GAME_GROUP_NAME:String = "game"
 const GAME_FN_PAUSE:String = "game_pause"

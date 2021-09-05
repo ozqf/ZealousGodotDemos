@@ -1,15 +1,19 @@
-extends MeshInstance
+extends Spatial
 
 onready var _texRect:TextureRect = $CanvasLayer/TextureRect
+onready var _mesh:MeshInstance = $mesh
 
 # grid size
-export var width:int = 50
-export var height:int = 50
+export var width:int = 100
+export var height:int = 100
 # size of a cell in engine units - currently only 1 works!
 export var cellSize:float = 1
 export var tickRate:float = 0.2
 
 export var enemyTemplateTexture:StreamTexture
+
+export var debugDraw2d:bool = false
+export var debugDraw3d:bool = false
 
 var _material:SpatialMaterial = null
 var _img:Image
@@ -42,6 +46,11 @@ func _ready():
 	cellSize = 1
 	add_to_group(Groups.INFLUENCE_GROUP)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
+
+	_texRect.visible = debugDraw2d
+	_mesh.visible = debugDraw3d
+
+
 	if _material == null:
 		_material = SpatialMaterial.new()
 	if width <= 0:
@@ -58,7 +67,7 @@ func _ready():
 	_worldMax.y = pos.z + (_halfHeight * cellSize)
 	scale = Vector3(_halfWidth * cellSize, 1, _halfHeight * cellSize)
 	
-	_playerTemplate = _build_template(9, 9, Color(0, 1, 0, 1))
+	_playerTemplate = _build_template(13, 13, Color(0, 1, 0, 1))
 	_enemyTemplate = _build_template(9, 9, Color(1, 0, 0, 1))
 
 #	var image = load("res://influence_map/assets/sphere_blend_17x17.png")
@@ -78,6 +87,10 @@ func _ready():
 	# _enemyTemplate = Image.new()
 	# _enemyTemplate.load("res://influence_map/assets/sphere_blend_17x17.png")
 	_build_texture()
+	get_tree().call_group(Groups.INFLUENCE_GROUP, Groups.INFLUENCE_FN_REGISTER_MAP, self)
+
+func _exit_tree():
+	get_tree().call_group(Groups.INFLUENCE_GROUP, Groups.INFLUENCE_FN_DEREGISTER_MAP, self)
 
 func influence_map_add(node) -> void:
 	_agents.push_back(node)
@@ -107,13 +120,52 @@ func _build_texture() -> void:
 	print("Source format " + str(_enemyTemplate.get_format()) + " target format: " + str(_img.get_format()))
 	_tex.create_from_image(_img)
 	_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, _tex)
-	self.material_override = _material
+	_mesh.material_override = _material
 
 func _reset() -> void:
-	_img.fill(Color(0, 0, 0, 1))
+	_img.fill(Color(0, 0, 0, 0.25))
 	_tex.create_from_image(_img)
 	_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, _tex)
 	_texRect.texture = _tex
+
+func find_closest_no_green(_worldOrigin:Vector3) -> Vector2:
+	var searchStart:Vector2 = world_to_grid(_worldOrigin)
+	var result:Vector2 = searchStart
+	var resultDistSqr:float = 99999
+	var resultColour:Color = Color(0, 1, 0, 1)
+
+	var w:int = width
+	var h:int = height
+	_img.lock()
+	for _y in range(0, h):
+		for _x in range(0, w):
+			# don't bother searching IN the origin
+			if _x == searchStart.x && _y == searchStart.y:
+				continue
+			
+			var queryPos:Vector2 = Vector2(_x, _y)
+			var queryColour:Color = _img.get_pixel(_x, _y)
+
+			# if this cell more green, ignore
+			if queryColour.g > resultColour.g:
+				continue
+			elif queryColour.g < queryColour.g:
+				# this cell has an improved score, replace
+				var queryDistSqr:float = searchStart.distance_squared_to(queryPos)
+				result = queryPos
+				resultDistSqr = queryDistSqr
+				resultColour = queryColour
+				pass
+			elif queryColour.g == queryColour.g:
+				# cells are equal, compare distance
+				var queryDistSqr:float = searchStart.distance_squared_to(queryPos)
+				if queryDistSqr < resultDistSqr:
+					# nearer, replace
+					result = queryPos
+					resultDistSqr = queryDistSqr
+					resultColour = queryColour
+	_img.unlock()
+	return result
 
 #################################################
 # debugging commands
@@ -149,9 +201,6 @@ func console_on_exec(_txt: String, _tokens:PoolStringArray) -> void:
 		_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, _tex)
 
 func world_to_grid(_worldPos:Vector3) -> Vector2:
-	# for now just assuming that the influence map is at 0,0 world
-	# so 0, 0 world - (half width of map * size of cells)
-	# == world pos of 0, 0 on grid
 	var x = _worldPos.x - _worldMin.x
 	var y = _worldPos.z - _worldMin.y
 	if x < 0:
@@ -170,8 +219,20 @@ func _draw_template_by_world_pos(template:Image, worldPos:Vector3) -> void:
 	blitPos.x -= template.get_width() / 2.0
 	blitPos.y -= template.get_height() / 2.0
 	# blit template
-	_img.blit_rect(template, template.get_used_rect(), blitPos)
+	# _img.blit_rect(template, template.get_used_rect(), blitPos)
+	_img.blend_rect(template, template.get_used_rect(), blitPos)
 
+func _blit_forward(_gridOrigin:Vector2, _forward:Vector2, _step:float, _count:int) -> void:
+	_forward = _forward * _step
+	var blitPos:Vector2
+	for _i in range(0, _count):
+		_gridOrigin.x += _forward.x
+		_gridOrigin.y += _forward.y
+
+		blitPos = _gridOrigin
+		blitPos.x -= _playerTemplate.get_width() / 2.0
+		blitPos.y -= _playerTemplate.get_height() / 2.0
+		_img.blit_rect(_playerTemplate, _playerTemplate.get_used_rect(), blitPos)
 
 func _rebuild() -> void:
 	_reset()
@@ -189,18 +250,30 @@ func _rebuild() -> void:
 		# blit template
 		_img.blit_rect(_playerTemplate, _playerTemplate.get_used_rect(), blitPos)
 
-		# blit forward from player
-		var step:float = 8
 		var forward:Vector3 = _tickInfo.flatForward
-		forward = forward * step
-		for _i in range (0, 3):
-			gridPos.x += -forward.x
-			gridPos.y += forward.z
+		var forward2d:Vector2 = Vector2(-forward.x, forward.z)
+		_blit_forward(gridPos, forward2d, 8, 3)
+		var radians = forward2d.angle()
+		forward2d.x = cos(radians - 0.3)
+		forward2d.y = sin(radians - 0.3)
+		_blit_forward(gridPos, forward2d, 8, 3)
 
-			blitPos = gridPos
-			blitPos.x -= _playerTemplate.get_width() / 2.0
-			blitPos.y -= _playerTemplate.get_height() / 2.0
-			_img.blit_rect(_playerTemplate, _playerTemplate.get_used_rect(), blitPos)
+		forward2d.x = cos(radians + 0.3)
+		forward2d.y = sin(radians + 0.3)
+		_blit_forward(gridPos, forward2d, 8, 3)
+
+		# blit forward from player
+		# var step:float = 8
+		# var forward:Vector3 = _tickInfo.flatForward
+		# forward = forward * step
+		# for _i in range (0, 3):
+		# 	gridPos.x += -forward.x
+		# 	gridPos.y += forward.z
+
+		# 	blitPos = gridPos
+		# 	blitPos.x -= _playerTemplate.get_width() / 2.0
+		# 	blitPos.y -= _playerTemplate.get_height() / 2.0
+		# 	_img.blit_rect(_playerTemplate, _playerTemplate.get_used_rect(), blitPos)
 
 		_img.set_pixel(int(playerGridPos.x), int(playerGridPos.y), Color.white)
 		# _img.set_pixel(0, 25, Color.red)
@@ -208,7 +281,13 @@ func _rebuild() -> void:
 	# paint enemies
 	for _i in range(0, _agents.size()):
 		var agent:Spatial = _agents[_i]
-		_draw_template_by_world_pos(_enemyTemplate, agent.global_transform.origin)
+		var agentOrigin:Vector3 = agent.global_transform.origin
+		_draw_template_by_world_pos(_enemyTemplate, agentOrigin)
+		# draw nearest outside player focus
+		var dest:Vector2 = find_closest_no_green(agentOrigin)
+		_img.lock()
+		_img.set_pixel(int(dest.x), int(dest.y), Color.blue)
+		_img.unlock()
 	
 	_img.unlock()
 	_tex.create_from_image(_img)

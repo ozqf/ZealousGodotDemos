@@ -75,6 +75,7 @@ script = ExtResource( 12 )
 
 [node name="influence_map" parent="." instance=ExtResource( 55 )]
 transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, -28, 0.005, 0 )
+debugDraw2d = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )

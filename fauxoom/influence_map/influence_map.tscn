@@ -5,11 +5,13 @@
 
 [sub_resource type="PlaneMesh" id=1]
 
-[node name="influence_map" type="MeshInstance"]
-mesh = SubResource( 1 )
-material/0 = null
+[node name="influence_map" type="Spatial"]
 script = ExtResource( 1 )
 enemyTemplateTexture = ExtResource( 2 )
+
+[node name="mesh" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = null
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
