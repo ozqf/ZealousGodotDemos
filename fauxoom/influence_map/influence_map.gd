@@ -12,6 +12,7 @@ export var tickRate:float = 0.2
 
 export var enemyTemplateTexture:StreamTexture
 
+export var autoUpdate:bool = true
 export var debugDraw2d:bool = false
 export var debugDraw3d:bool = false
 
@@ -29,7 +30,7 @@ var _tickInfo:Dictionary = {
 	flatDistance = 0
 }
 
-var _autoUpdate:bool = true
+
 var _tick:float = 1
 
 # agent influence templates
@@ -178,9 +179,9 @@ func console_on_exec(_txt: String, _tokens:PoolStringArray) -> void:
 	
 	# actual commands
 	if _tokens[1] == "auto":
-		_autoUpdate = true
+		autoUpdate = true
 	elif _tokens[1] == "manual":
-		_autoUpdate = false
+		autoUpdate = false
 	elif _tokens[1] == "recalc":
 		_rebuild()
 	elif _tokens[1] == "coords":
@@ -294,7 +295,7 @@ func _rebuild() -> void:
 	_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, _tex)
 
 func _process(_delta:float) -> void:
-	if !_autoUpdate:
+	if !autoUpdate:
 		return
 	
 	if _tick <= 0:

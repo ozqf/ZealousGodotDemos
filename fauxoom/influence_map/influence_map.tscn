@@ -16,6 +16,7 @@ material/0 = null
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+visible = false
 margin_right = 384.0
 margin_bottom = 384.0
 rect_scale = Vector2( 3, 3 )

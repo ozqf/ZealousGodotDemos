@@ -75,7 +75,7 @@ script = ExtResource( 12 )
 
 [node name="influence_map" parent="." instance=ExtResource( 55 )]
 transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, -28, 0.005, 0 )
-debugDraw2d = true
+autoUpdate = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )
@@ -948,13 +948,11 @@ selfRespawnTime = 30.0
 [node name="mob_spawn_proxy4" parent="items" instance=ExtResource( 10 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -39, 0, 4 )
 triggerName = "test_cyclops"
-type = 4
 delaySpawn = true
 
 [node name="mob_spawn_proxy5" parent="items" instance=ExtResource( 10 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -39, 0, -4 )
 triggerName = "test_cyclops"
-type = 4
 delaySpawn = true
 
 [node name="item_full_pack2" parent="items" instance=ExtResource( 52 )]
