@@ -11,6 +11,7 @@ onready var _attack:PlayerAttack = $attack
 onready var _inventory = $inventory
 onready var _hud:Hud = $hud
 onready var _interactor:PlayerObjectInteractor = $head/interaction_ray_cast
+onready var _flashLight:SpotLight = $head/SpotLight
 
 var _inputOn:bool = false
 
@@ -190,6 +191,8 @@ func _process(_delta):
 	_refresh_input_on()
 	# if _appInputOn && _gameplayInputOn && Input.is_action_just_pressed("interact"):
 	# 	_interactor.use_target()
+	if Input.is_action_just_pressed("flash_light"):
+		_flashLight.visible = !_flashLight.visible
 	
 	var t:Transform = _head.transform
 	var swayScale:float = _motor.get_sway_scale()

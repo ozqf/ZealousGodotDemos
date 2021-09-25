@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/gfx/gfx_line_trail.gd" type="Script" id=1]
 
+[sub_resource type="SpatialMaterial" id=1]
+flags_unshaded = true
+albedo_color = Color( 0, 0.337255, 1, 1 )
+
 [node name="gfx_rail_trail" type="ImmediateGeometry"]
+material_override = SubResource( 1 )
+cast_shadow = 0
 script = ExtResource( 1 )
