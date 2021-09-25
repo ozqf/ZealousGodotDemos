@@ -9,6 +9,7 @@ data = PoolVector3Array( -1, 1, -1, 1, -1, -1, -1, 1, 1, -1, 1, 1, 1, -1, -1, 1,
 [node name="world_volume_wedge" type="StaticBody"]
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
+use_in_baked_light = true
 mesh = ExtResource( 1 )
 material/0 = ExtResource( 2 )
 

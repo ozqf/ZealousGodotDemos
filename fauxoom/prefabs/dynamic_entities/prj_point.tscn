@@ -23,5 +23,6 @@ script = ExtResource( 4 )
 
 [node name="prj_point" type="MeshInstance" parent="."]
 visible = false
+cast_shadow = 0
 mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )

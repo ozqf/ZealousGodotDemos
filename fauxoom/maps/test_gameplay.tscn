@@ -30,7 +30,7 @@
 [ext_resource path="res://prefabs/world_inert/world_volume_wedge_corner.tscn" type="PackedScene" id=28]
 [ext_resource path="res://prefabs/world_inert/void_volume.tscn" type="PackedScene" id=29]
 [ext_resource path="res://prefabs/dynamic_entities/mob_flesh_worm.tscn" type="PackedScene" id=30]
-[ext_resource path="res://prefabs/static_entities/decorations/light_fixture_1.tscn" type="PackedScene" id=31]
+[ext_resource path="res://prefabs/decorations/light_fixture_1.tscn" type="PackedScene" id=31]
 
 [node name="test_level" type="Spatial"]
 script = ExtResource( 12 )
@@ -403,6 +403,9 @@ transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 17, 20, -1, 22 )
 
 [node name="world_volume_corner47" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
 transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 20, 20, 7, 22 )
+
+[node name="world_volume_corner48" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
+transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 9, 12, 7, 33 )
 
 [node name="world_volume_corner6" parent="world/block2mesh_tech/volumes" instance=ExtResource( 25 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 6, 12, 3, 33 )
@@ -778,8 +781,11 @@ transform = Transform( 8, 0, 0, 0, 64, 0, 0, 0, 8, 29.5, -13.5, 10.5 )
 [node name="light_fixture_1" parent="world/lights" instance=ExtResource( 31 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 4.9, 34 )
 
+[node name="light_fixture_3" parent="world/lights" instance=ExtResource( 31 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2.9, 34 )
+
 [node name="light_fixture_2" parent="world/lights" instance=ExtResource( 31 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 6.9, 31 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 6.9, 32 )
 
 [node name="OmniLight" type="OmniLight" parent="world/lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 21.5 )
@@ -791,5 +797,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 1, 23.5 )
 transform = Transform( 0.707107, -0.683013, 0.183013, 0, 0.258819, 0.965926, -0.707107, -0.683013, 0.183013, -0.197366, 7.87988, -10.0969 )
 light_energy = 2.0
 shadow_enabled = true
-[connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_exit_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_trap_gate" method="on_trigger"]
+[connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_exit_gate" method="on_trigger"]
