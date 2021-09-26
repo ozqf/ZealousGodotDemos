@@ -57,12 +57,15 @@
 [ext_resource path="res://influence_map/influence_map.tscn" type="PackedScene" id=55]
 [ext_resource path="res://prefabs/decorations/light_fixture_1.tscn" type="PackedScene" id=56]
 [ext_resource path="res://prefabs/decorations/light_fixture_2.tscn" type="PackedScene" id=57]
+[ext_resource path="res://prefabs/world_inert/world_volume_wedge_corner.tscn" type="PackedScene" id=58]
 
 [sub_resource type="Environment" id=1]
 ambient_light_color = Color( 0.439216, 0.439216, 0.439216, 1 )
 fog_enabled = true
 fog_color = Color( 0.294118, 0.294118, 0.294118, 1 )
-fog_depth_end = 50.0
+fog_depth_begin = 20.0
+fog_depth_end = 60.0
+tonemap_mode = 3
 ss_reflections_enabled = true
 adjustment_enabled = true
 adjustment_contrast = 1.2
@@ -71,12 +74,6 @@ adjustment_contrast = 1.2
 vertices = PoolVector3Array( 10.6, 0.4, -53.4, 4.3, 0.4, -53.4, 4.3, 0.4, -50.4, 10.6, 0.4, -50.4, 29.8, 0.4, -50.4, 29.8, 0.4, -53.4, 23.2, 0.4, -53.4, 23.2, 0.4, -50.4, 16.9, 0.4, -53.4, 10.6, 0.4, -53.4, 10.6, 0.4, -50.4, 16.9, 0.4, -50.4, 16.9, 0.4, -50.4, 23.2, 0.4, -50.4, 23.2, 0.4, -53.4, 16.9, 0.4, -53.4, 29.8, 0.4, -53.4, 29.8, 0.4, -50.4, 32.5, 0.4, -50.1, 35.5, 0.4, -53.4, 32.5, 0.4, -29.4, 32.5, 0.4, -22.5, 35.5, 0.4, -22.5, 35.5, 0.4, -30.3, 35.5, 0.4, -45.9, 35.5, 0.4, -53.4, 32.5, 0.4, -50.1, 32.5, 0.4, -43.2, 35.5, 0.4, -30.3, 35.5, 0.4, -38.1, 32.5, 0.4, -36.3, 32.5, 0.4, -29.4, 35.5, 0.4, -38.1, 35.5, 0.4, -45.9, 32.5, 0.4, -43.2, 32.5, 0.4, -36.3, -7.4, 0.4, -49.5, -7.4, 0.4, -42.6, 3.4, 0.4, -42.6, 3.4, 0.4, -49.5, 4.9, -3.6, -41.7, 4, -3.6, -41.1, 4, -3.6, -38.7, 13.6, -3.6, -38.1, 13.6, -3.6, -38.1, 14.5, -3.6, -38.1, 15.7, -3.6, -38.4, 15.7, -3.6, -49.2, 4.9, -3.6, -49.2, 4.9, -3.6, -41.7, 13.6, -3.6, -38.1, 13.6, -3.6, -27.9, 14.5, -3.6, -27.9, 14.5, -3.6, -38.1, 24.4, -7.6, -45.3, 24.4, -7, -46.2, 23.8, -7.6, -49.2, 16.9, -7.6, -49.2, 27.4, -7.6, -39, 27.4, -7.6, -45.3, 24.4, -7.6, -45.3, 16.9, -7.6, -39.3, 27.4, -7.6, -39, 24.4, -7.6, -45.3, 16.9, -7.6, -49.2, 14.8, -3.6, -25.5, 14.5, -3.6, -27.9, 13.6, -3.6, -27.9, 13.3, -3.6, -25.5, 28.6, -3.6, -25.8, 21.7, -3.6, -25.5, 19.9, -3.6, -22.8, 31.3, -3.6, -22.8, 13.3, -3.6, -25.5, 8.8, -3.6, -25.5, 8.8, -3.6, -22.8, 23.8, -7.6, -49.2, 24.4, -7, -46.2, 28.6, -3.6, -46.2, 31.3, -3.6, -49.2, 28.3, -3.6, -49.2, 26.8, -4.6, -49.2, 27.2, -4.2, -46.2, 31.3, -3.6, -29.4, 31.3, -3.6, -36, 28.6, -3.6, -36, 28.6, -3.6, -25.8, 31.3, -3.6, -42.6, 31.3, -3.6, -49.2, 28.6, -3.6, -46.2, 14.8, -3.6, -25.5, 13.3, -3.6, -25.5, 8.8, -3.6, -22.8, 19.9, -3.6, -22.8, 31.3, -3.6, -22.8, 31.3, -3.6, -29.4, 28.6, -3.6, -25.8, 21.7, -3.6, -25.5, 14.8, -3.6, -25.5, 19.9, -3.6, -22.8, 31.3, -3.6, -42.6, 28.6, -3.6, -46.2, 28.6, -3.6, -36, 31.3, -3.6, -36, -5, -3.6, -41.1, -13.4, -3.6, -41.4, -13.4, -3.6, -38.4, -4.7, -3.6, -38.4, 4, -3.6, -41.1, -5, -3.6, -41.1, -4.7, -3.6, -38.4, 4, -3.6, -38.7, 21.1, -7.6, -26.7, 27.4, -7.6, -26.7, 27.4, -7.6, -33, 16.6, -7.6, -37.2, 14.8, -7.6, -37.2, 15.1, -7.6, -26.7, 27.4, -7.6, -39, 16.9, -7.6, -39.3, 16.6, -7.6, -37.2, 16.6, -7.6, -37.2, 15.1, -7.6, -26.7, 21.1, -7.6, -26.7, 27.4, -7.6, -33, 27.4, -7.6, -39, 7.6, 0.4, -22.5, 7.6, 0.4, -25.5, 3.7, 0.4, -25.8, 0.400002, 0.4, -22.5, 0.400002, 0.4, -29.7, 3.7, 0.4, -25.8, 3.7, 0.4, -37.5, 0.400002, 0.4, -37.5, 0.400002, 0.4, -29.7, 0.400002, 0.4, -22.5, 3.7, 0.4, -25.8, -9.5, -7.6, -27.6, -9.2, -7.6, -26.1, -8.6, -7.6, -26.4, -8.3, -7.6, -27.6, -12.5, -7.6, -27.6, -9.5, -7.6, -27.6, -8.3, -7.6, -30.9, -8.3, -7.6, -33, -13.1, -7.6, -37.2, -8.3, -7.6, -27.6, -7.1, -7.6, -27.6, -7.1, -7.6, -30.6, -8.3, -7.6, -27.6, -7.1, -7.6, -30.6, -8.3, -7.6, -30.9, -9.5, -7.6, -27.6, -13.1, -7.6, -37.2, -13.1, -7.6, -26.7, -12.5, -7.6, -27.6, -8.3, -7.6, -33, -6.8, -7.6, -33.3, -6.8, -7.6, -37.2, -13.1, -7.6, -37.2, -5.6, -7.6, -27.6, -5.3, -7.6, -26.4, -4.7, -7.6, -26.4, -4.4, -7.6, -27.6, -4.4, -7.6, -27.6, -1.4, -7.6, -27.6, -0.799999, -7.6, -30.3, -0.799999, -7.6, -33.6, -5.6, -7.6, -33, -5.6, -7.6, -31.2, -1.4, -7.6, -27.6, -0.799999, -7.6, -26.7, -0.799999, -7.6, -30.3, -7.1, -7.6, -30.6, -7.1, -7.6, -27.6, -5.6, -7.6, -27.6, -5.6, -7.6, -31.2, -7.1, -7.6, -30.6, -5.6, -7.6, -27.6, -4.4, -7.6, -27.6, -6.8, -7.6, -37.2, -6.8, -7.6, -33.3, -5.6, -7.6, -33, -0.799999, -7.6, -33.6, -0.799999, -7.6, -37.2, -0.799999, -7.6, -30.3, 2.2, -7.6, -30.6, 2.2, -7.6, -33.3, -0.799999, -7.6, -33.6, 0.700001, -3.6, -37.2, 0.700001, -3.6, -34.5, 3.4, -3.6, -34.5, 3.4, -3.6, -37.2, 2.2, -7.6, -33.3, 2.2, -7.6, -30.6, 4.9, -7.6, -30.3, 4.9, -7.6, -33.6, 4.9, -7.6, -30.3, 15.1, -7.6, -26.7, 14.8, -7.6, -37.2, 4.9, -7.6, -33.6, 14.8, -7.6, -37.2, 4.9, -7.6, -37.2, 4.9, -7.6, -33.6, 4.9, -7.6, -30.3, 4.9, -7.6, -26.7, 15.1, -7.6, -26.7, 0.700001, -3.6, -29.4, 0.700001, -3.6, -26.7, 3.4, -3.6, -26.7, 3.4, -3.6, -29.4, -8.3, -7.6, -25.2, -8.6, -7.6, -26.4, -9.2, -7.6, -26.1, -9.2, -7.6, -17.4, -4.7, -7.6, -26.4, -5.3, -7.6, -26.4, -5.6, -7.6, -25.2, -4.7, -7.6, -17.4, -4.7, -7.6, -17.4, -9.2, -7.6, -17.4, -11.6, -7.6, -17.1, -11.3, -7.6, -15.6, -2.6, -7.6, -15.6, -2.3, -7.6, -17.1, -9.2, -7.6, -17.4, -4.7, -7.6, -17.4, -5.6, -7.6, -25.2, -8.3, -7.6, -25.2, -12.5, 1.4, -18.6, -10.4, 1.4, -18.6, -10.4, 1.4, -25.5, -12.8, 1.4, -25.5, -3.5, 1.4, -18.6, -1.4, 1.4, -18.6, -1.1, 1.4, -25.2, -3.5, 1.4, -25.5, 8.5, 4.4, -21.6, 8.5, 4.4, -18.6, 19.9, 4.4, -18.6, 19.9, 4.4, -21.6, 19.9, 4.4, -18.6, 31.6, 4.4, -18.6, 31.6, 4.4, -21.6, 19.9, 4.4, -21.6, -11.3, -7.6, -15.6, -11.6, -7.6, -17.1, -12.2, -7.6, -17.1, -12.2, -7.6, -10.8, -11.3, -7.6, -13.2, -1.7, -7.6, -17.1, -2.3, -7.6, -17.1, -2.6, -7.6, -15.6, -2.6, -7.6, -13.2, -1.7, -7.6, -10.8, -2.6, -7.6, -13.2, -11.3, -7.6, -13.2, -12.2, -7.6, -10.8, -1.7, -7.6, -10.8, -41.3, 0.4, -6.3, -35.6, 0.4, -6.3, -35.6, 0.4, -7.5, -35.6, 0.4, -7.5, -34.4, 0.4, -7.8, -34.4, 0.4, -13.2, -41.3, 0.4, -13.2, -41.3, 0.4, -6.3, -22.7, 0.4, -7.5, -21.5, 0.4, -7.8, -21.5, 0.4, -13.2, -28.1, 0.4, -13.2, -34.4, 0.4, -13.2, -34.4, 0.4, -7.8, -33.2, 0.4, -7.5, -28.1, 0.4, -13.2, -28.1, 0.4, -13.2, -33.2, 0.4, -7.5, -33.2, 0.4, -5.4, -22.7, 0.4, -5.4, -22.7, 0.4, -7.5, -21.5, 0.4, -13.2, -21.5, 0.4, -7.8, -20.6, 0.4, -7.8, -20.6, 0.4, -7.8, -20.3, 0.4, -6.6, -14.6, 0.4, -6.6, -14.6, 0.4, -13.2, -21.5, 0.4, -13.2, 5.8, 0.4, -13.2, 3.7, 0.4, -13.2, 3.4, 0.4, -12.3, 5.8, 0.4, -10.2, 0.700001, 0.4, 5.7, 9.4, 0.4, 5.1, 9.4, 0.4, 3.6, 5.8, 0.4, -10.2, 3.4, 0.4, -12.3, 0.700001, 0.4, -12.3, 0.700001, 0.4, -5.4, 9.4, 0.4, -3.6, 9.4, 0.4, -5.1, 9.4, 0.4, -5.1, 7.9, 0.4, -10.2, 5.8, 0.4, -10.2, 6.85, 0.8, -10.2, 9.4, 0.4, 3.6, 10.6, 0.4, 3.3, 10.6, 0.4, -3.3, 9.4, 0.4, -3.6, 0.700001, 0.4, -5.4, -2, 0.4, -5.1, -2, 0.4, 5.4, 0.700001, 0.4, 5.7, 9.4, 0.4, 3.6, 9.4, 0.4, -3.6, 7.9, 0.4, -10.2, 9.4, 0.4, -5.1, 9.7, 0.4, -5.7, 19, 0.4, -5.7, 16.9, 0.4, -10.8, 16.6, 0.4, -10.2, 18.4, 0.4, -5.4, 18.4, 0.4, -4.5, 18.4, 0.4, -5.4, 16.6, 0.4, -10.2, 14.5, 0.4, -10.2, 11.5, 0.4, -5.7, 11.8, 0.4, -4.5, 7.9, 0.4, -10.2, 9.7, 0.4, -5.7, 11.5, 0.4, -5.7, 14.5, 0.4, -10.2, 14.2, 0.4, -13.2, 8.2, 0.4, -13.2, 20.5, 4.4, -5.7, 20.8, 4.4, -3.6, 21.4, 4.4, -3.6, 21.4, 4.4, -13.2, 8.5, 4.4, -3.6, 9.4, 4.4, -3.6, 9.7, 4.4, -5.7, 8.5, 4.4, -13.2, 11.8, 4.4, -3.6, 18.4, 4.4, -3.6, 18.4, 4.4, -5.4, 11.5, 4.4, -5.7, 18.4, 4.4, -5.4, 20.5, 4.4, -5.7, 21.4, 4.4, -13.2, 14.8, 4.4, -13.2, 11.5, 4.4, -5.7, 8.5, 4.4, -13.2, 9.7, 4.4, -5.7, 11.5, 4.4, -5.7, 14.8, 4.4, -13.2, 16.9, 0.4, -10.8, 19, 0.4, -5.7, 20.8, 0.4, -5.4, 25.9, 0.4, -13.2, 16.9, 0.4, -13.2, 20.8, 0.4, -3.6, 19.6, 0.4, -3.3, 19.6, 0.4, 3.3, 20.8, 0.4, 3.6, 44.5, 0.4, 9.3, 53.8, 0.4, 3.8147e-06, 44.5, 0.4, -13.2, 35.2, 0.4, -13.2, 20.8, 0.4, -3.6, 31.9, 0.4, 13.2, 37.9, 0.4, 13.2, 44.2, 0.4, 13.2, 44.5, 0.4, 9.3, 46.9, 0.4, 9.6, 46.9, 0.4, 13.2, 53.8, 0.4, 13.2, 53.8, 0.4, 6.6, 31.9, 0.4, 13.2, 37.9, 0.4, 13.2, 44.5, 0.4, 9.3, 20.8, 0.4, 5.4, 19.6, 0.4, 5.7, 19.6, 0.4, 13.2, 25.6, 0.4, 13.2, 53.8, 0.4, -6.6, 53.8, 0.4, -13.2, 44.5, 0.4, -13.2, 20.8, 0.4, 3.6, 25.6, 0.4, 13.2, 31.9, 0.4, 13.2, 20.8, 0.4, -3.6, 53.8, 0.4, 3.8147e-06, 53.8, 0.4, -6.6, 44.5, 0.4, -13.2, 44.5, 0.4, 9.3, 46.9, 0.4, 9.6, 53.8, 0.4, 6.6, 53.8, 0.4, 3.8147e-06, 20.8, 0.4, 3.6, 20.8, 0.4, 5.4, 25.6, 0.4, 13.2, 25.9, 0.4, -13.2, 20.8, 0.4, -5.4, 20.8, 0.4, -3.6, 35.2, 0.4, -13.2, -9.2, 0.4, 8.4, -8.6, 0.4, 8.4, -8.3, 0.4, 7.2, -9.2, 0.4, 5.7, -5.6, 0.4, 7.2, -5.3, 0.4, 8.4, -4.7, 0.4, 8.4, -4.7, 0.4, 5.7, -2, 0.4, -5.1, -4.7, 0.4, -5.4, -9.2, 0.4, -5.4, -4.7, 0.4, -5.4, -5.6, 0.4, -7.2, -8.3, 0.4, -7.2, -9.2, 0.4, -5.4, -4.7, 0.4, -9.6, -5.3, 0.4, -9.6, -5.6, 0.4, -7.2, -4.7, 0.4, -5.4, -11.9, 0.4, 5.4, -9.2, 0.4, 5.7, -4.7, 0.4, 5.7, -8.3, 0.4, -7.2, -8.6, 0.4, -9.6, -9.2, 0.4, -9.6, -9.2, 0.4, -5.4, -11.9, 0.4, -5.1, -11.9, 0.4, 5.4, -4.7, 0.4, 5.7, -2, 0.4, 5.4, -2, 0.4, -5.1, -9.2, 0.4, -5.4, -9.2, 0.4, 5.7, -8.3, 0.4, 7.2, -5.6, 0.4, 7.2, -4.7, 0.4, 5.7, -12.2, -7.6, -9.3, -12.2, -7.6, -8.7, -1.7, -7.6, -8.7, -1.7, -7.6, -9.3, -12.2, -7.6, -7.2, -12.2, -7.6, -6.6, -1.7, -7.6, -6.6, -1.7, -7.6, -7.2, -14.6, 0.4, -6.6, -20.3, 0.4, -6.6, -20.3, 0.4, -5.4, -14.3, 0.4, -5.1, -21.5, 0.4, -5.1, -21.5, 0.4, 5.4, -20.6, 0.4, 5.4, -20.3, 0.4, 6.6, -14.6, 0.4, 6.9, -14.3, 0.4, 5.4, -20.6, 0.4, 5.4, -20.3, 0.4, 6.6, -14.3, 0.4, 5.4, -14.3, 0.4, -5.1, -20.3, 0.4, -5.4, -21.5, 0.4, -5.1, -14.3, 0.4, 5.4, -11.9, 0.4, 5.4, -11.9, 0.4, -5.1, -14.3, 0.4, -5.1, -41.3, 0.4, 6.6, -35.6, 0.4, 6.6, -35.6, 0.4, 5.7, -41.6, 0.4, 4.2, -35.6, 0.4, -5.4, -35.6, 0.4, -6.3, -41.3, 0.4, -6.3, -41.6, 0.4, -4.2, -34.4, 0.4, -5.1, -35.6, 0.4, -5.4, -41.6, 0.4, -4.2, -41.6, 0.4, 4.2, -35.6, 0.4, 5.7, -34.4, 0.4, 5.4, -44, 0.4, -4.2, -44, 0.4, 4.2, -41.6, 0.4, 4.2, -41.6, 0.4, -4.2, -34.4, 0.4, -5.1, -34.4, 0.4, 5.4, -33.2, 0.4, 5.7, -22.7, 0.4, 5.7, -21.5, 0.4, 5.4, -21.5, 0.4, -5.1, -33.2, 0.4, 5.7, -22.7, 0.4, 5.7, -21.5, 0.4, -5.1, -22.7, 0.4, -5.4, -33.2, 0.4, -5.4, -34.4, 0.4, -5.1, -52.4, 12.4, -4.5, -52.4, 12.4, 4.5, -42.5, 12.4, 4.8, -42.5, 12.4, -4.8, 10.6, 0.4, -3.3, 10.6, 0.4, 3.3, 11.5, 0.4, 3.3, 11.5, 0.4, -3.3, 18.4, 0.4, 3.6, 19.6, 0.4, 3.3, 19.6, 0.4, -3.3, 18.4, 0.4, -3.6, 11.5, 0.4, -3.3, 11.5, 0.4, 3.3, 11.8, 0.4, 4.5, 18.4, 0.4, 4.5, 18.4, 0.4, 3.6, 11.5, 0.4, 3.3, 18.4, 0.4, -3.6, 18.4, 0.4, -4.5, 11.8, 0.4, -4.5, 11.5, 0.4, -3.3, -44, 0.4, 4.2, -44, 0.4, -4.2, -51.2, 0.4, -4.2, -51.2, 0.4, 4.2, 18.4, 0.4, 5.4, 18.4, 0.4, 4.5, 11.8, 0.4, 4.5, 18.4, 0.4, 5.4, 11.8, 0.4, 4.5, 11.5, 0.4, 5.7, 10.9, 0.4, 13.2, 19.6, 0.4, 13.2, 19.6, 0.4, 5.7, 11.5, 0.4, 5.7, 10.6, 0.4, 5.7, 10.9, 0.4, 13.2, 10.9, 0.4, 13.2, 10.6, 0.4, 5.7, 9.7, 0.4, 5.7, 9.4, 0.4, 13.5, 10.9, 0.4, 13.2, 9.7, 0.4, 5.7, 9.4, 0.4, 5.1, 0.700001, 0.4, 5.7, 0.700001, 0.4, 14.7, 0.700001, 0.4, 14.7, 9.4, 0.4, 14.7, 9.4, 0.4, 13.5, -21.5, 0.4, 13.2, -21.5, 0.4, 7.8, -22.7, 0.4, 7.5, -28.1, 0.4, 13.2, -33.2, 0.4, 7.5, -34.4, 0.4, 7.8, -34.4, 0.4, 13.2, -28.1, 0.4, 13.2, -33.2, 0.4, 5.7, -33.2, 0.4, 7.5, -28.1, 0.4, 13.2, -22.7, 0.4, 7.5, -22.7, 0.4, 5.7, -35.6, 0.4, 7.5, -35.6, 0.4, 6.6, -41.3, 0.4, 6.6, -34.4, 0.4, 13.2, -34.4, 0.4, 7.8, -35.6, 0.4, 7.5, -41.3, 0.4, 6.6, -41.3, 0.4, 13.2, -20.6, 0.4, 7.8, -21.5, 0.4, 7.8, -21.5, 0.4, 13.2, -14.6, 0.4, 6.9, -20.3, 0.4, 6.6, -20.6, 0.4, 7.8, -21.5, 0.4, 13.2, -14.6, 0.4, 13.2, -4.7, 0.4, 8.4, -5.3, 0.4, 8.4, -5.6, 0.4, 9.9, -4.4, 0.4, 10.8, -1.7, 0.4, 10.8, -4.4, 0.4, 10.8, -3.2, 0.4, 12.6, -8.3, 0.4, 9.9, -8.6, 0.4, 8.4, -9.2, 0.4, 8.4, -9.2, 0.4, 10.5, -1.7, 0.4, 20.1, -3.2, 0.4, 17.4, -6.2, 0.4, 17.7, -6.2, 0.4, 29.4, -1.7, 0.4, 29.4, -9.2, 0.4, 10.5, -12.2, 0.4, 10.8, -12.2, 0.4, 12.3, -5.6, 0.4, 9.9, -8.3, 0.4, 9.9, -9.2, 0.4, 10.5, -4.4, 0.4, 10.8, -5.6, 0.4, 9.9, -9.2, 0.4, 10.5, -12.2, 0.4, 12.3, -3.2, 0.4, 12.6, -1.7, 0.4, 10.8, -3.2, 0.4, 12.6, -3.2, 0.4, 17.4, -1.7, 0.4, 20.1, -7.4, 3.4, 16.8, -4.7, 3.4, 16.5, -4.7, 3.4, 13.5, -12.2, 3.4, 13.5, -12.2, 3.4, 29.4, -7.4, 3.4, 29.4, -7.4, 3.4, 23.1, -12.2, 3.4, 21.3, -7.4, 3.4, 16.8, -12.2, 3.4, 13.5, -12.2, 3.4, 21.3, -7.4, 3.4, 23.1, -12.2, 0.4, 21.6, -12.2, 0.4, 29.4, -7.7, 0.4, 29.4, -7.7, 0.4, 21.6, -7.7, 0.4, 21.6, -7.7, 0.4, 13.8, -12.2, 0.4, 13.8, -12.2, 0.4, 21.6, 9.7, 0.4, 15.9, 9.4, 0.4, 14.7, 0.700001, 0.4, 14.7, 0.700001, 0.4, 21.3, 0.700001, 0.4, 34.5, 0.700001, 0.4, 41.4, 7.3, 0.4, 41.4, 20.5, 0.4, 41.4, 27.4, 0.4, 41.4, 27.4, 0.4, 34.8, 0.700001, 0.4, 27.9, 0.700001, 0.4, 34.5, 13.9, 0.4, 41.4, 27.4, 0.4, 28.5, 18.4, 0.4, 15.9, 9.7, 0.4, 15.9, 4.7, 0.4, 22.5667, 3.7, 1, 23.9, 2.7, 0.4, 25.2333, 25.4, 0.4, 25.7, 24.4, 1, 24.3, 23.4, 0.4, 22.9, 6.37029, 1, 23.3937, 22.5886, 0.4, 25.2042, 20.8064, 1, 23.3792, 9.99447, 0.4, 25.1719, 9.99432, 1, 23.4201, 19.0063, 0.4, 21.6273, 15.4004, 1, 23.3996, 15.4005, 0.4, 25.2115, 17.1824, 1, 23.4128, 9.97619, 0.4, 21.6214, 15.3822, 0.4, 21.601, 27.4, 0.4, 22.2, 27.4, 0.4, 15.9, 18.4, 0.4, 15.9, 20.5, 0.4, 41.4, 27.4, 0.4, 34.8, 27.4, 0.4, 28.5, 13.9, 0.4, 41.4, 0.700001, 0.4, 34.5, 7.3, 0.4, 41.4, 13.9, 0.4, 41.4, 9.7, 0.4, 15.9, 0.700001, 0.4, 21.3, 0.700001, 0.4, 27.9, 2.7, 0.4, 25.2333, 3.7, 1, 23.9, 4.7, 0.4, 22.5667, 0.700001, 0.4, 22.95, 0.700001, 1, 24.6, 0.700001, 0.4, 26.25, 27.4, 0.4, 28.5, 27.4, 0.4, 22.2, 18.4, 0.4, 15.9, 23.4, 0.4, 22.9, 24.4, 1, 24.3, 25.4, 0.4, 25.7, -12.2, 8.4, 30.6, -12.2, 8.4, 33.6, -1.7, 8.4, 33.6, -1.7, 8.4, 30.6 )
 polygons = [ PoolIntArray( 3, 2, 0 ), PoolIntArray( 0, 2, 1 ), PoolIntArray( 7, 6, 4 ), PoolIntArray( 4, 6, 5 ), PoolIntArray( 11, 10, 8 ), PoolIntArray( 8, 10, 9 ), PoolIntArray( 15, 14, 12 ), PoolIntArray( 12, 14, 13 ), PoolIntArray( 17, 16, 18 ), PoolIntArray( 18, 16, 19 ), PoolIntArray( 21, 20, 22 ), PoolIntArray( 22, 20, 23 ), PoolIntArray( 27, 26, 24 ), PoolIntArray( 24, 26, 25 ), PoolIntArray( 31, 30, 28 ), PoolIntArray( 28, 30, 29 ), PoolIntArray( 35, 34, 32 ), PoolIntArray( 32, 34, 33 ), PoolIntArray( 39, 38, 36 ), PoolIntArray( 36, 38, 37 ), PoolIntArray( 41, 40, 42 ), PoolIntArray( 42, 40, 43 ), PoolIntArray( 45, 44, 46 ), PoolIntArray( 46, 44, 49 ), PoolIntArray( 46, 49, 48 ), PoolIntArray( 46, 48, 47 ), PoolIntArray( 53, 52, 50 ), PoolIntArray( 50, 52, 51 ), PoolIntArray( 55, 54, 56 ), PoolIntArray( 56, 54, 57 ), PoolIntArray( 60, 59, 58 ), PoolIntArray( 62, 61, 63 ), PoolIntArray( 63, 61, 64 ), PoolIntArray( 66, 65, 67 ), PoolIntArray( 67, 65, 68 ), PoolIntArray( 70, 69, 71 ), PoolIntArray( 71, 69, 72 ), PoolIntArray( 75, 74, 73 ), PoolIntArray( 76, 81, 77 ), PoolIntArray( 77, 81, 82 ), PoolIntArray( 82, 81, 80 ), PoolIntArray( 82, 80, 78 ), PoolIntArray( 78, 80, 79 ), PoolIntArray( 84, 83, 85 ), PoolIntArray( 85, 83, 86 ), PoolIntArray( 89, 88, 87 ), PoolIntArray( 91, 90, 92 ), PoolIntArray( 92, 90, 93 ), PoolIntArray( 96, 95, 94 ), PoolIntArray( 99, 98, 97 ), PoolIntArray( 103, 102, 100 ), PoolIntArray( 100, 102, 101 ), PoolIntArray( 105, 104, 106 ), PoolIntArray( 106, 104, 107 ), PoolIntArray( 111, 110, 108 ), PoolIntArray( 108, 110, 109 ), PoolIntArray( 114, 113, 112 ), PoolIntArray( 117, 116, 115 ), PoolIntArray( 120, 119, 118 ), PoolIntArray( 122, 121, 123 ), PoolIntArray( 123, 121, 124 ), PoolIntArray( 124, 121, 125 ), PoolIntArray( 127, 126, 128 ), PoolIntArray( 128, 126, 129 ), PoolIntArray( 133, 132, 130 ), PoolIntArray( 130, 132, 131 ), PoolIntArray( 135, 134, 136 ), PoolIntArray( 139, 138, 140 ), PoolIntArray( 140, 138, 137 ), PoolIntArray( 143, 142, 144 ), PoolIntArray( 144, 142, 141 ), PoolIntArray( 144, 141, 145 ), PoolIntArray( 148, 147, 146 ), PoolIntArray( 150, 149, 151 ), PoolIntArray( 151, 149, 152 ), PoolIntArray( 155, 154, 153 ), PoolIntArray( 157, 156, 158 ), PoolIntArray( 158, 156, 159 ), PoolIntArray( 161, 160, 162 ), PoolIntArray( 162, 160, 163 ), PoolIntArray( 165, 164, 166 ), PoolIntArray( 166, 164, 169 ), PoolIntArray( 166, 169, 168 ), PoolIntArray( 166, 168, 167 ), PoolIntArray( 172, 171, 170 ), PoolIntArray( 175, 174, 173 ), PoolIntArray( 177, 176, 178 ), PoolIntArray( 178, 176, 179 ), PoolIntArray( 181, 180, 182 ), PoolIntArray( 182, 180, 183 ), PoolIntArray( 183, 180, 184 ), PoolIntArray( 186, 185, 187 ), PoolIntArray( 187, 185, 188 ), PoolIntArray( 192, 191, 189 ), PoolIntArray( 189, 191, 190 ), PoolIntArray( 193, 196, 194 ), PoolIntArray( 194, 196, 195 ), PoolIntArray( 200, 199, 197 ), PoolIntArray( 197, 199, 198 ), PoolIntArray( 203, 202, 201 ), PoolIntArray( 206, 205, 204 ), PoolIntArray( 210, 209, 207 ), PoolIntArray( 207, 209, 208 ), PoolIntArray( 212, 211, 213 ), PoolIntArray( 213, 211, 214 ), PoolIntArray( 216, 215, 217 ), PoolIntArray( 217, 215, 218 ), PoolIntArray( 224, 223, 219 ), PoolIntArray( 219, 223, 220 ), PoolIntArray( 220, 223, 222 ), PoolIntArray( 220, 222, 221 ), PoolIntArray( 228, 227, 225 ), PoolIntArray( 225, 227, 226 ), PoolIntArray( 230, 229, 231 ), PoolIntArray( 231, 229, 232 ), PoolIntArray( 234, 233, 235 ), PoolIntArray( 235, 233, 236 ), PoolIntArray( 240, 239, 237 ), PoolIntArray( 237, 239, 238 ), PoolIntArray( 244, 243, 241 ), PoolIntArray( 241, 243, 242 ), PoolIntArray( 246, 245, 247 ), PoolIntArray( 247, 245, 249 ), PoolIntArray( 247, 249, 248 ), PoolIntArray( 251, 250, 252 ), PoolIntArray( 252, 250, 253 ), PoolIntArray( 253, 250, 254 ), PoolIntArray( 256, 255, 257 ), PoolIntArray( 257, 255, 258 ), PoolIntArray( 261, 260, 259 ), PoolIntArray( 263, 262, 264 ), PoolIntArray( 264, 262, 265 ), PoolIntArray( 265, 262, 266 ), PoolIntArray( 268, 267, 269 ), PoolIntArray( 269, 267, 270 ), PoolIntArray( 272, 271, 273 ), PoolIntArray( 273, 271, 274 ), PoolIntArray( 276, 275, 277 ), PoolIntArray( 277, 275, 279 ), PoolIntArray( 277, 279, 278 ), PoolIntArray( 282, 281, 280 ), PoolIntArray( 284, 283, 285 ), PoolIntArray( 285, 283, 286 ), PoolIntArray( 286, 283, 287 ), PoolIntArray( 289, 288, 290 ), PoolIntArray( 290, 288, 291 ), PoolIntArray( 294, 293, 292 ), PoolIntArray( 296, 295, 297 ), PoolIntArray( 297, 295, 298 ), PoolIntArray( 298, 295, 300 ), PoolIntArray( 298, 300, 299 ), PoolIntArray( 302, 301, 304 ), PoolIntArray( 304, 301, 303 ), PoolIntArray( 306, 305, 307 ), PoolIntArray( 307, 305, 308 ), PoolIntArray( 309, 314, 310 ), PoolIntArray( 310, 314, 313 ), PoolIntArray( 310, 313, 312 ), PoolIntArray( 310, 312, 311 ), PoolIntArray( 317, 316, 315 ), PoolIntArray( 321, 320, 318 ), PoolIntArray( 318, 320, 319 ), PoolIntArray( 323, 322, 324 ), PoolIntArray( 324, 322, 325 ), PoolIntArray( 325, 322, 326 ), PoolIntArray( 326, 322, 327 ), PoolIntArray( 329, 328, 330 ), PoolIntArray( 330, 328, 333 ), PoolIntArray( 330, 333, 331 ), PoolIntArray( 331, 333, 332 ), PoolIntArray( 335, 334, 336 ), PoolIntArray( 336, 334, 337 ), PoolIntArray( 339, 338, 340 ), PoolIntArray( 340, 338, 341 ), PoolIntArray( 343, 342, 344 ), PoolIntArray( 344, 342, 345 ), PoolIntArray( 346, 350, 347 ), PoolIntArray( 347, 350, 349 ), PoolIntArray( 347, 349, 348 ), PoolIntArray( 352, 351, 353 ), PoolIntArray( 353, 351, 354 ), PoolIntArray( 356, 355, 357 ), PoolIntArray( 357, 355, 359 ), PoolIntArray( 357, 359, 358 ), PoolIntArray( 361, 360, 362 ), PoolIntArray( 362, 360, 363 ), PoolIntArray( 366, 365, 367 ), PoolIntArray( 367, 365, 364 ), PoolIntArray( 367, 364, 369 ), PoolIntArray( 367, 369, 368 ), PoolIntArray( 372, 371, 370 ), PoolIntArray( 374, 373, 375 ), PoolIntArray( 375, 373, 376 ), PoolIntArray( 377, 379, 378 ), PoolIntArray( 381, 380, 382 ), PoolIntArray( 382, 380, 383 ), PoolIntArray( 386, 385, 384 ), PoolIntArray( 388, 387, 389 ), PoolIntArray( 389, 387, 390 ), PoolIntArray( 393, 392, 391 ), PoolIntArray( 395, 394, 396 ), PoolIntArray( 396, 394, 397 ), PoolIntArray( 400, 399, 398 ), PoolIntArray( 402, 401, 403 ), PoolIntArray( 403, 401, 404 ), PoolIntArray( 406, 405, 407 ), PoolIntArray( 407, 405, 408 ), PoolIntArray( 410, 409, 411 ), PoolIntArray( 411, 409, 412 ), PoolIntArray( 415, 414, 413 ), PoolIntArray( 418, 417, 419 ), PoolIntArray( 419, 417, 416 ), PoolIntArray( 421, 420, 422 ), PoolIntArray( 422, 420, 423 ), PoolIntArray( 426, 425, 424 ), PoolIntArray( 428, 427, 429 ), PoolIntArray( 429, 427, 430 ), PoolIntArray( 436, 435, 431 ), PoolIntArray( 431, 435, 434 ), PoolIntArray( 431, 434, 433 ), PoolIntArray( 431, 433, 432 ), PoolIntArray( 438, 437, 439 ), PoolIntArray( 439, 437, 440 ), PoolIntArray( 444, 443, 441 ), PoolIntArray( 441, 443, 442 ), PoolIntArray( 448, 447, 445 ), PoolIntArray( 445, 447, 446 ), PoolIntArray( 450, 449, 451 ), PoolIntArray( 451, 449, 452 ), PoolIntArray( 455, 454, 453 ), PoolIntArray( 458, 457, 456 ), PoolIntArray( 460, 459, 461 ), PoolIntArray( 461, 459, 462 ), PoolIntArray( 462, 459, 463 ), PoolIntArray( 463, 459, 464 ), PoolIntArray( 468, 467, 465 ), PoolIntArray( 465, 467, 466 ), PoolIntArray( 470, 469, 471 ), PoolIntArray( 471, 469, 472 ), PoolIntArray( 474, 473, 475 ), PoolIntArray( 475, 473, 476 ), PoolIntArray( 478, 477, 479 ), PoolIntArray( 479, 477, 480 ), PoolIntArray( 480, 477, 481 ), PoolIntArray( 481, 477, 482 ), PoolIntArray( 486, 485, 483 ), PoolIntArray( 483, 485, 484 ), PoolIntArray( 489, 488, 487 ), PoolIntArray( 490, 492, 491 ), PoolIntArray( 498, 497, 493 ), PoolIntArray( 493, 497, 496 ), PoolIntArray( 493, 496, 495 ), PoolIntArray( 493, 495, 494 ), PoolIntArray( 500, 499, 501 ), PoolIntArray( 501, 499, 502 ), PoolIntArray( 506, 505, 503 ), PoolIntArray( 503, 505, 504 ), PoolIntArray( 508, 507, 509 ), PoolIntArray( 509, 507, 510 ), PoolIntArray( 510, 507, 512 ), PoolIntArray( 510, 512, 511 ), PoolIntArray( 514, 513, 515 ), PoolIntArray( 515, 513, 516 ), PoolIntArray( 518, 517, 519 ), PoolIntArray( 519, 517, 520 ), PoolIntArray( 524, 523, 521 ), PoolIntArray( 521, 523, 522 ), PoolIntArray( 527, 526, 525 ), PoolIntArray( 529, 528, 530 ), PoolIntArray( 530, 528, 533 ), PoolIntArray( 530, 533, 532 ), PoolIntArray( 530, 532, 531 ), PoolIntArray( 536, 535, 534 ), PoolIntArray( 539, 538, 537 ), PoolIntArray( 542, 541, 543 ), PoolIntArray( 543, 541, 540 ), PoolIntArray( 543, 540, 544 ), PoolIntArray( 544, 540, 545 ), PoolIntArray( 548, 547, 546 ), PoolIntArray( 550, 549, 551 ), PoolIntArray( 551, 549, 552 ), PoolIntArray( 554, 553, 555 ), PoolIntArray( 555, 553, 556 ), PoolIntArray( 558, 557, 559 ), PoolIntArray( 559, 557, 560 ), PoolIntArray( 560, 557, 561 ), PoolIntArray( 564, 563, 562 ), PoolIntArray( 566, 565, 567 ), PoolIntArray( 567, 565, 569 ), PoolIntArray( 567, 569, 568 ), PoolIntArray( 572, 571, 570 ), PoolIntArray( 574, 573, 575 ), PoolIntArray( 575, 573, 577 ), PoolIntArray( 575, 577, 576 ), PoolIntArray( 579, 578, 580 ), PoolIntArray( 580, 578, 581 ), PoolIntArray( 584, 583, 582 ), PoolIntArray( 586, 585, 587 ), PoolIntArray( 587, 585, 588 ), PoolIntArray( 590, 589, 591 ), PoolIntArray( 591, 589, 593 ), PoolIntArray( 591, 593, 592 ), PoolIntArray( 596, 595, 594 ), PoolIntArray( 597, 599, 598 ), PoolIntArray( 600, 604, 601 ), PoolIntArray( 601, 604, 602 ), PoolIntArray( 602, 604, 603 ), PoolIntArray( 606, 605, 607 ), PoolIntArray( 607, 605, 608 ), PoolIntArray( 610, 609, 611 ), PoolIntArray( 611, 609, 612 ), PoolIntArray( 614, 613, 615 ), PoolIntArray( 615, 613, 616 ), PoolIntArray( 620, 619, 617 ), PoolIntArray( 617, 619, 618 ), PoolIntArray( 624, 623, 621 ), PoolIntArray( 621, 623, 622 ), PoolIntArray( 628, 627, 625 ), PoolIntArray( 625, 627, 626 ), PoolIntArray( 630, 629, 631 ), PoolIntArray( 631, 629, 632 ), PoolIntArray( 635, 634, 633 ), PoolIntArray( 638, 637, 636 ), PoolIntArray( 643, 661, 644 ), PoolIntArray( 644, 660, 645 ), PoolIntArray( 645, 651, 646 ), PoolIntArray( 646, 651, 647 ), PoolIntArray( 647, 654, 639 ), PoolIntArray( 639, 654, 640 ), PoolIntArray( 640, 654, 641 ), PoolIntArray( 641, 652, 642 ), PoolIntArray( 642, 652, 648 ), PoolIntArray( 648, 652, 649 ), PoolIntArray( 649, 652, 650 ), PoolIntArray( 650, 656, 643 ), PoolIntArray( 661, 660, 644 ), PoolIntArray( 643, 656, 661 ), PoolIntArray( 660, 651, 645 ), PoolIntArray( 651, 654, 647 ), PoolIntArray( 654, 658, 641 ), PoolIntArray( 641, 658, 652 ), PoolIntArray( 652, 653, 650 ), PoolIntArray( 650, 653, 656 ), PoolIntArray( 661, 655, 660 ), PoolIntArray( 656, 659, 661 ), PoolIntArray( 660, 655, 651 ), PoolIntArray( 651, 655, 654 ), PoolIntArray( 654, 657, 658 ), PoolIntArray( 658, 659, 652 ), PoolIntArray( 652, 659, 653 ), PoolIntArray( 653, 659, 656 ), PoolIntArray( 661, 657, 655 ), PoolIntArray( 659, 657, 661 ), PoolIntArray( 655, 657, 654 ), PoolIntArray( 657, 659, 658 ), PoolIntArray( 664, 663, 662 ), PoolIntArray( 666, 665, 667 ), PoolIntArray( 667, 665, 668 ), PoolIntArray( 671, 670, 669 ), PoolIntArray( 674, 680, 675 ), PoolIntArray( 675, 680, 679 ), PoolIntArray( 675, 679, 678 ), PoolIntArray( 675, 678, 676 ), PoolIntArray( 676, 678, 673 ), PoolIntArray( 676, 673, 677 ), PoolIntArray( 677, 673, 672 ), PoolIntArray( 681, 686, 682 ), PoolIntArray( 682, 686, 685 ), PoolIntArray( 682, 685, 684 ), PoolIntArray( 682, 684, 683 ), PoolIntArray( 690, 689, 687 ), PoolIntArray( 687, 689, 688 ) ]
 agent/max_slope = 46.0
-
-[sub_resource type="BakedLightmapData" id=3]
-bounds = AABB( -63, -14, -57, 126, 28, 114 )
-cell_space_transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 126, 28, 114 )
-cell_subdiv = 9
-octree = PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 )
 
 [node name="test_level" type="Spatial"]
 script = ExtResource( 12 )
@@ -102,6 +99,20 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 8.2, 12 )
 
 [node name="light_fixture_3" parent="lights" instance=ExtResource( 56 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 8.2, 27 )
+
+[node name="light_fixture_4" parent="lights" instance=ExtResource( 57 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 4, 7.5 )
+light_color = Color( 0.847059, 1, 1, 1 )
+
+[node name="light_fixture_5" parent="lights" instance=ExtResource( 57 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 9.7, 47.5 )
+light_color = Color( 0.847059, 1, 1, 1 )
+light_energy = 1.25
+
+[node name="light_fixture_6" parent="lights" instance=ExtResource( 57 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 9.7, 47.5 )
+light_color = Color( 0.847059, 1, 1, 1 )
+light_energy = 1.25
 
 [node name="dynamic" type="Spatial" parent="."]
 
@@ -565,315 +576,405 @@ script = ExtResource( 47 )
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="world"]
 navmesh = SubResource( 2 )
 
-[node name="BakedLightmap" type="BakedLightmap" parent="world/NavigationMeshInstance"]
-bake_extents = Vector3( 63, 14, 57 )
-capture_cell_size = 1.0
-light_data = SubResource( 3 )
-
-[node name="mesh_generator" type="Spatial" parent="world/NavigationMeshInstance/BakedLightmap"]
+[node name="mesh_generator" type="Spatial" parent="world/NavigationMeshInstance"]
 script = ExtResource( 50 )
 buildOnStart = false
 wallMaterial = ExtResource( 13 )
 groundMaterial = ExtResource( 49 )
 ceilingMaterial = ExtResource( 48 )
 
-[node name="volumes" type="Spatial" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator"]
+[node name="volumes" type="Spatial" parent="world/NavigationMeshInstance/mesh_generator"]
 
-[node name="world_volume2" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume2" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 28, 14, -0.5, 0 )
 
-[node name="world_volume32" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume32" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 28, 14, -0.5, 28 )
 
-[node name="world_volume17" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume17" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 28, 42, -0.5, 0 )
 
-[node name="world_volume6" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume6" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 28, -28, -0.5, 0 )
 
-[node name="world_volume23" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume23" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, -47, -0.5, 0 )
 
-[node name="world_volume21" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume21" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 14, 0, 0, 0, 1, 0, 0, 0, 12, -7, -0.5, 0 )
 
-[node name="world_volume31" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume31" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 14, 0, 0, 0, 1, 0, 0, 0, 12, 15, 3.5, -9 )
 
-[node name="world_volume47" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume47" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 0.707107, -7.07107, 0, 0.707107, 7.07107, 7, 2.5, -13 )
 
-[node name="world_volume3" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume3" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 29, 0, 0, 0, 3, 0, 0, 0, 1, -27.5, 1.5, -14.5 )
 
-[node name="world_volume20" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume20" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 30, 0, 0, 0, 9, 0, 0, 0, 1, 15, 4.5, -14.5 )
 
-[node name="world_volume48" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume48" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 30, 0, 0, 0, 3, 0, 0, 0, 1, 45, 1.5, -14.5 )
 
-[node name="world_volume49" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume49" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 28, 55, 1.5, -2.23517e-08 )
 
-[node name="world_volume4" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume4" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 28, 0, 0, 0, 3, 0, 0, 0, 1, -28, 1.5, 14.5 )
 
-[node name="world_volume19" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume19" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 20, 0, 0, 0, 3, 0, 0, 0, 1, 20, 1.5, 14.5 )
 
-[node name="world_volume30" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume30" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 30, 0, 0, 0, 3, 0, 0, 0, 1, 45, 1.5, 14.5 )
 
-[node name="world_volume7" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume7" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -42.5, 1.5, 10 )
 
-[node name="world_volume24" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume24" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 10, 0, 0, 0, 3, 0, 0, 0, 1, -48, 1.5, 5.5 )
 
-[node name="world_volume25" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume25" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 10, 0, 0, 0, 3, 0, 0, 0, 1, -48, 1.5, -5.5 )
 
-[node name="world_volume8" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume8" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -42.5, 1.5, -10 )
 
-[node name="world_volume26" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume26" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -52.5, 1.5, 0 )
 
-[node name="world_volume9" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume9" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 4, 15.5, 1.5, -13 )
 
-[node name="world_volume10" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume10" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 4, 45.5, 1.5, 12 )
 
-[node name="world_volume34" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume34" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 5.5, 1 )
 
-[node name="world_volume" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.5, -13.5 )
 
-[node name="world_volume5" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume5" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -13.5 )
 
-[node name="world_volume11" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume11" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -13.5, 4.5, -10 )
 
-[node name="world_volume40" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume40" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -11.5, 1.5, -8 )
 
-[node name="world_volume41" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume41" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -2.5, 1.5, -8 )
 
-[node name="world_volume44" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -11.5, 1.5, 8 )
-
-[node name="world_volume43" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -2.5, 1.5, 8 )
-
-[node name="world_volume50" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -5.5, 1.5, 15 )
-
-[node name="world_volume54" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 3, 0, 0, 0, 7, 0, 0, 0, 4, -2.5, 5.5, 15 )
-
-[node name="world_volume53" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 17, -10, 1, 21.5 )
-
-[node name="world_volume52" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 12, 0, 0, 0, 12, 0, 0, 0, 4, -7, 4, 32 )
-
-[node name="world_volume22" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 30, -13.5, 4.5, 21 )
-
-[node name="world_volume28" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume28" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -0.5, 4.5, -10 )
 
-[node name="world_volume29" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 30, -0.5, 4.5, 21 )
-
-[node name="world_volume33" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume33" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 25, 0, 0, 0, 0.75, 0, 0, 0, 1.2, 12.5, 0.375, 24 )
 
-[node name="world_volume12" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume12" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, 10.5, 4.5, -4.5 )
 
-[node name="world_volume13" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume13" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -21.5, 4.5, 6.5 )
 
-[node name="world_volume27" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume27" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -21.5, 4.5, -6.5 )
 
-[node name="world_volume38" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume38" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -34.5, 4.5, 6.5 )
 
-[node name="world_volume39" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume39" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -34.5, 4.5, -6.5 )
 
-[node name="world_volume18" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume18" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 12, -21.5, 4.5, 0 )
 
-[node name="world_volume14" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume14" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 10.5, 2, 4.5 )
 
-[node name="world_volume15" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume15" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, 19.5, 4.5, -4.5 )
 
-[node name="world_volume16" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume16" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 19.5, 2, 4.5 )
 
-[node name="world_volume35" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
+[node name="world_volume35" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 2 )]
 transform = Transform( 2, 0, 0, 0, 10, 0, 0, 0, 2, -7, 4.5, -9 )
 
-[node name="world_volume37" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 2, 0, 0, 0, 10, 0, 0, 0, 1, -7, 4.5, 8.5 )
-
-[node name="world_volume36" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, -7, -0.5, 12 )
-
-[node name="world_volume42" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, -7, 9, 12 )
-
-[node name="world_volume45" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, -7, 9, 24 )
-
-[node name="world_volume51" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 2 )]
-transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, -7, -0.5, 24 )
-
-[node name="world_volume_corner" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 51 )]
+[node name="world_volume_corner" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 51 )]
 transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 28, 28, 0, 15 )
 
-[node name="world_volume_corner2" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 51 )]
+[node name="world_volume_corner2" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 51 )]
 transform = Transform( 29, 0, 0, 0, 6, 0, 0, 0, 1, -1, 0, 42 )
 
-[node name="blocker_volume10" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 3 )]
+[node name="blocker_volume10" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 6, -1, 0, 42 )
 
-[node name="blocker_volume4" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 3 )]
+[node name="blocker_volume4" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 3 )]
 transform = Transform( 30, 0, 0, 0, 9, 0, 0, 0, 1, -43, 3, -14 )
 
-[node name="blocker_volume5" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 3 )]
+[node name="blocker_volume5" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 3 )]
 transform = Transform( 30, 0, 0, 0, 9, 0, 0, 0, 1, -43, 3, 15 )
 
-[node name="blocker_volume6" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 3 )]
+[node name="blocker_volume6" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 28, -43, 3, 14 )
 
-[node name="blocker_volume8" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 3 )]
+[node name="blocker_volume8" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 12, -14, 3, 6 )
 
-[node name="blocker_volume7" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes" instance=ExtResource( 3 )]
+[node name="blocker_volume7" parent="world/NavigationMeshInstance/mesh_generator/volumes" instance=ExtResource( 3 )]
 transform = Transform( 11, 0, 0, 0, 9, 0, 0, 0, 10, -53, 3, 5 )
 
-[node name="maze_geo" type="Spatial" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes"]
+[node name="maze_geo" type="Spatial" parent="world/NavigationMeshInstance/mesh_generator/volumes"]
 
-[node name="world_volume55" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume55" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, -7, -8.5, -12 )
 
-[node name="world_volume59" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume59" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 2, 0, 0, 0, 8, 0, 0, 0, 12, -14, -5, -12 )
 
-[node name="world_volume60" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume60" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 2, 0, 0, 0, 8, 0, 0, 0, 12, 0, -5, -12 )
 
-[node name="world_volume62" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume62" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 2, -6, -36 )
 
-[node name="world_volume63" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume63" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 2, -6, -28 )
 
-[node name="world_volume74" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume74" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 12, 2, -2, -32 )
 
-[node name="world_volume73" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume73" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 8, 0, 0, 0, 8, 0, 0, 0, 4, 4, -4, -24 )
 
-[node name="world_volume66" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume66" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 24, 0, 0, 0, 4, 0, 0, 0, 4, 20, -6, -24 )
 
-[node name="world_volume77" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume77" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 24, 0, 0, 0, 8, 0, 0, 0, 4, 20, 0, -20 )
 
-[node name="world_volume70" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume70" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 24, 30, -6, -38 )
 
-[node name="world_volume" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 45 )]
+[node name="world_volume" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 45 )]
 transform = Transform( -2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 26, -6, -48 )
 
-[node name="world_volume72" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume72" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 32, 34, -2, -38 )
 
-[node name="world_volume67" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume67" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 12, 0, 0, 0, 4, 0, 0, 0, 4, 10, -6, -40 )
 
-[node name="world_volume78" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume78" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 18, 0, 0, 0, 4, 0, 0, 0, 4, -5, -6, -40 )
 
-[node name="world_volume75" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume75" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 28.5, 0, 0, 0, 12, 0, 0, 0, 4, 18, -6, -52 )
 
-[node name="world_volume71" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume71" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 12, 0, 0, 0, 4, 0, 0, 0, 8, 10, -6, -46 )
 
-[node name="world_volume79" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume79" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 12, 0, 0, 0, 4, 0, 0, 0, 8, -2, -2, -46 )
 
-[node name="world_volume64" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume64" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 4, 2, -9, -32 )
 
-[node name="world_volume65" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume65" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 12, 0, 0, 0, 2, 0, 0, 0, 12, 10, -9, -32 )
 
-[node name="world_volume76" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume76" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 2, 0, 0, 0, 0.5, 0, 0, 0, 12, 14, -4.25, -32 )
 
-[node name="world_volume68" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume68" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 12, 0, 0, 0, 2, 0, 0, 0, 12, 22, -9, -32 )
 
-[node name="world_volume69" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume69" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 12, 0, 0, 0, 2, 0, 0, 0, 12, 22, -9, -44 )
 
-[node name="world_volume61" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume61" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 12, 0, 0, 0, 8, 0, 0, 0, 2, -7, -5, -9 )
 
-[node name="world_volume57" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume57" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 4, -7, -0.5, -8 )
 
-[node name="world_volume56" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume56" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 8, 0, 0, 0, 4, 0, 0, 0, 1, -7, -6, -14.5 )
 
-[node name="world_volume58" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume58" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 12, 0, 0, 0, 12, 0, 0, 0, 1, -7, 2, -14.5 )
 
-[node name="blocker_volume" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 3 )]
+[node name="blocker_volume" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 3 )]
 transform = Transform( 3, 0, 0, 0, 9, 0, 0, 0, 8, -13, -8, -18 )
 
-[node name="blocker_volume5" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 3 )]
+[node name="blocker_volume5" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 3 )]
 transform = Transform( 3, 0, 0, 0, 9, 0, 0, 0, 1, -14, -8, -25 )
 
-[node name="blocker_volume6" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 3 )]
+[node name="blocker_volume6" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 3 )]
 transform = Transform( 3, 0, 0, 0, 9, 0, 0, 0, 1, -3, -8, -25 )
 
-[node name="blocker_volume3" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 3 )]
+[node name="blocker_volume3" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 12, -15, -8, -26 )
 
-[node name="blocker_volume2" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 3 )]
+[node name="blocker_volume2" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 3 )]
 transform = Transform( 3, 0, 0, 0, 9, 0, 0, 0, 8, -4, -8, -18 )
 
-[node name="world_volume33" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume33" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 14, 0, 0, 0, 1, 0, 0, 0, 12, -7, -8.5, -32 )
 
-[node name="world_volume32" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume32" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 8, -7, -8.5, -22 )
 
-[node name="world_volume42" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume42" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 1, -7, -6, -26.5 )
 
-[node name="world_volume45" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume45" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 1, -3, -6, -26.5 )
 
-[node name="world_volume46" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume46" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 1, -11, -6, -26.5 )
 
-[node name="world_volume34" parent="world/NavigationMeshInstance/BakedLightmap/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
+[node name="world_volume34" parent="world/NavigationMeshInstance/mesh_generator/volumes/maze_geo" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -7, -3.5, -32 )
+
+[node name="lighting_test_geo" type="Spatial" parent="world/NavigationMeshInstance/mesh_generator/volumes"]
+
+[node name="world_volume_wedge_corner3" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 58 )]
+transform = Transform( -8.74228e-08, 0, 1, 0, 1.5, 0, -2, 0, -4.37114e-08, -12, 0, 6 )
+
+[node name="world_volume22" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 30, -13.5, 4.5, 21 )
+
+[node name="world_volume29" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 30, -0.5, 4.5, 21 )
+
+[node name="world_volume42" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, -7, 9, 12 )
+
+[node name="world_volume45" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, -7, 9, 24 )
+
+[node name="world_volume44" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -11.5, 1.5, 8 )
+
+[node name="world_volume43" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -2.5, 1.5, 8 )
+
+[node name="world_volume50" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -5.5, 1.5, 15 )
+
+[node name="world_volume54" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 3, 0, 0, 0, 7, 0, 0, 0, 4, -2.5, 5.5, 15 )
+
+[node name="world_volume53" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 17, -10, 1, 21.5 )
+
+[node name="world_volume37" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 2, 0, 0, 0, 10, 0, 0, 0, 1, -7, 4.5, 8.5 )
+
+[node name="world_volume38" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 12, 0, 0, 0, 3, 0, 0, 0, 1, -7, 7, 6.5 )
+
+[node name="world_volume51" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, -7, -0.5, 24 )
+
+[node name="world_volume36" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 2 )]
+transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, -7, -0.5, 12 )
+
+[node name="world_volume_corner" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 8, -13, 3, 30 )
+
+[node name="world_volume_corner2" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 6, 0, 0, 0, 10, 0, 0, 0, 1, -7, -1, 30 )
+
+[node name="world_volume_corner4" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 8, -8, 3, 30 )
+
+[node name="world_volume_corner3" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 8, -13, 7, 30 )
+
+[node name="world_volume_corner5" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 8, -13, 2, 30 )
+
+[node name="world_volume_corner6" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 10, 0, 0, 0, 9, 0, 0, 0, 1, -23, 2, 37 )
+
+[node name="world_volume_corner13" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 20, 0, 0, 0, 9, 0, 0, 0, 1, -23, 2, 49 )
+
+[node name="world_volume_corner7" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 4, 0, 0, 0, 9, 0, 0, 0, 1, -7, 2, 37 )
+
+[node name="world_volume_corner8" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 1, -13, 9, 37 )
+
+[node name="world_volume_corner9" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 20, 0, 0, 0, 12, 0, 0, 0, 2, -23, -10, 38 )
+
+[node name="world_volume_corner10" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 22, 0, 0, 0, 14, -3, -11, 37 )
+
+[node name="world_volume_corner21" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 22, 0, 0, 0, 10, -24, -11, 37 )
+
+[node name="world_volume_corner22" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 22, 0, 0, 0, 2, -24, -11, 49 )
+
+[node name="world_volume_corner23" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 13, 0, 0, 0, 2, -24, -11, 47 )
+
+[node name="world_volume_corner25" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -28, 1, 46 )
+
+[node name="world_volume_corner26" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -28, 6, 46 )
+
+[node name="world_volume_corner27" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 1, -28, 2, 46 )
+
+[node name="world_volume_corner28" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 1, -28, 2, 49 )
+
+[node name="world_volume_corner24" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 2, -24, 6, 47 )
+
+[node name="world_volume_corner12" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 20, 0, 0, 0, 12, 0, 0, 0, 2, -23, -10, 47 )
+
+[node name="world_volume_corner11" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 20, 0, 0, 0, 1, 0, 0, 0, 8, -23, -11, 39 )
+
+[node name="world_volume_corner14" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 20, 0, 0, 0, 1, 0, 0, 0, 1, -23, 11, 39 )
+
+[node name="world_volume_corner15" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 20, 0, 0, 0, 1, 0, 0, 0, 1, -23, 11, 47 )
+
+[node name="world_volume_corner16" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 7, -8, 11, 40 )
+
+[node name="world_volume_corner18" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 7, -4, 11, 40 )
+
+[node name="world_volume_corner17" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 7, -13, 11, 40 )
+
+[node name="world_volume_corner19" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 7, -18, 11, 40 )
+
+[node name="world_volume_corner20" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 7, -23, 11, 40 )
+
+[node name="world_volume_wedge_corner" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 58 )]
+transform = Transform( 4.01339e-07, 8.65485e-07, 10, -8.74228e-08, -1, 8.65486e-06, 1, -8.74231e-08, -4.01339e-06, -23, 11, 38 )
+
+[node name="world_volume_wedge_corner2" parent="world/NavigationMeshInstance/mesh_generator/volumes/lighting_test_geo" instance=ExtResource( 58 )]
+transform = Transform( -1.19249e-08, -3.88562e-15, -10, 3.25841e-07, -1, 0, -1, -3.25841e-07, 1.19249e-07, -3, 11, 49 )
 
 [node name="trigger_event" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4, -21 )
@@ -924,6 +1025,11 @@ respawns = true
 selfRespawnTime = 5.0
 
 [node name="item_chainsaw" parent="items" instance=ExtResource( 38 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 11.5 )
+respawns = true
+selfRespawnTime = 5.0
+
+[node name="item_chainsaw2" parent="items" instance=ExtResource( 38 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 16 )
 respawns = true
 selfRespawnTime = 5.0
@@ -1006,9 +1112,6 @@ transform = Transform( 1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 7, 0, 38 
 triggerName = "test_titan"
 type = 6
 delaySpawn = true
-
-[node name="light_fixture_1" parent="." instance=ExtResource( 57 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 4, 7.5 )
 [connection signal="trigger" from="static/trigger_volume3" to="static/toggle_mover_test" method="on_trigger"]
 [connection signal="trigger" from="static/mob_spawn_proxy" to="save_test_barrier2" method="on_trigger"]
 [connection signal="trigger" from="static/mob_spawn_proxy3" to="save_test_barrier2" method="on_trigger"]
