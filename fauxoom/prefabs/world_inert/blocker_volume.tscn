@@ -12,7 +12,7 @@ size = Vector3( 1, 1, 1 )
 [sub_resource type="SpatialMaterial" id=3]
 flags_transparent = true
 flags_unshaded = true
-albedo_color = Color( 0.921569, 1, 0, 0.498039 )
+albedo_color = Color( 0.921569, 1, 0, 0.305882 )
 
 [node name="blocker_volume" type="StaticBody"]
 collision_layer = 64

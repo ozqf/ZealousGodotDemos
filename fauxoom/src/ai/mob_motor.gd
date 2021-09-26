@@ -64,6 +64,9 @@ func set_stunned(flag:bool) -> void:
 func leap() -> void:
 	pass
 
+func start_leap(_delta:float, _speed:float) -> void:
+	pass
+
 func move_idle(_delta:float, _friction:float = 0.95) -> void:
 	pass
 

@@ -67,6 +67,7 @@ script = ExtResource( 10 )
 
 [node name="SpotLight" type="SpotLight" parent="head"]
 visible = false
+light_energy = 0.75
 shadow_enabled = true
 spot_range = 22.0
 spot_angle = 50.0

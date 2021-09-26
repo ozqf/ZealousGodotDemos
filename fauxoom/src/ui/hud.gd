@@ -162,7 +162,10 @@ func player_status_update(data:Dictionary) -> void:
 	c.b = _minHealthColour.b + (_maxHealthColour.b - _minHealthColour.b) * t
 	$centre/red_dot.color = c
 	_energyBar.value = data.energy
-	_healthBar.value = data.health 
+	_energyBar.visible = (_energyBar.value < 100)
+	
+	_healthBar.value = data.health
+	_healthBar.visible = (_healthBar.value < 100)
 	_swayTime = data.swayTime 
 	_prompt.visible = data.hasInteractionTarget
 

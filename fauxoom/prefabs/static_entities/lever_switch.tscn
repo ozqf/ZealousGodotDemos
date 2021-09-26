@@ -41,4 +41,4 @@ bus = "game"
 [node name="OmniLight" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
 light_color = Color( 0.564706, 1, 0.537255, 1 )
-omni_range = 1.0
+omni_range = 2.0

@@ -3,8 +3,8 @@ extends EditorSpatialGizmo
 # var value:float = 1
 
 var _drawInternal:bool = false
-var _drawCentre:bool = true
-var _drawBounds:bool = true
+var _drawCentre:bool = false
+var _drawBounds:bool = false
 
 
 # handle value callback
