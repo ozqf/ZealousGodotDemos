@@ -12,6 +12,11 @@ var _gib_t = preload("res://prefabs/gib.tscn")
 var _head_gib_t = preload("res://prefabs/player_gib.tscn")
 var _hitInfo_type = preload("res://src/defs/hit_info.gd")
 
+var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
+var _prefab_impact_debris_t = preload("res://prefabs/gfx/bullet_hit_debris.tscn")
+var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
+
+
 var _entRoot:Entities = null
 onready var _pregameUI:Control = $game_state_overlay/pregame
 onready var _completeUI:Control = $game_state_overlay/complete
@@ -374,3 +379,28 @@ func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:
 		gib.global_transform.origin = pos
 		gib.launch_gib(dir, 1, 0)
 	return result
+
+func spawn_impact_sprite(origin:Vector3) -> void:
+	var impact:Spatial = _prefab_impact.instance()
+	_entRoot.add_child(impact)
+	var t:Transform = impact.global_transform
+	t.origin = origin
+	impact.global_transform = t
+
+func spawn_impact_debris(
+	origin:Vector3, normal:Vector3, minSpeed:float, maxSpeed:float, count:int) -> void:
+	for _i in range(0, count):
+		var debris:Spatial = _prefab_impact_debris_t.instance()
+		_entRoot.add_child(debris)
+		var t:Transform = Transform.IDENTITY
+		t.origin = origin
+		debris.global_transform = t
+		var rigidBody:RigidBody = debris.find_node("RigidBody")
+		if rigidBody != null:
+			var launchVel:Vector3 = normal
+			launchVel.x += rand_range(-0.3, 0.3)
+			launchVel.y += rand_range(-0.3, 0.3)
+			launchVel.z += rand_range(-0.3, 0.3)
+			launchVel = launchVel.normalized()
+			launchVel *= rand_range(minSpeed, maxSpeed)
+			rigidBody.linear_velocity = launchVel

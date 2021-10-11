@@ -1,0 +1,251 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=1]
+[ext_resource path="res://env/dingy_interior.tres" type="Environment" id=2]
+[ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=3]
+[ext_resource path="res://maps/prologue/prefabs/apartment_facade.tscn" type="PackedScene" id=4]
+[ext_resource path="res://maps/prologue/prefabs/apartment_facade_no_balcony.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/primitives/cube_1x1x1.obj" type="ArrayMesh" id=6]
+[ext_resource path="res://assets/world/materials/mat_blue_lights_planar.tres" type="Material" id=7]
+
+[node name="prologue" type="Spatial"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 2 )
+
+[node name="geometry" type="Spatial" parent="."]
+
+[node name="world_volume_corner" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 8, 0, 0, 0 )
+
+[node name="world_volume_corner8" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 2, 0, 0, 0, 0.7, 0, 0, 0, 6, 0, 1, 0 )
+
+[node name="world_volume_corner11" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 2, 0, 0, 0, -0.7, 5.24537e-07, 0, -6.11959e-08, -6, 0, 4, 6 )
+
+[node name="world_volume_corner10" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 3, 0, 0, 0, 0.5, 0, 0, 0, 2, 5, 1, 6 )
+
+[node name="world_volume_corner7" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 8, 0, 4, 0 )
+
+[node name="world_volume_corner2" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 5, 0, 0, 0, 8, -1, 0, 0 )
+
+[node name="world_volume_corner3" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 5, 0, 0, 0, 8, 8, 0, 0 )
+
+[node name="world_volume_corner4" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 10, 0, 0, 0, 5, 0, 0, 0, 1, -1, 0, -1 )
+
+[node name="world_volume_corner5" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 5, 0, 0, 0, 1, 3, 0, 8 )
+
+[node name="world_volume_corner9" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 3, 0, 0, 0, 1, 4, 1, 3 )
+
+[node name="world_volume_corner12" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 0.6, 0, 0, 0, 1, 5, 1, 0 )
+
+[node name="world_volume_corner6" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 2, 0, 0, 0, 5, 0, 0, 0, 1, -1, 0, 8 )
+
+[node name="world_volume_corner13" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 8 )
+
+[node name="world_volume_corner15" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 10, 0, 0, 0, 0.5, 0, 0, 0, 3, -1, 0.5, 9 )
+
+[node name="world_volume_corner17" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 0.5, 0, 0, 0, 3, -17, 0.5, 9 )
+
+[node name="world_volume_corner61" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 0.5, 0, 0, 0, 3, -17, 4.5, 9 )
+
+[node name="world_volume_corner51" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 0.5, 0, 0, 0, 3, -17, -3.5, 9 )
+
+[node name="world_volume_corner52" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 0.5, 0, 0, 0, 3, -17, -1.5, 2 )
+
+[node name="world_volume_corner53" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 3, 0, 0, 0, -0.449397, -2.01651, 0, 0.219186, -4.13445, -17, 1, 9 )
+
+[node name="world_volume_corner54" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( -3, 2.45496e-08, 3.61445e-07, -2.35725e-07, -0.449397, -2.01651, 1.47297e-07, -0.219186, 4.13445, -11, -1, 5 )
+
+[node name="world_volume_corner55" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 0.5, 0, 0, 0, 3, -17, 2.5, 2 )
+
+[node name="world_volume_corner56" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 3, 0, 0, 0, -0.449397, -2.01651, 0, 0.219186, -4.13445, -17, 5, 9 )
+
+[node name="world_volume_corner57" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( -3, 2.45496e-08, 3.61445e-07, -2.35725e-07, -0.449397, -2.01651, 1.47297e-07, -0.219186, 4.13445, -11, 3, 5 )
+
+[node name="world_volume_corner58" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 0.5, 0, 0, 0, 3, -17, -5.5, 2 )
+
+[node name="world_volume_corner59" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 3, 0, 0, 0, -0.449397, -2.01651, 0, 0.219186, -4.13445, -17, -3, 9 )
+
+[node name="world_volume_corner60" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( -3, 2.45496e-08, 3.61445e-07, -2.35725e-07, -0.449397, -2.01651, 1.47297e-07, -0.219186, 4.13445, -11, -5, 5 )
+
+[node name="world_volume_corner46" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 10, 0, 0, 0, 19, 0, 0, 0, 10, 22, -8, 0 )
+
+[node name="world_volume_corner48" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 10, 0, 0, 0, 14, 0, 0, 0, 10, 35, -8, -1 )
+
+[node name="world_volume_corner49" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 10, 0, 0, 0, 14, 0, 0, 0, 10, 21, -8, 21 )
+
+[node name="world_volume_corner50" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 10, 0, 0, 0, 14, 0, 0, 0, 10, 33, -8, 20 )
+
+[node name="world_volume_corner42" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 30, 0, 0, 0, 1, 0, 0, 0, 12, -11, -8, 9 )
+
+[node name="world_volume_corner62" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 30, 0, 0, 0, 1, 0, 0, 0, 12, -41, -8, 9 )
+
+[node name="world_volume_corner47" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 30, 0, 0, 0, 1, 0, 0, 0, 12, 19, -8, 9 )
+
+[node name="world_volume_corner14" parent="geometry" instance=ExtResource( 1 )]
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 1, 1, 4, 8 )
+
+[node name="apartments" type="Spatial" parent="geometry"]
+
+[node name="apartment_facade" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 4, 8 )
+
+[node name="apartment_facade2" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 8 )
+
+[node name="apartment_facade3" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -4, 8 )
+
+[node name="apartment_facade4" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 4, 8 )
+
+[node name="apartment_facade5" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 8 )
+
+[node name="apartment_facade6" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -4, 8 )
+
+[node name="apartment_facade7" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -4, 8 )
+
+[node name="apartment_facade8" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 4, 8 )
+
+[node name="apartment_facade9" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 19, 4, 25 )
+
+[node name="apartment_facade10" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, 4, 25 )
+
+[node name="apartment_facade11" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 9, 4, 25 )
+
+[node name="apartment_facade12" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 19, 0, 25 )
+
+[node name="apartment_facade13" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, 0, 25 )
+
+[node name="apartment_facade14" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 9, 0, 25 )
+
+[node name="apartment_facade15" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 19, -4, 25 )
+
+[node name="apartment_facade16" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, -4, 25 )
+
+[node name="apartment_facade17" parent="geometry/apartments" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 9, -4, 25 )
+
+[node name="apartment_facade18" parent="geometry/apartments" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -8, 8 )
+
+[node name="apartment_facade19" parent="geometry/apartments" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -8, 8 )
+
+[node name="apartment_facade20" parent="geometry/apartments" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -8, 8 )
+
+[node name="apartment_facade21" parent="geometry/apartments" instance=ExtResource( 5 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 19, -8, 25 )
+
+[node name="apartment_facade22" parent="geometry/apartments" instance=ExtResource( 5 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 9, -8, 25 )
+
+[node name="apartment_facade23" parent="geometry/apartments" instance=ExtResource( 5 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, -8, 25 )
+
+[node name="MeshInstance" type="MeshInstance" parent="geometry"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 29, -2, 11 )
+mesh = ExtResource( 6 )
+material/0 = ExtResource( 7 )
+
+[node name="ents" type="Spatial" parent="."]
+
+[node name="player_start" parent="ents" instance=ExtResource( 3 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7, 1, 5 )
+
+[node name="lights" type="Spatial" parent="."]
+
+[node name="flat" type="Spatial" parent="lights"]
+
+[node name="OmniLight" type="OmniLight" parent="lights/flat"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.9, 3 )
+omni_range = 7.0
+
+[node name="OmniLight2" type="OmniLight" parent="lights/flat"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 3.5, 2 )
+omni_range = 7.0
+
+[node name="OmniLight3" type="OmniLight" parent="lights/flat"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 3.5, 7 )
+omni_range = 7.0
+
+[node name="apartments" type="Spatial" parent="lights"]
+
+[node name="OmniLight26" type="OmniLight" parent="lights/apartments"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14, -0.5, 11 )
+omni_range = 7.0
+
+[node name="OmniLight22" type="OmniLight" parent="lights/apartments"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 2, 3 )
+omni_range = 7.0
+
+[node name="OmniLight24" type="OmniLight" parent="lights/apartments"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14, -3, 3 )
+omni_range = 7.0
+
+[node name="OmniLight23" type="OmniLight" parent="lights/apartments"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 6, 3 )
+omni_range = 7.0
+
+[node name="street" type="Spatial" parent="lights"]
+
+[node name="OmniLight" type="OmniLight" parent="lights/street"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29, -3, 11 )
+omni_range = 10.0
+
+[node name="OmniLight2" type="OmniLight" parent="lights/street"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29, -3, 18 )
+omni_range = 10.0
+
+[node name="OmniLight3" type="OmniLight" parent="lights/street"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, -3, 11 )
+omni_range = 10.0
+
+[node name="OmniLight4" type="OmniLight" parent="lights/street"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, -3, 17 )
+omni_range = 10.0

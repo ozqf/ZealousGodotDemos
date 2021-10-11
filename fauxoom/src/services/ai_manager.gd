@@ -28,6 +28,7 @@ var _emptyTargetInfo:Dictionary = {
 func _ready():
 	print("AI singleton init")
 	_entRoot = Ents
+	_testNavDest.visible = false
 	add_to_group(Config.GROUP)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
@@ -134,7 +135,10 @@ func debug_path(path:PoolVector3Array) -> void:
 func check_los_to_player(origin:Vector3) -> bool:
 	if !_player:
 		return false
-	var dest = _player.get_targetting_info().position
+	var info = _player.get_targetting_info()
+	if !info:
+		return false
+	var dest = info.position
 	return ZqfUtils.los_check(_entRoot, origin, dest, 1)
 
 func get_distance_to_player(origin:Vector3) -> float:
