@@ -3,6 +3,7 @@ extends Node
 # in this case, Inventory <-> InvWeapon
 # class_name Inventory
 signal weapon_changed(newWeapon, oldWeapon)
+signal weapon_action(weapon, actionName)
 
 var _data:Dictionary = {
 	chainsaw = { count = 0, max = 1 },
@@ -36,11 +37,17 @@ func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
 		# 	empty = child
 		else:
 			weapons.push_back(child)
+		
+		child.connect("weapon_action", self, "on_weapon_action")
+		
 		child.custom_init(self, launchNode, ignoreBody, hud)
 		# if _currentWeapon == null:
 		# 	set_current_weapon(child)
 	# print("Inventory found " + str(weapons.size()) + " weapons")
 	select_first_weapon()
+
+func on_weapon_action(_weapon:InvWeapon, _action:String) -> void:
+	self.emit_signal("weapon_action", _weapon, _action)
 
 func append_state(_saveDict:Dictionary) -> void:
 	var save = { 

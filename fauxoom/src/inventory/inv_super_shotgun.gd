@@ -19,6 +19,10 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 			var spreadY:float = rand_range(-400, 400)
 			var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
 			_fire_single(forward, 1000)
+		
+		var brassForward:Vector3 = -t.basis.z + t.basis.y
+		brassForward = brassForward.normalized()
+		Game.spawn_ejected_shell(t.origin, brassForward, 1, 3, 2)
 		.play_fire_1(false)
 		_hud.audio.stream = _ssgShoot
 		_hud.audio.pitch_scale = rand_range(0.85, 1)

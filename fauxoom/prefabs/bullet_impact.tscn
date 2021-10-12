@@ -4,6 +4,7 @@
 [ext_resource path="res://assets/sprites/frames/item_frames.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://zqf/zgu_animated_sprite_3d_controller.gd" type="Script" id=3]
 
+
 [sub_resource type="SphereMesh" id=1]
 
 [sub_resource type="SpatialMaterial" id=2]

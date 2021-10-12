@@ -16,6 +16,7 @@ var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
 var _prefab_impact_debris_t = preload("res://prefabs/gfx/bullet_hit_debris.tscn")
 var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
 
+var _prefab_ejected_shell = preload("res://prefabs/gfx/ejected_shell.tscn")
 
 var _entRoot:Entities = null
 onready var _pregameUI:Control = $game_state_overlay/pregame
@@ -387,10 +388,11 @@ func spawn_impact_sprite(origin:Vector3) -> void:
 	t.origin = origin
 	impact.global_transform = t
 
-func spawn_impact_debris(
-	origin:Vector3, normal:Vector3, minSpeed:float, maxSpeed:float, count:int) -> void:
+func _spawn_debris_prefab(
+	prefab, origin:Vector3, normal:Vector3, minSpeed:float, maxSpeed:float, count:int) -> void:
+
 	for _i in range(0, count):
-		var debris:Spatial = _prefab_impact_debris_t.instance()
+		var debris:Spatial = prefab.instance()
 		_entRoot.add_child(debris)
 		var t:Transform = Transform.IDENTITY
 		t.origin = origin
@@ -404,3 +406,12 @@ func spawn_impact_debris(
 			launchVel = launchVel.normalized()
 			launchVel *= rand_range(minSpeed, maxSpeed)
 			rigidBody.linear_velocity = launchVel
+
+func spawn_impact_debris(
+	origin:Vector3, normal:Vector3, minSpeed:float, maxSpeed:float, count:int) -> void:
+	_spawn_debris_prefab(_prefab_impact_debris_t, origin, normal, minSpeed, maxSpeed, count)
+	
+func spawn_ejected_shell(
+	origin:Vector3, normal:Vector3, minSpeed:float, maxSpeed:float, count:int) -> void:
+	_spawn_debris_prefab(_prefab_ejected_shell, origin, normal, minSpeed, maxSpeed, count)
+	

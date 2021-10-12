@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=1]
+[ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=2]
+[ext_resource path="res://maps/prologue_subway/prefabs/subway_tunnel_chunk.tscn" type="PackedScene" id=3]
+
+[node name="prologue_subway" type="Spatial"]
+
+[node name="world_volume_corner" parent="." instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 24, 2, 0, 0 )
+
+[node name="world_volume_corner14" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 24, 8, 1, 0 )
+
+[node name="world_volume_corner15" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 2, 8, 0, 23 )
+
+[node name="world_volume_corner12" parent="." instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 1, 1, 1, 24 )
+
+[node name="world_volume_corner11" parent="." instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 4, -4, 0, 4 )
+
+[node name="world_volume_corner6" parent="." instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 24, 2, 6, 0 )
+
+[node name="world_volume_corner7" parent="." instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 24, 8, 7, 0 )
+
+[node name="world_volume_corner8" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 24, 16, -2, 0 )
+
+[node name="world_volume_corner9" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 16, 1, -2, 8 )
+
+[node name="world_volume_corner10" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 4, 1, -2, 0 )
+
+[node name="world_volume_corner4" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 6, 2, 18 )
+
+[node name="world_volume_corner5" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 6, 2, 3 )
+
+[node name="world_volume_corner2" parent="." instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 2, 0, 0, 0, 24, 8, -2, 0 )
+
+[node name="world_volume_corner3" parent="." instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 5, 0, 0, 0, 11, 9, 0, 11 )
+
+[node name="world_volume_corner21" parent="." instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 5, 0, 0, 0, 11, 9, 0, -1 )
+
+[node name="player_start" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 23 )
+
+[node name="subway_tunnel_chunk" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -1, 24 )
+
+[node name="subway_tunnel_chunk2" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -1, 40 )

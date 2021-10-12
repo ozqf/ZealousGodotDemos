@@ -40,6 +40,7 @@ onready var _ticker:AITicker = $ticker
 # optional component
 var aimLaser = null
 var omniCharge:OmniAttackCharge
+var frameCount:int = 0
 
 export var triggerTargets:String = ""
 
@@ -111,7 +112,7 @@ func _gather_attacks() -> void:
 		if attack is MobAttack:
 			attacks.push_back(attack)
 			attack.custom_init($head, self)
-	print("Mob " + self.name + " has " + str(attacks.size()) + " attacks")
+	# print("Mob " + self.name + " has " + str(attacks.size()) + " attacks")
 
 func set_trigger_names(selfName:String, targets:String) -> void:
 	_ent.selfName = selfName
@@ -253,6 +254,7 @@ func build_tick_info(targetInfo:Dictionary) -> void:
 	_tickInfo.flatDistance = ZqfUtils.flat_distance_between(selfPos, tarPos)
 
 func _process(_delta:float) -> void:
+	frameCount += 1
 	_stunAccumulator = 0
 	# head.rotation.y = motor.moveYaw
 

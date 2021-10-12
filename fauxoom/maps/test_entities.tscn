@@ -1116,6 +1116,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -8, -12 )
 
 [node name="item_full_pack4" parent="items" instance=ExtResource( 52 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0 )
+respawns = true
+selfRespawnTime = 10.0
 
 [node name="mob_flesh_worm" parent="." instance=ExtResource( 44 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -8, -32 )
@@ -1133,7 +1135,7 @@ triggerName = "test_titan"
 type = 6
 delaySpawn = true
 
-[node name="world_volume_corner" parent="." instance=ExtResource( 59 )]
+[node name="world_window" parent="." instance=ExtResource( 59 )]
 transform = Transform( 20, 0, 0, 0, 0.9, 0, 0, 0, 9, -23, 12, 39 )
 
 [connection signal="trigger" from="static/trigger_volume3" to="static/toggle_mover_test" method="on_trigger"]

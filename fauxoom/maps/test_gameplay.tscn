@@ -332,7 +332,7 @@ transform = Transform( 10, 0, 0, 0, 4, 0, 0, 0, 1, 0, 2, -0.5 )
 
 [node name="first_pickup_door" parent="static" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 32 )
-seconds = 4.0
+seconds = 8.0
 offset = Vector3( 0, 0, -5 )
 
 [node name="world_volume32" parent="static/first_pickup_door" instance=ExtResource( 2 )]
@@ -340,7 +340,7 @@ transform = Transform( 0.5, 0, 0, 0, 4, 0, 0, 0, 2, 0.5, 2, 1 )
 
 [node name="first_pickup_door2" parent="static" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 36 )
-seconds = 4.0
+seconds = 8.0
 offset = Vector3( 0, 0, 5 )
 
 [node name="world_volume32" parent="static/first_pickup_door2" instance=ExtResource( 2 )]
@@ -822,9 +822,11 @@ transform = Transform( -1, 0, -2.41593e-06, 0, 1, 0, 1.50996e-07, 0, -16, 0, 0, 
 
 [node name="light_fixture_1" parent="world/lights" instance=ExtResource( 31 )]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -9, 2.5, 28.4 )
+omni_range = 10.0
 
 [node name="light_fixture_7" parent="world/lights" instance=ExtResource( 31 )]
 transform = Transform( 1, 0, 0, 0, -5.96046e-08, -1, 0, 1, -5.96046e-08, -9, 2.5, 39.6 )
+omni_range = 10.0
 
 [node name="light_fixture_5" parent="world/lights" instance=ExtResource( 31 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -19.6, 4.6, 34 )
@@ -877,5 +879,12 @@ light_color = Color( 0.94902, 0.945098, 1, 1 )
 shadow_enabled = true
 shadow_bias = 0.2
 omni_range = 25.0
+
+[node name="SpotLight" type="SpotLight" parent="world/lights"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -10, 4.7121, 34 )
+light_energy = 2.0
+spot_range = 8.0
+spot_angle = 15.0
+
 [connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_exit_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_trap_gate" method="on_trigger"]

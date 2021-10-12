@@ -1,31 +1,30 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://zqf/timed_self_cull.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/frames/debris_frames.tres" type="SpriteFrames" id=2]
 
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.1
+bounce = 0.6
 
-[sub_resource type="PhysicsMaterial" id=3]
-
-[sub_resource type="SphereShape" id=1]
+[sub_resource type="SphereShape" id=2]
 radius = 0.05
-
-[sub_resource type="SphereMesh" id=2]
-radius = 0.05
-height = 0.1
 
 [node name="bullet_hit_debris" type="Spatial"]
 script = ExtResource( 1 )
-time = 2.0
+time = 4.0
 
 [node name="RigidBody" type="RigidBody" parent="."]
 collision_layer = 256
-physics_material_override = SubResource( 3 )
+physics_material_override = SubResource( 1 )
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 
 [node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
-[node name="MeshInstance" type="MeshInstance" parent="RigidBody"]
-mesh = SubResource( 2 )
-material/0 = null
+[node name="sprite" type="AnimatedSprite3D" parent="RigidBody"]
+billboard = 1
+frames = ExtResource( 2 )
+frame = 1

@@ -259,6 +259,9 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 			print("Failed to load cfg")
 
 func change_map(path:String) -> void:
+	if !ResourceLoader.exists(path):
+		print("Map " + path + " not found")
+		return
 	var grp:String = Groups.GAME_GROUP_NAME
 	var fn:String = Groups.GAME_FN_MAP_CHANGE
 	get_tree().call_group(grp, fn)

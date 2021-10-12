@@ -12,6 +12,7 @@ onready var _inventory = $inventory
 onready var _hud:Hud = $hud
 onready var _interactor:PlayerObjectInteractor = $head/interaction_ray_cast
 onready var _flashLight:SpotLight = $head/SpotLight
+onready var _muzzleFlash:OmniLight = $head/muzzle_flash
 
 var _inputOn:bool = false
 
@@ -55,6 +56,7 @@ func _ready():
 	_motor.init_motor(self, _head)
 	_motor.set_input_enabled(false)
 	_inventory.connect("weapon_changed", _hud, "inventory_weapon_changed")
+	_inventory.connect("weapon_action", self, "on_weapon_action")
 	_inventory.custom_init(_head, self, _hud)
 	_attack.init_attack(_interactor, _inventory)
 	_attack.set_attack_enabled(false)
@@ -73,6 +75,9 @@ func _ready():
 func on_player_shoot() -> void:
 	# _audio.play()
 	pass
+
+func on_weapon_action(_weapon:InvWeapon, _action:String) -> void:
+	_muzzleFlash.show_for_time(0.1)
 
 func append_state(_dict:Dictionary) -> void:
 	var t:Transform = Transform.IDENTITY

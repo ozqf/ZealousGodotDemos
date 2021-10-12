@@ -158,7 +158,7 @@ func assign_static_id() -> int:
 func _delete_all_dynamic_entities() -> void:
 	var dynEnts = get_tree().get_nodes_in_group(Groups.DYNAMIC_ENTS_GROUP_NAME)
 	for ent in dynEnts:
-		ent.get_parent().queue_free()
+		ent.get_parent().free()
 
 func find_static_entity_by_id(id:int) -> Node:
 	if id >= 0:
@@ -193,7 +193,7 @@ func write_save_dict() -> Dictionary:
 func restore_dynamic_entity(dict:Dictionary) -> void:
 	var def = get_prefab_def(dict.prefab)
 	assert(def != null)
-	print("Restoring prefab " + dict.prefab)
+	# print("Restoring prefab " + dict.prefab)
 	var prefab = def.prefab.instance()
 	add_child(prefab)
 	prefab.get_node(def.entNodePath).restore_state(dict)
@@ -207,6 +207,7 @@ func load_save_dict(data:Dictionary) -> void:
 	_nextStaticId = data.nextStaticId
 
 	# static entities - find and load
+	print("Restoring static entities")
 	var staticEnts = get_tree().get_nodes_in_group(Groups.STATIC_ENTS_GROUP_NAME)
 	for entData in data.staticData:
 		var id:int = entData.id
@@ -222,7 +223,9 @@ func load_save_dict(data:Dictionary) -> void:
 		ent.restore_state(entData)
 
 	# dynamic entities - delete all and recreate
+	print("Delete dynamic entities")
 	_delete_all_dynamic_entities()
+	print("Restore dynamic entities")
 	for entData in data.dynamicData:
 		restore_dynamic_entity(entData)
 		# var def = get_prefab_def(entData.prefab)

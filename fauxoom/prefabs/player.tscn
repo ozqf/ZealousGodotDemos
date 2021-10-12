@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://assets/sprites/player/player_a1.png" type="Texture" id=1]
 [ext_resource path="res://src/player/player.gd" type="Script" id=2]
@@ -24,6 +24,7 @@
 [ext_resource path="res://src/inventory/inv_debugger.gd" type="Script" id=22]
 [ext_resource path="res://src/ui/hud_pickup_messages.gd" type="Script" id=23]
 [ext_resource path="res://src/ui/hud_inventory.gd" type="Script" id=24]
+[ext_resource path="res://zqf/timed_self_hide.gd" type="Script" id=25]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -71,6 +72,12 @@ light_energy = 0.75
 shadow_enabled = true
 spot_range = 22.0
 spot_angle = 50.0
+
+[node name="muzzle_flash" type="OmniLight" parent="head"]
+light_color = Color( 1, 1, 0.282353, 1 )
+shadow_enabled = true
+omni_range = 8.0
+script = ExtResource( 25 )
 
 [node name="camera_mount" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )

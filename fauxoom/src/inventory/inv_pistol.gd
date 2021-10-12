@@ -33,6 +33,7 @@ func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> voi
 	var spreadY:float = rand_range(-_spreadY, _spreadY) * shotSpreadScale
 	forward = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
 	_fire_single(forward, 1000)
+	self.emit_signal("weapon_action", self, "fire")
 
 func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 	if _reloading:

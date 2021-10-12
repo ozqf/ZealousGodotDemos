@@ -49,6 +49,12 @@ func game_on_player_died(_info:Dictionary) -> void:
 	if _player != null:
 		_player = null
 
+# clear any player info or a stale player record can be 
+# read by ai
+func game_on_map_change() -> void:
+	print("AI manager - map change clear player")
+	_player = null
+
 func _process(_delta:float) -> void:
 	var numNodes:int = _tacticNodes.size()
 	for _i in range(0, numNodes):
