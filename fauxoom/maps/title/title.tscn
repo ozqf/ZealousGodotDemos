@@ -11,6 +11,15 @@
 [node name="world_volume_corner" parent="." instance=ExtResource( 1 )]
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, 0, -1, 0 )
 
+[node name="world_volume_corner2" parent="." instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -4, -1, 0 )
+
+[node name="world_volume_corner3" parent="." instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, 0, -1, -4 )
+
+[node name="world_volume_corner4" parent="." instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -4, -1, -4 )
+
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 0.707107, -0.270598, 0.653282, 0, 0.92388, 0.382683, -0.707107, -0.270598, 0.653282, 4, 2, 4 )
 current = true

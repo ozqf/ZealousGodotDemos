@@ -17,6 +17,11 @@ enum PatternType {
 	SphereVolume
 }
 
+enum TriggerVolumeAction {
+	TriggerTargets,
+	TeleportSubject
+}
+
 # enum HitResponeeType {
 # 	None,
 # 	Damaged,

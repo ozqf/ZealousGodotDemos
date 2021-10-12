@@ -2,4 +2,4 @@
 
 [resource]
 flags_vertex_lighting = true
-albedo_color = Color( 1, 0, 0, 1 )
+albedo_color = Color( 0, 1, 0, 1 )

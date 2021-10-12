@@ -1,11 +1,14 @@
 extends Spatial
 class_name TriggerVolume
 
+const Enums = preload("res://src/enums.gd")
+
 signal trigger()
 
 onready var _ent:Entity = $Entity
 onready var _collider:CollisionShape = $CollisionShape
 
+export(Enums.TriggerVolumeAction) var action = Enums.TriggerVolumeAction.TriggerTargets
 export var triggerTargetName:String = ""
 # if 0 or negative - no reset
 export var resetSeconds:float = 0
@@ -58,4 +61,30 @@ func _on_body_entered(_body:PhysicsBody) -> void:
 	if triggerTargetName != "":
 		Interactions.triggerTargets(get_tree(), triggerTargetName)
 	emit_signal("trigger")
-	set_active(false)
+	if action == Enums.TriggerVolumeAction.TeleportSubject:
+		var target:Spatial = null
+		target = find_node("teleport_destination") as Spatial
+		# for child in get_children():
+		# 	if child is Spatial:
+		# 		target = child
+		# 		break;
+		if target == null:
+			print("Trigger teleport has no destination")
+		# can the subject be teleported?
+		if !_body.has_method("teleport"):
+			print("Trigger cannot teleport subject " + _body.name)
+			return
+		var from:Vector3 = _body.global_transform.origin
+		var to:Vector3 = target.global_transform.origin
+		print("Teleport subject from " + str(from) + " to " + str(to))
+		_body.teleport(target.global_transform)
+		if _body.has_method("hit"):
+			var info = Game.new_hit_info()
+			info.damage = 15
+			info.damageType = Interactions.DAMAGE_TYPE_VOID
+			info.attackTeam = Interactions.TEAM_NONE
+			info.origin = _body.global_transform.origin - Vector3(0, 1, 0)
+			info.direction = Vector3.UP
+			_body.hit(info)
+	else:
+		set_active(false)

@@ -520,6 +520,7 @@ flash_light={
 3d_physics/layer_9="debris"
 3d_physics/layer_10="interactive"
 3d_physics/layer_11="corpse"
+3d_render/layer_20="skybox"
 3d_physics/layer_20="editor_geometry"
 
 [rendering]

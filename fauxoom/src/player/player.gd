@@ -109,6 +109,7 @@ func teleport(_trans:Transform) -> void:
 	# var rot:Basis = _trans.basis
 	_trans.basis = Basis.IDENTITY
 	self.global_transform = _trans
+	print("Player position: " + str(self.global_transform.origin))
 	_motor.set_yaw_degrees(_yaw)
 
 func get_targetting_info() -> Dictionary:
