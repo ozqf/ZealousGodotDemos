@@ -189,7 +189,7 @@ selfRespawnTime = 10.0
 transform = Transform( 3.5, 0, 0, 0, 2, 0, 0, 0, 3, 13, 0, 33 )
 
 [node name="room_1_exit_gate" parent="static/room_1" instance=ExtResource( 5 )]
-transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 1, 5, 0, 16 )
+transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 1, 5, 0, 16 )
 
 [node name="room_1_exit_gate2" parent="static/room_1" instance=ExtResource( 5 )]
 transform = Transform( 3, 0, 0, 0, 2, 0, 0, 0, 1, 5, 0, 5 )
@@ -885,6 +885,13 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -10, 4.
 light_energy = 2.0
 spot_range = 8.0
 spot_angle = 15.0
+
+[node name="OmniLight7" type="SpotLight" parent="world/lights"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -2, 24, -10 )
+light_energy = 2.0
+shadow_enabled = true
+spot_range = 30.0
+spot_attenuation = 0.0457528
 
 [connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_exit_gate" method="on_trigger"]
 [connection signal="trigger" from="static/room_1/lever_switch" to="static/room_1/room_1_trap_gate" method="on_trigger"]

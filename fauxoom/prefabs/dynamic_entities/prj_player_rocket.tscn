@@ -26,7 +26,7 @@ size = Vector2( 0.1, 0.1 )
 
 [node name="prj_player_rocket" type="Spatial"]
 script = ExtResource( 3 )
-maxSpeed = 25.0
+maxSpeed = 35.0
 deathSpawnPrefab = ExtResource( 5 )
 
 [node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]
