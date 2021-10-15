@@ -1,61 +1,186 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=2]
 [ext_resource path="res://maps/prologue_subway/prefabs/subway_tunnel_chunk.tscn" type="PackedScene" id=3]
+[ext_resource path="res://prefabs/world_inert/world_volume_wedge_corner.tscn" type="PackedScene" id=4]
+[ext_resource path="res://env/dingy_interior.tres" type="Environment" id=5]
+[ext_resource path="res://prefabs/static_entities/trigger_volume.tscn" type="PackedScene" id=6]
 
 [node name="prologue_subway" type="Spatial"]
 
-[node name="world_volume_corner" parent="." instance=ExtResource( 1 )]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 5 )
+
+[node name="geometry" type="Spatial" parent="."]
+
+[node name="tunnel_1" type="Spatial" parent="geometry"]
+
+[node name="world_volume_corner" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 24, 2, 0, 0 )
 
-[node name="world_volume_corner14" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner14" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 24, 8, 1, 0 )
 
-[node name="world_volume_corner15" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner15" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 2, 8, 0, 23 )
 
-[node name="world_volume_corner12" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner12" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 1, 1, 1, 24 )
 
-[node name="world_volume_corner11" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner13" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 1, 1, 1, -1 )
+
+[node name="world_volume_corner18" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 1, -5, 1, 3 )
+
+[node name="world_volume_corner19" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 1, -5, 1, 8 )
+
+[node name="world_volume_corner20" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 4, -5, 1, 4 )
+
+[node name="world_volume_corner16" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
+transform = Transform( 10, 0, 0, 0, 8, 0, 0, 0, 1, 7, -1, -17 )
+
+[node name="world_volume_corner17" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
+transform = Transform( 10, 0, 0, 0, 8, 0, 0, 0, 1, 7, -1, 88 )
+
+[node name="world_volume_corner11" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 4, -4, 0, 4 )
 
-[node name="world_volume_corner6" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner22" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 4, -4, 5, 4 )
+
+[node name="world_volume_corner6" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 24, 2, 6, 0 )
 
-[node name="world_volume_corner7" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner7" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 24, 8, 7, 0 )
 
-[node name="world_volume_corner8" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner8" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 24, 16, -2, 0 )
 
-[node name="world_volume_corner9" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner9" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 16, 1, -2, 8 )
 
-[node name="world_volume_corner10" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner10" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 4, 1, -2, 0 )
 
-[node name="world_volume_corner4" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner4" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 6, 2, 18 )
 
-[node name="world_volume_corner5" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner23" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 6, 2, 10 )
+
+[node name="world_volume_corner5" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 6, 2, 3 )
 
-[node name="world_volume_corner2" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner2" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 8, 0, 0, 0, 2, 0, 0, 0, 24, 8, -2, 0 )
 
-[node name="world_volume_corner3" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner3" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 6, 0, 0, 0, 5, 0, 0, 0, 11, 9, 0, 11 )
 
-[node name="world_volume_corner21" parent="." instance=ExtResource( 1 )]
+[node name="world_volume_corner21" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 6, 0, 0, 0, 5, 0, 0, 0, 11, 9, 0, -1 )
 
-[node name="player_start" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 23 )
+[node name="player_start" parent="geometry/tunnel_1" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2, 2, 6 )
 
-[node name="subway_tunnel_chunk" parent="." instance=ExtResource( 3 )]
+[node name="subway_tunnel_chunk" parent="geometry/tunnel_1" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -1, 24 )
 
-[node name="subway_tunnel_chunk2" parent="." instance=ExtResource( 3 )]
+[node name="subway_tunnel_chunk3" parent="geometry/tunnel_1" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -1, -16 )
+
+[node name="subway_tunnel_chunk2" parent="geometry/tunnel_1" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -1, 40 )
+
+[node name="subway_tunnel_chunk4" parent="geometry/tunnel_1" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -1, 56 )
+
+[node name="subway_tunnel_chunk5" type="Spatial" parent="geometry/tunnel_1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -1, 72 )
+
+[node name="world_volume_corner16" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 16, 0, 1, 0 )
+
+[node name="world_volume_corner17" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 7, 9, 1, 0 )
+
+[node name="world_volume_corner21" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 7, 9, 1, 9 )
+
+[node name="world_volume_corner22" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 2, 9, 3, 7 )
+
+[node name="world_volume_corner23" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, 10, 0, 6 )
+
+[node name="world_volume_corner24" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, 10, 3, 6 )
+
+[node name="world_volume_corner25" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 1, 10, 1, 6 )
+
+[node name="world_volume_corner26" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 1, 10, 1, 9 )
+
+[node name="world_volume_corner13" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 1 )]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 16, 0, 0, 0 )
+
+[node name="world_volume_corner19" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 0.1, 0, 0, 0, 16, 3, 1, 0 )
+
+[node name="world_volume_corner20" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 0.1, 0, 0, 0, 16, 6, 1, 0 )
+
+[node name="world_volume_corner18" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 1 )]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 16, 0, 7, 0 )
+
+[node name="world_volume_wedge_corner" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 4 )]
+transform = Transform( 0.5, 0, 0, 0, -0.5, 1.20797e-06, 0, -7.54979e-08, -8, 1, 7, 16 )
+
+[node name="world_volume_wedge_corner2" parent="geometry/tunnel_1/subway_tunnel_chunk5" instance=ExtResource( 4 )]
+transform = Transform( -0.5, 6.60024e-15, 6.99382e-07, 0, -0.5, 1.20797e-06, 4.37114e-08, 7.54979e-08, 8, 9, 7, 0 )
+
+[node name="lights" type="Spatial" parent="."]
+
+[node name="OmniLight" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1, 75 )
+
+[node name="OmniLight7" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 5, 15 )
+shadow_enabled = true
+omni_range = 15.0
+omni_attenuation = 0.196146
+
+[node name="OmniLight8" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 5, 5 )
+shadow_enabled = true
+omni_range = 15.0
+omni_attenuation = 0.196146
+
+[node name="OmniLight2" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1, 81 )
+
+[node name="OmniLight3" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1, 86 )
+
+[node name="OmniLight4" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, 75 )
+
+[node name="OmniLight5" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, 80 )
+light_color = Color( 0.337255, 1, 0.580392, 1 )
+
+[node name="OmniLight6" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, 86 )
+
+[node name="static_ents" type="Spatial" parent="."]
+
+[node name="trigger_volume" parent="static_ents" instance=ExtResource( 6 )]
+transform = Transform( 1.5, 0, 0, 0, 1, 0, 0, 0, 5.85, -1, 3, 6 )
+resetSeconds = 2.0
+hintMessage = "WASD to move, Mouse to look"

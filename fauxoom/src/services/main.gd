@@ -240,7 +240,7 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	print("EXEC " + txt)
 	if _tokens.size() >= 2:
 		if _tokens[0] == "map":
-			var path:String = "res://maps/" + _tokens[1] + ".tscn"
+			var path:String = "res://maps/" + _tokens[1] + "/" + _tokens[1] + ".tscn"
 			change_map(path)
 	if txt == "quit" || txt == "exit":
 		get_tree().quit()

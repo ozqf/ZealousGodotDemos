@@ -28,3 +28,23 @@ transform = Transform( 0.5, 0, 0, 0, -0.5, 1.20797e-06, 0, -7.54979e-08, -8, 1, 
 
 [node name="world_volume_wedge_corner2" parent="." instance=ExtResource( 2 )]
 transform = Transform( -0.5, 6.60024e-15, 6.99382e-07, 0, -0.5, 1.20797e-06, 4.37114e-08, 7.54979e-08, 8, 9, 7, 0 )
+
+[node name="lights" type="Spatial" parent="."]
+
+[node name="OmniLight" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 3 )
+
+[node name="OmniLight2" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 13 )
+
+[node name="OmniLight3" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 8 )
+
+[node name="OmniLight4" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 3 )
+
+[node name="OmniLight5" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 13 )
+
+[node name="OmniLight6" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 8 )
