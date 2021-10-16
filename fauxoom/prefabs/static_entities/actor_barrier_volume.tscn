@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/static_entities/barrier_volume.gd" type="Script" id=1]
 [ext_resource path="res://assets/sounds/world/forcefield_toggle.wav" type="AudioStream" id=2]
+[ext_resource path="res://assets/world/animated/forcefield/shader_forcefield.tres" type="Shader" id=3]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.5, 0.5 )
@@ -9,9 +10,8 @@ extents = Vector3( 0.5, 0.5, 0.5 )
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 1, 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=3]
-flags_transparent = true
-albedo_color = Color( 0, 0.6, 1, 0.498039 )
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 3 )
 
 [node name="player_barrier_volume" type="KinematicBody"]
 collision_layer = 64

@@ -1,19 +1,16 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/static_entities/barrier_volume.gd" type="Script" id=1]
 [ext_resource path="res://src/entity.gd" type="Script" id=2]
 [ext_resource path="res://assets/sounds/world/forcefield_toggle.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/world/animated/forcefield/shader_forcefield.tres" type="Shader" id=4]
+[ext_resource path="res://assets/primitives/cube_1x1x1.obj" type="ArrayMesh" id=5]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.5, 0.5 )
 
-[sub_resource type="CubeMesh" id=2]
-size = Vector3( 1, 1, 1 )
-
-[sub_resource type="SpatialMaterial" id=3]
-flags_transparent = true
-flags_unshaded = true
-albedo_color = Color( 0, 0.6, 1, 0.329412 )
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 4 )
 
 [node name="player_barrier_volume" type="KinematicBody"]
 collision_layer = 128
@@ -26,8 +23,8 @@ shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -0.5 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 3 )
+mesh = ExtResource( 5 )
+material/0 = SubResource( 2 )
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 2 )
