@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=12 format=2]
+[gd_resource type="VisualShader" load_steps=13 format=2]
 
 [ext_resource path="res://assets/world/animated/forcefield/forcefield_blue.png" type="Texture" id=1]
 
@@ -33,9 +33,24 @@ default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 1, 1, -1 ) ]
 
 [sub_resource type="VisualShaderNodeVectorOp" id=10]
 
+[sub_resource type="VisualShaderNodeExpression" id=11]
+size = Vector2( 450, 354 )
+expression = "vec3 triplanar_offset = vec3(0, 0, 0);
+vec3 triplanar_scale = vec3(1, 1, 1);
+vec3 triplanar_power_normal = pow(abs(NORMAL), vec3(0.5));
+
+triplanar_power_normal /= dot(triplanar_power_normal, vec3(1.0));
+vec3 triplanar_pos = VERTEX * triplanar_scale + triplanar_offset;
+vec2 samp = vec2(0.0);
+samp += triplanar_pos.xy * triplanar_power_normal.z;
+samp += triplanar_pos.xz * triplanar_power_normal.y;
+samp += triplanar_pos.zy * triplanar_power_normal.x;
+triplanar_uv_output = vec3(samp, 0);
+"
+
 [resource]
 code = "shader_type spatial;
-render_mode specular_schlick_ggx;
+render_mode specular_schlick_ggx, unshaded, shadows_disabled;
 
 uniform sampler2D tex_frg_2;
 uniform sampler2D tex_frg_7;
@@ -43,7 +58,26 @@ uniform sampler2D tex_frg_7;
 
 
 void vertex() {
+// Expression:2
+	vec3 n_out2p0;
+	n_out2p0 = vec3(0.0, 0.0, 0.0);
+	{
+		vec3 triplanar_offset = vec3(0, 0, 0);
+		vec3 triplanar_scale = vec3(1, 1, 1);
+		vec3 triplanar_power_normal = pow(abs(NORMAL), vec3(0.5));
+		
+		triplanar_power_normal /= dot(triplanar_power_normal, vec3(1.0));
+		vec3 triplanar_pos = VERTEX * triplanar_scale + triplanar_offset;
+		vec2 samp = vec2(0.0);
+		samp += triplanar_pos.xy * triplanar_power_normal.z;
+		samp += triplanar_pos.xz * triplanar_power_normal.y;
+		samp += triplanar_pos.zy * triplanar_power_normal.x;
+		n_out2p0 = vec3(samp, 0);
+		
+	}
+
 // Output:0
+	UV = n_out2p0.xy;
 
 }
 
@@ -95,14 +129,34 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -727.2, 114.85 )
+graph_offset = Vector2( 0, 239 )
+flags/shadows_disabled = true
+flags/unshaded = true
+nodes/vertex/2/node = SubResource( 11 )
+nodes/vertex/2/position = Vector2( -260, 80 )
+nodes/vertex/2/size = Vector2( 450, 354 )
+nodes/vertex/2/input_ports = ""
+nodes/vertex/2/output_ports = "0,1,triplanar_uv_output;"
+nodes/vertex/2/expression = "vec3 triplanar_offset = vec3(0, 0, 0);
+vec3 triplanar_scale = vec3(1, 1, 1);
+vec3 triplanar_power_normal = pow(abs(NORMAL), vec3(0.5));
+
+triplanar_power_normal /= dot(triplanar_power_normal, vec3(1.0));
+vec3 triplanar_pos = VERTEX * triplanar_scale + triplanar_offset;
+vec2 samp = vec2(0.0);
+samp += triplanar_pos.xy * triplanar_power_normal.z;
+samp += triplanar_pos.xz * triplanar_power_normal.y;
+samp += triplanar_pos.zy * triplanar_power_normal.x;
+triplanar_uv_output = vec3(samp, 0);
+"
+nodes/vertex/connections = PoolIntArray( 2, 0, 0, 4 )
 nodes/fragment/0/position = Vector2( 820, 100 )
 nodes/fragment/2/node = SubResource( 3 )
-nodes/fragment/2/position = Vector2( 200, -100 )
+nodes/fragment/2/position = Vector2( 340, -100 )
 nodes/fragment/3/node = SubResource( 4 )
-nodes/fragment/3/position = Vector2( -520, 220 )
+nodes/fragment/3/position = Vector2( -340, 360 )
 nodes/fragment/4/node = SubResource( 5 )
-nodes/fragment/4/position = Vector2( -380, 120 )
+nodes/fragment/4/position = Vector2( -320, 100 )
 nodes/fragment/5/node = SubResource( 6 )
 nodes/fragment/5/position = Vector2( -100, 80 )
 nodes/fragment/6/node = SubResource( 7 )
@@ -117,4 +171,4 @@ nodes/fragment/10/node = SubResource( 1 )
 nodes/fragment/10/position = Vector2( -151, 366 )
 nodes/fragment/11/node = SubResource( 2 )
 nodes/fragment/11/position = Vector2( 560, 260 )
-nodes/fragment/connections = PoolIntArray( 5, 0, 2, 0, 3, 0, 6, 0, 6, 0, 5, 1, 8, 0, 7, 0, 2, 0, 9, 0, 7, 0, 9, 1, 9, 0, 0, 0, 6, 0, 10, 0, 10, 0, 8, 1, 11, 0, 0, 1, 2, 1, 11, 0, 7, 1, 11, 1, 4, 0, 8, 0, 4, 0, 5, 0 )
+nodes/fragment/connections = PoolIntArray( 3, 0, 6, 0, 6, 0, 5, 1, 8, 0, 7, 0, 2, 0, 9, 0, 7, 0, 9, 1, 9, 0, 0, 0, 6, 0, 10, 0, 10, 0, 8, 1, 11, 0, 0, 1, 2, 1, 11, 0, 7, 1, 11, 1, 5, 0, 2, 0, 4, 0, 5, 0, 4, 0, 8, 0 )

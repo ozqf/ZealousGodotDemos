@@ -1,0 +1,12 @@
+[gd_resource type="Environment" format=2]
+
+[resource]
+background_mode = 1
+fog_enabled = true
+fog_color = Color( 0, 0, 0, 1 )
+fog_depth_begin = 30.0
+tonemap_mode = 3
+ss_reflections_enabled = true
+glow_enabled = true
+adjustment_enabled = true
+adjustment_contrast = 1.2
