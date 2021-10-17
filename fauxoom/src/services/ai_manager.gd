@@ -1,5 +1,7 @@
 extends Spatial
 
+var _navAgent_t = preload("res://src/defs/nav_agent.gd")
+
 onready var _testNavDest:Spatial = $test_nav_dest
 
 # Other services
@@ -72,6 +74,9 @@ func _process(_delta:float) -> void:
 # Registeration
 ###############
 
+func create_nav_agent() -> NavAgent:
+	return _navAgent_t.new()
+
 func register_nav_service(_newNavService:NavService) -> void:
 	_navService = _newNavService
 	print("Registered nav service")
@@ -122,6 +127,15 @@ func get_path_to_point(from:Vector3, to:Vector3) -> PoolVector3Array:
 	if _navService == null:
 		return PoolVector3Array()
 	return _navService.get_simple_path(from, to)
+
+func get_path_for_agent(agent:NavAgent) -> bool:
+	if _navService == null:
+		agent.hasPath = false
+		agent.path = []
+		return false
+	agent.path = _navService.get_simple_path(agent.position, agent.target)
+	agent.pathNumNodes = agent.path.size()
+	return true
 
 func debug_path(path:PoolVector3Array) -> void:
 	# clear current nodes

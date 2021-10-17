@@ -1,3 +1,4 @@
+# Mob movement base class
 extends Spatial
 class_name MobMotor
 

@@ -22,6 +22,7 @@ var _entRoot:Entities = null
 onready var _pregameUI:Control = $game_state_overlay/pregame
 onready var _completeUI:Control = $game_state_overlay/complete
 onready var _deathUI:Control = $game_state_overlay/death
+onready var _hintContainer:Control = $game_state_overlay/hint_text
 onready var _hintLabelTop:Label = $game_state_overlay/hint_text/hint_label_top
 
 onready var _camera:AttachableCamera = $attachable_camera
@@ -63,7 +64,7 @@ func _ready() -> void:
 	var _result = $game_state_overlay/death/menu/reset.connect("pressed", self, "on_clicked_reset")
 	_result = $game_state_overlay/complete/menu/reset.connect("pressed", self, "on_clicked_reset")
 	Main.set_camera(_camera)
-	_hintLabelTop.visible = false
+	_hintContainer.visible = false
 
 	# does checkpoint exist?
 	# if so we can have a 'continue' option
@@ -86,12 +87,12 @@ func show_hint_text(txt:String) -> void:
 	print("Show hint text")
 	_hintTextTick = 3
 	_hintLabelTop.text = txt
-	_hintLabelTop.visible = true
+	_hintContainer.visible = true
 
 func _process(_delta:float) -> void:
 	if get_tree().paused == false:
 		if _hintTextTick <= 0:
-			_hintLabelTop.visible = false
+			_hintContainer.visible = false
 		else:
 			_hintTextTick -= _delta
 	# if _state == GameState.Pregame && _hasPlayerStart:

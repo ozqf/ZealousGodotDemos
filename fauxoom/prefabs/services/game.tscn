@@ -144,6 +144,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="TextureRect" type="ColorRect" parent="game_state_overlay/hint_text"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -192.0
+margin_top = 128.0
+margin_right = 192.0
+margin_bottom = 256.0
+color = Color( 0, 0, 0, 0.505882 )
+
 [node name="hint_label_top" type="Label" parent="game_state_overlay/hint_text"]
 anchor_left = 0.5
 anchor_right = 0.5

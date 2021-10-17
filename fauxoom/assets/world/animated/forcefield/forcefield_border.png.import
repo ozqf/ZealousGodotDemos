@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/forcefield_blue.png-3bc5f29134cf4c86dd491e2c99385150.s3tc.stex"
-path.etc2="res://.import/forcefield_blue.png-3bc5f29134cf4c86dd491e2c99385150.etc2.stex"
+path.s3tc="res://.import/forcefield_border.png-f8c0efb4b5934e06b44c290431a626c1.s3tc.stex"
+path.etc2="res://.import/forcefield_border.png-f8c0efb4b5934e06b44c290431a626c1.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/world/animated/forcefield/forcefield_blue.png"
-dest_files=[ "res://.import/forcefield_blue.png-3bc5f29134cf4c86dd491e2c99385150.s3tc.stex", "res://.import/forcefield_blue.png-3bc5f29134cf4c86dd491e2c99385150.etc2.stex" ]
+source_file="res://assets/world/animated/forcefield/forcefield_border.png"
+dest_files=[ "res://.import/forcefield_border.png-f8c0efb4b5934e06b44c290431a626c1.s3tc.stex", "res://.import/forcefield_border.png-f8c0efb4b5934e06b44c290431a626c1.etc2.stex" ]
 
 [params]
 
@@ -22,7 +22,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=true
-flags/filter=false
+flags/filter=true
 flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2

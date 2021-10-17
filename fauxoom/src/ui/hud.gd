@@ -27,6 +27,7 @@ onready var _handLeft:AnimatedSprite = $bottom_left/left_hand
 
 # player status
 onready var _prompt:Label = $centre/interact_prompt
+onready var _promptBG:ColorRect = $centre/interact_prompt_bg
 onready var _energyBar:TextureProgress = $centre/energy
 onready var _healthBar:TextureProgress = $centre/health
 
@@ -168,6 +169,7 @@ func player_status_update(data:Dictionary) -> void:
 	_healthBar.visible = (_healthBar.value < 100)
 	_swayTime = data.swayTime 
 	_prompt.visible = data.hasInteractionTarget
+	_promptBG.visible = data.hasInteractionTarget
 
 	# counts
 	_healthCount.text = str(data.health)
