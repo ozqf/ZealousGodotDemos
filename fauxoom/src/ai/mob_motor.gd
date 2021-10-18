@@ -95,7 +95,7 @@ func set_move_target(target:Vector3) -> void:
 func set_move_target_forward(targetForward:Vector3) -> void:
 	_targetForward = targetForward
 
-func _set_yaw_by_velocity(velocity:Vector3) -> void:
+func _set_yaw_by_vector3(velocity:Vector3) -> void:
 	velocity.y = 0
 	var radians:float = atan2(velocity.x, velocity.z)
 	rotation.y = radians
@@ -113,4 +113,3 @@ func damage_hit(_hitInfo:HitInfo) -> void:
 	if _stunned:
 		strength = 1.5
 	_velocity += _hitInfo.direction * strength
-

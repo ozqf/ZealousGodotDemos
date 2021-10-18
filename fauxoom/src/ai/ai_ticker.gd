@@ -126,7 +126,8 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 		if _tickInfo.trueDistance > 5:
 			_mob.motor.move_hunt(_delta)
 			set_rotation_to_movement()
-		if _tick <= 0 && _tickInfo.trueDistance <= 25:
+		if _tick <= 0 && _tickInfo.trueDistance <= 25 && _tickInfo.canSeeTarget:
+			print("AI ticker - attack")
 			_start_attack(_delta, _tickInfo)
 			set_rotation_to_target(_tickInfo.targetPos)
 	

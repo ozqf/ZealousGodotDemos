@@ -272,6 +272,7 @@ func _build_tick_info(targetInfo:Dictionary) -> void:
 	# fill in further details
 	_aiTickInfo.trueDistance = ZqfUtils.distance_between(selfPos, tarPos)
 	_aiTickInfo.flatDistance = ZqfUtils.flat_distance_between(selfPos, tarPos)
+	_aiTickInfo.canSeeTarget = AI.check_los_to_player(selfPos)
 
 func _process(_delta:float) -> void:
 	frameCount += 1

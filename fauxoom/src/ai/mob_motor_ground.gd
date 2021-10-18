@@ -21,7 +21,7 @@ func _update_path() -> void:
 		_agent.pathIndex = 0
 	else:
 		_agent.pathIndex = -1
-	print("Ground motor got " + str(_agent.pathNumNodes) + " path nodes")
+#	print("Ground motor got " + str(_agent.pathNumNodes) + " path nodes")
 
 func move_hunt(_delta:float) -> void:
 	if _pathTick <= 0:
@@ -43,8 +43,9 @@ func move_hunt(_delta:float) -> void:
 			# drop out, no movement to perform
 			return
 		nodePos = _agent.path[_agent.pathIndex]
-	var toward:Vector3 = nodePos - selfPos
-	toward = toward.normalized()
-	_set_yaw_by_velocity(toward)
-	toward *= 5
-	_body.move_and_slide(toward, Vector3.UP)
+	var towardPath:Vector3 = nodePos - selfPos
+	towardPath = towardPath.normalized()
+	var towardTarget:Vector3 = _target - selfPos
+	_set_yaw_by_vector3(towardTarget)
+	towardPath *= 5
+	_body.move_and_slide(towardPath, Vector3.UP)
