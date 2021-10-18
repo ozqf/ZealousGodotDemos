@@ -11,11 +11,13 @@ var _data:Dictionary = {
 	super_shotgun = { count = 0, max = 1 },
 	plasma_gun = { count = 0, max = 1 },
 	rocket_launcher = { count = 0, max = 1 },
+	flame_thrower = { count = 0, max = 1 },
 
 	bullets = { count = 100, max = 300 },
 	shells = { count = 0, max = 50 },
 	plasma = { count = 0, max = 20 },
-	rockets = { count = 0, max = 50 }
+	rockets = { count = 0, max = 50 },
+	fuel = { count = 0, max = 300 }
 }
 
 var weapons = []

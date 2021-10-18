@@ -12,6 +12,7 @@ const PlasmaGunLabel:String = "pg"
 const AmmoTypeBullets:String = "bullets"
 const AmmoTypeShells:String = "shells"
 const AmmoTypeRockets:String = "rockets"
+const AmmoTypeFuel:String = "fuel"
 
 const weapons:Dictionary = {
 	ChainsawLabel: {
@@ -86,7 +87,7 @@ const weapons:Dictionary = {
 		"idle": "ft_idle",
 		"shoot": "ft_shoot",
 		"y": 472,
-		"ammoType": AmmoTypeRockets,
+		"ammoType": AmmoTypeFuel,
 		"refireTime": 0.5,
 		"extraPellets": 0,
 		"projectileType": "player_flame",

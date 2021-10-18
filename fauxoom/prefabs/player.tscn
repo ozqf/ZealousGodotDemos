@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://assets/sprites/player/player_a1.png" type="Texture" id=1]
 [ext_resource path="res://src/player/player.gd" type="Script" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://src/ui/hud_pickup_messages.gd" type="Script" id=23]
 [ext_resource path="res://src/ui/hud_inventory.gd" type="Script" id=24]
 [ext_resource path="res://zqf/timed_self_hide.gd" type="Script" id=25]
+[ext_resource path="res://src/inventory/inv_flame_thrower.gd" type="Script" id=26]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -151,6 +152,16 @@ ammoType = "rockets"
 slot = 5
 idle = "rl_idle"
 fire_1 = "rl_shoot"
+
+[node name="flame_thrower" type="Node" parent="inventory/weapons"]
+script = ExtResource( 26 )
+hudName = "Flame Thrower"
+inventoryType = "flame_thrower"
+ammoType = "fuel"
+slot = 6
+refireTime = 0.05
+idle = "ft_idle"
+fire_1 = "ft_shoot"
 
 [node name="offhand" type="Node" parent="inventory/weapons"]
 script = ExtResource( 19 )
