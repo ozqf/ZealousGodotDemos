@@ -7,7 +7,10 @@ const STATE_HUNT:int = 1
 const STATE_PATROL:int = 2
 const STATE_LEAP:int = 3
 
-var _floorInFront:RayCast
+onready var _floorFront:RayCast = $floor_in_front
+onready var _floorBack:RayCast = $floor_behind
+onready var _floorLeft:RayCast = $floor_left
+onready var _floorRight:RayCast = $floor_right
 
 enum MobMoveType {
 	Ground,
@@ -52,7 +55,7 @@ var _targetForward:Vector3 = Vector3()
 func custom_init(body:KinematicBody) -> void:
 	_body = body
 	_mob = _body
-	_floorInFront = $floor_in_front
+	# _floorFront = $floor_in_front
 	if moveType == MobMoveType.Flying:
 		print("Mob motor is flying")
 
@@ -91,6 +94,11 @@ func set_move_target(target:Vector3) -> void:
 
 func set_move_target_forward(targetForward:Vector3) -> void:
 	_targetForward = targetForward
+
+func _set_yaw_by_velocity(velocity:Vector3) -> void:
+	velocity.y = 0
+	var radians:float = atan2(velocity.x, velocity.z)
+	rotation.y = radians
 
 func _set_move_yaw(radians:float) -> void:
 	moveYaw = radians

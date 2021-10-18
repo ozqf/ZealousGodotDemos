@@ -78,7 +78,7 @@ func _hunt_ground(_delta:float) -> void:
 	_tick -= _delta
 	# var speed:float = 4.5
 	_set_move_yaw(_calc_move_yaw())
-	if _floorInFront != null && !_floorInFront.is_colliding():
+	if _floorFront != null && !_floorFront.is_colliding():
 		# print("No floor!")
 		move_idle(_delta, 0.5)
 		return

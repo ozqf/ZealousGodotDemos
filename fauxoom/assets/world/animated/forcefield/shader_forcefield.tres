@@ -9,42 +9,42 @@ operator = 2
 
 [sub_resource type="VisualShaderNodeScalarOp" id=2]
 
-[sub_resource type="VisualShaderNodeTexture" id=12]
+[sub_resource type="VisualShaderNodeTexture" id=3]
 texture = ExtResource( 2 )
 
-[sub_resource type="VisualShaderNodeVectorOp" id=13]
+[sub_resource type="VisualShaderNodeVectorOp" id=4]
 
-[sub_resource type="VisualShaderNodeScalarOp" id=14]
+[sub_resource type="VisualShaderNodeScalarOp" id=5]
 
-[sub_resource type="VisualShaderNodeInput" id=16]
+[sub_resource type="VisualShaderNodeInput" id=6]
 input_name = "uv2"
 
-[sub_resource type="VisualShaderNodeTexture" id=3]
+[sub_resource type="VisualShaderNodeTexture" id=7]
 output_port_for_preview = 0
 texture = ExtResource( 1 )
 
-[sub_resource type="VisualShaderNodeInput" id=4]
+[sub_resource type="VisualShaderNodeInput" id=8]
 input_name = "time"
 
-[sub_resource type="VisualShaderNodeInput" id=5]
+[sub_resource type="VisualShaderNodeInput" id=9]
 input_name = "uv"
-
-[sub_resource type="VisualShaderNodeVectorOp" id=6]
-
-[sub_resource type="VisualShaderNodeScalarOp" id=7]
-default_input_values = [ 0, 0.0, 1, 8.0 ]
-operator = 3
-
-[sub_resource type="VisualShaderNodeTexture" id=8]
-output_port_for_preview = 0
-texture = ExtResource( 1 )
-
-[sub_resource type="VisualShaderNodeVectorOp" id=9]
-default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 1, 1, -1 ) ]
 
 [sub_resource type="VisualShaderNodeVectorOp" id=10]
 
-[sub_resource type="VisualShaderNodeExpression" id=11]
+[sub_resource type="VisualShaderNodeScalarOp" id=11]
+default_input_values = [ 0, 0.0, 1, 8.0 ]
+operator = 3
+
+[sub_resource type="VisualShaderNodeTexture" id=12]
+output_port_for_preview = 0
+texture = ExtResource( 1 )
+
+[sub_resource type="VisualShaderNodeVectorOp" id=13]
+default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 1, 1, -1 ) ]
+
+[sub_resource type="VisualShaderNodeVectorOp" id=14]
+
+[sub_resource type="VisualShaderNodeExpression" id=15]
 size = Vector2( 450, 354 )
 expression = "vec3 triplanar_offset = vec3(0, 0, 0);
 vec3 triplanar_scale = vec3(1, 1, 1);
@@ -59,7 +59,7 @@ samp += triplanar_pos.zy * triplanar_power_normal.x;
 triplanar_uv_output = vec3(samp, 0);
 "
 
-[sub_resource type="VisualShaderNodeInput" id=15]
+[sub_resource type="VisualShaderNodeInput" id=16]
 input_name = "uv"
 
 [resource]
@@ -165,7 +165,7 @@ void light() {
 graph_offset = Vector2( -512, -113.5 )
 flags/shadows_disabled = true
 flags/unshaded = true
-nodes/vertex/2/node = SubResource( 11 )
+nodes/vertex/2/node = SubResource( 15 )
 nodes/vertex/2/position = Vector2( -260, 80 )
 nodes/vertex/2/size = Vector2( 450, 354 )
 nodes/vertex/2/input_ports = ""
@@ -182,36 +182,36 @@ samp += triplanar_pos.xz * triplanar_power_normal.y;
 samp += triplanar_pos.zy * triplanar_power_normal.x;
 triplanar_uv_output = vec3(samp, 0);
 "
-nodes/vertex/3/node = SubResource( 15 )
+nodes/vertex/3/node = SubResource( 16 )
 nodes/vertex/3/position = Vector2( 240, 300 )
 nodes/vertex/connections = PoolIntArray( 2, 0, 0, 4, 3, 0, 0, 5 )
 nodes/fragment/0/position = Vector2( 1100, 20 )
-nodes/fragment/2/node = SubResource( 3 )
+nodes/fragment/2/node = SubResource( 7 )
 nodes/fragment/2/position = Vector2( 340, -100 )
-nodes/fragment/3/node = SubResource( 4 )
+nodes/fragment/3/node = SubResource( 8 )
 nodes/fragment/3/position = Vector2( -540, 80 )
-nodes/fragment/4/node = SubResource( 5 )
+nodes/fragment/4/node = SubResource( 9 )
 nodes/fragment/4/position = Vector2( -540, 0 )
-nodes/fragment/5/node = SubResource( 6 )
+nodes/fragment/5/node = SubResource( 10 )
 nodes/fragment/5/position = Vector2( -80, 60 )
-nodes/fragment/6/node = SubResource( 7 )
+nodes/fragment/6/node = SubResource( 11 )
 nodes/fragment/6/position = Vector2( -340, 220 )
-nodes/fragment/7/node = SubResource( 8 )
+nodes/fragment/7/node = SubResource( 12 )
 nodes/fragment/7/position = Vector2( 280, 300 )
-nodes/fragment/8/node = SubResource( 9 )
+nodes/fragment/8/node = SubResource( 13 )
 nodes/fragment/8/position = Vector2( 80, 320 )
-nodes/fragment/9/node = SubResource( 10 )
+nodes/fragment/9/node = SubResource( 14 )
 nodes/fragment/9/position = Vector2( 560, 20 )
 nodes/fragment/10/node = SubResource( 1 )
 nodes/fragment/10/position = Vector2( -151, 366 )
 nodes/fragment/11/node = SubResource( 2 )
 nodes/fragment/11/position = Vector2( 560, 260 )
-nodes/fragment/12/node = SubResource( 12 )
+nodes/fragment/12/node = SubResource( 3 )
 nodes/fragment/12/position = Vector2( 560, -320 )
-nodes/fragment/13/node = SubResource( 13 )
+nodes/fragment/13/node = SubResource( 4 )
 nodes/fragment/13/position = Vector2( 860, -20 )
-nodes/fragment/14/node = SubResource( 14 )
+nodes/fragment/14/node = SubResource( 5 )
 nodes/fragment/14/position = Vector2( 860, 120 )
-nodes/fragment/15/node = SubResource( 16 )
+nodes/fragment/15/node = SubResource( 6 )
 nodes/fragment/15/position = Vector2( -540, -80 )
 nodes/fragment/connections = PoolIntArray( 3, 0, 6, 0, 6, 0, 5, 1, 8, 0, 7, 0, 2, 0, 9, 0, 7, 0, 9, 1, 6, 0, 10, 0, 10, 0, 8, 1, 2, 1, 11, 0, 7, 1, 11, 1, 5, 0, 2, 0, 4, 0, 5, 0, 4, 0, 8, 0, 13, 0, 0, 0, 11, 0, 14, 1, 12, 1, 14, 0, 14, 0, 0, 1, 15, 0, 12, 0, 9, 0, 13, 1, 12, 0, 13, 0 )

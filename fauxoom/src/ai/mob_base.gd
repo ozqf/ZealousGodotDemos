@@ -42,6 +42,8 @@ var aimLaser = null
 var omniCharge:OmniAttackCharge
 var frameCount:int = 0
 
+var _tarInfoFields = [ "id", "position", "forward", "flatForward", "yawDegrees" ]
+
 export var triggerTargets:String = ""
 
 enum MobState {
@@ -238,8 +240,6 @@ func face_target_flat(tar:Vector3) -> void:
 	var pos:Vector3 = global_transform.origin
 	tar.y = pos.y
 	# look_at(tar, Vector3.UP)
-
-var _tarInfoFields = [ "id", "position", "forward", "flatForward", "yawDegrees" ]
 
 func build_tick_info(targetInfo:Dictionary) -> void:
 	if targetInfo.id == 0:

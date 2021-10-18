@@ -45,5 +45,6 @@ func move_hunt(_delta:float) -> void:
 		nodePos = _agent.path[_agent.pathIndex]
 	var toward:Vector3 = nodePos - selfPos
 	toward = toward.normalized()
+	_set_yaw_by_velocity(toward)
 	toward *= 5
 	_body.move_and_slide(toward, Vector3.UP)

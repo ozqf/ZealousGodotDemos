@@ -16,6 +16,7 @@ export var active:bool = true
 # purely for debugging so volume can be visualised
 export var noAutoHide:bool = false
 export var hintMessage:String = ""
+export var touchDamage:int = 0
 
 var _resetTick:float = 0
 
@@ -78,7 +79,7 @@ func _on_body_entered(_body:PhysicsBody) -> void:
 		var to:Vector3 = target.global_transform.origin
 		print("Teleport subject from " + str(from) + " to " + str(to))
 		_body.teleport(target.global_transform)
-		if _body.has_method("hit"):
+		if touchDamage > 0 && _body.has_method("hit"):
 			var info = Game.new_hit_info()
 			info.damage = 15
 			info.damageType = Interactions.DAMAGE_TYPE_VOID

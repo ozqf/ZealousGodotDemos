@@ -135,6 +135,8 @@ func get_path_for_agent(agent:NavAgent) -> bool:
 		return false
 	agent.path = _navService.get_simple_path(agent.position, agent.target)
 	agent.pathNumNodes = agent.path.size()
+	for _i in range(0, agent.pathNumNodes):
+		agent.path[_i].y -= 0.2
 	return true
 
 func debug_path(path:PoolVector3Array) -> void:
