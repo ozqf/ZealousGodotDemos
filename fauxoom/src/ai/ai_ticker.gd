@@ -85,18 +85,18 @@ func change_state(newState:int) -> void:
 func custom_change_state(_newState:int, _oldState:int) -> bool:
 	return false
 
-func _start_attack(_delta:float, _targetInfo:Dictionary) -> void:
-	_attackIndex = _select_attack(_targetInfo)
+func _start_attack(_delta:float, _tickInfo:AITickInfo) -> void:
+	_attackIndex = _select_attack(_tickInfo)
 	if _attackIndex < 0:
 		return
 	# maxCycles = _mob.attacks[_attackIndex].attackCount
 	_cycles = 0
-	lastTarPos = _targetInfo.position
+	lastTarPos = _tickInfo.targetPos
 	_mob.face_target_flat(lastTarPos)
 	change_state(STATE_WINDUP)
 
-func _select_attack(_targetInfo:Dictionary) -> int:
-	var dist:float = _targetInfo.trueDistance
+func _select_attack(_tickInfo:AITickInfo) -> int:
+	var dist:float = _tickInfo.trueDistance
 	var numAttacks:int = _mob.attacks.size()
 	for _i in range (0, numAttacks):
 		var att:MobAttack = _mob.attacks[_i]
@@ -115,32 +115,32 @@ func set_rotation_to_target(pos:Vector3) -> void:
 	yawDegrees = rad2deg(yawDegrees)
 	_mob.sprite.yawDegrees = yawDegrees
 
-func custom_tick_state(_delta:float, _targetInfo:Dictionary) -> void:
+func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 	
 	if _state == STATE_MOVE:
 		if isSniper:
-			_start_attack(_delta, _targetInfo)
+			_start_attack(_delta, _tickInfo)
 			return
-		_mob.motor.set_move_target(_targetInfo.position)
-		_mob.motor.set_move_target_forward(_targetInfo.forward)
-		if _targetInfo.trueDistance > 5:
+		_mob.motor.set_move_target(_tickInfo.targetPos)
+		_mob.motor.set_move_target_forward(_tickInfo.targetForward)
+		if _tickInfo.trueDistance > 5:
 			_mob.motor.move_hunt(_delta)
 			set_rotation_to_movement()
-		if _tick <= 0 && _targetInfo.trueDistance <= 25:
-			_start_attack(_delta, _targetInfo)
-			set_rotation_to_target(_targetInfo.position)
+		if _tick <= 0 && _tickInfo.trueDistance <= 25:
+			_start_attack(_delta, _tickInfo)
+			set_rotation_to_target(_tickInfo.targetPos)
 	
 	elif _state == STATE_WINDUP:
 		_mob.motor.move_idle(_delta)
 		if get_attack().faceTargetDuringWindup:
-			_mob.head.look_at(_targetInfo.position, Vector3.UP)
-			lastTarPos = _targetInfo.position
+			_mob.head.look_at(_tickInfo.targetPos, Vector3.UP)
+			lastTarPos = _tickInfo.targetPos
 			_mob.face_target_flat(lastTarPos)
 		if _tick <= 0:
 			change_state(STATE_ATTACK)
 	elif _state == STATE_ATTACK:
 		_mob.motor.move_idle(_delta)
-		# _mob.face_target_flat(_targetInfo.position)
+		# _mob.face_target_flat(_tickInfo.targetPos)
 		if _tick <= 0:
 			_cycles += 1
 			if _cycles < get_attack().attackCount:
@@ -155,7 +155,7 @@ func custom_tick_state(_delta:float, _targetInfo:Dictionary) -> void:
 	else:
 		change_state(STATE_MOVE)
 
-func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
+func custom_tick(_delta:float, _tickInfo:AITickInfo) -> void:
 	_tick -= _delta
-	custom_tick_state(_delta, _targetInfo)
+	custom_tick_state(_delta, _tickInfo)
 	

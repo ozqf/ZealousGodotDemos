@@ -42,7 +42,7 @@ var aimLaser = null
 var omniCharge:OmniAttackCharge
 var frameCount:int = 0
 
-var _tarInfoFields = [ "id", "position", "forward", "flatForward", "yawDegrees" ]
+# var _tarInfoFields = [ "id", "position", "forward", "flatForward", "yawDegrees" ]
 
 export var triggerTargets:String = ""
 
@@ -69,11 +69,13 @@ var _prevState = MobState.Idle
 # by other AI, so consider it read only!
 # var _targetInfo: Dictionary = { id = 0 }
 
-var _tickInfo:Dictionary = {
-	id = 0,
-	trueDistance = 0,
-	flatDistance = 0
-}
+# var _tickInfo:Dictionary = {
+# 	id = 0,
+# 	trueDistance = 0,
+# 	flatDistance = 0
+# }
+
+var _aiTickInfo:AITickInfo = null
 
 var _thinkTick:float = 0
 
@@ -92,6 +94,7 @@ func _ready() -> void:
 	_healthMax = _health
 	aimLaser = self.get_node_or_null("head/mob_aim_laser")
 	omniCharge = self.get_node_or_null("head/omni_attack_charge")
+	_aiTickInfo = AI.create_tick_info()
 	_gather_attacks()
 	motor.custom_init(self)
 	motor.speed = _stats.moveSpeed
@@ -241,17 +244,34 @@ func face_target_flat(tar:Vector3) -> void:
 	tar.y = pos.y
 	# look_at(tar, Vector3.UP)
 
-func build_tick_info(targetInfo:Dictionary) -> void:
-	if targetInfo.id == 0:
-		_tickInfo.id = 0
+# func build_tick_info(targetInfo:Dictionary) -> void:
+# 	if targetInfo.id == 0:
+# 		_tickInfo.id = 0
+# 		return
+# 	# copy targetting data
+# 	for key in _tarInfoFields:
+# 		_tickInfo[key] = targetInfo[key]
+# 	var selfPos:Vector3 = global_transform.origin
+# 	var tarPos:Vector3 = _tickInfo.position
+# 	_tickInfo.trueDistance = ZqfUtils.distance_between(selfPos, tarPos)
+# 	_tickInfo.flatDistance = ZqfUtils.flat_distance_between(selfPos, tarPos)
+
+func _build_tick_info(targetInfo:Dictionary) -> void:
+	_aiTickInfo.id = targetInfo.id
+	if _aiTickInfo.id == 0:
 		return
+
 	# copy targetting data
-	for key in _tarInfoFields:
-		_tickInfo[key] = targetInfo[key]
 	var selfPos:Vector3 = global_transform.origin
-	var tarPos:Vector3 = _tickInfo.position
-	_tickInfo.trueDistance = ZqfUtils.distance_between(selfPos, tarPos)
-	_tickInfo.flatDistance = ZqfUtils.flat_distance_between(selfPos, tarPos)
+	var tarPos:Vector3 = targetInfo.position
+	_aiTickInfo.selfPos = selfPos
+	_aiTickInfo.targetPos = tarPos
+	_aiTickInfo.targetForward = targetInfo.forward
+	_aiTickInfo.targetYaw = targetInfo.yawDegrees
+
+	# fill in further details
+	_aiTickInfo.trueDistance = ZqfUtils.distance_between(selfPos, tarPos)
+	_aiTickInfo.flatDistance = ZqfUtils.flat_distance_between(selfPos, tarPos)
 
 func _process(_delta:float) -> void:
 	frameCount += 1
@@ -259,12 +279,14 @@ func _process(_delta:float) -> void:
 	# head.rotation.y = motor.moveYaw
 
 	if _state == MobState.Hunting:
-		build_tick_info(AI.mob_check_target(_tickInfo))
-		if _tickInfo.id == 0:
+		# build_tick_info(AI.mob_check_target(_tickInfo))
+		var targetInfo:Dictionary = AI.mob_check_target()
+		_build_tick_info(targetInfo)
+		if _aiTickInfo.id == 0:
 			# lost target
 			_change_state(MobState.Idle)
 		else:
-			_ticker.custom_tick(_delta, _tickInfo)
+			_ticker.custom_tick(_delta, _aiTickInfo)
 		# sprite.yawDegrees = rad2deg(motor.moveYaw)
 	elif _state == MobState.Idle:
 		if _thinkTick <= 0:

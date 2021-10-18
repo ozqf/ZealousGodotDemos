@@ -30,7 +30,7 @@ func stop_hunt() -> void:
 	_damage_area_off()
 	.stop_hunt()
 
-func custom_tick(_delta:float, _targetInfo:Dictionary) -> void:
+func custom_tick(_delta:float, _targetInfo:AITickInfo) -> void:
 	_tick -= _delta
 	if _state == STATE_MOVE:
 		var pos:Vector3 = _mob.global_transform.origin

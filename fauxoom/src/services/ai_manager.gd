@@ -1,6 +1,7 @@
 extends Spatial
 
 var _navAgent_t = preload("res://src/defs/nav_agent.gd")
+var _aiTickInfo_t = preload("res://src/defs/ai_tick_info.gd")
 
 onready var _testNavDest:Spatial = $test_nav_dest
 
@@ -76,6 +77,9 @@ func _process(_delta:float) -> void:
 
 func create_nav_agent() -> NavAgent:
 	return _navAgent_t.new()
+
+func create_tick_info() -> AITickInfo:
+	return _aiTickInfo_t.new()
 
 func register_nav_service(_newNavService:NavService) -> void:
 	_navService = _newNavService
@@ -195,7 +199,7 @@ func mob_check_target_old(_current:Spatial) -> Spatial:
 		return null
 	return _player as Spatial
 
-func mob_check_target(_current:Dictionary) -> Dictionary:
+func mob_check_target() -> Dictionary:
 	if !_player || _noTarget:
 		return _emptyTargetInfo
 	return _player.get_targetting_info()
