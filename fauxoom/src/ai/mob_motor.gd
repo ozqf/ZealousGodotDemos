@@ -36,6 +36,7 @@ var moveYaw:float = 0.0
 var speed:float = 4.5
 
 # protected
+var _agent:NavAgent = null
 
 # components
 var _body:KinematicBody = null
@@ -53,11 +54,15 @@ var _target:Vector3 = Vector3()
 var _targetForward:Vector3 = Vector3()
 
 func custom_init(body:KinematicBody) -> void:
+	_agent = AI.create_nav_agent()
 	_body = body
 	_mob = _body
 	# _floorFront = $floor_in_front
 	if moveType == MobMoveType.Flying:
 		print("Mob motor is flying")
+
+func get_agent() -> NavAgent:
+	return _agent
 
 func motor_change_state(state:int) -> void:
 	_state = state

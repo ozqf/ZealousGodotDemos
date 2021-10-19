@@ -47,6 +47,11 @@ func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
 		blood.global_transform.origin = (pos + offset)
 
 func hit(_hitInfo:HitInfo) -> int:
+	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+		# gib - remove self
+		Game.spawn_gibs(global_transform.origin, Vector3.UP, 8)
+		_state = CorpseState.Unresponsive
+		self.queue_free()
 	if _state == CorpseState.Unresponsive:
 		return Interactions.HIT_RESPONSE_PENETRATE
 	

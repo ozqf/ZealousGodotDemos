@@ -139,8 +139,13 @@ func get_path_for_agent(agent:NavAgent) -> bool:
 		return false
 	agent.path = _navService.get_simple_path(agent.position, agent.target)
 	agent.pathNumNodes = agent.path.size()
+	if agent.pathNumNodes == 0:
+		print("Agent path has zero nodes from " + str(agent.position) + " to " + str(agent.target))
+	else:
+		print("Agent path has " + str(agent.pathNumNodes) + " nodes")
 	for _i in range(0, agent.pathNumNodes):
-		agent.path[_i].y -= 0.2
+		agent.path[_i].y -= 0.4
+	# debug_path(agent.path)
 	return true
 
 func debug_path(path:PoolVector3Array) -> void:
@@ -157,7 +162,7 @@ func debug_path(path:PoolVector3Array) -> void:
 		add_child(pointObj)
 		pointObj.global_transform.origin = path[i]
 		_debugPathPoints.push_back(pointObj)
-		if previous != null:
+		if previous != null && previous.global_transform.origin != path[i]:
 			previous.look_at(path[i], Vector3.UP)
 		previous = pointObj
 
@@ -172,6 +177,8 @@ func check_los_to_player(origin:Vector3) -> bool:
 	if !info:
 		return false
 	var dest = info.position
+	var playerOffset:Vector3 = Vector3(0, 0.5, 0)
+	origin = origin + playerOffset
 	return ZqfUtils.los_check(_entRoot, origin, dest, 1)
 
 func get_distance_to_player(origin:Vector3) -> float:
@@ -200,7 +207,7 @@ func mob_check_target_old(_current:Spatial) -> Spatial:
 	return _player as Spatial
 
 func mob_check_target() -> Dictionary:
-	if !_player || _noTarget:
+	if !_player || _noTarget || !is_instance_valid(_player):
 		return _emptyTargetInfo
 	return _player.get_targetting_info()
 
@@ -209,7 +216,7 @@ func get_player_target() -> Dictionary:
 		return _emptyTargetInfo
 	return _player.get_targetting_info()
 
-func _find_closest_node(_agent:Dictionary, canSeePlayer:bool) -> bool:
+func _find_closest_node(_agent:NavAgent, canSeePlayer:bool) -> bool:
 	var resultNodeIndex:int = -1
 	var resultNodePos:Vector3 = Vector3()
 	var resultNodeDistSqr:float = 999999.0
@@ -245,8 +252,8 @@ func _find_closest_node(_agent:Dictionary, canSeePlayer:bool) -> bool:
 		_agent.target = resultNodePos
 		return true
 
-func find_flee_position(_agent:Dictionary) -> bool:
+func find_flee_position(_agent:NavAgent) -> bool:
 	return _find_closest_node(_agent, false)
 
-func find_melee_position(_agent:Dictionary) -> bool:
+func find_melee_position(_agent:NavAgent) -> bool:
 	return _find_closest_node(_agent, true)

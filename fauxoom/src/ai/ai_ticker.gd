@@ -116,14 +116,19 @@ func set_rotation_to_target(pos:Vector3) -> void:
 	_mob.sprite.yawDegrees = yawDegrees
 
 func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
-	
 	if _state == STATE_MOVE:
 		if isSniper:
 			_start_attack(_delta, _tickInfo)
 			return
-		_mob.motor.set_move_target(_tickInfo.targetPos)
-		_mob.motor.set_move_target_forward(_tickInfo.targetForward)
-		if _tickInfo.trueDistance > 5:
+		if _tickInfo.healthPercentage > 50:
+			_mob.motor.set_move_target(_tickInfo.targetPos)
+			_mob.motor.set_move_target_forward(_tickInfo.targetForward)
+		else:
+			# pick a flee point
+			if AI.find_flee_position(_mob.motor.get_agent()):
+				_mob.motor.set_move_target(_mob.motor.get_agent().target)
+			pass
+		if _tickInfo.trueDistance > 2:
 			_mob.motor.move_hunt(_delta)
 			set_rotation_to_movement()
 		if _tick <= 0 && _tickInfo.trueDistance <= 25 && _tickInfo.canSeeTarget:

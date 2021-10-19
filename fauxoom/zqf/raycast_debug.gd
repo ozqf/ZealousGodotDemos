@@ -10,7 +10,7 @@ func _process(_delta:float) -> void:
 		return
 	var selfPos:Vector3 = global_transform.origin
 	var point:Vector3 = AI.find_closest_navmesh_point(selfPos)
-	if selfPos.distance_to(point) < 0.1:
+	if selfPos.distance_to(point) < 0.5:
 		visible = true
 	else:
 		visible = false

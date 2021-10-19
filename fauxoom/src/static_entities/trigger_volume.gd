@@ -85,7 +85,7 @@ func _on_body_entered(_body:PhysicsBody) -> void:
 		_body.teleport(target.global_transform)
 		if touchDamage > 0 && _body.has_method("hit"):
 			var info = Game.new_hit_info()
-			info.damage = 15
+			info.damage = touchDamage
 			info.damageType = Interactions.DAMAGE_TYPE_VOID
 			info.attackTeam = Interactions.TEAM_NONE
 			info.origin = _body.global_transform.origin - Vector3(0, 1, 0)

@@ -149,11 +149,8 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		AI.set_test_nav_dest(to)
 
 	if _txt == "findmelee":
-		var agent:Dictionary = {
-			position = global_transform.origin,
-			target = Vector3(),
-			nodeIndex = -1
-		}
+		var agent:NavAgent = AI.create_nav_agent()
+		agent.position = global_transform.origin
 		if AI.find_melee_position(agent):
 			print("Melee target " + str(agent.nodeIndex) + " at " + str(agent.target))
 			AI.set_test_nav_dest(agent.target)
@@ -163,11 +160,13 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 			print("No viable Melee target")
 	# ai test find flee
 	if _txt == "findflee":
-		var agent:Dictionary = {
-			position = global_transform.origin,
-			target = Vector3(),
-			nodeIndex = -1
-		}
+		var agent:NavAgent = AI.create_nav_agent()
+		agent.position = global_transform.origin
+		# var agent:Dictionary = {
+		# 	position = global_transform.origin,
+		# 	target = Vector3(),
+		# 	nodeIndex = -1
+		# }
 		if AI.find_flee_position(agent):
 			print("Flee target " + str(agent.nodeIndex) + " at " + str(agent.target))
 			AI.set_test_nav_dest(agent.target)

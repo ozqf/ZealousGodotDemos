@@ -1,15 +1,12 @@
 # Mob movement base class
 extends MobMotor
 
-var _agent:NavAgent = null
-
 var _pathTick:float = 0
 
 var _pathProximityThreshold:float = 0.1
 
 func custom_init(body:KinematicBody) -> void:
 	.custom_init(body)
-	_agent = AI.create_nav_agent()
 
 func _update_path() -> void:
 	if !_hasTarget:
@@ -25,7 +22,7 @@ func _update_path() -> void:
 
 func move_hunt(_delta:float) -> void:
 	if _pathTick <= 0:
-		_pathTick = 1.5
+		_pathTick = .5
 		_update_path()
 	else:
 		_pathTick -= _delta

@@ -12,6 +12,8 @@ var canSeeTarget:bool = false
 var trueDistance:float = 0
 var flatDistance:float = 0
 
+var healthPercentage:float = 100
+
 func clear() -> void:
 	id = 0
 
