@@ -160,15 +160,24 @@ func _delete_all_dynamic_entities() -> void:
 	for ent in dynEnts:
 		ent.get_parent().free()
 
-func find_static_entity_by_id(id:int) -> Node:
+func find_static_entity_by_id(id:int) -> Entity:
 	if id >= 0:
 		return null
 	var staticEnts = get_tree().get_nodes_in_group(Groups.STATIC_ENTS_GROUP_NAME)
 	for ent in staticEnts:
 		if ent.id == id:
-			return ent
+			return ent as Entity
 	return null
 
+func find_static_entity_by_name(entName:String) -> Entity:
+	if entName == null || entName == "":
+		return null
+	var staticEnts = get_tree().get_nodes_in_group(Groups.STATIC_ENTS_GROUP_NAME)
+	for ent in staticEnts:
+		if ent.selfName == entName:
+			return ent as Entity
+	return null
+	
 #################################################
 # save/load
 func write_save_dict() -> Dictionary:

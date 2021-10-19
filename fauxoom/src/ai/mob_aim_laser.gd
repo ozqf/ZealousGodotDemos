@@ -62,6 +62,6 @@ func _process(delta) -> void:
 		var dist:float = ZqfUtils.distance_between(origin, dest)
 		_rotator.scale = Vector3(1, 1, dist)
 		_rotator.transform.origin.z = -dist / 2.0
-		print("mob laser hit dist: " + str(dist))
+		# print("mob laser hit dist: " + str(dist))
 	var lerpValue:float = _tick / _duration
 	_update_offsets(lerpValue)

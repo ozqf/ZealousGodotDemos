@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/entity.gd" type="Script" id=1]
+[ext_resource path="res://prefabs/point_gizmo.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/info_point_entity.gd" type="Script" id=3]
+
+[node name="info_point_entity" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="point_gizmo" parent="." instance=ExtResource( 2 )]
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 1 )
+isStatic = true

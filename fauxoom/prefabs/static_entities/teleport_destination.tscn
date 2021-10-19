@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/mat_red.tres" type="Material" id=1]
+[ext_resource path="res://src/info_point_entity.gd" type="Script" id=2]
 [ext_resource path="res://src/entity.gd" type="Script" id=3]
 
 [sub_resource type="CubeMesh" id=1]
@@ -12,6 +13,7 @@ radial_segments = 32
 rings = 4
 
 [node name="teleport_destination" type="Spatial"]
+script = ExtResource( 2 )
 
 [node name="head" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )

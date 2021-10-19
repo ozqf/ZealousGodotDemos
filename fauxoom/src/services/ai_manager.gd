@@ -18,7 +18,7 @@ var _player:Player = null
 
 # cheats/debugging
 var _noTarget:bool = false
-var _point_t = preload("res://prefabs/point_entity.tscn")
+var _point_t = preload("res://prefabs/point_gizmo.tscn")
 var _debugPathPoints = []
 
 var _emptyTargetInfo:Dictionary = {

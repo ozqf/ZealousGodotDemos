@@ -63,18 +63,22 @@ func _on_body_entered(_body:PhysicsBody) -> void:
 		Interactions.triggerTargets(get_tree(), triggerTargetName)
 	emit_signal("trigger")
 	if action == Enums.TriggerVolumeAction.TeleportSubject:
-		var target:Spatial = null
-		target = find_node("teleport_destination") as Spatial
-		# for child in get_children():
-		# 	if child is Spatial:
-		# 		target = child
-		# 		break;
-		if target == null:
-			print("Trigger teleport has no destination")
-		# can the subject be teleported?
-		if !_body.has_method("teleport"):
-			print("Trigger cannot teleport subject " + _body.name)
+		var targetEnt:Entity = Ents.find_static_entity_by_name(triggerTargetName)
+		if targetEnt == null:
+			print("Trigger teleport failed to find target " + str(triggerTargetName))
 			return
+		var target:Spatial = targetEnt.get_root_node() as Spatial
+		# target = find_node("teleport_destination") as Spatial
+		# # for child in get_children():
+		# # 	if child is Spatial:
+		# # 		target = child
+		# # 		break;
+		# if target == null:
+		# 	print("Trigger teleport has no destination")
+		# # can the subject be teleported?
+		# if !_body.has_method("teleport"):
+		# 	print("Trigger cannot teleport subject " + _body.name)
+		# 	return
 		var from:Vector3 = _body.global_transform.origin
 		var to:Vector3 = target.global_transform.origin
 		print("Teleport subject from " + str(from) + " to " + str(to))

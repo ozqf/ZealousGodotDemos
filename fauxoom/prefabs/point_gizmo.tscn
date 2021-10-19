@@ -11,7 +11,7 @@ rings = 8
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.1, 0.25, 0.5 )
 
-[node name="point_entity" type="MeshInstance"]
+[node name="point_gizmo" type="MeshInstance"]
 mesh = SubResource( 1 )
 material/0 = ExtResource( 1 )
 
