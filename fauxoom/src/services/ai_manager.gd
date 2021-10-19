@@ -93,14 +93,14 @@ func register_tactic_node(newTacticNode) -> void:
 	if i != -1:
 		return
 	_tacticNodes.push_back(newTacticNode)
-	print("AI singleton has " + str(_tacticNodes.size()) + " tactic nodes")
+#	print("AI singleton has " + str(_tacticNodes.size()) + " tactic nodes")
 
 func deregister_tactic_node(tacticNode) -> void:
 	var i:int = _tacticNodes.find(tacticNode)
 	if i == -1:
 		return
 	_tacticNodes.remove(i)
-	print("AI singleton has " + str(_tacticNodes.size()) + " tactic nodes")
+#	print("AI singleton has " + str(_tacticNodes.size()) + " tactic nodes")
 
 func influence_register_map(newInfluenceMap) -> void:
 	_influenceMap = newInfluenceMap

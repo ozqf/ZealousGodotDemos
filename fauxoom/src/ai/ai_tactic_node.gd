@@ -1,5 +1,10 @@
 extends Spatial
 
+# Do not consider this node for cover
+export var isVulnerable:bool = false
+# This is a good node for ranged attacks
+export var sniperSpot:bool = false
+
 var canSeePlayer:bool = false
 var distToPlayer:float = 999999.0
 
