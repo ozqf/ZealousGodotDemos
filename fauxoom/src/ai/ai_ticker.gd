@@ -18,6 +18,8 @@ var _tick:float = 0.0
 var _cycles:int = 0
 var isSniper:bool = false
 
+var moveAndAttack:bool = true
+
 var _attackIndex:int = -1
 var _attackMode:int = 0
 var _revengeAttack:bool = false
@@ -115,6 +117,12 @@ func set_rotation_to_target(pos:Vector3) -> void:
 	yawDegrees = rad2deg(yawDegrees)
 	_mob.sprite.yawDegrees = yawDegrees
 
+func _attack_move(_delta:float) -> void:
+	if moveAndAttack:
+		_mob.motor.move_hunt(_delta)
+	else:
+		_mob.motor.move_idle(_delta)
+
 func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 	if _state == STATE_MOVE:
 		if isSniper:
@@ -137,7 +145,7 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 			set_rotation_to_target(_tickInfo.targetPos)
 	
 	elif _state == STATE_WINDUP:
-		_mob.motor.move_idle(_delta)
+		_attack_move(_delta)
 		if get_attack().faceTargetDuringWindup:
 			_mob.head.look_at(_tickInfo.targetPos, Vector3.UP)
 			lastTarPos = _tickInfo.targetPos
@@ -145,7 +153,7 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 		if _tick <= 0:
 			change_state(STATE_ATTACK)
 	elif _state == STATE_ATTACK:
-		_mob.motor.move_idle(_delta)
+		_attack_move(_delta)
 		# _mob.face_target_flat(_tickInfo.targetPos)
 		if _tick <= 0:
 			_cycles += 1
@@ -155,7 +163,7 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 			else:
 				change_state(STATE_WINDDOWN)
 	elif _state == STATE_WINDDOWN:
-		_mob.motor.move_idle(_delta)
+		_attack_move(_delta)
 		if _tick <= 0:
 			change_state(STATE_MOVE)
 	else:

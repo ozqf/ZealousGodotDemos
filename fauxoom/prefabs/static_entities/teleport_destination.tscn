@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assets/mat_red.tres" type="Material" id=1]
+[ext_resource path="res://assets/mat_green.tres" type="Material" id=1]
 [ext_resource path="res://src/info_point_entity.gd" type="Script" id=2]
 [ext_resource path="res://src/entity.gd" type="Script" id=3]
 
