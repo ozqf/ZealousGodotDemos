@@ -4,7 +4,7 @@ var _gruntPrefab = preload("res://prefabs/grunt.tscn")
 signal spawner_empty
 
 var _capacity:int = 6
-var _maxLiveMobs:int = 3
+var _maxLiveMobs:int = 1
 var _liveMobs:int = 0
 var _tick:float = 0
 var _spawnDelay:float = 1.0

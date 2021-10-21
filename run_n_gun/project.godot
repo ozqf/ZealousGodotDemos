@@ -9,6 +9,21 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "AIInfo",
+"language": "GDScript",
+"path": "res://src/ai/ai_info.gd"
+}, {
+"base": "Node",
+"class": "AINode",
+"language": "GDScript",
+"path": "res://src/ai/ai_node.gd"
+}, {
+"base": "AINode",
+"class": "AINodeBase",
+"language": "GDScript",
+"path": "res://src/ai/AINodeBase.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Actor",
 "language": "GDScript",
@@ -25,6 +40,9 @@ _global_script_classes=[ {
 "path": "res://src/life.gd"
 } ]
 _global_script_class_icons={
+"AIInfo": "",
+"AINode": "",
+"AINodeBase": "",
 "Actor": "",
 "Door": "",
 "Life": ""
