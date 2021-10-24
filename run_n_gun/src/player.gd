@@ -6,6 +6,10 @@ var _attackTick: float = 0
 # onready var _door_trigger = 
 func _ready():
 	$door_trigger.connect("body_entered", self, "_on_door_trigger")
+	Game.register_player(self)
+
+func _exit_tree():
+	Game.remove_player(self)
 
 func _on_door_trigger(_body):
 	if _body.has_method("OpenDoor"):

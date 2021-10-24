@@ -7,12 +7,14 @@ func tick(info:AIInfo) -> int:
 		return SUCCESS
 	if index == -1:
 		# start
-		print("Start sequence")
+		if info.verbose:
+			print(name + " Start sequence")
 		index = 0
 	elif index >= numChildren:
 		# finished
 		index = -1
-		print("End  sequence")
+		if info.verbose:
+			print(name + " End  sequence")
 		return SUCCESS
 	
 	var child:AINode = children[index]
@@ -20,7 +22,8 @@ func tick(info:AIInfo) -> int:
 	
 	if result == SUCCESS:
 		index += 1
-		print("Advanced index to " + str(index))
+		if info.verbose:
+			print(name + " Advanced index to " + str(index))
 		return SUCCESS
 	elif result == RUNNING:
 		return RUNNING

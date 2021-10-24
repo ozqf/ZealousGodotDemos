@@ -2,11 +2,13 @@ extends AINodeBase
 
 func tick(info:AIInfo) -> int:
 	if info.activeNode != self:
-		print("Start move straight")
+		if info.verbose:
+			print(name + " Start move straight")
 		info.activeNode = self
 		info.time = 1
 	if info.time <= 0:
-		print("End move straight")
+		if info.verbose:
+			print(name + " End move straight")
 		info.activeNode = null
 		return SUCCESS
 	else:

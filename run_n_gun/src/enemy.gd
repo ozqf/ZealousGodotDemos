@@ -9,6 +9,10 @@ signal enemy_died
 var _dir = Vector2()
 var _moveTick:float = 0
 
+var _tickTime:float = 0
+var _tickMax:float = 0.25
+var _deltaAccumulator:float = 0
+
 func _ready():
 	_life.connect("on_death", self, "on_death")
 	_aiInfo = _ai_info_t.new()
@@ -19,7 +23,15 @@ func on_death():
 	emit_signal("enemy_died")
 
 func _physics_process(_delta):
-	# run ai tree
-	_aiInfo.delta = _delta
-	_aiTree.tick(_aiInfo)
-	_aiInfo.frames += 1
+	_tickTime -= _delta
+	_deltaAccumulator += _delta
+	if _tickTime <= 0:
+		# run ai tree
+		print("--- AI Tick " + str(_aiInfo.frames) + " ---")
+		_tickTime = _tickMax
+		# _aiInfo.delta = _delta
+		_aiInfo.delta = _deltaAccumulator
+		_aiInfo.selfPosition = global_position
+		_deltaAccumulator = 0
+		_aiTree.tick(_aiInfo)
+		_aiInfo.frames += 1

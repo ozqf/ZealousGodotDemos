@@ -686,6 +686,9 @@ transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -52.5, 1.5, 0 )
 [node name="world_volume11" parent="arena_test/world/NavigationMeshInstance" instance=ExtResource( 54 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, 0.5, 4.5, -10 )
 
+[node name="world_volume12" parent="arena_test/world/NavigationMeshInstance" instance=ExtResource( 54 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, 0.5, 4.5, 10 )
+
 [node name="world_volume13" parent="arena_test/world/NavigationMeshInstance" instance=ExtResource( 54 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -21.5, 4.5, 6.5 )
 
@@ -699,10 +702,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 12, -21.5, 9.5, 0 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 12, -34.5, 9.5, 0 )
 
 [node name="blocker_volume4" parent="arena_test/world/NavigationMeshInstance" instance=ExtResource( 39 )]
-transform = Transform( 30, 0, 0, 0, 9, 0, 0, 0, 1, -43, 3, -14 )
+transform = Transform( 44, 0, 0, 0, 9, 0, 0, 0, 1, -43, 3, -14 )
 
 [node name="blocker_volume5" parent="arena_test/world/NavigationMeshInstance" instance=ExtResource( 39 )]
-transform = Transform( 30, 0, 0, 0, 9, 0, 0, 0, 1, -43, 3, 15 )
+transform = Transform( 44, 0, 0, 0, 9, 0, 0, 0, 1, -43, 3, 15 )
 
 [node name="blocker_volume6" parent="arena_test/world/NavigationMeshInstance" instance=ExtResource( 39 )]
 transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 28, -43, 3, 14 )

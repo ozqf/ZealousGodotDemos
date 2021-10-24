@@ -16,3 +16,12 @@ func _ready() -> void:
 		if child is AINode:
 			children.push_back(child)
 	numChildren = children.size()
+
+func call_first_child(info:AIInfo) -> int:
+	if numChildren == 0:
+		if info.verbose:
+			print(name + " has no children to call - success returned")
+		return SUCCESS
+	if info.verbose:
+		print(name + " calling first child " + children[0].name)
+	return children[0].tick(info)

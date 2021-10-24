@@ -12,8 +12,13 @@ class_name AIInfo
 # back to its parent node on completion
 var activeNode = null
 
-var mob
+var mob:Node2D
+
+var selfPosition:Vector2 = Vector2()
+var targetPosition:Vector2 = Vector2()
+var moveTarget:Vector2 = Vector2()
 var moveDir:Vector2 = Vector2()
 var time:float = 0
 var delta:float = 1.0 / 60.0
 var frames:int = 0
+var verbose:bool = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/sprites/actor_red.png" type="Texture" id=1]
 [ext_resource path="res://src/enemy.gd" type="Script" id=2]
@@ -7,6 +7,9 @@
 [ext_resource path="res://src/ai/nodes/pick_wander_direction_node.gd" type="Script" id=5]
 [ext_resource path="res://src/ai/nodes/sequence_node.gd" type="Script" id=6]
 [ext_resource path="res://src/ai/nodes/ai_move_straight_node.gd" type="Script" id=7]
+[ext_resource path="res://src/ai/nodes/acquire_target_node.gd" type="Script" id=8]
+[ext_resource path="res://src/ai/nodes/face_target_node.gd" type="Script" id=9]
+[ext_resource path="res://src/ai/nodes/check_los_node.gd" type="Script" id=10]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 15.0
@@ -26,11 +29,28 @@ script = ExtResource( 3 )
 [node name="ai_tree" type="Node" parent="."]
 script = ExtResource( 4 )
 
-[node name="sequence" type="Node" parent="ai_tree"]
+[node name="acquire target" type="Node" parent="ai_tree"]
+script = ExtResource( 8 )
+
+[node name="check los to target" type="Node" parent="ai_tree/acquire target"]
+script = ExtResource( 10 )
+
+[node name="sequence" type="Node" parent="ai_tree/acquire target/check los to target"]
 script = ExtResource( 6 )
 
-[node name="pick dir" type="Node" parent="ai_tree/sequence"]
+[node name="set move toward target" type="Node" parent="ai_tree/acquire target/check los to target/sequence"]
+script = ExtResource( 9 )
+
+[node name="move linear" type="Node" parent="ai_tree/acquire target/check los to target/sequence"]
+script = ExtResource( 7 )
+
+[node name="invert" type="Node" parent="ai_tree/acquire target"]
+
+[node name="wander sequence" type="Node" parent="ai_tree"]
+script = ExtResource( 6 )
+
+[node name="pick dir" type="Node" parent="ai_tree/wander sequence"]
 script = ExtResource( 5 )
 
-[node name="move linear" type="Node" parent="ai_tree/sequence"]
+[node name="move linear" type="Node" parent="ai_tree/wander sequence"]
 script = ExtResource( 7 )
