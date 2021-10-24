@@ -37,10 +37,14 @@ onready var _stats:MobStats = $stats
 onready var _ent:Entity = $Entity
 onready var _ticker:AITicker = $ticker
 
+var _registered:bool = false
+
 # optional component
 var aimLaser = null
 var omniCharge:OmniAttackCharge
 var frameCount:int = 0
+
+var roleId:int = 0
 
 # var _tarInfoFields = [ "id", "position", "forward", "flatForward", "yawDegrees" ]
 
@@ -103,6 +107,8 @@ func _ready() -> void:
 	var _r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_append_state", self, "append_state")
 	_ent.triggerTargetName = triggerTargets
+	AI.register_mob(self)
+	_registered = true
 
 func get_health_percentage() -> float:
 	return (float(_health) / float(_healthMax)) * 100
@@ -238,6 +244,13 @@ func _tick_stunned(_delta:float) -> void:
 	# velocity = self.move_and_slide(velocity)
 	# velocity *= 0.95
 
+func _remove_from_squad() -> void:
+	if _registered:
+		AI.deregister_mob(self)
+		_registered = false
+
+func _exit_tree() -> void:
+	_remove_from_squad()
 
 func face_target_flat(tar:Vector3) -> void:
 	var pos:Vector3 = global_transform.origin
@@ -399,7 +412,7 @@ func hit(_hitInfo:HitInfo) -> int:
 			print("Explosive hit for " + str(_hitInfo.damage))
 	if _health <= 0:
 		# die
-
+		_remove_from_squad()
 		# triggers and important things
 		motor.mob_died()
 		emit_signal("on_mob_died", self)

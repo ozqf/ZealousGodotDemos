@@ -7,6 +7,12 @@ const STATE_ATTACK:int = 2
 const STATE_WINDDOWN:int = 3
 const STATE_REPEAT:int = 4
 
+const MOVEMODE_CHARGE:int = 0
+const MOVEMODE_RETREAT:int = 1
+const MOVEMODE_EVADE:int = 2
+
+var _moveMode:int = 0
+
 # state info read from attack when started
 # var _maxCycles:int = 1
 # var _faceTargetDuringWindup:bool = true
@@ -122,6 +128,14 @@ func _attack_move(_delta:float) -> void:
 		_mob.motor.move_hunt(_delta)
 	else:
 		_mob.motor.move_idle(_delta)
+
+func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
+	var isNotInjured:bool = _tickInfo.healthPercentage >= 50
+	if isNotInjured:
+		pass
+	else:
+		pass
+	pass
 
 func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 	if _state == STATE_MOVE:

@@ -16,6 +16,10 @@ var _tacticNodes = []
 # live player
 var _player:Player = null
 
+var _mobs = []
+var _numRoleCharge:int = 0
+var _numRoleSnipe:int = 0
+
 # cheats/debugging
 var _noTarget:bool = false
 var _point_t = preload("res://prefabs/point_gizmo.tscn")
@@ -71,6 +75,27 @@ func _process(_delta:float) -> void:
 		var n = _tacticNodes[_i]
 		n.custom_update(_delta)
 
+func get_debug_text() -> String:
+	var txt:String = "--- AI Manager ---\n";
+	txt += "Squad size: " + str(_mobs.size()) + "\n"
+	txt += "Num chargers: " + str(_numRoleCharge) + "\n"
+	txt += "Num snipers: " + str(_numRoleSnipe) + "\n"
+	return txt
+
+###############
+# Roles
+###############
+
+func tally_mob_roles() -> void:
+	_numRoleSnipe = 0
+	_numRoleCharge = 0
+	for i in range(0, _mobs.size()):
+		var mob = _mobs[i]
+		if mob.roleId == 1:
+			_numRoleSnipe += 1
+		else:
+			_numRoleCharge += 1
+
 ###############
 # Registeration
 ###############
@@ -80,6 +105,26 @@ func create_nav_agent() -> NavAgent:
 
 func create_tick_info() -> AITickInfo:
 	return _aiTickInfo_t.new()
+
+# must call when a mob is spawned so it can be part of the squad
+func register_mob(mob) -> void:
+	# tally before we add this new mob, so we can give it a suitable role:
+	tally_mob_roles()
+	_mobs.push_back(mob)
+	if _numRoleSnipe < _numRoleCharge:
+		mob.roleId = 1
+		_numRoleSnipe += 1
+	else:
+		mob.roleId = 0
+		_numRoleCharge += 1
+
+# must call when a mob dies/is removed in any way!
+func deregister_mob(mob) -> void:
+	var i:int = _mobs.find(mob)
+	if i != -1:
+		_mobs.remove(i)
+	# retally roles and maybe reassign someone
+	tally_mob_roles()
 
 func register_nav_service(_newNavService:NavService) -> void:
 	_navService = _newNavService

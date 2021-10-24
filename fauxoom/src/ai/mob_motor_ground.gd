@@ -20,10 +20,13 @@ func _update_path() -> void:
 		_agent.pathIndex = -1
 #	print("Ground motor got " + str(_agent.pathNumNodes) + " path nodes")
 
+func force_path_update() -> void:
+	_pathTick = .5
+	_update_path()
+
 func move_hunt(_delta:float) -> void:
 	if _pathTick <= 0:
-		_pathTick = .5
-		_update_path()
+		force_path_update()
 	else:
 		_pathTick -= _delta
 	if _agent.pathIndex == -1:

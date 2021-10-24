@@ -39,9 +39,12 @@ var debugV3_2:Vector3 = Vector3()
 onready var _menus:CanvasLayer = $static_menus
 #onready var _menus:Control = $static_menus/menu
 #onready var _title:Label = $CanvasLayer/title
-onready var _debug_text:Label = $static_menus/debug/debug_text
-onready var _debug_text_2:Label = $static_menus/debug/debug_text2
+onready var _debugTextNW:Label = $static_menus/debug/debug_text
+onready var _debugTextNE:Label = $static_menus/debug/debug_text2
 onready var _mouseLock:MouseLock = $mouse_lock
+
+var _debugNWMode:int = 0
+var _debugNEMode:int = 1
 
 var playerDebug:String = ""
 
@@ -93,35 +96,38 @@ func _ready() -> void:
 		_parse_url_options(js_result)
 	else:
 		print("JS not available")
+
+func _process(_delta) -> void:
+
+	_debugTextNW.text = "FPS: " + str(Engine.get_frames_per_second()) + "\n"
+	#	var time = OS.get_time()
+	#	_debugTextNW.text += str(time.hour) + ":" + str(time.minute) + ":" + str(time.second) + "\n"
+	#	var ratio:Vector2 = ZqfUtils.get_window_to_screen_ratio()
+	#	_debugTextNW.text += "Window/Scr ratio: " + str(ratio) + "\n"
+	#	_debugTextNW.text += playerDebug + "\n"
+	#	_debugTextNW.text = "Vec 1: " + str(debugV3_1) + "\n"
+	#	_debugTextNW.text += "Vec 2: " + str(debugV3_2) + "\n"
+	#	_debugTextNW.text += "Degrees: " + str(debugDegrees) + "\n"
+	#	_debugTextNW.text += "Index " + str(debug_int) + "\n"
 	
-	_debug_text_2.text = "Fauxoom PRE-ALPHA"
+	if _debugNEMode == 0:
+		_debugTextNE.text = "Fauxoom PRE-ALPHA"
+	elif _debugNEMode == 1:
+		_debugTextNE.text = AI.get_debug_text()
 	# if _web_mode():
-	# 	_debug_text_2.text += "URL: " + _url + "\n"
+	# 	_debugTextNE.text += "URL: " + _url + "\n"
 	# else:
-		# _debug_text_2.text += "CmdLine: " + str(OS.get_cmdline_args().join(", ")) + "\n"
-		# _debug_text_2.text += "Exe path: " + OS.get_executable_path() + "\n"
-		# _debug_text_2.text += "Platform: " + OS.get_name() + "\n"
-	# _debug_text_2.text += "ESCAPE or TAB to toggle mouse capture\n"
-	# _debug_text_2.text += "WASD - move | Mouse - aim/shoot\n"
-	# _debug_text_2.text += "1,2,3,4,5 - Weapon select\n"
-	# _debug_text_2.text += "Build time: 2021/1/3 19:22\n"
+		# _debugTextNE.text += "CmdLine: " + str(OS.get_cmdline_args().join(", ")) + "\n"
+		# _debugTextNE.text += "Exe path: " + OS.get_executable_path() + "\n"
+		# _debugTextNE.text += "Platform: " + OS.get_name() + "\n"
+	# _debugTextNE.text += "ESCAPE or TAB to toggle mouse capture\n"
+	# _debugTextNE.text += "WASD - move | Mouse - aim/shoot\n"
+	# _debugTextNE.text += "1,2,3,4,5 - Weapon select\n"
+	# _debugTextNE.text += "Build time: 2021/1/3 19:22\n"
 
 	# broadcast change if file load failed, have to give everyone the default
 	# if !load_cfg(_DEFAULT_CFG_NAME):
 	# 	broadcast_cfg_change()
-
-func _process(_delta) -> void:
-
-	_debug_text.text = "FPS: " + str(Engine.get_frames_per_second()) + "\n"
-#	var time = OS.get_time()
-#	_debug_text.text += str(time.hour) + ":" + str(time.minute) + ":" + str(time.second) + "\n"
-#	var ratio:Vector2 = ZqfUtils.get_window_to_screen_ratio()
-#	_debug_text.text += "Window/Scr ratio: " + str(ratio) + "\n"
-#	_debug_text.text += playerDebug + "\n"
-#	_debug_text.text = "Vec 1: " + str(debugV3_1) + "\n"
-#	_debug_text.text += "Vec 2: " + str(debugV3_2) + "\n"
-#	_debug_text.text += "Degrees: " + str(debugDegrees) + "\n"
-#	_debug_text.text += "Index " + str(debug_int) + "\n"
 
 func get_menu_keycode() -> int:
 	var menuCode = KEY_ESCAPE

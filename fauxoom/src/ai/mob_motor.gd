@@ -85,6 +85,9 @@ func move_leap(_delta:float, _speed:float) -> void:
 func move_hunt(_delta:float) -> void:
 	pass
 
+func move_evade(_delta:float) -> void:
+	pass
+	
 func mob_died() -> void:
 	set_stunned(true)
 	moveType = MobMoveType.Ground
