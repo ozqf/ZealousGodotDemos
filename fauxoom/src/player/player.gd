@@ -43,7 +43,8 @@ var _status:Dictionary = {
 	shells = 0,
 	currentLoaded = 0,
 	currentLoadedMax = 0,
-	currentAmmo = 0
+	currentAmmo = 0,
+	godMode = false
 }
 
 func _ready():
@@ -152,14 +153,22 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		var agent:NavAgent = AI.create_nav_agent()
 		agent.position = global_transform.origin
 		if AI.find_melee_position(agent):
-			print("Melee target " + str(agent.nodeIndex) + " at " + str(agent.target))
+			print("Melee target " + str(agent.tacticNode.index) + " at " + str(agent.target))
 			AI.set_test_nav_dest(agent.target)
 			var navPos:Vector3 = AI.find_closest_navmesh_point(agent.target)
 			print("Closest nav pos " + str(navPos))
 		else:
 			print("No viable Melee target")
+	elif _txt == "findsnipe":
+		var agent:NavAgent = AI.create_nav_agent()
+		agent.position = global_transform.origin
+		if AI.find_sniper_position(agent):
+			var path = AI.get_path_to_point(agent.position, agent.target)
+			AI.debug_path(path)
+		else:
+			print("No viable snipe point")
 	# ai test find flee
-	if _txt == "findflee":
+	elif _txt == "findflee":
 		var agent:NavAgent = AI.create_nav_agent()
 		agent.position = global_transform.origin
 		# var agent:Dictionary = {
@@ -168,7 +177,7 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		# 	nodeIndex = -1
 		# }
 		if AI.find_flee_position(agent):
-			print("Flee target " + str(agent.nodeIndex) + " at " + str(agent.target))
+			print("Flee target " + str(agent.tacticNode.index) + " at " + str(agent.target))
 			AI.set_test_nav_dest(agent.target)
 			var navPos:Vector3 = AI.find_closest_navmesh_point(agent.target)
 			print("Closest nav pos " + str(navPos))
@@ -229,6 +238,7 @@ func _process(_delta):
 	_status.energy = _motor.energy
 	_status.swayScale = swayScale
 	_status.swayTime = _swayTime
+	_status.godMode = _godMode
 	_status.hasInteractionTarget = _interactor.get_is_colliding()
 
 	_inventory.write_hud_status(_status)

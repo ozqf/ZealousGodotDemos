@@ -1,5 +1,10 @@
 extends Spatial
 
+const CAN_SEE_PLAYER_FLAG:int = (1 << 0)
+const CANNOT_SEE_PLAYER_FLAG:int = (1 << 1)
+const SNIPER_FLAG:int = (1 << 2)
+const VULNERABLE_FLAG:int = (1 << 3)
+
 var _navAgent_t = preload("res://src/defs/nav_agent.gd")
 var _aiTickInfo_t = preload("res://src/defs/ai_tick_info.gd")
 
@@ -80,6 +85,10 @@ func get_debug_text() -> String:
 	txt += "Squad size: " + str(_mobs.size()) + "\n"
 	txt += "Num chargers: " + str(_numRoleCharge) + "\n"
 	txt += "Num snipers: " + str(_numRoleSnipe) + "\n"
+	txt += "Snipe nodes:\n"
+	for i in range(0, _tacticNodes.size()):
+		var n = _tacticNodes[i]
+		txt += str(n.index) + " flags: " + str(n.flags) + " at: " + str(n.global_transform.origin) + "\n"
 	return txt
 
 ###############
@@ -137,6 +146,7 @@ func register_tactic_node(newTacticNode) -> void:
 	var i:int = _tacticNodes.find(newTacticNode)
 	if i != -1:
 		return
+	newTacticNode.index = _tacticNodes.size()
 	_tacticNodes.push_back(newTacticNode)
 #	print("AI singleton has " + str(_tacticNodes.size()) + " tactic nodes")
 
@@ -187,7 +197,8 @@ func get_path_for_agent(agent:NavAgent) -> bool:
 	if agent.pathNumNodes == 0:
 		print("Agent path has zero nodes from " + str(agent.position) + " to " + str(agent.target))
 	else:
-		print("Agent path has " + str(agent.pathNumNodes) + " nodes")
+		# print("Agent path has " + str(agent.pathNumNodes) + " nodes")
+		pass
 	for _i in range(0, agent.pathNumNodes):
 		agent.path[_i].y -= 0.4
 	# debug_path(agent.path)
@@ -261,7 +272,7 @@ func get_player_target() -> Dictionary:
 		return _emptyTargetInfo
 	return _player.get_targetting_info()
 
-func _find_closest_node(_agent:NavAgent, canSeePlayer:bool) -> bool:
+func _find_closest_node(_agent:NavAgent, mask:int) -> bool:
 	var resultNodeIndex:int = -1
 	var resultNodePos:Vector3 = Vector3()
 	var resultNodeDistSqr:float = 999999.0
@@ -271,7 +282,7 @@ func _find_closest_node(_agent:NavAgent, canSeePlayer:bool) -> bool:
 	for _i in range(0, numNodes):
 		var n = _tacticNodes[_i]
 		# if can see player, not safe!
-		if n.canSeePlayer != canSeePlayer:
+		if (n.flags & mask) == 0:
 			# print(str(_i) + " cannot see player - skipping")
 			continue
 		var candidatePos:Vector3 = n.global_transform.origin
@@ -290,15 +301,20 @@ func _find_closest_node(_agent:NavAgent, canSeePlayer:bool) -> bool:
 				resultNodeDistSqr = candidateDistSqr
 
 	if resultNodeIndex == -1:
-		_agent.nodeIndex = -1
+		# _agent.nodeIndex = -1
+		_agent.tacticNode = null
 		return false
 	else:
-		_agent.nodeIndex = resultNodeIndex
+		# _agent.nodeIndex = resultNodeIndex
 		_agent.target = resultNodePos
+		_agent.tacticNode = _tacticNodes[resultNodeIndex]
 		return true
 
 func find_flee_position(_agent:NavAgent) -> bool:
-	return _find_closest_node(_agent, false)
+	return _find_closest_node(_agent, CANNOT_SEE_PLAYER_FLAG)
 
 func find_melee_position(_agent:NavAgent) -> bool:
-	return _find_closest_node(_agent, true)
+	return _find_closest_node(_agent, CAN_SEE_PLAYER_FLAG)
+
+func find_sniper_position(_agent:NavAgent) -> bool:
+	return _find_closest_node(_agent, SNIPER_FLAG)

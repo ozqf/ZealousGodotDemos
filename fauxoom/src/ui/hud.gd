@@ -173,6 +173,8 @@ func player_status_update(data:Dictionary) -> void:
 
 	# counts
 	_healthCount.text = str(data.health)
+	if data.godMode:
+		_healthCount.text += " (INVUL)"
 	_energyCount.text = str(data.energy)
 	if data.currentLoadedMax > 0:
 		_ammoCount.text = str(data.currentLoaded) + " / " + str(data.currentLoadedMax) + " - " + str(data.currentAmmo)

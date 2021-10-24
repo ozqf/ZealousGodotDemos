@@ -131,25 +131,45 @@ func _attack_move(_delta:float) -> void:
 
 func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 	var isNotInjured:bool = _tickInfo.healthPercentage >= 50
+	var agent = _mob.motor.get_agent()
 	if isNotInjured:
+		if _mob.roleId == 1:
+			# find a sniping position
+			if agent.tacticNode == null || !agent.tacticNode.sniperSpot:
+				if AI.find_sniper_position(agent):
+					_mob.motor.set_move_target(agent.target)
+					print("Sniper move target is " + str(agent.target) + " waypoint " + str(agent.tacticNode.index))
+					return
+				else:
+					# fall back to just being a charger
+					print("Mob can't find a sniper position!")
+					_mob.motor.set_move_target(_tickInfo.targetPos)
+		else:
+			# oh we're just a boring charger? k target position IS our target
+			_mob.motor.set_move_target(_tickInfo.targetPos)
 		pass
 	else:
-		pass
+		# "Runaway. Runaway. Run Children. Run for your life!
+		# Runaway. Runaway. Run children. Here it comes. I said run. Alright"
+		if agent.tacticNode == null || agent.tacticNode.canSeePlayer:
+			if AI.find_flee_position(_mob.motor.get_agent()):
+				_mob.motor.set_move_target(_mob.motor.get_agent().target)
 	pass
 
 func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
+	validate_move_target(_delta, _tickInfo)
 	if _state == STATE_MOVE:
 		if isSniper:
 			_start_attack(_delta, _tickInfo)
 			return
-		if _tickInfo.healthPercentage > 50:
-			_mob.motor.set_move_target(_tickInfo.targetPos)
-			_mob.motor.set_move_target_forward(_tickInfo.targetForward)
-		else:
-			# pick a flee point
-			if AI.find_flee_position(_mob.motor.get_agent()):
-				_mob.motor.set_move_target(_mob.motor.get_agent().target)
-			pass
+		# if _tickInfo.healthPercentage > 50:
+		# 	_mob.motor.set_move_target(_tickInfo.targetPos)
+		# 	_mob.motor.set_move_target_forward(_tickInfo.targetForward)
+		# else:
+		# 	# pick a flee point
+		# 	if AI.find_flee_position(_mob.motor.get_agent()):
+		# 		_mob.motor.set_move_target(_mob.motor.get_agent().target)
+		# 	pass
 		if _tickInfo.trueDistance > 2:
 			_mob.motor.move_hunt(_delta)
 			set_rotation_to_movement()

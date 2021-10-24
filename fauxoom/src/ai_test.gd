@@ -15,15 +15,7 @@ var _tick:float = 0
 
 var _yawDegrees:float = 0
 
-var agent:Dictionary
-
 func _ready() -> void:
-	# self.set_surface_material(0, _mat_red)
-	agent = {
-			position = global_transform.origin,
-			target = Vector3(),
-			nodeIndex = -1
-		}
 	pass
 
 func _find_path() -> void:

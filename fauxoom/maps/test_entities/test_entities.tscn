@@ -532,7 +532,7 @@ isStatic = true
 type = 0
 tickMax = 1.5
 totalMobs = 999
-maxLiveMobs = 3
+maxLiveMobs = 4
 
 [node name="spawn_points" type="Spatial" parent="arena_test/ents/survival_controller"]
 
@@ -574,18 +574,22 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0, 7.9 )
 
 [node name="ai_tactic_node17" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4, 6.5 )
+sniperSpot = true
 
 [node name="ai_tactic_node18" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 4, 6.5 )
+sniperSpot = true
 
 [node name="ai_tactic_node19" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 4, 7.9 )
 
 [node name="ai_tactic_node20" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4, -6.5 )
+sniperSpot = true
 
 [node name="ai_tactic_node21" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 4, -6.5 )
+sniperSpot = true
 
 [node name="ai_tactic_node22" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 4, -8.1 )
