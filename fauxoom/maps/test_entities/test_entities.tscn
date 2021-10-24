@@ -562,61 +562,79 @@ transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107,
 
 [node name="ai_tactic_node" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 6.5 )
+tag = 1
 
 [node name="ai_tactic_node2" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0, 5.2 )
+tag = 1
 
 [node name="ai_tactic_node3" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, 6.5 )
+tag = 1
 
 [node name="ai_tactic_node4" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 0, 7.9 )
+tag = 1
 
 [node name="ai_tactic_node17" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4, 6.5 )
+tag = 1
 sniperSpot = true
 
 [node name="ai_tactic_node18" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 4, 6.5 )
+tag = 1
 sniperSpot = true
 
 [node name="ai_tactic_node19" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 4, 7.9 )
+tag = 1
 
 [node name="ai_tactic_node20" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4, -6.5 )
+tag = 1
 sniperSpot = true
 
 [node name="ai_tactic_node21" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 4, -6.5 )
+tag = 1
 sniperSpot = true
 
 [node name="ai_tactic_node22" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 4, -8.1 )
+tag = 1
 
 [node name="ai_tactic_node9" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, -6.5 )
+tag = 1
 
 [node name="ai_tactic_node10" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -34.5, 0, -7.8 )
+tag = 1
 
 [node name="ai_tactic_node11" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, -6.5 )
+tag = 1
 
 [node name="ai_tactic_node12" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -34.5, 0, -5.1 )
+tag = 1
 
 [node name="ai_tactic_node13" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 6.5 )
+tag = 1
 
 [node name="ai_tactic_node14" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -34.5, 0, 5.2 )
+tag = 1
 
 [node name="ai_tactic_node15" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 6.5 )
+tag = 1
 
 [node name="ai_tactic_node16" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -34.5, 0, 7.9 )
+tag = 1
 
 [node name="lever_switch" parent="arena_test/ents" instance=ExtResource( 46 )]
 transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -21, 1, 6.5 )

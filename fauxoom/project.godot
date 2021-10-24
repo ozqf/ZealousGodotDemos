@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Spatial",
+"class": "AITacticNode",
+"language": "GDScript",
+"path": "res://src/ai/ai_tactic_node.gd"
+}, {
 "base": "Reference",
 "class": "AITickInfo",
 "language": "GDScript",
@@ -285,6 +290,7 @@ _global_script_classes=[ {
 "path": "res://zqf/zqf_utils.gd"
 } ]
 _global_script_class_icons={
+"AITacticNode": "",
 "AITickInfo": "",
 "AITicker": "",
 "Animations": "",

@@ -88,7 +88,8 @@ func get_debug_text() -> String:
 	txt += "Snipe nodes:\n"
 	for i in range(0, _tacticNodes.size()):
 		var n = _tacticNodes[i]
-		txt += str(n.index) + " flags: " + str(n.flags) + " at: " + str(n.global_transform.origin) + "\n"
+		txt += n.get_debug_string()
+
 	return txt
 
 ###############

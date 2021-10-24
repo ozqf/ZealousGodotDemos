@@ -125,6 +125,9 @@ func _gather_attacks() -> void:
 			attack.custom_init($head, self)
 	# print("Mob " + self.name + " has " + str(attacks.size()) + " attacks")
 
+func is_mob() -> bool:
+	return true
+
 func set_trigger_names(selfName:String, targets:String) -> void:
 	_ent.selfName = selfName
 	_ent.triggerTargetName = targets
