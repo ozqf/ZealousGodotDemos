@@ -8,8 +8,8 @@ const STATE_WINDDOWN:int = 3
 const STATE_REPEAT:int = 4
 
 const MOVEMODE_CHARGE:int = 0
-const MOVEMODE_RETREAT:int = 1
-const MOVEMODE_EVADE:int = 2
+const MOVEMODE_EVADE:int = 1
+# const MOVEMODE_RETREAT:int = 2
 
 var _moveMode:int = 0
 
@@ -125,13 +125,15 @@ func set_rotation_to_target(pos:Vector3) -> void:
 
 func _attack_move(_delta:float) -> void:
 	if moveAndAttack:
-		_mob.motor.move_hunt(_delta)
+		# _mob.motor.move_hunt(_delta)
+		_mob.motor.move_evade(_delta)
 	else:
 		_mob.motor.move_idle(_delta)
 
 func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 	var isNotInjured:bool = _tickInfo.healthPercentage >= 50
 	var agent = _mob.motor.get_agent()
+
 	if isNotInjured:
 		if _mob.roleId == 1:
 			# find a sniping position
@@ -145,8 +147,19 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 					print("Mob can't find a sniper position!")
 					_mob.motor.set_move_target(_tickInfo.targetPos)
 		else:
-			# oh we're just a boring charger? k target position IS our target
-			_mob.motor.set_move_target(_tickInfo.targetPos)
+			var distMode:int = 0
+			if _tickInfo.canSeeTarget:
+				_mob.motor.set_move_target(_tickInfo.targetPos)
+				# we can see player so player can see us.
+				# switch to random evasion
+				pass
+				# if _tickInfo.moveThinkTick <= 0:
+				# 	_tickInfo.moveThinkTick = 0.25
+				# 	var v:Vector3 = _mob.motor.pick_evade_point(_tickInfo.verbose)
+				# 	_mob.motor.set_move_target(v)
+			else:
+				# can't see target, move directly toward them
+				_mob.motor.set_move_target(_tickInfo.targetPos)
 		pass
 	else:
 		# "Runaway. Runaway. Run Children. Run for your life!
@@ -157,6 +170,7 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 	pass
 
 func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
+	_tickInfo.moveThinkTick -= _delta
 	validate_move_target(_delta, _tickInfo)
 	if _state == STATE_MOVE:
 		if isSniper:
@@ -174,7 +188,7 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 			_mob.motor.move_hunt(_delta)
 			set_rotation_to_movement()
 		if _tick <= 0 && _tickInfo.trueDistance <= 25 && _tickInfo.canSeeTarget:
-			print("AI ticker - attack")
+			# print("AI ticker - attack")
 			_start_attack(_delta, _tickInfo)
 			set_rotation_to_target(_tickInfo.targetPos)
 	

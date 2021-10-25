@@ -1,12 +1,11 @@
-extends Spatial
+extends RayCast
+class_name GroundPointSensor
 
 var isValid:bool = false
 
 func _process(_delta:float) -> void:
 	var canSeeGround:bool = false
-	if get_parent() is RayCast:
-		var raycast:RayCast = get_parent() as RayCast
-		canSeeGround  = raycast.is_colliding()
+	canSeeGround  = self.is_colliding()
 	if !canSeeGround:
 		visible = false
 		isValid = false

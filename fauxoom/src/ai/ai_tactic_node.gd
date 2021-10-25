@@ -37,10 +37,10 @@ func on_body_exited(body:Node) -> void:
 		else:
 			print("Mob left influence but wasn't in list!")
 
-func on_area_entered(area:Area) -> void:
+func on_area_entered(_area:Area) -> void:
 	pass
 
-func on_area_exited(area:Area) -> void:
+func on_area_exited(_area:Area) -> void:
 	pass
 func _enter_tree() -> void:
 	AI.register_tactic_node(self)

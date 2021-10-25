@@ -7,10 +7,10 @@ const STATE_HUNT:int = 1
 const STATE_PATROL:int = 2
 const STATE_LEAP:int = 3
 
-onready var _floorFront:RayCast = $floor_in_front
-onready var _floorBack:RayCast = $floor_behind
-onready var _floorLeft:RayCast = $floor_left
-onready var _floorRight:RayCast = $floor_right
+onready var _floorFront:GroundPointSensor = $floor_in_front
+onready var _floorBack:GroundPointSensor = $floor_behind
+onready var _floorLeft:GroundPointSensor = $floor_left
+onready var _floorRight:GroundPointSensor = $floor_right
 
 enum MobMoveType {
 	Ground,
@@ -57,7 +57,6 @@ func custom_init(body:KinematicBody) -> void:
 	_agent = AI.create_nav_agent()
 	_body = body
 	_mob = _body
-	# _floorFront = $floor_in_front
 	if moveType == MobMoveType.Flying:
 		print("Mob motor is flying")
 
