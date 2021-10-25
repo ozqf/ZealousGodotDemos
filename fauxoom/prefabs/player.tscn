@@ -384,51 +384,60 @@ __meta__ = {
 }
 
 [node name="health" type="HBoxContainer" parent="hud/player_status"]
-margin_top = 166.0
+margin_top = 136.0
 margin_right = 128.0
-margin_bottom = 180.0
+margin_bottom = 160.0
+rect_min_size = Vector2( 128, 24 )
 
 [node name="Label" type="Label" parent="hud/player_status/health"]
+margin_top = 5.0
 margin_right = 50.0
-margin_bottom = 14.0
+margin_bottom = 19.0
 text = "HEALTH"
 
 [node name="count" type="Label" parent="hud/player_status/health"]
 margin_left = 54.0
+margin_top = 5.0
 margin_right = 70.0
-margin_bottom = 14.0
+margin_bottom = 19.0
 text = "50"
 
 [node name="ammo" type="HBoxContainer" parent="hud/player_status"]
-margin_top = 184.0
+margin_top = 164.0
 margin_right = 128.0
-margin_bottom = 198.0
+margin_bottom = 188.0
+rect_min_size = Vector2( 128, 24 )
 
 [node name="Label" type="Label" parent="hud/player_status/ammo"]
+margin_top = 5.0
 margin_right = 44.0
-margin_bottom = 14.0
+margin_bottom = 19.0
 text = "AMMO"
 
 [node name="count" type="Label" parent="hud/player_status/ammo"]
 margin_left = 48.0
+margin_top = 5.0
 margin_right = 64.0
-margin_bottom = 14.0
+margin_bottom = 19.0
 text = "50"
 
 [node name="energy" type="HBoxContainer" parent="hud/player_status"]
-margin_top = 202.0
+margin_top = 192.0
 margin_right = 128.0
 margin_bottom = 216.0
+rect_min_size = Vector2( 128, 24 )
 
 [node name="Label" type="Label" parent="hud/player_status/energy"]
+margin_top = 5.0
 margin_right = 49.0
-margin_bottom = 14.0
+margin_bottom = 19.0
 text = "ENERGY"
 
 [node name="count" type="Label" parent="hud/player_status/energy"]
 margin_left = 53.0
+margin_top = 5.0
 margin_right = 69.0
-margin_bottom = 14.0
+margin_bottom = 19.0
 text = "50"
 
 [node name="MeshInstance" type="MeshInstance" parent="hud"]

@@ -46,7 +46,7 @@ func custom_init(inventory, launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> 
 func custom_init_b() -> void:
 	pass
 
-func write_hud_status(statusDict:Dictionary) -> void:
+func write_hud_status(statusDict:PlayerHudStatus) -> void:
 	statusDict.currentLoaded = 0
 	statusDict.currentLoadedMax = 0
 	statusDict.currentAmmo = _inventory.get_count(ammoType)

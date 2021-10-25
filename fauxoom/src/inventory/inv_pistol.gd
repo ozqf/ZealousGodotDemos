@@ -21,7 +21,7 @@ func _start_reload() -> void:
 	tick = _reloadTime
 	_reloading = true
 
-func write_hud_status(statusDict:Dictionary) -> void:
+func write_hud_status(statusDict:PlayerHudStatus) -> void:
 	statusDict.currentLoaded = _loaded
 	statusDict.currentLoadedMax = maxLoaded
 	statusDict.currentAmmo = _inventory.get_count(ammoType)

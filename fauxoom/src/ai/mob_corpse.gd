@@ -49,9 +49,8 @@ func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
 func hit(_hitInfo:HitInfo) -> int:
 	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
 		# gib - remove self
-		Game.spawn_gibs(global_transform.origin, Vector3.UP, 8)
-		_state = CorpseState.Unresponsive
-		self.queue_free()
+		gib_death(_hitInfo.direction)
+		return Interactions.HIT_RESPONSE_PENETRATE
 	if _state == CorpseState.Unresponsive:
 		return Interactions.HIT_RESPONSE_PENETRATE
 	
@@ -83,8 +82,14 @@ func headshot_death() -> void:
 	pass
 
 func gib_death(_forward:Vector3) -> void:
-	_sprite.play_animation("dying_gib")
+	# show doom style gib animation
+	# _sprite.play_animation("dying_gib")
+	# _state = CorpseState.Unresponsive
+	
+	# build style explode into gibs
+	Game.spawn_gibs(global_transform.origin, Vector3.UP, 8)
 	_state = CorpseState.Unresponsive
+	self.queue_free()
 
 func regular_death() -> void:
 	_sprite.play_animation("dying")
@@ -94,6 +99,9 @@ func spawn(_hitInfo:HitInfo, _trans:Transform) -> void:
 	global_transform = _trans
 	var selfPos:Vector3 = global_transform.origin
 	var hitHeight:float = _hitInfo.origin.y - selfPos.y
+	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+		gib_death(_hitInfo.direction)
+		return
 	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_NONE:
 		if hitHeight >= 1.3 && randf() > 0.9:
 			headshot_death()

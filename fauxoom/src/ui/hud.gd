@@ -153,7 +153,7 @@ func player_hit(_data:Dictionary) -> void:
 	$centre.add_child(hit)
 	hit.spawn(_data.selfYawDegrees, _data.direction)
 
-func player_status_update(data:Dictionary) -> void:
+func player_status_update(data:PlayerHudStatus) -> void:
 	# crosshair
 	var c:Color = Color(1, 1, 1, 1)
 	# _maxHealthColour _minHealthColour
@@ -180,11 +180,27 @@ func player_status_update(data:Dictionary) -> void:
 		_ammoCount.text = str(data.currentLoaded) + " / " + str(data.currentLoadedMax) + " - " + str(data.currentAmmo)
 	else:
 		_ammoCount.text = str(data.currentAmmo)
-
-	_bulletCount.text = str(data.bullets)
-	_shellCount.text = str(data.shells)
-	_plasmaCount.text = str(data.plasma)
-	_rocketCount.text = str(data.rockets)
+	
+	if data.hasPistol:
+		_bulletCount.get_parent().visible = true
+		_bulletCount.text = str(data.bullets)
+	else:
+		_bulletCount.get_parent().visible = false
+	if data.hasSuperShotgun:
+		_shellCount.get_parent().visible = true
+		_shellCount.text = str(data.shells)
+	else:
+		_shellCount.get_parent().visible = false
+	if data.hasRailgun:
+		_plasmaCount.get_parent().visible = true
+		_plasmaCount.text = str(data.plasma)
+	else:
+		_plasmaCount.get_parent().visible = false
+	if data.hasRocketLauncher:
+		_rocketCount.get_parent().visible = true
+		_rocketCount.text = str(data.rockets)
+	else:
+		_rocketCount.get_parent().visible = false
 
 func _on_centre_animation_finished() -> void:
 	if centreNextAnim != "":

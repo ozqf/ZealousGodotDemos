@@ -1,6 +1,8 @@
 extends KinematicBody
 class_name Player
 
+var _player_hud_status_t = preload("res://src/defs/player_hud_status.gd")
+
 const MAX_HEALTH:int = 100
 
 onready var _ent:Entity = $Entity
@@ -26,6 +28,7 @@ var _godMode:bool = false
 var _dead:bool = false
 var _health:int = MAX_HEALTH
 var _swayTime:float = 0.0
+var _hudStatus:PlayerHudStatus = null
 
 var _targettingInfo:Dictionary = {
 	id = 1,
@@ -35,24 +38,14 @@ var _targettingInfo:Dictionary = {
 	yawDegrees = 0
 }
 
-var _status:Dictionary = {
-	health = 100,
-	energy = 100,
-	yawDegrees = 0,
-	bullets = 50,
-	shells = 0,
-	currentLoaded = 0,
-	currentLoadedMax = 0,
-	currentAmmo = 0,
-	godMode = false
-}
-
 func _ready():
 	# Main.set_camera(_head)
 	# _targettingInfo.id = Entities.PLAYER_RESERVED_ID
 	add_to_group(Config.GROUP)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
+	
+	_hudStatus = _player_hud_status_t.new()
 	
 	_motor.init_motor(self, _head)
 	_motor.set_input_enabled(false)
@@ -229,26 +222,24 @@ func _process(_delta):
 	Main.playerDebug = txt
 	
 	# update status info for UI
-	_status.bullets = _inventory.get_count("bullets")
-	_status.shells = _inventory.get_count("shells")
-	_status.plasma = _inventory.get_count("plasma")
-	_status.rockets = _inventory.get_count("rockets")
-	_status.yawDegrees = _motor.m_yaw
-	_status.health = _health
-	_status.energy = _motor.energy
-	_status.swayScale = swayScale
-	_status.swayTime = _swayTime
-	_status.godMode = _godMode
-	_status.hasInteractionTarget = _interactor.get_is_colliding()
+	
+	_hudStatus.yawDegrees = _motor.m_yaw
+	_hudStatus.health = _health
+	_hudStatus.energy = _motor.energy
+	_hudStatus.swayScale = swayScale
+	_hudStatus.swayTime = _swayTime
+	_hudStatus.godMode = _godMode
+	_hudStatus.hasInteractionTarget = _interactor.get_is_colliding()
 
-	_inventory.write_hud_status(_status)
+	_inventory.write_hud_status(_hudStatus)
 	
 	var grp = Groups.PLAYER_GROUP_NAME
 	var fn = Groups.PLAYER_FN_STATUS
-	get_tree().call_group(grp, fn, _status)
+	get_tree().call_group(grp, fn, _hudStatus)
 
 # returns amount taken
 func give_item(itemType:String, amount:int) -> int:
+	# is this something this class is interested in?
 	if itemType == "health":
 		if _health >= MAX_HEALTH:
 			return 0
@@ -256,6 +247,8 @@ func give_item(itemType:String, amount:int) -> int:
 		if _health > MAX_HEALTH:
 			_health = MAX_HEALTH
 		return amount
+	
+	# maybe it is an inventory item...?
 	var took:int = _inventory.give_item(itemType, amount)
 	# if took > 0:
 	# 	pass

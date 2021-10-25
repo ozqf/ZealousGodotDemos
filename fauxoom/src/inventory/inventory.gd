@@ -6,18 +6,18 @@ signal weapon_changed(newWeapon, oldWeapon)
 signal weapon_action(weapon, actionName)
 
 var _data:Dictionary = {
-	chainsaw = { count = 0, max = 1 },
-	pistol = { count = 0, max = 2 },
-	super_shotgun = { count = 0, max = 1 },
-	plasma_gun = { count = 0, max = 1 },
-	rocket_launcher = { count = 0, max = 1 },
-	flame_thrower = { count = 0, max = 1 },
+	chainsaw = { count = 0, max = 1, type = "weapon" },
+	pistol = { count = 0, max = 2, type = "weapon" },
+	super_shotgun = { count = 0, max = 1, type = "weapon" },
+	plasma_gun = { count = 0, max = 1, type = "weapon" },
+	rocket_launcher = { count = 0, max = 1, type = "weapon" },
+	flame_thrower = { count = 0, max = 1, type = "weapon" },
 
-	bullets = { count = 100, max = 300 },
-	shells = { count = 0, max = 50 },
-	plasma = { count = 0, max = 20 },
-	rockets = { count = 0, max = 50 },
-	fuel = { count = 0, max = 300 }
+	bullets = { count = 100, max = 300, type = "ammo" },
+	shells = { count = 0, max = 50, type = "ammo" },
+	plasma = { count = 0, max = 20, type = "ammo" },
+	rockets = { count = 0, max = 50, type = "ammo" },
+	fuel = { count = 0, max = 300, type = "ammo" }
 }
 
 var weapons = []
@@ -178,16 +178,26 @@ func find_weapon_slot_by_name(weaponName:String) -> int:
 	print("Found no slot for weapon " + weaponName)
 	return -1
 
-func write_hud_status(statusDict:Dictionary) -> void:
+func write_hud_status(_hudStatus:PlayerHudStatus) -> void:
+	_hudStatus.bullets = get_count("bullets")
+	_hudStatus.shells = get_count("shells")
+	_hudStatus.plasma = get_count("plasma")
+	_hudStatus.rockets = get_count("rockets")
+	
+	_hudStatus.hasPistol = get_count("pistol") > 0
+	_hudStatus.hasSuperShotgun = get_count("super_shotgun") > 0
+	_hudStatus.hasRocketLauncher = get_count("rocket_launcher") > 0
+	_hudStatus.hasRailgun = get_count("plasma_gun") > 0
+	
 	var weap:InvWeapon = get_current_weapon()
 	if weap != null:
 		# print("Inventory - write weapon status")
-		weap.write_hud_status(statusDict)
+		weap.write_hud_status(_hudStatus)
 	else:
 		# print("Inventory - no weapon for status")
-		statusDict.currentLoaded = 0
-		statusDict.currentLoadedMax = 0
-		statusDict.currentAmmo = -1
+		_hudStatus.currentLoaded = 0
+		_hudStatus.currentLoadedMax = 0
+		_hudStatus.currentAmmo = -1
 
 func get_count(itemType:String) -> int:
 	if itemType == "" || !_data.has(itemType):
@@ -200,6 +210,13 @@ func give_all() -> void:
 	for key in keys:
 		_data[key].count = _data[key].max
 		print(key + ": " + str(_data[key].count))
+	
+func give_all_ammo() -> void:
+	print("Give all ammo")
+	var keys = _data.keys()
+	for key in keys:
+		if _data[key].type == "ammo":
+			_data[key].count = _data[key].max
 
 func take_item(itemType:String, amount:int) -> int:
 	if !_data.has(itemType):
@@ -220,11 +237,26 @@ func take_item(itemType:String, amount:int) -> int:
 
 func give_item(itemType:String, amount:int) -> int:
 	# print("Touched item " + itemType)
+	
+	# handle special types
 	if itemType == "fullpack":
 		give_all()
+		if _currentWeaponIndex == -1:
+			# select a weapon
+			var slotNumber:int = find_weapon_slot_by_name("super_shotgun")
+			if slotNumber != -1:
+				change_weapon_by_slot(slotNumber)
 		return 1
+	elif itemType == "ammopack":
+		give_all_ammo()
+		return 1
+	
+	# item isn't in generic list - we don't know what this item is
 	if !_data.has(itemType):
+		print("Inventory has no type '" + itemType + "'")
 		return 0
+	
+	# lookup and see if we can take the item
 	var item:Dictionary = _data[itemType]
 	var previousCount:int = item.count
 	if item.count >= item.max:

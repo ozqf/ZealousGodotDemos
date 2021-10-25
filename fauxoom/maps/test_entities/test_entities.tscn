@@ -646,6 +646,12 @@ triggerTargetName = "test_cyclops"
 respawns = true
 selfRespawnTime = 30.0
 
+[node name="item_pistol" parent="arena_test/ents" instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 4, -1.4 )
+
+[node name="item_super_shotgun" parent="arena_test/ents" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 4, -1.4 )
+
 [node name="mob_spawn_proxy4" parent="arena_test/ents" instance=ExtResource( 37 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -32, 4, -1 )
 triggerName = "test_cyclops"
@@ -673,6 +679,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 2, -6 )
 light_energy = 0.5
 omni_range = 10.0
 omni_attenuation = 0.153893
+
+[node name="item_health_large" parent="arena_test/ents" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4, -8 )
+respawns = true
 
 [node name="world" type="Navigation" parent="arena_test"]
 script = ExtResource( 27 )

@@ -34,6 +34,7 @@ export var panicEvadeDegreesMax:float = 180
 # public
 var moveYaw:float = 0.0
 var speed:float = 4.5
+var evadeSpeed:float = 2
 
 # protected
 var _agent:NavAgent = null

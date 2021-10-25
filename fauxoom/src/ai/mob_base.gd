@@ -102,6 +102,7 @@ func _ready() -> void:
 	_gather_attacks()
 	motor.custom_init(self)
 	motor.speed = _stats.moveSpeed
+	motor.evadeSpeed = _stats.evadeSpeed
 	_ticker.custom_init(self, _stats)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	var _r = _ent.connect("entity_restore_state", self, "restore_state")

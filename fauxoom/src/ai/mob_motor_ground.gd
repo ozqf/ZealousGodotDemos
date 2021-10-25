@@ -45,7 +45,7 @@ func pick_evade_point(_verbose:bool) -> Spatial:
 	if p != null:
 		if _verbose:
 			print("Mob evade to " + p.name)
-		_evadeTick = rand_range(0.5, 3)
+		_evadeTick = rand_range(1.5, 4)
 		return p
 	return null
 
@@ -58,7 +58,7 @@ func _evade_step(_delta:float) -> void:
 	to.y = from.y
 	var toward:Vector3 = to - from
 	toward = toward.normalized()
-	_body.move_and_slide(toward * 5)
+	_body.move_and_slide(toward * 4)
 
 	# face move (attack) target
 	var towardTarget:Vector3 = _target - from
