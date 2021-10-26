@@ -102,6 +102,15 @@ static func strNullOrEmpty(txt: String) -> bool:
 		return true
 	return false
 
+static func bits_to_string(flags:int) -> String:
+	var txt = ""
+	for i in range(31, -1, -1):
+		if (flags & (1 << i)) != 0:
+			txt += str(1)
+		else:
+			txt += str(0)
+	return txt
+
 static func get_window_to_screen_ratio() -> Vector2:
 	var real: Vector2 = OS.get_real_window_size()
 	var scr: Vector2 = OS.get_screen_size()

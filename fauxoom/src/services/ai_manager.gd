@@ -4,6 +4,7 @@ const CAN_SEE_PLAYER_FLAG:int = (1 << 0)
 const CANNOT_SEE_PLAYER_FLAG:int = (1 << 1)
 const SNIPER_FLAG:int = (1 << 2)
 const VULNERABLE_FLAG:int = (1 << 3)
+const OCCUPIED_FLAG:int = (1 << 4)
 
 var _navAgent_t = preload("res://src/defs/nav_agent.gd")
 var _aiTickInfo_t = preload("res://src/defs/ai_tick_info.gd")
@@ -121,18 +122,28 @@ func register_mob(mob) -> void:
 	# tally before we add this new mob, so we can give it a suitable role:
 	tally_mob_roles()
 	_mobs.push_back(mob)
-	if _numRoleSnipe < _numRoleCharge:
-		mob.roleId = 1
-		_numRoleSnipe += 1
-	else:
-		mob.roleId = 0
-		_numRoleCharge += 1
+	# for testing snipers, assign everyone that role
+	mob.roleId = 1
+	_numRoleSnipe += 1
+	# if _numRoleSnipe < _numRoleCharge:
+	# 	mob.roleId = 1
+	# 	_numRoleSnipe += 1
+	# else:
+	# 	mob.roleId = 0
+	# 	_numRoleCharge += 1
 
 # must call when a mob dies/is removed in any way!
 func deregister_mob(mob) -> void:
 	var i:int = _mobs.find(mob)
 	if i != -1:
 		_mobs.remove(i)
+	# check for and unmark from assigned waypoint
+	var agent = mob.motor.get_agent()
+	var n:AITacticNode = agent.tacticNode
+	if n != null && is_instance_valid(n) && n.assignedAgent != null && n.assignedAgent == agent:
+		n.assignedAgent = null
+		n.flags &= ~OCCUPIED_FLAG
+
 	# retally roles and maybe reassign someone
 	tally_mob_roles()
 
@@ -273,7 +284,9 @@ func get_player_target() -> Dictionary:
 		return _emptyTargetInfo
 	return _player.get_targetting_info()
 
-func _find_closest_node(_agent:NavAgent, mask:int) -> bool:
+# mask bits must be on. mask filter bits must be off
+func _find_closest_node(_agent:NavAgent, mask:int, filter:int) -> bool:
+	# print("Find closest node. Mask " + str(mask) + " filter " + str(filter))
 	var resultNodeIndex:int = -1
 	var resultNodePos:Vector3 = Vector3()
 	var resultNodeDistSqr:float = 999999.0
@@ -282,9 +295,10 @@ func _find_closest_node(_agent:NavAgent, mask:int) -> bool:
 	var numNodes:int = _tacticNodes.size()
 	for _i in range(0, numNodes):
 		var n = _tacticNodes[_i]
-		# if can see player, not safe!
 		if (n.flags & mask) == 0:
-			# print(str(_i) + " cannot see player - skipping")
+			continue
+		if (n.flags & filter) != 0:
+#			print("node filter flags mismatch. Flags: " + str(n.flags) + " filter: " + str(filter))
 			continue
 		var candidatePos:Vector3 = n.global_transform.origin
 		var candidateDistSqr:float = ZqfUtils.distance_between_sqr(from, candidatePos)
@@ -312,10 +326,18 @@ func _find_closest_node(_agent:NavAgent, mask:int) -> bool:
 		return true
 
 func find_flee_position(_agent:NavAgent) -> bool:
-	return _find_closest_node(_agent, CANNOT_SEE_PLAYER_FLAG)
+	var result:bool = _find_closest_node(_agent, CANNOT_SEE_PLAYER_FLAG, OCCUPIED_FLAG)
+	if _agent.tacticNode != null:
+		_agent.tacticNode.flags |= OCCUPIED_FLAG
+	return result
 
 func find_melee_position(_agent:NavAgent) -> bool:
-	return _find_closest_node(_agent, CAN_SEE_PLAYER_FLAG)
+	return _find_closest_node(_agent, CAN_SEE_PLAYER_FLAG, 0)
 
 func find_sniper_position(_agent:NavAgent) -> bool:
-	return _find_closest_node(_agent, SNIPER_FLAG)
+	var result:bool = _find_closest_node(_agent, SNIPER_FLAG, OCCUPIED_FLAG)
+	if _agent.tacticNode != null:
+		_agent.tacticNode.flags |= OCCUPIED_FLAG
+		_agent.tacticNode.assignedAgent = _agent
+		# print("Node " + _agent.tacticNode.name + " now occupied. Bits: " + ZqfUtils.bits_to_string(_agent.tacticNode.flags))
+	return result

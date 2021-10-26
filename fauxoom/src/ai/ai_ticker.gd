@@ -131,6 +131,9 @@ func _attack_move(_delta:float) -> void:
 		_mob.motor.move_idle(_delta)
 
 func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
+	if isSniper:
+		return
+	
 	var isNotInjured:bool = _tickInfo.healthPercentage >= 50
 	var agent = _mob.motor.get_agent()
 

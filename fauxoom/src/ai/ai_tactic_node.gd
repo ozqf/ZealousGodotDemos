@@ -18,7 +18,10 @@ var mobProximityWeight:float = 0
 
 var flags:int = -1
 
+var assignedAgent = null
+
 func _ready() -> void:
+	visible = false
 	var influence = $influence
 	$influence.connect("body_entered", self, "on_body_entered")
 	$influence.connect("body_exited", self, "on_body_exited")
@@ -70,6 +73,8 @@ func custom_update(_delta:float) -> void:
 		newFlags |= AI.SNIPER_FLAG
 	if isVulnerable:
 		newFlags |= AI.VULNERABLE_FLAG
+	if assignedAgent != null:
+		newFlags |= AI.OCCUPIED_FLAG
 	
 	flags = newFlags
 
