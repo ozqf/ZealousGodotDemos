@@ -44,7 +44,7 @@ onready var _debugTextNE:Label = $static_menus/debug/debug_text2
 onready var _mouseLock:MouseLock = $mouse_lock
 
 var _debugNWMode:int = 0
-var _debugNEMode:int = 0
+var _debugNEMode:int = 1
 
 var playerDebug:String = ""
 

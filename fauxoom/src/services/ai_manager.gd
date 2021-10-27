@@ -141,6 +141,7 @@ func deregister_mob(mob) -> void:
 	var agent = mob.motor.get_agent()
 	var n:AITacticNode = agent.tacticNode
 	if n != null && is_instance_valid(n) && n.assignedAgent != null && n.assignedAgent == agent:
+		print("Unassigning tactic node " + str(n.index))
 		n.assignedAgent = null
 		n.flags &= ~OCCUPIED_FLAG
 
