@@ -176,18 +176,16 @@ __meta__ = {
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -192.0
-margin_top = 128.0
 margin_right = 192.0
-margin_bottom = 256.0
+margin_bottom = 128.0
 color = Color( 0, 0, 0, 0.505882 )
 
 [node name="hint_label_top" type="Label" parent="game_state_overlay/hint_text"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -192.0
-margin_top = 128.0
 margin_right = 192.0
-margin_bottom = 256.0
+margin_bottom = 128.0
 text = "HUD hint text goes here"
 align = 1
 valign = 1

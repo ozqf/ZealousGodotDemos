@@ -16,6 +16,10 @@ var _entRoot:Entities = null
 var _navService:NavService = null
 var _influenceMap = null
 
+# TODO: Nodes should be set as active/inactive via their tag to 
+# reduce the current search space to only those that are necessary.
+# update the tactic nodes list when this changes.
+
 # specially placed AI nodes
 var _tacticNodes = []
 
@@ -86,11 +90,19 @@ func get_debug_text() -> String:
 	txt += "Squad size: " + str(_mobs.size()) + "\n"
 	txt += "Num chargers: " + str(_numRoleCharge) + "\n"
 	txt += "Num snipers: " + str(_numRoleSnipe) + "\n"
+	var occupiedCount:int = 0
+	for i in range(0, _tacticNodes.size()):
+		var n = _tacticNodes[i]
+		if (n.flags & OCCUPIED_FLAG) != 0:
+			occupiedCount += 1
+	txt += "Occupied nodes: " + str(occupiedCount) + "\n"
 	txt += "Snipe nodes:\n"
 	for i in range(0, _tacticNodes.size()):
 		var n = _tacticNodes[i]
+		if (n.flags & SNIPER_FLAG) == 0:
+			continue
 		txt += n.get_debug_string()
-
+	
 	return txt
 
 ###############
