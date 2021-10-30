@@ -1465,6 +1465,9 @@ transform = Transform( 29, 0, 0, 0, 6, 0, 0, 0, 1, -1, 0, 42 )
 [node name="world_volume_corner4" parent="shooting_range" instance=ExtResource( 30 )]
 transform = Transform( 29, 0, 0, 0, 6, 0, 0, 0, 1, -1, 0, 13 )
 
+[node name="world_volume_corner5" parent="shooting_range" instance=ExtResource( 30 )]
+transform = Transform( 29, 0, 0, 0, 1, 0, 0, 0, 12, -1, 6, 13 )
+
 [node name="item_shells_small2" parent="shooting_range" instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 19 )
 respawns = true
@@ -1531,6 +1534,21 @@ transform = Transform( 1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 7, 0, 34 
 triggerName = "test_titan"
 type = 6
 delaySpawn = true
+
+[node name="SpotLight" type="SpotLight" parent="shooting_range"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 14, 5, 16 )
+spot_range = 10.0
+spot_angle = 22.5
+
+[node name="SpotLight2" type="SpotLight" parent="shooting_range"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 17, 5, 16 )
+spot_range = 10.0
+spot_angle = 22.5
+
+[node name="SpotLight3" type="SpotLight" parent="shooting_range"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 21, 5, 16 )
+spot_range = 10.0
+spot_angle = 22.5
 
 [connection signal="trigger" from="gameplay_test/mob_spawn_proxy3" to="gameplay_test/save_test_barrier2" method="on_trigger"]
 [connection signal="trigger" from="gameplay_test/mob_spawn_proxy4" to="gameplay_test/save_test_barrier2" method="on_trigger"]

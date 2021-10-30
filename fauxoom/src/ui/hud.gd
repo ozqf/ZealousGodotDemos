@@ -32,15 +32,15 @@ onready var _energyBar:TextureProgress = $centre/energy
 onready var _healthBar:TextureProgress = $centre/health
 
 # left side - immediate status
-onready var _healthCount:Label = $player_status/health/count
-onready var _energyCount:Label = $player_status/energy/count
-onready var _ammoCount:Label = $player_status/ammo/count
+onready var _healthCount:Label = $player_status/player_status/health/count
+onready var _energyCount:Label = $player_status/player_status/energy/count
+onready var _ammoCount:Label = $player_status/player_status/ammo/count
 
 # right side - weapon bar
-onready var _bulletCount:Label = $bottom_right_panel/ammo_counts/bullets/count
-onready var _shellCount:Label = $bottom_right_panel/ammo_counts/shells/count
-onready var _plasmaCount:Label = $bottom_right_panel/ammo_counts/plasma/count
-onready var _rocketCount:Label = $bottom_right_panel/ammo_counts/rockets/count
+onready var _bulletCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/bullets/count
+onready var _shellCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/shells/count
+onready var _plasmaCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/plasma/count
+onready var _rocketCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/rockets/count
 
 # audio
 onready var audio:AudioStreamPlayer = $AudioStreamPlayer

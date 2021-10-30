@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/services/game.gd" type="Script" id=1]
 [ext_resource path="res://prefabs/attachable_camera.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/defs/skill.gd" type="Script" id=3]
+[ext_resource path="res://assets/fonts/default_dynamic_font.tres" type="DynamicFont" id=4]
 
 [node name="game" type="Spatial"]
 pause_mode = 2
@@ -186,6 +187,7 @@ anchor_right = 0.5
 margin_left = -192.0
 margin_right = 192.0
 margin_bottom = 128.0
+custom_fonts/font = ExtResource( 4 )
 text = "HUD hint text goes here"
 align = 1
 valign = 1

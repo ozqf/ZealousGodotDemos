@@ -124,6 +124,8 @@ func set_rotation_to_target(pos:Vector3) -> void:
 	_mob.sprite.yawDegrees = yawDegrees
 
 func _attack_move(_delta:float) -> void:
+	if isSniper:
+		return
 	if moveAndAttack:
 		# _mob.motor.move_hunt(_delta)
 		_mob.motor.move_evade(_delta)
