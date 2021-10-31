@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://prefabs/items/item_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/entity.gd" type="Script" id=2]
+[ext_resource path="res://src/item_settings.gd" type="Script" id=3]
+
+[node name="item_hazard_suit" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="item_base" parent="." instance=ExtResource( 1 )]
+soundType = 1
+type = "hazard_suit"
+subQuantity = 0
+
+[node name="sprite" parent="item_base" index="0"]
+billboard = 2
+frame = 71
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 2 )
+prefabName = "hazard_suit"
+
+[editable path="item_base"]

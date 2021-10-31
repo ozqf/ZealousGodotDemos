@@ -17,7 +17,9 @@ var _data:Dictionary = {
 	shells = { count = 0, max = 30, type = "ammo" },
 	plasma = { count = 0, max = 20, type = "ammo" },
 	rockets = { count = 0, max = 20, type = "ammo" },
-	fuel = { count = 0, max = 300, type = "ammo" }
+	fuel = { count = 0, max = 300, type = "ammo" },
+
+	hazard_suit = { count = 0, max = 1, type = "equipment" }
 }
 
 var weapons = []
