@@ -4,18 +4,18 @@
 [ext_resource path="res://src/entity.gd" type="Script" id=2]
 [ext_resource path="res://src/item_settings.gd" type="Script" id=3]
 
-[node name="item_cells_large" type="Spatial"]
+[node name="item_fuel_large" type="Spatial"]
 script = ExtResource( 3 )
 
 [node name="item_base" parent="." instance=ExtResource( 1 )]
-type = "plasma"
-quantity = 10
+type = "fuel"
+quantity = 100
 
 [node name="sprite" parent="item_base" index="0"]
-frame = 23
+frame = 29
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 2 )
-prefabName = "cell_l"
+prefabName = "fuel_l"
 
 [editable path="item_base"]

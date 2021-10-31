@@ -17,6 +17,9 @@ const PREFAB_PLAYER:String = "player"
 const PREFAB_GIB:String = "gib"
 
 var _prefabs = {
+	################################################
+	# mobs
+	################################################
 	mob_punk = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_punk.tscn"),
 		entNodePath = "Entity"
@@ -46,15 +49,27 @@ var _prefabs = {
 		entNodePath = "Entity"
 	},
 
+	################################################
+	# player
+	################################################
 	player = {
 		prefab = preload("res://prefabs/player.tscn"),
+		entNodePath = "Entity"
+	},
+	################################################
+	# health
+	################################################
+	hp_s = {
+		prefab = preload("res://prefabs/items/item_health_small.tscn"),
 		entNodePath = "Entity"
 	},
 	hp_l = {
 		prefab = preload("res://prefabs/items/item_health_large.tscn"),
 		entNodePath = "Entity"
 	},
-
+	################################################
+	# weapons
+	################################################
 	chainsaw = {
 		prefab = preload("res://prefabs/items/item_chainsaw.tscn"),
 		entNodePath = "Entity"
@@ -75,27 +90,62 @@ var _prefabs = {
 		prefab = preload("res://prefabs/items/item_rocket_launcher.tscn"),
 		entNodePath = "Entity"
 	},
-
-	shell_s = {
-		prefab = preload("res://prefabs/items/item_shells_small.tscn"),
+	flame_thrower = {
+		prefab = preload("res://prefabs/items/item_flame_thrower.tscn"),
 		entNodePath = "Entity"
 	},
-	bullet_l = {
-		prefab = preload("res://prefabs/items/item_bullets_large.tscn"),
+
+	################################################
+	# ammo
+	################################################
+	shell_s = {
+		prefab = preload("res://prefabs/items/item_shells_small.tscn"),
 		entNodePath = "Entity"
 	},
 	shell_l = {
 		prefab = preload("res://prefabs/items/item_shells_large.tscn"),
 		entNodePath = "Entity"
 	},
+	bullet_s = {
+		prefab = preload("res://prefabs/items/item_bullets_small.tscn"),
+		entNodePath = "Entity"
+	},
+	bullet_l = {
+		prefab = preload("res://prefabs/items/item_bullets_large.tscn"),
+		entNodePath = "Entity"
+	},
+	rocket_s = {
+		prefab = preload("res://prefabs/items/item_rockets_small.tscn"),
+		entNodePath = "Entity"
+	},
 	rocket_l = {
 		prefab = preload("res://prefabs/items/item_rockets_large.tscn"),
+		entNodePath = "Entity"
+	},
+	cell_s = {
+		prefab = preload("res://prefabs/items/item_cells_small.tscn"),
+		entNodePath = "Entity"
+	},
+	cell_l = {
+		prefab = preload("res://prefabs/items/item_cells_large.tscn"),
+		entNodePath = "Entity"
+	},
+	fuel_s = {
+		prefab = preload("res://prefabs/items/item_fuel_small.tscn"),
+		entNodePath = "Entity"
+	},
+	fuel_l = {
+		prefab = preload("res://prefabs/items/item_fuel_large.tscn"),
 		entNodePath = "Entity"
 	},
 	fullpack = {
 		prefab = preload("res://prefabs/items/item_full_pack.tscn"),
 		entNodePath = "Entity"
 	},
+
+	################################################
+	# debris
+	################################################
 	gib = {
 		prefab = preload("res://prefabs/gib.tscn"),
 		entNodePath = "Entity"

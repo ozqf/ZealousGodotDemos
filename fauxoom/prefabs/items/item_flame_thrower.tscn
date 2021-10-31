@@ -4,18 +4,23 @@
 [ext_resource path="res://src/entity.gd" type="Script" id=2]
 [ext_resource path="res://src/item_settings.gd" type="Script" id=3]
 
-[node name="item_cells_large" type="Spatial"]
+[node name="item_flame_thrower" type="Spatial"]
 script = ExtResource( 3 )
 
 [node name="item_base" parent="." instance=ExtResource( 1 )]
-type = "plasma"
-quantity = 10
+soundType = 1
+type = "fuel"
+quantity = 50
+subType = "flame_thrower"
 
 [node name="sprite" parent="item_base" index="0"]
-frame = 23
+frame = 8
+
+[node name="CollisionShape" parent="item_base/Area" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00840425, 0.5, -0.00785017 )
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 2 )
-prefabName = "cell_l"
+prefabName = "flame_thrower"
 
 [editable path="item_base"]

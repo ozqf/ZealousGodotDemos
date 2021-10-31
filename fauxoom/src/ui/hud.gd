@@ -41,6 +41,7 @@ onready var _bulletCount:Label = $bottom_right_panel/bottom_right_panel/ammo_cou
 onready var _shellCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/shells/count
 onready var _plasmaCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/plasma/count
 onready var _rocketCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/rockets/count
+onready var _fuelCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/fuel/count
 
 # audio
 onready var audio:AudioStreamPlayer = $AudioStreamPlayer
@@ -201,6 +202,11 @@ func player_status_update(data:PlayerHudStatus) -> void:
 		_rocketCount.text = str(data.rockets)
 	else:
 		_rocketCount.get_parent().visible = false
+	if data.hasFlameThrower:
+		_fuelCount.get_parent().visible = true
+		_fuelCount.text = str(data.fuel)
+	else:
+		_fuelCount.get_parent().visible = false
 
 func _on_centre_animation_finished() -> void:
 	if centreNextAnim != "":

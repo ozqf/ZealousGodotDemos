@@ -14,9 +14,9 @@ var _data:Dictionary = {
 	flame_thrower = { count = 0, max = 1, type = "weapon" },
 
 	bullets = { count = 100, max = 300, type = "ammo" },
-	shells = { count = 0, max = 50, type = "ammo" },
+	shells = { count = 0, max = 30, type = "ammo" },
 	plasma = { count = 0, max = 20, type = "ammo" },
-	rockets = { count = 0, max = 50, type = "ammo" },
+	rockets = { count = 0, max = 20, type = "ammo" },
 	fuel = { count = 0, max = 300, type = "ammo" }
 }
 
@@ -183,11 +183,13 @@ func write_hud_status(_hudStatus:PlayerHudStatus) -> void:
 	_hudStatus.shells = get_count("shells")
 	_hudStatus.plasma = get_count("plasma")
 	_hudStatus.rockets = get_count("rockets")
+	_hudStatus.fuel = get_count("fuel")
 	
 	_hudStatus.hasPistol = get_count("pistol") > 0
 	_hudStatus.hasSuperShotgun = get_count("super_shotgun") > 0
 	_hudStatus.hasRocketLauncher = get_count("rocket_launcher") > 0
 	_hudStatus.hasRailgun = get_count("plasma_gun") > 0
+	_hudStatus.hasFlameThrower = get_count("flame_thrower") > 0
 	
 	var weap:InvWeapon = get_current_weapon()
 	if weap != null:

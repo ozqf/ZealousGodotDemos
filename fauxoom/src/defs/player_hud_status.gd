@@ -16,6 +16,7 @@ var bullets:int = 0
 var shells:int = 0
 var rockets:int = 0
 var plasma:int = 0
+var fuel:int = 0
 
 var hasPistol:bool = false
 var hasSuperShotgun:bool = false

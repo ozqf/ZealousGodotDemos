@@ -225,7 +225,7 @@ func _process(_delta):
 	
 	_hudStatus.yawDegrees = _motor.m_yaw
 	_hudStatus.health = _health
-	_hudStatus.energy = _motor.energy
+	_hudStatus.energy = int(_motor.energy)
 	_hudStatus.swayScale = swayScale
 	_hudStatus.swayTime = _swayTime
 	_hudStatus.godMode = _godMode

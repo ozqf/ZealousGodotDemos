@@ -539,7 +539,7 @@ __meta__ = {
 
 [node name="ColorRect2" type="ColorRect" parent="hud/bottom_right_panel"]
 margin_left = 64.0
-margin_top = 480.0
+margin_top = 448.0
 margin_right = 192.0
 margin_bottom = 600.0
 color = Color( 0, 0, 0, 0.490196 )
@@ -561,7 +561,7 @@ __meta__ = {
 }
 
 [node name="ammo_counts" type="VBoxContainer" parent="hud/bottom_right_panel/bottom_right_panel"]
-margin_top = 488.0
+margin_top = 459.0
 margin_right = 192.0
 margin_bottom = 600.0
 alignment = 2
@@ -642,6 +642,26 @@ custom_fonts/font = ExtResource( 27 )
 text = "ROCKETS"
 
 [node name="count" type="Label" parent="hud/bottom_right_panel/bottom_right_panel/ammo_counts/rockets"]
+margin_left = 168.0
+margin_right = 192.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 27 )
+text = "50"
+
+[node name="fuel" type="HBoxContainer" parent="hud/bottom_right_panel/bottom_right_panel/ammo_counts"]
+margin_top = 116.0
+margin_right = 192.0
+margin_bottom = 141.0
+alignment = 2
+
+[node name="Label" type="Label" parent="hud/bottom_right_panel/bottom_right_panel/ammo_counts/fuel"]
+margin_left = 119.0
+margin_right = 164.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 27 )
+text = "FUEL"
+
+[node name="count" type="Label" parent="hud/bottom_right_panel/bottom_right_panel/ammo_counts/fuel"]
 margin_left = 168.0
 margin_right = 192.0
 margin_bottom = 25.0
