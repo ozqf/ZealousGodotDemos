@@ -116,7 +116,7 @@ func tally_mob_roles() -> void:
 	_numRoleCharge = 0
 	for i in range(0, _mobs.size()):
 		var mob = _mobs[i]
-		if mob.roleId == 1:
+		if mob.roleId == Enums.CombatRole.Ranged:
 			_numRoleSnipe += 1
 		else:
 			_numRoleCharge += 1
@@ -147,10 +147,10 @@ func register_mob(mob) -> void:
 		return
 	# try to distribute evenly
 	if _numRoleSnipe < _numRoleCharge:
-		mob.roleId = Enums.EnemyRoleClass.Ranged
+		mob.roleId = Enums.CombatRole.Ranged
 		_numRoleSnipe += 1
 	else:
-		mob.roleId = 0
+		mob.roleId = Enums.CombatRole.Assault
 		_numRoleCharge += 1
 
 func clear_agent_node(agent:NavAgent) -> void:
@@ -310,7 +310,7 @@ func get_player_target() -> Dictionary:
 	return _player.get_targetting_info()
 
 # mask bits must be on. mask filter bits must be off
-func _find_closest_node(_agent:NavAgent, mask:int, filter:int) -> bool:
+func _find_closest_node(_agent:NavAgent, mask:int, filter:int, closest:bool) -> bool:
 	# print("Find closest node. Mask " + str(mask) + " filter " + str(filter))
 	var resultNodeIndex:int = -1
 	var resultNodePos:Vector3 = Vector3()
@@ -334,7 +334,14 @@ func _find_closest_node(_agent:NavAgent, mask:int, filter:int) -> bool:
 			resultNodeDistSqr = candidateDistSqr
 		else:
 			# compare distance with current result - favour nearest
-			if candidateDistSqr < resultNodeDistSqr:
+			var better:bool = false
+			if closest:
+				if candidateDistSqr < resultNodeDistSqr:
+					better = true
+			else:
+				if candidateDistSqr > resultNodeDistSqr:
+					better = true
+			if better:
 				# print("Replacing " + str(resultNodeIndex) + " with " + )
 				resultNodeIndex = _i
 				resultNodePos = candidatePos
@@ -352,18 +359,18 @@ func _find_closest_node(_agent:NavAgent, mask:int, filter:int) -> bool:
 
 func find_flee_position(_agent:NavAgent) -> bool:
 	clear_agent_node(_agent)
-	var result:bool = _find_closest_node(_agent, CANNOT_SEE_PLAYER_FLAG, OCCUPIED_FLAG)
+	var result:bool = _find_closest_node(_agent, CANNOT_SEE_PLAYER_FLAG, OCCUPIED_FLAG, false)
 	if _agent.tacticNode != null:
 		_agent.tacticNode.flags |= OCCUPIED_FLAG
 	return result
 
 func find_melee_position(_agent:NavAgent) -> bool:
 	clear_agent_node(_agent)
-	return _find_closest_node(_agent, CAN_SEE_PLAYER_FLAG, 0)
+	return _find_closest_node(_agent, CAN_SEE_PLAYER_FLAG, 0, true)
 
 func find_sniper_position(_agent:NavAgent) -> bool:
 	clear_agent_node(_agent)
-	var result:bool = _find_closest_node(_agent, SNIPER_FLAG, OCCUPIED_FLAG)
+	var result:bool = _find_closest_node(_agent, SNIPER_FLAG, OCCUPIED_FLAG, false)
 	if _agent.tacticNode != null:
 		_agent.tacticNode.flags |= OCCUPIED_FLAG
 		_agent.tacticNode.assignedAgent = _agent

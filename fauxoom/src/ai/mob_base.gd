@@ -288,7 +288,7 @@ func face_target_flat(tar:Vector3) -> void:
 # 	_tickInfo.trueDistance = ZqfUtils.distance_between(selfPos, tarPos)
 # 	_tickInfo.flatDistance = ZqfUtils.flat_distance_between(selfPos, tarPos)
 
-func _build_tick_info(targetInfo:Dictionary) -> void:
+func _build_tick_info(targetInfo:Dictionary, _delta:float) -> void:
 	_aiTickInfo.id = targetInfo.id
 	if _aiTickInfo.id == 0:
 		return
@@ -306,6 +306,15 @@ func _build_tick_info(targetInfo:Dictionary) -> void:
 	_aiTickInfo.flatDistance = ZqfUtils.flat_distance_between(selfPos, tarPos)
 	# LoS checked from firing point, not body origin which is in the floor!
 	_aiTickInfo.canSeeTarget = AI.check_los_to_player(head.global_transform.origin)
+	
+	# record time since a sighting of the player
+	if _aiTickInfo.canSeeTarget:
+		_aiTickInfo.timeSinceLastSight = 0
+		_aiTickInfo.lastSeenTargetPos = tarPos
+	else:
+		_aiTickInfo.timeSinceLastSight += _delta
+	
+	# mob status
 	_aiTickInfo.healthPercentage = (float(_health) / float(_healthMax)) * 100.0
 
 func _process(_delta:float) -> void:
@@ -316,7 +325,7 @@ func _process(_delta:float) -> void:
 	if _state == MobState.Hunting:
 		# build_tick_info(AI.mob_check_target(_tickInfo))
 		var targetInfo:Dictionary = AI.mob_check_target()
-		_build_tick_info(targetInfo)
+		_build_tick_info(targetInfo, _delta)
 		if _aiTickInfo.id == 0:
 			# lost target
 			_change_state(MobState.Idle)

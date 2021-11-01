@@ -153,7 +153,7 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 	var canFlee:bool = fleeTime < _mob.fleeBoredomSeconds
 	
 	if isNotInjured || !canFlee:
-		if _mob.roleId == Enums.EnemyRoleClass.Ranged:
+		if _mob.roleId == Enums.CombatRole.Ranged:
 			# find a sniping position
 			if agent.tacticNode == null || !agent.tacticNode.sniperSpot:
 				if AI.find_sniper_position(agent):
@@ -188,11 +188,19 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 				_mob.motor.set_move_target(_mob.motor.get_agent().target)
 	pass
 
+func _check_for_attack_start(_tickInfo:AITickInfo) -> bool:
+	if _tick <= 0 && _tickInfo.trueDistance <= 25 && _tickInfo.canSeeTarget:
+		return true
+	return false
+
 func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 	_tickInfo.moveThinkTick -= _delta
 	validate_move_target(_delta, _tickInfo)
-	if _moveMode == MOVEMODE_FLEE:
+	
+	# run boredom timer if we are fleeing but can't see the player
+	if _moveMode == MOVEMODE_FLEE && !_tickInfo.canSeeTarget:
 		fleeTime += _delta
+	
 	if _state == STATE_MOVE:
 		if isSniper:
 			_start_attack(_delta, _tickInfo)
@@ -208,7 +216,7 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 		if _tickInfo.trueDistance > 2:
 			_mob.motor.move_hunt(_delta)
 			set_rotation_to_movement()
-		if _tick <= 0 && _tickInfo.trueDistance <= 25 && _tickInfo.canSeeTarget:
+		if _check_for_attack_start(_tickInfo):
 			# print("AI ticker - attack")
 			_start_attack(_delta, _tickInfo)
 			set_rotation_to_target(_tickInfo.targetPos)

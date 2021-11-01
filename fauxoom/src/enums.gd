@@ -9,6 +9,13 @@ enum EnemyType {
 	Titan
 }
 
+# roles assigned by the manager to a mob during gameplay
+enum CombatRole {
+	Assault,
+	Ranged
+}
+
+# roles than an enemy can perform
 enum EnemyRoleClass {
 	Mix,
 	Melee,

@@ -113,6 +113,7 @@ func set_move_target_forward(targetForward:Vector3) -> void:
 func _set_yaw_by_vector3(velocity:Vector3) -> void:
 	velocity.y = 0
 	var radians:float = atan2(velocity.x, velocity.z)
+	moveYaw = radians - PI
 	rotation.y = radians
 
 func _set_move_yaw(radians:float) -> void:
