@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://prefabs/mob_components/orb_shield.tscn" type="PackedScene" id=11]
 [ext_resource path="res://zqf/zqf_orbiter.gd" type="Script" id=12]
 [ext_resource path="res://src/ai/mob_motor_ground.gd" type="Script" id=13]
+[ext_resource path="res://assets/sprites/frames/gfx_frames.tres" type="SpriteFrames" id=14]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -91,3 +92,10 @@ degreesPerSecond = Vector3( 0, 180, 0 )
 
 [node name="orb_shield" parent="orbs/Spatial/orb" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5 )
+
+[node name="teleport_sprite" type="AnimatedSprite3D" parent="."]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0.9, 0 )
+visible = false
+billboard = 1
+frames = ExtResource( 14 )
+animation = "teleport"
