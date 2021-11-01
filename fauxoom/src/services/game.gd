@@ -38,6 +38,7 @@ var _playerOrigin:Transform = Transform.IDENTITY
 
 # cheats
 var _noTarget:bool = false
+var _debugMob = null
 
 # live player
 var _player:Player = null
@@ -90,6 +91,7 @@ func show_hint_text(txt:String) -> void:
 	_hintContainer.visible = true
 
 func _process(_delta:float) -> void:
+	
 	if get_tree().paused == false:
 		if _hintTextTick <= 0:
 			_hintContainer.visible = false

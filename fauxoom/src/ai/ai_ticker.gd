@@ -1,6 +1,8 @@
 extends Spatial
 class_name AITicker
 
+const Enums = preload("res://src/enums.gd")
+
 const STATE_MOVE:int = 0
 const STATE_WINDUP:int = 1
 const STATE_ATTACK:int = 2
@@ -9,6 +11,7 @@ const STATE_REPEAT:int = 4
 
 const MOVEMODE_CHARGE:int = 0
 const MOVEMODE_EVADE:int = 1
+const MOVEMODE_FLEE:int = 2
 # const MOVEMODE_RETREAT:int = 2
 
 var _moveMode:int = 0
@@ -24,6 +27,8 @@ var _tick:float = 0.0
 var _cycles:int = 0
 var isSniper:bool = false
 
+var fleeTime:float = 0
+
 var moveAndAttack:bool = true
 
 var _attackIndex:int = -1
@@ -33,6 +38,12 @@ var _revengeAttack:bool = false
 var lastTarPos:Vector3 = Vector3()
 
 var _mob
+
+func get_debug_text() -> String:
+	var txt:String = "-AI Ticker-\nState: " + str(_state) + "\n"
+	txt += "Is sniper" + str(isSniper) + "\n"
+	txt += "Flee time: " + str(fleeTime) + " vs max: " + str(_mob.fleeBoredomSeconds) + "\n"
+	return txt
 
 func custom_init(mob, stats:MobStats) -> void:
 	_mob = mob
@@ -139,8 +150,10 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 	var isNotInjured:bool = _tickInfo.healthPercentage >= 50
 	var agent = _mob.motor.get_agent()
 
-	if isNotInjured:
-		if _mob.roleId == 1:
+	var canFlee:bool = fleeTime < _mob.fleeBoredomSeconds
+	
+	if isNotInjured || !canFlee:
+		if _mob.roleId == Enums.EnemyRoleClass.Ranged:
 			# find a sniping position
 			if agent.tacticNode == null || !agent.tacticNode.sniperSpot:
 				if AI.find_sniper_position(agent):
@@ -170,6 +183,7 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 		# "Runaway. Runaway. Run Children. Run for your life!
 		# Runaway. Runaway. Run children. Here it comes. I said run. Alright"
 		if agent.tacticNode == null || agent.tacticNode.canSeePlayer:
+			_moveMode = MOVEMODE_FLEE
 			if AI.find_flee_position(_mob.motor.get_agent()):
 				_mob.motor.set_move_target(_mob.motor.get_agent().target)
 	pass
@@ -177,6 +191,8 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 	_tickInfo.moveThinkTick -= _delta
 	validate_move_target(_delta, _tickInfo)
+	if _moveMode == MOVEMODE_FLEE:
+		fleeTime += _delta
 	if _state == STATE_MOVE:
 		if isSniper:
 			_start_attack(_delta, _tickInfo)

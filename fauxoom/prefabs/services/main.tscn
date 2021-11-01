@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/services/main.gd" type="Script" id=1]
 [ext_resource path="res://src/menus/static_menus.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://src/mouse_lock.gd" type="Script" id=5]
 [ext_resource path="res://prefabs/services/static_menu_options.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/menus/binds_menu.gd" type="Script" id=7]
+[ext_resource path="res://src/ui/mob_debug_ui.gd" type="Script" id=8]
 
 [node name="main" type="Spatial"]
 script = ExtResource( 1 )
@@ -73,6 +74,19 @@ Line 2"
 align = 2
 __meta__ = {
 "_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="debug_text3" type="Label" parent="static_menus/debug"]
+anchor_top = 8.0
+anchor_bottom = 8.0
+margin_top = -128.0
+margin_right = 192.0
+margin_bottom = 128.0
+text = "Line 1
+Line 2"
+script = ExtResource( 8 )
+__meta__ = {
 "_edit_use_anchors_": false
 }
 

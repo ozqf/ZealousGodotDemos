@@ -103,5 +103,5 @@ func move_hunt(_delta:float) -> void:
 	towardPath = towardPath.normalized()
 	var towardTarget:Vector3 = _target - selfPos
 	_set_yaw_by_vector3(towardTarget)
-	towardPath *= 5
+	towardPath *= speed
 	_body.move_and_slide(towardPath, Vector3.UP)

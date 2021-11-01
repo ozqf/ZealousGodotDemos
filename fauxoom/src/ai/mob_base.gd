@@ -20,6 +20,8 @@ var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
 var _prefab_impact_debris_t = preload("res://prefabs/gfx/blood_hit_debris.tscn")
 var _punk_corpse_t = preload("res://prefabs/corpses/punk_corpse.tscn")
 
+const Enums = preload("res://src/enums.gd")
+
 const STUN_TIME:float = 0.2
 
 signal on_mob_died(mob)
@@ -44,11 +46,15 @@ var aimLaser = null
 var omniCharge:OmniAttackCharge
 var frameCount:int = 0
 
-var roleId:int = 0
-
 # var _tarInfoFields = [ "id", "position", "forward", "flatForward", "yawDegrees" ]
 
 export var triggerTargets:String = ""
+# stoic enemies never flee
+export var fleeBoredomSeconds:float = 30
+# roles this mob can perform
+export(Enums.EnemyRoleClass) var roleClass = Enums.EnemyRoleClass.Mix
+# role assigned
+var roleId:int = 0
 
 enum MobState {
 	Idle,
@@ -110,6 +116,15 @@ func _ready() -> void:
 	_ent.triggerTargetName = triggerTargets
 	AI.register_mob(self)
 	_registered = true
+
+func get_debug_text() -> String:
+	var txt:String = "prefab: " + _ent.prefabName + "\n"
+	txt += "Roles: Class: " + str(roleClass) + " assigned: " + str(roleId) + "\n"
+	txt += "HP: " + str(_health) + "/" + str(_healthMax)
+	txt += "(" + str(get_health_percentage()) + "%)\n"
+	txt += motor.get_debug_text()
+	txt += _ticker.get_debug_text()
+	return txt
 
 func get_health_percentage() -> float:
 	return (float(_health) / float(_healthMax)) * 100

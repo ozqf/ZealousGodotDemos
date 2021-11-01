@@ -9,6 +9,12 @@ enum EnemyType {
 	Titan
 }
 
+enum EnemyRoleClass {
+	Mix,
+	Melee,
+	Ranged
+}
+
 enum PatternType {
 	None,
 	Arc,

@@ -165,7 +165,7 @@ func change_weapon_by_slot(_slotNumber:int) -> int:
 		# matches this slot
 		fail += 1
 		if fail > numWeapons + 1:
-			print("Select by slot " + str(_slotNumber) + " ran away!")
+			#print("Select by slot " + str(_slotNumber) + " ran away!")
 			return -1
 	if result != _currentWeaponIndex:
 		set_current_weapon(result)
@@ -175,9 +175,9 @@ func find_weapon_slot_by_name(weaponName:String) -> int:
 	var num:int = weapons.size()
 	for _i in range(0, num):
 		if weapons[_i].inventoryType == weaponName:
-			print("Found slot " + str(weapons[_i].slot) + " for item " + weaponName)
+			#print("Found slot " + str(weapons[_i].slot) + " for item " + weaponName)
 			return weapons[_i].slot
-	print("Found no slot for weapon " + weaponName)
+	#print("Found no slot for weapon " + weaponName)
 	return -1
 
 func write_hud_status(_hudStatus:PlayerHudStatus) -> void:

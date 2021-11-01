@@ -54,6 +54,13 @@ var _hasTarget:bool = false
 var _target:Vector3 = Vector3()
 var _targetForward:Vector3 = Vector3()
 
+func get_debug_text() -> String:
+	var txt:String = "-MOTOR-\nState: " + str(_state) + "\n"
+	txt += "target pos: " + str(_target) + "\n"
+	txt += "Path nodes: " + str(_agent.pathNumNodes) + "\n"
+	txt += "Has node target: " + str(_agent.tacticNode != null) + "\n"
+	return txt
+
 func custom_init(body:KinematicBody) -> void:
 	_agent = AI.create_nav_agent()
 	_body = body

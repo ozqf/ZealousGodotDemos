@@ -1,5 +1,7 @@
 extends Spatial
 
+const Enums = preload("res://src/enums.gd")
+
 const CAN_SEE_PLAYER_FLAG:int = (1 << 0)
 const CANNOT_SEE_PLAYER_FLAG:int = (1 << 1)
 const SNIPER_FLAG:int = (1 << 2)
@@ -135,14 +137,28 @@ func register_mob(mob) -> void:
 	tally_mob_roles()
 	_mobs.push_back(mob)
 	# for testing snipers, assign everyone that role
-	mob.roleId = 1
-	_numRoleSnipe += 1
-	# if _numRoleSnipe < _numRoleCharge:
-	# 	mob.roleId = 1
-	# 	_numRoleSnipe += 1
-	# else:
-	# 	mob.roleId = 0
-	# 	_numRoleCharge += 1
+#	mob.roleId = 1
+#	_numRoleSnipe += 1
+
+	# if melee we can't assign as a sniper so just assign away
+	if mob.roleClass == Enums.EnemyRoleClass.Melee:
+		mob.roleId = 0
+		_numRoleCharge += 1
+		return
+	# try to distribute evenly
+	if _numRoleSnipe < _numRoleCharge:
+		mob.roleId = Enums.EnemyRoleClass.Ranged
+		_numRoleSnipe += 1
+	else:
+		mob.roleId = 0
+		_numRoleCharge += 1
+
+func clear_agent_node(agent:NavAgent) -> void:
+	var n:AITacticNode = agent.tacticNode
+	if n != null && is_instance_valid(n) && n.assignedAgent != null && n.assignedAgent == agent:
+		print("Unassigning tactic node " + str(n.index))
+		n.assignedAgent = null
+		n.flags &= ~OCCUPIED_FLAG
 
 # must call when a mob dies/is removed in any way!
 func deregister_mob(mob) -> void:
@@ -151,11 +167,7 @@ func deregister_mob(mob) -> void:
 		_mobs.remove(i)
 	# check for and unmark from assigned waypoint
 	var agent = mob.motor.get_agent()
-	var n:AITacticNode = agent.tacticNode
-	if n != null && is_instance_valid(n) && n.assignedAgent != null && n.assignedAgent == agent:
-		print("Unassigning tactic node " + str(n.index))
-		n.assignedAgent = null
-		n.flags &= ~OCCUPIED_FLAG
+	clear_agent_node(agent)
 
 	# retally roles and maybe reassign someone
 	tally_mob_roles()
@@ -339,15 +351,18 @@ func _find_closest_node(_agent:NavAgent, mask:int, filter:int) -> bool:
 		return true
 
 func find_flee_position(_agent:NavAgent) -> bool:
+	clear_agent_node(_agent)
 	var result:bool = _find_closest_node(_agent, CANNOT_SEE_PLAYER_FLAG, OCCUPIED_FLAG)
 	if _agent.tacticNode != null:
 		_agent.tacticNode.flags |= OCCUPIED_FLAG
 	return result
 
 func find_melee_position(_agent:NavAgent) -> bool:
+	clear_agent_node(_agent)
 	return _find_closest_node(_agent, CAN_SEE_PLAYER_FLAG, 0)
 
 func find_sniper_position(_agent:NavAgent) -> bool:
+	clear_agent_node(_agent)
 	var result:bool = _find_closest_node(_agent, SNIPER_FLAG, OCCUPIED_FLAG)
 	if _agent.tacticNode != null:
 		_agent.tacticNode.flags |= OCCUPIED_FLAG

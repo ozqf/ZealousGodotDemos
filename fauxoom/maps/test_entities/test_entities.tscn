@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=2]
+[gd_scene load_steps=76 format=2]
 
 [ext_resource path="res://prefabs/gib.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/frames/item_frames.tres" type="SpriteFrames" id=2]
@@ -69,6 +69,7 @@
 [ext_resource path="res://assets/world/animated/forcefield/shader_forcefield.tres" type="Shader" id=67]
 [ext_resource path="res://prefabs/items/item_flame_thrower.tscn" type="PackedScene" id=68]
 [ext_resource path="res://prefabs/items/item_hazard_suit.tscn" type="PackedScene" id=69]
+[ext_resource path="res://prefabs/dynamic_entities/mob_flesh_worm.tscn" type="PackedScene" id=70]
 
 [sub_resource type="Environment" id=1]
 ambient_light_color = Color( 0.517647, 0.52549, 0.733333, 1 )
@@ -749,22 +750,6 @@ sniperSpot = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 4, -8.1 )
 tag = 1
 
-[node name="ai_tactic_node9" parent="arena_test/ents" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, -6.5 )
-tag = 1
-
-[node name="ai_tactic_node10" parent="arena_test/ents" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -34.5, 0, -7.8 )
-tag = 1
-
-[node name="ai_tactic_node11" parent="arena_test/ents" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, -6.5 )
-tag = 1
-
-[node name="ai_tactic_node12" parent="arena_test/ents" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -34.5, 0, -5.1 )
-tag = 1
-
 [node name="lever_switch" parent="arena_test/ents" instance=ExtResource( 46 )]
 transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -21, 1, 6.5 )
 triggerTargetName = "survivalControl survival_gate deadline_event"
@@ -812,6 +797,9 @@ omni_attenuation = 0.153893
 [node name="item_health_large" parent="arena_test/ents" instance=ExtResource( 18 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4, -8 )
 respawns = true
+
+[node name="mob_flesh_worm" parent="arena_test/ents" instance=ExtResource( 70 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, 1 )
 
 [node name="world" type="Navigation" parent="arena_test"]
 script = ExtResource( 27 )
