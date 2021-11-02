@@ -155,10 +155,10 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 	if isNotInjured || !canFlee:
 		if _mob.roleId == Enums.CombatRole.Ranged:
 			# find a sniping position
-			if agent.tacticNode == null || !agent.tacticNode.sniperSpot:
+			if agent.objectiveNode == null || !agent.objectiveNode.sniperSpot:
 				if AI.find_sniper_position(agent):
 					_mob.motor.set_move_target(agent.target)
-					print("Sniper move target is " + str(agent.target) + " waypoint " + str(agent.tacticNode.index))
+					print("Sniper move target is " + str(agent.target) + " waypoint " + str(agent.objectiveNode.index))
 					return
 				else:
 					# fall back to just being a charger
@@ -182,7 +182,7 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 	else:
 		# "Runaway. Runaway. Run Children. Run for your life!
 		# Runaway. Runaway. Run children. Here it comes. I said run. Alright"
-		if agent.tacticNode == null || agent.tacticNode.canSeePlayer:
+		if agent.objectiveNode == null || agent.objectiveNode.canSeePlayer:
 			_moveMode = MOVEMODE_FLEE
 			if AI.find_flee_position(_mob.motor.get_agent()):
 				_mob.motor.set_move_target(_mob.motor.get_agent().target)
@@ -225,7 +225,7 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 		_attack_move(_delta)
 		if get_attack().faceTargetDuringWindup:
 			_mob.head.look_at(_tickInfo.targetPos, Vector3.UP)
-			lastTarPos = _tickInfo.targetPos
+			lastTarPos = _tickInfo.lastSeenTargetPos
 			_mob.face_target_flat(lastTarPos)
 		if _tick <= 0:
 			change_state(STATE_ATTACK)

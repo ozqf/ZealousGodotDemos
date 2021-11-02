@@ -146,7 +146,7 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		var agent:NavAgent = AI.create_nav_agent()
 		agent.position = global_transform.origin
 		if AI.find_melee_position(agent):
-			print("Melee target " + str(agent.tacticNode.index) + " at " + str(agent.target))
+			print("Melee target " + str(agent.objectiveNode.index) + " at " + str(agent.target))
 			AI.set_test_nav_dest(agent.target)
 			var navPos:Vector3 = AI.find_closest_navmesh_point(agent.target)
 			print("Closest nav pos " + str(navPos))
@@ -170,7 +170,7 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		# 	nodeIndex = -1
 		# }
 		if AI.find_flee_position(agent):
-			print("Flee target " + str(agent.tacticNode.index) + " at " + str(agent.target))
+			print("Flee target " + str(agent.objectiveNode.index) + " at " + str(agent.target))
 			AI.set_test_nav_dest(agent.target)
 			var navPos:Vector3 = AI.find_closest_navmesh_point(agent.target)
 			print("Closest nav pos " + str(navPos))

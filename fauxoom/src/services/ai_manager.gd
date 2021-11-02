@@ -154,7 +154,7 @@ func register_mob(mob) -> void:
 		_numRoleCharge += 1
 
 func clear_agent_node(agent:NavAgent) -> void:
-	var n:AITacticNode = agent.tacticNode
+	var n:AITacticNode = agent.objectiveNode
 	if n != null && is_instance_valid(n) && n.assignedAgent != null && n.assignedAgent == agent:
 		print("Unassigning tactic node " + str(n.index))
 		n.assignedAgent = null
@@ -187,8 +187,8 @@ func register_tactic_node(newTacticNode) -> void:
 	_tacticNodes.push_back(newTacticNode)
 #	print("AI singleton has " + str(_tacticNodes.size()) + " tactic nodes")
 
-func deregister_tactic_node(tacticNode) -> void:
-	var i:int = _tacticNodes.find(tacticNode)
+func deregister_tactic_node(objectiveNode) -> void:
+	var i:int = _tacticNodes.find(objectiveNode)
 	if i == -1:
 		return
 	_tacticNodes.remove(i)
@@ -349,19 +349,19 @@ func _find_closest_node(_agent:NavAgent, mask:int, filter:int, closest:bool) -> 
 
 	if resultNodeIndex == -1:
 		# _agent.nodeIndex = -1
-		_agent.tacticNode = null
+		_agent.objectiveNode = null
 		return false
 	else:
 		# _agent.nodeIndex = resultNodeIndex
 		_agent.target = resultNodePos
-		_agent.tacticNode = _tacticNodes[resultNodeIndex]
+		_agent.objectiveNode = _tacticNodes[resultNodeIndex]
 		return true
 
 func find_flee_position(_agent:NavAgent) -> bool:
 	clear_agent_node(_agent)
 	var result:bool = _find_closest_node(_agent, CANNOT_SEE_PLAYER_FLAG, OCCUPIED_FLAG, false)
-	if _agent.tacticNode != null:
-		_agent.tacticNode.flags |= OCCUPIED_FLAG
+	if _agent.objectiveNode != null:
+		_agent.objectiveNode.flags |= OCCUPIED_FLAG
 	return result
 
 func find_melee_position(_agent:NavAgent) -> bool:
@@ -371,8 +371,8 @@ func find_melee_position(_agent:NavAgent) -> bool:
 func find_sniper_position(_agent:NavAgent) -> bool:
 	clear_agent_node(_agent)
 	var result:bool = _find_closest_node(_agent, SNIPER_FLAG, OCCUPIED_FLAG, false)
-	if _agent.tacticNode != null:
-		_agent.tacticNode.flags |= OCCUPIED_FLAG
-		_agent.tacticNode.assignedAgent = _agent
-		# print("Node " + _agent.tacticNode.name + " now occupied. Bits: " + ZqfUtils.bits_to_string(_agent.tacticNode.flags))
+	if _agent.objectiveNode != null:
+		_agent.objectiveNode.flags |= OCCUPIED_FLAG
+		_agent.objectiveNode.assignedAgent = _agent
+		# print("Node " + _agent.objectiveNode.name + " now occupied. Bits: " + ZqfUtils.bits_to_string(_agent.objectiveNode.flags))
 	return result

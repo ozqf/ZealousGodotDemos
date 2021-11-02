@@ -1,7 +1,8 @@
 class_name NavAgent
 
 var position:Vector3 = Vector3()
-var tacticNode = null
+var objectiveNode = null
+var fallbackNode = null
 var target:Vector3 = Vector3()
 var hasPath:bool = false
 # var nodeIndex:int = -1

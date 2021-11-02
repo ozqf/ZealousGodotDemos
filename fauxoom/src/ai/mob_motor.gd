@@ -58,7 +58,7 @@ func get_debug_text() -> String:
 	var txt:String = "-MOTOR-\nState: " + str(_state) + "\n"
 	txt += "target pos: " + str(_target) + "\n"
 	txt += "Path nodes: " + str(_agent.pathNumNodes) + "\n"
-	txt += "Has node target: " + str(_agent.tacticNode != null) + "\n"
+	txt += "Has node target: " + str(_agent.objectiveNode != null) + "\n"
 	return txt
 
 func custom_init(body:KinematicBody) -> void:
