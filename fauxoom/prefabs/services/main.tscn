@@ -84,7 +84,15 @@ margin_top = -128.0
 margin_right = 192.0
 margin_bottom = 128.0
 text = "Line 1
-Line 2"
+Line 2
+Line 3
+Line 4
+Line 5
+Line 6
+Line 7
+Line 8
+Line 9
+Line 10"
 script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false

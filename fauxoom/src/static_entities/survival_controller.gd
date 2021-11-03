@@ -24,11 +24,17 @@ func _ready() -> void:
 	for _i in range(0, numPoints):
 		_spawnTransforms.push_back(spawnPoints.get_child(_i).global_transform)
 	
-	_northernTransforms.push_back($spawn_points/n.global_transform)
-	_northernTransforms.push_back($spawn_points/nw.global_transform)
-	_northernTransforms.push_back($spawn_points/ne.global_transform)
+	#_northernTransforms.push_back($spawn_points/n.global_transform)
+	#_northernTransforms.push_back($spawn_points/nw.global_transform)
+	#_northernTransforms.push_back($spawn_points/ne.global_transform)
 	
-	_child_spawner.set_spawn_points(_northernTransforms)
+	var cardinalTransforms = []
+	cardinalTransforms.push_back($spawn_points/n.global_transform)
+	cardinalTransforms.push_back($spawn_points/s.global_transform)
+	cardinalTransforms.push_back($spawn_points/w.global_transform)
+	cardinalTransforms.push_back($spawn_points/e.global_transform)
+	
+	_child_spawner.set_spawn_points(cardinalTransforms)
 
 func _process(_delta:float) -> void:
 	if !_active:

@@ -626,29 +626,47 @@ maxLiveMobs = 4
 
 [node name="spawn_points" type="Spatial" parent="arena_test/ents/survival_controller"]
 
-[node name="n" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 25 )]
-transform = Transform( 0, 0, -1, 0, 1, 0, 1, 0, 0, -11, -2, 0 )
+[node name="n" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 36 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -2, -12 )
+tag = 1
 
-[node name="w" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 25 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 12 )
+[node name="s" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 36 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -2, 12 )
+tag = 1
 
-[node name="e" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 25 )]
-transform = Transform( -1, 0, 0, 0, 1, 0, 0, 0, -1, 1.90735e-06, -2, -12 )
+[node name="w" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 36 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -2, 0 )
+tag = 1
 
-[node name="s" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 25 )]
-transform = Transform( 0, 0, 1, 0, 1, 0, -1, 0, 0, 13, -2, 0 )
+[node name="e" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 36 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21, -2, 0 )
+tag = 1
 
-[node name="nw" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 25 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 17, 2, 6 )
+[node name="Spatial" type="Spatial" parent="arena_test/ents/survival_controller/spawn_points"]
 
-[node name="sw" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 25 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 13, -2, 12 )
+[node name="n" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
+transform = Transform( 0, 0, -1, 0, 1, 0, 1, 0, 0, -10, -2, -32 )
 
-[node name="ne" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 25 )]
-transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -11, -2, -12 )
+[node name="w" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -2, -20 )
 
-[node name="se" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 25 )]
-transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 13, -2, -12 )
+[node name="e" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
+transform = Transform( -1, 0, 0, 0, 1, 0, 0, 0, -1, 1, -2, -44 )
+
+[node name="s" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
+transform = Transform( 0, 0, 1, 0, 1, 0, -1, 0, 0, 22, -2, -32 )
+
+[node name="nw" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 18, 2, -26 )
+
+[node name="sw" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 14, -2, -20 )
+
+[node name="ne" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
+transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -10, -2, -44 )
+
+[node name="se" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
+transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 14, -2, -44 )
 
 [node name="ai_tactic_node" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 6.5 )
