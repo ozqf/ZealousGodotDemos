@@ -10,6 +10,7 @@ pause_mode = 2
 script = ExtResource( 1 )
 
 [node name="attachable_camera" parent="." instance=ExtResource( 2 )]
+cull_mask = 524287
 fov = 80.0
 
 [node name="skills" type="Node" parent="."]

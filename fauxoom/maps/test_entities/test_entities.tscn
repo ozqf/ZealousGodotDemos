@@ -73,7 +73,6 @@
 
 [sub_resource type="Environment" id=1]
 ambient_light_color = Color( 0.517647, 0.52549, 0.733333, 1 )
-fog_enabled = true
 fog_color = Color( 0.294118, 0.294118, 0.294118, 1 )
 fog_depth_begin = 20.0
 fog_depth_end = 60.0

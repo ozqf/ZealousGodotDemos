@@ -1,6 +1,8 @@
 extends Node
 class_name ZqfFPSMotor
 
+signal moved(body, head)
+
 const MOUSE_MOVE_SCALE:float = 0.1
 const PITCH_CAP_DEGREES = 89
 const KEYBOARD_YAW_DEGREES = 180
@@ -169,6 +171,7 @@ func _physics_process(delta:float) -> void:
 	_velocity.y -= GRAVITY * delta
 	
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+	self.emit_signal("moved", _body, _head)
 
 func _get_window_to_screen_ratio():
 	var real: Vector2 = OS.get_real_window_size()

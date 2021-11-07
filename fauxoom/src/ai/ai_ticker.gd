@@ -137,11 +137,14 @@ func set_rotation_to_target(pos:Vector3) -> void:
 func _attack_move(_delta:float) -> void:
 	if isSniper:
 		return
+	if _moveMode == MOVEMODE_FLEE:
+		_mob.motor.move_idle(_delta)
+		return
 	if moveAndAttack:
 		# _mob.motor.move_hunt(_delta)
 		_mob.motor.move_evade(_delta)
-	else:
-		_mob.motor.move_idle(_delta)
+		return
+	_mob.motor.move_idle(_delta)
 
 func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 	if isSniper:

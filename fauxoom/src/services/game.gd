@@ -85,7 +85,7 @@ func write_save_file(fileName:String) -> void:
 	save_game(path)
 
 func show_hint_text(txt:String) -> void:
-	print("Show hint text")
+	# print("Show hint text" + txt)
 	_hintTextTick = 3
 	_hintLabelTop.text = txt
 	_hintContainer.visible = true

@@ -62,12 +62,19 @@ func _ready():
 	_result = connect("tree_exiting", self, "_on_tree_exiting")
 	_result = _ent.connect("entity_append_state", self, "append_state")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
+	_result = _motor.connect("moved", self, "on_moved")
 
 	Game.register_player(self)
 	config_changed(Config.cfg)
 
 func on_player_shoot() -> void:
 	# _audio.play()
+	pass
+
+func on_moved(body, head) -> void:
+	var grp:String = Groups.PLAYER_GROUP_NAME
+	var fn:String = Groups.PLAYER_FN_MOVED
+	get_tree().call_group(grp, fn, body, head)
 	pass
 
 func on_weapon_action(_weapon:InvWeapon, _action:String) -> void:
@@ -78,10 +85,12 @@ func append_state(_dict:Dictionary) -> void:
 	t.origin = self.global_transform.origin
 	t.basis = _head.global_transform.basis
 	_dict.xform = ZqfUtils.transform_to_dict(t)
+	print("Player saving pos " + str(t.origin))
 	_inventory.append_state(_dict)
 
 func restore_state(_dict:Dictionary) -> void:
 	var t:Transform = ZqfUtils.transform_from_dict(_dict.xform)
+	print("Player restoring to pos " + str(t.origin))
 	teleport(t)
 	_inventory.restore_state(_dict)
 
