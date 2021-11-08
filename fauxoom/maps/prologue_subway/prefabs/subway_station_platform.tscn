@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=2]
+
+[node name="station_section" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -38, 16, 87 )
+
+[node name="world_volume_corner29" parent="." instance=ExtResource( 2 )]
+transform = Transform( -2.62268e-07, 0, -24, 0, 2, 0, 6, 0, -1.04907e-06, 0, 0, 0 )
+
+[node name="world_volume_corner30" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 4, 0, 1, 0, -4.37114e-08, -18, 2, 4 )
+
+[node name="world_volume_corner31" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 4, 0, 1, 0, -4.37114e-08, -10, 2, 4 )
+
+[node name="world_volume_corner32" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 4, 0, 1, 0, -4.37114e-08, -3, 2, 4 )
+
+[node name="world_volume_corner33" parent="." instance=ExtResource( 2 )]
+transform = Transform( -2.62268e-07, 0, -11, 0, 2, 0, 6, 0, -4.80825e-07, -11, 0, 7 )
+
+[node name="world_volume_corner34" parent="." instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-07, 3.01992e-08, 9, 0, -0.2, 1.35896e-06, 5, 1.32005e-15, 3.93403e-07, -21, 5, 7 )
+
+[node name="world_volume_corner35" parent="." instance=ExtResource( 2 )]
+transform = Transform( -2.62268e-07, 0, -1, 0, 3, 0, 6, 0, -4.37114e-08, -11, 2, 7 )
+
+[node name="world_volume_corner36" parent="." instance=ExtResource( 2 )]
+transform = Transform( -2.62268e-07, 0, -1, 0, 3, 0, 6, 0, -4.37114e-08, -21, 2, 7 )
+
+[node name="world_volume_corner37" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -9, 0, 3, 0, 1, 0, -3.93403e-07, -12, 2, 12 )
+
+[node name="world_volume_corner38" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -9, 0, 0.8, 0, 1, 0, -3.93403e-07, -12, 2, 11 )
+
+[node name="world_volume_corner39" parent="." instance=ExtResource( 2 )]
+transform = Transform( -2.62268e-07, 0, -11, 0, 5, 0, 6, 0, -4.80825e-07, 1, 0, 7 )
+
+[node name="world_volume_corner40" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -24, 0, 1, 0, 1, 0, -1.04907e-06, 0, 1, 6 )

@@ -11,6 +11,12 @@ const RAD2DEG = 57.29577951308
 
 const ROOT_DIR = "res://"
 
+static func global_translate(spatial:Spatial, offset:Vector3) -> void:
+	spatial.global_transform.origin += offset
+
+static func local_translate(spatial:Spatial, offset:Vector3) -> void:
+	spatial.transform.origin += offset
+
 static func dot_product(x0: float, y0: float, x1: float, y1: float):
 	return x0 * x1 + y0 * y1
 
