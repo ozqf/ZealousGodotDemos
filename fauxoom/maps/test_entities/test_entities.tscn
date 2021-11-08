@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=2]
+[gd_scene load_steps=75 format=2]
 
 [ext_resource path="res://prefabs/gib.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/frames/item_frames.tres" type="SpriteFrames" id=2]
@@ -69,7 +69,6 @@
 [ext_resource path="res://assets/world/animated/forcefield/shader_forcefield.tres" type="Shader" id=67]
 [ext_resource path="res://prefabs/items/item_flame_thrower.tscn" type="PackedScene" id=68]
 [ext_resource path="res://prefabs/items/item_hazard_suit.tscn" type="PackedScene" id=69]
-[ext_resource path="res://prefabs/dynamic_entities/mob_flesh_worm.tscn" type="PackedScene" id=70]
 
 [sub_resource type="Environment" id=1]
 ambient_light_color = Color( 0.517647, 0.52549, 0.733333, 1 )
@@ -555,10 +554,6 @@ transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 15, 4, 
 
 [node name="ents" type="Spatial" parent="arena_test"]
 
-[node name="info_deadline_controller" parent="arena_test/ents" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 7, 0 )
-triggerName = "deadline_event"
-
 [node name="arena_start_point" parent="arena_test/ents" instance=ExtResource( 34 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -11, 4, -0.5 )
 
@@ -606,10 +601,34 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 0, -5.1 )
 transform = Transform( 0.5, 0, 0, 0, 3, 0, 0, 0, 12, 0, 0, 6 )
 active = false
 
+[node name="info_deadline_controller" parent="arena_test/ents" instance=ExtResource( 3 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -13, 4, 0 )
+triggerName = "deadline_event"
+
+[node name="arena_spawn_points" type="Spatial" parent="arena_test/ents"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -29, 2, 0 )
+
+[node name="n" parent="arena_test/ents/arena_spawn_points" instance=ExtResource( 36 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -2, -12 )
+tag = 1
+
+[node name="s" parent="arena_test/ents/arena_spawn_points" instance=ExtResource( 36 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -2, 12 )
+tag = 1
+
+[node name="w" parent="arena_test/ents/arena_spawn_points" instance=ExtResource( 36 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -2, 0 )
+tag = 1
+
+[node name="e" parent="arena_test/ents/arena_spawn_points" instance=ExtResource( 36 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21, -2, 0 )
+tag = 1
+
 [node name="survival_controller" parent="arena_test/ents" instance=ExtResource( 25 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -29, 2, 0 )
 script = ExtResource( 4 )
 selfName = "survivalControl"
+spawnPointsSiblingName = "arena_spawn_points"
 
 [node name="Entity" type="Node" parent="arena_test/ents/survival_controller"]
 script = ExtResource( 6 )
@@ -617,55 +636,16 @@ isStatic = true
 
 [node name="horde_spawns" type="Spatial" parent="arena_test/ents/survival_controller"]
 
-[node name="horde_spawn" parent="arena_test/ents/survival_controller/horde_spawns" instance=ExtResource( 51 )]
+[node name="punk_spawn" parent="arena_test/ents/survival_controller/horde_spawns" instance=ExtResource( 51 )]
 type = 0
 tickMax = 1.5
 totalMobs = 999
 maxLiveMobs = 4
 
-[node name="spawn_points" type="Spatial" parent="arena_test/ents/survival_controller"]
-
-[node name="n" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -2, -12 )
-tag = 1
-
-[node name="s" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -2, 12 )
-tag = 1
-
-[node name="w" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -2, 0 )
-tag = 1
-
-[node name="e" parent="arena_test/ents/survival_controller/spawn_points" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21, -2, 0 )
-tag = 1
-
-[node name="Spatial" type="Spatial" parent="arena_test/ents/survival_controller/spawn_points"]
-
-[node name="n" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
-transform = Transform( 0, 0, -1, 0, 1, 0, 1, 0, 0, -10, -2, -32 )
-
-[node name="w" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -2, -20 )
-
-[node name="e" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
-transform = Transform( -1, 0, 0, 0, 1, 0, 0, 0, -1, 1, -2, -44 )
-
-[node name="s" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
-transform = Transform( 0, 0, 1, 0, 1, 0, -1, 0, 0, 22, -2, -32 )
-
-[node name="nw" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 18, 2, -26 )
-
-[node name="sw" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 14, -2, -20 )
-
-[node name="ne" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
-transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -10, -2, -44 )
-
-[node name="se" parent="arena_test/ents/survival_controller/spawn_points/Spatial" instance=ExtResource( 25 )]
-transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 14, -2, -44 )
+[node name="worm_spawn" parent="arena_test/ents/survival_controller/horde_spawns" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29, -2, 0 )
+type = 2
+totalMobs = 999
 
 [node name="ai_tactic_node" parent="arena_test/ents" instance=ExtResource( 36 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 6.5 )
@@ -814,9 +794,6 @@ omni_attenuation = 0.153893
 [node name="item_health_large" parent="arena_test/ents" instance=ExtResource( 18 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4, -8 )
 respawns = true
-
-[node name="mob_flesh_worm" parent="arena_test/ents" instance=ExtResource( 70 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, 1 )
 
 [node name="world" type="Navigation" parent="arena_test"]
 script = ExtResource( 27 )

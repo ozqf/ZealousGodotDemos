@@ -1,10 +1,12 @@
 extends Spatial
 
-onready var _child_spawner = $horde_spawns/horde_spawn
 onready var _ent:Entity = $Entity
+onready var _punk_spawner = $horde_spawns/punk_spawn
+onready var _worm_spawner = $horde_spawns/worm_spawn
 
 export var selfName:String = ""
 export var triggerTargetName:String = ""
+export var spawnPointsSiblingName:String = ""
 
 var _active:bool = false
 
@@ -19,22 +21,19 @@ func _ready() -> void:
 	_r = _ent.connect("entity_trigger", self, "on_trigger")
 	_ent.selfName = selfName
 
-	var spawnPoints:Spatial = get_node("spawn_points")
+	var spawnPoints:Spatial = get_parent().get_node("arena_spawn_points")
 	var numPoints:int = spawnPoints.get_child_count()
 	for _i in range(0, numPoints):
 		_spawnTransforms.push_back(spawnPoints.get_child(_i).global_transform)
-	
-	#_northernTransforms.push_back($spawn_points/n.global_transform)
-	#_northernTransforms.push_back($spawn_points/nw.global_transform)
-	#_northernTransforms.push_back($spawn_points/ne.global_transform)
-	
+
 	var cardinalTransforms = []
-	cardinalTransforms.push_back($spawn_points/n.global_transform)
-	cardinalTransforms.push_back($spawn_points/s.global_transform)
-	cardinalTransforms.push_back($spawn_points/w.global_transform)
-	cardinalTransforms.push_back($spawn_points/e.global_transform)
+	cardinalTransforms.push_back(spawnPoints.get_node("n").global_transform)
+	cardinalTransforms.push_back(spawnPoints.get_node("s").global_transform)
+	cardinalTransforms.push_back(spawnPoints.get_node("w").global_transform)
+	cardinalTransforms.push_back(spawnPoints.get_node("e").global_transform)
 	
-	_child_spawner.set_spawn_points(cardinalTransforms)
+	_punk_spawner.set_spawn_points(cardinalTransforms)
+	_worm_spawner.set_spawn_points(cardinalTransforms)
 
 func _process(_delta:float) -> void:
 	if !_active:
@@ -43,10 +42,11 @@ func _process(_delta:float) -> void:
 func on_trigger() -> void:
 	_active = true
 	print("Survival start")
-	# _child_spawner.tickMax = 0.25
-	# _child_spawner.totalMobs = 9999
-	# _child_spawner.maxLiveMobs = 10
-	_child_spawner.on_trigger()
+	# _punk_spawner.tickMax = 0.25
+	# _punk_spawner.totalMobs = 9999
+	# _punk_spawner.maxLiveMobs = 10
+	_punk_spawner.on_trigger()
+	_worm_spawner.on_trigger()
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.active = _active
