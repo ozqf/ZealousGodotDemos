@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/primitives/pipe_8_straight.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://assets/world/materials/mat_default_ground.tres" type="Material" id=2]
+
+[sub_resource type="CylinderShape" id=1]
+height = 4.0
+
+[node name="pipe_8_straight" type="MeshInstance"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+mesh = ExtResource( 1 )
+material/0 = ExtResource( 2 )
+
+[node name="RigidBody" type="RigidBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
+shape = SubResource( 1 )

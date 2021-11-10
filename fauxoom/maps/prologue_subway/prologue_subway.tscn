@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=2]
@@ -12,6 +12,8 @@
 [ext_resource path="res://prefabs/items/item_hazard_suit.tscn" type="PackedScene" id=10]
 [ext_resource path="res://maps/prologue_subway/prefabs/subway_carriage.tscn" type="PackedScene" id=11]
 [ext_resource path="res://prefabs/world_inert/blocker_volume.tscn" type="PackedScene" id=12]
+[ext_resource path="res://prefabs/props/pipe_8_straight.tscn" type="PackedScene" id=13]
+[ext_resource path="res://prefabs/props/pipe_8_curve.tscn" type="PackedScene" id=14]
 
 [node name="prologue_subway" type="Spatial"]
 
@@ -163,12 +165,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -1, 40 )
 [node name="world_volume_corner29" parent="geometry/station" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 10, -2 )
 
-[node name="world_volume_corner42" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 0.2, 0, 0, 0, 1, 0, 0, 0, 7, -41.6, 10, 31 )
-
-[node name="world_volume_corner43" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 0.2, 0, 0, 0, 1, 0, 0, 0, 6.3, -41.6, 10, 47 )
-
 [node name="world_volume_corner41" parent="geometry/station" instance=ExtResource( 1 )]
 transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 24, -26, 9, 19 )
 
@@ -185,10 +181,10 @@ transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 15, -50, 17, 72 )
 transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 15, -50, 22, 72 )
 
 [node name="world_volume_corner48" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 11, -50, 9, 54 )
+transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 11, -108, 13, 54 )
 
 [node name="world_volume_corner49" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 11, -50, 9, 19 )
+transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 11, -108, 13, 19 )
 
 [node name="world_volume_corner47" parent="geometry/station" instance=ExtResource( 1 )]
 transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 11, -36, 14, 54 )
@@ -245,10 +241,31 @@ transform = Transform( 7, 0, 0, 0, 3, 0, 0, 0, 1, -12, 2, 3 )
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 12, -26, 10, 19 )
 
 [node name="world_volume_corner64" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 20, 0, 0, 0, 3, 0, 0, 0, 1, -45, 10, 30 )
+transform = Transform( 32, 0, 0, 0, 12, 0, 0, 0, 1, -57, 10, 30 )
 
 [node name="world_volume_corner69" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 40, -50, 10, 19 )
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 40, -82, 14, 19 )
+
+[node name="world_volume_corner87" parent="geometry/station" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 14, -58, 14, 17 )
+
+[node name="world_volume_corner88" parent="geometry/station" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 14, -58, 14, 53 )
+
+[node name="world_volume_corner89" parent="geometry/station" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 24, -58, 17, 30 )
+
+[node name="world_volume_corner83" parent="geometry/station" instance=ExtResource( 1 )]
+transform = Transform( 2, 0, 0, 0, 8, 0, 0, 0, 2, -76, 14, 34 )
+
+[node name="world_volume_corner84" parent="geometry/station" instance=ExtResource( 1 )]
+transform = Transform( 2, 0, 0, 0, 8, 0, 0, 0, 2, -64, 14, 34 )
+
+[node name="world_volume_corner85" parent="geometry/station" instance=ExtResource( 1 )]
+transform = Transform( 2, 0, 0, 0, 8, 0, 0, 0, 2, -76, 14, 48 )
+
+[node name="world_volume_corner86" parent="geometry/station" instance=ExtResource( 1 )]
+transform = Transform( 2, 0, 0, 0, 8, 0, 0, 0, 2, -64, 14, 48 )
 
 [node name="world_volume_corner59" parent="geometry/station" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 24, -21, 10, 19 )
@@ -295,6 +312,12 @@ transform = Transform( 1.74846e-07, -1.32005e-14, 3, -6.03983e-07, -2, 0, 4, -3.
 [node name="world_volume_wedge_corner5" parent="geometry/station" instance=ExtResource( 4 )]
 transform = Transform( -1.74846e-07, 0, 3, 0, 2, 0, -4, 0, -1.31134e-07, -36, 10, 73 )
 
+[node name="world_volume_wedge_corner9" parent="geometry/station" instance=ExtResource( 4 )]
+transform = Transform( 4, 0, -1.56319e-13, 0, 2, 0, -4.40536e-13, 0, 3, -46, 10, 31 )
+
+[node name="world_volume_wedge_corner10" parent="geometry/station" instance=ExtResource( 4 )]
+transform = Transform( 4, 0, -1.56319e-13, 0, 2, 0, -4.40536e-13, 0, 3, -46, 10, 47 )
+
 [node name="world_volume_wedge_corner6" parent="geometry/station" instance=ExtResource( 4 )]
 transform = Transform( 1.74846e-07, -1.32005e-14, 3, -6.03983e-07, -2, 0, 4, -3.01992e-07, -1.31134e-07, -36, 18, 65 )
 
@@ -304,40 +327,76 @@ transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 3, -44, 14, 73 )
 [node name="world_volume_wedge_corner8" parent="geometry/station" instance=ExtResource( 4 )]
 transform = Transform( -4, 3.01992e-07, 0, -6.03983e-07, -2, 0, 0, 0, 3, -36, 22, 73 )
 
-[node name="world_volume_corner31" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -42, 10, 45.6 )
-
-[node name="world_volume_corner33" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -42, 10, 46.8 )
-
-[node name="world_volume_corner34" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -42, 10, 43.1 )
-
-[node name="world_volume_corner35" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -42, 10, 44.3 )
-
-[node name="world_volume_corner36" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -42, 10, 40.6 )
-
-[node name="world_volume_corner37" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -42, 10, 41.8 )
-
-[node name="world_volume_corner38" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -42, 10, 38 )
-
-[node name="world_volume_corner39" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -42, 10, 39.3 )
-
 [node name="world_volume_corner30" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 24, 0, 0, 0, 1, 0, 0, 0, 24, -50, 9, 30 )
+transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 24, -38, 9, 30 )
+
+[node name="world_volume_corner31" parent="geometry/station" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 12, -46, 9, 36 )
+
+[node name="world_volume_corner80" parent="geometry/station" instance=ExtResource( 1 )]
+transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 48, -70, 13, 18 )
+
+[node name="world_volume_corner82" parent="geometry/station" instance=ExtResource( 1 )]
+transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 48, -82, 13, 18 )
+
+[node name="world_volume_corner81" parent="geometry/station" instance=ExtResource( 1 )]
+transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 24, -58, 13, 30 )
 
 [node name="world_volume_corner70" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 24, -50, 13, 30 )
+transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 24, -50, 25, 30 )
 
 [node name="world_volume_corner71" parent="geometry/station" instance=ExtResource( 1 )]
-transform = Transform( 17, 0, 0, 0, 1, 0, 0, 0, 24, -44, 14, 30 )
+transform = Transform( 17, 0, 0, 0, 1, 0, 0, 0, 24, -44, 25, 30 )
+
+[node name="ticket_barriers" type="Spatial" parent="geometry/station"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -49, 14, 53 )
+
+[node name="world_volume_corner42" parent="geometry/station/ticket_barriers" instance=ExtResource( 1 )]
+transform = Transform( 0.2, 0, 0, 0, 1, 0, 0, 0, 7, -0.599998, 0, -22 )
+
+[node name="world_volume_corner43" parent="geometry/station/ticket_barriers" instance=ExtResource( 1 )]
+transform = Transform( 0.2, 0, 0, 0, 1, 0, 0, 0, 6.3, -0.599998, 0, -6 )
+
+[node name="world_volume_corner31" parent="geometry/station/ticket_barriers" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -1, 0, -7.4 )
+
+[node name="world_volume_corner33" parent="geometry/station/ticket_barriers" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -1, 0, -6.2 )
+
+[node name="world_volume_corner34" parent="geometry/station/ticket_barriers" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -1, 0, -9.9 )
+
+[node name="world_volume_corner35" parent="geometry/station/ticket_barriers" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -1, 0, -8.7 )
+
+[node name="world_volume_corner36" parent="geometry/station/ticket_barriers" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -1, 0, -12.4 )
+
+[node name="world_volume_corner37" parent="geometry/station/ticket_barriers" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -1, 0, -11.2 )
+
+[node name="world_volume_corner38" parent="geometry/station/ticket_barriers" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -1, 0, -15 )
+
+[node name="world_volume_corner39" parent="geometry/station/ticket_barriers" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.2, -1, 0, -13.7 )
 
 [node name="tunnel_2" type="Spatial" parent="geometry"]
+
+[node name="pipe_8_curve" parent="geometry/tunnel_2" instance=ExtResource( 14 )]
+transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, -20, 21, 93 )
+
+[node name="pipe_8_straight" parent="geometry/tunnel_2" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, -20, 21, 91 )
+
+[node name="pipe_8_straight2" parent="geometry/tunnel_2" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, -20, 21, 89 )
+
+[node name="pipe_8_straight3" parent="geometry/tunnel_2" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, -20, 21, 87 )
+
+[node name="pipe_8_straight4" parent="geometry/tunnel_2" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -20, 22.5, 94.5 )
 
 [node name="blocker_volume" parent="geometry/tunnel_2" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 24, 0, 0, 0, 24, -63, 11, 108 )
@@ -526,7 +585,7 @@ omni_range = 25.4
 omni_attenuation = 0.196146
 
 [node name="OmniLight13" type="OmniLight" parent="lights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 12, 42 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -54, 17, 42 )
 shadow_enabled = true
 omni_range = 25.4
 omni_attenuation = 0.196146

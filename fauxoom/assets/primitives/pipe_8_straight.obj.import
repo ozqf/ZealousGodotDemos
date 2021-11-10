@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/pipe_8_straight.obj-0ea7038ad1422eb6bb554e26f4019e28.mesh"
+
+[deps]
+
+files=[ "res://.import/pipe_8_straight.obj-0ea7038ad1422eb6bb554e26f4019e28.mesh" ]
+
+source_file="res://assets/primitives/pipe_8_straight.obj"
+dest_files=[ "res://.import/pipe_8_straight.obj-0ea7038ad1422eb6bb554e26f4019e28.mesh", "res://.import/pipe_8_straight.obj-0ea7038ad1422eb6bb554e26f4019e28.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
