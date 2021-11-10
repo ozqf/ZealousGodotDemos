@@ -21,6 +21,7 @@ size = Vector3( 0.2, 0.2, 1 )
 collision_layer = 2
 collision_mask = 70
 script = ExtResource( 2 )
+fleeBoredomSeconds = -1.0
 roleClass = 1
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
@@ -55,8 +56,9 @@ script = ExtResource( 9 )
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
+entityType = "mob_worm"
 health = 150
-moveSpeed = 9.0
+moveSpeed = 7.5
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )

@@ -637,14 +637,16 @@ isStatic = true
 [node name="horde_spawns" type="Spatial" parent="arena_test/ents/survival_controller"]
 
 [node name="punk_spawn" parent="arena_test/ents/survival_controller/horde_spawns" instance=ExtResource( 51 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, 0 )
 type = 0
 tickMax = 1.5
 totalMobs = 999
 maxLiveMobs = 4
 
 [node name="worm_spawn" parent="arena_test/ents/survival_controller/horde_spawns" instance=ExtResource( 51 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29, -2, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -1, 0 )
 type = 2
+tickMax = 6.0
 totalMobs = 999
 
 [node name="ai_tactic_node" parent="arena_test/ents" instance=ExtResource( 36 )]
@@ -1583,6 +1585,14 @@ selfRespawnTime = 5.0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 22 )
 respawns = true
 selfRespawnTime = 5.0
+
+[node name="arena_test_2" type="Spatial" parent="."]
+
+[node name="world_volume_corner" parent="arena_test_2" instance=ExtResource( 30 )]
+transform = Transform( 48, 0, 0, 0, 1, 0, 0, 0, 48, -65, 0, 20 )
+
+[node name="arena_test_2_geometry" type="Spatial" parent="arena_test_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 0, 31 )
 
 [connection signal="trigger" from="gameplay_test/mob_spawn_proxy3" to="gameplay_test/save_test_barrier2" method="on_trigger"]
 [connection signal="trigger" from="gameplay_test/mob_spawn_proxy4" to="gameplay_test/save_test_barrier2" method="on_trigger"]
