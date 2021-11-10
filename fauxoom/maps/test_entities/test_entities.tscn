@@ -1588,11 +1588,14 @@ selfRespawnTime = 5.0
 
 [node name="arena_test_2" type="Spatial" parent="."]
 
-[node name="world_volume_corner" parent="arena_test_2" instance=ExtResource( 30 )]
-transform = Transform( 48, 0, 0, 0, 1, 0, 0, 0, 48, -65, 0, 20 )
-
 [node name="arena_test_2_geometry" type="Spatial" parent="arena_test_2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 0, 31 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -76, 0, 35 )
+
+[node name="world_volume_corner" parent="arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
+transform = Transform( 24, 0, 0, 0, 1, 0, 0, 0, 24, 0, 0, 0 )
+
+[node name="world_volume_corner2" parent="arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
+transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 24, 16, 5, 0 )
 
 [connection signal="trigger" from="gameplay_test/mob_spawn_proxy3" to="gameplay_test/save_test_barrier2" method="on_trigger"]
 [connection signal="trigger" from="gameplay_test/mob_spawn_proxy4" to="gameplay_test/save_test_barrier2" method="on_trigger"]
