@@ -1,0 +1,8 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://assets/world/raw/transparent/W107_1.png" type="Texture" id=1]
+
+[resource]
+flags_transparent = true
+params_cull_mode = 2
+albedo_texture = ExtResource( 1 )
