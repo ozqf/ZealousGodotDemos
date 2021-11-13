@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://mesh_tests/multiple_materials/cube_1x1x1_mats_2.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://mesh_tests/multiple_materials/mat_block_grey_planar.tres" type="Material" id=2]
+[ext_resource path="res://mesh_tests/multiple_materials/mat_block_orange_planar.tres" type="Material" id=3]
+[ext_resource path="res://mesh_tests/multiple_materials/cube_1x1x1_no_mats.obj" type="ArrayMesh" id=4]
+
+[node name="root" type="Spatial"]
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = ExtResource( 1 )
+material/0 = ExtResource( 3 )
+material/1 = ExtResource( 2 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0 )
+mesh = ExtResource( 4 )
+material/0 = ExtResource( 2 )
