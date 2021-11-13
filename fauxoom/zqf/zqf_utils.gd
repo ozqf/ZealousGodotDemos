@@ -117,11 +117,25 @@ static func bits_to_string(flags:int) -> String:
 			txt += str(0)
 	return txt
 
+static func array_add_safe(arr, item) -> void:
+	var i:int = arr.find(item)
+	if i == -1:
+		arr.push_back(item)
+
+static func array_remove_safe(arr, item) -> void:
+	var i:int = arr.find(item)
+	if i != -1:
+		arr.remove(i)
+
 static func get_window_to_screen_ratio() -> Vector2:
 	var real: Vector2 = OS.get_real_window_size()
 	var scr: Vector2 = OS.get_screen_size()
 	var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
 	return result
+
+#####################################
+# Serialisation
+#####################################
 
 static func v3_to_dict(v:Vector3) -> Dictionary:
 	return { x = v.x, y = v.y, z = v.z }

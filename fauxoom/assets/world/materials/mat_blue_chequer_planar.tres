@@ -1,8 +1,10 @@
 [gd_resource type="SpatialMaterial" load_steps=2 format=2]
 
-[ext_resource path="res://assets/world/raw/terrain/MOSROK2.png" type="Texture" id=1]
+[ext_resource path="res://assets/world/raw/32x32_blue_block.png" type="Texture" id=1]
 
 [resource]
 flags_world_triplanar = true
 albedo_texture = ExtResource( 1 )
+metallic = 0.25
+metallic_specular = 0.25
 uv1_triplanar = true

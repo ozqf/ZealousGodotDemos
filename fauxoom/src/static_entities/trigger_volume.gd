@@ -12,6 +12,7 @@ export(Enums.TriggerVolumeAction) var action = Enums.TriggerVolumeAction.Trigger
 export var triggerTargetName:String = ""
 # if 0 or negative - no reset
 export var resetSeconds:float = 0
+export var valueParameter1:int = 0
 export var active:bool = true
 # purely for debugging so volume can be visualised
 export var noAutoHide:bool = false

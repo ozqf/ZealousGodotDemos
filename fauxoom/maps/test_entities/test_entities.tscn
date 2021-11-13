@@ -579,13 +579,26 @@ transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 15, 4, 
 
 [node name="arena_test_2_ents" type="Spatial" parent="ents"]
 
+[node name="info_deadline_controller" parent="ents/arena_test_2_ents" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -97, 4, 35 )
+
+[node name="trigger_volume" parent="ents/arena_test_2_ents" instance=ExtResource( 50 )]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -97, 10, 38 )
+triggerTargetName = "activate_tag_2"
+
+[node name="activate_tag_2" parent="ents/arena_test_2_ents" instance=ExtResource( 43 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -95, 9, 35 )
+selfName = "activate_tag_2"
+type = 2
+intParameter1 = 2
+
 [node name="arena_2_start_point" parent="ents/arena_test_2_ents" instance=ExtResource( 34 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -74, 5, 38 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -97, 10, 38 )
 
 [node name="waypoints" type="Spatial" parent="ents/arena_test_2_ents"]
 
 [node name="ai_tactic_node" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -57, 5, 50 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -61, 5, 50 )
 tag = 2
 
 [node name="ai_tactic_node2" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
@@ -597,75 +610,75 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 5, 62 )
 tag = 2
 
 [node name="ai_tactic_node4" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 5, 68 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 5, 64 )
 tag = 2
 
 [node name="ai_tactic_node5" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -77, 1, 80 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -77, 1, 76 )
 tag = 2
 
 [node name="ai_tactic_node6" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -77, 1, 82 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -77, 1, 78 )
 tag = 2
 
 [node name="ai_tactic_node7" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 1, 82 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 1, 78 )
 tag = 2
 
 [node name="ai_tactic_node8" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -63, 1, 80.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -63, 1, 76.5 )
 tag = 2
 
 [node name="ai_tactic_node9" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 1, 82 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 1, 78 )
 tag = 2
 
 [node name="ai_tactic_node10" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -63, 1, 82 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -63, 1, 78 )
 tag = 2
 
 [node name="ai_tactic_node14" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 1, 79 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -65, 1, 75 )
 tag = 2
 
 [node name="ai_tactic_node15" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -63, 1, 79 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -63, 1, 75 )
 tag = 2
 
 [node name="ai_tactic_node11" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 1, 60 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47, 1, 60 )
 tag = 2
 
 [node name="ai_tactic_node12" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 1, 62 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47, 1, 62 )
 tag = 2
 
 [node name="ai_tactic_node13" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -44.5, 1, 62 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -48.5, 1, 62 )
 tag = 2
 
 [node name="ai_tactic_node16" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 1, 62 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 1, 62 )
 tag = 2
 
 [node name="ai_tactic_node17" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 1, 60 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 1, 60 )
 tag = 2
 
 [node name="ai_tactic_node18" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 1, 68 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 1, 68 )
 tag = 2
 
 [node name="ai_tactic_node19" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -44.5, 1, 68 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -48.5, 1, 68 )
 tag = 2
 
 [node name="ai_tactic_node20" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 1, 68 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 1, 68 )
 tag = 2
 
 [node name="ai_tactic_node21" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -46, 1, 70 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 1, 70 )
 tag = 2
 
 [node name="ai_tactic_node22" parent="ents/arena_test_2_ents/waypoints" instance=ExtResource( 36 )]
@@ -697,7 +710,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -91, 3, 41 )
 tag = 2
 
 [node name="MeshInstance" type="MeshInstance" parent="ents/arena_test_2_ents"]
-transform = Transform( -8, 0, -8.74228e-08, 0, 4, 0, 6.99382e-07, 0, -1, -60, 7, 50 )
+transform = Transform( -8, 0, -8.74228e-08, 0, 4, 0, 6.99382e-07, 0, -1, -60, 7, 49.5 )
 material_override = ExtResource( 70 )
 mesh = SubResource( 5 )
 material/0 = null
@@ -925,6 +938,16 @@ selfRespawnTime = 30.0
 
 [node name="item_pistol" parent="ents/arena_test" instance=ExtResource( 22 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 4, -0.4 )
+
+[node name="trigger_volume" parent="ents/arena_test" instance=ExtResource( 50 )]
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, -11, 4, 0 )
+triggerTargetName = "activate_tag_1"
+
+[node name="activate_tag_1" parent="ents/arena_test" instance=ExtResource( 43 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 5, -3 )
+selfName = "activate_tag_1"
+type = 2
+intParameter1 = 1
 
 [node name="item_super_shotgun" parent="ents/arena_test" instance=ExtResource( 20 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 4, -0.4 )
@@ -1769,16 +1792,16 @@ transform = Transform( -8.74228e-08, 0, -4, 0, 1, 0, 2, 0, -1.74846e-07, 9, 3, 3
 transform = Transform( 2, 0, 1.74846e-07, 0, 1, 0, -8.74228e-08, 0, 4, 38, 3, -1 )
 
 [node name="world_volume_wedge_corner10" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 42 )]
-transform = Transform( 2.13163e-14, 0, -4, 0, 1, 0, 2, 0, 4.40536e-13, 62, 1, 15 )
+transform = Transform( 2.13163e-14, 0, -4, 0, 1, 0, 2, 0, 4.40536e-13, 58, 1, 15 )
 
 [node name="world_volume_wedge_corner12" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 42 )]
-transform = Transform( -1.74846e-07, 0, 4, 0, 2, 0, -4, 0, -1.74846e-07, 54, 1, 42 )
+transform = Transform( -1.74846e-07, 0, 4, 0, 2, 0, -4, 0, -1.74846e-07, 50, 1, 42 )
 
 [node name="world_volume_wedge_corner13" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 42 )]
-transform = Transform( -4, 0, -3.49691e-07, 0, 2, 0, 3.49691e-07, 0, -4, 44, 1, 60 )
+transform = Transform( -4, 0, -3.49691e-07, 0, 2, 0, 3.49691e-07, 0, -4, 44, 1, 57 )
 
 [node name="world_volume_wedge_corner11" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 42 )]
-transform = Transform( 2, 0, 1.74846e-07, 0, 1, 0, -8.74228e-08, 0, 4, 17, 1, 52 )
+transform = Transform( 2, 0, 1.74846e-07, 0, 1, 0, -8.74228e-08, 0, 4, 17, 1, 49 )
 
 [node name="world_volume_wedge_corner5" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 42 )]
 transform = Transform( -8.74228e-08, 0, 4, 0, 1, 0, -2, 0, -1.74846e-07, -6, 3, 12 )
@@ -1829,10 +1852,10 @@ transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 12, 36, 13, 22 )
 transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 27.6, 44, 0, 7 )
 
 [node name="world_volume_corner46" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
-transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 21, 54, 0, 19 )
+transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 21, 50, 0, 19 )
 
 [node name="world_volume_corner47" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
-transform = Transform( 21, 0, 0, 0, 1, 0, 0, 0, 8, 21, 0, 52 )
+transform = Transform( 21, 0, 0, 0, 1, 0, 0, 0, 8, 21, 0, 49 )
 
 [node name="world_volume_corner39" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
 transform = Transform( 40, 0, 0, 0, 1, 0, 0, 0, 7, 8, 0, 42 )
@@ -1862,16 +1885,16 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 28, 0, 12, -8 )
 transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 1, -6, 12, -2 )
 
 [node name="world_volume_corner37" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
-transform = Transform( 40, 0, 0, 0, 12, 0, 0, 0, 1, 1, 1, 60 )
+transform = Transform( 40, 0, 0, 0, 12, 0, 0, 0, 1, 1, 1, 57 )
 
 [node name="world_volume_corner40" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
 transform = Transform( 6, 0, 0, 0, 12, 0, 0, 0, 8, 44, 1, 34 )
 
 [node name="world_volume_corner42" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
-transform = Transform( 18, 0, 0, 0, 4, 0, 0, 0, 8, 44, 1, 52 )
+transform = Transform( 18, 0, 0, 0, 4, 0, 0, 0, 8, 44, 1, 49 )
 
 [node name="world_volume_corner48" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
-transform = Transform( 8, 0, 0, 0, 4, 0, 0, 0, 10, 54, 1, 42 )
+transform = Transform( 8, 0, 0, 0, 4, 0, 0, 0, 10, 50, 1, 42 )
 
 [node name="world_volume_corner41" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
 transform = Transform( 8, 0, 0, 0, 12, 0, 0, 0, 6, 36, 1, 42 )
@@ -1883,7 +1906,7 @@ transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 9, 22, 1, -8 )
 transform = Transform( 40, 0, 0, 0, 12, 0, 0, 0, 1, 23, 1, 0 )
 
 [node name="world_volume_corner36" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
-transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 40, 62, 1, -1 )
+transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 40, 56, 1, -1 )
 
 [node name="world_volume_corner14" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
 transform = Transform( 29, 0, 0, 0, 12, 0, 0, 0, 1, -6, 1, -9 )
@@ -1937,13 +1960,13 @@ transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 7, 28, 4, 7 )
 transform = Transform( 12, 0, 0, 0, 2, 0, 0, 0, 8, 38, 1, -1 )
 
 [node name="world_volume_corner32" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
-transform = Transform( 16, 0, 0, 0, 2, 0, 0, 0, 8, 1, 1, 52 )
+transform = Transform( 16, 0, 0, 0, 2, 0, 0, 0, 8, 1, 1, 49 )
 
 [node name="world_volume_corner22" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
 transform = Transform( 8, 0, 0, 0, 2, 0, 0, 0, 12, 1, 1, 36 )
 
 [node name="world_volume_corner31" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
-transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 16, 54, 1, -1 )
+transform = Transform( 6, 0, 0, 0, 2, 0, 0, 0, 16, 50, 1, -1 )
 
 [node name="world_volume_corner10" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
 transform = Transform( 7, 0, 0, 0, 1, 0, 0, 0, 4, 9, 4, 26 )

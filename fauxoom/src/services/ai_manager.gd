@@ -24,6 +24,7 @@ var _influenceMap = null
 
 # specially placed AI nodes
 var _tacticNodes = []
+var _inactiveTacticNodes = []
 
 # live player
 var _player:Player = null
@@ -36,6 +37,8 @@ var _numRoleSnipe:int = 0
 var _noTarget:bool = false
 var _point_t = preload("res://prefabs/point_gizmo.tscn")
 var _debugPathPoints = []
+
+var _activeTag:int = 0
 
 var _emptyTargetInfo:Dictionary = {
 	id = 0,
@@ -74,6 +77,14 @@ func game_on_map_change() -> void:
 	print("AI manager - map change clear player")
 	_player = null
 
+func write_save_dict() -> Dictionary:
+	return {
+		activeTag = _activeTag
+	}
+
+func load_save_dict(_dict:Dictionary) -> void:
+	activate_waypoint_tag(_dict.activeTag)
+
 func _process(_delta:float) -> void:
 	if _player == null:
 		return
@@ -88,23 +99,24 @@ func _process(_delta:float) -> void:
 		n.custom_update(_delta)
 
 func get_debug_text() -> String:
-	var txt:String = "--- AI Manager ---\n";
-	txt += "Squad size: " + str(_mobs.size()) + "\n"
-	txt += "Num chargers: " + str(_numRoleCharge) + "\n"
-	txt += "Num snipers: " + str(_numRoleSnipe) + "\n"
+	var txt:String = "--- AI Manager ---";
+	txt += "\nTotal nodes " + str(_inactiveTacticNodes.size())
+	txt += "\nActive Nodes: " + str(_tacticNodes.size())
+	txt += "\nSquad size: " + str(_mobs.size())
+	txt += "\nNum chargers: " + str(_numRoleCharge)
+	txt += "\nNum snipers: " + str(_numRoleSnipe)
 	var occupiedCount:int = 0
 	for i in range(0, _tacticNodes.size()):
 		var n = _tacticNodes[i]
 		if (n.flags & OCCUPIED_FLAG) != 0:
 			occupiedCount += 1
-	txt += "Occupied nodes: " + str(occupiedCount) + "\n"
-	txt += "Snipe nodes:\n"
+	txt += "\nOccupied nodes: " + str(occupiedCount) + ""
+	txt += "\nSnipe nodes:\n"
 	for i in range(0, _tacticNodes.size()):
 		var n = _tacticNodes[i]
 		if (n.flags & SNIPER_FLAG) == 0:
 			continue
 		txt += n.get_debug_string()
-	
 	return txt
 
 ###############
@@ -180,19 +192,12 @@ func deregister_nav_service(_newNavService:NavService) -> void:
 	_navService = null
 
 func register_tactic_node(newTacticNode) -> void:
-	var i:int = _tacticNodes.find(newTacticNode)
-	if i != -1:
-		return
-	newTacticNode.index = _tacticNodes.size()
-	_tacticNodes.push_back(newTacticNode)
-#	print("AI singleton has " + str(_tacticNodes.size()) + " tactic nodes")
+	# ZqfUtils.array_add_safe(_tacticNodes, newTacticNode)
+	ZqfUtils.array_add_safe(_inactiveTacticNodes, newTacticNode)
 
 func deregister_tactic_node(objectiveNode) -> void:
-	var i:int = _tacticNodes.find(objectiveNode)
-	if i == -1:
-		return
-	_tacticNodes.remove(i)
-#	print("AI singleton has " + str(_tacticNodes.size()) + " tactic nodes")
+	ZqfUtils.array_remove_safe(_tacticNodes, objectiveNode)
+	ZqfUtils.array_remove_safe(_inactiveTacticNodes, objectiveNode)
 
 func influence_register_map(newInfluenceMap) -> void:
 	_influenceMap = newInfluenceMap
@@ -202,6 +207,32 @@ func influence_deregister_map(newInfluenceMap) -> void:
 	if _influenceMap == newInfluenceMap:
 		_influenceMap = null
 		print("AI Manager removed influence map")
+
+func hide_all_nodes() -> void:
+	var count:int = _inactiveTacticNodes.size()
+	for i in range(0, count):
+		_inactiveTacticNodes[i].visible = false
+
+func activate_waypoint_tag(tag:int) -> void:
+	print("Activate waypoint tag " + str(tag))
+	_activeTag = tag
+	_tacticNodes.clear()
+	hide_all_nodes()
+	if tag == 0:
+		return
+	var count:int = _inactiveTacticNodes.size()
+	for i in range(0, count):
+		var n = _inactiveTacticNodes[i]
+		if n.tag == tag:
+			_tacticNodes.push_back(n)
+			n.visible = true
+
+func deactivate_waypoint_tag(tag:int) -> void:
+	print("Deactivate waypoint tag " + str(tag))
+	_tacticNodes.clear()
+	hide_all_nodes()
+	if tag == 0:
+		return
 
 ###############
 # Debugging

@@ -241,7 +241,10 @@ func load_entity_dict(dict:Dictionary) -> void:
 	
 	set_game_state(dict.state)
 	_refresh_overlay()
-	Ents.load_save_dict(dict.ents)
+	if dict.has("ents"):
+		Ents.load_save_dict(dict.ents)
+	if dict.has("ai"):
+		AI.load_save_dict(dict.ai)
 
 func save_game(filePath:String) -> void:
 	print("Writing save " + filePath)
@@ -249,6 +252,7 @@ func save_game(filePath:String) -> void:
 		mapPath = get_tree().get_current_scene().filename,
 		state = _state
 	}
+	data.ai = AI.write_save_dict()
 	data.ents = Ents.write_save_dict()
 	_write_save_file(filePath, data)
 

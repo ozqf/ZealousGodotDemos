@@ -7,9 +7,12 @@ export var active:bool = true
 enum EventType {
 	None = 0,
 	LevelComplete = 1,
+	ActivateWaypointTag = 2,
+	DeactivateWaypointTag = 3
 }
 
 export(EventType) var type = EventType.None
+export var intParameter1:int = 0
 
 var _spawnState:Dictionary = {}
 
@@ -40,3 +43,9 @@ func on_trigger_entities(target:String) -> void:
 	
 	if type == EventType.LevelComplete:
 		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_LEVEL_COMPLETED)
+	elif type == EventType.ActivateWaypointTag:
+		AI.activate_waypoint_tag(intParameter1)
+	elif type == EventType.DeactivateWaypointTag:
+		AI.deactivate_waypoint_tag(intParameter1)
+	else:
+		print("Trigger event has invalid type set: " + str(int(type)))
