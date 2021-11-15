@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://mesh_tests/blender_import/world_test_01/world_tests.gltf" type="PackedScene" id=1]
+
+[node name="world_tests" instance=ExtResource( 1 )]

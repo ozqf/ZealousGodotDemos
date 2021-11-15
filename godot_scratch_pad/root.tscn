@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://mesh_tests/multiple_materials/cube_1x1x1_mats_2.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://mesh_tests/multiple_materials/mat_block_grey_planar.tres" type="Material" id=2]
 [ext_resource path="res://mesh_tests/multiple_materials/mat_block_orange_planar.tres" type="Material" id=3]
 [ext_resource path="res://mesh_tests/multiple_materials/cube_1x1x1_no_mats.obj" type="ArrayMesh" id=4]
+[ext_resource path="res://mesh_tests/blender_import/world_test_01/world_tests.gltf" type="PackedScene" id=5]
 
 [node name="root" type="Spatial"]
 
@@ -16,3 +17,5 @@ material/1 = ExtResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0 )
 mesh = ExtResource( 4 )
 material/0 = ExtResource( 2 )
+
+[node name="world_tests" parent="." instance=ExtResource( 5 )]
