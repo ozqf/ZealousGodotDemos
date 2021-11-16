@@ -57,7 +57,7 @@ script = ExtResource( 9 )
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
 entityType = "mob_worm"
-health = 150
+health = 100
 moveSpeed = 7.5
 
 [node name="Entity" type="Node" parent="."]

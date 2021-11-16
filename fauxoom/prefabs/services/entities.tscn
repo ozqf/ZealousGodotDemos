@@ -2,6 +2,5 @@
 
 [ext_resource path="res://src/services/entities.gd" type="Script" id=1]
 
-
 [node name="entities" type="Spatial"]
 script = ExtResource( 1 )

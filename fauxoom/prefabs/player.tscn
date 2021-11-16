@@ -305,10 +305,10 @@ margin_left = -192.0
 margin_top = 148.0
 margin_right = 192.0
 margin_bottom = 179.0
-custom_fonts/font = ExtResource( 27 )
 custom_colors/font_color = Color( 1, 1, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 27 )
 text = "USE"
 align = 1
 valign = 1
@@ -384,10 +384,12 @@ material/0 = null
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="hud"]
 stream = ExtResource( 13 )
+volume_db = -5.0
 bus = "game"
 
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="hud"]
 stream = ExtResource( 13 )
+volume_db = -5.0
 bus = "game"
 
 [node name="audio_pickup" type="AudioStreamPlayer" parent="hud"]

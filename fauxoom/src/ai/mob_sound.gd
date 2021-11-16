@@ -10,6 +10,8 @@ var _death1:AudioStream = preload("res://assets/sounds/mob/punk/punk_death_1.wav
 var _death2:AudioStream = preload("res://assets/sounds/mob/punk/punk_death_2.wav")
 var _death3:AudioStream = preload("res://assets/sounds/mob/punk/punk_death_3.wav")
 
+var shoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
+
 var _slop:AudioStream = preload("res://assets/sounds/impact/slop.wav")
 
 # Called when the node enters the scene tree for the first time.
@@ -41,7 +43,10 @@ func gib() -> void:
 	play(0)
 
 func on_event(tag:String) -> void:
-	if tag == "pain":
+	if tag == "shoot":
+		stream = shoot
+		play(0)
+	elif tag == "pain":
 		stream = _pain
 		play(0)
 	elif tag == "death":
