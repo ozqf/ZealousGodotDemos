@@ -1,0 +1,20 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/world/materials/mat_grey_chequer_planar.tres" type="Material" id=1]
+[ext_resource path="res://assets/primitives/corridor_ramp_1x1x1.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://assets/world/materials/mat_orange_chequer_planar.tres" type="Material" id=3]
+[ext_resource path="res://assets/world/materials/mat_blue_chequer_planar.tres" type="Material" id=4]
+
+[sub_resource type="ConcavePolygonShape" id=1]
+data = PoolVector3Array( 1, 2, 1, 1, 1, 0, 0, 2, 1, 0, 2, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 2, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 2, 1, 1, 2, 1, 1, 0, 0, 1, 1, 0 )
+
+[node name="corridor_ramp" type="MeshInstance"]
+mesh = ExtResource( 2 )
+material/0 = ExtResource( 1 )
+material/1 = ExtResource( 3 )
+material/2 = ExtResource( 4 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 1 )
