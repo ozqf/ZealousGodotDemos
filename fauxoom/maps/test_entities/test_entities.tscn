@@ -1568,19 +1568,31 @@ transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 28, 14, -0.5, 28 )
 transform = Transform( 25, 0, 0, 0, 0.75, 0, 0, 0, 1.2, 12.5, 0.375, 24 )
 
 [node name="world_volume_corner" parent="shooting_range" instance=ExtResource( 30 )]
-transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 30, 28, 0, 13 )
+transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 30, 28, 0, 13 )
 
 [node name="world_volume_corner3" parent="shooting_range" instance=ExtResource( 30 )]
-transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 30, -1, 0, 13 )
+transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 30, -1, 0, 13 )
 
 [node name="world_volume_corner2" parent="shooting_range" instance=ExtResource( 30 )]
-transform = Transform( 29, 0, 0, 0, 6, 0, 0, 0, 1, -1, 0, 42 )
+transform = Transform( 29, 0, 0, 0, 8, 0, 0, 0, 1, -1, 0, 42 )
 
 [node name="world_volume_corner4" parent="shooting_range" instance=ExtResource( 30 )]
-transform = Transform( 29, 0, 0, 0, 6, 0, 0, 0, 1, -1, 0, 13 )
+transform = Transform( 29, 0, 0, 0, 8, 0, 0, 0, 1, -1, 0, 13 )
 
 [node name="world_volume_corner5" parent="shooting_range" instance=ExtResource( 30 )]
-transform = Transform( 29, 0, 0, 0, 1, 0, 0, 0, 12, -1, 6, 13 )
+transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 12, 0, 7, 14 )
+
+[node name="world_volume_corner6" parent="shooting_range" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 16, 5, 7, 26 )
+
+[node name="world_volume_corner7" parent="shooting_range" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 16, 22, 7, 26 )
+
+[node name="world_volume_corner8" parent="shooting_range" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 16, 16, 7, 26 )
+
+[node name="world_volume_corner9" parent="shooting_range" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 16, 11, 7, 26 )
 
 [node name="item_shells_small2" parent="shooting_range" instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 20 )
