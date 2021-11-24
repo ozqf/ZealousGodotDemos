@@ -53,6 +53,7 @@ export var triggerTargets:String = ""
 export var fleeBoredomSeconds:float = 30
 # roles this mob can perform
 export(Enums.EnemyRoleClass) var roleClass = Enums.EnemyRoleClass.Mix
+export var corpsePrefab:String = ""
 # role assigned
 var roleId:int = 0
 
@@ -452,15 +453,16 @@ func hit(_hitInfo:HitInfo) -> int:
 
 		# fx
 		print("Prefab " + str(_ent.prefabName) + " died at " + str(global_transform.origin))
-		if _ent.prefabName == "mob_punk":
+		# if _ent.prefabName == "mob_punk":
+		if corpsePrefab == "mob_punk":
 			var corpse = _punk_corpse_t.instance()
 			get_tree().get_current_scene().add_child(corpse)
 			corpse.spawn(_hitInfo, global_transform)
 			# corpse.global_transform = global_transform
 			# print("Spawned corpse at " + str(corpse.global_transform.origin))
-			_change_state(MobState.Dying)
-			queue_free()
-			return 1
+		_change_state(MobState.Dying)
+		queue_free()
+		return 1
 		
 		var selfPos:Vector3 = global_transform.origin
 		var hitHeight:float = _hitInfo.origin.y - selfPos.y
