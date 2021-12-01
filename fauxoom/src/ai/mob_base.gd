@@ -446,10 +446,13 @@ func hit(_hitInfo:HitInfo) -> int:
 		motor.mob_died()
 		emit_signal("on_mob_died", self)
 		Interactions.triggerTargets(get_tree(), _ent.triggerTargetName)
-
+		
 		var influenceNode = get_node_or_null("influence_agent")
 		if influenceNode != null:
 			influenceNode.queue_free()
+
+		# spawn drops
+		Game.spawn_rage_drops(collisionShape.global_transform.origin)
 
 		# fx
 		print("Prefab " + str(_ent.prefabName) + " died at " + str(global_transform.origin))
@@ -464,16 +467,16 @@ func hit(_hitInfo:HitInfo) -> int:
 		queue_free()
 		return 1
 		
-		var selfPos:Vector3 = global_transform.origin
-		var hitHeight:float = _hitInfo.origin.y - selfPos.y
-		if hitHeight > 1:
-			headshot_death()
-		elif _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
-			gib_death(_hitInfo.direction)
-		else:
-			regular_death()
-		_spawn_hit_particles(_hitInfo.origin, _hitInfo.direction, true)
-		return _hitInfo.damage + _health
+		# var selfPos:Vector3 = global_transform.origin
+		# var hitHeight:float = _hitInfo.origin.y - selfPos.y
+		# if hitHeight > 1:
+		# 	headshot_death()
+		# elif _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+		# 	gib_death(_hitInfo.direction)
+		# else:
+		# 	regular_death()
+		# _spawn_hit_particles(_hitInfo.origin, _hitInfo.direction, true)
+		# return _hitInfo.damage + _health
 	else:
 		_spawn_hit_particles(_hitInfo.origin, _hitInfo.direction, false)
 		# if not awake, wake up!

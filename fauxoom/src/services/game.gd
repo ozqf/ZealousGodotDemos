@@ -12,6 +12,8 @@ var _gib_t = preload("res://prefabs/gib.tscn")
 var _head_gib_t = preload("res://prefabs/player_gib.tscn")
 var _hitInfo_type = preload("res://src/defs/hit_info.gd")
 
+var _rage_drop_t = preload("res://prefabs/dynamic_entities/rage_drop.tscn")
+
 var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
 var _prefab_impact_debris_t = preload("res://prefabs/gfx/bullet_hit_debris.tscn")
 var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
@@ -371,6 +373,18 @@ func register_player_start(_obj:Spatial) -> void:
 func deregister_player_start(_obj:Spatial) -> void:
 	_hasPlayerStart = false
 	_refresh_overlay()
+
+func spawn_rage_drops(pos:Vector3) -> void:
+	var prefab = _rage_drop_t
+	for _i in range(0, 5):
+		var drop:RigidBody = prefab.instance()
+		add_child(drop)
+		drop.global_transform.origin = pos
+		var velocity:Vector3 = Vector3()
+		velocity.x += rand_range(-5, 5)
+		velocity.y += rand_range(5, 10)
+		velocity.z += rand_range(-5, 5)
+		drop.linear_velocity = velocity
 
 # returns last gib spawned
 func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:

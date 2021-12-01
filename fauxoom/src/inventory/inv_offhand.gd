@@ -2,6 +2,7 @@ extends InvWeapon
 
 func custom_init_b() -> void:
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_PUNCH
+	_hitInfo.damage = 50
 
 func offhand_punch() -> void:
 	if _hud != null:

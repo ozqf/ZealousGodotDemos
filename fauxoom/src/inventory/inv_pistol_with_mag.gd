@@ -1,4 +1,6 @@
 extends InvWeapon
+# pistol but with a clip that requires reloading.
+# don't really like it but code kept here for potential reuse.
 
 export var maxSpreadX:int = 200
 export var maxSpreadY:int = 100
@@ -15,11 +17,9 @@ var _reloading:bool = false
 var _reloadTime:float = 1
 var _loaded:int = 0
 var _automatic:bool = true
-var _prjMask:int = -1
 
 func custom_init_b() -> void:
 	_loaded = maxLoaded
-	_prjMask = Interactions.get_player_prj_mask()
 
 func _start_reload() -> void:
 	tick = _reloadTime
@@ -38,14 +38,6 @@ func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> voi
 	forward = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
 	_fire_single(forward, 1000)
 	self.emit_signal("weapon_action", self, "fire")
-
-func _fire_flare() -> void:
-	var flare = _flare_t.instance()
-	Game.get_dynamic_parent().add_child(flare)
-	var t:Transform = _launchNode.global_transform
-	var selfPos:Vector3 = t.origin
-	var forward = -t.basis.z
-	flare.launch_prj(selfPos, forward, Ents.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
 
 func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 	if _reloading:
@@ -75,7 +67,7 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 		_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
 		.play_fire_1(false)
 
-		# _loaded -= 1
+		_loaded -= 1
 
 		# apply some inaccuracy for next shot
 		_spreadScale += 0.35
@@ -88,9 +80,8 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 	# elif _secondaryOn && _loaded < maxLoaded:
 	# 	_start_reload()
 	elif _secondaryOn:
-		_fire_flare()
-		# for _i in range(0, _loaded):
-		# 	_custom_shoot(2000, 1200, 1)
+		for _i in range(0, _loaded):
+			_custom_shoot(2000, 1200, 1)
 		_loaded = 0
 	# elif _secondaryOn:
 	# 	_awaitOff = true
