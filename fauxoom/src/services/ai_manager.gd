@@ -241,6 +241,11 @@ func deactivate_waypoint_tag(tag:int) -> void:
 func set_test_nav_dest(pos:Vector3) -> void:
 	_testNavDest.global_transform.origin = pos
 
+func give_to_player(item:String, amount:int) -> int:
+	if _player == null:
+		return 0
+	return _player.give_item(item, amount)
+
 ###############
 # Navigation Queries
 ###############

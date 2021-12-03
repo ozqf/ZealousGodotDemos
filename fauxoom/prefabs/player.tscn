@@ -453,7 +453,7 @@ __meta__ = {
 [node name="ColorRect" type="ColorRect" parent="hud/player_status"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -88.0
+margin_top = -112.0
 margin_right = 128.0
 color = Color( 0, 0, 0, 0.490196 )
 __meta__ = {
@@ -463,18 +463,17 @@ __meta__ = {
 [node name="player_status" type="VBoxContainer" parent="hud/player_status"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -88.0
+margin_top = -152.0
 margin_right = 128.0
-margin_bottom = 6.10352e-05
 alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="health" type="HBoxContainer" parent="hud/player_status/player_status"]
-margin_top = 5.0
+margin_top = 40.0
 margin_right = 128.0
-margin_bottom = 30.0
+margin_bottom = 65.0
 rect_min_size = Vector2( 128, 24 )
 
 [node name="Label" type="Label" parent="hud/player_status/player_status/health"]
@@ -491,9 +490,9 @@ custom_fonts/font = ExtResource( 27 )
 text = "50"
 
 [node name="ammo" type="HBoxContainer" parent="hud/player_status/player_status"]
-margin_top = 34.0
+margin_top = 69.0
 margin_right = 128.0
-margin_bottom = 59.0
+margin_bottom = 94.0
 rect_min_size = Vector2( 128, 24 )
 
 [node name="Label" type="Label" parent="hud/player_status/player_status/ammo"]
@@ -510,9 +509,9 @@ custom_fonts/font = ExtResource( 27 )
 text = "50"
 
 [node name="energy" type="HBoxContainer" parent="hud/player_status/player_status"]
-margin_top = 63.0
+margin_top = 98.0
 margin_right = 128.0
-margin_bottom = 88.0
+margin_bottom = 123.0
 rect_min_size = Vector2( 128, 24 )
 
 [node name="Label" type="Label" parent="hud/player_status/player_status/energy"]
@@ -524,6 +523,25 @@ text = "ENERGY"
 [node name="count" type="Label" parent="hud/player_status/player_status/energy"]
 margin_left = 76.0
 margin_right = 100.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 27 )
+text = "50"
+
+[node name="rage" type="HBoxContainer" parent="hud/player_status/player_status"]
+margin_top = 127.0
+margin_right = 128.0
+margin_bottom = 152.0
+rect_min_size = Vector2( 128, 24 )
+
+[node name="Label" type="Label" parent="hud/player_status/player_status/rage"]
+margin_right = 47.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 27 )
+text = "RAGE"
+
+[node name="count" type="Label" parent="hud/player_status/player_status/rage"]
+margin_left = 51.0
+margin_right = 75.0
 margin_bottom = 25.0
 custom_fonts/font = ExtResource( 27 )
 text = "50"

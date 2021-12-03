@@ -18,6 +18,8 @@ var _data:Dictionary = {
 	plasma = { count = 0, max = 20, type = "ammo" },
 	rockets = { count = 0, max = 20, type = "ammo" },
 	fuel = { count = 0, max = 300, type = "ammo" },
+	
+	rage = { count = 0, max = 100, type = "resource" },
 
 	hazard_suit = { count = 0, max = 1, type = "equipment" }
 }
@@ -186,6 +188,8 @@ func write_hud_status(_hudStatus:PlayerHudStatus) -> void:
 	_hudStatus.plasma = get_count("plasma")
 	_hudStatus.rockets = get_count("rockets")
 	_hudStatus.fuel = get_count("fuel")
+	
+	_hudStatus.rage = get_count("rage")
 	
 	_hudStatus.hasPistol = get_count("pistol") > 0
 	_hudStatus.hasSuperShotgun = get_count("super_shotgun") > 0

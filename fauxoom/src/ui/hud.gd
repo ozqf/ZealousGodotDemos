@@ -35,6 +35,7 @@ onready var _healthBar:TextureProgress = $centre/health
 onready var _healthCount:Label = $player_status/player_status/health/count
 onready var _energyCount:Label = $player_status/player_status/energy/count
 onready var _ammoCount:Label = $player_status/player_status/ammo/count
+onready var _rageCount:Label = $player_status/player_status/rage/count
 
 # right side - weapon bar
 onready var _bulletCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/bullets/count
@@ -181,6 +182,7 @@ func player_status_update(data:PlayerHudStatus) -> void:
 		_ammoCount.text = str(data.currentLoaded) + " / " + str(data.currentLoadedMax) + " - " + str(data.currentAmmo)
 	else:
 		_ammoCount.text = str(data.currentAmmo)
+	_rageCount.text = str(data.rage)
 	
 	if data.hasPistol:
 		_bulletCount.get_parent().visible = true

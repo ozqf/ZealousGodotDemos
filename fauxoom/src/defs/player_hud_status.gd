@@ -18,6 +18,9 @@ var rockets:int = 0
 var plasma:int = 0
 var fuel:int = 0
 
+# resources
+var rage:int = 0
+
 var hasPistol:bool = false
 var hasSuperShotgun:bool = false
 var hasRocketLauncher:bool = false
