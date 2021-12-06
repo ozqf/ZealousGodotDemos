@@ -6,22 +6,22 @@ signal weapon_changed(newWeapon, oldWeapon)
 signal weapon_action(weapon, actionName)
 
 var _data:Dictionary = {
-	chainsaw = { count = 0, max = 1, type = "weapon" },
-	pistol = { count = 0, max = 2, type = "weapon" },
-	super_shotgun = { count = 0, max = 1, type = "weapon" },
-	plasma_gun = { count = 0, max = 1, type = "weapon" },
-	rocket_launcher = { count = 0, max = 1, type = "weapon" },
-	flame_thrower = { count = 0, max = 1, type = "weapon" },
+	chainsaw = { count = 0, max = 1, type = "weapon", priority = 1 },
+	pistol = { count = 0, max = 2, type = "weapon", priority = 3 },
+	super_shotgun = { count = 0, max = 1, type = "weapon", priority = 4 },
+	plasma_gun = { count = 0, max = 1, type = "weapon", priority = 5 },
+	rocket_launcher = { count = 0, max = 1, type = "weapon", priority = 6 },
+	flame_thrower = { count = 0, max = 1, type = "weapon", priority = 2 },
 
-	bullets = { count = 100, max = 300, type = "ammo" },
-	shells = { count = 0, max = 30, type = "ammo" },
-	plasma = { count = 0, max = 20, type = "ammo" },
-	rockets = { count = 0, max = 20, type = "ammo" },
-	fuel = { count = 0, max = 300, type = "ammo" },
+	bullets = { count = 100, max = 300, type = "ammo", priority = 0 },
+	shells = { count = 0, max = 30, type = "ammo", priority = 0 },
+	plasma = { count = 0, max = 20, type = "ammo", priority = 0 },
+	rockets = { count = 0, max = 20, type = "ammo", priority = 0 },
+	fuel = { count = 0, max = 300, type = "ammo", priority = 0 },
 	
-	rage = { count = 0, max = 100, type = "resource" },
+	rage = { count = 0, max = 100, type = "resource", priority = 0 },
 
-	hazard_suit = { count = 0, max = 1, type = "equipment" }
+	hazard_suit = { count = 0, max = 1, type = "equipment", priority = 0 }
 }
 
 var weapons = []
@@ -218,6 +218,44 @@ func give_all() -> void:
 	for key in keys:
 		_data[key].count = _data[key].max
 		print(key + ": " + str(_data[key].count))
+	select_best_gun()
+
+func give_all_guns() -> void:
+	print("Give all guns")
+	var keys = _data.keys()
+	for key in keys:
+		var datum = _data[key]
+		if datum.type == "weapon":
+			datum.count = datum.max
+		elif datum.type == "ammo":
+			var amount:int = int(float(datum.max) * 0.25)
+			if amount < 1:
+				amount = 1
+			if datum.count < amount:
+				datum.count = amount
+	select_best_gun()
+
+func select_best_gun() -> void:
+	# select a gun if we didn't have one equipped
+	var priority:int = -1
+	var bestKey
+	var keys = _data.keys()
+	for key in keys:
+		var datum = _data[key]
+		if datum.type != "weapon":
+			continue
+		if datum.priority > priority:
+			priority = datum.priority
+			bestKey = key
+	if priority == -1:
+		return
+	var slotNumber:int = find_weapon_slot_by_name(bestKey)
+	if slotNumber != -1:
+			change_weapon_by_slot(slotNumber)
+#	if _currentWeaponIndex == -1:
+#		var slotNumber:int = find_weapon_slot_by_name("super_shotgun")
+#		if slotNumber != -1:
+#			change_weapon_by_slot(slotNumber)
 	
 func give_all_ammo() -> void:
 	print("Give all ammo")
@@ -249,11 +287,9 @@ func give_item(itemType:String, amount:int) -> int:
 	# handle special types
 	if itemType == "fullpack":
 		give_all()
-		if _currentWeaponIndex == -1:
-			# select a weapon
-			var slotNumber:int = find_weapon_slot_by_name("super_shotgun")
-			if slotNumber != -1:
-				change_weapon_by_slot(slotNumber)
+		return 1
+	elif itemType == "gunrack":
+		give_all_guns()
 		return 1
 	elif itemType == "ammopack":
 		give_all_ammo()

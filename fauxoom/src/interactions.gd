@@ -40,6 +40,11 @@ static func get_player_prj_mask() -> int:
 static func get_corpse_hit_mask() -> int:
 	return CORPSE
 
+static func is_ray_hit_a_mob(_hitScanResult:Dictionary) -> bool:
+	if !_hitScanResult.collider.has_method("is_mob"):
+		return false
+	return _hitScanResult.collider.is_mob()
+
 # returns -1 if object had no hit function
 static func hitscan_hit(_hitInfo:HitInfo, _hitScanResult:Dictionary) -> int:
 	if _hitScanResult.collider.has_method("hit"):

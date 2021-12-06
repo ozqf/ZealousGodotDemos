@@ -125,7 +125,7 @@ func _physics_process(delta:float) -> void:
 	var pushing:bool = (pushDir.length() > 0)
 	
 	var dashOn:bool = Input.is_action_pressed("move_special")
-	if dashOn && energy >= DASH_ENERGY_COST && _dashTime <= 0:
+	if dashOn && energy >= DASH_ENERGY_COST && _dashTime <= 0 && isOnFloor:
 		_dashTime = DASH_DURATION
 		energy -= DASH_ENERGY_COST
 		# if current input, dash dir is just forwards

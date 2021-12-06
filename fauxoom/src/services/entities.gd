@@ -147,6 +147,10 @@ var _prefabs = {
 		prefab = preload("res://prefabs/items/item_full_pack.tscn"),
 		entNodePath = "Entity"
 	},
+	gunrack = {
+		prefab = preload("res://prefabs/items/item_gun_rack.tscn"),
+		entNodePath = "Entity"
+	},
 
 	################################################
 	# debris

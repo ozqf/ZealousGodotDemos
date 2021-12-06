@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=2]
+[gd_scene load_steps=82 format=2]
 
 [ext_resource path="res://prefabs/gib.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/frames/item_frames.tres" type="SpriteFrames" id=2]
@@ -72,6 +72,9 @@
 [ext_resource path="res://assets/world/materials/transparent/mat_vines.tres" type="Material" id=70]
 [ext_resource path="res://prefabs/world_inert/world_volume_corner_alt.tscn" type="PackedScene" id=71]
 [ext_resource path="res://assets/world/materials/mat_default_ground_planar.tres" type="Material" id=72]
+[ext_resource path="res://prefabs/world_inert/corridor.tscn" type="PackedScene" id=73]
+[ext_resource path="res://prefabs/world_inert/corridor_right_angle.tscn" type="PackedScene" id=74]
+[ext_resource path="res://prefabs/items/item_gun_rack.tscn" type="PackedScene" id=75]
 
 [sub_resource type="Environment" id=1]
 ambient_light_color = Color( 0.517647, 0.52549, 0.733333, 1 )
@@ -593,7 +596,7 @@ triggerTargetName = "arena_2_survival"
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -81, 4, 47 )
 
 [node name="trigger_volume" parent="ents/arena_test_2_ents" instance=ExtResource( 50 )]
-transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, -93, 10, 38 )
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 3, -93, 8, 37 )
 triggerTargetName = "activate_tag_2"
 
 [node name="activate_tag_2" parent="ents/arena_test_2_ents" instance=ExtResource( 43 )]
@@ -603,7 +606,7 @@ type = 2
 intParameter1 = 2
 
 [node name="arena_2_start_point" parent="ents/arena_test_2_ents" instance=ExtResource( 34 )]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -93, 10, 38 )
+transform = Transform( 1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, -105, 7, 45 )
 
 [node name="waypoints" type="Spatial" parent="ents/arena_test_2_ents"]
 
@@ -766,17 +769,8 @@ respawns = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -49, 5, 76 )
 respawns = true
 
-[node name="item_super_shotgun" parent="ents/arena_test_2_ents" instance=ExtResource( 20 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -85, 5, 50 )
-
-[node name="item_rocket_launcher" parent="ents/arena_test_2_ents" instance=ExtResource( 16 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -87, 5, 50 )
-
-[node name="item_pistol" parent="ents/arena_test_2_ents" instance=ExtResource( 22 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -85, 5, 48 )
-
-[node name="item_plasma_gun" parent="ents/arena_test_2_ents" instance=ExtResource( 15 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -87, 5, 48 )
+[node name="item_full_pack3" parent="ents/arena_test_2_ents" instance=ExtResource( 75 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -105, 7, 40 )
 
 [node name="arena_test" type="Spatial" parent="ents"]
 
@@ -998,6 +992,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.5, 4, -0.5 )
 triggerTargetName = "test_cyclops"
 respawns = true
 selfRespawnTime = 30.0
+
+[node name="item_chainsaw" parent="ents/arena_test" instance=ExtResource( 19 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 4, -0.5 )
 
 [node name="item_pistol" parent="ents/arena_test" instance=ExtResource( 22 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 4, -0.4 )
@@ -1753,12 +1750,6 @@ transform = Transform( 10, 0, 0, 0, 3, 0, 0, 0, 1, -48, 1.5, -5.5 )
 [node name="world_volume26" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 54 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 10, -52.5, 1.5, 0 )
 
-[node name="world_volume11" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 54 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, 0.5, 4.5, -10 )
-
-[node name="world_volume12" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 54 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, 0.5, 4.5, 10 )
-
 [node name="world_volume13" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 54 )]
 transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -21.5, 4, 6.5 )
 
@@ -1827,6 +1818,21 @@ transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 24, -14, 3, -12 )
 
 [node name="world_volume_corner9" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -10, 3, 8 )
+
+[node name="world_volume_corner13" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
+transform = Transform( 13, 0, 0, 0, 4, 0, 0, 0, 1, 1, 0, 13 )
+
+[node name="world_volume_corner14" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
+transform = Transform( 13, 0, 0, 0, 4, 0, 0, 0, 1, 1, 0, -14 )
+
+[node name="world_volume_corner16" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 8, 0, 0, -14 )
+
+[node name="world_volume_corner17" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 8, 0, 0, 6 )
+
+[node name="world_volume_corner15" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 26, 13, 0, -13 )
 
 [node name="world_volume_corner11" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -10, 3, -12 )
@@ -1942,7 +1948,19 @@ transform = Transform( 3, 0, 0, 0, 1, 0, 0, 0, 8, 24, 4, 14 )
 transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 8, 15, 1, 13 )
 
 [node name="world_volume_corner13" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
-transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 30, -3, 1, -9 )
+transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 24, -3, 1, -4 )
+
+[node name="world_volume_corner50" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 4, -3, 7, -4 )
+
+[node name="world_volume_corner51" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 3, 0, 0, 0, 1, -15, 7, 12 )
+
+[node name="world_volume_corner52" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 16, -3, 7, 4 )
+
+[node name="world_volume_corner43" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 24, -3, 10, -4 )
 
 [node name="world_volume_corner15" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
 transform = Transform( 9, 0, 0, 0, 12, 0, 0, 0, 1, -4, 1, 20 )
@@ -2051,6 +2069,15 @@ transform = Transform( 8, 0, 0, 0, 4, 0, 0, 0, 4, 2, -1, -4 )
 
 [node name="world_volume_corner12" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 16, -2, -1, -8 )
+
+[node name="corridor" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 73 )]
+transform = Transform( 4, 0, 0, 0, 3, 0, 0, 0, 8, -15, 7, 4 )
+
+[node name="corridor2" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 73 )]
+transform = Transform( -1.74846e-07, 0, -8, 0, 3, 0, 4, 0, -3.49691e-07, -3, 7, 0 )
+
+[node name="corridor_right_angle" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 74 )]
+transform = Transform( -4, 0, -6.03983e-07, 0, 3, 0, 6.03983e-07, 0, -4, -11, 7, 4 )
 
 [connection signal="trigger" from="gameplay_test/mob_spawn_proxy3" to="gameplay_test/save_test_barrier2" method="on_trigger"]
 [connection signal="trigger" from="gameplay_test/mob_spawn_proxy4" to="gameplay_test/save_test_barrier2" method="on_trigger"]
