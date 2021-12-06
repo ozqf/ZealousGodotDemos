@@ -10,8 +10,8 @@ var _lastSoundFrame:int = -1
 func custom_init_b() -> void:
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SHARPNEL
 
-func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
-	if tick <= 0 && _primaryOn:
+func read_input(_weaponInput:WeaponInput) -> void:
+	if tick <= 0 && _weaponInput.primaryOn:
 		tick = refireTime
 		var t:Transform = _launchNode.global_transform
 		for _i in range(0, 10):

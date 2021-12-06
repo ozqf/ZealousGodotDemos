@@ -27,10 +27,10 @@ func _fire_rocket() -> void:
 # 		return false
 # 	return true
 
-func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
+func read_input(_weaponInput:WeaponInput) -> void:
 	if tick > 0:
 		return
-	if _primaryOn:
+	if _weaponInput.primaryOn:
 		tick = refireTime
 		_fire_rocket()
 		.play_fire_1(false)

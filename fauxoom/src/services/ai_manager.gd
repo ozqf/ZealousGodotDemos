@@ -134,7 +134,7 @@ func tally_mob_roles() -> void:
 			_numRoleCharge += 1
 
 ###############
-# Registeration
+# Registration
 ###############
 
 func create_nav_agent() -> NavAgent:

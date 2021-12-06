@@ -1,6 +1,9 @@
 extends Node
 class_name PlayerAttack
 
+var _weapon_input_t = preload("res://src/defs/weapon_input.gd")
+var _weaponInput:WeaponInput = null
+
 # var _launchNode:Spatial = null
 # var _parentBody:PhysicsBody = null
 # var _inventory:Inventory = null
@@ -16,6 +19,7 @@ var _meleeTime:float = 0.5
 func init_attack(interactor:PlayerObjectInteractor, inventory) -> void:
 	_interactor = interactor
 	_inventory = inventory
+	_weaponInput = _weapon_input_t.new()
 
 func set_attack_enabled(flag:bool) -> void:
 	_active = flag
@@ -48,15 +52,18 @@ func _process(_delta:float) -> void:
 			if result != 0:
 				_pendingSlot = -1
 	
-	var primary:bool = Input.is_action_pressed("attack_1")
-	var secondary:bool = Input.is_action_pressed("attack_2")
+	_weaponInput.primaryOnPrev = _weaponInput.primaryOn
+	_weaponInput.secondaryOnPrev = _weaponInput.secondaryOn
+	
+	_weaponInput.primaryOn = Input.is_action_pressed("attack_1")
+	_weaponInput.secondaryOn = Input.is_action_pressed("attack_2")
 	if !_active:
-		primary = false
-		secondary = false
+		_weaponInput.primaryOn = false
+		_weaponInput.secondaryOn = false
 
 	if _meleeTick > 0:
-		primary = false
-		secondary = false
+		_weaponInput.primaryOn = false
+		_weaponInput.secondaryOn = false
 		_meleeTick -= _delta
 	elif Input.is_action_just_pressed("interact"):
 		_meleeTick = _meleeTime
@@ -68,4 +75,4 @@ func _process(_delta:float) -> void:
 		if weap.is_cycling() == false && weap.can_equip() == false:
 			_inventory.select_next_weapon()
 			return
-		weap.read_input(primary, secondary)
+		weap.read_input(_weaponInput)

@@ -47,7 +47,7 @@ func _fire_flare() -> void:
 	var forward = -t.basis.z
 	flare.launch_prj(selfPos, forward, Ents.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
 
-func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
+func read_input(_weaponInput:WeaponInput) -> void:
 	if _reloading:
 		return
 	# semi-automatic mode:
@@ -58,12 +58,12 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 		if tick > refireTime / 2:
 			return
 		if _awaitOff:
-			if !_primaryOn:
+			if !_weaponInput.primaryOn:
 				_awaitOff = false
 			return
 	# if tick > 0:
 	# 	return
-	if _primaryOn:
+	if _weaponInput.primaryOn:
 		_awaitOff = true
 		tick = refireTime
 		# var t:Transform = _launchNode.global_transform
@@ -87,7 +87,7 @@ func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
 	# reload on secondary fire button:
 	# elif _secondaryOn && _loaded < maxLoaded:
 	# 	_start_reload()
-	elif _secondaryOn:
+	elif _weaponInput.secondaryOn:
 		_fire_flare()
 		# for _i in range(0, _loaded):
 		# 	_custom_shoot(2000, 1200, 1)

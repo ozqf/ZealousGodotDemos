@@ -199,6 +199,7 @@ __meta__ = {
 }
 
 [node name="weapon_centre" type="AnimatedSprite" parent="hud/gun"]
+visible = false
 position = Vector2( 510.589, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 4 )
@@ -256,7 +257,7 @@ visible = false
 position = Vector2( -320, -160 )
 scale = Vector2( 2.5, 2.5 )
 frames = ExtResource( 4 )
-animation = "saw_recall"
+animation = "hand_punch"
 __meta__ = {
 "_edit_lock_": true
 }
@@ -275,7 +276,7 @@ visible = false
 position = Vector2( 320, -160 )
 scale = Vector2( 2.5, 2.5 )
 frames = ExtResource( 4 )
-animation = "saw_recall"
+animation = "hand_punch"
 flip_h = true
 __meta__ = {
 "_edit_lock_": true

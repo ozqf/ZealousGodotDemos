@@ -112,7 +112,7 @@ func play_fire_1(loop:bool = true) -> void:
 		if !loop:
 			_hud.centreNextAnim = idle
 
-func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
+func read_input(_weaponInput:WeaponInput) -> void:
 	pass
 
 func _perform_hit(result:Dictionary, forward:Vector3) -> void:

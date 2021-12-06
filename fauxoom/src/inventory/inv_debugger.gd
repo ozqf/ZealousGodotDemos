@@ -16,13 +16,13 @@ func raycast_for_debug_mob(forward) -> void:
 	else:
 		print("Found no mob to debug")
 
-func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
+func read_input(_weaponInput:WeaponInput) -> void:
 	if tick > 0:
 		return
-	if _primaryOn:
+	if _weaponInput.primaryOn:
 		tick = 0.1
 		_fire_single(-_launchNode.global_transform.basis.z, 1000)
-	elif _secondaryOn:
+	elif _weaponInput.secondaryOn:
 		tick = 0.1
 		raycast_for_debug_mob(-_launchNode.global_transform.basis.z)
 

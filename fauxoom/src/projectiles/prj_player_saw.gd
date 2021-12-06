@@ -7,6 +7,9 @@ var _state = State.Idle
 var _currentSpeed:float = 25
 var _emptyArray = []
 
+var _primaryOnLast:bool = false
+var _secondaryOnLast:bool = false
+
 func launch(originT:Transform) -> void:
 	global_transform = originT
 	_state = State.Thrown
@@ -33,12 +36,16 @@ func _move_as_ray(_delta:float) -> void:
 	global_transform.origin = dest
 
 # returns 1 if parent can reset to idle state
-func read_input(_primaryOn:bool, _secondaryOn:bool) -> int:
-	if (_state == State.Thrown || _state == State.Stuck) && _secondaryOn:
+func read_input(_weaponInput:WeaponInput) -> int:
+	var result:int = 0
+	if (_state == State.Thrown || _state == State.Stuck) && _weaponInput.secondaryOn && !_secondaryOnLast:
 		_state = State.Idle
 		print("Saw - recall!")
-		return 1
-	return 0
+		result = 1
+	
+	# _primaryOnLast = _primaryOn
+	# _secondaryOnLast = _secondaryOn
+	return result
 
 
 func _physics_process(_delta):

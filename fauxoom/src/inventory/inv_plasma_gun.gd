@@ -21,10 +21,10 @@ func _draw_trail(origin:Vector3, dest:Vector3) -> void:
 	Game.get_dynamic_parent().add_child(trail)
 	trail.spawn(origin, dest)
 
-func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
+func read_input(_weaponInput:WeaponInput) -> void:
 	if tick > 0:
 		return
-	if _primaryOn:
+	if _weaponInput.primaryOn:
 		print("Fire plasma - dmg " + str(_hitInfo.damage) + " type " + str(_hitInfo.damageType))
 		tick = refireTime
 		var hitPos:Vector3 = _fire_single(-_launchNode.global_transform.basis.z, 1000)

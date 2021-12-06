@@ -56,26 +56,26 @@ func _process(_delta:float) -> void:
 		pass
 	pass
 
-func read_input(_primaryOn:bool, _secondaryOn:bool) -> void:
+func read_input(_weaponInput:WeaponInput) -> void:
 	if _state == State.Idle:
-		if _primaryOn:
+		if _weaponInput.primaryOn:
 			change_state(State.Sawing)
 			return
-		elif _secondaryOn:
+		elif _weaponInput.secondaryOn:
 			change_state(State.Launched)
 			return
 	elif _state == State.Sawing:
-		if !_primaryOn:
+		if !_weaponInput.primaryOn:
 			change_state(State.Idle)
 	elif _state == State.Launched || _state == State.Recalling:
-		var result:int = _thrown.read_input(_primaryOn, _secondaryOn)
+		var result:int = _thrown.read_input(_weaponInput)
 		if result == 1:
 			change_state(State.Idle)
 
-func read_input_old(_primaryOn:bool, _secondaryOn:bool) -> void:
+func read_input_old(_weaponInput:WeaponInput) -> void:
 	if tick > 0:
 		return
-	if _primaryOn:
+	if _weaponInput.primaryOn:
 		tick = refireTime
 		_fire_single(-_launchNode.global_transform.basis.z, 1.5)
 		.play_fire_1()
