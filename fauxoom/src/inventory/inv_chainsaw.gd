@@ -61,7 +61,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		if _weaponInput.primaryOn:
 			change_state(State.Sawing)
 			return
-		elif _weaponInput.secondaryOn:
+		elif _weaponInput.secondaryOn && !_weaponInput.secondaryOnPrev:
 			change_state(State.Launched)
 			return
 	elif _state == State.Sawing:

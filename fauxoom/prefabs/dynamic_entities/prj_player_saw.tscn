@@ -3,8 +3,8 @@
 [ext_resource path="res://src/projectiles/prj_player_saw.gd" type="Script" id=1]
 
 [sub_resource type="CylinderMesh" id=1]
-top_radius = 0.25
-bottom_radius = 0.25
+top_radius = 0.35
+bottom_radius = 0.35
 height = 0.1
 
 [node name="prj_player_saw" type="Spatial"]

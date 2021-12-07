@@ -52,9 +52,11 @@ func _process(_delta:float) -> void:
 			if result != 0:
 				_pendingSlot = -1
 	
+	# record previous input state
 	_weaponInput.primaryOnPrev = _weaponInput.primaryOn
 	_weaponInput.secondaryOnPrev = _weaponInput.secondaryOn
 	
+	# apply new input state
 	_weaponInput.primaryOn = Input.is_action_pressed("attack_1")
 	_weaponInput.secondaryOn = Input.is_action_pressed("attack_2")
 	if !_active:
