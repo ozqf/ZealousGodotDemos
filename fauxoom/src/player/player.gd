@@ -15,6 +15,8 @@ onready var _hud:Hud = $hud
 onready var _interactor:PlayerObjectInteractor = $head/interaction_ray_cast
 onready var _flashLight:SpotLight = $head/SpotLight
 onready var _muzzleFlash:OmniLight = $head/muzzle_flash
+onready var _aimRay:RayCast = $head/aim_ray_cast
+onready var _laserDot:Spatial = $head/laser_dot
 
 var _inputOn:bool = false
 
@@ -35,7 +37,8 @@ var _targettingInfo:Dictionary = {
 	position = Vector3(),
 	forward = Vector3(),
 	flatForward = Vector3(),
-	yawDegrees = 0
+	yawDegrees = 0,
+	aimPos = Vector3()
 }
 
 func _ready():
@@ -210,6 +213,23 @@ func _process(_delta):
 	if Input.is_action_just_pressed("flash_light"):
 		_flashLight.visible = !_flashLight.visible
 	
+	var aimPos:Vector3
+	if _aimRay.is_colliding():
+		aimPos = _aimRay.get_collision_point()
+	else:
+		var headForward:Vector3 = -_head.global_transform.basis.z
+		aimPos = _head.global_transform.origin + (headForward * 1000)
+	_laserDot.global_transform.origin = aimPos
+	
+	# write targetting information
+	_targettingInfo.position = _head.global_transform.origin
+	_targettingInfo.yawDegrees = _motor.m_yaw
+	_targettingInfo.forward = -_head.global_transform.basis.z
+	_targettingInfo.flatForward = ZqfUtils.yaw_to_flat_vector3(_motor.m_yaw)
+	_targettingInfo.velocity = _motor.get_velocity()
+	_targettingInfo.aimPos = aimPos
+
+	# Write HUD information
 	var t:Transform = _head.transform
 	var swayScale:float = _motor.get_sway_scale()
 	_swayTime += (_delta * (swayScale * 12))
@@ -218,12 +238,6 @@ func _process(_delta):
 	t.origin.y += sin(_swayTime) * 0.025
 	_cameraMount.transform = t
 	
-	_targettingInfo.position = _head.global_transform.origin
-	_targettingInfo.yawDegrees = _motor.m_yaw
-	_targettingInfo.forward = -_head.global_transform.basis.z
-	_targettingInfo.flatForward = ZqfUtils.yaw_to_flat_vector3(_motor.m_yaw)
-	_targettingInfo.velocity = _motor.get_velocity()
-
 	var txt = ""
 	txt = "real forward: " + str(_targettingInfo.forward) + "\n"
 	txt += "pos: " + str(_targettingInfo.position) + "\n"

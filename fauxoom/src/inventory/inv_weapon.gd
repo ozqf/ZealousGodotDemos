@@ -19,6 +19,7 @@ export var refireTime:float = 1.0
 export var idle:String = ""
 export var fire_1:String = ""
 export var reload:String = ""
+export var empty:String = ""
 
 export var akimbo:bool = false
 
@@ -111,6 +112,12 @@ func play_fire_1(loop:bool = true) -> void:
 		_hud.centreSprite.frame = 0
 		if !loop:
 			_hud.centreNextAnim = idle
+
+func play_empty() -> void:
+	if _hud == null || empty == null || empty == "":
+		return
+	_hud.centreSprite.play(empty)
+	_hud.centreSprite.frame = 0
 
 func read_input(_weaponInput:WeaponInput) -> void:
 	pass

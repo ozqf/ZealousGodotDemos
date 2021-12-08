@@ -1,5 +1,10 @@
 extends InvWeapon
 
+const REV_UP_TIME:float = 2.0
+const REV_DOWN_TIME:float = 8.0
+
+# when saw blade is launched, input handling is passed onto the project
+# the project is recycled, if we don't have one, create one and reuse it
 var _prj_player_saw_t = preload("res://prefabs/dynamic_entities/prj_player_saw.tscn")
 
 export var empty_animation:String = ""
@@ -9,6 +14,12 @@ enum State { Idle, Sawing, Launched, Recalling }
 
 var _state = State.Idle
 var _thrown = null
+var _revs:float = 50.0
+
+func write_hud_status(statusDict:PlayerHudStatus) -> void:
+	statusDict.currentLoaded = 0
+	statusDict.currentLoadedMax = 0
+	statusDict.currentAmmo = int(_revs)
 
 func custom_init_b() -> void:
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SAW
@@ -16,6 +27,8 @@ func custom_init_b() -> void:
 func equip() -> void:
 	.equip()
 	_hud.centreSprite.offset.y = -60
+	if _state == State.Launched || _state == State.Recalling:
+		.play_empty()
 
 func deequip() -> void:
 	.deequip()
@@ -36,7 +49,8 @@ func change_state(newState) -> void:
 			# created a new sawblade
 			_thrown = _prj_player_saw_t.instance()
 			Game.get_dynamic_parent().add_child(_thrown)
-		_thrown.launch(_launchNode.global_transform)
+		_thrown.launch(_launchNode.global_transform, _revs)
+		.play_empty()
 	elif _state == State.Recalling:
 		pass
 	else:
@@ -52,9 +66,16 @@ func _process(_delta:float) -> void:
 		pass
 	elif _state == State.Recalling:
 		pass
+	
+	# update revving
+	if _state == State.Sawing:
+		_revs += (100.0 / REV_UP_TIME) * _delta
 	else:
-		pass
-	pass
+		_revs -= (15.0 / REV_DOWN_TIME) * _delta
+	if _revs > 100:
+		_revs = 100
+	elif _revs < 0:
+		_revs = 0
 
 func read_input(_weaponInput:WeaponInput) -> void:
 	if _state == State.Idle:

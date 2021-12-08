@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://assets/sprites/player/player_a1.png" type="Texture" id=1]
 [ext_resource path="res://src/player/player.gd" type="Script" id=2]
@@ -27,6 +27,8 @@
 [ext_resource path="res://zqf/timed_self_hide.gd" type="Script" id=25]
 [ext_resource path="res://src/inventory/inv_flame_thrower.gd" type="Script" id=26]
 [ext_resource path="res://assets/fonts/default_dynamic_font.tres" type="DynamicFont" id=27]
+[ext_resource path="res://assets/primitives/cube_1x1x1.obj" type="ArrayMesh" id=28]
+[ext_resource path="res://assets/mat_red.tres" type="Material" id=29]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -68,6 +70,19 @@ collision_mask = 524800
 collide_with_areas = true
 script = ExtResource( 10 )
 
+[node name="aim_ray_cast" type="RayCast" parent="head"]
+enabled = true
+cast_to = Vector3( 0, 0, -50 )
+collision_mask = 524803
+collide_with_areas = true
+script = ExtResource( 10 )
+
+[node name="laser_dot" type="MeshInstance" parent="head"]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -1.4, 0 )
+material_override = ExtResource( 29 )
+mesh = ExtResource( 28 )
+material/0 = null
+
 [node name="SpotLight" type="SpotLight" parent="head"]
 visible = false
 light_energy = 0.75
@@ -103,6 +118,8 @@ inventoryType = "chainsaw"
 refireTime = 0.02
 idle = "saw_idle"
 fire_1 = "saw_shoot"
+reload = "saw_recall"
+empty = "saw_recall"
 
 [node name="pistol" type="Node" parent="inventory/weapons"]
 script = ExtResource( 15 )

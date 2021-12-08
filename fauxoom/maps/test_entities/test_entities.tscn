@@ -1840,9 +1840,6 @@ transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 26, 13, 0, -13 )
 [node name="world_volume_corner11" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -10, 3, -12 )
 
-[node name="world_volume34" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 54 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 5.5, 2 )
-
 [node name="world_volume_wedge_corner6" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 42 )]
 transform = Transform( -8.74228e-08, 0, 2, 0, 2, 0, -3, 0, -1.31134e-07, -10, 0, 8 )
 
@@ -1948,7 +1945,7 @@ transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 11, 16, 4, 14 )
 transform = Transform( 3, 0, 0, 0, 1, 0, 0, 0, 8, 24, 4, 14 )
 
 [node name="world_volume_corner3" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
-transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 8, 15, 1, 13 )
+transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 7, 15, 1, 14 )
 
 [node name="world_volume_corner13" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 30 )]
 transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 24, -3, 1, -4 )

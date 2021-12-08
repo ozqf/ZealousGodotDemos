@@ -45,6 +45,10 @@ static func is_ray_hit_a_mob(_hitScanResult:Dictionary) -> bool:
 		return false
 	return _hitScanResult.collider.is_mob()
 
+static func use_collider(collider) -> void:
+	if collider.has_method("use"):
+		collider.use()
+
 # returns -1 if object had no hit function
 static func hitscan_hit(_hitInfo:HitInfo, _hitScanResult:Dictionary) -> int:
 	if _hitScanResult.collider.has_method("hit"):
