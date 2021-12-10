@@ -30,6 +30,7 @@ var _ignoreBody = []
 var _hitInfo:HitInfo = null
 
 var _explosiveRadius:float = 3
+var ownerId:int = 0
 
 func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
@@ -56,6 +57,13 @@ func area_scan_result(bodies) -> void:
 		_hitInfo.direction = tarPos - _hitInfo.origin
 		_hitInfo.direction = _hitInfo.direction.normalized()
 		var _inflicted:int = Interactions.hit(_hitInfo, body)
+
+func triggered_detonate() -> void:
+	if _state != ProjectileState.InFlight:
+		return
+	_hitInfo.attackTeam = _team
+	_hitInfo.direction = _velocity.normalized()
+	die()
 
 func _move_as_ray_2(_delta:float) -> void:
 	var t:Transform = global_transform

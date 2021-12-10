@@ -361,7 +361,7 @@ func _process(_delta:float) -> void:
 		motor.move_idle(_delta)
 		return
 
-func apply_stun(_dir:Vector3) -> void:
+func apply_stun(_dir:Vector3, durationOverride:float) -> void:
 	# stun
 	if _state != MobState.Stunned:
 		_change_state(MobState.Stunned)
@@ -369,7 +369,14 @@ func apply_stun(_dir:Vector3) -> void:
 	for _i in range(0, attacks.size()):
 		attacks[_i].cancel()
 	# velocity = _dir * 2
-	_thinkTick = _stats.stunTime
+	var newThink:float = 0
+	if durationOverride <= 0:
+		newThink = _stats.stunTime
+	else:
+		newThink = durationOverride
+	# only set stun time if it will extend current stun state.
+	if _thinkTick < newThink:
+		_thinkTick = newThink
 
 func emit_mob_event(eventType:String) -> void:
 	emit_signal("mob_event", eventType)
@@ -484,7 +491,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		emit_mob_event("pain")
 		_stunAccumulator += _hitInfo.damage
 		if _stunAccumulator > _stats.stunThreshold:
-			apply_stun(_hitInfo.direction)
+			apply_stun(_hitInfo.direction, _hitInfo.stunOverrideTime)
 		if !_isSniper:
 			motor.damage_hit(_hitInfo)
 		return _hitInfo.damage

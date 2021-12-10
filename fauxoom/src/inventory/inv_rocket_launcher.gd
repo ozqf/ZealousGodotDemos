@@ -4,6 +4,8 @@ var _rocketShoot:AudioStream = preload("res://assets/sounds/weapon/rocket_fire.w
 var _rocket_t = preload("res://prefabs/dynamic_entities/prj_player_rocket.tscn")
 var _prjMask:int = -1
 
+signal rocket_detonate()
+
 func custom_init_b() -> void:
 	_prjMask = Interactions.get_player_prj_mask()
 
@@ -13,7 +15,10 @@ func _fire_rocket() -> void:
 	var t:Transform = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward = -t.basis.z
-	rocket.launch_prj(selfPos, forward, Ents.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
+	rocket.launch_prj(selfPos, forward, 1, Interactions.TEAM_PLAYER, _prjMask)
+	rocket.ownerId = _inventory.get_owner_ent_id()
+	print("Rockets - connect signal")
+	connect("rocket_detonate", rocket, "triggered_detonate")
 	_hud.audio.stream = _rocketShoot
 	_hud.audio.play()
 	_inventory.take_item(ammoType, ammoPerShot)
@@ -27,6 +32,10 @@ func _fire_rocket() -> void:
 # 	return true
 
 func read_input(_weaponInput:WeaponInput) -> void:
+	if _weaponInput.secondaryOn:
+		print("Rockets - detonate")
+		emit_signal("rocket_detonate")
+		return
 	if tick > 0:
 		return
 	if _weaponInput.primaryOn:

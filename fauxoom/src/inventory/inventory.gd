@@ -28,6 +28,7 @@ var weapons = []
 var _currentWeaponIndex:int = -1
 var offhand:InvWeapon = null
 var empty:InvWeapon = null
+var ownerId:int = 0
 # var _currentWeapon:InvWeapon = null
 
 func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
@@ -54,6 +55,9 @@ func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
 
 func on_weapon_action(_weapon:InvWeapon, _action:String) -> void:
 	self.emit_signal("weapon_action", _weapon, _action)
+
+func get_owner_ent_id() -> int:
+	return ownerId
 
 func append_state(_saveDict:Dictionary) -> void:
 	var save = { 

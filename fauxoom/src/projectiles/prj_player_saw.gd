@@ -3,8 +3,10 @@ class_name SawBlade
 
 enum State { Idle, Thrown, Stuck, Dropped, Recall }
 
-const GUIDED_SPEED:float = 30.0
+const GUIDED_SPEED:float = 25.0
 const UNGUIDED_SPEED:float = 50.0
+
+const REV_DOWN_TIME:float = 8.0
 
 onready var _display:Spatial = $display
 onready var _sparks1:CPUParticles = $display/sparks_1
@@ -87,7 +89,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 
 		var _inflicted:int = Interactions.hitscan_hit(_hitInfo, result)
 		if _inflicted >= 0:
-			print("Sawblade Hit entity - revs: " + str(_revs))
+			print("Sawblade Hit entity - revs: " + str(_revs) + " stuntime: " + str(_hitInfo.stunOverrideTime))
 			# start_recall()
 			global_transform.origin = result.position
 			if _revs > 10:
@@ -107,6 +109,13 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 			set_stuck()
 			move = false
 			# print("Saw - stuck!")
+			global_transform.origin = result.position
+			return
+		
+		# saw blade is only projectile stopped by barriers
+		elif (body.collision_layer & Interactions.PLAYER_BARRIER) != 0:
+			set_dropped()
+			_apply_dropped_push(result.normal)
 			global_transform.origin = result.position
 			return
 
@@ -152,6 +161,12 @@ func spin_display(_delta:float) -> void:
 	_rotDegrees -= rate * _delta
 	_display.rotation_degrees = Vector3(_rotDegrees, 0, 0)
 
+func _calc_stun_time() -> float:
+	var timeFromRevs:float = REV_DOWN_TIME * (_revs / 100.0)
+	if  timeFromRevs < 1:
+		timeFromRevs = 1
+	return timeFromRevs
+
 func _physics_process(_delta):
 	# if we have no player to belong to just switch off
 	var targetDict:Dictionary = AI.get_player_target()
@@ -159,6 +174,7 @@ func _physics_process(_delta):
 		off()
 		return
 	
+	_hitInfo.stunOverrideTime = _calc_stun_time()
 	# tick
 	if _state == State.Thrown:
 		spin_display(_delta)
@@ -169,7 +185,7 @@ func _physics_process(_delta):
 			_move_as_ray(_delta, UNGUIDED_SPEED)
 	elif _state == State.Stuck:
 		if _revs > 0:
-			_revs -= (100.0 / 8.0) * _delta
+			_revs -= (100.0 / REV_DOWN_TIME) * _delta
 			if _revs < 0:
 				_revs = 0
 			var particleCount:int = int(64.0 * _revs / 100.0)

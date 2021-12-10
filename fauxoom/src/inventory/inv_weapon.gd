@@ -122,7 +122,7 @@ func play_empty() -> void:
 func read_input(_weaponInput:WeaponInput) -> void:
 	pass
 
-func _perform_hit(result:Dictionary, forward:Vector3) -> void:
+func _perform_hit(result:Dictionary, forward:Vector3) -> int:
 	#print("HIT at " + str(result.position))
 	# result.collider etc etc
 	_hitInfo.direction = forward
@@ -174,6 +174,7 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> void:
 	# 			rand_range(-_range, _range),
 	# 			rand_range(-_range, _range))
 	# 		blood.global_transform.origin = (pos + offset)
+	return inflicted
 
 func _fire_single(forward:Vector3, scanRange:float) -> Vector3:
 	var mask:int = Interactions.get_player_prj_mask()

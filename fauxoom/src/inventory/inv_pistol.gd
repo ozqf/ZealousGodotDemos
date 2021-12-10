@@ -45,7 +45,7 @@ func _fire_flare() -> void:
 	var t:Transform = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward = -t.basis.z
-	flare.launch_prj(selfPos, forward, Ents.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
+	flare.launch_prj(selfPos, forward, Interactions.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
 
 func read_input(_weaponInput:WeaponInput) -> void:
 	if _reloading:

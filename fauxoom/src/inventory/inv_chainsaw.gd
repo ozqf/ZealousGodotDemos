@@ -10,7 +10,7 @@ var _prj_player_saw_t = preload("res://prefabs/dynamic_entities/prj_player_saw.t
 export var empty_animation:String = ""
 export var _isAttacking:bool = false
 
-enum State { Idle, Sawing, Launched, Recalling }
+enum State { Idle, Sawing, Launched, Recalling, MeleeRecover }
 
 var _state = State.Idle
 var _thrown = null
@@ -57,12 +57,28 @@ func change_state(newState) -> void:
 	else:
 		.play_idle()
 
+func _perform_hit(_result:Dictionary, _forward:Vector3) -> int:
+	_hitInfo.damage = int(_revs)
+	var inflicted:int = ._perform_hit(_result, _forward)
+	if inflicted > 0:
+		_revs = 0
+		.play_idle()
+		_state = State.MeleeRecover
+		tick = 1.0
+	return inflicted
+
 func _process(_delta:float) -> void:
 	tick -= _delta
+	if _state == State.MeleeRecover:
+		if tick > 0:
+			return
+		_state = State.Idle
 	if _state == State.Sawing:
 		if tick <= 0:
-			_fire_single(-_launchNode.global_transform.basis.z, 1.5)
+			# set refire first. perform hit may override
+			# if a hit is successful
 			tick = refireTime
+			_fire_single(-_launchNode.global_transform.basis.z, 1.5)
 	elif _state == State.Launched:
 		pass
 	elif _state == State.Recalling:
@@ -79,6 +95,8 @@ func _process(_delta:float) -> void:
 		_revs = 0
 
 func read_input(_weaponInput:WeaponInput) -> void:
+	if _state == State.MeleeRecover:
+		return
 	if _state == State.Idle:
 		if _weaponInput.primaryOn:
 			change_state(State.Sawing)

@@ -33,7 +33,7 @@ var _swayTime:float = 0.0
 var _hudStatus:PlayerHudStatus = null
 
 var _targettingInfo:Dictionary = {
-	id = 1,
+	id = Interactions.PLAYER_RESERVED_ID,
 	position = Vector3(),
 	forward = Vector3(),
 	flatForward = Vector3(),
@@ -42,8 +42,6 @@ var _targettingInfo:Dictionary = {
 }
 
 func _ready():
-	# Main.set_camera(_head)
-	# _targettingInfo.id = Entities.PLAYER_RESERVED_ID
 	add_to_group(Config.GROUP)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
@@ -55,6 +53,7 @@ func _ready():
 	_inventory.connect("weapon_changed", _hud, "inventory_weapon_changed")
 	_inventory.connect("weapon_action", self, "on_weapon_action")
 	_inventory.custom_init(_head, self, _hud)
+	_inventory.ownerId = Interactions.PLAYER_RESERVED_ID
 	_attack.init_attack(_interactor, _inventory)
 	_attack.set_attack_enabled(false)
 	

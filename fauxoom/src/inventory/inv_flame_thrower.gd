@@ -14,7 +14,7 @@ func _fire_rocket() -> void:
 	var selfPos:Vector3 = t.origin
 	selfPos.y -= 0.3
 	var forward = -t.basis.z
-	rocket.launch_prj(selfPos, forward, Ents.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
+	rocket.launch_prj(selfPos, forward, Interactions.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
 	_hud.audio.stream = _rocketShoot
 	_hud.audio.play()
 	_inventory.take_item(ammoType, ammoPerShot)

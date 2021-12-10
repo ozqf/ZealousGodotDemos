@@ -1,5 +1,7 @@
 class_name Interactions
 
+const PLAYER_RESERVED_ID:int = 1
+
 const WORLD:int = (1 << 0)
 const ACTORS:int = (1 << 1)
 const PROJECTILES:int = (1 << 2)

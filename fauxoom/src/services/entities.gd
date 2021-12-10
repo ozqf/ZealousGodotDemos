@@ -4,7 +4,6 @@ class_name Entities
 const Enums = preload("res://src/enums.gd")
 
 const EMPTY_ID:int = 0
-const PLAYER_RESERVED_ID:int = 1
 
 const PREFAB_MOB_PUNK:String = "mob_punk"
 const PREFAB_MOB_WORM:String = "mob_worm"
@@ -161,7 +160,7 @@ var _prefabs = {
 	}
 }
 
-var _nextDynamicId:int = PLAYER_RESERVED_ID + 1
+var _nextDynamicId:int = Interactions.PLAYER_RESERVED_ID + 1
 var _nextStaticId:int = -1
 
 func _ready() -> void:
@@ -169,7 +168,7 @@ func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
 
 func game_on_map_change() -> void:
-	_nextDynamicId = PLAYER_RESERVED_ID + 1
+	_nextDynamicId = Interactions.PLAYER_RESERVED_ID + 1
 	_nextStaticId = -1
 
 func get_prefab_def(_name:String) -> Dictionary:
