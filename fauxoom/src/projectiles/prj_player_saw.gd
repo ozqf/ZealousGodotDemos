@@ -1,12 +1,14 @@
-extends Spatial
+extends RigidBody
 class_name SawBlade
 
-enum State { Idle, Thrown, Stuck, Recall }
+enum State { Idle, Thrown, Stuck, Dropped, Recall }
 
 const GUIDED_SPEED:float = 30.0
 const UNGUIDED_SPEED:float = 50.0
 
 onready var _display:Spatial = $display
+onready var _sparks1:CPUParticles = $display/sparks_1
+onready var _sparks2:CPUParticles = $display/sparks_2
 
 var _state = State.Idle
 var _currentSpeed:float = 25
@@ -21,8 +23,11 @@ func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
 	_hitInfo.damage = 15
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SAW
+	_sparks1.emitting = false
+	_sparks2.emitting = false
 
 func launch(originT:Transform, revs:float) -> void:
+	disable_body()
 	visible = true
 	_revs = revs
 	global_transform = originT
@@ -30,9 +35,38 @@ func launch(originT:Transform, revs:float) -> void:
 	# print("Saw - launch!")
 
 func off() -> void:
+	disable_body()
 	_state = State.Idle
 	visible = false
+	_sparks1.emitting = false
+	_sparks2.emitting = false
 
+func set_stuck() -> void:
+	_state = State.Stuck
+	_sparks1.emitting = true
+	_sparks2.emitting = true
+
+func disable_body() -> void:
+	mode = RigidBody.MODE_KINEMATIC
+
+func set_dropped() -> void:
+	_state = State.Dropped
+	mode = RigidBody.MODE_RIGID
+	_sparks1.emitting = false
+	_sparks2.emitting = false
+
+func _apply_dropped_push(normal:Vector3) -> void:
+	var pushPos:Vector3 = Vector3()
+	pushPos.x = rand_range(-0.3, 0.3)
+	pushPos.y = rand_range(-0.3, 0.3)
+	pushPos.z = rand_range(-0.3, 0.3)
+	apply_impulse(pushPos, normal * 5)
+
+func start_recall() -> void:
+	_state = State.Recall
+	_sparks1.emitting = false
+	_sparks2.emitting = false
+	
 func _move_as_ray(_delta:float, speed:float) -> void:
 	var t:Transform = global_transform
 	var space = get_world().direct_space_state
@@ -49,28 +83,41 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 	var move:bool = true
 	if result:
 		_hitInfo.direction = dir
+		var body:CollisionObject = result.collider
 
 		var _inflicted:int = Interactions.hitscan_hit(_hitInfo, result)
 		if _inflicted >= 0:
-			print("Hit entity")
-			start_recall()
+			print("Sawblade Hit entity - revs: " + str(_revs))
+			# start_recall()
+			global_transform.origin = result.position
+			if _revs > 10:
+				set_stuck()
+			else:
+				print("Sawblade drop - no revs for entity hit")
+				set_dropped()
+				_apply_dropped_push(result.normal)
+				# apply_central_impulse(result.normal * 5)
+			global_transform.origin = result.position
 			return
 
-		var body:CollisionObject = result.collider
 		# check vs interactor
-		if (body.collision_layer & Interactions.INTERACTIVE) != 0:
+		elif (body.collision_layer & Interactions.INTERACTIVE) != 0:
 			print("Hit interactive body")
 			Interactions.use_collider(body)
-			_state = State.Stuck
+			set_stuck()
 			move = false
 			# print("Saw - stuck!")
 			global_transform.origin = result.position
 			return
 
 		# check vs world
-		if (body.collision_layer & 1) != 0:
+		elif (body.collision_layer & 1) != 0:
 			print("Hit world")
-			_state = State.Stuck
+			if _revs > 0:
+				set_stuck()
+			else:
+				set_dropped()
+				_apply_dropped_push(result.normal)
 			move = false
 			# print("Saw - stuck!")
 			global_transform.origin = result.position
@@ -78,20 +125,20 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 	if move:
 		global_transform.origin = dest
 
-func start_recall() -> void:
-	_state = State.Recall
-
 func turn_toward_point(pos:Vector3) -> void:
 	var towardPoint:Transform = global_transform.looking_at(pos, Vector3.UP)
 	var result:Transform = transform.interpolate_with(towardPoint, 0.8)
 	set_transform(result)
+
+func _state_allows_recall() -> bool:
+	return (_state == State.Thrown || _state == State.Stuck || _state == State.Dropped)
 
 # returns 1 if parent can reset to idle state
 func read_input(_weaponInput:WeaponInput) -> int:
 	var result:int = 0
 	if _state == State.Thrown:
 		_guided = _weaponInput.secondaryOn
-	if (_state == State.Thrown || _state == State.Stuck) && (_weaponInput.secondaryOn && !_weaponInput.secondaryOnPrev):
+	if (_state_allows_recall()) && (_weaponInput.secondaryOn && !_weaponInput.secondaryOnPrev):
 		_state = State.Idle
 		# print("Saw - recall!")
 		start_recall()
@@ -101,14 +148,18 @@ func read_input(_weaponInput:WeaponInput) -> int:
 	return result
 
 func spin_display(_delta:float) -> void:
-	_rotDegrees -= (360 * 4) * _delta
+	var rate:float = (360 * 8) * (_revs / 100)
+	_rotDegrees -= rate * _delta
 	_display.rotation_degrees = Vector3(_rotDegrees, 0, 0)
 
 func _physics_process(_delta):
+	# if we have no player to belong to just switch off
 	var targetDict:Dictionary = AI.get_player_target()
 	if targetDict.id == 0:
 		off()
 		return
+	
+	# tick
 	if _state == State.Thrown:
 		spin_display(_delta)
 		if _guided:
@@ -117,6 +168,18 @@ func _physics_process(_delta):
 		else:
 			_move_as_ray(_delta, UNGUIDED_SPEED)
 	elif _state == State.Stuck:
+		if _revs > 0:
+			_revs -= (100.0 / 8.0) * _delta
+			if _revs < 0:
+				_revs = 0
+			var particleCount:int = 64 * int(_revs / 100.0)
+			if particleCount <= 0:
+				particleCount = 1
+			_sparks1.amount = particleCount
+			_sparks2.amount = particleCount
+		else:
+			print("Sawblade drop - ran out of revs")
+			set_dropped()
 		spin_display(_delta)
 	elif _state == State.Recall:
 #		print("...Recall tick...")

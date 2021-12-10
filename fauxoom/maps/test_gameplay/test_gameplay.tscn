@@ -460,10 +460,13 @@ transform = Transform( 3.5, 0, 0, 0, 2, 0, 0, 0, 3, 13, 0, 33 )
 transform = Transform( 200, 0, 0, 0, 50, 0, 0, 0, 300, -97, -85, -171 )
 
 [node name="blocker_volume" parent="geometry/NavService/NavigationMeshInstance" instance=ExtResource( 17 )]
-transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 28, -15, 0, 4 )
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 28, -15, 0, 4 )
+
+[node name="blocker_volume3" parent="geometry/NavService/NavigationMeshInstance" instance=ExtResource( 17 )]
+transform = Transform( 30, 0, 0, 0, 1, 0, 0, 0, 28, -15, 10, 4 )
 
 [node name="blocker_volume2" parent="geometry/NavService/NavigationMeshInstance" instance=ExtResource( 17 )]
-transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 28, 14, 0, 4 )
+transform = Transform( 1, 0, 0, 0, 10.05, 0, 0, 0, 28, 14, 0, 4 )
 
 [node name="block2mesh_tech" type="Spatial" parent="geometry/NavService/NavigationMeshInstance"]
 script = ExtResource( 30 )

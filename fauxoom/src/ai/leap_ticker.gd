@@ -34,7 +34,7 @@ func custom_tick(_delta:float, _targetInfo:AITickInfo) -> void:
 	_tick -= _delta
 	if _state == STATE_MOVE:
 		var pos:Vector3 = _mob.global_transform.origin
-		var tar:Vector3 = _targetInfo.position
+		var tar:Vector3 = _targetInfo.targetPos
 		
 		var dist:float = ZqfUtils.flat_distance_between(pos, tar)
 		self.set_rotation_to_movement()
@@ -43,8 +43,8 @@ func custom_tick(_delta:float, _targetInfo:AITickInfo) -> void:
 			# print("LEAP!")
 				change_state(LEAP_STATE)
 				_mob.sprite.play_animation("leap")
-				_mob.motor.set_move_target(_targetInfo.position)
-				_mob.motor.set_move_target_forward(_targetInfo.forward)
+				_mob.motor.set_move_target(_targetInfo.targetPos)
+				_mob.motor.set_move_target_forward(_targetInfo.flatForward)
 				_mob.motor.start_leap(_delta, 14)
 				# _area.visible = true # just for debugging
 				_shape.disabled = false
@@ -52,8 +52,8 @@ func custom_tick(_delta:float, _targetInfo:AITickInfo) -> void:
 			else:
 				_mob.motor.move_idle(_delta)
 		else:
-			_mob.motor.set_move_target(_targetInfo.position)
-			_mob.motor.set_move_target_forward(_targetInfo.forward)
+			_mob.motor.set_move_target(_targetInfo.targetPos)
+			_mob.motor.set_move_target_forward(_targetInfo.flatForward)
 			_mob.motor.move_hunt(_delta)
 		# if _tick <= 0:
 		# 	_cycles = 0

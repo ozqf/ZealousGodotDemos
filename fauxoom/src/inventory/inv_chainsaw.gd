@@ -1,7 +1,7 @@
 extends InvWeapon
 
 const REV_UP_TIME:float = 2.0
-const REV_DOWN_TIME:float = 8.0
+const REV_DOWN_TIME:float = 4.0
 
 # when saw blade is launched, input handling is passed onto the project
 # the project is recycled, if we don't have one, create one and reuse it
@@ -50,6 +50,7 @@ func change_state(newState) -> void:
 			_thrown = _prj_player_saw_t.instance()
 			Game.get_dynamic_parent().add_child(_thrown)
 		_thrown.launch(_launchNode.global_transform, _revs)
+		_revs = 0
 		.play_empty()
 	elif _state == State.Recalling:
 		pass
@@ -71,7 +72,7 @@ func _process(_delta:float) -> void:
 	if _state == State.Sawing:
 		_revs += (100.0 / REV_UP_TIME) * _delta
 	else:
-		_revs -= (15.0 / REV_DOWN_TIME) * _delta
+		_revs -= (100.0 / REV_DOWN_TIME) * _delta
 	if _revs > 100:
 		_revs = 100
 	elif _revs < 0:
@@ -86,27 +87,31 @@ func read_input(_weaponInput:WeaponInput) -> void:
 			change_state(State.Launched)
 			return
 	elif _state == State.Sawing:
+		# primary + secondary launch
 		if !_weaponInput.primaryOn:
 			change_state(State.Idle)
+		elif _weaponInput.secondaryOn:
+			change_state(State.Launched)
+			return
 	elif _state == State.Launched || _state == State.Recalling:
 		var result:int = _thrown.read_input(_weaponInput)
 		if result == 1:
 			change_state(State.Idle)
 
-func read_input_old(_weaponInput:WeaponInput) -> void:
-	if tick > 0:
-		return
-	if _weaponInput.primaryOn:
-		tick = refireTime
-		_fire_single(-_launchNode.global_transform.basis.z, 1.5)
-		.play_fire_1()
-		_isAttacking = true
-	else:
-		_isAttacking = false
-
-func _process_old(_delta:float) -> void:
-	if tick > 0:
-		tick -= _delta
-	if _equipped == true && _isAttacking == false && tick <= 0:
-		# print("Chainsaw to idle")
-		.play_idle()
+#func read_input_old(_weaponInput:WeaponInput) -> void:
+#	if tick > 0:
+#		return
+#	if _weaponInput.primaryOn:
+#		tick = refireTime
+#		_fire_single(-_launchNode.global_transform.basis.z, 1.5)
+#		.play_fire_1()
+#		_isAttacking = true
+#	else:
+#		_isAttacking = false
+#
+#func _process_old(_delta:float) -> void:
+#	if tick > 0:
+#		tick -= _delta
+#	if _equipped == true && _isAttacking == false && tick <= 0:
+#		# print("Chainsaw to idle")
+#		.play_idle()

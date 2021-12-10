@@ -11,6 +11,7 @@ size = Vector3( 1, 1, 1 )
 
 [sub_resource type="SpatialMaterial" id=3]
 flags_transparent = true
+flags_unshaded = true
 albedo_color = Color( 0, 1, 0.156863, 0.364706 )
 
 [node name="trigger_volume" type="Area"]
@@ -22,6 +23,7 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
+cast_shadow = 0
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 

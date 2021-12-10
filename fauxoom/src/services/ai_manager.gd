@@ -90,8 +90,10 @@ func _process(_delta:float) -> void:
 		return
 	if !is_instance_valid(_player):
 		# may hit this during level restarts, stale reference
-		# to old player instance
-		print("Skipped ai node update - Invalid player")
+		# to old player instance.
+		# also triggered by end of level or other situations
+		# that despawn the player
+		# print("Skipped ai node update - Invalid player")
 		return
 	var numNodes:int = _tacticNodes.size()
 	for _i in range(0, numNodes):
