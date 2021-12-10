@@ -172,7 +172,7 @@ func _physics_process(_delta):
 			_revs -= (100.0 / 8.0) * _delta
 			if _revs < 0:
 				_revs = 0
-			var particleCount:int = 64 * int(_revs / 100.0)
+			var particleCount:int = int(64.0 * _revs / 100.0)
 			if particleCount <= 0:
 				particleCount = 1
 			_sparks1.amount = particleCount

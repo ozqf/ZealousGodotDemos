@@ -9,7 +9,7 @@ script = ExtResource( 3 )
 
 [node name="item_base" parent="." instance=ExtResource( 1 )]
 type = "fuel"
-quantity = 30
+quantity = 100
 
 [node name="sprite" parent="item_base" index="0"]
 frame = 28

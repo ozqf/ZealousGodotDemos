@@ -17,7 +17,7 @@ var _data:Dictionary = {
 	shells = { count = 0, max = 30, type = "ammo", priority = 0 },
 	plasma = { count = 0, max = 20, type = "ammo", priority = 0 },
 	rockets = { count = 0, max = 20, type = "ammo", priority = 0 },
-	fuel = { count = 0, max = 300, type = "ammo", priority = 0 },
+	fuel = { count = 0, max = 1000, type = "ammo", priority = 0 },
 	
 	rage = { count = 0, max = 100, type = "resource", priority = 0 },
 
