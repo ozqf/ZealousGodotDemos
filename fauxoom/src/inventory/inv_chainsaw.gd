@@ -74,7 +74,9 @@ func _process(_delta:float) -> void:
 			return
 		_state = State.Idle
 	if _state == State.Sawing:
-		if tick <= 0:
+		# only allow an attack if revs over some amount or 
+		# it just gets stuck at 0 from repeat attacks
+		if tick <= 0 && _revs >= 25:
 			# set refire first. perform hit may override
 			# if a hit is successful
 			tick = refireTime
