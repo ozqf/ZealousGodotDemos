@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=2]
@@ -20,6 +20,9 @@
 [ext_resource path="res://assets/world/materials/mat_grey_chequer_planar.tres" type="Material" id=18]
 [ext_resource path="res://prefabs/world_inert/corridor_right_angle.tscn" type="PackedScene" id=19]
 [ext_resource path="res://prefabs/world_inert/corridor_outer.tscn" type="PackedScene" id=20]
+[ext_resource path="res://assets/world/planar_materials/mat_aqf016.tres" type="Material" id=21]
+[ext_resource path="res://assets/world/planar_materials/mat_aqpanl02.tres" type="Material" id=22]
+[ext_resource path="res://assets/world/planar_materials/mat_aqf070.tres" type="Material" id=23]
 
 [node name="prologue_subway" type="Spatial"]
 
@@ -177,28 +180,40 @@ transform = Transform( -0.5, 6.60024e-15, 6.99382e-07, 0, -0.5, 1.20797e-06, 4.3
 
 [node name="maintainance_tunnels" type="Spatial" parent="geometry/tunnel_1"]
 
+[node name="corridor" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 15 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 20, 22, -1, 82 )
+material/0 = ExtResource( 22 )
+material/1 = ExtResource( 23 )
+material/2 = ExtResource( 21 )
+
+[node name="corridor2" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 15 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 22, -1, 106 )
+
+[node name="corridor3" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 15 )]
+transform = Transform( -1.74846e-07, 0, 4, 0, 4, 0, -4, 0, -1.74846e-07, 26, -1, 106 )
+
 [node name="world_volume_corner28" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
-transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 24, 21, -2, 74 )
+transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 8, 21, -2, 74 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
 [node name="world_volume_corner34" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
-transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 20, 21, 3, 74 )
+transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 8, 21, 3, 74 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
 [node name="world_volume_corner30" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
-transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 28, 24, -1, 75 )
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 1, 24, -1, 112 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
 [node name="world_volume_corner36" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
-transform = Transform( 16, 0, 0, 0, 2, 0, 0, 0, 2, 26, -1, 101 )
+transform = Transform( 16, 0, 0, 0, 2, 0, 0, 0, 2, 30, -1, 102 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner49" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 16, 0, 0, 0, 2, 0, 0, 0, 2, 42, -1, 102 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
 [node name="world_volume_corner39" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
-transform = Transform( 2, 0, 0, 0, 6, 0, 0, 0, 2, 40, 1, 101 )
-skeleton = NodePath("../../subway_tunnel_chunk5")
-
-[node name="world_volume_corner27" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 14, 21, -1, 81 )
+transform = Transform( 2, 0, 0, 0, 6, 0, 0, 0, 2, 59, 1, 102 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
 [node name="world_volume_corner32" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
@@ -206,15 +221,39 @@ transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 1.2, 21, -1, 74 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
 [node name="world_volume_corner31" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 20, 26, -1, 75 )
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 7, 26, -1, 75 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
 [node name="world_volume_corner37" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 12, 30, -5, 96 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
+[node name="world_volume_corner51" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 12, 30, -5, 84 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner52" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 12, 57, -5, 84 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner57" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 26, 0, 0, 0, 10, 0, 0, 0, 1, 31, -5, 84 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner47" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 24, 30, -10, 84 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner50" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 24, 57, -10, 84 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner48" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 24, 30, -11, 84 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
 [node name="world_volume_corner40" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 5, 30, -1, 96 )
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 6, 30, -1, 96 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
 [node name="world_volume_corner42" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
@@ -222,7 +261,23 @@ transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 12, 30, 3, 96 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
 [node name="world_volume_corner41" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 5, 30, -1, 103 )
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 4, 30, -1, 104 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner53" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 12, 57, -5, 96 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner54" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 6, 57, -1, 96 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner55" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 12, 57, 3, 96 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner56" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 4, 57, -1, 104 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
 [node name="world_volume_corner38" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
@@ -249,12 +304,32 @@ skeleton = NodePath("../../subway_tunnel_chunk5")
 transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 1, 22, -1, 96 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
+[node name="world_volume_corner59" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 5, 0, 0, 0, 1, 0, 0, 0, 4, 21, -2, 102 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner61" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 5, 0, 0, 0, 1, 0, 0, 0, 4, 21, 3, 102 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner60" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 4, 21, -1, 102 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner62" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 1, 21, -2, 110 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
 [node name="world_volume_corner35" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 11.7, 24, 1.5, 75 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
 [node name="world_volume_corner29" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 4, 21, -1, 75 )
+skeleton = NodePath("../../subway_tunnel_chunk5")
+
+[node name="world_volume_corner58" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 1, 21, -1, 81 )
 skeleton = NodePath("../../subway_tunnel_chunk5")
 
 [node name="lights" type="Spatial" parent="geometry/tunnel_1/maintainance_tunnels"]
@@ -285,7 +360,7 @@ shadow_enabled = true
 omni_range = 16.0
 
 [node name="OmniLight6" type="OmniLight" parent="geometry/tunnel_1/maintainance_tunnels/lights"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 53, 4, 102 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 53, 4, 107 )
 shadow_enabled = true
 omni_range = 16.0
 
@@ -293,6 +368,30 @@ omni_range = 16.0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 53, 4, 88 )
 shadow_enabled = true
 omni_range = 16.0
+
+[node name="pipe_8_straight" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 13 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 44, -10, 97 )
+
+[node name="pipe_8_straight2" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 13 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 44, -10, 109 )
+
+[node name="pipe_8_straight3" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, -3.0598e-07, 1, 0, -7, -4.37114e-08, 25, 0, 100 )
+
+[node name="pipe_8_straight4" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, -2.18557e-08, -1, 0, 0.5, -4.37114e-08, 25, 0, 108 )
+
+[node name="pipe_8_straight5" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 13 )]
+transform = Transform( -4.37114e-08, 0.5, -4.37114e-08, 0, -2.18557e-08, -1, -1, -2.18557e-08, 1.91069e-15, 28, 0, 105 )
+
+[node name="pipe_8_straight6" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 13 )]
+transform = Transform( -4.37114e-08, 0.5, -4.37114e-08, 0, -2.18557e-08, -1, -1, -2.18557e-08, 1.91069e-15, 28, 0, 103 )
+
+[node name="pipe_8_curve" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 14 )]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 28, 0, 103 )
+
+[node name="pipe_8_curve2" parent="geometry/tunnel_1/maintainance_tunnels" instance=ExtResource( 14 )]
+transform = Transform( -4.37114e-08, -1, 0, -1, 4.37114e-08, 8.74228e-08, -8.74228e-08, 3.82137e-15, -1, 28, 0, 105 )
 
 [node name="world_volume_corner32" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 6, -12, 1, 3 )

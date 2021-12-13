@@ -71,6 +71,9 @@ func equip() -> void:
 func deequip() -> void:
 	_equipped = false
 
+func is_equipped() -> bool:
+	return _equipped
+
 func is_cycling() -> bool:
 	return tick > 0
 

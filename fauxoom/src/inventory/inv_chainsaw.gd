@@ -32,6 +32,8 @@ func equip() -> void:
 
 func deequip() -> void:
 	.deequip()
+	if is_instance_valid(_thrown):
+		_thrown.user_switched_weapon()
 	_hud.centreSprite.offset.y = 0
 	_isAttacking = false
 

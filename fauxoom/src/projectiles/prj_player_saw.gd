@@ -142,12 +142,16 @@ func turn_toward_point(pos:Vector3) -> void:
 func _state_allows_recall() -> bool:
 	return (_state == State.Thrown || _state == State.Stuck || _state == State.Dropped)
 
+func user_switched_weapon() -> void:
+	if _state == State.Dropped:
+		start_recall()
+
 # returns 1 if parent can reset to idle state
 func read_input(_weaponInput:WeaponInput) -> int:
 	var result:int = 0
 	if _state == State.Thrown:
 		_guided = _weaponInput.secondaryOn
-	if (_state_allows_recall()) && (_weaponInput.secondaryOn && !_weaponInput.secondaryOnPrev):
+	if (_state_allows_recall()) && (_weaponInput.primaryOn && !_weaponInput.primaryOnPrev):
 		_state = State.Idle
 		# print("Saw - recall!")
 		start_recall()
