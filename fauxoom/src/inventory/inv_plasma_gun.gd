@@ -30,8 +30,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		var hitPos:Vector3 = _fire_single(-_launchNode.global_transform.basis.z, 1000)
 		_draw_trail(_launchNode.global_transform.origin, hitPos)
 		.play_fire_1(false)
-		_hud.audio.stream = _pistolShoot
-		_hud.audio.play()
+		_hud.hudAudio.play_stream_weapon_1(_pistolShoot, 0.1)
 		_inventory.take_item(ammoType, ammoPerShot)
 
 func _process(_delta:float) -> void:

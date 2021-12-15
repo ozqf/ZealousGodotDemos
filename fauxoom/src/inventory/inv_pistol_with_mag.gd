@@ -71,10 +71,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 
 		# apply some inaccuracy for next shot
 		_spreadScale += 0.35
-
-		_hud.audio.pitch_scale = rand_range(0.9, 1.1)
-		_hud.audio.stream = _pistolShoot
-		_hud.audio.play()
+		_hud.hudAudio.play_stream_weapon_1(_pistolShoot, 0.1)
 		_inventory.take_item(ammoType, ammoPerShot)
 	# reload on secondary fire button:
 	# elif _secondaryOn && _loaded < maxLoaded:

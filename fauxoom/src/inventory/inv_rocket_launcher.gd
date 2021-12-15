@@ -19,8 +19,7 @@ func _fire_rocket() -> void:
 	rocket.ownerId = _inventory.get_owner_ent_id()
 	print("Rockets - connect signal")
 	connect("rocket_detonate", rocket, "triggered_detonate")
-	_hud.audio.stream = _rocketShoot
-	_hud.audio.play()
+	_hud.hudAudio.play_stream_weapon_1(_rocketShoot)
 	_inventory.take_item(ammoType, ammoPerShot)
 
 # func is_cycling() -> bool:

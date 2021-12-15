@@ -15,8 +15,7 @@ func _fire_rocket() -> void:
 	selfPos.y -= 0.3
 	var forward = -t.basis.z
 	rocket.launch_prj(selfPos, forward, Interactions.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
-	_hud.audio.stream = _rocketShoot
-	_hud.audio.play()
+	_hud.hudAudio.play_stream_weapon_1(_rocketShoot)
 	_inventory.take_item(ammoType, ammoPerShot)
 
 # func is_cycling() -> bool:

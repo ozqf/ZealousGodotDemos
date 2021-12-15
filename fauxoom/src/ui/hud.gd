@@ -3,19 +3,6 @@ class_name Hud
 
 var _hit_indicator_t = load("res://prefabs/ui/hud_hit_indicator.tscn")
 
-var _pickupSample:AudioStream = preload("res://assets/sounds/item/item_generic.wav")
-var _respawnSample:AudioStream = preload("res://assets/sounds/item/item_respawn.wav")
-var _reloadSample:AudioStream = preload("res://assets/sounds/item/weapon_reload.wav")
-var _reloadSample2:AudioStream = preload("res://assets/sounds/item/weapon_reload_light.wav")
-
-var _ssgShoot:AudioStream = preload("res://assets/sounds/ssg/ssg_fire.wav")
-var _ssgOpen:AudioStream = preload("res://assets/sounds/ssg/ssg_open.wav")
-var _ssgLoad:AudioStream = preload("res://assets/sounds/ssg/ssg_load.wav")
-var _ssgClose:AudioStream = preload("res://assets/sounds/ssg/ssg_close.wav")
-
-var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
-var _rocketShoot:AudioStream = preload("res://assets/sounds/weapon/rocket_fire.wav")
-
 # player sprites
 onready var gunsContainer:Control = $gun
 onready var centreSprite:AnimatedSprite = $gun/weapon_centre
@@ -45,9 +32,11 @@ onready var _rocketCount:Label = $bottom_right_panel/bottom_right_panel/ammo_cou
 onready var _fuelCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/fuel/count
 
 # audio
-onready var audio:AudioStreamPlayer = $AudioStreamPlayer
-onready var audio2:AudioStreamPlayer = $AudioStreamPlayer2
-onready var _pickupAudio:AudioStreamPlayer = $audio_pickup
+onready var audio:AudioStreamPlayer = $audio/AudioStreamPlayer
+onready var audio2:AudioStreamPlayer = $audio/AudioStreamPlayer2
+onready var _pickupAudio:AudioStreamPlayer = $audio/audio_pickup
+
+onready var hudAudio = $audio
 
 var _maxHealthColour:Color = Color(0, 1, 0, 1)
 var _minHealthColour:Color = Color(1, 0, 0, 1)
@@ -125,20 +114,6 @@ func _process(_delta:float) -> void:
 	t.origin.x += x
 	t.origin.y += y
 	centreSprite.transform = t
-
-	# if centreSprite.animation == "ssg_shoot":
-	# 	if centreSprite.frame == 4 && _lastSoundFrame < 4:
-	# 		_lastSoundFrame = 4
-	# 		audio2.stream = _ssgOpen
-	# 		audio2.play()
-	# 	elif centreSprite.frame == 7 && _lastSoundFrame < 7:
-	# 		_lastSoundFrame = 7
-	# 		audio2.stream = _ssgLoad
-	# 		audio2.play()
-	# 	elif centreSprite.frame == 9 && _lastSoundFrame < 9:
-	# 		_lastSoundFrame = 9
-	# 		audio2.stream = _ssgClose
-	# 		audio2.play()
 
 	t = _rightTrans
 	t.origin.x += x
@@ -245,73 +220,10 @@ func player_pickup(_description:String) -> void:
 	# var pitch:float = rand_range(0.9, 1.1)
 	# _pickupAudio.pitch_scale = pitch
 	if _description == "weapon":
-		_pickupAudio.stream = _reloadSample
+		hudAudio.play_weapon_pickup()
+		# _pickupAudio.stream = _reloadSample
 	else:
-		_pickupAudio.stream = _pickupSample
+		hudAudio.play_item_pickup()
+		# _pickupAudio.stream = _pickupSample
 	_pickupAudio.play()
 	pass
-
-# func _apply_weapon_change(_weap:Dictionary) -> void:
-# 	if _weap.has("akimbo"):
-# 		_akimbo = true
-# 		centreSprite.hide()
-# 		rightSprite.show()
-# 		leftSprite.show()
-# 		rightSprite.play(_currentWeap["idle"])
-# 		leftSprite.play(_currentWeap["idle"])
-# 	else:
-# 		_akimbo = false
-# 		rightSprite.hide()
-# 		leftSprite.hide()
-# 		centreSprite.show()
-# 		centreSprite.play(_currentWeap["idle"])
-
-# func on_change_weapon(_name:String) -> void:
-# 	if !Weapons.weapons.has(_name):
-# 		_name = "pistol"
-# 	_currentWeapName = _name
-# 	_currentWeap = Weapons.weapons[_name]
-# 	self._apply_weapon_change(_currentWeap)
-
-# func _play_ssg_shot() -> void:
-# 	audio.stream = _ssgShoot
-# 	audio.volume_db = -5
-# 	audio.play()
-# 	_lastSoundFrame = -1
-
-# func _play_pistol_shot() -> void:
-# 	audio.stream = _pistolShoot
-# 	audio.volume_db = -5
-# 	audio.play()
-# 	_lastSoundFrame = -1
-
-# func _play_rocket_shot() -> void:
-# 	audio.stream = _rocketShoot
-# 	audio.volume_db = -5
-# 	audio.play()
-# 	_lastSoundFrame = -1
-
-# func on_player_shoot() -> void:
-# 	if _akimbo:
-# 		if _leftHandNext:
-# 			_leftHandNext = false
-# 			rightSprite.play(_currentWeap["idle"])
-# 			leftSprite.play(_currentWeap["shoot"])
-# 		else:
-# 			_leftHandNext = true
-# 			leftSprite.play(_currentWeap["idle"])
-# 			rightSprite.play(_currentWeap["shoot"])
-# 		_isShooting = true
-# 	else:
-# 		# print("Shoot centre")
-# 		centreSprite.play(_currentWeap["shoot"])
-# 		centreSprite.frame = 0
-# 		_isShooting = true
-# 	if _currentWeapName == Weapons.PistolLabel:
-# 		_play_pistol_shot()
-# 	elif _currentWeapName == Weapons.DualPistolsLabel:
-# 		_play_pistol_shot()
-# 	elif _currentWeapName == Weapons.SuperShotgunLabel:
-# 		_play_ssg_shot()
-# 	elif _currentWeapName == Weapons.RocketLauncherLabel:
-# 		_play_rocket_shot()

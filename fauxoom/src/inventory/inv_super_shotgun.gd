@@ -23,10 +23,10 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		var brassForward:Vector3 = -t.basis.z + t.basis.y
 		brassForward = brassForward.normalized()
 		Game.spawn_ejected_shell(t.origin, brassForward, 1, 3, 2)
+		
 		.play_fire_1(false)
-		_hud.audio.stream = _ssgShoot
-		_hud.audio.pitch_scale = rand_range(0.85, 1)
-		_hud.audio.play()
+		_hud.hudAudio.play_stream_weapon_1(_ssgShoot)
+
 		_lastSoundFrame = - 1
 		_inventory.take_item(ammoType, ammoPerShot)
 		self.emit_signal("weapon_action", self, "fire")
