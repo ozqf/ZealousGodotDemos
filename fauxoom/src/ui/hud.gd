@@ -4,13 +4,14 @@ class_name Hud
 var _hit_indicator_t = load("res://prefabs/ui/hud_hit_indicator.tscn")
 
 # player sprites
-onready var gunsContainer:Control = $gun
-onready var centreSprite:AnimatedSprite = $gun/weapon_centre
-onready var rightSprite:AnimatedSprite = $gun/weapon_right
-onready var leftSprite:AnimatedSprite = $gun/weapon_left
+onready var gunsContainer:Control = $view_sprites/gun
+onready var centreSprite:AnimatedSprite = $view_sprites/gun/weapon_centre
+onready var centreSpriteBig:AnimatedSprite = $view_sprites/gun/weapon_centre_big
+onready var rightSprite:AnimatedSprite = $view_sprites/gun/weapon_right
+onready var leftSprite:AnimatedSprite = $view_sprites/gun/weapon_left
 
-onready var _handRight:AnimatedSprite = $bottom_right/right_hand
-onready var _handLeft:AnimatedSprite = $bottom_left/left_hand
+onready var _handRight:AnimatedSprite = $view_sprites/bottom_right/right_hand
+onready var _handLeft:AnimatedSprite = $view_sprites/bottom_left/left_hand
 
 # player status
 onready var _prompt:Label = $centre/interact_prompt
@@ -60,6 +61,12 @@ var _swayTime:float = 0.0
 var _lastSoundFrame:int = -1
 
 func _ready() -> void:
+	centreSprite.visible = false
+	centreSpriteBig.visible = false
+	rightSprite.visible = false
+	leftSprite.visible = false
+	_handRight.visible = false
+	_handLeft.visible = false
 	add_to_group(Groups.PLAYER_GROUP_NAME)
 	var _f = centreSprite.connect("animation_finished", self, "_on_centre_animation_finished")
 	_f = rightSprite.connect("animation_finished", self, "_on_right_animation_finished")

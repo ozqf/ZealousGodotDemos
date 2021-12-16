@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://prefabs/ui/hud_hit_indicator.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/guns/ssg_frames.tres" type="SpriteFrames" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://src/ui/hud_sound.gd" type="Script" id=9]
 [ext_resource path="res://src/ui/hud.gd" type="Script" id=10]
 [ext_resource path="res://assets/sounds/ssg/ssg_fire.wav" type="AudioStream" id=11]
+[ext_resource path="res://src/ui/hud_player_status.gd" type="Script" id=12]
+[ext_resource path="res://src/ui/hud_ammo_status.gd" type="Script" id=13]
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.25, 0.25, 0.25 )
@@ -18,7 +20,9 @@ size = Vector3( 0.25, 0.25, 0.25 )
 [node name="hud" type="CanvasLayer"]
 script = ExtResource( 10 )
 
-[node name="gun" type="Control" parent="."]
+[node name="view_sprites" type="Node" parent="."]
+
+[node name="gun" type="Control" parent="view_sprites"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -27,12 +31,10 @@ margin_left = -512.0
 margin_top = -600.0
 margin_right = 512.0
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="weapon_centre" type="AnimatedSprite" parent="gun"]
-visible = false
+[node name="weapon_centre" type="AnimatedSprite" parent="view_sprites/gun"]
 position = Vector2( 510.589, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 2 )
@@ -42,8 +44,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="weapon_centre_big" type="AnimatedSprite" parent="gun"]
-visible = false
+[node name="weapon_centre_big" type="AnimatedSprite" parent="view_sprites/gun"]
 position = Vector2( 510.589, 344 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 2 )
@@ -52,8 +53,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="weapon_left" type="AnimatedSprite" parent="gun"]
-visible = false
+[node name="weapon_left" type="AnimatedSprite" parent="view_sprites/gun"]
 position = Vector2( 388.406, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 2 )
@@ -63,8 +63,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="weapon_right" type="AnimatedSprite" parent="gun"]
-visible = false
+[node name="weapon_right" type="AnimatedSprite" parent="view_sprites/gun"]
 position = Vector2( 634.247, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 2 )
@@ -73,7 +72,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="bottom_right" type="Control" parent="."]
+[node name="bottom_right" type="Control" parent="view_sprites"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -85,8 +84,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="right_hand" type="AnimatedSprite" parent="bottom_right"]
-visible = false
+[node name="right_hand" type="AnimatedSprite" parent="view_sprites/bottom_right"]
 position = Vector2( -320, -160 )
 scale = Vector2( 2.5, 2.5 )
 frames = ExtResource( 2 )
@@ -95,7 +93,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="bottom_left" type="Control" parent="."]
+[node name="bottom_left" type="Control" parent="view_sprites"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_right = 40.0
@@ -104,8 +102,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="left_hand" type="AnimatedSprite" parent="bottom_left"]
-visible = false
+[node name="left_hand" type="AnimatedSprite" parent="view_sprites/bottom_left"]
 position = Vector2( 320, -160 )
 scale = Vector2( 2.5, 2.5 )
 frames = ExtResource( 2 )
@@ -281,8 +278,9 @@ align = 2
 [node name="player_status" type="Control" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -88.0
+margin_top = -152.0
 margin_right = 128.0
+script = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -390,6 +388,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -192.0
 margin_top = -600.0
+script = ExtResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
