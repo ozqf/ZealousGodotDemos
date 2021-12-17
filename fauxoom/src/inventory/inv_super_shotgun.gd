@@ -47,16 +47,13 @@ func run_reload_sounds() -> void:
 	var frame:int = _hud.centreSprite.frame
 	if frame == 4 && _lastSoundFrame < 4:
 		_lastSoundFrame = 4
-		_hud.audio2.stream = _ssgOpen
-		_hud.audio2.play()
+		_hud.hudAudio.play_stream_weapon_2(_ssgOpen, 0)
 	elif frame == 7 && _lastSoundFrame < 7:
 		_lastSoundFrame = 7
-		_hud.audio2.stream = _ssgLoad
-		_hud.audio2.play()
+		_hud.hudAudio.play_stream_weapon_2(_ssgLoad, 0)
 	elif frame == 9 && _lastSoundFrame < 9:
 		_lastSoundFrame = 9
-		_hud.audio2.stream = _ssgClose
-		_hud.audio2.play()
+		_hud.hudAudio.play_stream_weapon_2(_ssgClose, 0)
 
 func _process(_delta:float) -> void:
 	if tick > 0:

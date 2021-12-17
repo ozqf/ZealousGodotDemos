@@ -110,8 +110,7 @@ func _process(_delta:float) -> void:
 	if tick > 0:
 		tick -= _delta
 	if tick <= 0 && _reloading:
-		_hud.audio2.stream = _pistolReload
-		_hud.audio2.play()
+		_hud.hudAudio.play_stream_weapon_2(_pistolReload)
 		_reloading = false
 		_loaded = maxLoaded
 	if _spreadScale > 1:

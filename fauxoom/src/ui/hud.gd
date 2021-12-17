@@ -19,18 +19,8 @@ onready var _promptBG:ColorRect = $centre/interact_prompt_bg
 onready var _energyBar:TextureProgress = $centre/energy
 onready var _healthBar:TextureProgress = $centre/health
 
-# left side - immediate status
-onready var _healthCount:Label = $player_status/player_status/health/count
-onready var _energyCount:Label = $player_status/player_status/energy/count
-onready var _ammoCount:Label = $player_status/player_status/ammo/count
-onready var _rageCount:Label = $player_status/player_status/rage/count
-
-# right side - weapon bar
-onready var _bulletCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/bullets/count
-onready var _shellCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/shells/count
-onready var _plasmaCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/plasma/count
-onready var _rocketCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/rockets/count
-onready var _fuelCount:Label = $bottom_right_panel/bottom_right_panel/ammo_counts/fuel/count
+onready var _playerStatus = $player_status
+onready var _ammoStatus = $bottom_right_panel
 
 # audio
 onready var audio:AudioStreamPlayer = $audio/AudioStreamPlayer
@@ -137,7 +127,7 @@ func player_hit(_data:Dictionary) -> void:
 	$centre.add_child(hit)
 	hit.spawn(_data.selfYawDegrees, _data.direction)
 
-func player_status_update(data:PlayerHudStatus) -> void:
+func _update_crosshair(data:PlayerHudStatus) -> void:
 	# crosshair
 	var c:Color = Color(1, 1, 1, 1)
 	# _maxHealthColour _minHealthColour
@@ -151,47 +141,18 @@ func player_status_update(data:PlayerHudStatus) -> void:
 	
 	_healthBar.value = data.health
 	_healthBar.visible = (_healthBar.value < 100)
+
+func player_status_update(data:PlayerHudStatus) -> void:
+	
 	_swayTime = data.swayTime 
 	_prompt.visible = data.hasInteractionTarget
 	_promptBG.visible = data.hasInteractionTarget
 
-	# counts
-	_healthCount.text = str(data.health)
-	if data.godMode:
-		_healthCount.text += " (INVUL)"
-	_energyCount.text = str(data.energy)
-	if data.currentLoadedMax > 0:
-		_ammoCount.text = str(data.currentLoaded) + " / " + str(data.currentLoadedMax) + " - " + str(data.currentAmmo)
-	else:
-		_ammoCount.text = str(data.currentAmmo)
-	_rageCount.text = str(data.rage)
-	
-	if data.hasPistol:
-		_bulletCount.get_parent().visible = true
-		_bulletCount.text = str(data.bullets)
-	else:
-		_bulletCount.get_parent().visible = false
-	if data.hasSuperShotgun:
-		_shellCount.get_parent().visible = true
-		_shellCount.text = str(data.shells)
-	else:
-		_shellCount.get_parent().visible = false
-	if data.hasRailgun:
-		_plasmaCount.get_parent().visible = true
-		_plasmaCount.text = str(data.plasma)
-	else:
-		_plasmaCount.get_parent().visible = false
-	if data.hasRocketLauncher:
-		_rocketCount.get_parent().visible = true
-		_rocketCount.text = str(data.rockets)
-	else:
-		_rocketCount.get_parent().visible = false
-	if data.hasFlameThrower:
-		_fuelCount.get_parent().visible = true
-		_fuelCount.text = str(data.fuel)
-	else:
-		_fuelCount.get_parent().visible = false
+	_update_crosshair(data)
+	_playerStatus.player_status_update(data)
+	_ammoStatus.player_status_update(data)
 
+	
 func _on_centre_animation_finished() -> void:
 	if centreNextAnim != "":
 		centreSprite.play(centreNextAnim)

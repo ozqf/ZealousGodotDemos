@@ -1,16 +1,20 @@
 extends Node
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+# left side - immediate status
+onready var _healthCount:Label = $player_status/health/count
+onready var _energyCount:Label = $player_status/energy/count
+onready var _ammoCount:Label = $player_status/ammo/count
+onready var _rageCount:Label = $player_status/rage/count
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func player_status_update(data:PlayerHudStatus) -> void:
+	# counts
+	_healthCount.text = str(data.health)
+	if data.godMode:
+		_healthCount.text += " (INVUL)"
+	_energyCount.text = str(data.energy)
+	if data.currentLoadedMax > 0:
+		_ammoCount.text = str(data.currentLoaded) + " / " + str(data.currentLoadedMax) + " - " + str(data.currentAmmo)
+	else:
+		_ammoCount.text = str(data.currentAmmo)
+	_rageCount.text = str(data.rage)
