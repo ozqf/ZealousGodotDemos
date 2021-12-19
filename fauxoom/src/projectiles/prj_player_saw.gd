@@ -17,7 +17,7 @@ var _currentSpeed:float = 25
 var _emptyArray = []
 var _guided:bool = false
 var _hitInfo:HitInfo = null
-var _revs:float = 0
+var revs:float = 0
 var _rotDegrees:float = 0
 
 func _ready() -> void:
@@ -28,10 +28,10 @@ func _ready() -> void:
 	_sparks1.emitting = false
 	_sparks2.emitting = false
 
-func launch(originT:Transform, revs:float) -> void:
+func launch(originT:Transform, launchRevs:float) -> void:
 	disable_body()
 	visible = true
-	_revs = revs
+	revs = launchRevs
 	global_transform = originT
 	_state = State.Thrown
 	# print("Saw - launch!")
@@ -89,10 +89,10 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 
 		var _inflicted:int = Interactions.hitscan_hit(_hitInfo, result)
 		if _inflicted >= 0:
-			print("Sawblade Hit entity - revs: " + str(_revs) + " stuntime: " + str(_hitInfo.stunOverrideTime))
+			print("Sawblade Hit entity - revs: " + str(revs) + " stuntime: " + str(_hitInfo.stunOverrideTime))
 			# start_recall()
 			global_transform.origin = result.position
-			if _revs > 10:
+			if revs > 10:
 				set_stuck()
 			else:
 				print("Sawblade drop - no revs for entity hit")
@@ -122,7 +122,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 		# check vs world
 		elif (body.collision_layer & 1) != 0:
 			print("Hit world")
-			if _revs > 0:
+			if revs > 0:
 				set_stuck()
 			else:
 				set_dropped()
@@ -161,12 +161,12 @@ func read_input(_weaponInput:WeaponInput) -> int:
 	return result
 
 func spin_display(_delta:float) -> void:
-	var rate:float = (360 * 8) * (_revs / 100)
+	var rate:float = (360 * 8) * (revs / 100)
 	_rotDegrees -= rate * _delta
 	_display.rotation_degrees = Vector3(_rotDegrees, 0, 0)
 
 func _calc_stun_time() -> float:
-	var timeFromRevs:float = REV_DOWN_TIME * (_revs / 100.0)
+	var timeFromRevs:float = REV_DOWN_TIME * (revs / 100.0)
 	if  timeFromRevs < 1:
 		timeFromRevs = 1
 	return timeFromRevs
@@ -188,11 +188,11 @@ func _physics_process(_delta):
 		else:
 			_move_as_ray(_delta, UNGUIDED_SPEED)
 	elif _state == State.Stuck:
-		if _revs > 0:
-			_revs -= (100.0 / REV_DOWN_TIME) * _delta
-			if _revs < 0:
-				_revs = 0
-			var particleCount:int = int(64.0 * _revs / 100.0)
+		if revs > 0:
+			revs -= (100.0 / REV_DOWN_TIME) * _delta
+			if revs < 0:
+				revs = 0
+			var particleCount:int = int(64.0 * revs / 100.0)
 			if particleCount <= 0:
 				particleCount = 1
 			_sparks1.amount = particleCount

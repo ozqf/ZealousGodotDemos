@@ -120,7 +120,6 @@ func select_next_weapon() -> void:
 		if weap.can_equip():
 			set_current_weapon(i)
 			return
-		
 
 # find the first selectable weapon and equip it
 func select_first_weapon() -> void:
@@ -205,8 +204,10 @@ func write_hud_status(_hudStatus:PlayerHudStatus) -> void:
 	if weap != null:
 		# print("Inventory - write weapon status")
 		weap.write_hud_status(_hudStatus)
+		_hudStatus.weaponChargeMode = weap.chargeUIMode
 	else:
 		# print("Inventory - no weapon for status")
+		_hudStatus.weaponChargeMode = 0
 		_hudStatus.currentLoaded = 0
 		_hudStatus.currentLoadedMax = 0
 		_hudStatus.currentAmmo = -1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://prefabs/ui/hud_hit_indicator.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/guns/ssg_frames.tres" type="SpriteFrames" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://assets/sounds/ssg/ssg_fire.wav" type="AudioStream" id=11]
 [ext_resource path="res://src/ui/hud_player_status.gd" type="Script" id=12]
 [ext_resource path="res://src/ui/hud_ammo_status.gd" type="Script" id=13]
+[ext_resource path="res://src/ui/hud_crosshair.gd" type="Script" id=14]
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.25, 0.25, 0.25 )
@@ -117,6 +118,7 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+script = ExtResource( 14 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -191,7 +193,7 @@ __meta__ = {
 [node name="health" type="TextureProgress" parent="centre"]
 anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 0.59
+anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -15.75
 margin_top = -15.5
@@ -206,6 +208,12 @@ radial_fill_degrees = 180.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="weapon_charge_bar" type="ProgressBar" parent="centre"]
+margin_left = -40.0
+margin_top = 68.0
+margin_right = 40.0
+margin_bottom = 82.0
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, -0.4 )

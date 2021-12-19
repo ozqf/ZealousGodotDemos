@@ -70,6 +70,10 @@ func _perform_hit(_result:Dictionary, _forward:Vector3) -> int:
 	return inflicted
 
 func _process(_delta:float) -> void:
+	if _revs > 0:
+		chargeUIMode = 1
+	else:
+		chargeUIMode = 0
 	tick -= _delta
 	if _state == State.MeleeRecover:
 		if tick > 0:
@@ -84,8 +88,10 @@ func _process(_delta:float) -> void:
 			tick = refireTime
 			_fire_single(-_launchNode.global_transform.basis.z, 1.5)
 	elif _state == State.Launched:
+		_revs = _thrown.revs
 		pass
 	elif _state == State.Recalling:
+		_revs = _thrown.revs
 		pass
 	
 	# update revving

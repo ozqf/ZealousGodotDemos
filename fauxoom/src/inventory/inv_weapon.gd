@@ -23,6 +23,8 @@ export var empty:String = ""
 
 export var akimbo:bool = false
 
+var chargeUIMode:int = 0
+
 var _equipped:bool = false
 var _launchNode:Spatial = null
 var _ignoreBody = []

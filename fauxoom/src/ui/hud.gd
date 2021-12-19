@@ -13,14 +13,9 @@ onready var leftSprite:AnimatedSprite = $view_sprites/gun/weapon_left
 onready var _handRight:AnimatedSprite = $view_sprites/bottom_right/right_hand
 onready var _handLeft:AnimatedSprite = $view_sprites/bottom_left/left_hand
 
-# player status
-onready var _prompt:Label = $centre/interact_prompt
-onready var _promptBG:ColorRect = $centre/interact_prompt_bg
-onready var _energyBar:TextureProgress = $centre/energy
-onready var _healthBar:TextureProgress = $centre/health
-
 onready var _playerStatus = $player_status
 onready var _ammoStatus = $bottom_right_panel
+onready var _crosshair = $centre
 
 # audio
 onready var audio:AudioStreamPlayer = $audio/AudioStreamPlayer
@@ -90,13 +85,6 @@ func hide_all_sprites() -> void:
 	rightNextAnim = ""
 	leftNextAnim = ""
 
-# func set_to_idle_defunct(weap:InvWeapon) -> void:
-# 	if weap == null || weap.idle == "":
-# 		hide_all_sprites()
-# 		return
-# 	centreSprite.visible = true
-# 	centreSprite.play(_currentWeap["idle"])
-
 func _process(_delta:float) -> void:
 	#_swayTime += (_delta * 12)
 	# x can sway from -1 to 1 (left to right)
@@ -127,31 +115,13 @@ func player_hit(_data:Dictionary) -> void:
 	$centre.add_child(hit)
 	hit.spawn(_data.selfYawDegrees, _data.direction)
 
-func _update_crosshair(data:PlayerHudStatus) -> void:
-	# crosshair
-	var c:Color = Color(1, 1, 1, 1)
-	# _maxHealthColour _minHealthColour
-	var t:float = float(data.health) / 100.0
-	c.r = _minHealthColour.r + (_maxHealthColour.r - _minHealthColour.r) * t
-	c.g = _minHealthColour.g + (_maxHealthColour.g - _minHealthColour.g) * t
-	c.b = _minHealthColour.b + (_maxHealthColour.b - _minHealthColour.b) * t
-	$centre/red_dot.color = c
-	_energyBar.value = data.energy
-	_energyBar.visible = (_energyBar.value < 100)
-	
-	_healthBar.value = data.health
-	_healthBar.visible = (_healthBar.value < 100)
-
 func player_status_update(data:PlayerHudStatus) -> void:
 	
 	_swayTime = data.swayTime 
-	_prompt.visible = data.hasInteractionTarget
-	_promptBG.visible = data.hasInteractionTarget
-
-	_update_crosshair(data)
+	
+	_crosshair.player_status_update(data)
 	_playerStatus.player_status_update(data)
 	_ammoStatus.player_status_update(data)
-
 	
 func _on_centre_animation_finished() -> void:
 	if centreNextAnim != "":
@@ -185,13 +155,9 @@ func play_offhand_punch() -> void:
 	_handLeft.play()
 
 func player_pickup(_description:String) -> void:
-	# var pitch:float = rand_range(0.9, 1.1)
-	# _pickupAudio.pitch_scale = pitch
 	if _description == "weapon":
 		hudAudio.play_weapon_pickup()
-		# _pickupAudio.stream = _reloadSample
 	else:
 		hudAudio.play_item_pickup()
-		# _pickupAudio.stream = _pickupSample
 	_pickupAudio.play()
 	pass
