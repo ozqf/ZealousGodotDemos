@@ -374,17 +374,12 @@ func deregister_player_start(_obj:Spatial) -> void:
 	_hasPlayerStart = false
 	_refresh_overlay()
 
-func spawn_rage_drops(pos:Vector3) -> void:
+func spawn_rage_drops(pos:Vector3, dropType:int) -> void:
 	var prefab = _rage_drop_t
 	for _i in range(0, 5):
 		var drop:RigidBody = prefab.instance()
 		add_child(drop)
-		drop.global_transform.origin = pos
-		var velocity:Vector3 = Vector3()
-		velocity.x += rand_range(-5, 5)
-		velocity.y += rand_range(5, 10)
-		velocity.z += rand_range(-5, 5)
-		drop.linear_velocity = velocity
+		drop.launch(pos, dropType)
 
 # returns last gib spawned
 func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:

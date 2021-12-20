@@ -105,6 +105,9 @@ func spawn(_hitInfo:HitInfo, _trans:Transform) -> void:
 	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_PUNCH:
 		gib_death(_hitInfo.direction)
 		return
+	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
+		gib_death(_hitInfo.direction)
+		return
 	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_NONE:
 		if hitHeight >= 1.3 && randf() > 0.9:
 			headshot_death()

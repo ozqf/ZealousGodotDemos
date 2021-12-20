@@ -17,6 +17,10 @@ static func global_translate(spatial:Spatial, offset:Vector3) -> void:
 static func local_translate(spatial:Spatial, offset:Vector3) -> void:
 	spatial.transform.origin += offset
 
+#####################################
+# geometry stuff
+#####################################
+
 static func dot_product(x0: float, y0: float, x1: float, y1: float):
 	return x0 * x1 + y0 * y1
 
@@ -100,6 +104,20 @@ static func VectorMA(start: Vector3, scale: float, dir:Vector3) -> Vector3:
 	dest.y = start.y + dir.y * scale
 	dest.z = start.z + dir.z * scale
 	return dest
+
+# weight should be between 0 and 1
+static func get_turned_towards_point(t:Transform, pos:Vector3, weight:float) -> Transform:
+	var towardPoint:Transform = t.looking_at(pos, Vector3.UP)
+	return t.interpolate_with(towardPoint, weight)
+
+static func turn_towards_point(spatial:Spatial, pos:Vector3, weight:float) -> void:
+	var towardPoint:Transform = spatial.global_transform.looking_at(pos, Vector3.UP)
+	var result:Transform = spatial.transform.interpolate_with(towardPoint, weight)
+	spatial.set_transform(result)
+
+#####################################
+# misc data
+#####################################
 
 static func strNullOrEmpty(txt: String) -> bool:
 	if txt == null:

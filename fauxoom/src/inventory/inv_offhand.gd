@@ -23,8 +23,10 @@ func _punch(forward:Vector3, scanRange:float) -> Vector3:
 		if count >= superCost && isMob:
 			_hitInfo.damage = superDamage
 			_inventory.take_item("rage", superCost)
+			_hitInfo.damageType = Interactions.DAMAGE_TYPE_SUPER_PUNCH
 		else:
 			_hitInfo.damage = regularDamage
+			_hitInfo.damageType = Interactions.DAMAGE_TYPE_PUNCH
 
 		_perform_hit(result, forward)
 		hitPoint = result.position

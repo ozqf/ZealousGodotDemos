@@ -214,6 +214,9 @@ margin_left = -40.0
 margin_top = 68.0
 margin_right = 40.0
 margin_bottom = 82.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, -0.4 )

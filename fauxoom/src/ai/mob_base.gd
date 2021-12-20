@@ -459,7 +459,10 @@ func hit(_hitInfo:HitInfo) -> int:
 			influenceNode.queue_free()
 
 		# spawn drops
-		Game.spawn_rage_drops(collisionShape.global_transform.origin)
+		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
+			Game.spawn_rage_drops(collisionShape.global_transform.origin, Enums.QuickDropType.Health)
+		else:
+			Game.spawn_rage_drops(collisionShape.global_transform.origin, Enums.QuickDropType.Rage)
 
 		# fx
 		print("Prefab " + str(_ent.prefabName) + " died at " + str(global_transform.origin))

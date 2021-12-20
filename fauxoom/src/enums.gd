@@ -35,6 +35,11 @@ enum TriggerVolumeAction {
 	TeleportSubject
 }
 
+enum QuickDropType {
+	Rage,
+	Health
+}
+
 # enum HitResponeeType {
 # 	None,
 # 	Damaged,

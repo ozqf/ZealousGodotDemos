@@ -22,4 +22,6 @@ shape = SubResource( 1 )
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0.95, 0 )
 billboard = 2
 frames = ExtResource( 1 )
-frame = 61
+animation = "green_capsule"
+frame = 1
+playing = true
