@@ -3,21 +3,12 @@
 ### Quick list
 
 > Gameplay
-	> Damage - killing enemies
-	> items
-		> Health
-		> Armour
-		> Ammo
-		> Weapons
-		> powerups
-	> Entities
-		> Triggers
-		> doors/gates
-		> counters
-		> relays
+	> Spawning
+		> Wave based arenas and spawn combinations.
 	> Gameplay structure
 		> Level to level progression
 		> Scoring
+		> Difficulty modes
 	> Basic enemy AI
 		> Moving
 		> LoS check
@@ -29,22 +20,14 @@
 		> Attack types
 			> Projectile attacks
 			> Melee attacks
-		> States
-			> idle
-			> hunting/attacking
-			> stunned
-			> Dying
-			> Gibbing
 > Gamefeel
-	> Gun kick
-	> Gun sound
-	> Gun sway
+	> Gun kick, sound gun sway (movement)
 	> View sway
 	> Movement accel/friction
-	> Dash mechanic...?
+	> Dash mechanic has no feel atm
 > Aesthetic
-	> Look into light-baking/GI
-	> Skybox
+	> Look into light-baking/GI - or waiting for Godot 4 :/
+	> Skybox - 3D - requires specific canvas layers and all visible nodes to be their children.
 	> Fog
 > music
 	> convert some Freedoom midis to mp3
@@ -53,7 +36,37 @@
 		> mouse sensitivity
 		> sfx/bgm volume
 
+### Arena Spawning
+
+Arena spawning needs to be adaptable to various spawning sequences and spawn types. eg a spawn that is continuous until emptyed, a spawn that is a fixed number of enemies all at once, etc.
+
+#### Current node arrangement
+
+spawn_points
+	point_1
+	point_2
+	point_3
+	...etc
+survival_controller -> master control node. trigger to start the arena. on init will find its spawn_points sibling by name
+	horde_spawns
+		spawn_1 -> spawns have a mob to spawn and are given the spawn points list which they can filter.
+		spawn_2
+		spawn_3
+		...etc
+	waves
+		wave_1 -> waves have a list of the horde_spawn nodes it should run during this wave.
+		wave_2
+		etc...
+
+Notes on this arrangement:
+> Spawn points can be shared between multiple survival controllers.
+> horde_spawns can be shared between waves.
+> Waves are run in sequence by the 'controller'.
+> A wave is 'completed' when all of its spawns say they are finished. Spawns marked as 'endless' are always considered complete, unless they are the last in the sequence, where they must be told to stop by the wave.
+
 ### Enemy movement/behaviours
+
+Navigation nodes must have a 'navigation_service' scripted attached or it will not be found by mobs!
 
 continuous
 > strafes: attempts to move away from the direction of the player's aim

@@ -4,7 +4,7 @@
 [ext_resource path="res://src/entity.gd" type="Script" id=2]
 [ext_resource path="res://src/items/item_settings.gd" type="Script" id=3]
 
-[node name="item_full_pack" type="Spatial"]
+[node name="item_gun_rack" type="Spatial"]
 script = ExtResource( 3 )
 
 [node name="item_base" parent="." instance=ExtResource( 1 )]
