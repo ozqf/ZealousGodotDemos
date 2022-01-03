@@ -162,11 +162,13 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 			if agent.objectiveNode == null || !agent.objectiveNode.sniperSpot:
 				if AI.find_sniper_position(agent):
 					_mob.motor.set_move_target(agent.target)
-					print("Sniper move target is " + str(agent.target) + " waypoint " + str(agent.objectiveNode.index))
+					if AI.verboseMobs:
+						print("Sniper move target is " + str(agent.target) + " waypoint " + str(agent.objectiveNode.index))
 					return
 				else:
 					# fall back to just being a charger
-					print("Mob can't find a sniper position!")
+					if AI.verboseMobs:
+						print("Mob can't find a sniper position!")
 					_mob.motor.set_move_target(_tickInfo.targetPos)
 		else:
 			var distMode:int = 0

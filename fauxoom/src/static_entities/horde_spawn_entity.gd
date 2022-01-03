@@ -9,6 +9,9 @@ onready var _ent:Entity = $Entity
 export var triggerName:String = ""
 export var triggerTargetName:String = ""
 
+export var positionsSiblingName:String = ""
+export var positionsFilter:String = ""
+
 export(Enums.EnemyType) var type = Enums.EnemyType.Gunner
 
 export var tickMax:float = 2
@@ -29,6 +32,27 @@ func _ready() -> void:
 	_r = _ent.connect("entity_trigger", self, "on_trigger")
 	_ent.selfName = triggerName
 	_ent.triggerTargetName = triggerTargetName
+	find_positions_sibling()
+
+func find_positions_sibling() -> void:
+	if positionsSiblingName == "":
+		return
+	var positionNodes
+	if positionsFilter == "":
+		positionNodes = get_parent().find_node(positionsSiblingName).get_children()
+	else:
+		var children = get_parent().find_node(positionsSiblingName).get_children()
+		positionNodes = []
+		var tokens = ZqfUtils.tokenise(positionsFilter)
+		for i in range(0, children.size()):
+			var child = children[i]
+			for j in range(0, tokens.size()):
+				if child.name == tokens[j]:
+					positionNodes.push_back(children[j])
+					break;
+		print("Horde spawn filtered " + str(children.size()) + " nodes to " + str(positionNodes.size()))
+	for i in range(0, positionNodes.size()):
+		_spawnPoints.push_back(positionNodes[i].global_transform)
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.liveMobs = _liveMobs

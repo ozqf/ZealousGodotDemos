@@ -23,21 +23,26 @@ func _ready() -> void:
 	_ent.selfName = selfName
 
 	var allTransforms = []
-	var spawnPoints:Spatial = get_parent().get_node(spawnPointsSiblingName)
-	if spawnPoints != null:
-		var numPoints:int = spawnPoints.get_child_count()
-		for _i in range(0, numPoints):
-			var child = spawnPoints.get_child(_i)
-			_spawnTransforms.push_back(child.global_transform)
-			allTransforms.push_back(child.global_transform)
-	else:
+	if spawnPointsSiblingName == "":
 		_spawnTransforms.push_back(self.global_transform)
 		allTransforms.push_back(self.global_transform)
+	else:
+		var spawnPoints:Spatial = get_parent().get_node(spawnPointsSiblingName)
+		if spawnPoints != null:
+			var numPoints:int = spawnPoints.get_child_count()
+			for _i in range(0, numPoints):
+				var child = spawnPoints.get_child(_i)
+				_spawnTransforms.push_back(child.global_transform)
+				allTransforms.push_back(child.global_transform)
+		else:
+			_spawnTransforms.push_back(self.global_transform)
+			allTransforms.push_back(self.global_transform)
 	
 	var useSubset:bool = false
 	var cardinalTransforms = []
 	
-	var spawnsParent = $horde_spawns
+	# var spawnsParent = $horde_spawns
+	var spawnsParent = find_node("horde_spawns")
 	if spawnsParent == null:
 		print("Arena Controller has no spawners!")
 		return

@@ -8,6 +8,8 @@ const SNIPER_FLAG:int = (1 << 2)
 const VULNERABLE_FLAG:int = (1 << 3)
 const OCCUPIED_FLAG:int = (1 << 4)
 
+var verboseMobs:bool = false
+
 var _navAgent_t = preload("res://src/defs/nav_agent.gd")
 var _aiTickInfo_t = preload("res://src/defs/ai_tick_info.gd")
 

@@ -69,7 +69,10 @@ func _process(_delta:float):
 		if _give_check():
 			return
 		_state = State.Gather
-		look_at(selfPos + linear_velocity, Vector3.UP)
+#		var moveDir:Vector3 = selfPos + linear_velocity
+#		if moveDir != Vector3.UP:
+#			look_at(selfPos + linear_velocity, Vector3.UP)
+#		look_at(selfPos + linear_velocity, global_transform.basis.y)
 		mode = RigidBody.MODE_KINEMATIC
 		_sprite.modulate = Color.white
 	elif _state == State.Gather:
