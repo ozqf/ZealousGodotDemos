@@ -24,32 +24,31 @@ func _ready() -> void:
 
 	var allTransforms = []
 	var spawnPoints:Spatial = get_parent().get_node(spawnPointsSiblingName)
-	var numPoints:int = spawnPoints.get_child_count()
-	for _i in range(0, numPoints):
-		var child = spawnPoints.get_child(_i)
-		_spawnTransforms.push_back(child.global_transform)
-		allTransforms.push_back(child.global_transform)
+	if spawnPoints != null:
+		var numPoints:int = spawnPoints.get_child_count()
+		for _i in range(0, numPoints):
+			var child = spawnPoints.get_child(_i)
+			_spawnTransforms.push_back(child.global_transform)
+			allTransforms.push_back(child.global_transform)
+	else:
+		_spawnTransforms.push_back(self.global_transform)
+		allTransforms.push_back(self.global_transform)
 	
 	var useSubset:bool = false
 	var cardinalTransforms = []
-	#cardinalTransforms.push_back(spawnPoints.get_node("n").global_transform)
-	#cardinalTransforms.push_back(spawnPoints.get_node("s").global_transform)
-	#cardinalTransforms.push_back(spawnPoints.get_node("w").global_transform)
-	#cardinalTransforms.push_back(spawnPoints.get_node("e").global_transform)
 	
 	var spawnsParent = $horde_spawns
+	if spawnsParent == null:
+		print("Arena Controller has no spawners!")
+		return
 	var numSpawners:int = spawnsParent.get_child_count()
 	for _i in range(0, numSpawners):
 		_spawners.push_back(spawnsParent.get_child(_i))
 	
 	if useSubset:
 		set_all_spawner_destinations(cardinalTransforms)
-#		_punk_spawner.set_spawn_points(cardinalTransforms)
-#		_worm_spawner.set_spawn_points(cardinalTransforms)
 	else:
 		set_all_spawner_destinations(allTransforms)
-#		_punk_spawner.set_spawn_points(cardinalTransforms)
-#		_worm_spawner.set_spawn_points(cardinalTransforms)
 
 func _process(_delta:float) -> void:
 	if !_active:
@@ -68,12 +67,7 @@ func start_wave_spawners() -> void:
 func on_trigger() -> void:
 	_active = true
 	print("Survival start")
-	# _punk_spawner.tickMax = 0.25
-	# _punk_spawner.totalMobs = 9999
-	# _punk_spawner.maxLiveMobs = 10
 	start_wave_spawners()
-#	_punk_spawner.on_trigger()
-#	_worm_spawner.on_trigger()
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.active = _active

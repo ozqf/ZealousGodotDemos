@@ -40,7 +40,15 @@
 
 Arena spawning needs to be adaptable to various spawning sequences and spawn types. eg a spawn that is continuous until emptyed, a spawn that is a fixed number of enemies all at once, etc.
 
-#### Current node arrangement
+### Issue - current spawning has duplicate classes
+
+horde_spawn_entity and horde_spawn_component should be consolidated.
+
+horde_spawn entity script is part of static_entities/horde_spawn.tscn prefab, used in several levels.
+
+
+
+#### Concept node arrangement
 
 spawn_points
 	point_1

@@ -114,11 +114,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/defs/hit_response.gd"
 }, {
-"base": "Spatial",
-"class": "HordeSpawnComponent",
-"language": "GDScript",
-"path": "res://src/spawning/horde_spawn_component.gd"
-}, {
 "base": "CanvasLayer",
 "class": "Hud",
 "language": "GDScript",
@@ -249,6 +244,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://map_gen/src/spawn_point.gd"
 }, {
+"base": "Node",
+"class": "SpawnWave",
+"language": "GDScript",
+"path": "res://src/spawning/spawn_wave.gd"
+}, {
 "base": "Spatial",
 "class": "SpriteObject",
 "language": "GDScript",
@@ -336,7 +336,6 @@ _global_script_class_icons={
 "Groups": "",
 "HitInfo": "",
 "HitResponse": "",
-"HordeSpawnComponent": "",
 "Hud": "",
 "Interactions": "",
 "InvWeapon": "",
@@ -363,6 +362,7 @@ _global_script_class_icons={
 "SawBlade": "",
 "Skill": "",
 "SpawnPoint": "",
+"SpawnWave": "",
 "SpriteObject": "",
 "TargetInfo": "",
 "TriggerCounter": "",

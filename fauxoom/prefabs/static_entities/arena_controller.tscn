@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/mat_red_glow.tres" type="Material" id=1]
+[ext_resource path="res://src/entity.gd" type="Script" id=2]
+[ext_resource path="res://prefabs/point_gizmo.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/spawning/arena_controller.gd" type="Script" id=4]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 0.25
+height = 0.5
+radial_segments = 16
+rings = 8
+
+[node name="arena" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 6, 16 )
+script = ExtResource( 4 )
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 2 )
+isStatic = true
+
+[node name="point_gizmo" type="MeshInstance" parent="." instance=ExtResource( 3 )]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 1 )
