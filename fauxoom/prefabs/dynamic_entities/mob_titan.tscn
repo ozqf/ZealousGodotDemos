@@ -18,7 +18,7 @@
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
-height = 0.7
+height = 1.2
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.2, 0.2, 1 )
@@ -29,7 +29,7 @@ collision_mask = 71
 script = ExtResource( 2 )
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0 )
 offset = Vector2( 0, 64 )
 billboard = 2
 shaded = true
@@ -40,7 +40,7 @@ animationSet = "mob_titan"
 defaultAnimation = "walk"
 
 [node name="body" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.55, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.8, 0 )
 shape = SubResource( 1 )
 
 [node name="head" type="Spatial" parent="."]
@@ -80,11 +80,16 @@ maxOffset = Vector3( 0.5, 1, 0.5 )
 [node name="rapid_burst" type="Node" parent="attacks"]
 script = ExtResource( 4 )
 minUseRange = 8.0
+maxUseRange = 20.0
 attackCount = 15
 repeatTime = 0.0
 
 [node name="pattern" type="Node" parent="attacks/rapid_burst"]
 script = ExtResource( 13 )
+
+[node name="ranged_shot" type="Node" parent="attacks"]
+script = ExtResource( 4 )
+minUseRange = 20.0
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
 moveStyle = 1

@@ -210,7 +210,7 @@ transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 44, 2, 
 triggerName = "spawn_1"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "a c"
-type = 0
+type = 6
 totalMobs = 8
 
 [node name="arena" parent="entities" instance=ExtResource( 11 )]

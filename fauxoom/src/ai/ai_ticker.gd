@@ -195,7 +195,7 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 	pass
 
 func _check_for_attack_start(_tickInfo:AITickInfo) -> bool:
-	if _tick <= 0 && _tickInfo.trueDistance <= 25 && _tickInfo.canSeeTarget:
+	if _tick <= 0 && _tickInfo.trueDistance <= 999 && _tickInfo.canSeeTarget:
 		return true
 	return false
 
