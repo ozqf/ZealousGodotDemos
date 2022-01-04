@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -15,6 +15,8 @@
 [ext_resource path="res://src/patterns/pattern_arc.gd" type="Script" id=13]
 [ext_resource path="res://prefabs/gfx/mob_aim_laser.tscn" type="PackedScene" id=14]
 [ext_resource path="res://prefabs/gfx/omni_attack_charge.tscn" type="PackedScene" id=15]
+[ext_resource path="res://src/ai/mob_motor_ground.gd" type="Script" id=16]
+[ext_resource path="res://prefabs/gfx/teleport_column.tscn" type="PackedScene" id=17]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -27,6 +29,8 @@ size = Vector3( 0.2, 0.2, 1 )
 collision_layer = 2
 collision_mask = 71
 script = ExtResource( 2 )
+
+[node name="teleport_column" parent="." instance=ExtResource( 17 )]
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0 )
@@ -81,8 +85,9 @@ maxOffset = Vector3( 0.5, 1, 0.5 )
 script = ExtResource( 4 )
 minUseRange = 8.0
 maxUseRange = 20.0
-attackCount = 15
+attackCount = 5
 repeatTime = 0.0
+attackAnimTime = 0.2
 
 [node name="pattern" type="Node" parent="attacks/rapid_burst"]
 script = ExtResource( 13 )
@@ -92,7 +97,7 @@ script = ExtResource( 4 )
 minUseRange = 20.0
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
-moveStyle = 1
+script = ExtResource( 16 )
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )

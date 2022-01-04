@@ -38,6 +38,7 @@ onready var attacks = []
 onready var _stats:MobStats = $stats
 onready var _ent:Entity = $Entity
 onready var _ticker:AITicker = $ticker
+onready var _spawnColumn:TeleportColumn = $teleport_column
 
 var _registered:bool = false
 
@@ -117,6 +118,7 @@ func _ready() -> void:
 	_ent.triggerTargetName = triggerTargets
 	AI.register_mob(self)
 	_registered = true
+	_change_state(MobState.Spawning)
 
 func get_debug_text() -> String:
 	var txt:String = "prefab: " + _ent.prefabName + "\n"
@@ -159,6 +161,7 @@ func set_behaviour(sniper:bool) -> void:
 
 func teleport(t:Transform) -> void:
 	var pos = t.origin
+	# print("Mob - teleport to " + str(pos))
 	global_transform.origin = pos
 	# TODO - apply yaw
 	# global_transform = t
@@ -235,7 +238,7 @@ func _change_state(_newState) -> void:
 	elif _state == MobState.Idle:
 		motor.clear_target()
 	elif _state == MobState.Spawning:
-		pass
+		_spawnColumn.run(1.5)
 	elif _state == MobState.Dying:
 		_err = sprite.play_animation("dying")
 		# collisionShape.disabled = true
@@ -348,6 +351,8 @@ func _process(_delta:float) -> void:
 		motor.move_idle(_delta)
 		return
 	elif _state == MobState.Spawning:
+		if _spawnColumn.tick(_delta):
+			_change_state(MobState.Idle)
 		return
 	elif _state == MobState.Stunned:
 		_tick_stunned(_delta)
@@ -443,6 +448,8 @@ func corpse_hit(_hitInfo:HitInfo) -> int:
 func hit(_hitInfo:HitInfo) -> int:
 	if is_dead():
 		return corpse_hit(_hitInfo)
+	if _state == MobState.Spawning:
+		return -1
 	_health -= _hitInfo.damage
 	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
 			print("Explosive hit for " + str(_hitInfo.damage))

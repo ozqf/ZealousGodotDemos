@@ -48,9 +48,10 @@ func find_positions_sibling() -> void:
 			var child = children[i]
 			for j in range(0, tokens.size()):
 				if child.name == tokens[j]:
-					positionNodes.push_back(children[j])
+					# print("Horde spawn - adding position " + child.name + ": " + str(child.global_transform.origin))
+					positionNodes.push_back(child)
 					break;
-		print("Horde spawn filtered " + str(children.size()) + " nodes to " + str(positionNodes.size()))
+		# print("Horde spawn filtered " + str(children.size()) + " nodes to " + str(positionNodes.size()))
 	for i in range(0, positionNodes.size()):
 		_spawnPoints.push_back(positionNodes[i].global_transform)
 
@@ -93,7 +94,9 @@ func pick_spawn_point() -> Transform:
 		return _spawnPoints[_i]
 
 func _spawn_child() -> void:
-	var mob = Ents.create_mob(type, pick_spawn_point(), true)
+	var t:Transform = pick_spawn_point()
+	# print("Horde spawn - spawn child at " + str(t.origin))
+	var mob = Ents.create_mob(type, t, true)
 	var _childId:int = mob.get_node("Entity").id
 	mob.set_source(self, _ent.id)
 

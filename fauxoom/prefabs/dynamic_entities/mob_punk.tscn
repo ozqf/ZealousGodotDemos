@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://zqf/zqf_orbiter.gd" type="Script" id=12]
 [ext_resource path="res://src/ai/mob_motor_ground.gd" type="Script" id=13]
 [ext_resource path="res://assets/sprites/frames/gfx_frames.tres" type="SpriteFrames" id=14]
+[ext_resource path="res://prefabs/gfx/teleport_column.tscn" type="PackedScene" id=15]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -28,6 +29,9 @@ collision_mask = 70
 script = ExtResource( 2 )
 roleClass = 2
 corpsePrefab = "mob_punk"
+
+[node name="teleport_column" parent="." instance=ExtResource( 15 )]
+transform = Transform( 1.5, 0, 0, 0, 2, 0, 0, 0, 1.5, 0, 0, 0 )
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
