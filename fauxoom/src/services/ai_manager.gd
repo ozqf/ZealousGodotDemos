@@ -20,13 +20,15 @@ var _entRoot:Entities = null
 var _navService:NavService = null
 var _influenceMap = null
 
-# TODO: Nodes should be set as active/inactive via their tag to 
-# reduce the current search space to only those that are necessary.
-# update the tactic nodes list when this changes.
-
 # specially placed AI nodes
 var _tacticNodes = []
 var _inactiveTacticNodes = []
+
+# To reduce tactic node search space, only nodes with this tag
+# are added to the _tacticNodes array
+# This also stops enemies looking for sniping spots outside the
+# current arena etc.
+var _activeTag:int = 0
 
 # live player
 var _player:Player = null
@@ -39,8 +41,6 @@ var _numRoleSnipe:int = 0
 var _noTarget:bool = false
 var _point_t = preload("res://prefabs/point_gizmo.tscn")
 var _debugPathPoints = []
-
-var _activeTag:int = 0
 
 var _emptyTargetInfo:Dictionary = {
 	id = 0,
@@ -88,14 +88,7 @@ func load_save_dict(_dict:Dictionary) -> void:
 	activate_waypoint_tag(_dict.activeTag)
 
 func _process(_delta:float) -> void:
-	if _player == null:
-		return
-	if !is_instance_valid(_player):
-		# may hit this during level restarts, stale reference
-		# to old player instance.
-		# also triggered by end of level or other situations
-		# that despawn the player
-		# print("Skipped ai node update - Invalid player")
+	if !has_valid_player():
 		return
 	var numNodes:int = _tacticNodes.size()
 	for _i in range(0, numNodes):
@@ -136,6 +129,21 @@ func tally_mob_roles() -> void:
 			_numRoleSnipe += 1
 		else:
 			_numRoleCharge += 1
+
+###############
+# Get player info
+###############
+
+# ALWAYS check this before reading _player
+func has_valid_player() -> bool:
+	# may hit invalid instance this during
+	# level restarts, stale reference
+	# to old player object.
+	# also triggered by end of level or other situations
+	# that despawn the player
+	if !_player || _noTarget || !is_instance_valid(_player):
+		return false
+	return true
 
 ###############
 # Registration
@@ -246,7 +254,7 @@ func set_test_nav_dest(pos:Vector3) -> void:
 	_testNavDest.global_transform.origin = pos
 
 func give_to_player(item:String, amount:int) -> int:
-	if _player == null:
+	if !has_valid_player():
 		return 0
 	return _player.give_item(item, amount)
 
@@ -304,7 +312,7 @@ func debug_path(path:PoolVector3Array) -> void:
 ###############
 
 func check_los_to_player(origin:Vector3) -> bool:
-	if !_player:
+	if !has_valid_player():
 		return false
 	var info = _player.get_targetting_info()
 	if !info:
@@ -315,12 +323,12 @@ func check_los_to_player(origin:Vector3) -> bool:
 	return ZqfUtils.los_check(_entRoot, origin, dest, 1)
 
 func get_distance_to_player(origin:Vector3) -> float:
-	if !_player:
+	if !has_valid_player():
 		return 999999.0
 	return ZqfUtils.distance_between(origin, _player.global_transform.origin)
 
 func check_player_in_front(origin:Vector3, yawDegrees:float) -> bool:
-	if !_player:
+	if !has_valid_player():
 		return false
 	var dest = _player.get_targetting_info().position
 	var yawToPlayer:float = rad2deg(ZqfUtils.yaw_between(dest, origin))
@@ -335,17 +343,17 @@ func check_player_in_front(origin:Vector3, yawDegrees:float) -> bool:
 	return false
 
 func mob_check_target_old(_current:Spatial) -> Spatial:
-	if !_player:
+	if !has_valid_player():
 		return null
 	return _player as Spatial
 
 func mob_check_target() -> Dictionary:
-	if !_player || _noTarget || !is_instance_valid(_player):
+	if !has_valid_player():
 		return _emptyTargetInfo
 	return _player.get_targetting_info()
 
 func get_player_target() -> Dictionary:
-	if !is_instance_valid(_player) || _noTarget:
+	if !has_valid_player():
 		return _emptyTargetInfo
 	return _player.get_targetting_info()
 

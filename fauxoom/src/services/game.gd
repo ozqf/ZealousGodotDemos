@@ -31,9 +31,12 @@ onready var _camera:AttachableCamera = $attachable_camera
 
 enum GameState { Pregame, Playing, Won, Lost }
 
-var allowQuickSwitching:bool = true
+enum GameMode { Classic, Survival }
 
 var _state = GameState.Pregame
+var _gameMode = GameMode.Survival
+
+var allowQuickSwitching:bool = true
 
 var _hasPlayerStart:bool = false
 var _playerOrigin:Transform = Transform.IDENTITY
@@ -115,9 +118,10 @@ func _process(_delta:float) -> void:
 		_justLoaded = false
 		# clear pending and run
 		var dict = _pendingLoadDict
+		# make sure to clear the dict now!
 		_pendingLoadDict = {}
 		_cleanup_temp_entities()
-		load_entity_dict(dict)
+		load_save_dict(dict)
 	elif _justLoaded:
 		_justLoaded = false
 		print("Just loaded fresh map - writing reset save")
@@ -235,14 +239,20 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 ###############
 # save/load state
 ###############
-func load_entity_dict(dict:Dictionary) -> void:
+
+func load_save_dict(dict:Dictionary) -> void:
 	if _player:
 		# have to free immediately or new player will be spawned
 		# before this one is removed!
 		_player.free()
 	
+	# restore state
 	set_game_state(dict.state)
+	# restore mode
+	
+	# refresh in-game UI stuff
 	_refresh_overlay()
+	
 	if dict.has("ents"):
 		Ents.load_save_dict(dict.ents)
 	if dict.has("ai"):
@@ -268,13 +278,13 @@ func _write_save_file(filePath:String, data:Dictionary) -> void:
 ###############
 # game state
 ###############
-# func begin_game() -> void:
-# 	print("Game - begin play")
-	# set_game_state(GameState.Playing)
-	# var def = _entRoot.get_prefab_def(Entities.PREFAB_PLAYER)
-	# var player = def.prefab.instance()
-	# _entRoot.add_child(player)
-	# player.teleport(_playerOrigin)
+func begin_game() -> void:
+	print("Game - begin play")
+	set_game_state(GameState.Playing)
+	var def = _entRoot.get_prefab_def(Entities.PREFAB_PLAYER)
+	var player = def.prefab.instance()
+	_entRoot.add_child(player)
+	player.teleport(_playerOrigin)
 
 func _clear_dynamic_entities() -> void:
 	var l:int = _entRoot.get_child_count()

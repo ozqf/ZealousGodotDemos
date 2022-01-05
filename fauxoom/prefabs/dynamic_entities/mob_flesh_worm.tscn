@@ -26,6 +26,7 @@ fleeBoredomSeconds = -1.0
 roleClass = 1
 
 [node name="teleport_column" parent="." instance=ExtResource( 10 )]
+transform = Transform( 1.2, 0, 0, 0, 2, 0, 0, 0, 1.2, 0, 0, 0 )
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )

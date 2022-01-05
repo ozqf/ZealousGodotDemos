@@ -31,6 +31,7 @@ collision_mask = 71
 script = ExtResource( 2 )
 
 [node name="teleport_column" parent="." instance=ExtResource( 17 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0 )
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0 )
