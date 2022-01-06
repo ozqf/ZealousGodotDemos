@@ -7,11 +7,15 @@ const EMPTY_ID:int = 0
 
 const PREFAB_MOB_PUNK:String = "mob_punk"
 const PREFAB_MOB_WORM:String = "mob_worm"
+const PREFAB_MOB_BRAIN:String = "mob_brain"
 const PREFAB_MOB_CYCLOPS:String = "mob_cyclops"
 const PREFAB_MOB_GUNNER:String = "mob_gunner"
 const PREFAB_MOB_SERPENT:String = "mob_serpent"
 const PREFAB_MOB_SPIDER:String = "mob_spider"
+const PREFAB_MOB_GOLEM:String = "mob_golem"
+const PREFAB_MOB_PSYCHIC:String = "mob_psychic"
 const PREFAB_MOB_TITAN:String = "mob_titan"
+
 const PREFAB_PLAYER:String = "player"
 const PREFAB_GIB:String = "gib"
 
@@ -41,6 +45,10 @@ var _prefabs = {
 	},
 	mob_spider = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_spider.tscn"),
+		entNodePath = "Entity"
+	},
+	mob_golem = {
+		prefab = preload("res://prefabs/dynamic_entities/mob_golem.tscn"),
 		entNodePath = "Entity"
 	},
 	mob_titan = {
@@ -186,6 +194,8 @@ func _select_prefab(enemyType:int) -> String:
 		return PREFAB_MOB_SERPENT
 	elif enemyType == Enums.EnemyType.Cyclops:
 		return PREFAB_MOB_CYCLOPS
+	elif enemyType == Enums.EnemyType.Golem:
+		return PREFAB_MOB_GOLEM
 	elif enemyType == Enums.EnemyType.Titan:
 		return PREFAB_MOB_TITAN
 	elif enemyType == Enums.EnemyType.Punk:

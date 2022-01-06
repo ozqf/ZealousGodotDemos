@@ -19,6 +19,8 @@ enum EventType {
 export(EventType) var type = EventType.None
 export var intParameter1:int = 0
 
+var _lastHintCount:int = -1
+
 func _ready() -> void:
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
@@ -51,9 +53,16 @@ func _process(_delta:float) -> void:
 	if !_active:
 		return
 	_tick -= _delta
+	
 	if _tick <= 0:
 		_active = false
+		Game.show_hint_text("FIGHT")
 		run_event()
+	else:
+		var hintCount:int = int(_tick) + 1
+		if hintCount != _lastHintCount:
+			_lastHintCount = hintCount
+			Game.show_hint_text(str(hintCount))
 
 func run_event() -> void:
 	Interactions.triggerTargets(get_tree(), triggerTargetName)

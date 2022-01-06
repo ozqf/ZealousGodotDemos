@@ -3,9 +3,12 @@ enum EnemyType {
 	Punk,
 	Gunner,
 	FleshWorm,
+	Brain,
 	Serpent,
 	Cyclops,
 	Spider,
+	Golem,
+	Psychic,
 	Titan
 }
 

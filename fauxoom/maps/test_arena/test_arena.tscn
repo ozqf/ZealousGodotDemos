@@ -243,7 +243,7 @@ triggerName = "spawn_1a"
 triggerTargetName = "spawn_1b wave_1_counter"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "e"
-type = 2
+type = 7
 totalMobs = 2
 maxLiveMobs = 1
 
