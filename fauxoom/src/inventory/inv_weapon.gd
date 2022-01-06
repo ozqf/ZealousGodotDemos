@@ -155,16 +155,6 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> int:
 
 		# fire debris
 		Game.spawn_impact_debris(spritePos, result.normal, 2, 12, 3)
-		# var debris:Spatial = _prefab_impact_debris_t.instance()
-		# root.add_child(debris)
-		# var t:Transform = Transform.IDENTITY
-		# t.origin = spritePos
-		# debris.global_transform = t
-		# var rigidBody:RigidBody = debris.find_node("RigidBody")
-		# if rigidBody != null:
-		# 	var launchVel:Vector3 = result.normal
-		# 	launchVel *= rand_range(2, 12)
-		# 	rigidBody.linear_velocity = launchVel
 	elif inflicted == -2:
 		# print("Penetration hit")
 		pass

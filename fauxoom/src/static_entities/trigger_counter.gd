@@ -37,6 +37,7 @@ func restore_state(data:Dictionary) -> void:
 func on_trigger(_msg:String, _params:Dictionary) -> void:
 	_currentCount += 1
 	if _currentCount >= totalCount:
+		_currentCount = 0
 		active = false
 		print(name + " - emit")
 		emit_signal("trigger")

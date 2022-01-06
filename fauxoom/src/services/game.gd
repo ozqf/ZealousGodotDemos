@@ -437,9 +437,11 @@ func _spawn_debris_prefab(
 
 func spawn_impact_debris(
 	origin:Vector3, normal:Vector3, minSpeed:float, maxSpeed:float, count:int) -> void:
-	_spawn_debris_prefab(_prefab_impact_debris_t, origin, normal, minSpeed, maxSpeed, count)
+	if Config.cfg.r_hitDebris:
+		_spawn_debris_prefab(_prefab_impact_debris_t, origin, normal, minSpeed, maxSpeed, count)
 	
 func spawn_ejected_shell(
 	origin:Vector3, normal:Vector3, minSpeed:float, maxSpeed:float, count:int) -> void:
-	_spawn_debris_prefab(_prefab_ejected_shell, origin, normal, minSpeed, maxSpeed, count)
+	if Config.cfg.r_hitDebris:
+		_spawn_debris_prefab(_prefab_ejected_shell, origin, normal, minSpeed, maxSpeed, count)
 	

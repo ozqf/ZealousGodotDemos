@@ -25,7 +25,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 	if tick > 0:
 		return
 	if _weaponInput.primaryOn:
-		print("Fire plasma - dmg " + str(_hitInfo.damage) + " type " + str(_hitInfo.damageType))
+		# print("Fire plasma - dmg " + str(_hitInfo.damage) + " type " + str(_hitInfo.damageType))
 		tick = refireTime
 		var hitPos:Vector3 = _fire_single(-_launchNode.global_transform.basis.z, 1000)
 		_draw_trail(_launchNode.global_transform.origin, hitPos)

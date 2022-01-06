@@ -472,7 +472,7 @@ func hit(_hitInfo:HitInfo) -> int:
 			Game.spawn_rage_drops(collisionShape.global_transform.origin, Enums.QuickDropType.Rage)
 
 		# fx
-		print("Prefab " + str(_ent.prefabName) + " died at " + str(global_transform.origin))
+		# print("Prefab " + str(_ent.prefabName) + " died at " + str(global_transform.origin))
 		# if _ent.prefabName == "mob_punk":
 		if corpsePrefab == "mob_punk":
 			var corpse = _punk_corpse_t.instance()

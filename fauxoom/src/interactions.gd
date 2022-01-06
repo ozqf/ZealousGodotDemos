@@ -70,10 +70,17 @@ static func triggerTargets(tree:SceneTree, targetNameString:String) -> void:
 		return
 	if targetNameString == null || targetNameString == "":
 		return
-	print("Trigger targets - " + targetNameString)
+	# print("Trigger targets - " + targetNameString)
 	var tokens = ZqfUtils.tokenise(targetNameString)
 	var numTokens:int = tokens.size()
 	var msg:String = ""
 	var params:Dictionary = ZqfUtils.EMPTY_DICT
 	for _i in range(0, numTokens):
 		tree.call_group(Groups.ENTS_GROUP_NAME, Groups.ENTS_FN_TRIGGER_ENTITIES, tokens[_i], msg, params)
+
+static func triggerTargetsWithParams(tree:SceneTree, targetNameArray, message:String, params:Dictionary) -> void:
+	if tree == null:
+		return
+	var numTargets:int = targetNameArray.size()
+	for _i in range(0, numTargets):
+		tree.call_group(Groups.ENTS_GROUP_NAME, Groups.ENTS_FN_TRIGGER_ENTITIES, targetNameArray[_i], message, params)
