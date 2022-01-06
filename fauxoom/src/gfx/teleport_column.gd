@@ -1,6 +1,8 @@
 extends Spatial
 class_name TeleportColumn
 
+const spinRate:float = 720.0
+
 onready var a:MeshInstance = $MeshInstance
 onready var b:MeshInstance = $MeshInstance2
 onready var c:MeshInstance = $MeshInstance3
@@ -19,6 +21,10 @@ func run(duration:float) -> void:
 	visible = true
 	_duration = duration
 	_tick = 0
+	if randf() > 0.5:
+		_spinDegreesPerSecond = rand_range(spinRate / 2, spinRate)
+	else:
+		_spinDegreesPerSecond = rand_range(-spinRate / 2, -spinRate)
 
 #func _process(_delta:float) -> void:
 #	tick(_delta)

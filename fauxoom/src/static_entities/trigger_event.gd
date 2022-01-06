@@ -1,8 +1,13 @@
 extends Spatial
 
+onready var _ent:Entity = $Entity
+
 export var selfName:String = ""
 export var triggerTargetName:String = ""
-#export var active:bool = true
+export var waitSeconds:float = 0
+
+var _active:bool = false
+var _tick:float = 0
 
 enum EventType {
 	None = 0,
@@ -14,35 +19,43 @@ enum EventType {
 export(EventType) var type = EventType.None
 export var intParameter1:int = 0
 
-# var _spawnState:Dictionary = {}
-
 func _ready() -> void:
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	visible = false
+	var _r = _ent.connect("entity_append_state", self, "append_state")
+	_r = _ent.connect("entity_restore_state", self, "restore_state")
+	_r = _ent.connect("entity_trigger", self, "on_trigger")
+	_ent.selfName = selfName
+	_ent.triggerTargetName = triggerTargetName
 	# _spawnState = write_state()
 
-# this entity is not... an "Entity"...
-# if it needs to have timing however, it will need to save state
-# func write_state() -> Dictionary:
-# 	return {
-# 		selfName = selfName,
-# 		triggerTargetName = triggerTargetName,
-# 		active = active
-# 	}
+func on_trigger() -> void:
+	if waitSeconds > 0:
+		if _active:
+			return
+		_tick = waitSeconds
+		_active = true
+	else:
+		run_event()
 
-# func restore_state(data:Dictionary) -> void:
-# 	selfName = data.selfName
-# 	triggerTargetName = data.triggerTargetName
-# 	active = data.active
+func append_state(_dict:Dictionary) -> void:
+	_dict.active = _active
+	_dict.tick = _tick
 
-#func game_on_reset() -> void:
-#	restore_state(_spawnState)
+func restore_state(_dict:Dictionary) -> void:
+	_active = _dict.active
+	_tick = _dict.tick
 
-func on_trigger_entities(target:String) -> void:
-	if target == "" || target != selfName:
+func _process(_delta:float) -> void:
+	if !_active:
 		return
-	
+	_tick -= _delta
+	if _tick <= 0:
+		_active = false
+		run_event()
+
+func run_event() -> void:
 	Interactions.triggerTargets(get_tree(), triggerTargetName)
 	
 	if type == EventType.None:

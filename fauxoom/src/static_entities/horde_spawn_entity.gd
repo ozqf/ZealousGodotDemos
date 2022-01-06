@@ -34,6 +34,18 @@ func _ready() -> void:
 	_ent.triggerTargetName = triggerTargetName
 	find_positions_sibling()
 
+func is_horde_spawn() -> bool:
+	return true
+
+func is_endless() -> bool:
+	return !(totalMobs > 0)
+
+func has_mobs_remaining() -> bool:
+	if is_endless():
+		return true
+	else:
+		return _deadMobs + _liveMobs < totalMobs
+
 func find_positions_sibling() -> void:
 	if positionsSiblingName == "":
 		return
@@ -68,14 +80,18 @@ func restore_state(_dict:Dictionary) -> void:
 	_active = _dict.active
 
 func on_trigger() -> void:
-	print("Horde spawn start")
-	_active = true
+	if !_active:
+		print("Horde spawn start")
+		_active = true
+	elif is_endless():
+		print("Horde spawn - disabling endless mode")
+		totalMobs = _liveMobs + _deadMobs
+		_check_if_finished()
 
 func _process(_delta:float) -> void:
 	if !_active:
 		return
-	var consumed = _deadMobs + _liveMobs
-	if (_liveMobs < maxLiveMobs) && (consumed < totalMobs):
+	if (_liveMobs < maxLiveMobs) && has_mobs_remaining():
 		_tick -= _delta
 		if _tick <= 0:
 			_tick = tickMax
@@ -100,12 +116,15 @@ func _spawn_child() -> void:
 	var _childId:int = mob.get_node("Entity").id
 	mob.set_source(self, _ent.id)
 
-func _on_mob_died(_mob) -> void:
-	_liveMobs -= 1
-	_deadMobs += 1
-	# print("Mob death: " + str(_deadMobs) + " dead vs " + str(totalMobs) + " max")
-	if _deadMobs >= totalMobs:
+func _check_if_finished() -> void:
+	if !is_endless() && _deadMobs >= totalMobs:
 		_active = false
 		# print("Horde spawn - all children dead")
 		if triggerTargetName != "":
 			Interactions.triggerTargets(get_tree(), triggerTargetName)
+
+func _on_mob_died(_mob) -> void:
+	_liveMobs -= 1
+	_deadMobs += 1
+	# print("Mob death: " + str(_deadMobs) + " dead vs " + str(totalMobs) + " max")
+	_check_if_finished()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=2]
@@ -15,7 +15,6 @@
 [ext_resource path="res://prefabs/point_gizmo.tscn" type="PackedScene" id=13]
 [ext_resource path="res://src/spawning/spawn_wave.gd" type="Script" id=14]
 [ext_resource path="res://zqf/hide_on_start.gd" type="Script" id=15]
-[ext_resource path="res://src/embedded_map_controller.gd" type="Script" id=16]
 [ext_resource path="res://prefabs/static_entities/camera_entity.tscn" type="PackedScene" id=17]
 
 [sub_resource type="NavigationMesh" id=1]
@@ -23,7 +22,6 @@ vertices = PoolVector3Array( 0.5, 2.4, 7.1, 5.3, 2.4, 7.1, 5.3, 2.4, 5.6, 5.3, 2
 polygons = [ PoolIntArray( 2, 1, 0 ), PoolIntArray( 5, 4, 3 ), PoolIntArray( 9, 8, 6 ), PoolIntArray( 6, 8, 7 ), PoolIntArray( 10, 12, 11 ), PoolIntArray( 13, 17, 14 ), PoolIntArray( 14, 17, 15 ), PoolIntArray( 15, 17, 16 ), PoolIntArray( 20, 19, 18 ), PoolIntArray( 22, 21, 23 ), PoolIntArray( 23, 21, 26 ), PoolIntArray( 23, 26, 25 ), PoolIntArray( 23, 25, 24 ), PoolIntArray( 28, 27, 29 ), PoolIntArray( 29, 27, 30 ), PoolIntArray( 32, 31, 33 ), PoolIntArray( 33, 31, 34 ), PoolIntArray( 37, 36, 35 ), PoolIntArray( 40, 39, 41 ), PoolIntArray( 41, 39, 38 ), PoolIntArray( 41, 38, 42 ), PoolIntArray( 45, 44, 43 ), PoolIntArray( 47, 46, 48 ), PoolIntArray( 48, 46, 49 ), PoolIntArray( 49, 46, 50 ), PoolIntArray( 50, 46, 51 ), PoolIntArray( 53, 52, 54 ), PoolIntArray( 54, 52, 55 ), PoolIntArray( 57, 56, 58 ), PoolIntArray( 58, 56, 59 ), PoolIntArray( 62, 61, 60 ), PoolIntArray( 65, 64, 63 ), PoolIntArray( 69, 68, 66 ), PoolIntArray( 66, 68, 67 ), PoolIntArray( 72, 71, 70 ), PoolIntArray( 73, 75, 74 ), PoolIntArray( 78, 77, 76 ), PoolIntArray( 81, 80, 79 ), PoolIntArray( 84, 83, 85 ), PoolIntArray( 85, 83, 82 ), PoolIntArray( 85, 82, 86 ), PoolIntArray( 90, 89, 87 ), PoolIntArray( 87, 89, 88 ), PoolIntArray( 92, 91, 93 ), PoolIntArray( 95, 94, 96 ), PoolIntArray( 99, 98, 97 ), PoolIntArray( 102, 101, 100 ), PoolIntArray( 104, 103, 105 ), PoolIntArray( 105, 103, 106 ), PoolIntArray( 106, 103, 107 ), PoolIntArray( 109, 108, 110 ), PoolIntArray( 110, 108, 111 ), PoolIntArray( 112, 115, 113 ), PoolIntArray( 113, 115, 114 ), PoolIntArray( 118, 117, 119 ), PoolIntArray( 119, 117, 116 ), PoolIntArray( 120, 123, 121 ), PoolIntArray( 121, 123, 122 ), PoolIntArray( 126, 125, 127 ), PoolIntArray( 127, 125, 124 ), PoolIntArray( 131, 130, 128 ), PoolIntArray( 128, 130, 129 ), PoolIntArray( 137, 141, 138 ), PoolIntArray( 138, 141, 132 ), PoolIntArray( 132, 141, 133 ), PoolIntArray( 133, 141, 139 ), PoolIntArray( 139, 141, 134 ), PoolIntArray( 134, 141, 140 ), PoolIntArray( 140, 141, 136 ), PoolIntArray( 140, 136, 135 ), PoolIntArray( 145, 144, 142 ), PoolIntArray( 142, 144, 143 ), PoolIntArray( 150, 159, 151 ), PoolIntArray( 151, 160, 152 ), PoolIntArray( 152, 157, 146 ), PoolIntArray( 146, 157, 153 ), PoolIntArray( 153, 157, 147 ), PoolIntArray( 147, 158, 148 ), PoolIntArray( 148, 156, 154 ), PoolIntArray( 154, 156, 149 ), PoolIntArray( 149, 156, 155 ), PoolIntArray( 155, 159, 150 ), PoolIntArray( 159, 160, 151 ), PoolIntArray( 160, 157, 152 ), PoolIntArray( 157, 158, 147 ), PoolIntArray( 158, 159, 148 ), PoolIntArray( 148, 159, 156 ), PoolIntArray( 156, 159, 155 ), PoolIntArray( 159, 158, 160 ), PoolIntArray( 160, 158, 157 ), PoolIntArray( 163, 162, 161 ), PoolIntArray( 166, 165, 167 ), PoolIntArray( 167, 165, 164 ), PoolIntArray( 167, 164, 168 ), PoolIntArray( 171, 170, 172 ), PoolIntArray( 172, 170, 173 ), PoolIntArray( 173, 170, 169 ), PoolIntArray( 177, 176, 174 ), PoolIntArray( 174, 176, 175 ), PoolIntArray( 179, 178, 180 ), PoolIntArray( 180, 178, 181 ), PoolIntArray( 184, 183, 182 ), PoolIntArray( 187, 186, 185 ), PoolIntArray( 190, 189, 188 ), PoolIntArray( 193, 192, 191 ), PoolIntArray( 194, 198, 195 ), PoolIntArray( 195, 198, 196 ), PoolIntArray( 196, 198, 197 ), PoolIntArray( 201, 200, 199 ), PoolIntArray( 203, 202, 204 ), PoolIntArray( 204, 202, 207 ), PoolIntArray( 204, 207, 206 ), PoolIntArray( 204, 206, 205 ), PoolIntArray( 209, 208, 210 ), PoolIntArray( 210, 208, 211 ), PoolIntArray( 213, 212, 214 ), PoolIntArray( 214, 212, 215 ), PoolIntArray( 218, 217, 216 ), PoolIntArray( 221, 220, 219 ), PoolIntArray( 223, 222, 224 ), PoolIntArray( 224, 222, 225 ), PoolIntArray( 228, 227, 226 ), PoolIntArray( 229, 231, 230 ), PoolIntArray( 235, 234, 232 ), PoolIntArray( 232, 234, 233 ) ]
 
 [node name="test_arena" type="Spatial"]
-script = ExtResource( 16 )
 
 [node name="Navigation" type="Navigation" parent="."]
 script = ExtResource( 10 )
@@ -176,7 +174,7 @@ transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 20, 0, 
 
 [node name="item_full_pack" parent="entities" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 16 )
-triggerTargetName = "mob1 mob2 tacticNodes spawn_1"
+triggerTargetName = "wave_1"
 respawns = true
 
 [node name="gun_rack" parent="entities" instance=ExtResource( 7 )]
@@ -191,13 +189,13 @@ sniperSpot = true
 
 [node name="trigger_event" parent="entities" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 2, 17 )
-selfName = "tacticNodes"
-type = 2
-intParameter1 = 1
+selfName = "wave_1"
+triggerTargetName = "mob1 mob2 spawn_1a spawn_1b"
+waitSeconds = 5.0
 
 [node name="wave_1" parent="entities" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 2, 17 )
-selfName = "tacticNodes"
+selfName = "wave_1"
 type = 2
 intParameter1 = 1
 
@@ -219,22 +217,23 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2, 29 )
 [node name="e" parent="entities/spawn_positions" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 16 )
 
-[node name="horde_spawn" parent="entities" instance=ExtResource( 12 )]
+[node name="spawn_1" parent="entities" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 33, 7, 16 )
-triggerName = "spawn_1"
+triggerName = "spawn_1a"
+triggerTargetName = "spawn_1b"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "e"
 type = 2
-totalMobs = 20
+totalMobs = 2
 maxLiveMobs = 1
 
-[node name="horde_spawn2" parent="entities" instance=ExtResource( 12 )]
+[node name="spawn_1b" parent="entities" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 33, 7, 13 )
-triggerName = "spawn_1"
+triggerName = "spawn_1b"
 positionsSiblingName = "spawn_positions"
-positionsFilter = "e"
+positionsFilter = "a b c d"
 type = 0
-totalMobs = 20
+totalMobs = 0
 maxLiveMobs = 1
 
 [node name="arena" parent="entities" instance=ExtResource( 11 )]

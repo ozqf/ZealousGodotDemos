@@ -137,6 +137,8 @@ func build_save_path(fileName) -> String:
 	return "user://" + fileName + ".json"
 
 func get_entity_prefab(name:String) -> Object:
+	if name == null || name == "":
+		push_error("entity prefab name is null or empty")
 	return _entRoot.get_prefab_def(name).prefab
 
 func _cleanup_temp_entities() -> void:

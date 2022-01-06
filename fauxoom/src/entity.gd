@@ -17,8 +17,12 @@ export var isStatic:bool = false
 # restore a previously deleted entity, we must know what prefab it was
 # if this isn't set loading will not work!
 export var prefabName:String = ""
+# the name of this entity to respond to trigger events
 export var selfName:String = ""
+# the space separated list of other entities to trigger when this
+# entity's trigger event occurs
 export var triggerTargetName:String = ""
+# id to identify this entity. negative for static, positive for dynamic
 var id:int = 0
 var _rootOverride:Node = null
 
