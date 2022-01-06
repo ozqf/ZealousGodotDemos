@@ -34,7 +34,7 @@ func restore_state(data:Dictionary) -> void:
 	totalCount = data.totalCount
 	_currentCount = data.currentCount
 
-func on_trigger() -> void:
+func on_trigger(_msg:String, _params:Dictionary) -> void:
 	_currentCount += 1
 	if _currentCount >= totalCount:
 		active = false

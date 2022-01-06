@@ -51,7 +51,7 @@ func restore_state(data:Dictionary) -> void:
 	_resetTick = data.tick
 	set_active(data.active)
 
-func on_trigger() -> void:
+func on_trigger(_msg:String, _params:Dictionary) -> void:
 	set_active(!active)
 
 func _on_body_entered(_body:PhysicsBody) -> void:

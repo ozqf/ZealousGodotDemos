@@ -7,7 +7,7 @@ class_name Entity
 
 signal entity_append_state(dict)
 signal entity_restore_state(dict)
-signal entity_trigger()
+signal entity_trigger(message, dict)
 
 # objects which are static should be loaded at the start of the map
 # (usually as part of an embedded scene file) and NEVER deleted
@@ -53,13 +53,13 @@ func get_root_node() -> Node:
 		return _rootOverride
 	return get_parent()
 
-func on_trigger_entities(target:String) -> void:
+func on_trigger_entities(target:String, message:String, dict:Dictionary) -> void:
 	if target == "":
 		return
 	if selfName == target:
 		# trigger!
 		print(prefabName + " " + selfName + " triggered")
-		emit_signal("entity_trigger")
+		emit_signal("entity_trigger", message, dict)
 
 func trigger() -> void:
 	# emit_signal("trigger")

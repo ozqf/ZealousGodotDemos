@@ -30,7 +30,7 @@ func _ready() -> void:
 
 func game_run_map_spawns() -> void:
 	if !delaySpawn:
-		on_trigger()
+		on_trigger("", ZqfUtils.EMPTY_DICT)
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.used = _used
@@ -50,7 +50,7 @@ func _on_mob_died(_mob) -> void:
 # 	else:
 # 		return Entities.PREFAB_MOB_PUNK
 
-func on_trigger() -> void:
+func on_trigger(_msg:String, _params:Dictionary) -> void:
 	if _used:
 		return
 	# spawn mob

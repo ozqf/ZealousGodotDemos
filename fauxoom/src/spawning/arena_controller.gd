@@ -67,9 +67,9 @@ func set_all_spawner_destinations(transformsArray) -> void:
 
 func start_wave_spawners() -> void:
 	for i in range(0, _spawners.size()):
-		_spawners[i].on_trigger()
+		_spawners[i].on_trigger("", ZqfUtils.EMPTY_DICT)
 
-func on_trigger() -> void:
+func on_trigger(_msg:String, _params:Dictionary) -> void:
 	_active = true
 	print("Survival start")
 	start_wave_spawners()

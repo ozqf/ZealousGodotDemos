@@ -17,7 +17,7 @@ func _ready():
 	_ent.selfName = triggerName
 	_ent.triggerTargetName = triggerTargetName
 
-func on_trigger() -> void:
+func on_trigger(_msg:String, _params:Dictionary) -> void:
 	var minutes:int = int(floor(float(durationSeconds) / float(60)))
 	var seconds:int = durationSeconds % 60
 	Game.show_hint_text("DEADLINE START: " + str(minutes) + ":" + str(seconds))

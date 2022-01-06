@@ -38,7 +38,7 @@ func restore_state(_dict:Dictionary) -> void:
 	active = _dict.active
 	loop = _dict.loop
 
-func on_trigger() -> void:
+func on_trigger(_msg:String, _params:Dictionary) -> void:
 	if !active:
 		active = true
 		_audio.play()

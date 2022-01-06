@@ -36,7 +36,7 @@ func restore_state(_dict:Dictionary) -> void:
 	_dict.active = active
 	_dict.loop = loop
 
-func on_trigger() -> void:
+func on_trigger(_msg:String, _params:Dictionary) -> void:
 	if !active:
 		active = true
 

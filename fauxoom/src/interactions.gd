@@ -73,5 +73,7 @@ static func triggerTargets(tree:SceneTree, targetNameString:String) -> void:
 	print("Trigger targets - " + targetNameString)
 	var tokens = ZqfUtils.tokenise(targetNameString)
 	var numTokens:int = tokens.size()
+	var msg:String = ""
+	var params:Dictionary = ZqfUtils.EMPTY_DICT
 	for _i in range(0, numTokens):
-		tree.call_group(Groups.ENTS_GROUP_NAME, Groups.ENTS_FN_TRIGGER_ENTITIES, tokens[_i])
+		tree.call_group(Groups.ENTS_GROUP_NAME, Groups.ENTS_FN_TRIGGER_ENTITIES, tokens[_i], msg, params)

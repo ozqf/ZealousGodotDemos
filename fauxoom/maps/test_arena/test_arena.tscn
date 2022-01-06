@@ -154,7 +154,7 @@ environment = ExtResource( 4 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="lights"]
 transform = Transform( 0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, 0, 15, 20 )
-shadow_enabled = true
+light_energy = 1.5
 directional_shadow_mode = 0
 
 [node name="entities" type="Spatial" parent="."]
@@ -169,16 +169,13 @@ transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 45, 2, 
 triggerName = "mob2"
 delaySpawn = true
 
-[node name="mob_spawn_proxy3" parent="entities" instance=ExtResource( 6 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 20, 0, 16 )
-
 [node name="item_full_pack" parent="entities" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 16 )
 triggerTargetName = "wave_1"
 respawns = true
 
 [node name="gun_rack" parent="entities" instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 16 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 16 )
 
 [node name="ai_nodes" type="Spatial" parent="entities"]
 

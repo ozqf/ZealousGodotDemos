@@ -6,6 +6,9 @@ class_name ZqfUtils
 # Godot
 #####################################
 
+const EMPTY_ARRAY = []
+const EMPTY_DICT = {}
+
 const DEG2RAD = 0.017453292519
 const RAD2DEG = 57.29577951308
 

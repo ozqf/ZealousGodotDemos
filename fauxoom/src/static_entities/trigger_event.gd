@@ -30,7 +30,7 @@ func _ready() -> void:
 	_ent.triggerTargetName = triggerTargetName
 	# _spawnState = write_state()
 
-func on_trigger() -> void:
+func on_trigger(_msg:String, _params:Dictionary) -> void:
 	if waitSeconds > 0:
 		if _active:
 			return

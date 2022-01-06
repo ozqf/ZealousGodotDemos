@@ -24,6 +24,8 @@ var _liveMobs:int = 0
 var _deadMobs:int = 0
 var _tick:float = 0
 var _active:bool = false
+var _endless:bool = false
+var _finished:bool = false
 
 func _ready() -> void:
 	visible = false
@@ -33,6 +35,7 @@ func _ready() -> void:
 	_ent.selfName = triggerName
 	_ent.triggerTargetName = triggerTargetName
 	find_positions_sibling()
+	_endless = !(totalMobs > 0)
 
 func is_horde_spawn() -> bool:
 	return true
@@ -70,19 +73,31 @@ func find_positions_sibling() -> void:
 func append_state(_dict:Dictionary) -> void:
 	_dict.liveMobs = _liveMobs
 	_dict.deadMobs = _deadMobs
+	_dict.totalMobs = totalMobs
 	_dict.tick = _tick
 	_dict.active = _active
+	_dict.finished = _finished
 
 func restore_state(_dict:Dictionary) -> void:
 	_liveMobs = _dict.liveMobs
 	_deadMobs = _dict.deadMobs
+	totalMobs = _dict.totalMobs
 	_tick = _dict.tick
 	_active = _dict.active
+	_finished = _dict.finished
 
-func on_trigger() -> void:
+func on_trigger(_msg:String, _params:Dictionary) -> void:
 	if !_active:
 		print("Horde spawn start")
 		_active = true
+		# check for reset and running again
+		if _finished:
+			_finished = false
+			_deadMobs = 0
+			_liveMobs = 0
+			_tick = 0
+			if _endless:
+				totalMobs = 0
 	elif is_endless():
 		print("Horde spawn - disabling endless mode")
 		totalMobs = _liveMobs + _deadMobs
@@ -119,6 +134,7 @@ func _spawn_child() -> void:
 func _check_if_finished() -> void:
 	if !is_endless() && _deadMobs >= totalMobs:
 		_active = false
+		_finished = true
 		# print("Horde spawn - all children dead")
 		if triggerTargetName != "":
 			Interactions.triggerTargets(get_tree(), triggerTargetName)
