@@ -9,7 +9,7 @@
 [ext_resource path="res://prefabs/mob_components/mob_motor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/ai/ai_ticker.gd" type="Script" id=8]
 [ext_resource path="res://src/ai/mob_motor_ground.gd" type="Script" id=9]
-[ext_resource path="res://prefabs/gfx/teleport_column.tscn" type="PackedScene" id=10]
+[ext_resource path="res://prefabs/mob_components/teleport_column.tscn" type="PackedScene" id=10]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5

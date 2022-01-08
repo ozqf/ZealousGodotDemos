@@ -10,14 +10,13 @@ onready var animator:CustomAnimator3D = $CustomAnimator3D
 # these are optional - setup in _ready
 export var deathSpawnPrefab:Resource = null
 var _particles = null
+var _area:Area = null
 
 enum ProjectileState {
 	Idle,
 	InFlight,
 	Dying
 }
-
-var _area:Area = null
 
 var _state = ProjectileState.Idle
 var _time:float = 10
@@ -63,6 +62,11 @@ func area_scan_result(bodies) -> void:
 			ZqfUtils.EMPTY_ARRAY,
 			Interactions.get_explosion_check_mask())
 		body.set_collision_layer_bit(Interactions.EXPLOSION_CHECK_LAYER, false)
+
+		# TODO: Appears to happen if raycast started INSIDE the body.
+		# other than stepping backward via forward vector not sure what
+		# more can be done with this.
+		# worst on fast moving enemies, that can 'tunnel' forward into the projectile
 		if !result:
 			print("Explosion raycast has no result??")
 			continue
