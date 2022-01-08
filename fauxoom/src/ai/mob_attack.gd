@@ -80,12 +80,15 @@ func cancel() -> void:
 func fire(target:Vector3) -> void:
 	# print("Fire!")
 	
-	var selfPos:Vector3 = _launchNode.global_transform.origin
-	var forward:Vector3 = Vector3()
-	forward.x = target.x - selfPos.x
-	forward.y = target.y - selfPos.y
-	forward.z = target.z - selfPos.z
-	forward = forward.normalized()
+	var t:Transform = _launchNode.global_transform
+	var selfPos:Vector3 = t.origin
+	var forward:Vector3 = -t.basis.z
+
+	# var forward:Vector3 = Vector3()
+	# forward.x = target.x - selfPos.x
+	# forward.y = target.y - selfPos.y
+	# forward.z = target.z - selfPos.z
+	# forward = forward.normalized()
 
 	if _pattern == null:
 		var prj = _prj_point_t.instance()

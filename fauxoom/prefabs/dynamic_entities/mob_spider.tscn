@@ -56,8 +56,11 @@ material/0 = null
 
 [node name="attack" type="Node" parent="attacks"]
 script = ExtResource( 4 )
-attackCount = 20
+attackCount = 15
+windUpTime = 0.5
+repeatTime = 0.05
 showAimLaser = true
+faceTargetDuringWindup = false
 faceTargetDuringAttack = false
 
 [node name="stats" type="Node" parent="."]

@@ -14,15 +14,17 @@ var _tick:float = 0
 var _duration:float = 1
 var _maxRadius:float = 0.8
 var _maxRotationDegrees:float = 180
+var _autoOff:bool = true
 
 func _ready():
 	visible = false
 
-func on(duration:float) -> void:
+func on(duration:float, autoOff:bool) -> void:
 	_tick = 0
 	_on = true
 	_duration = duration
 	visible = true
+	_autoOff = autoOff
 	_update_offsets(0)
 
 func _update_offsets(_lerp:float) -> void:
@@ -54,7 +56,8 @@ func _process(delta) -> void:
 		return
 	_tick += delta
 	if _tick > _duration:
-		off()
+		if _autoOff:
+			off()
 		return
 	if _ignoreRaycast || is_colliding():
 		var origin:Vector3 = global_transform.origin

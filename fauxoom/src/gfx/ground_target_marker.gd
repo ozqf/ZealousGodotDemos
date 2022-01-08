@@ -9,4 +9,4 @@ func _process(delta) -> void:
 	_tick -= delta
 	if _tick <= 0:
 		_tick = _duration
-		_laser.on(_duration / 2)
+		_laser.on(_duration / 2, true)

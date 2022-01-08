@@ -7,7 +7,8 @@ const STATE_MOVE:int = 0
 const STATE_WINDUP:int = 1
 const STATE_ATTACK:int = 2
 const STATE_WINDDOWN:int = 3
-const STATE_REPEAT:int = 4
+const STATE_REPEAT_WINDUP:int = 4
+# const STATE_REPEAT_WINDDOWN:int = 5
 
 const MOVEMODE_CHARGE:int = 0
 const MOVEMODE_EVADE:int = 1
@@ -82,13 +83,18 @@ func change_state(newState:int) -> void:
 	if _state == STATE_MOVE:
 		_mob.sprite.play_animation("walk")
 		_tick = _stats.moveTime
+		if _mob.aimLaser != null:
+			_mob.aimLaser.off()
 	elif _state == STATE_WINDUP:
 		_mob.sprite.play_animation("aim")
-		_tick = get_attack().windUpTime
+		var atk = get_attack()
+		_tick = atk.windUpTime
+		# look at target
 		_mob.head.look_at(lastTarPos, Vector3.UP)
-		var atk = _mob.attacks[_attackIndex]
+		set_rotation_to_target(lastTarPos)
+
 		if _mob.aimLaser != null && atk.showAimLaser:
-			_mob.aimLaser.on(_tick)
+			_mob.aimLaser.on(_tick, false)
 		if _mob.omniCharge != null && atk.showOmniCharge:
 			_mob.omniCharge.on(_tick)
 	elif _state == STATE_ATTACK:
@@ -97,8 +103,15 @@ func change_state(newState:int) -> void:
 		_mob.attacks[_attackIndex].fire(lastTarPos) 
 		_tick = get_attack().attackAnimTime
 	elif _state == STATE_WINDDOWN:
+		if _mob.aimLaser != null:
+			_mob.aimLaser.off()
 		_mob.sprite.play_animation("aim")
 		_tick = get_attack().windDownTime
+	elif _state == STATE_REPEAT_WINDUP:
+		_mob.sprite.play_animation("aim")
+		_tick = get_attack().repeatTime
+	# elif _state == STATE_REPEAT_WINDDOWN
+	# 	pass
 
 # return true if state change was handled
 # false to allow base function to handle it instead
@@ -112,7 +125,7 @@ func _start_attack(_delta:float, _tickInfo:AITickInfo) -> void:
 	# maxCycles = _mob.attacks[_attackIndex].attackCount
 	_cycles = 0
 	lastTarPos = _tickInfo.targetPos
-	_mob.face_target_flat(lastTarPos)
+	# _mob.face_target_flat(lastTarPos)
 	change_state(STATE_WINDUP)
 
 func _select_attack(_tickInfo:AITickInfo) -> int:
@@ -227,12 +240,13 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 			_start_attack(_delta, _tickInfo)
 			set_rotation_to_target(_tickInfo.targetPos)
 	
-	elif _state == STATE_WINDUP:
+	elif _state == STATE_WINDUP || _state == STATE_REPEAT_WINDUP:
 		_attack_move(_delta)
 		if get_attack().faceTargetDuringWindup:
-			_mob.head.look_at(_tickInfo.targetPos, Vector3.UP)
+			_mob.head.look_at(_tickInfo.lastSeenTargetPos, Vector3.UP)
+			set_rotation_to_target(_tickInfo.lastSeenTargetPos)
 			lastTarPos = _tickInfo.lastSeenTargetPos
-			_mob.face_target_flat(lastTarPos)
+			# _mob.face_target_flat(lastTarPos)
 		if _tick <= 0:
 			change_state(STATE_ATTACK)
 	elif _state == STATE_ATTACK:
@@ -241,8 +255,8 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 		if _tick <= 0:
 			_cycles += 1
 			if _cycles < get_attack().attackCount:
-				change_state(STATE_WINDUP)
-				_tick = get_attack().repeatTime
+				change_state(STATE_REPEAT_WINDUP)
+				# _tick = get_attack().repeatTime
 			else:
 				change_state(STATE_WINDDOWN)
 	elif _state == STATE_WINDDOWN:
