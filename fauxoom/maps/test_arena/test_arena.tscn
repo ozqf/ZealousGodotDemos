@@ -156,7 +156,7 @@ environment = ExtResource( 4 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="lights"]
 transform = Transform( 0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, 0, 15, 20 )
-light_energy = 1.5
+light_energy = 2.0
 directional_shadow_mode = 0
 
 [node name="entities" type="Spatial" parent="."]
@@ -237,15 +237,18 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2, 29 )
 [node name="e" parent="entities/spawn_positions" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 16 )
 
+[node name="f" parent="entities/spawn_positions" instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 16 )
+
 [node name="spawn_1" parent="entities" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 30, 0, -6 )
 triggerName = "spawn_1a"
 triggerTargetName = "spawn_1b wave_1_counter"
 positionsSiblingName = "spawn_positions"
-positionsFilter = "e"
-type = 7
+positionsFilter = "e f"
+type = 6
 totalMobs = 2
-maxLiveMobs = 1
+order = 0
 
 [node name="spawn_1b" parent="entities" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 34, 0, -6 )
@@ -253,7 +256,6 @@ triggerName = "spawn_1b"
 triggerTargetName = "wave_1_counter"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "a b c d"
-type = 0
 totalMobs = 0
 maxLiveMobs = 1
 
@@ -271,7 +273,6 @@ triggerName = "spawn_2a"
 triggerTargetName = "wave_2_counter"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "a b c d"
-type = 0
 tickMax = 1.0
 totalMobs = 8
 maxLiveMobs = 4

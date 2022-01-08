@@ -191,7 +191,7 @@ func _find_highlighted_ent() -> void:
 	var origin:Vector3 = cam.project_ray_origin(mouse)
 	var dir:Vector3 = cam.project_ray_normal(mouse)
 	var newHighlight = null
-	var result = ZqfUtils.hitscan_by_pos_3D(self, origin, dir, 1000, [], (1 << 18))
+	var result = ZqfUtils.hitscan_by_direction_3D(self, origin, dir, 1000, [], (1 << 18))
 	
 	if result && result.collider is SpawnPoint:
 		newHighlight = result.collider

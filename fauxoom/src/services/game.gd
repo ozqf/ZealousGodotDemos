@@ -10,6 +10,7 @@ const QUICK_SAVE_FILE_NAME:String = "quick"
 var _player_t = preload("res://prefabs/player.tscn")
 var _gib_t = preload("res://prefabs/gib.tscn")
 var _head_gib_t = preload("res://prefabs/player_gib.tscn")
+
 var _hitInfo_type = preload("res://src/defs/hit_info.gd")
 
 var _rage_drop_t = preload("res://prefabs/dynamic_entities/rage_drop.tscn")
@@ -17,6 +18,7 @@ var _rage_drop_t = preload("res://prefabs/dynamic_entities/rage_drop.tscn")
 var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
 var _prefab_impact_debris_t = preload("res://prefabs/gfx/bullet_hit_debris.tscn")
 var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
+var _trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
 
 var _prefab_ejected_shell = preload("res://prefabs/gfx/ejected_shell.tscn")
 
@@ -444,4 +446,8 @@ func spawn_ejected_shell(
 	origin:Vector3, normal:Vector3, minSpeed:float, maxSpeed:float, count:int) -> void:
 	if Config.cfg.r_hitDebris:
 		_spawn_debris_prefab(_prefab_ejected_shell, origin, normal, minSpeed, maxSpeed, count)
-	
+
+func draw_trail(origin:Vector3, dest:Vector3) -> void:
+	var trail = _trail_t.instance()
+	Game.get_dynamic_parent().add_child(trail)
+	trail.spawn(origin, dest)

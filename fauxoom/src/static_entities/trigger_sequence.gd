@@ -1,5 +1,7 @@
 extends Spatial
 
+const Enums = preload("res://src/enums.gd")
+
 onready var _ent:Entity = $Entity
 
 export var selfName:String = ""
@@ -14,12 +16,7 @@ var _tick:float = 0
 var _running:bool = false
 var _index:int = 0
 
-enum SequenceType {
-	Linear,
-	Random
-}
-
-export(SequenceType) var type = SequenceType.Linear
+export(Enums.SequenceOrder) var type = Enums.SequenceOrder.Linear
 
 export var intParameter1:int = 0
 
@@ -38,10 +35,10 @@ func on_trigger(_msg:String, _params:Dictionary) -> void:
 	if _targets.size() == 0:
 		return
 	if waitSeconds <= 0:
-		if type == SequenceType.Random:
+		if type == Enums.SequenceOrder.Random:
 			var i:int = int(rand_range(0, _targets.size()))
 			Interactions.triggerTargets(get_tree(), _targets[i])
-		elif type == SequenceType.Linear:
+		elif type == Enums.SequenceOrder.Linear:
 			var i:int = _index
 			_index += 1
 			if _index >= _targets.size():

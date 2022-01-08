@@ -12,13 +12,16 @@ export var triggerTargetName:String = ""
 export var positionsSiblingName:String = ""
 export var positionsFilter:String = ""
 
-export(Enums.EnemyType) var type = Enums.EnemyType.Gunner
+export(Enums.EnemyType) var type = Enums.EnemyType.Punk
 
 export var tickMax:float = 2
 export var totalMobs:int = 4
 export var maxLiveMobs:int = 2
 
+export(Enums.SequenceOrder) var order = Enums.SequenceOrder.Random
+
 var _spawnPoints = []
+var _spawnPointIndex = 0
 
 var _liveMobs:int = 0
 var _deadMobs:int = 0
@@ -77,6 +80,7 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.tick = _tick
 	_dict.active = _active
 	_dict.finished = _finished
+	_dict.pIndex = _spawnPointIndex
 
 func restore_state(_dict:Dictionary) -> void:
 	_liveMobs = _dict.liveMobs
@@ -85,6 +89,7 @@ func restore_state(_dict:Dictionary) -> void:
 	_tick = _dict.tick
 	_active = _dict.active
 	_finished = _dict.finished
+	_spawnPointIndex = _dict.pIndex
 
 func on_trigger(_msg:String, _params:Dictionary) -> void:
 	if !_active:
@@ -121,7 +126,14 @@ func pick_spawn_point() -> Transform:
 	if numPoints == 0:
 		return self.global_transform
 	else:
-		var _i:int = int(rand_range(0, numPoints))
+		var _i:int = 0
+		if order == Enums.SequenceOrder.Random:
+			_i = int(rand_range(0, numPoints))
+		else:
+			_i = _spawnPointIndex
+			_spawnPointIndex += 1
+			if _spawnPointIndex >= numPoints:
+				_spawnPointIndex = 0
 		return _spawnPoints[_i]
 
 func _spawn_child() -> void:

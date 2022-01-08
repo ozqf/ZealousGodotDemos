@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://prefabs/gfx/omni_attack_charge.tscn" type="PackedScene" id=13]
 [ext_resource path="res://src/ai/mob_motor_default.gd" type="Script" id=14]
 [ext_resource path="res://influence_map/influence_agent.tscn" type="PackedScene" id=15]
+[ext_resource path="res://prefabs/gfx/teleport_column.tscn" type="PackedScene" id=16]
 
 [sub_resource type="SphereShape" id=1]
 
@@ -25,6 +26,9 @@ size = Vector3( 0.2, 0.2, 1 )
 collision_layer = 2
 collision_mask = 71
 script = ExtResource( 2 )
+
+[node name="teleport_column" parent="." instance=ExtResource( 16 )]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
 
 [node name="influence_agent" parent="." instance=ExtResource( 15 )]
 

@@ -45,14 +45,46 @@ func area_scan_result(bodies) -> void:
 	_hitInfo.attackTeam = _team
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_EXPLOSIVE
 	_hitInfo.origin = global_transform.origin
-	for body in bodies:
-		var tarPos:Vector3 = body.global_transform.origin
-		var dist:float = _hitInfo.origin.distance_to(tarPos)
+	_hitInfo.origin -= -global_transform.basis.z * 0.2
+	for iterator in bodies:
+		var body:PhysicsBody = iterator as PhysicsBody
+		var tarPos:Vector3
+		if body.has_method("get_mass_centre"):
+			tarPos = body.get_mass_centre()
+		else:
+			tarPos = body.global_transform.origin
+		Game.draw_trail(_hitInfo.origin, tarPos)
+		
+		body.set_collision_layer_bit(Interactions.EXPLOSION_CHECK_LAYER, true)
+		var result = ZqfUtils.hitscan_by_position_3D(
+			self,
+			_hitInfo.origin,
+			tarPos,
+			ZqfUtils.EMPTY_ARRAY,
+			Interactions.get_explosion_check_mask())
+		body.set_collision_layer_bit(Interactions.EXPLOSION_CHECK_LAYER, false)
+		if !result:
+			print("Explosion raycast has no result??")
+			continue
+		var hitLayer:int = result.collider.get_collision_layer()
+		if (hitLayer & Interactions.WORLD) != 0:
+			print("Explosion blocked by world")
+			continue
+		
+		var dist:float = _hitInfo.origin.distance_to(result.position)
 		var percent:float = 1.0 - float(dist / _explosiveRadius)
 		if percent > 1:
 			percent = 1
 		if percent < 0:
 			percent = 0
+		print("Explosion percentage: " + str(percent))
+
+		# var dist:float = _hitInfo.origin.distance_to(tarPos)
+		# var percent:float = 1.0 - float(dist / _explosiveRadius)
+		# if percent > 1:
+		# 	percent = 1
+		# if percent < 0:
+		# 	percent = 0
 		_hitInfo.damage = int(150 * percent)
 		_hitInfo.direction = tarPos - _hitInfo.origin
 		_hitInfo.direction = _hitInfo.direction.normalized()
@@ -82,6 +114,7 @@ func die() -> void:
 		_particles.emitting = false
 
 	if _area != null:
+		print("Projectile - run area event")
 		_area.run()
 	if deathSpawnPrefab != null:
 		var velNormal:Vector3 = _velocity.normalized()

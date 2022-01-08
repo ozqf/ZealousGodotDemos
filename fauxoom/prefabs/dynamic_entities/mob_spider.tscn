@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/sprites/frames/spider_frames.tres" type="SpriteFrames" id=6]
 [ext_resource path="res://prefabs/mob_components/mob_motor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/ai/ai_ticker.gd" type="Script" id=8]
+[ext_resource path="res://prefabs/gfx/teleport_column.tscn" type="PackedScene" id=9]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -20,6 +21,9 @@ size = Vector3( 0.2, 0.2, 1 )
 collision_layer = 2
 collision_mask = 71
 script = ExtResource( 2 )
+
+[node name="teleport_column" parent="." instance=ExtResource( 9 )]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
@@ -49,6 +53,8 @@ material/0 = null
 
 [node name="attack" type="Node" parent="attacks"]
 script = ExtResource( 4 )
+attackCount = 20
+faceTargetDuringAttack = false
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
@@ -60,6 +66,5 @@ prefabName = "mob_spider"
 
 [node name="ticker" type="Spatial" parent="."]
 script = ExtResource( 8 )
-maxCycles = 5
 
 [node name="motor" parent="." instance=ExtResource( 7 )]

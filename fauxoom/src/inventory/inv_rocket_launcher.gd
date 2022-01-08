@@ -17,7 +17,7 @@ func _fire_rocket() -> void:
 	var forward = -t.basis.z
 	rocket.launch_prj(selfPos, forward, 1, Interactions.TEAM_PLAYER, _prjMask)
 	rocket.ownerId = _inventory.get_owner_ent_id()
-	print("Rockets - connect signal")
+	# print("Rockets - connect signal")
 	connect("rocket_detonate", rocket, "triggered_detonate")
 	_hud.hudAudio.play_stream_weapon_1(_rocketShoot)
 	_inventory.take_item(ammoType, ammoPerShot)
@@ -32,7 +32,7 @@ func _fire_rocket() -> void:
 
 func read_input(_weaponInput:WeaponInput) -> void:
 	if _weaponInput.secondaryOn:
-		print("Rockets - detonate")
+		# print("Rockets - detonate")
 		emit_signal("rocket_detonate")
 		return
 	if tick > 0:

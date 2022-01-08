@@ -132,6 +132,9 @@ func get_debug_text() -> String:
 func get_health_percentage() -> float:
 	return (float(_health) / float(_healthMax)) * 100
 
+func get_mass_centre() -> Vector3:
+	return collisionShape.global_transform.origin
+
 func _gather_attacks() -> void:
 	var attackNode:Node = get_node_or_null("attacks")
 	if attackNode == null:

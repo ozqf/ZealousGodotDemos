@@ -43,6 +43,11 @@ enum QuickDropType {
 	Health
 }
 
+enum SequenceOrder {
+	Linear,
+	Random
+}
+
 # enum HitResponeeType {
 # 	None,
 # 	Damaged,

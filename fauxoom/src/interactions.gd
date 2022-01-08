@@ -2,6 +2,23 @@ class_name Interactions
 
 const PLAYER_RESERVED_ID:int = 1
 
+# collision layer numbers
+const WORLD_LAYER:int = 0
+const ACTORS_LAYER:int = 1
+const PROJECTILES_LAYER:int = 2
+const PLAYER_LAYER:int = 3
+const TRIGGERS_LAYER:int = 4
+const ITEMS_LAYER:int = 5
+const ACTOR_BARRIER_LAYER:int = 6
+const PLAYER_BARRIER_LAYER:int = 7
+const DEBRIS_LAYER:int = 8
+const INTERACTIVE_LAYER:int = 9
+const CORPSE_LAYER:int = 10
+
+const EXPLOSION_CHECK_LAYER:int = 18
+const EDITOR_GEOMETRY_LAYER:int = 19
+
+# collision layer bit masks
 const WORLD:int = (1 << 0)
 const ACTORS:int = (1 << 1)
 const PROJECTILES:int = (1 << 2)
@@ -14,8 +31,10 @@ const DEBRIS:int = (1 << 8)
 const INTERACTIVE:int = (1 << 9)
 const CORPSE:int = (1 << 10)
 
+const EXPLOSION_CHECK:int = (1 << 18)
 const EDITOR_GEOMETRY:int = (1 << 19)
 
+# teams for when objects of the same layer choose to hurt each other
 const TEAM_NONE:int = 0
 const TEAM_ENEMY:int = 1
 const TEAM_PLAYER:int = 2
@@ -42,6 +61,9 @@ static func get_player_prj_mask() -> int:
 
 static func get_corpse_hit_mask() -> int:
 	return CORPSE
+
+static func get_explosion_check_mask() -> int:
+	return (WORLD | EXPLOSION_CHECK)
 
 static func is_ray_hit_a_mob(_hitScanResult:Dictionary) -> bool:
 	if !_hitScanResult.collider.has_method("is_mob"):

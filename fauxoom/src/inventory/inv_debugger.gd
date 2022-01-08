@@ -8,7 +8,7 @@ func raycast_for_debug_mob(forward) -> void:
 	var mask:int = Interactions.ACTORS
 	var scanRange:int = 1000
 	var origin:Vector3 = _launchNode.global_transform.origin
-	var result:Dictionary = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, scanRange, _ignoreBody, mask)
+	var result:Dictionary = ZqfUtils.hitscan_by_direction_3D(_launchNode, origin, forward, scanRange, _ignoreBody, mask)
 	if result && result.collider.has_method("is_mob"):
 		var grp:String = Groups.ENTS_GROUP_NAME
 		var fn:String = Groups.ENTS_FN_SET_DEBUG_MOB

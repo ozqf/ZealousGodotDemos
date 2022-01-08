@@ -83,7 +83,7 @@ func _update_cursor_pos() -> void:
 	var mouse:Vector2 = get_viewport().get_mouse_position()
 	var origin:Vector3 = _camera.project_ray_origin(mouse)
 	var dir:Vector3 = _camera.project_ray_normal(mouse)
-	var result = ZqfUtils.hitscan_by_pos_3D(self, origin, dir, 1000, [], (1 << 19))
+	var result = ZqfUtils.hitscan_by_direction_3D(self, origin, dir, 1000, [], (1 << 19))
 	if result:
 		_update_cursor(result.position)
 

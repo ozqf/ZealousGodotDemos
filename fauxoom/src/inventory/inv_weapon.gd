@@ -176,7 +176,7 @@ func _fire_single(forward:Vector3, scanRange:float) -> Vector3:
 	#var mask:int = -1
 	# var result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, _ignoreBody, mask)
 	var origin:Vector3 = _launchNode.global_transform.origin
-	var result:Dictionary = ZqfUtils.hitscan_by_pos_3D(_launchNode, origin, forward, scanRange, _ignoreBody, mask)
+	var result:Dictionary = ZqfUtils.hitscan_by_direction_3D(_launchNode, origin, forward, scanRange, _ignoreBody, mask)
 	var hitPoint:Vector3 = origin + (forward * scanRange)
 	if result:
 		_perform_hit(result, forward)

@@ -216,14 +216,35 @@ static func transform_from_dict(dict:Dictionary) -> Transform:
 
 # simple cast a ray from the given position and forward. requires a spatial
 # to acquire the direct space state to cast in.
-static func hitscan_by_pos_3D(_spatial:Spatial, _origin:Vector3, _forward:Vector3, _distance:float, ignoreArray, _mask:int) -> Dictionary:
+static func hitscan_by_direction_3D(
+	_spatial:Spatial,
+	_origin:Vector3,
+	_forward:Vector3,
+	_distance:float,
+	ignoreArray,
+	_mask:int) -> Dictionary:
 	var _dest:Vector3 = _origin + (_forward * _distance)
+	var space = _spatial.get_world().direct_space_state
+	return space.intersect_ray(_origin, _dest, ignoreArray, _mask, true, true)
+
+# simple cast a ray from the given position to the given destination.
+# requires a spatial to acquire the direct space state to cast in.
+static func hitscan_by_position_3D(
+	_spatial:Spatial,
+	_origin:Vector3,
+	_dest:Vector3,
+	ignoreArray,
+	_mask:int) -> Dictionary:
 	var space = _spatial.get_world().direct_space_state
 	return space.intersect_ray(_origin, _dest, ignoreArray, _mask, true, true)
 
 # simple cast a ray from the given spatial node. uses the node's
 # own origin and forward for the ray.
-static func quick_hitscan3D(_source:Spatial, _distance:float, ignoreArray, _mask:int) -> Dictionary:
+static func quick_hitscan3D(
+	_source:Spatial,
+	_distance:float,
+	ignoreArray,
+	_mask:int) -> Dictionary:
 	var _t:Transform = _source.global_transform
 	var _origin:Vector3 = _t.origin
 	var _forward:Vector3 = _t.basis.z
@@ -240,6 +261,13 @@ static func los_check(
 		_origin, _dest, [], _mask, true, false)
 	# if we have a result, LoS is blocked
 	return !result
+
+static func point_test(
+	_spatial:Spatial,
+	_poisition:Vector3) -> bool:
+	# var result = _spatial.get_world().direct_space_state.pooint
+	return true
+
 
 ###########################################################################
 # Strings
