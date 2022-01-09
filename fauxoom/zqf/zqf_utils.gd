@@ -91,7 +91,11 @@ static func cap_degrees(degrees:float) -> float:
 # > Offset the endpoint right and up based on spread values
 # > return the direction toward this new endpoint
 # TODO: This function uses arbitrary units for spread as the distanced used is not scaled properly
-static func calc_forward_spread_from_basis(_origin: Vector3, _m3x3: Basis, _spreadHori: float, _spreadVert: float) -> Vector3:
+static func calc_forward_spread_from_basis(
+	_origin: Vector3,
+	_m3x3: Basis,
+	_spreadHori: float,
+	_spreadVert: float) -> Vector3:
 	var forward: Vector3 = _m3x3.z
 	var up: Vector3 = _m3x3.y
 	var right: Vector3 = _m3x3.x

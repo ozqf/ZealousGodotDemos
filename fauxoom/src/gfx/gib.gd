@@ -9,6 +9,7 @@ var _angleTick:int = 0
 func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
 	launch_gib(Vector3.UP, 1, 0)
+	_particles.emitting = false
 
 func game_on_reset() -> void:
 	self.queue_free()
@@ -32,7 +33,7 @@ func _run_sprite_spin() -> void:
 
 func _process(_delta:float) -> void:
 	if self.linear_velocity.length_squared() > 0.5:
-		_particles.emitting = true
+		# _particles.emitting = true
 		_run_sprite_spin()
 	else:
 		_particles.emitting = false
@@ -68,6 +69,8 @@ func enable_rotation() -> void:
 func launch_gib(_dir:Vector3, _power:float, ttlOverride:float) -> void:
 	if ttlOverride > 0:
 		_timeToLive = ttlOverride
+	if Config.cfg.r_bloodParticles:
+		_particles.emitting = true
 	var vel:Vector3 = Vector3()
 	_dir.x += rand_range(-0.2, 0.2)
 	_dir.y += rand_range(-0.2, 0.2)

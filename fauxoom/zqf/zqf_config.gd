@@ -12,6 +12,7 @@ var cfg:Dictionary = {
 	r_fullscreen = true,
 	r_fov = 80,
 	r_hitDebris = false,
+	r_bloodParticles = false,
 	i_sensitivity = 1,
 	i_invertedY = false,
 	s_sfx = 80,

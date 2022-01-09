@@ -66,14 +66,6 @@ func _tick_down(_delta:float) -> bool:
 func is_running() -> bool:
 	return (_state != AttackState.Idle)
 
-# returns false if attack cannot start for some reason...
-# func start_attack(_targetPos:Vector3) -> bool:
-# 	# print("Start attack")
-# 	_state = AttackState.Windup
-# 	_tick = _attackWindupTime
-# 	_launchNode.look_at(_targetPos, Vector3.UP)
-# 	return true
-
 func cancel() -> void:
 	_state = AttackState.Idle
 
@@ -83,12 +75,6 @@ func fire(target:Vector3) -> void:
 	var t:Transform = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward:Vector3 = -t.basis.z
-
-	# var forward:Vector3 = Vector3()
-	# forward.x = target.x - selfPos.x
-	# forward.y = target.y - selfPos.y
-	# forward.z = target.z - selfPos.z
-	# forward = forward.normalized()
 
 	if _pattern == null:
 		var prj = _prj_point_t.instance()
@@ -102,29 +88,6 @@ func fire(target:Vector3) -> void:
 		var item:Dictionary = _patternBuffer[_i]
 		var prj = _prj_point_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
-		prj.launch_prj(item.pos, item.forward, 0, Interactions.TEAM_ENEMY, _prjMask)
-
-	# for _i in range(0, _pattern.count):
-	# 	var offset:Vector3 = _pattern.get_random_offset()
-	# 	var pos = selfPos + offset
-	# 	print("Shoot pos " + str(pos) + " offset " + str(offset))
-	# 	var prj = _prj_point_t.instance()
-	# 	Game.get_dynamic_parent().add_child(prj)
-	# 	prj.launch_prj(pos, forward.normalized(), 0, Interactions.TEAM_ENEMY, _prjMask)
-
-# return false if attack has finished
-# func atk_custom_update(_delta:float, _targetPos:Vector3) -> bool:
-# 	if _state == AttackState.Attacking:
-# 		fire(_targetPos)
-# 		_tick = _attackRecoverTime
-# 		_state = AttackState.Winddown
-# 	elif _state == AttackState.Windup:
-# 		if _tick_down(_delta):
-# 			_state = AttackState.Attacking
-# 	elif _state == AttackState.Winddown:
-# 		if _tick_down(_delta):
-# 			_state = AttackState.Idle
-# 			return false
-# 	else:
-# 		return false
-# 	return true
+		# var frwd:Vector3 = t.basis.xform_inv(item.forward)
+		var frwd:Vector3 = item.forward
+		prj.launch_prj(item.pos, frwd, 0, Interactions.TEAM_ENEMY, _prjMask)

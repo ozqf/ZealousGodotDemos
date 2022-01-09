@@ -164,6 +164,7 @@ directional_shadow_mode = 0
 [node name="mob_spawn_proxy" parent="entities" instance=ExtResource( 6 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 45, 2, 12 )
 triggerName = "mob1"
+type = 9
 delaySpawn = true
 
 [node name="mob_spawn_proxy2" parent="entities" instance=ExtResource( 6 )]
@@ -196,7 +197,7 @@ intParameter1 = 1
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -8 )
 selfName = "wave_1"
 triggerTargetName = "mob1 mob2 spawn_1a spawn_1b"
-waitSeconds = 5.0
+waitSeconds = 3.0
 
 [node name="wave_1_counter" parent="entities" instance=ExtResource( 18 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, -3 )
@@ -208,16 +209,26 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -3 )
 triggerTargetName = "select_wave"
 totalCount = 2
 
+[node name="wave_3_counter" parent="entities" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, -3 )
+triggerTargetName = "select_wave"
+
 [node name="trigger_event3" parent="entities" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -8 )
 selfName = "wave_2"
 triggerTargetName = "spawn_2a spawn_2b"
-waitSeconds = 5.0
+waitSeconds = 3.0
+
+[node name="trigger_event4" parent="entities" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51, 0, -8 )
+selfName = "wave_3"
+triggerTargetName = "spawn_3a spawn_3b"
+waitSeconds = 3.0
 
 [node name="trigger_sequence" parent="entities" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -15 )
 selfName = "select_wave"
-triggerTargetName = "wave_1 wave_2"
+triggerTargetName = "wave_3 wave_1 wave_2"
 
 [node name="spawn_positions" type="Spatial" parent="entities"]
 script = ExtResource( 15 )
@@ -251,6 +262,18 @@ tickMax = 0.1
 maxLiveMobs = 4
 order = 0
 
+[node name="spawn_3" parent="entities" instance=ExtResource( 12 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 51, 0, -6 )
+triggerName = "spawn_3a"
+triggerTargetName = "spawn_3b wave_3_counter"
+positionsSiblingName = "spawn_positions"
+positionsFilter = "e"
+type = 9
+tickMax = 0.1
+totalMobs = 1
+maxLiveMobs = 1
+order = 0
+
 [node name="spawn_1b" parent="entities" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 34, 0, -6 )
 triggerName = "spawn_1b"
@@ -258,7 +281,6 @@ triggerTargetName = "wave_1_counter"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "e f"
 totalMobs = 0
-maxLiveMobs = 4
 
 [node name="spawn_2" parent="entities" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 39, 0, -6 )

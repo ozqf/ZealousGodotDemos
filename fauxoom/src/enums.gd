@@ -12,6 +12,12 @@ enum EnemyType {
 	Titan
 }
 
+enum ProjectileType {
+	Common,
+	Rocket,
+	Column
+}
+
 # roles assigned by the manager to a mob during gameplay
 enum CombatRole {
 	Assault,
