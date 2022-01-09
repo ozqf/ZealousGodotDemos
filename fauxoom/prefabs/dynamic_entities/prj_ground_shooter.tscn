@@ -1,0 +1,3 @@
+[gd_scene format=2]
+
+[node name="prj_ground_shooter" type="Spatial"]

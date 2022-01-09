@@ -3,6 +3,7 @@ class_name Projectile
 
 export var maxSpeed:float = 15.0
 export var timeToLive:float = 10
+export var spawnTime:float = 0
 
 # all projectiles have an animator
 onready var animator:CustomAnimator3D = $CustomAnimator3D
@@ -15,7 +16,8 @@ var _area:Area = null
 enum ProjectileState {
 	Idle,
 	InFlight,
-	Dying
+	Dying,
+	Spawning
 }
 
 var _state = ProjectileState.Idle
@@ -24,7 +26,6 @@ var _time:float = 10
 var _velocity:Vector3 = Vector3()
 var _mask:int = -1
 var _team:int = Interactions.TEAM_NONE
-# var _sourceId:int = 0
 var _ignoreBody = []
 var _hitInfo:HitInfo = null
 
@@ -33,6 +34,7 @@ var ownerId:int = 0
 
 func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
+	visible = false
 	if has_node("Area"):
 		_area = $Area
 		var _r = _area.connect("scan_result", self, "area_scan_result")
@@ -83,12 +85,6 @@ func area_scan_result(bodies) -> void:
 			percent = 0
 		print("Explosion percentage: " + str(percent))
 
-		# var dist:float = _hitInfo.origin.distance_to(tarPos)
-		# var percent:float = 1.0 - float(dist / _explosiveRadius)
-		# if percent > 1:
-		# 	percent = 1
-		# if percent < 0:
-		# 	percent = 0
 		_hitInfo.damage = int(150 * percent)
 		_hitInfo.direction = tarPos - _hitInfo.origin
 		_hitInfo.direction = _hitInfo.direction.normalized()
@@ -132,7 +128,7 @@ func _move_as_ray(_delta:float) -> void:
 
 	var t:Transform = global_transform
 	var origin:Vector3 = t.origin
-	look_at(origin + _velocity, t.basis.y)
+	ZqfUtils.look_at_safe(self, origin + _velocity)
 	# step backward slightly, or ray can sometimes penetrate walls...
 	var forward = -global_transform.basis.z
 	origin -= (forward * 0.1)
@@ -168,9 +164,14 @@ func _process(_delta:float) -> void:
 		_time -= _delta
 		if _time <= 0:
 			remove_self()
+	elif _state == ProjectileState.Spawning:
+		_time -= _delta
+		if _time <= 0:
+			_time = timeToLive
+			visible = true
+			_state = ProjectileState.InFlight
 
 func launch_prj(origin:Vector3, _forward:Vector3, sourceId:int, prjTeam:int, collisionMask:int) -> void:
-	_time = timeToLive
 	_mask = collisionMask
 	_team = prjTeam
 	_hitInfo.sourceId = sourceId
@@ -179,8 +180,14 @@ func launch_prj(origin:Vector3, _forward:Vector3, sourceId:int, prjTeam:int, col
 	t.origin = origin
 	global_transform = t
 	_velocity = _forward * maxSpeed
-	look_at(origin + _velocity, t.basis.y)
-	# ignore body doesn't work - parent can die and then we get
-	# and 'access deleted object' error when performing a hitscan!
-	# _ignoreBody = [ ignoreBody ]
-	_state = ProjectileState.InFlight
+	ZqfUtils.look_at_safe(self, origin + _velocity)
+	
+	# start flying immediately
+	if spawnTime <= 0:
+		_time = timeToLive
+		_state = ProjectileState.InFlight
+		visible = true
+	else:
+		# run spawning timer
+		_time = spawnTime
+		_state = ProjectileState.Spawning

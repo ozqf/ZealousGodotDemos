@@ -24,14 +24,15 @@ export var ammo:int = -1
 
 export var faceTargetDuringWindup:bool = true
 export var faceTargetDuringAttack:bool = true
+export var requiresLos:bool = true
 
-enum AttackState {
-	Idle,
-	Windup,
-	Attacking,
-	Winddown
-}
-var _state = AttackState.Idle
+# enum AttackState {
+# 	Idle,
+# 	Windup,
+# 	Attacking,
+# 	Winddown
+# }
+# var _state = AttackState.Idle
 
 var _launchNode:Spatial = null
 var _body:Spatial = null
@@ -63,11 +64,12 @@ func _tick_down(_delta:float) -> bool:
 	_tick -= _delta
 	return (_tick <= 0)
 
-func is_running() -> bool:
-	return (_state != AttackState.Idle)
+# func is_running() -> bool:
+# 	return (_state != AttackState.Idle)
 
 func cancel() -> void:
-	_state = AttackState.Idle
+	pass
+	# _state = AttackState.Idle
 
 func fire(target:Vector3) -> void:
 	# print("Fire!")

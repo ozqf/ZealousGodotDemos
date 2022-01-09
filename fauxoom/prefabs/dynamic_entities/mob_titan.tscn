@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://prefabs/mob_components/omni_attack_charge.tscn" type="PackedScene" id=15]
 [ext_resource path="res://src/ai/mob_motor_ground.gd" type="Script" id=16]
 [ext_resource path="res://prefabs/mob_components/teleport_column.tscn" type="PackedScene" id=17]
+[ext_resource path="res://src/ai/atk_shell_ground.gd" type="Script" id=18]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -94,8 +95,8 @@ attackAnimTime = 0.2
 script = ExtResource( 13 )
 
 [node name="ranged_shot" type="Node" parent="attacks"]
-script = ExtResource( 4 )
-minUseRange = 20.0
+script = ExtResource( 18 )
+attackCount = 5
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
 script = ExtResource( 16 )

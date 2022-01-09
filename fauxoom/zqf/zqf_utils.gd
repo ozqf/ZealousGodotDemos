@@ -20,6 +20,18 @@ static func global_translate(spatial:Spatial, offset:Vector3) -> void:
 static func local_translate(spatial:Spatial, offset:Vector3) -> void:
 	spatial.transform.origin += offset
 
+static func look_at_safe(spatial:Spatial, target:Vector3) -> void:
+	var t:Transform = spatial.global_transform
+	var origin:Vector3 = t.origin
+	var up:Vector3 = t.basis.y
+	var lookDir:Vector3 = (target - origin).normalized()
+	var dot:float = lookDir.dot(up)
+	if dot == 1 or dot == -1:
+		up = t.basis.z
+	# print("Look at dot: " + str(lookDir.dot(up)))
+	spatial.look_at(target, up)
+	pass
+
 #####################################
 # geometry stuff
 #####################################
@@ -266,11 +278,14 @@ static func los_check(
 	# if we have a result, LoS is blocked
 	return !result
 
-static func point_test(
-	_spatial:Spatial,
-	_poisition:Vector3) -> bool:
-	# var result = _spatial.get_world().direct_space_state.pooint
-	return true
+# I guess Godot just can't do this as easily as I'd like :(
+# would like a means to just quickly point test vs a collision shape
+# or body...
+# static func point_test(
+# 	_spatial:Spatial,
+# 	_poisition:Vector3) -> bool:
+# 	# var result = _spatial.get_world().direct_space_state.pooint
+# 	return true
 
 
 ###########################################################################
@@ -286,6 +301,8 @@ static func join_strings(stringArr, separator:String) -> String:
 			result += separator
 	return result
 
+# Split a string by spaces and tabs eg "foo bar" becomes
+# ["foo", "bar"]
 # TODO Maybe tidy this up... I'm not very good at writing tokenise functions...
 static func tokenise(_text:String) -> PoolStringArray:
 	var tokens: PoolStringArray = []
