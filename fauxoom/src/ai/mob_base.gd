@@ -173,7 +173,7 @@ func teleport(t:Transform) -> void:
 func force_awake() -> void:
 	if _state == MobState.Idle:
 		_state = MobState.Hunting
-	emit_mob_event("alert")
+	emit_mob_event("alert", -1)
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
@@ -386,21 +386,21 @@ func apply_stun(_dir:Vector3, durationOverride:float) -> void:
 	if _thinkTick < newThink:
 		_thinkTick = newThink
 
-func emit_mob_event(eventType:String) -> void:
-	emit_signal("mob_event", eventType)
+func emit_mob_event(eventType:String, _index:int) -> void:
+	emit_signal("mob_event", eventType, _index)
 
 func regular_death() -> void:
 	# emit_signal("mob_event", "death")
-	emit_mob_event("death")
+	emit_mob_event("death", -1)
 	_change_state(MobState.Dying)
 
 func gib_death(dir:Vector3) -> void:
-	emit_mob_event("gib")
+	emit_mob_event("gib", -1)
 	var _err = Game.spawn_gibs(global_transform.origin, dir, 8)
 	_change_state(MobState.Gibbed)
 
 func headshot_death() -> void:
-	emit_mob_event("death")
+	emit_mob_event("death", -1)
 	_change_state(MobState.Dying)
 
 func _spawn_hit_particles(pos:Vector3, _forward:Vector3,  deathHit:bool) -> void:
@@ -501,7 +501,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		_spawn_hit_particles(_hitInfo.origin, _hitInfo.direction, false)
 		# if not awake, wake up!
 		force_awake()
-		emit_mob_event("pain")
+		emit_mob_event("pain", -1)
 		_stunAccumulator += _hitInfo.damage
 		if _stunAccumulator > _stats.stunThreshold:
 			apply_stun(_hitInfo.direction, _hitInfo.stunOverrideTime)

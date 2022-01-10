@@ -99,7 +99,7 @@ func change_state(newState:int) -> void:
 			_mob.omniCharge.on(_tick)
 	elif _state == STATE_ATTACK:
 		_mob.sprite.play_animation("shoot")
-		_mob.emit_mob_event("shoot")
+		_mob.emit_mob_event("shoot", -1)
 		_mob.attacks[_attackIndex].fire(lastTarPos) 
 		_tick = get_attack().attackAnimTime
 	elif _state == STATE_WINDDOWN:

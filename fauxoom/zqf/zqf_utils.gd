@@ -1,11 +1,16 @@
 extends Node
 class_name ZqfUtils
 
-#####################################
+###########################################################
 # Simple static utility functions for
 # Godot
-#####################################
 
+# some of this isn't strictly necessary but reminds me of
+# elements of Godot's APIs
+###########################################################
+
+# empty array and dictionary to pass into things like
+# raycast exclude lists etc.
 const EMPTY_ARRAY = []
 const EMPTY_DICT = {}
 
@@ -99,10 +104,12 @@ static func cap_degrees(degrees:float) -> float:
 		degrees += 360
 	return degrees
 
+# original iD tech method of calculating spread for things like shotguns
 # > Take a basis and cast a line forward from it to an endpoint
 # > Offset the endpoint right and up based on spread values
 # > return the direction toward this new endpoint
 # TODO: This function uses arbitrary units for spread as the distanced used is not scaled properly
+# you'll just have to experiment to get the right spread.
 static func calc_forward_spread_from_basis(
 	_origin: Vector3,
 	_m3x3: Basis,

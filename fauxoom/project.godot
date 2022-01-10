@@ -164,6 +164,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/ai/mob_motor.gd"
 }, {
+"base": "AudioStreamPlayer3D",
+"class": "MobSound",
+"language": "GDScript",
+"path": "res://src/ai/mob_sound.gd"
+}, {
 "base": "Spatial",
 "class": "MobSpawnProxy",
 "language": "GDScript",
@@ -351,6 +356,7 @@ _global_script_class_icons={
 "MeshGenerator": "",
 "MobAttack": "",
 "MobMotor": "",
+"MobSound": "",
 "MobSpawnProxy": "",
 "MobStats": "",
 "MouseLock": "",
