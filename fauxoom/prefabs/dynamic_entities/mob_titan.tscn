@@ -97,6 +97,8 @@ script = ExtResource( 13 )
 [node name="ranged_shot" type="Node" parent="attacks"]
 script = ExtResource( 18 )
 attackCount = 5
+requiresLos = false
+useLastSeenPosition = false
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
 script = ExtResource( 16 )

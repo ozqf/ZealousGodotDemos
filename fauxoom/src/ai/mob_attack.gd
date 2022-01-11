@@ -25,6 +25,7 @@ export var ammo:int = -1
 export var faceTargetDuringWindup:bool = true
 export var faceTargetDuringAttack:bool = true
 export var requiresLos:bool = true
+export var useLastSeenPosition:bool = true
 
 # enum AttackState {
 # 	Idle,

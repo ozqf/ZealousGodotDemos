@@ -153,7 +153,7 @@ func change_weapon_by_slot(_slotNumber:int) -> int:
 	# from that index onward to cycle through items in that slot
 	if current != null:
 		if _slotNumber == current.slot:
-			i = i + 1
+			i = _currentWeaponIndex + 1
 			if i >= numWeapons:
 				i = 0
 	var fail:int = 0
@@ -324,7 +324,11 @@ func give_item(itemType:String, amount:int) -> int:
 	return amount
 
 func debug() -> String:
-	var txt:String = "--Inventory--\n"
+	var txt:String = "--Weapons--\n"
+	for _i in range(0, weapons.size()):
+		var w = weapons[_i]
+		txt += str(w.slot) + ": " + str(w.name) + " inv type: " + str(w.inventoryType) + "\n"
+	txt += "--Inventory--\n"
 	var keys = _data.keys()
 	var numKeys:int = keys.size()
 	for _i in range (0, numKeys):

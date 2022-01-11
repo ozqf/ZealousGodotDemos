@@ -100,6 +100,12 @@ func change_state(newState:int) -> void:
 	elif _state == STATE_ATTACK:
 		_mob.sprite.play_animation("shoot")
 		_mob.emit_mob_event("shoot", -1)
+		var atk:MobAttack = _mob.attacks[_attackIndex]
+		var tarPos:Vector3
+		if atk.useLastSeenPosition:
+			tarPos = lastTarPos
+		else:
+			tarPos = lastTarPos
 		_mob.attacks[_attackIndex].fire(lastTarPos) 
 		_tick = get_attack().attackAnimTime
 	elif _state == STATE_WINDDOWN:
@@ -113,6 +119,15 @@ func change_state(newState:int) -> void:
 	# elif _state == STATE_REPEAT_WINDDOWN
 	# 	pass
 
+func _set_last_tar_pos(_tickInfo:AITickInfo) -> void:
+	lastTarPos = _tickInfo.targetPos
+	# override with last seen position if attack
+	# says to use that.
+	if _attackIndex >= 0:
+		var atk:MobAttack = _mob.attacks[_attackIndex]
+		if atk.useLastSeenPosition:
+			lastTarPos = _tickInfo.lastSeenTargetPos
+
 # return true if state change was handled
 # false to allow base function to handle it instead
 func custom_change_state(_newState:int, _oldState:int) -> bool:
@@ -121,18 +136,23 @@ func custom_change_state(_newState:int, _oldState:int) -> bool:
 func _start_attack(_delta:float, _tickInfo:AITickInfo) -> void:
 	_attackIndex = _select_attack(_tickInfo)
 	if _attackIndex < 0:
+		# oh dear, no usable attack
 		return
 	# maxCycles = _mob.attacks[_attackIndex].attackCount
 	_cycles = 0
-	lastTarPos = _tickInfo.targetPos
+	_set_last_tar_pos(_tickInfo)
+	# lastTarPos = _tickInfo.targetPos
 	# _mob.face_target_flat(lastTarPos)
 	change_state(STATE_WINDUP)
+	set_rotation_to_target(_tickInfo.targetPos)
 
 func _select_attack(_tickInfo:AITickInfo) -> int:
 	var dist:float = _tickInfo.trueDistance
 	var numAttacks:int = _mob.attacks.size()
 	for _i in range (0, numAttacks):
 		var att:MobAttack = _mob.attacks[_i]
+		if att.requiresLos && !_tickInfo.canSeeTarget:
+			continue
 		if dist < att.minUseRange:
 			continue
 		elif dist > att.maxUseRange:
@@ -235,17 +255,18 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 		if _tickInfo.trueDistance > 2:
 			_mob.motor.move_hunt(_delta)
 			set_rotation_to_movement()
-		if _check_for_attack_start(_tickInfo):
+		# if _check_for_attack_start(_tickInfo):
 			# print("AI ticker - attack")
-			_start_attack(_delta, _tickInfo)
-			set_rotation_to_target(_tickInfo.targetPos)
+		_start_attack(_delta, _tickInfo)
+			
 	
 	elif _state == STATE_WINDUP || _state == STATE_REPEAT_WINDUP:
 		_attack_move(_delta)
 		if get_attack().faceTargetDuringWindup:
 			_mob.head.look_at(_tickInfo.lastSeenTargetPos, Vector3.UP)
 			set_rotation_to_target(_tickInfo.lastSeenTargetPos)
-			lastTarPos = _tickInfo.lastSeenTargetPos
+			# lastTarPos = _tickInfo.lastSeenTargetPos
+			_set_last_tar_pos(_tickInfo)
 			# _mob.face_target_flat(lastTarPos)
 		if _tick <= 0:
 			change_state(STATE_ATTACK)
