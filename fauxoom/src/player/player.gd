@@ -146,7 +146,8 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 			var count = int(_tokens[2])
 			_inventory.give_item(_tokens[1], count)
 	if _txt == "inventory":
-		_inventory.debug()
+		var txt = _inventory.debug()
+		print(txt)
 	# ai test find melee
 	if _txt == "findplayer":
 		var dest:Vector3 = global_transform.origin
