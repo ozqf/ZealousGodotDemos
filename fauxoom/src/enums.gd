@@ -54,6 +54,15 @@ enum SequenceOrder {
 	Random
 }
 
+enum DebuggerMode {
+	Deathray,
+	ScanEnemy,
+	SpawnPunk,
+	SpawnWorm,
+	SpawnSpider,
+	SpawnTitan
+}
+
 # enum HitResponeeType {
 # 	None,
 # 	Damaged,

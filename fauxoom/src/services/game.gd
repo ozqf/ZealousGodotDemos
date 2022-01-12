@@ -1,6 +1,8 @@
 extends Spatial
 class_name GameController
 
+const Enums = preload("res://src/enums.gd")
+
 const MOUSE_CLAIM:String = "gameUI"
 
 const START_SAVE_FILE_NAME:String = "start"
@@ -35,6 +37,8 @@ onready var _camera:AttachableCamera = $attachable_camera
 enum GameState { Pregame, Playing, Won, Lost }
 
 enum GameMode { Classic, Survival }
+
+var debuggerMode = Enums.DebuggerMode.Deathray
 
 var _state = GameState.Pregame
 var _gameMode = GameMode.Survival

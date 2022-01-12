@@ -1,0 +1,68 @@
+extends Control
+
+const Enums = preload("res://src/enums.gd")
+
+onready var _deathray:Button = $HBoxContainer/cheats_container/deathray
+onready var _scanEnemy:Button = $HBoxContainer/cheats_container/scan_enemy
+
+onready var _spawnPunk:Button = $HBoxContainer/spawns_container/punk
+onready var _spawnWorm:Button = $HBoxContainer/spawns_container/worm
+onready var _spawnSpider:Button = $HBoxContainer/spawns_container/spider
+onready var _spawnTitan:Button = $HBoxContainer/spawns_container/titan
+
+func _ready() -> void:
+	visible = false
+	add_to_group(Groups.PLAYER_GROUP_NAME)
+	var _r
+	_r = connect("tree_exiting", self, "_on_tree_exiting")
+	
+	_r = _deathray.connect("pressed", self, "_click_deathray")
+	_r = _scanEnemy.connect("pressed", self, "_click_scan_enemy")
+	
+	_r = _spawnPunk.connect("pressed", self, "_click_spawn_punk")
+	_r = _spawnWorm.connect("pressed", self, "_click_spawn_worm")
+	_r = _spawnSpider.connect("pressed", self, "_click_spawn_spider")
+	_r = _spawnTitan.connect("pressed", self, "_click_spawn_titan")
+
+func _on_tree_exiting() -> void:
+	player_close_debug_menu()
+	
+func player_toggle_debug_menu() -> void:
+	if visible:
+		player_close_debug_menu()
+	else:
+		player_open_debug_menu()
+
+func player_open_debug_menu() -> void:
+	print("Open debug menu")
+	visible = true
+	get_tree().call_group(MouseLock.GROUP_NAME, MouseLock.ADD_LOCK_FN, "debug_menu")
+
+func player_close_debug_menu() -> void:
+	print("Close debug menu")
+	visible = false
+	get_tree().call_group(MouseLock.GROUP_NAME, MouseLock.REMOVE_LOCK_FN, "debug_menu")
+
+func _print_mode(mode, modeName) -> void:
+	print("Set debugger mode " + str(mode) + ": " + modeName)
+
+func _click_deathray() -> void:
+	Game.debuggerMode = Enums.DebuggerMode.Deathray
+	_print_mode(Game.debuggerMode, "Deathray")
+
+func _click_scan_enemy() -> void:
+	Game.debuggerMode = Enums.DebuggerMode.ScanEnemy
+	_print_mode(Game.debuggerMode, "Scan enemy")
+
+func _click_spawn_punk() -> void:
+	Game.debuggerMode = Enums.DebuggerMode.SpawnPunk
+	_print_mode(Game.debuggerMode, "Spawn Punk")
+
+func _click_spawn_worm() -> void:
+	Game.debuggerMode = Enums.DebuggerMode.SpawnWorm
+
+func _click_spawn_spider() -> void:
+	Game.debuggerMode = Enums.DebuggerMode.SpawnSpider
+
+func _click_spawn_titan() -> void:
+	Game.debuggerMode = Enums.DebuggerMode.SpawnTitan
