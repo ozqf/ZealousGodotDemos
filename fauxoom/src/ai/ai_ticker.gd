@@ -146,17 +146,25 @@ func _start_attack(_delta:float, _tickInfo:AITickInfo) -> void:
 	change_state(STATE_WINDUP)
 	set_rotation_to_target(_tickInfo.targetPos)
 
+# iterate attacks array and select the first that meets
+# all necessary criteria
 func _select_attack(_tickInfo:AITickInfo) -> int:
+	var time:float = _mob.time
 	var dist:float = _tickInfo.trueDistance
 	var numAttacks:int = _mob.attacks.size()
 	for _i in range (0, numAttacks):
 		var att:MobAttack = _mob.attacks[_i]
+		if att.cooldown > 0:
+			var nextUsable:float = att.lastSelectTime + att.cooldown
+			if nextUsable > time:
+				continue
 		if att.requiresLos && !_tickInfo.canSeeTarget:
 			continue
 		if dist < att.minUseRange:
 			continue
 		elif dist > att.maxUseRange:
 			continue
+		att.lastSelectTime = time
 		return _i
 	return -1
 

@@ -97,6 +97,7 @@ script = ExtResource( 13 )
 [node name="ranged_shot" type="Node" parent="attacks"]
 script = ExtResource( 18 )
 attackCount = 5
+cooldown = 5.0
 requiresLos = false
 useLastSeenPosition = false
 

@@ -19,6 +19,7 @@ export var showOmniCharge:bool = false
 # make this attack unusable for the duration, and other attacks
 # must be used instead. Stops enemies from spamming powerful attacks
 export var cooldown:float = 0
+var lastSelectTime:float = 0
 # limits number of times this mob can fire this attack
 export var ammo:int = -1
 

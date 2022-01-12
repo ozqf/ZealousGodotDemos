@@ -57,6 +57,7 @@ export(Enums.EnemyRoleClass) var roleClass = Enums.EnemyRoleClass.Mix
 export var corpsePrefab:String = ""
 # role assigned
 var roleId:int = 0
+var time:float = 0
 
 enum MobState {
 	Idle,
@@ -325,6 +326,7 @@ func _build_tick_info(targetInfo:Dictionary, _delta:float) -> void:
 	_aiTickInfo.healthPercentage = (float(_health) / float(_healthMax)) * 100.0
 
 func _process(_delta:float) -> void:
+	time += _delta
 	frameCount += 1
 	_stunAccumulator = 0
 	# head.rotation.y = motor.moveYaw
