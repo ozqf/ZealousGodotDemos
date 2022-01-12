@@ -39,6 +39,7 @@ enum GameState { Pregame, Playing, Won, Lost }
 enum GameMode { Classic, Survival }
 
 var debuggerMode = Enums.DebuggerMode.Deathray
+var debuggerOpen:bool = false
 
 var _state = GameState.Pregame
 var _gameMode = GameMode.Survival

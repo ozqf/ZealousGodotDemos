@@ -36,11 +36,13 @@ func player_toggle_debug_menu() -> void:
 func player_open_debug_menu() -> void:
 	print("Open debug menu")
 	visible = true
+	Game.debuggerOpen = true
 	get_tree().call_group(MouseLock.GROUP_NAME, MouseLock.ADD_LOCK_FN, "debug_menu")
 
 func player_close_debug_menu() -> void:
 	print("Close debug menu")
 	visible = false
+	Game.debuggerOpen = false
 	get_tree().call_group(MouseLock.GROUP_NAME, MouseLock.REMOVE_LOCK_FN, "debug_menu")
 
 func _print_mode(mode, modeName) -> void:

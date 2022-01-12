@@ -30,6 +30,8 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		return
 	var mode = Game.debuggerMode
 	if _weaponInput.primaryOn:
+		if Game.debuggerOpen:
+			return
 		tick = 0.1
 		if mode == Enums.DebuggerMode.Deathray:
 			_fire_single(-_launchNode.global_transform.basis.z, 1000)
@@ -40,7 +42,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		elif mode == Enums.DebuggerMode.SpawnWorm:
 			_spawn_enemy(Enums.EnemyType.Worm)
 		elif mode == Enums.DebuggerMode.SpawnSpider:
-			_spawn_enemy(Enums.EnemyType.Spdier)
+			_spawn_enemy(Enums.EnemyType.Spider)
 		elif mode == Enums.DebuggerMode.SpawnTitan:
 			_spawn_enemy(Enums.EnemyType.Titan)
 		else:
