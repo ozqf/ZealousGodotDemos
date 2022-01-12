@@ -2,8 +2,11 @@ extends Control
 
 const Enums = preload("res://src/enums.gd")
 
-onready var _deathray:Button = $HBoxContainer/cheats_container/deathray
-onready var _scanEnemy:Button = $HBoxContainer/cheats_container/scan_enemy
+onready var _godMode:Button = $HBoxContainer/cheats_container/god_mode
+onready var _giveAll:Button = $HBoxContainer/cheats_container/give_all
+
+onready var _deathray:Button = $HBoxContainer/laser_container/deathray
+onready var _scanEnemy:Button = $HBoxContainer/laser_container/scan_enemy
 
 onready var _spawnPunk:Button = $HBoxContainer/spawns_container/punk
 onready var _spawnWorm:Button = $HBoxContainer/spawns_container/worm
@@ -16,6 +19,9 @@ func _ready() -> void:
 	var _r
 	_r = connect("tree_exiting", self, "_on_tree_exiting")
 	
+	_r = _godMode.connect("pressed", self, "_click_god_mode")
+	_r = _giveAll.connect("pressed", self, "_click_give_all")
+	
 	_r = _deathray.connect("pressed", self, "_click_deathray")
 	_r = _scanEnemy.connect("pressed", self, "_click_scan_enemy")
 	
@@ -23,6 +29,10 @@ func _ready() -> void:
 	_r = _spawnWorm.connect("pressed", self, "_click_spawn_worm")
 	_r = _spawnSpider.connect("pressed", self, "_click_spawn_spider")
 	_r = _spawnTitan.connect("pressed", self, "_click_spawn_titan")
+
+func _exec(txt:String) -> void:
+	var tokens = ZqfUtils.tokenise(txt)
+	get_tree().call_group("console", "console_on_exec", txt, tokens)
 
 func _on_tree_exiting() -> void:
 	player_close_debug_menu()
@@ -47,6 +57,13 @@ func player_close_debug_menu() -> void:
 
 func _print_mode(mode, modeName) -> void:
 	print("Set debugger mode " + str(mode) + ": " + modeName)
+
+func _click_god_mode() -> void:
+	_exec("god")
+	pass
+
+func _click_give_all() -> void:
+	_exec("give all")
 
 func _click_deathray() -> void:
 	Game.debuggerMode = Enums.DebuggerMode.Deathray

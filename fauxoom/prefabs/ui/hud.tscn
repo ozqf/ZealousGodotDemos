@@ -14,7 +14,7 @@
 [ext_resource path="res://src/ui/hud_player_status.gd" type="Script" id=12]
 [ext_resource path="res://src/ui/hud_ammo_status.gd" type="Script" id=13]
 [ext_resource path="res://src/ui/hud_crosshair.gd" type="Script" id=14]
-[ext_resource path="res://prefabs/ui/player_debug_menu.gd" type="Script" id=15]
+[ext_resource path="res://src/ui/player_debug_menu.gd" type="Script" id=15]
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.25, 0.25, 0.25 )
@@ -561,8 +561,8 @@ __meta__ = {
 }
 
 [node name="cheats_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
-margin_left = 190.0
-margin_right = 318.0
+margin_left = 124.0
+margin_right = 252.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 128, 0 )
 
@@ -571,21 +571,44 @@ margin_right = 128.0
 margin_bottom = 14.0
 text = "Cheats"
 
-[node name="deathray" type="Button" parent="debug_options/HBoxContainer/cheats_container"]
+[node name="god_mode" type="Button" parent="debug_options/HBoxContainer/cheats_container"]
+margin_top = 18.0
+margin_right = 128.0
+margin_bottom = 38.0
+text = "God mode"
+
+[node name="give_all" type="Button" parent="debug_options/HBoxContainer/cheats_container"]
+margin_top = 42.0
+margin_right = 128.0
+margin_bottom = 62.0
+text = "Give All"
+
+[node name="laser_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
+margin_left = 256.0
+margin_right = 384.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 128, 0 )
+
+[node name="Label" type="Label" parent="debug_options/HBoxContainer/laser_container"]
+margin_right = 128.0
+margin_bottom = 14.0
+text = "Laser"
+
+[node name="deathray" type="Button" parent="debug_options/HBoxContainer/laser_container"]
 margin_top = 18.0
 margin_right = 128.0
 margin_bottom = 38.0
 text = "Deathray"
 
-[node name="scan_enemy" type="Button" parent="debug_options/HBoxContainer/cheats_container"]
+[node name="scan_enemy" type="Button" parent="debug_options/HBoxContainer/laser_container"]
 margin_top = 42.0
 margin_right = 128.0
 margin_bottom = 62.0
 text = "Scan Enemy"
 
 [node name="spawns_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
-margin_left = 322.0
-margin_right = 450.0
+margin_left = 388.0
+margin_right = 516.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 128, 0 )
 
