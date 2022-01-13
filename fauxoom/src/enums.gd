@@ -60,6 +60,7 @@ enum DebuggerMode {
 	SpawnPunk,
 	SpawnWorm,
 	SpawnSpider,
+	SpawnGolem,
 	SpawnTitan
 }
 

@@ -20,7 +20,7 @@ size = Vector3( 0.2, 0.2, 1 )
 
 [node name="mob_spider" type="KinematicBody"]
 collision_layer = 2
-collision_mask = 71
+collision_mask = 70
 script = ExtResource( 2 )
 
 [node name="teleport_column" parent="." instance=ExtResource( 9 )]
@@ -60,12 +60,16 @@ attackCount = 15
 windUpTime = 0.5
 repeatTime = 0.05
 showAimLaser = true
+cooldown = 6.0
 faceTargetDuringWindup = false
 faceTargetDuringAttack = false
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
+entityType = "mob_spider"
 health = 400
+stunTime = 0.5
+stunThreshold = 50
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )

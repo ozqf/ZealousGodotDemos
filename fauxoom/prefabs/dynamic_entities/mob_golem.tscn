@@ -63,19 +63,25 @@ material/0 = null
 
 [node name="single_shot" type="Node" parent="attacks"]
 script = ExtResource( 4 )
+maxUseRange = 15.0
 attackCount = 10
 windUpTime = 0.5
 windDownTime = 0.5
+cooldown = 6.0
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
 script = ExtResource( 13 )
+inactiveWhenAttacking = true
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
+entityType = "mob_golem"
 health = 1000
-moveSpeed = 6.0
+moveSpeed = 2.0
 evadeSpeed = 0.0
 moveTime = 0.5
+stunTime = 0.5
+stunThreshold = 100
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )

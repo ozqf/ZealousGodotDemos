@@ -43,6 +43,8 @@ func read_input(_weaponInput:WeaponInput) -> void:
 			_spawn_enemy(Enums.EnemyType.Worm)
 		elif mode == Enums.DebuggerMode.SpawnSpider:
 			_spawn_enemy(Enums.EnemyType.Spider)
+		elif mode == Enums.DebuggerMode.SpawnGolem:
+			_spawn_enemy(Enums.EnemyType.Golem)
 		elif mode == Enums.DebuggerMode.SpawnTitan:
 			_spawn_enemy(Enums.EnemyType.Titan)
 		else:

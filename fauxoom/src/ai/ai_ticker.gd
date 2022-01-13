@@ -1,3 +1,4 @@
+# Main AI class run by mob_base when it has a target (and isn't dead or stunned!)
 extends Spatial
 class_name AITicker
 

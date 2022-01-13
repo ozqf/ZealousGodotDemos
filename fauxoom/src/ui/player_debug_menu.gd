@@ -11,6 +11,7 @@ onready var _scanEnemy:Button = $HBoxContainer/laser_container/scan_enemy
 onready var _spawnPunk:Button = $HBoxContainer/spawns_container/punk
 onready var _spawnWorm:Button = $HBoxContainer/spawns_container/worm
 onready var _spawnSpider:Button = $HBoxContainer/spawns_container/spider
+onready var _spawnGolem:Button = $HBoxContainer/spawns_container/golem
 onready var _spawnTitan:Button = $HBoxContainer/spawns_container/titan
 
 func _ready() -> void:
@@ -28,6 +29,7 @@ func _ready() -> void:
 	_r = _spawnPunk.connect("pressed", self, "_click_spawn_punk")
 	_r = _spawnWorm.connect("pressed", self, "_click_spawn_worm")
 	_r = _spawnSpider.connect("pressed", self, "_click_spawn_spider")
+	_r = _spawnGolem.connect("pressed", self, "_click_spawn_golem")
 	_r = _spawnTitan.connect("pressed", self, "_click_spawn_titan")
 
 func _exec(txt:String) -> void:
@@ -75,13 +77,15 @@ func _click_scan_enemy() -> void:
 
 func _click_spawn_punk() -> void:
 	Game.debuggerMode = Enums.DebuggerMode.SpawnPunk
-	_print_mode(Game.debuggerMode, "Spawn Punk")
 
 func _click_spawn_worm() -> void:
 	Game.debuggerMode = Enums.DebuggerMode.SpawnWorm
 
 func _click_spawn_spider() -> void:
 	Game.debuggerMode = Enums.DebuggerMode.SpawnSpider
+
+func _click_spawn_golem() -> void:
+	Game.debuggerMode = Enums.DebuggerMode.SpawnGolem
 
 func _click_spawn_titan() -> void:
 	Game.debuggerMode = Enums.DebuggerMode.SpawnTitan

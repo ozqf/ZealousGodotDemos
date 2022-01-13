@@ -554,7 +554,7 @@ align = 1
 [node name="HBoxContainer" type="HBoxContainer" parent="debug_options"]
 margin_top = 18.0
 margin_right = 640.0
-margin_bottom = 128.0
+margin_bottom = 152.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -563,7 +563,7 @@ __meta__ = {
 [node name="cheats_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
 margin_left = 124.0
 margin_right = 252.0
-margin_bottom = 110.0
+margin_bottom = 134.0
 rect_min_size = Vector2( 128, 0 )
 
 [node name="Label" type="Label" parent="debug_options/HBoxContainer/cheats_container"]
@@ -586,7 +586,7 @@ text = "Give All"
 [node name="laser_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
 margin_left = 256.0
 margin_right = 384.0
-margin_bottom = 110.0
+margin_bottom = 134.0
 rect_min_size = Vector2( 128, 0 )
 
 [node name="Label" type="Label" parent="debug_options/HBoxContainer/laser_container"]
@@ -609,7 +609,7 @@ text = "Scan Enemy"
 [node name="spawns_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
 margin_left = 388.0
 margin_right = 516.0
-margin_bottom = 110.0
+margin_bottom = 134.0
 rect_min_size = Vector2( 128, 0 )
 
 [node name="Label" type="Label" parent="debug_options/HBoxContainer/spawns_container"]
@@ -635,8 +635,14 @@ margin_right = 128.0
 margin_bottom = 86.0
 text = "Spider"
 
-[node name="titan" type="Button" parent="debug_options/HBoxContainer/spawns_container"]
+[node name="golem" type="Button" parent="debug_options/HBoxContainer/spawns_container"]
 margin_top = 90.0
 margin_right = 128.0
 margin_bottom = 110.0
+text = "Golem"
+
+[node name="titan" type="Button" parent="debug_options/HBoxContainer/spawns_container"]
+margin_top = 114.0
+margin_right = 128.0
+margin_bottom = 134.0
 text = "Titan"
