@@ -17,12 +17,14 @@ func on(duration:float) -> void:
 	_on = true
 	_duration = duration
 	_tick = _duration
+	visible = true
 	_mesh.visible = true
 	_particles.emitting = true
 
 func off() -> void:
 	_on = false
 	_mesh.visible = false
+	visible = false
 	_particles.emitting = false
 
 func _process(_delta:float) -> void:

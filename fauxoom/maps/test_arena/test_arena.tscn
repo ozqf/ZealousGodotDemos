@@ -228,7 +228,7 @@ waitSeconds = 3.0
 [node name="trigger_sequence" parent="entities" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -15 )
 selfName = "select_wave"
-triggerTargetName = "wave_3 wave_1 wave_2"
+triggerTargetName = "wave_1 wave_2 wave_3"
 
 [node name="spawn_positions" type="Spatial" parent="entities"]
 script = ExtResource( 15 )

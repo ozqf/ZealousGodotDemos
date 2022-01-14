@@ -43,6 +43,9 @@ func set_input_enabled(flag:bool) -> void:
 func get_velocity() -> Vector3:
 	return _velocity
 
+func get_flat_velocity() -> Vector3:
+	return Vector3(_velocity.x, 0, _velocity.z)
+
 func get_sway_scale() -> float:
 	return _velocity.length() / RUN_SPEED
 

@@ -51,12 +51,12 @@ var _isAttacking:bool = false
 var _hasTarget:bool = false
 
 # targetting/objective
-var _target:Vector3 = Vector3()
+var moveTargetPos:Vector3 = Vector3()
 var _targetForward:Vector3 = Vector3()
 
 func get_debug_text() -> String:
 	var txt:String = "-MOTOR-\nState: " + str(_state) + "\n"
-	txt += "target pos: " + str(_target) + "\n"
+	txt += "target pos: " + str(moveTargetPos) + "\n"
 	txt += "Path nodes: " + str(_agent.pathNumNodes) + "\n"
 	txt += "Has node target: " + str(_agent.objectiveNode != null) + "\n"
 	return txt
@@ -102,9 +102,9 @@ func mob_died() -> void:
 func set_is_attacking(flag:bool) -> void:
 	_isAttacking = flag
 
-func set_move_target(target:Vector3) -> void:
+func set_move_target(newTarget:Vector3) -> void:
 	_hasTarget = true
-	_target = target
+	moveTargetPos = newTarget
 	_state = STATE_HUNT
 
 func set_move_target_forward(targetForward:Vector3) -> void:

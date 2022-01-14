@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://src/ai/ai_ticker.gd" type="Script" id=8]
 [ext_resource path="res://prefabs/mob_components/teleport_column.tscn" type="PackedScene" id=9]
 [ext_resource path="res://prefabs/mob_components/mob_aim_laser.tscn" type="PackedScene" id=10]
+[ext_resource path="res://src/ai/mob_motor_ground.gd" type="Script" id=11]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -25,6 +26,7 @@ script = ExtResource( 2 )
 
 [node name="teleport_column" parent="." instance=ExtResource( 9 )]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
+visible = false
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
@@ -32,6 +34,7 @@ offset = Vector2( 0, 32 )
 billboard = 2
 shaded = true
 frames = ExtResource( 6 )
+frame = 48
 script = ExtResource( 5 )
 active = true
 animationSet = "mob_spider"
@@ -42,9 +45,10 @@ transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.85
 shape = SubResource( 1 )
 
 [node name="head" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0 )
 
 [node name="mob_aim_laser" parent="head" instance=ExtResource( 10 )]
+collision_mask = 1
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
@@ -60,6 +64,7 @@ attackCount = 15
 windUpTime = 0.5
 repeatTime = 0.05
 showAimLaser = true
+allowMovement = false
 cooldown = 6.0
 faceTargetDuringWindup = false
 faceTargetDuringAttack = false
@@ -68,6 +73,8 @@ faceTargetDuringAttack = false
 script = ExtResource( 1 )
 entityType = "mob_spider"
 health = 400
+moveSpeed = 3.0
+evadeSpeed = 0.0
 stunTime = 0.5
 stunThreshold = 50
 
@@ -79,3 +86,4 @@ prefabName = "mob_spider"
 script = ExtResource( 8 )
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
+script = ExtResource( 11 )

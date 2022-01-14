@@ -14,6 +14,7 @@ export var attackAnimTime:float = 0.1
 
 export var showAimLaser:bool = false
 export var showOmniCharge:bool = false
+export var allowMovement:bool = true
 
 # TODO - implement attack cooldowns
 # make this attack unusable for the duration, and other attacks

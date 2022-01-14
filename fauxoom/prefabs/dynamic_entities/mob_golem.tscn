@@ -51,7 +51,7 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.2,
 shape = SubResource( 1 )
 
 [node name="head" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
@@ -63,10 +63,11 @@ material/0 = null
 
 [node name="single_shot" type="Node" parent="attacks"]
 script = ExtResource( 4 )
-maxUseRange = 15.0
+maxUseRange = 1.0
 attackCount = 10
 windUpTime = 0.5
 windDownTime = 0.5
+allowMovement = false
 cooldown = 6.0
 
 [node name="motor" parent="." instance=ExtResource( 7 )]

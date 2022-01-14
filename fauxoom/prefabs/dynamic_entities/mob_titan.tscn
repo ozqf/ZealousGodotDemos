@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -18,6 +18,8 @@
 [ext_resource path="res://src/ai/mob_motor_ground.gd" type="Script" id=16]
 [ext_resource path="res://prefabs/mob_components/teleport_column.tscn" type="PackedScene" id=17]
 [ext_resource path="res://src/ai/atk_shell_ground.gd" type="Script" id=18]
+[ext_resource path="res://zqf/zqf_orbiter.gd" type="Script" id=19]
+[ext_resource path="res://zqf/zqf_kinematic_mover.gd" type="Script" id=20]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -33,6 +35,7 @@ script = ExtResource( 2 )
 
 [node name="teleport_column" parent="." instance=ExtResource( 17 )]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0 )
+visible = false
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0 )
@@ -54,8 +57,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0 )
 
 [node name="omni_attack_charge" parent="head" instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
+visible = false
 
 [node name="mob_aim_laser" parent="head" instance=ExtResource( 14 )]
+visible = false
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
@@ -126,10 +131,15 @@ bus = "game"
 script = ExtResource( 10 )
 
 [node name="orb" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-visible = false
+script = ExtResource( 20 )
+destination = Vector3( 0, 4, 0 )
 
 [node name="orb" type="Spatial" parent="orb"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5 )
+script = ExtResource( 19 )
+degreesPerSecond = Vector3( 0, 90, 0 )
 
 [node name="orb_shield" parent="orb/orb" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
+
+[node name="orb_shield2" parent="orb/orb" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )

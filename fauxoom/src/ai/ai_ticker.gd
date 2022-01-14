@@ -171,6 +171,7 @@ func _select_attack(_tickInfo:AITickInfo) -> int:
 
 func set_rotation_to_movement() -> void:
 	_mob.sprite.yawDegrees = rad2deg(_mob.motor.moveYaw)
+	# set_rotation_to_target(_mob.motor.moveTargetPos)
 
 func set_rotation_to_target(pos:Vector3) -> void:
 	var yawDegrees:float = ZqfUtils.yaw_between(_mob.global_transform.origin, pos)
@@ -179,6 +180,8 @@ func set_rotation_to_target(pos:Vector3) -> void:
 
 func _attack_move(_delta:float) -> void:
 	if isSniper:
+		return
+	if !_mob.attacks[_attackIndex].allowMovement:
 		return
 	if _moveMode == MOVEMODE_FLEE:
 		_mob.motor.move_idle(_delta)

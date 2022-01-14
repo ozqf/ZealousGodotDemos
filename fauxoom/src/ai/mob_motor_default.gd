@@ -11,7 +11,7 @@ func leap() -> void:
 		return
 	motor_change_state(STATE_LEAP)
 	var selfPos:Vector3 = _body.global_transform.origin
-	_set_move_yaw(ZqfUtils.yaw_between(selfPos, _target))
+	_set_move_yaw(ZqfUtils.yaw_between(selfPos, moveTargetPos))
 	# _body.rotation.y = moveYaw
 	var move:Vector3 = Vector3()
 	move.x = -sin(moveYaw)
@@ -21,14 +21,14 @@ func leap() -> void:
 
 func _calc_move_yaw() -> float:
 	var selfPos:Vector3 = _body.global_transform.origin
-	var _dist:float = ZqfUtils.flat_distance_between(selfPos, _target)
-	var directYaw:float = ZqfUtils.yaw_between(selfPos, _target)
+	var _dist:float = ZqfUtils.flat_distance_between(selfPos, moveTargetPos)
+	var directYaw:float = ZqfUtils.yaw_between(selfPos, moveTargetPos)
 	if moveStyle == MobMoveStyle.CloseEvasive:
 		if _tick <= 0:
 			_tick = _thinkTime
 			var selfForward:Vector3 = -_body.global_transform.basis.z
 
-			var tarAimIsToLeft:bool = ZqfUtils.is_point_left_of_line3D_flat(_target, _targetForward, selfPos)
+			var tarAimIsToLeft:bool = ZqfUtils.is_point_left_of_line3D_flat(moveTargetPos, _targetForward, selfPos)
 			# print("Tar aim is to left: " + str(tarAimIsToLeft))
 			var offset:float = 0
 			if _mob.get_health_percentage() < 50 && _dist < 30:
@@ -59,7 +59,7 @@ func move_leap(_delta:float, _speed:float) -> void:
 
 func start_leap(_delta:float, _speed:float) -> void:
 	var selfPos:Vector3 = _body.global_transform.origin
-	moveYaw = ZqfUtils.yaw_between(selfPos, _target)
+	moveYaw = ZqfUtils.yaw_between(selfPos, moveTargetPos)
 	# _body.rotation.y = moveYaw
 	var dir:Vector3 = Vector3()
 	dir.x = -sin(moveYaw)
@@ -102,7 +102,7 @@ func _hunt_flying(_delta:float) -> void:
 	move.z = -cos(moveYaw)
 	# calc y component
 	# aim to float a little above target
-	var diffY:float = _target.y - (_body.global_transform.origin.y - 1)
+	var diffY:float = moveTargetPos.y - (_body.global_transform.origin.y - 1)
 	if diffY > 0.2:
 		move.y = 0.5
 	elif diffY < 0.2:

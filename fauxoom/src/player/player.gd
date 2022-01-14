@@ -36,6 +36,7 @@ var _targettingInfo:Dictionary = {
 	id = Interactions.PLAYER_RESERVED_ID,
 	position = Vector3(),
 	forward = Vector3(),
+	flatVelocity = Vector3(),
 	flatForward = Vector3(),
 	yawDegrees = 0,
 	aimPos = Vector3()
@@ -228,6 +229,7 @@ func _process(_delta):
 	_targettingInfo.flatForward = ZqfUtils.yaw_to_flat_vector3(_motor.m_yaw)
 	_targettingInfo.velocity = _motor.get_velocity()
 	_targettingInfo.aimPos = aimPos
+	_targettingInfo.flatVelocity = _motor.get_flat_velocity()
 
 	# Write HUD information
 	var t:Transform = _head.transform

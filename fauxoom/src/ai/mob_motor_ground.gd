@@ -15,7 +15,7 @@ func _update_path() -> void:
 	if !_hasTarget:
 		return
 	_agent.position = _body.global_transform.origin
-	_agent.target = _target
+	_agent.target = moveTargetPos
 	AI.get_path_for_agent(_agent)
 	if _agent.pathNumNodes > 0:
 		_agent.pathIndex = 0
@@ -61,8 +61,8 @@ func _evade_step(_delta:float) -> void:
 	_body.move_and_slide(toward * 4)
 
 	# face move (attack) target
-	var towardTarget:Vector3 = _target - from
-	from.y = _target.y
+	var towardTarget:Vector3 = moveTargetPos - from
+	from.y = moveTargetPos.y
 	_set_yaw_by_vector3(towardTarget.normalized())
 
 func move_evade(_delta:float) -> void:
@@ -101,7 +101,7 @@ func move_hunt(_delta:float) -> void:
 		nodePos = _agent.path[_agent.pathIndex]
 	var towardPath:Vector3 = nodePos - selfPos
 	towardPath = towardPath.normalized()
-	var towardTarget:Vector3 = _target - selfPos
-	_set_yaw_by_vector3(towardTarget)
+	var towardTarget:Vector3 = moveTargetPos - selfPos
+	_set_yaw_by_vector3(towardPath)
 	towardPath *= speed
 	_body.move_and_slide(towardPath, Vector3.UP)
