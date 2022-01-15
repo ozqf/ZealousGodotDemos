@@ -7,6 +7,8 @@ export var spawnTime:float = 0
 
 # all projectiles have an animator
 onready var animator:CustomAnimator3D = $CustomAnimator3D
+#onready var _light:OmniLight
+#onready var _scanner:ZqfVolumeScanner = null
 
 # these are optional - setup in _ready
 export var deathSpawnPrefab:Resource = null
@@ -35,11 +37,13 @@ var ownerId:int = 0
 func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
 	visible = false
-	if has_node("Area"):
-		_area = $Area
-		var _r = _area.connect("scan_result", self, "area_scan_result")
+	# if has_node("Area"):
+	#	_area = $Area
+	#	var _r = _area.connect("scan_result", self, "area_scan_result")
 	if has_node("particles"):
 		_particles = $particles
+#	if has_node("volume_scanner"):
+#		_scanner = $volume_scanner
 
 func area_scan_result(bodies) -> void:
 	# print("Projectile read " + str(bodies.size()) + " bodies hit")

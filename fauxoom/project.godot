@@ -237,7 +237,7 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "Projectile",
 "language": "GDScript",
-"path": "res://src/projectile.gd"
+"path": "res://src/projectiles/projectile.gd"
 }, {
 "base": "RigidBody",
 "class": "SawBlade",
@@ -328,6 +328,11 @@ _global_script_classes=[ {
 "class": "ZqfUtils",
 "language": "GDScript",
 "path": "res://zqf/zqf_utils.gd"
+}, {
+"base": "Area",
+"class": "ZqfVolumeScanner",
+"language": "GDScript",
+"path": "res://zqf/zqf_volume_scanner.gd"
 } ]
 _global_script_class_icons={
 "AITacticNode": "",
@@ -393,7 +398,8 @@ _global_script_class_icons={
 "ZealousBlock": "",
 "ZqfConfig": "",
 "ZqfFPSMotor": "",
-"ZqfUtils": ""
+"ZqfUtils": "",
+"ZqfVolumeScanner": ""
 }
 
 [application]
