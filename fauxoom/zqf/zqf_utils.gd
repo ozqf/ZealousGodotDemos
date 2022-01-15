@@ -273,7 +273,7 @@ static func quick_hitscan3D(
 	var _forward:Vector3 = _t.basis.z
 	var _dest:Vector3 = _origin + (_forward * -_distance)
 	var space = _source.get_world().direct_space_state
-	return space.intersect_ray(_origin, _dest, ignoreArray, _mask)
+	return space.intersect_ray(_origin, _dest, ignoreArray, _mask, true, true)
 
 static func los_check(
 	_spatial:Spatial,

@@ -115,6 +115,9 @@ func change_state(newState:int) -> void:
 		_mob.sprite.play_animation("aim")
 		_tick = get_attack().windDownTime
 	elif _state == STATE_REPEAT_WINDUP:
+		var atk:MobAttack = _mob.attacks[_attackIndex]
+		if _mob.aimLaser != null && !atk.showAimLaserDuringRepeat:
+			_mob.aimLaser.off()
 		_mob.sprite.play_animation("aim")
 		_tick = get_attack().repeatTime
 	# elif _state == STATE_REPEAT_WINDDOWN

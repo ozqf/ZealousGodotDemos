@@ -75,6 +75,7 @@ script = ExtResource( 4 )
 maxUseRange = 8.0
 windUpTime = 1.0
 showOmniCharge = true
+allowMovement = false
 faceTargetDuringWindup = false
 faceTargetDuringAttack = false
 
@@ -130,16 +131,16 @@ max_distance = 50.0
 bus = "game"
 script = ExtResource( 10 )
 
-[node name="orb" type="Spatial" parent="."]
+[node name="orbs" type="Spatial" parent="."]
 script = ExtResource( 20 )
 destination = Vector3( 0, 4, 0 )
 
-[node name="orb" type="Spatial" parent="orb"]
+[node name="orbs" type="Spatial" parent="orbs"]
 script = ExtResource( 19 )
-degreesPerSecond = Vector3( 0, 90, 0 )
+degreesPerSecond = Vector3( 0, 45, 0 )
 
-[node name="orb_shield" parent="orb/orb" instance=ExtResource( 11 )]
+[node name="orb_shield" parent="orbs/orbs" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
 
-[node name="orb_shield2" parent="orb/orb" instance=ExtResource( 11 )]
+[node name="orb_shield2" parent="orbs/orbs" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )

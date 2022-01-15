@@ -13,6 +13,7 @@ export var repeatTime:float = 0.1
 export var attackAnimTime:float = 0.1
 
 export var showAimLaser:bool = false
+export var showAimLaserDuringRepeat:bool = false
 export var showOmniCharge:bool = false
 export var allowMovement:bool = true
 

@@ -1,5 +1,6 @@
 extends Spatial
 
+export var running:bool = true
 export var destination:Vector3 = Vector3()
 
 var _origin:Vector3
@@ -11,6 +12,8 @@ func _ready():
 	_origin = transform.origin
 
 func _process(_delta:float) -> void:
+	if !running:
+		return
 	if _dir > 0:
 		_time += _delta
 		if _time > 1:

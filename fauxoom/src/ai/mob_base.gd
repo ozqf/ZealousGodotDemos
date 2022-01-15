@@ -97,6 +97,8 @@ var _pushAccumulator:Vector3 = Vector3()
 
 var _health:int = 50
 var _healthMax:int = 50
+var _shieldOrbTotal:int = 0
+var _shieldOrbCount:int = 0
 var _dead:bool = false
 var _isSniper:bool = false
 
@@ -120,6 +122,23 @@ func _ready() -> void:
 	AI.register_mob(self)
 	_registered = true
 	_change_state(MobState.Spawning)
+	_find_shield_orbs()
+
+func _find_shield_orbs() -> void:
+	var orbParent:Spatial = get_node_or_null("orbs/orbs")
+	if orbParent == null:
+		_shieldOrbCount = 0
+		return
+	for orb in orbParent.get_children():
+		orb.connect("shield_broke", self, "orb_shield_broke")
+		_shieldOrbCount += 1
+		_shieldOrbTotal += 1
+
+func orb_shield_broke(index:int) -> void:
+	_shieldOrbCount -= 1
+
+func orb_shield_restored(index:int) -> void:
+	pass
 
 func get_debug_text() -> String:
 	var txt:String = "prefab: " + _ent.prefabName + "\n"
@@ -454,7 +473,9 @@ func hit(_hitInfo:HitInfo) -> int:
 	if is_dead():
 		return corpse_hit(_hitInfo)
 	if _state == MobState.Spawning:
-		return -1
+		return Interactions.HIT_RESPONSE_NONE
+	if _shieldOrbCount > 0:
+		return Interactions.HIT_RESPONSE_NONE
 	_health -= _hitInfo.damage
 	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
 			print("Explosive hit for " + str(_hitInfo.damage))
