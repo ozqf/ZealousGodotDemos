@@ -30,14 +30,6 @@ export var faceTargetDuringAttack:bool = true
 export var requiresLos:bool = true
 export var useLastSeenPosition:bool = true
 
-# enum AttackState {
-# 	Idle,
-# 	Windup,
-# 	Attacking,
-# 	Winddown
-# }
-# var _state = AttackState.Idle
-
 var _launchNode:Spatial = null
 var _body:Spatial = null
 var _pattern:Pattern = null
@@ -68,17 +60,13 @@ func _tick_down(_delta:float) -> bool:
 	_tick -= _delta
 	return (_tick <= 0)
 
-# func is_running() -> bool:
-# 	return (_state != AttackState.Idle)
-
 func cancel() -> void:
 	pass
-	# _state = AttackState.Idle
 
-func fire(target:Vector3) -> void:
+func fire_from(target:Vector3, launch:Spatial) -> void:
 	# print("Fire!")
 	
-	var t:Transform = _launchNode.global_transform
+	var t:Transform = launch.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward:Vector3 = -t.basis.z
 
@@ -97,3 +85,7 @@ func fire(target:Vector3) -> void:
 		# var frwd:Vector3 = t.basis.xform_inv(item.forward)
 		var frwd:Vector3 = item.forward
 		prj.launch_prj(item.pos, frwd, 0, Interactions.TEAM_ENEMY, _prjMask)
+
+
+func fire(target:Vector3) -> void:
+	fire_from(target, _launchNode)

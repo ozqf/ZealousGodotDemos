@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/mob_components/orb_shield.gd" type="Script" id=1]
 
@@ -7,12 +7,23 @@ radius = 0.6
 
 [sub_resource type="SpatialMaterial" id=2]
 flags_unshaded = true
-albedo_color = Color( 0.137255, 0.137255, 1, 1 )
+albedo_color = Color( 0.239216, 0.219608, 1, 1 )
 
 [sub_resource type="SphereMesh" id=3]
 material = SubResource( 2 )
 radius = 0.4
 height = 0.8
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_unshaded = true
+albedo_color = Color( 0.333333, 0.345098, 1, 1 )
+
+[sub_resource type="SphereMesh" id=4]
+material = SubResource( 5 )
+radius = 0.1
+height = 0.2
 radial_segments = 16
 rings = 8
 
@@ -28,3 +39,13 @@ shape = SubResource( 1 )
 cast_shadow = 0
 mesh = SubResource( 3 )
 material/0 = null
+
+[node name="restore_particles" type="CPUParticles" parent="."]
+lifetime = 0.33
+mesh = SubResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 2.0
+direction = Vector3( 0, 1, 0 )
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+radial_accel = -25.0

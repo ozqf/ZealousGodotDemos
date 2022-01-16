@@ -7,13 +7,9 @@ export var spawnTime:float = 0
 
 # all projectiles have an animator
 onready var animator:CustomAnimator3D = $CustomAnimator3D
-#onready var _light:OmniLight
-#onready var _scanner:ZqfVolumeScanner = null
 
 # these are optional - setup in _ready
 export var deathSpawnPrefab:Resource = null
-var _particles = null
-var _area:Area = null
 
 enum ProjectileState {
 	Idle,
@@ -37,62 +33,6 @@ var ownerId:int = 0
 func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
 	visible = false
-	# if has_node("Area"):
-	#	_area = $Area
-	#	var _r = _area.connect("scan_result", self, "area_scan_result")
-	if has_node("particles"):
-		_particles = $particles
-#	if has_node("volume_scanner"):
-#		_scanner = $volume_scanner
-
-func area_scan_result(bodies) -> void:
-	# print("Projectile read " + str(bodies.size()) + " bodies hit")
-	_hitInfo.attackTeam = _team
-	_hitInfo.damageType = Interactions.DAMAGE_TYPE_EXPLOSIVE
-	_hitInfo.origin = global_transform.origin
-	_hitInfo.origin -= -global_transform.basis.z * 0.2
-	for iterator in bodies:
-		var body:PhysicsBody = iterator as PhysicsBody
-		var tarPos:Vector3
-		if body.has_method("get_mass_centre"):
-			tarPos = body.get_mass_centre()
-		else:
-			tarPos = body.global_transform.origin
-		Game.draw_trail(_hitInfo.origin, tarPos)
-		
-		body.set_collision_layer_bit(Interactions.EXPLOSION_CHECK_LAYER, true)
-		var result = ZqfUtils.hitscan_by_position_3D(
-			self,
-			_hitInfo.origin,
-			tarPos,
-			ZqfUtils.EMPTY_ARRAY,
-			Interactions.get_explosion_check_mask())
-		body.set_collision_layer_bit(Interactions.EXPLOSION_CHECK_LAYER, false)
-
-		# TODO: Appears to happen if raycast started INSIDE the body.
-		# other than stepping backward via forward vector not sure what
-		# more can be done with this.
-		# worst on fast moving enemies, that can 'tunnel' forward into the projectile
-		if !result:
-			print("Explosion raycast has no result??")
-			continue
-		var hitLayer:int = result.collider.get_collision_layer()
-		if (hitLayer & Interactions.WORLD) != 0:
-			print("Explosion blocked by world")
-			continue
-		
-		var dist:float = _hitInfo.origin.distance_to(result.position)
-		var percent:float = 1.0 - float(dist / _explosiveRadius)
-		if percent > 1:
-			percent = 1
-		if percent < 0:
-			percent = 0
-		print("Explosion percentage: " + str(percent))
-
-		_hitInfo.damage = int(150 * percent)
-		_hitInfo.direction = tarPos - _hitInfo.origin
-		_hitInfo.direction = _hitInfo.direction.normalized()
-		var _inflicted:int = Interactions.hit(_hitInfo, body)
 
 func triggered_detonate() -> void:
 	if _state != ProjectileState.InFlight:
@@ -114,12 +54,7 @@ func die() -> void:
 	_state = ProjectileState.Dying
 	_time = 1
 	animator.hide()
-	if _particles != null:
-		_particles.emitting = false
-
-	if _area != null:
-		print("Projectile - run area event")
-		_area.run()
+	
 	if deathSpawnPrefab != null:
 		var velNormal:Vector3 = _velocity.normalized()
 		var instance = deathSpawnPrefab.instance()

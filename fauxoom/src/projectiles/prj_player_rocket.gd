@@ -2,13 +2,13 @@ extends Projectile
 
 onready var _light:OmniLight = $OmniLight
 onready var _scanner:ZqfVolumeScanner = $volume_scanner
-#onready var _particles = $particles
+onready var _particles = $particles
 
 func _ready():
-	print("PRJ PLAYER ROCKET - ready()")
-#	._ready()
+	pass
 
 func die() -> void:
+	_particles.emitting = false
 	_run_explosion_hits(_scanner.bodies)
 	.die()
 
@@ -65,9 +65,7 @@ func _run_explosion_hits(bodies) -> void:
 
 func _process(_delta:float) -> void:
 	if _scanner.total > 0:
-		_light.omni_range = 12
 		_light.light_color = Color(1, 0, 0, 1)
 	else:
-		_light.omni_range = 8
 		_light.light_color = Color(1, 1, 0, 1)
 	._process(_delta)

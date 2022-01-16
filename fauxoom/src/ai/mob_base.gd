@@ -33,12 +33,18 @@ onready var sprite:CustomAnimator3D = $sprite
 onready var collisionShape:CollisionShape = $body
 onready var head:Spatial = $head
 onready var motor:MobMotor = $motor
-# onready var attack:MobAttack = $attack
 onready var attacks = []
 onready var _stats:MobStats = $stats
 onready var _ent:Entity = $Entity
 onready var _ticker:AITicker = $ticker
 onready var _spawnColumn:TeleportColumn = $teleport_column
+
+export var triggerTargets:String = ""
+# stoic enemies never flee
+export var fleeBoredomSeconds:float = 30
+# roles this mob can perform
+export(Enums.EnemyRoleClass) var roleClass = Enums.EnemyRoleClass.Mix
+export var corpsePrefab:String = ""
 
 var _registered:bool = false
 
@@ -47,14 +53,6 @@ var aimLaser = null
 var omniCharge:OmniAttackCharge
 var frameCount:int = 0
 
-# var _tarInfoFields = [ "id", "position", "forward", "flatForward", "yawDegrees" ]
-
-export var triggerTargets:String = ""
-# stoic enemies never flee
-export var fleeBoredomSeconds:float = 30
-# roles this mob can perform
-export(Enums.EnemyRoleClass) var roleClass = Enums.EnemyRoleClass.Mix
-export var corpsePrefab:String = ""
 # role assigned
 var roleId:int = 0
 var time:float = 0
@@ -63,7 +61,6 @@ enum MobState {
 	Idle,
 	Spawning,
 	Hunting,
-	# Attacking,
 	Stunned,
 	# all corpse states below this point
 	Dying,
@@ -76,17 +73,6 @@ var _sourceId:int = 0
 
 var _state = MobState.Idle
 var _prevState = MobState.Idle
-
-# this dictionary is initialised locally as empty
-# here but at runtime will be an external copy shared
-# by other AI, so consider it read only!
-# var _targetInfo: Dictionary = { id = 0 }
-
-# var _tickInfo:Dictionary = {
-# 	id = 0,
-# 	trueDistance = 0,
-# 	flatDistance = 0
-# }
 
 var _aiTickInfo:AITickInfo = null
 
@@ -131,14 +117,17 @@ func _find_shield_orbs() -> void:
 		return
 	for orb in orbParent.get_children():
 		orb.connect("shield_broke", self, "orb_shield_broke")
+		orb.connect("shield_restored", self, "orb_shield_restored")
 		_shieldOrbCount += 1
 		_shieldOrbTotal += 1
 
 func orb_shield_broke(index:int) -> void:
 	_shieldOrbCount -= 1
+	#print("Mob is down to " + str(_shieldOrbCount) + " orbs")
 
 func orb_shield_restored(index:int) -> void:
-	pass
+	_shieldOrbCount += 1
+	#print("Mob is up to " + str(_shieldOrbCount) + " orbs")
 
 func get_debug_text() -> String:
 	var txt:String = "prefab: " + _ent.prefabName + "\n"
@@ -302,18 +291,6 @@ func face_target_flat(tar:Vector3) -> void:
 	var pos:Vector3 = global_transform.origin
 	tar.y = pos.y
 	# look_at(tar, Vector3.UP)
-
-# func build_tick_info(targetInfo:Dictionary) -> void:
-# 	if targetInfo.id == 0:
-# 		_tickInfo.id = 0
-# 		return
-# 	# copy targetting data
-# 	for key in _tarInfoFields:
-# 		_tickInfo[key] = targetInfo[key]
-# 	var selfPos:Vector3 = global_transform.origin
-# 	var tarPos:Vector3 = _tickInfo.position
-# 	_tickInfo.trueDistance = ZqfUtils.distance_between(selfPos, tarPos)
-# 	_tickInfo.flatDistance = ZqfUtils.flat_distance_between(selfPos, tarPos)
 
 func _build_tick_info(targetInfo:Dictionary, _delta:float) -> void:
 	_aiTickInfo.id = targetInfo.id

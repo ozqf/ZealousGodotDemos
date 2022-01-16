@@ -141,6 +141,8 @@ degreesPerSecond = Vector3( 0, 45, 0 )
 
 [node name="orb_shield" parent="orbs/orbs" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
+restoreTime = 20.0
 
 [node name="orb_shield2" parent="orbs/orbs" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
+restoreTime = 20.0

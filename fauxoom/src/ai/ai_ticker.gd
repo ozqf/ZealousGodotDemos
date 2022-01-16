@@ -72,6 +72,9 @@ func stop_hunt() -> void:
 func stun_ended() -> void:
 	_revengeAttack = true
 
+func _fire_attack(attack:MobAttack, tarPos:Vector3) -> void:
+	attack.fire(lastTarPos)
+
 func change_state(newState:int) -> void:
 	if newState == _state:
 		return
@@ -107,8 +110,9 @@ func change_state(newState:int) -> void:
 			tarPos = lastTarPos
 		else:
 			tarPos = lastTarPos
-		_mob.attacks[_attackIndex].fire(lastTarPos) 
-		_tick = get_attack().attackAnimTime
+		#atk.fire(lastTarPos)
+		_fire_attack(atk, lastTarPos)
+		_tick = atk.attackAnimTime
 	elif _state == STATE_WINDDOWN:
 		if _mob.aimLaser != null:
 			_mob.aimLaser.off()
