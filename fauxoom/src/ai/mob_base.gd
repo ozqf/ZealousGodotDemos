@@ -304,6 +304,7 @@ func _build_tick_info(targetInfo:Dictionary, _delta:float) -> void:
 	_aiTickInfo.targetPos = tarPos
 	_aiTickInfo.targetForward = targetInfo.forward
 	_aiTickInfo.targetYaw = targetInfo.yawDegrees
+	_aiTickInfo.flatVelocity = targetInfo.flatVelocity
 
 	# fill in further details
 	_aiTickInfo.trueDistance = ZqfUtils.distance_between(selfPos, tarPos)

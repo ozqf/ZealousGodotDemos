@@ -3,6 +3,7 @@ class_name MobAttack
 
 var _prj_point_t = load("res://prefabs/dynamic_entities/prj_point.tscn")
 
+export var tag:String = ""
 export var minUseRange:float = 0
 export var maxUseRange:float = 9999
 export var attackCount:int = 1

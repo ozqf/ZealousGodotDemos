@@ -73,7 +73,7 @@ func stun_ended() -> void:
 	_revengeAttack = true
 
 func _fire_attack(attack:MobAttack, tarPos:Vector3) -> void:
-	attack.fire(lastTarPos)
+	attack.fire(tarPos)
 
 func change_state(newState:int) -> void:
 	if newState == _state:
@@ -277,7 +277,6 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 		# if _check_for_attack_start(_tickInfo):
 			# print("AI ticker - attack")
 		_start_attack(_delta, _tickInfo)
-			
 	
 	elif _state == STATE_WINDUP || _state == STATE_REPEAT_WINDUP:
 		_attack_move(_delta)

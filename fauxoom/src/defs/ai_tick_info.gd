@@ -7,6 +7,7 @@ var targetPos:Vector3 = Vector3()
 var lastSeenTargetPos:Vector3 = Vector3()
 var targetForward:Vector3 = Vector3()
 var flatForward:Vector3 = Vector3()
+var flatVelocity:Vector3 = Vector3()
 var targetYaw:float = 0
 
 var canSeeTarget:bool = false
