@@ -32,15 +32,16 @@ func read_input(_weaponInput:WeaponInput) -> void:
 	if _weaponInput.primaryOn:
 		if Game.debuggerOpen:
 			return
-		tick = 0.1
+		tick = 0.2
 		if mode == Enums.DebuggerMode.Deathray:
 			_fire_single(-_launchNode.global_transform.basis.z, 1000)
+			tick = 0.1
 		elif mode == Enums.DebuggerMode.ScanEnemy:
 			raycast_for_debug_mob(-_launchNode.global_transform.basis.z)
 		elif mode == Enums.DebuggerMode.SpawnPunk:
 			_spawn_enemy(Enums.EnemyType.Punk)
 		elif mode == Enums.DebuggerMode.SpawnWorm:
-			_spawn_enemy(Enums.EnemyType.Worm)
+			_spawn_enemy(Enums.EnemyType.FleshWorm)
 		elif mode == Enums.DebuggerMode.SpawnSpider:
 			_spawn_enemy(Enums.EnemyType.Spider)
 		elif mode == Enums.DebuggerMode.SpawnGolem:
@@ -50,9 +51,9 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		else:
 			print("Unknown debug mode " + str(mode))
 			tick = 1
-	elif _weaponInput.secondaryOn:
+	elif _weaponInput.secondaryOn && !_weaponInput.secondaryOnPrev:
 		get_tree().call_group(Groups.PLAYER_GROUP_NAME, "player_toggle_debug_menu")
-		tick = 1
+		# tick = 1
 		# player_open_debug_menu
 		# raycast_for_debug_mob(-_launchNode.global_transform.basis.z)
 
