@@ -53,6 +53,8 @@ const DAMAGE_TYPE_SUPER_PUNCH:int = 8
 const HIT_RESPONSE_NONE:int = -1
 const HIT_RESPONSE_PENETRATE:int = -2
 
+const DAMAGE_SUPER_PUNCH:int = 100
+
 static func get_enemy_prj_mask() -> int:
 	return (WORLD | PLAYER)
 

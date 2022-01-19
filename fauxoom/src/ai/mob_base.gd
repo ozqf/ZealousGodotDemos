@@ -129,6 +129,9 @@ func orb_shield_restored(index:int) -> void:
 	_shieldOrbCount += 1
 	#print("Mob is up to " + str(_shieldOrbCount) + " orbs")
 
+func get_orb_count() -> int:
+	return _shieldOrbCount
+
 func get_debug_text() -> String:
 	var txt:String = "prefab: " + _ent.prefabName + "\n"
 	txt += "Roles: Class: " + str(roleClass) + " assigned: " + str(roleId) + "\n"
@@ -140,6 +143,12 @@ func get_debug_text() -> String:
 
 func get_health_percentage() -> float:
 	return (float(_health) / float(_healthMax)) * 100
+
+func get_health() -> int:
+	return _health
+
+func get_health_max() -> int:
+	return _healthMax
 
 func get_mass_centre() -> Vector3:
 	return collisionShape.global_transform.origin

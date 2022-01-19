@@ -165,7 +165,6 @@ directional_shadow_mode = 0
 [node name="mob_spawn_proxy" parent="entities" instance=ExtResource( 6 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 45, 2, 12 )
 triggerName = "mob1"
-type = 2
 delaySpawn = true
 
 [node name="mob_spawn_proxy2" parent="entities" instance=ExtResource( 6 )]

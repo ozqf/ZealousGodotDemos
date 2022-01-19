@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://src/ai/atk_shell_ground.gd" type="Script" id=18]
 [ext_resource path="res://zqf/zqf_orbiter.gd" type="Script" id=19]
 [ext_resource path="res://zqf/zqf_kinematic_mover.gd" type="Script" id=20]
+[ext_resource path="res://prefabs/mob_components/mob_fx.tscn" type="PackedScene" id=21]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -130,6 +131,9 @@ unit_db = 5.0
 max_distance = 50.0
 bus = "game"
 script = ExtResource( 10 )
+
+[node name="mob_fx" parent="." instance=ExtResource( 21 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 
 [node name="orbs" type="Spatial" parent="."]
 script = ExtResource( 20 )

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/gfx/particle_quad.tres" type="QuadMesh" id=1]
+[ext_resource path="res://src/mob_components/mob_fx.gd" type="Script" id=2]
+
+[node name="mob_fx" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="wounded_spurt" type="CPUParticles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0 )
+emitting = false
+amount = 6
+mesh = ExtResource( 1 )
+direction = Vector3( 0, 1, 0 )
+spread = 40.0
+gravity = Vector3( 0, -20, 0 )
+initial_velocity = 6.0
