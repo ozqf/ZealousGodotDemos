@@ -57,6 +57,7 @@ enum SequenceOrder {
 enum DebuggerMode {
 	Deathray,
 	ScanEnemy,
+	AttackTest,
 	SpawnPunk,
 	SpawnWorm,
 	SpawnSpider,

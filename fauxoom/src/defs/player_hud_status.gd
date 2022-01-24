@@ -12,6 +12,9 @@ var weaponChargeMode:int = 0
 var swayScale:float = 0
 var swayTime:float = 0
 
+var targetHealth:float = -1
+var targetVulnerable:bool = false
+
 # inventory
 var bullets:int = 0
 var shells:int = 0

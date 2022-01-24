@@ -31,6 +31,7 @@ var _dead:bool = false
 var _health:int = MAX_HEALTH
 var _swayTime:float = 0.0
 var _hudStatus:PlayerHudStatus = null
+var _targetHealthInfo:MobHealthInfo = null
 
 var _targettingInfo:Dictionary = {
 	id = Interactions.PLAYER_RESERVED_ID,
@@ -48,6 +49,7 @@ func _ready():
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	
 	_hudStatus = _player_hud_status_t.new()
+	_targetHealthInfo = Game.new_mob_health_info()
 	
 	_motor.init_motor(self, _head)
 	_motor.set_input_enabled(false)
@@ -215,13 +217,24 @@ func _process(_delta):
 		_flashLight.visible = !_flashLight.visible
 	
 	var aimPos:Vector3
+	_hudStatus.targetHealth = -1
 	if _aimRay.is_colliding():
 		aimPos = _aimRay.get_collision_point()
+		var obj = _aimRay.get_collider()
+		if obj.has_method("fill_health_info"):
+			obj.fill_health_info(_targetHealthInfo)
+		# TODO: Replace these with the above targetHealthInfo
+		if obj.has_method("get_health_percentage"):
+			_hudStatus.targetHealth = obj.get_health_percentage()
+		_hudStatus.targetVulnerable = false
+		if obj.has_method("get_health"):
+			if obj.get_health() < Interactions.DAMAGE_SUPER_PUNCH:
+				_hudStatus.targetVulnerable = true
 	else:
 		var headForward:Vector3 = -_head.global_transform.basis.z
 		aimPos = _head.global_transform.origin + (headForward * 1000)
 	_laserDot.global_transform.origin = aimPos
-	
+
 	# write targetting information
 	_targettingInfo.position = _head.global_transform.origin
 	_targettingInfo.yawDegrees = _motor.m_yaw

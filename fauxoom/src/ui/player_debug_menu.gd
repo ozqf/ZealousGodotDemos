@@ -7,6 +7,7 @@ onready var _giveAll:Button = $HBoxContainer/cheats_container/give_all
 
 onready var _deathray:Button = $HBoxContainer/laser_container/deathray
 onready var _scanEnemy:Button = $HBoxContainer/laser_container/scan_enemy
+onready var _atkTest:Button = $HBoxContainer/laser_container/attack_test
 
 onready var _spawnPunk:Button = $HBoxContainer/spawns_container/punk
 onready var _spawnWorm:Button = $HBoxContainer/spawns_container/worm
@@ -25,6 +26,7 @@ func _ready() -> void:
 	
 	_r = _deathray.connect("pressed", self, "_click_deathray")
 	_r = _scanEnemy.connect("pressed", self, "_click_scan_enemy")
+	_r = _atkTest.connect("pressed", self, "_click_attack_test")
 	
 	_r = _spawnPunk.connect("pressed", self, "_click_spawn_punk")
 	_r = _spawnWorm.connect("pressed", self, "_click_spawn_worm")
@@ -74,6 +76,10 @@ func _click_deathray() -> void:
 func _click_scan_enemy() -> void:
 	Game.debuggerMode = Enums.DebuggerMode.ScanEnemy
 	_print_mode(Game.debuggerMode, "Scan enemy")
+
+func _click_attack_test() -> void:
+	Game.debuggerMode = Enums.DebuggerMode.AttackTest
+	_print_mode(Game.debuggerMode, "Attack Test")
 
 func _click_spawn_punk() -> void:
 	Game.debuggerMode = Enums.DebuggerMode.SpawnPunk

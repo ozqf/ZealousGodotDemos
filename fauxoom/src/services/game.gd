@@ -14,6 +14,7 @@ var _gib_t = preload("res://prefabs/gib.tscn")
 var _head_gib_t = preload("res://prefabs/player_gib.tscn")
 
 var _hitInfo_type = preload("res://src/defs/hit_info.gd")
+var _mobHealthInfo_t = preload("res://src/defs/mob_health_info.gd")
 
 var _rage_drop_t = preload("res://prefabs/dynamic_entities/rage_drop.tscn")
 
@@ -89,6 +90,9 @@ func _ready() -> void:
 
 func new_hit_info() -> HitInfo:
 	return _hitInfo_type.new()
+
+func new_mob_health_info() -> MobHealthInfo:
+	return _mobHealthInfo_t.new()
 
 func config_changed(_cfg:Dictionary) -> void:
 	_camera.fov = Config.cfg.r_fov

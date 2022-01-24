@@ -120,7 +120,10 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 			return
 
 		# check vs world
+		# only stick into world if unguided
 		elif (body.collision_layer & 1) != 0:
+			if _guided == true:
+				return
 			print("Hit world")
 			if revs > 0:
 				set_stuck()

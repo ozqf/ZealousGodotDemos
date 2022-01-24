@@ -1,5 +1,7 @@
 extends InvWeapon
 
+var _prj_column_t = preload("res://prefabs/dynamic_entities/prj_column.tscn")
+
 const Enums = preload("res://src/enums.gd")
 
 func custom_init_b() -> void:
@@ -25,6 +27,18 @@ func _spawn_enemy(type) -> void:
 	t.origin = dict.aimPos
 	var _mob = Ents.create_mob(type, t, true)
 
+func _fire_column_projectile() -> void:
+	var prj = _prj_column_t.instance()
+	Game.get_dynamic_parent().add_child(prj)
+	var mask = Interactions.get_player_prj_mask()
+	var selfPos:Vector3 = _launchNode.global_transform.origin
+	var forward:Vector3 = -_launchNode.global_transform.basis.z
+	prj.launch_prj(selfPos, forward, Interactions.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, mask)
+	var rot:Vector3 = prj.rotation_degrees
+	rot.z = 90.0
+	prj.rotation_degrees = rot
+	pass
+
 func read_input(_weaponInput:WeaponInput) -> void:
 	if tick > 0:
 		return
@@ -38,6 +52,9 @@ func read_input(_weaponInput:WeaponInput) -> void:
 			tick = 0.1
 		elif mode == Enums.DebuggerMode.ScanEnemy:
 			raycast_for_debug_mob(-_launchNode.global_transform.basis.z)
+		elif mode == Enums.DebuggerMode.AttackTest:
+			_fire_column_projectile()
+			pass
 		elif mode == Enums.DebuggerMode.SpawnPunk:
 			_spawn_enemy(Enums.EnemyType.Punk)
 		elif mode == Enums.DebuggerMode.SpawnWorm:

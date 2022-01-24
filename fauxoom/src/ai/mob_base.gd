@@ -150,6 +150,9 @@ func get_health() -> int:
 func get_health_max() -> int:
 	return _healthMax
 
+func fill_health_info(info:MobHealthInfo) -> void:
+	info.health = _health
+
 func get_mass_centre() -> Vector3:
 	return collisionShape.global_transform.origin
 
