@@ -20,7 +20,9 @@ func player_status_update(data:PlayerHudStatus) -> void:
 	if data.targetHealth > 0.0:
 		_targetHealth.value = data.targetHealth
 		_targetHealth.visible = true
-		if !data.targetVulnerable:
+		if data.targetInvulnerable:
+			_targetHealth.modulate = Color(0.25, 0.25, 0.25)
+		elif !data.targetVulnerable:
 			_targetHealth.modulate = Color(1, 1, 1)
 		else:
 			_targetHealth.modulate = Color(1, 0, 0)

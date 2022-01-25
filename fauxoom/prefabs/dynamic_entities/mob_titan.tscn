@@ -94,12 +94,13 @@ maxOffset = Vector3( 0.5, 1, 0.5 )
 script = ExtResource( 4 )
 minUseRange = 8.0
 maxUseRange = 20.0
-attackCount = 5
 repeatTime = 0.0
 attackAnimTime = 0.2
 
 [node name="pattern" type="Node" parent="attacks/rapid_burst"]
-script = ExtResource( 13 )
+script = ExtResource( 12 )
+minOffset = Vector3( -1, -1.5, -1 )
+maxOffset = Vector3( 1, 1.5, 1 )
 
 [node name="ranged_shot" type="Node" parent="attacks"]
 script = ExtResource( 18 )

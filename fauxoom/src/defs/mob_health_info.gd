@@ -1,5 +1,5 @@
 class_name MobHealthInfo
 
-var health:int = 0
-var vulnerable:bool = false
+var healthPercentage:int = 0
+var invulnerable:bool = false
 var closeToDeath:bool = false

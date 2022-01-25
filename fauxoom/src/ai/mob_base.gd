@@ -151,7 +151,11 @@ func get_health_max() -> int:
 	return _healthMax
 
 func fill_health_info(info:MobHealthInfo) -> void:
-	info.health = _health
+	info.healthPercentage = (float(_health) / float(_healthMax)) * 100
+	info.closeToDeath = _health < Interactions.DAMAGE_SUPER_PUNCH
+	info.invulnerable = false
+	if _shieldOrbCount > 0 || _state == MobState.Spawning:
+		info.invulnerable = true
 
 func get_mass_centre() -> Vector3:
 	return collisionShape.global_transform.origin

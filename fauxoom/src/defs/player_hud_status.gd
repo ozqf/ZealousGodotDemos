@@ -14,6 +14,7 @@ var swayTime:float = 0
 
 var targetHealth:float = -1
 var targetVulnerable:bool = false
+var targetInvulnerable:bool = false
 
 # inventory
 var bullets:int = 0

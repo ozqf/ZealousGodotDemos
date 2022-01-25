@@ -223,13 +223,17 @@ func _process(_delta):
 		var obj = _aimRay.get_collider()
 		if obj.has_method("fill_health_info"):
 			obj.fill_health_info(_targetHealthInfo)
+			_hudStatus.targetHealth = _targetHealthInfo.healthPercentage
+			_hudStatus.targetVulnerable = _targetHealthInfo.closeToDeath
+			_hudStatus.targetInvulnerable = _targetHealthInfo.invulnerable
+
 		# TODO: Replace these with the above targetHealthInfo
-		if obj.has_method("get_health_percentage"):
-			_hudStatus.targetHealth = obj.get_health_percentage()
-		_hudStatus.targetVulnerable = false
-		if obj.has_method("get_health"):
-			if obj.get_health() < Interactions.DAMAGE_SUPER_PUNCH:
-				_hudStatus.targetVulnerable = true
+		# if obj.has_method("get_health_percentage"):
+		# 	_hudStatus.targetHealth = obj.get_health_percentage()
+		# _hudStatus.targetVulnerable = false
+		# if obj.has_method("get_health"):
+		# 	if obj.get_health() < Interactions.DAMAGE_SUPER_PUNCH:
+		# 		_hudStatus.targetVulnerable = true
 	else:
 		var headForward:Vector3 = -_head.global_transform.basis.z
 		aimPos = _head.global_transform.origin + (headForward * 1000)
