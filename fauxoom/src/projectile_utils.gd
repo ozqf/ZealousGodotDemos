@@ -30,3 +30,41 @@ static func fire_from(
 		prj.launch_prj(item.pos, frwd, 0, Interactions.TEAM_ENEMY, _prjMask)
 	pass
 
+static func spawn_line(
+	origin:Vector3,
+	dest:Vector3,
+	itemWidth:float,
+	array) -> void:
+	pass
+	array.clear()
+	var line:Vector3 = dest - origin
+	var lineLength:float = line.length()
+	var steps:int = int(lineLength / itemWidth)
+	if steps <= 0:
+		steps = 1
+	var forward:Vector3 = line.normalized()
+	var pos:Vector3 = origin + forward
+	for _i in range(0, steps):
+		array.push_back(pos)
+		pos += forward * itemWidth
+
+static func spawn_ground_line(
+	spatial:Spatial,
+	origin:Vector3,
+	dest:Vector3,
+	itemWidth:float,
+	array) -> void:
+	pass
+	spawn_line(origin, dest, itemWidth, array)
+	var num:int = array.size()
+	for i in range(0, num):
+		var forward:Vector3 = Vector3.DOWN
+		var result = ZqfUtils.hitscan_by_direction_3D(
+			spatial,
+			array[i],
+			forward,
+			100,
+			ZqfUtils.EMPTY_ARRAY,
+			1)
+		if result:
+			array[i] = result.position

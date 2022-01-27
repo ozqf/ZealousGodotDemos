@@ -1,6 +1,7 @@
 extends InvWeapon
 
 var _prj_column_t = preload("res://prefabs/dynamic_entities/prj_column.tscn")
+var _prj_spike_t = preload("res://prefabs/dynamic_entities/prj_ground_spike.tscn")
 
 const Enums = preload("res://src/enums.gd")
 
@@ -44,6 +45,24 @@ func _fire_test_projectile() -> void:
 	var pos:Vector3 = t.origin + (-t.basis.z)
 	PrjUtils.fire_from(pos, _launchNode, null, _prj_column_t)
 
+func _fire_spike_line() -> void:
+	var t:Transform = _launchNode.global_transform
+	var result = ZqfUtils.hitscan_by_direction_3D(_launchNode, t.origin, -t.basis.z, 60, ZqfUtils.EMPTY_ARRAY, 1)
+	var dest:Vector3 = t.origin + (-t.basis.z * 60.0)
+	if result:
+		dest = result.position
+	var points = []
+	# PrjUtils.spawn_line(t.origin, dest, 1, points)
+	PrjUtils.spawn_ground_line(_launchNode, t.origin, dest, 1, points)
+	var numPoints:int = points.size()
+	print("Got " + str(numPoints) + " points")
+	for i in range(0, numPoints):
+		var p:Vector3 = points[i]
+		var prj = _prj_spike_t.instance()
+		Game.get_dynamic_parent().add_child(prj)
+		prj.global_transform.origin = p
+		# prj.launch_prj(p, -t.basis.z, 0, Interactions.TEAM_PLAYER, Interactions.get_player_prj_mask())
+
 func read_input(_weaponInput:WeaponInput) -> void:
 	if tick > 0:
 		return
@@ -58,8 +77,9 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		elif mode == Enums.DebuggerMode.ScanEnemy:
 			raycast_for_debug_mob(-_launchNode.global_transform.basis.z)
 		elif mode == Enums.DebuggerMode.AttackTest:
-#			_fire_column_projectile()
-			_fire_test_projectile() 
+			#_fire_column_projectile()
+			#_fire_test_projectile()
+			_fire_spike_line() 
 			pass
 		elif mode == Enums.DebuggerMode.SpawnPunk:
 			_spawn_enemy(Enums.EnemyType.Punk)

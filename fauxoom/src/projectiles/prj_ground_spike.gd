@@ -32,8 +32,8 @@ func _process(_delta:float) -> void:
 		weight = 1 - weight
 		if _time > 1:
 			_time = 0
-			_spikeState = 0
+			# _spikeState = 0
+			queue_free()
 	else:
-		_time = 0
-		_spikeState = 0
+		return
 	_set_scale(weight)
