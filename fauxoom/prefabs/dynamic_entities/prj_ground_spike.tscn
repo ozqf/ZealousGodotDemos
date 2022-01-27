@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/projectiles/prj_ground_spike.gd" type="Script" id=1]
+
+[sub_resource type="CylinderMesh" id=1]
+top_radius = 0.0
+bottom_radius = 0.5
+radial_segments = 32
+rings = 2
+
+[node name="prj_ground_spike" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="cone" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+mesh = SubResource( 1 )
+material/0 = null

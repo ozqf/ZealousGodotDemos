@@ -31,6 +31,9 @@ export var faceTargetDuringAttack:bool = true
 export var requiresLos:bool = true
 export var useLastSeenPosition:bool = true
 
+# set by mob when attacks are collected
+var index:int = 0
+
 var _launchNode:Spatial = null
 var _body:Spatial = null
 var _pattern:Pattern = null

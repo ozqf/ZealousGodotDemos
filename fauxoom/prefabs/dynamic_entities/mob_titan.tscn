@@ -31,7 +31,7 @@ size = Vector3( 0.2, 0.2, 1 )
 
 [node name="mob_titan" type="KinematicBody"]
 collision_layer = 2
-collision_mask = 71
+collision_mask = 70
 script = ExtResource( 2 )
 
 [node name="teleport_column" parent="." instance=ExtResource( 17 )]
@@ -108,6 +108,22 @@ attackCount = 5
 cooldown = 5.0
 requiresLos = false
 useLastSeenPosition = false
+
+[node name="delta_attack" type="Node" parent="attacks"]
+script = ExtResource( 4 )
+maxUseRange = 0.0
+attackCount = 20
+windUpTime = 1.0
+windDownTime = 1.0
+repeatTime = 0.05
+attackAnimTime = 0.05
+showOmniCharge = true
+allowMovement = false
+cooldown = 10.0
+
+[node name="pattern" type="Node" parent="attacks/delta_attack"]
+script = ExtResource( 13 )
+arcDegreesX = 70.0
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
 script = ExtResource( 16 )

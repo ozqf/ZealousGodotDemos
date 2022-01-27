@@ -39,6 +39,11 @@ func _fire_column_projectile() -> void:
 	prj.rotation_degrees = rot
 	pass
 
+func _fire_test_projectile() -> void:
+	var t:Transform = _launchNode.global_transform
+	var pos:Vector3 = t.origin + (-t.basis.z)
+	PrjUtils.fire_from(pos, _launchNode, null, _prj_column_t)
+
 func read_input(_weaponInput:WeaponInput) -> void:
 	if tick > 0:
 		return
@@ -53,7 +58,8 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		elif mode == Enums.DebuggerMode.ScanEnemy:
 			raycast_for_debug_mob(-_launchNode.global_transform.basis.z)
 		elif mode == Enums.DebuggerMode.AttackTest:
-			_fire_column_projectile()
+#			_fire_column_projectile()
+			_fire_test_projectile() 
 			pass
 		elif mode == Enums.DebuggerMode.SpawnPunk:
 			_spawn_enemy(Enums.EnemyType.Punk)

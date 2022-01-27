@@ -239,6 +239,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/player/player_object_interactor.gd"
 }, {
+"base": "Reference",
+"class": "PrjUtils",
+"language": "GDScript",
+"path": "res://src/projectile_utils.gd"
+}, {
 "base": "Spatial",
 "class": "Projectile",
 "language": "GDScript",
@@ -386,6 +391,7 @@ _global_script_class_icons={
 "PlayerAttack": "",
 "PlayerHudStatus": "",
 "PlayerObjectInteractor": "",
+"PrjUtils": "",
 "Projectile": "",
 "SawBlade": "",
 "Skill": "",

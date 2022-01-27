@@ -169,6 +169,7 @@ func _gather_attacks() -> void:
 		var attack = attackNode.get_child(_i)
 		if attack is MobAttack:
 			attacks.push_back(attack)
+			attack.index = _i
 			attack.custom_init($head, self)
 	# print("Mob " + self.name + " has " + str(attacks.size()) + " attacks")
 
