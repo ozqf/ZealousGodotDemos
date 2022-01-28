@@ -35,10 +35,14 @@ func _ready() -> void:
 	var _r = _ent.connect("entity_append_state", self, "append_state")
 	_r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_trigger", self, "on_trigger")
+	if triggerName == "":
+		triggerName = self.name
 	_ent.selfName = triggerName
 	_ent.triggerTargetName = triggerTargetName
 	find_positions_sibling()
-	_endless = !(totalMobs > 0)
+	_endless = (totalMobs <= 0)
+	if _endless:
+		print("Spawner " + _ent.selfName + " is endless")
 
 func is_horde_spawn() -> bool:
 	return true
