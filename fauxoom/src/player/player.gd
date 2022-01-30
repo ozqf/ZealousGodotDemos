@@ -2,6 +2,7 @@ extends KinematicBody
 class_name Player
 
 var _player_hud_status_t = preload("res://src/defs/player_hud_status.gd")
+var _hyper_aoe_t = preload("res://prefabs/hyper_aoe.tscn")
 
 const MAX_HEALTH:int = 100
 
@@ -27,6 +28,8 @@ var _startTransform:Transform = Transform.IDENTITY
 var _recoverTransform:Transform = Transform.IDENTITY
 
 var _godMode:bool = false
+var _hyperLevel:int = 0
+var _hyperTime:float = 0
 var _dead:bool = false
 var _health:int = MAX_HEALTH
 var _swayTime:float = 0.0
@@ -209,31 +212,65 @@ func _refresh_input_on() -> void:
 	_motor.set_input_enabled(_gameplayInputOn && _appInputOn)
 	_attack.set_attack_enabled(_gameplayInputOn && _appInputOn)
 
-func _process(_delta):
+func _spawn_aoe() -> HyperAoe:
+	var aoe = _hyper_aoe_t.instance()
+	Game.get_dynamic_parent().add_child(aoe)
+	aoe.global_transform.origin = _head.global_transform.origin
+	return aoe
+
+func _tick_hyper(_delta:float) -> void:
+	var prevLevel:int = _hyperLevel
+	var keyPressed:bool = Input.is_action_just_pressed("hyper")
+	var cost:int = Interactions.HYPER_COST
+	var duration:float = Interactions.HYPER_DURATION
+	if _hyperLevel <= 0:
+		if keyPressed && _inventory.get_count("rage") >= cost:
+			_hyperLevel = 1
+			_inventory.take_item("rage", cost)
+			_hyperTime = duration
+			
+			var aoe = _spawn_aoe()
+			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_ON, 0.0)
+		pass
+	else:
+		_hyperTime -= _delta
+		if keyPressed:
+			# forced cancel
+			_hyperLevel = 0
+			var aoe = _spawn_aoe()
+			var weight:float = _hyperTime / Interactions.HYPER_DURATION
+			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_CANCEL, weight)
+		elif _hyperTime <= 0:
+			# timeout
+			_hyperLevel = 0
+			var aoe = _spawn_aoe()
+			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_OFF, 0.0)
+	# update?
+	if _hyperLevel != prevLevel:
+		_inventory.update_hyper_level(_hyperLevel)
+	Game.hyperLevel = _hyperLevel
+
+func _process(_delta:float) -> void:
 	_refresh_input_on()
+	_tick_hyper(_delta)
 	# if _appInputOn && _gameplayInputOn && Input.is_action_just_pressed("interact"):
 	# 	_interactor.use_target()
 	if Input.is_action_just_pressed("flash_light"):
 		_flashLight.visible = !_flashLight.visible
 	
+	# laser dot
 	var aimPos:Vector3
 	_hudStatus.targetHealth = -1
 	if _aimRay.is_colliding():
 		aimPos = _aimRay.get_collision_point()
 		var obj = _aimRay.get_collider()
-		if obj.has_method("fill_health_info"):
+		# had an invalid instance here whilst testing
+		# during a hectic fight, so check for that :/
+		if is_instance_valid(obj) && obj.has_method("fill_health_info"):
 			obj.fill_health_info(_targetHealthInfo)
 			_hudStatus.targetHealth = _targetHealthInfo.healthPercentage
 			_hudStatus.targetVulnerable = _targetHealthInfo.closeToDeath
 			_hudStatus.targetInvulnerable = _targetHealthInfo.invulnerable
-
-		# TODO: Replace these with the above targetHealthInfo
-		# if obj.has_method("get_health_percentage"):
-		# 	_hudStatus.targetHealth = obj.get_health_percentage()
-		# _hudStatus.targetVulnerable = false
-		# if obj.has_method("get_health"):
-		# 	if obj.get_health() < Interactions.DAMAGE_SUPER_PUNCH:
-		# 		_hudStatus.targetVulnerable = true
 	else:
 		var headForward:Vector3 = -_head.global_transform.basis.z
 		aimPos = _head.global_transform.origin + (headForward * 1000)
@@ -272,6 +309,8 @@ func _process(_delta):
 	_hudStatus.swayTime = _swayTime
 	_hudStatus.godMode = _godMode
 	_hudStatus.hasInteractionTarget = _interactor.get_is_colliding()
+	_hudStatus.hyperLevel = _hyperLevel
+	_hudStatus.hyperTime = _hyperTime
 
 	_inventory.write_hud_status(_hudStatus)
 	

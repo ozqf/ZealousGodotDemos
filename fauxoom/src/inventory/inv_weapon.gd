@@ -31,8 +31,10 @@ var _ignoreBody = []
 var _hud = null
 var _inventory = null
 var _hitInfo:HitInfo = null
-var tick:float = 0
 var _leftNext:bool = false
+
+var tick:float = 0
+var hyperLevel:int = 0
 
 #########################################
 # init and select/deselect logic
@@ -77,6 +79,8 @@ func is_equipped() -> bool:
 	return _equipped
 
 func is_cycling() -> bool:
+	if hyperLevel > 0:
+		return false
 	return tick > 0
 
 #########################################

@@ -1,4 +1,5 @@
 extends Area
+class_name InstantAreaScan
 
 signal scan_result(bodies)
 
@@ -12,8 +13,8 @@ var _bodies = []
 
 func run() -> void:
 	_ticks = 2
-	if showVolume:
-		$MeshInstance.visible = true
+	#if showVolume:
+	#	$MeshInstance.visible = true
 	_collisionShape.disabled = false
 	var _r = connect("body_entered", self, "_body_entered")
 
@@ -24,7 +25,7 @@ func _process(_delta) -> void:
 		_ticks -= 1
 		return
 	_ticks = -1
-	$MeshInstance.visible = false
+	#$MeshInstance.visible = false
 	_collisionShape.disabled = true
 	var result = _bodies
 	_bodies = []

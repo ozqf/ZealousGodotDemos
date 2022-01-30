@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=1]
+[ext_resource path="res://src/ai/mob_sound.gd" type="Script" id=2]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D"]
+stream = ExtResource( 1 )
+unit_db = 6.0
+bus = "game"
+script = ExtResource( 2 )

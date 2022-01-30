@@ -30,6 +30,7 @@ export var faceTargetDuringWindup:bool = true
 export var faceTargetDuringAttack:bool = true
 export var requiresLos:bool = true
 export var useLastSeenPosition:bool = true
+export var ignoreAutoSelect:bool = false
 
 # set by mob when attacks are collected
 var index:int = 0

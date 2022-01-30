@@ -46,6 +46,7 @@ var _state = GameState.Pregame
 var _gameMode = GameMode.Survival
 
 var allowQuickSwitching:bool = true
+var hyperLevel:int = 0
 
 var _hasPlayerStart:bool = false
 var _playerOrigin:Transform = Transform.IDENTITY
@@ -398,9 +399,9 @@ func deregister_player_start(_obj:Spatial) -> void:
 	_hasPlayerStart = false
 	_refresh_overlay()
 
-func spawn_rage_drops(pos:Vector3, dropType:int) -> void:
+func spawn_rage_drops(pos:Vector3, dropType:int, dropCount:int) -> void:
 	var prefab = _rage_drop_t
-	for _i in range(0, 5):
+	for _i in range(0, dropCount):
 		var drop:RigidBody = prefab.instance()
 		add_child(drop)
 		drop.launch(pos, dropType)

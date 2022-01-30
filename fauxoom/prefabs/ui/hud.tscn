@@ -34,6 +34,7 @@ margin_left = -512.0
 margin_top = -600.0
 margin_right = 512.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -102,6 +103,7 @@ anchor_bottom = 1.0
 margin_right = 40.0
 margin_bottom = 40.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -122,6 +124,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 script = ExtResource( 14 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -132,6 +135,7 @@ margin_right = 32.0
 margin_bottom = 180.0
 color = Color( 0, 0, 0, 0.376471 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -148,6 +152,7 @@ text = "USE"
 align = 1
 valign = 1
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -174,6 +179,7 @@ margin_right = 2.0
 margin_bottom = 2.0
 color = Color( 1, 0, 0, 1 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -189,6 +195,7 @@ fill_mode = 5
 radial_initial_angle = 180.0
 radial_fill_degrees = 180.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -208,6 +215,7 @@ fill_mode = 4
 radial_initial_angle = 180.0
 radial_fill_degrees = 180.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -217,16 +225,17 @@ margin_top = 68.0
 margin_right = 40.0
 margin_bottom = 82.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="target_health" type="TextureProgress" parent="centre"]
-margin_left = -32.0
+margin_left = -64.0
 margin_top = -284.0
-margin_right = -16.0
+margin_right = -48.0
 margin_bottom = -268.0
-rect_scale = Vector2( 4, 0.5 )
-value = 50.0
+rect_scale = Vector2( 8, 0.5 )
+value = 100.0
 texture_progress = ExtResource( 16 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -257,7 +266,7 @@ volume_db = -7.591
 pitch_scale = 0.79
 bus = "game"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="pickup_list" type="VBoxContainer" parent="."]
 visible = false
 anchor_left = 1.0
 anchor_top = 0.507
@@ -272,28 +281,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="pickup_list"]
 margin_top = 29.0
 margin_right = 128.0
 margin_bottom = 43.0
 text = "Pickup message 1"
 align = 2
 
-[node name="Label2" type="Label" parent="VBoxContainer"]
+[node name="Label2" type="Label" parent="pickup_list"]
 margin_top = 47.0
 margin_right = 128.0
 margin_bottom = 61.0
 text = "abcdefghijklmnopqr"
 align = 2
 
-[node name="Label3" type="Label" parent="VBoxContainer"]
+[node name="Label3" type="Label" parent="pickup_list"]
 margin_top = 65.0
 margin_right = 128.0
 margin_bottom = 79.0
 text = "Got 10 shells"
 align = 2
 
-[node name="Label4" type="Label" parent="VBoxContainer"]
+[node name="Label4" type="Label" parent="pickup_list"]
 margin_top = 83.0
 margin_right = 128.0
 margin_bottom = 97.0
@@ -306,6 +315,24 @@ anchor_bottom = 1.0
 margin_top = -152.0
 margin_right = 128.0
 script = ExtResource( 12 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="hyper_time" type="TextureProgress" parent="player_status"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -112.0
+margin_right = 64.0
+margin_bottom = -96.0
+rect_scale = Vector2( 1, 7 )
+value = 100.0
+texture_progress = ExtResource( 16 )
+fill_mode = 3
+tint_progress = Color( 1, 1, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -550,6 +577,7 @@ custom_fonts/font = ExtResource( 3 )
 text = "50"
 
 [node name="debug_options" type="VBoxContainer" parent="."]
+visible = false
 margin_left = 192.0
 margin_right = 832.0
 margin_bottom = 192.0

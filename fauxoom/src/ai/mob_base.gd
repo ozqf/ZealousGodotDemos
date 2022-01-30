@@ -83,6 +83,7 @@ var _pushAccumulator:Vector3 = Vector3()
 
 var _health:int = 50
 var _healthMax:int = 50
+var _rageDropAccumulator:int = 0
 var _shieldOrbTotal:int = 0
 var _shieldOrbCount:int = 0
 var _dead:bool = false
@@ -487,10 +488,14 @@ func hit(_hitInfo:HitInfo) -> int:
 			influenceNode.queue_free()
 
 		# spawn drops
+		var dropType:int = Enums.QuickDropType.Rage
+		var dropCount:int = 3
+		if Game.hyperLevel > 0:
+			dropType = Enums.QuickDropType.Health
 		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
-			Game.spawn_rage_drops(collisionShape.global_transform.origin, Enums.QuickDropType.Health)
-		else:
-			Game.spawn_rage_drops(collisionShape.global_transform.origin, Enums.QuickDropType.Rage)
+			dropType = Enums.QuickDropType.Health
+			dropCount = 5
+		Game.spawn_rage_drops(collisionShape.global_transform.origin, dropType, dropCount)
 
 		# fx
 		# print("Prefab " + str(_ent.prefabName) + " died at " + str(global_transform.origin))
@@ -517,7 +522,20 @@ func hit(_hitInfo:HitInfo) -> int:
 		# return _hitInfo.damage + _health
 	else:
 		_spawn_hit_particles(_hitInfo.origin, _hitInfo.direction, false)
-		# if not awake, wake up!
+		
+		_rageDropAccumulator += _hitInfo.damage
+		
+		var dropType:int = Enums.QuickDropType.Rage
+		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
+			dropType = Enums.QuickDropType.Health
+		if Game.hyperLevel > 0:
+			dropType = Enums.QuickDropType.Health
+		
+		while _rageDropAccumulator >= 100:
+			_rageDropAccumulator -= 100
+			Game.spawn_rage_drops(collisionShape.global_transform.origin, dropType, 1)
+		
+			# if not awake, wake up!
 		force_awake()
 		emit_mob_event("pain", -1)
 		_stunAccumulator += _hitInfo.damage

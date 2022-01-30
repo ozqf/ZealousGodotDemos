@@ -53,6 +53,11 @@ func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
 	# print("Inventory found " + str(weapons.size()) + " weapons")
 	select_first_weapon()
 
+func update_hyper_level(hyperLevel:int) -> void:
+	for weap in weapons:
+		weap.hyperLevel = hyperLevel
+		pass
+
 func on_weapon_action(_weapon:InvWeapon, _action:String) -> void:
 	self.emit_signal("weapon_action", _weapon, _action)
 
@@ -261,7 +266,7 @@ func select_best_gun() -> void:
 #		var slotNumber:int = find_weapon_slot_by_name("super_shotgun")
 #		if slotNumber != -1:
 #			change_weapon_by_slot(slotNumber)
-	
+
 func give_all_ammo() -> void:
 	print("Give all ammo")
 	var keys = _data.keys()

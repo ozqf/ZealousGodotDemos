@@ -50,6 +50,9 @@ const DAMAGE_TYPE_SHARPNEL:int = 6
 const DAMAGE_TYPE_VOID:int = 7
 const DAMAGE_TYPE_SUPER_PUNCH:int = 8
 
+const HYPER_COST:int = 50
+const HYPER_DURATION:float = 10.0
+
 const HIT_RESPONSE_NONE:int = -1
 const HIT_RESPONSE_PENETRATE:int = -2
 
@@ -66,6 +69,11 @@ static func get_corpse_hit_mask() -> int:
 
 static func get_explosion_check_mask() -> int:
 	return (WORLD | EXPLOSION_CHECK)
+
+static func is_obj_a_mob(obj) -> bool:
+	if !obj.has_method("is_mob"):
+		return false
+	return obj.is_mob()
 
 static func is_ray_hit_a_mob(_hitScanResult:Dictionary) -> bool:
 	if !_hitScanResult.collider.has_method("is_mob"):

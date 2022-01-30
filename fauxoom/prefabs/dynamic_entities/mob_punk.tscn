@@ -8,7 +8,7 @@
 [ext_resource path="res://assets/sprites/frames/punk_frames.tres" type="SpriteFrames" id=6]
 [ext_resource path="res://prefabs/mob_components/mob_motor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/ai/ai_ticker.gd" type="Script" id=8]
-[ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=9]
+[ext_resource path="res://prefabs/mob_components/mob_sound_base.tscn" type="PackedScene" id=9]
 [ext_resource path="res://src/ai/mobs/punk_sound.gd" type="Script" id=10]
 [ext_resource path="res://prefabs/mob_components/orb_shield.tscn" type="PackedScene" id=11]
 [ext_resource path="res://zqf/zqf_orbiter.gd" type="Script" id=12]
@@ -96,10 +96,7 @@ prefabName = "mob_punk"
 [node name="ticker" type="Spatial" parent="."]
 script = ExtResource( 8 )
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource( 9 )
-unit_db = 6.0
-bus = "game"
+[node name="AudioStreamPlayer3D" parent="." instance=ExtResource( 9 )]
 script = ExtResource( 10 )
 
 [node name="orbs" type="Spatial" parent="."]

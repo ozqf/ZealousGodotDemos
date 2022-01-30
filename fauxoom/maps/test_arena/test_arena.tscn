@@ -347,20 +347,22 @@ script = ExtResource( 14 )
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 24, 1, 8 )
 triggerTargetName = "select_wave tactics_1"
 
-[node name="player_barrier_volume" parent="entities" instance=ExtResource( 21 )]
+[node name="barriers" type="Spatial" parent="entities"]
+
+[node name="player_barrier_volume" parent="entities/barriers" instance=ExtResource( 21 )]
 transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 25, 6, 25 )
 
-[node name="player_barrier_volume2" parent="entities" instance=ExtResource( 21 )]
+[node name="player_barrier_volume2" parent="entities/barriers" instance=ExtResource( 21 )]
 transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 8, 6, 25 )
 
-[node name="player_barrier_volume3" parent="entities" instance=ExtResource( 21 )]
+[node name="player_barrier_volume3" parent="entities/barriers" instance=ExtResource( 21 )]
 transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 25, 6, 8 )
 
-[node name="player_barrier_volume4" parent="entities" instance=ExtResource( 21 )]
+[node name="player_barrier_volume4" parent="entities/barriers" instance=ExtResource( 21 )]
 transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 8, 6, 8 )
 
-[node name="player_barrier_volume5" parent="entities" instance=ExtResource( 21 )]
+[node name="player_barrier_volume5" parent="entities/barriers" instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 16, 7, 6, 24 )
 
-[node name="player_barrier_volume6" parent="entities" instance=ExtResource( 21 )]
+[node name="player_barrier_volume6" parent="entities/barriers" instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 16, 40, 6, 24 )

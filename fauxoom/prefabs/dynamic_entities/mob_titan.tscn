@@ -74,9 +74,11 @@ material/0 = null
 [node name="360_aoe" type="Node" parent="attacks"]
 script = ExtResource( 4 )
 maxUseRange = 8.0
-windUpTime = 1.0
+windUpTime = 2.0
+windDownTime = 1.0
 showOmniCharge = true
 allowMovement = false
+cooldown = 5.0
 faceTargetDuringWindup = false
 faceTargetDuringAttack = false
 
@@ -133,7 +135,7 @@ script = ExtResource( 1 )
 entityType = "mob_titan"
 health = 3000
 moveSpeed = 5.5
-stunThreshold = 100
+stunThreshold = 200
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )
