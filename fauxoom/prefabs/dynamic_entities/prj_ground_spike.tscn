@@ -9,6 +9,7 @@ radial_segments = 32
 rings = 2
 
 [node name="prj_ground_spike" type="Spatial"]
+visible = false
 script = ExtResource( 1 )
 
 [node name="cone" type="MeshInstance" parent="."]

@@ -14,6 +14,7 @@ func _set_scale(weight:float) -> void:
 	var t:float = lerp(0, 1, weight)
 	_cone.scale = Vector3(t, t, t)
 	_cone.transform.origin = Vector3(0, t, 0)
+	visible = true
 
 func _process(_delta:float) -> void:
 	_time += _delta
