@@ -1,7 +1,6 @@
 extends InvWeapon
 
 var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
-var _trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
 
 func custom_init_b() -> void:
 	_hitInfo.damage = 100
@@ -17,7 +16,7 @@ func custom_init_b() -> void:
 # 	return true
 
 func _draw_trail(origin:Vector3, dest:Vector3) -> void:
-	var trail = _trail_t.instance()
+	var trail = Game.trail_t.instance()
 	Game.get_dynamic_parent().add_child(trail)
 	trail.spawn(origin, dest)
 

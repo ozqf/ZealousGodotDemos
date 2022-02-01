@@ -1,8 +1,5 @@
 extends InvWeapon
 
-var _prj_column_t = preload("res://prefabs/dynamic_entities/prj_column.tscn")
-var _prj_spike_t = preload("res://prefabs/dynamic_entities/prj_ground_spike.tscn")
-
 const Enums = preload("res://src/enums.gd")
 
 func custom_init_b() -> void:
@@ -29,7 +26,7 @@ func _spawn_enemy(type) -> void:
 	var _mob = Ents.create_mob(type, t, true)
 
 func _fire_column_projectile() -> void:
-	var prj = _prj_column_t.instance()
+	var prj = Game.prj_column_t.instance()
 	Game.get_dynamic_parent().add_child(prj)
 	var mask = Interactions.get_player_prj_mask()
 	var selfPos:Vector3 = _launchNode.global_transform.origin
@@ -43,7 +40,7 @@ func _fire_column_projectile() -> void:
 func _fire_test_projectile() -> void:
 	var t:Transform = _launchNode.global_transform
 	var pos:Vector3 = t.origin + (-t.basis.z)
-	PrjUtils.fire_from(pos, _launchNode, null, _prj_column_t)
+	PrjUtils.fire_from(pos, _launchNode, null, Game.prj_column_t)
 
 func _fire_spike_line() -> void:
 	var t:Transform = _launchNode.global_transform
@@ -58,7 +55,7 @@ func _fire_spike_line() -> void:
 	print("Got " + str(numPoints) + " points")
 	for i in range(0, numPoints):
 		var p:Vector3 = points[i]
-		var prj = _prj_spike_t.instance()
+		var prj = Game.prj_spike_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
 		prj.global_transform.origin = p
 		# prj.launch_prj(p, -t.basis.z, 0, Interactions.TEAM_PLAYER, Interactions.get_player_prj_mask())

@@ -1,7 +1,5 @@
 extends InvWeapon
 
-var _hyper_aoe_t = preload("res://prefabs/hyper_aoe.tscn")
-
 export var punchScanRange:float = 2
 export var regularDamage:int = 15
 export var superDamage:int = 100
@@ -12,7 +10,7 @@ func custom_init_b() -> void:
 	_hitInfo.damage = regularDamage
 
 func _spawn_aoe(pos:Vector3) -> HyperAoe:
-	var aoe = _hyper_aoe_t.instance()
+	var aoe = Game.hyper_aoe_t.instance()
 	Game.get_dynamic_parent().add_child(aoe)
 	aoe.global_transform.origin = pos
 	aoe.run_hyper_aoe(HyperAoe.TYPE_SUPER_PUNCH, 0.0)

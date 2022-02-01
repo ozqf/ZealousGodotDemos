@@ -3,10 +3,6 @@ extends InvWeapon
 const REV_UP_TIME:float = 2.0
 const REV_DOWN_TIME:float = 4.0
 
-# when saw blade is launched, input handling is passed onto the project
-# the project is recycled, if we don't have one, create one and reuse it
-var _prj_player_saw_t = preload("res://prefabs/dynamic_entities/prj_player_saw.tscn")
-
 export var empty_animation:String = ""
 export var _isAttacking:bool = false
 
@@ -49,7 +45,7 @@ func change_state(newState) -> void:
 		# launch sawblade
 		if _thrown == null:
 			# created a new sawblade
-			_thrown = _prj_player_saw_t.instance()
+			_thrown = Game.prj_player_saw_t.instance()
 			Game.get_dynamic_parent().add_child(_thrown)
 		_thrown.launch(_launchNode.global_transform, _revs)
 		_revs = 0

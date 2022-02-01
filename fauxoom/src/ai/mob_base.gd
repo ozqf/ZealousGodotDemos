@@ -16,10 +16,6 @@ extends KinematicBody
 # https://www.reddit.com/r/godot/comments/hu213d/class_was_found_in_global_scope_but_its_script/
 # class_name MobBase
 
-var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
-var _prefab_impact_debris_t = preload("res://prefabs/gfx/blood_hit_debris.tscn")
-var _punk_corpse_t = preload("res://prefabs/corpses/punk_corpse.tscn")
-
 const Enums = preload("res://src/enums.gd")
 
 const STUN_TIME:float = 0.2
@@ -428,7 +424,7 @@ func _spawn_hit_particles(pos:Vector3, _forward:Vector3,  deathHit:bool) -> void
 		_range =- 0.35
 	var root:Node = get_tree().get_current_scene()
 	for _i in range(0, numParticles):
-		var blood = _prefab_blood_hit.instance()
+		var blood = Game.prefab_blood_hit.instance()
 		root.add_child(blood)
 		var offset:Vector3 = Vector3(
 			rand_range(-_range, _range),
@@ -436,7 +432,7 @@ func _spawn_hit_particles(pos:Vector3, _forward:Vector3,  deathHit:bool) -> void
 			rand_range(-_range, _range))
 		blood.global_transform.origin = (pos + offset)
 	# spawn debris particles
-	var debris:Spatial = _prefab_impact_debris_t.instance()
+	var debris:Spatial = Game.prefab_impact_debris_t.instance()
 	root.add_child(debris)
 	debris.global_transform.origin = pos
 	var rigidBody:RigidBody = debris.find_node("RigidBody")
@@ -501,7 +497,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		# print("Prefab " + str(_ent.prefabName) + " died at " + str(global_transform.origin))
 		# if _ent.prefabName == "mob_punk":
 		if corpsePrefab == "mob_punk":
-			var corpse = _punk_corpse_t.instance()
+			var corpse = Game.punk_corpse_t.instance()
 			get_tree().get_current_scene().add_child(corpse)
 			corpse.spawn(_hitInfo, global_transform)
 			# corpse.global_transform = global_transform

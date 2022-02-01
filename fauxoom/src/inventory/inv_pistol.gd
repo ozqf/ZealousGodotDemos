@@ -4,8 +4,6 @@ export var maxSpreadX:int = 200
 export var maxSpreadY:int = 100
 export var maxLoaded:int = 12
 
-var _flare_t = preload("res://prefabs/dynamic_entities/prj_player_flare.tscn")
-
 var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
 var _pistolReload:AudioStream = preload("res://assets/sounds/item/weapon_reload_light.wav")
 var _awaitOff:bool = false
@@ -40,7 +38,7 @@ func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> voi
 	self.emit_signal("weapon_action", self, "fire")
 
 func _fire_flare() -> void:
-	var flare = _flare_t.instance()
+	var flare = Game.flare_t.instance()
 	Game.get_dynamic_parent().add_child(flare)
 	var t:Transform = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin

@@ -269,7 +269,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -11 )
 triggerName = "endless_wave_spawns"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "a b"
-tickMax = 1.0
+tickMax = 3.0
 totalMobs = 0
 maxLiveMobs = 4
 order = 0
@@ -280,6 +280,7 @@ triggerName = "endless_wave_spawns"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "c d"
 type = 6
+tickMax = 5.0
 totalMobs = 0
 order = 0
 
@@ -289,7 +290,7 @@ triggerName = "endless_wave_spawns"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "e f"
 type = 7
-tickMax = 6.0
+tickMax = 10.0
 totalMobs = 0
 order = 0
 

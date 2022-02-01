@@ -3,10 +3,6 @@ class_name InvWeapon
 
 signal weapon_action(weapon, actionName)
 
-var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
-var _prefab_impact_debris_t = preload("res://prefabs/gfx/bullet_hit_debris.tscn")
-var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
-
 export var damageType:int = 0
 export var hudName:String = ""
 export var inventoryType:String = ""

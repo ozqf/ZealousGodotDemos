@@ -2,7 +2,6 @@ extends KinematicBody
 class_name Player
 
 var _player_hud_status_t = preload("res://src/defs/player_hud_status.gd")
-var _hyper_aoe_t = preload("res://prefabs/hyper_aoe.tscn")
 
 const MAX_HEALTH:int = 100
 
@@ -213,7 +212,7 @@ func _refresh_input_on() -> void:
 	_attack.set_attack_enabled(_gameplayInputOn && _appInputOn)
 
 func _spawn_aoe() -> HyperAoe:
-	var aoe = _hyper_aoe_t.instance()
+	var aoe = Game.hyper_aoe_t.instance()
 	Game.get_dynamic_parent().add_child(aoe)
 	aoe.global_transform.origin = _head.global_transform.origin
 	return aoe

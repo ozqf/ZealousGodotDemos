@@ -1,14 +1,13 @@
 extends InvWeapon
 
 var _rocketShoot:AudioStream = preload("res://assets/sounds/weapon/rocket_fire.wav")
-var _flame_t = preload("res://prefabs/dynamic_entities/prj_flame.tscn")
 var _prjMask:int = -1
 
 func custom_init_b() -> void:
 	_prjMask = Interactions.get_player_prj_mask()
 
 func _fire_rocket() -> void:
-	var rocket = _flame_t.instance()
+	var rocket = Game.flame_t.instance()
 	Game.get_dynamic_parent().add_child(rocket)
 	var t:Transform = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin

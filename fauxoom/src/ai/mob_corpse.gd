@@ -1,7 +1,5 @@
 extends KinematicBody
 
-var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
-
 enum CorpseState {
 	None,
 	RegularDeath,
@@ -38,7 +36,7 @@ func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
 		_range =- 0.35
 	var root:Node = get_tree().get_current_scene()
 	for _i in range(0, numParticles):
-		var blood = _prefab_blood_hit.instance()
+		var blood = Game.prefab_blood_hit.instance()
 		root.add_child(blood)
 		var offset:Vector3 = Vector3(
 			rand_range(-_range, _range),

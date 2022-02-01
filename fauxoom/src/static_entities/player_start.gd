@@ -1,7 +1,5 @@
 extends Spatial
 
-var _player_t = preload("res://prefabs/player.tscn")
-
 onready var _ent:Entity = $Entity
 
 enum InventoryState {

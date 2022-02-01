@@ -6,8 +6,6 @@ export var maxSpreadX:int = 200
 export var maxSpreadY:int = 100
 export var maxLoaded:int = 12
 
-var _flare_t = preload("res://prefabs/dynamic_entities/prj_player_flare.tscn")
-
 var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
 var _pistolReload:AudioStream = preload("res://assets/sounds/item/weapon_reload_light.wav")
 var _awaitOff:bool = false
