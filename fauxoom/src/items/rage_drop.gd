@@ -38,8 +38,10 @@ func launch(pos:Vector3, dropType:int) -> void:
 	_type = dropType
 	if _type == Enums.QuickDropType.Rage:
 		_sprite.animation = "green_capsule"
+		time = 4
 	else:
 		_sprite.animation = "blue_capsule"
+		time = 12
 
 func _give_check() -> bool:
 	if _type == Enums.QuickDropType.Health:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://prefabs/mob_components/mob_fx.tscn" type="PackedScene" id=12]
 [ext_resource path="res://prefabs/mob_components/mob_sound_base.tscn" type="PackedScene" id=13]
 [ext_resource path="res://src/ai/mobs/spider_sound.gd" type="Script" id=14]
+[ext_resource path="res://src/ai/mob_attack.gd" type="Script" id=15]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -62,15 +63,19 @@ material/0 = null
 
 [node name="attacks" type="Node" parent="."]
 
-[node name="attack" type="Node" parent="attacks"]
+[node name="spike_wall" type="Node" parent="attacks"]
 script = ExtResource( 4 )
 windUpTime = 1.5
 windDownTime = 1.0
 showAimLaser = true
 allowMovement = false
+cooldown = 10.0
 faceTargetDuringWindup = false
 faceTargetDuringAttack = false
 requiresLos = false
+
+[node name="spreadshot" type="Node" parent="attacks"]
+script = ExtResource( 15 )
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )

@@ -23,12 +23,12 @@ func on_scan_result(bodies) -> void:
 		var mobPos:Vector3 = body.global_transform.origin
 		var toward:Vector3 = (mobPos - pos).normalized()
 		if _aoeType == TYPE_HYPER_CANCEL:
-			body.apply_stun(toward, 4.0 * _weight)
+			body.apply_stun(toward, 6.0 * _weight)
 		elif _aoeType == TYPE_SUPER_PUNCH:
-			body.apply_stun(toward, 1.0)
+			body.apply_stun(toward, 4.0)
 			Game.spawn_rage_drops(mobPos, Enums.QuickDropType.Health, 1)
 		else:
-			body.apply_stun(toward, 1.0)
+			body.apply_stun(toward, 2.0)
 		print("Hyper aoe - stunning mob")
 	queue_free()
 

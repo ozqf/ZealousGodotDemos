@@ -156,6 +156,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 
 [node name="orbs" type="Spatial" parent="."]
 script = ExtResource( 20 )
+duration = 2.0
 destination = Vector3( 0, 4, 0 )
 
 [node name="orbs" type="Spatial" parent="orbs"]

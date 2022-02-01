@@ -217,7 +217,7 @@ tag = 1
 sniperSpot = true
 
 [node name="trigger_event2" parent="entities" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, -12 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, -2 )
 selfName = "tactics_1"
 type = 2
 intParameter1 = 1
@@ -258,6 +258,40 @@ waitSeconds = 3.0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -15 )
 selfName = "select_wave"
 triggerTargetName = "wave_1 wave_2 wave_3"
+
+[node name="trigger_event5" parent="entities" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -13 )
+selfName = "start_single_endless_wave"
+triggerTargetName = "tactics_1 endless_wave_spawns"
+
+[node name="endless_wave_spawn_1" parent="entities" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -11 )
+triggerName = "endless_wave_spawns"
+positionsSiblingName = "spawn_positions"
+positionsFilter = "a b"
+tickMax = 1.0
+totalMobs = 0
+maxLiveMobs = 4
+order = 0
+
+[node name="endless_wave_spawn_2" parent="entities" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -11 )
+triggerName = "endless_wave_spawns"
+positionsSiblingName = "spawn_positions"
+positionsFilter = "c d"
+type = 6
+totalMobs = 0
+order = 0
+
+[node name="endless_wave_spawn_3" parent="entities" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -11 )
+triggerName = "endless_wave_spawns"
+positionsSiblingName = "spawn_positions"
+positionsFilter = "e f"
+type = 7
+tickMax = 6.0
+totalMobs = 0
+order = 0
 
 [node name="spawn_positions" type="Spatial" parent="entities"]
 script = ExtResource( 15 )
@@ -332,7 +366,7 @@ totalMobs = 0
 maxLiveMobs = 4
 
 [node name="arena" parent="entities" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, -6 )
 
 [node name="waves" type="Node" parent="entities/arena"]
 
@@ -345,7 +379,7 @@ script = ExtResource( 14 )
 
 [node name="lever_switch" parent="entities" instance=ExtResource( 19 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 24, 1, 8 )
-triggerTargetName = "select_wave tactics_1"
+triggerTargetName = "start_single_endless_wave"
 
 [node name="barriers" type="Spatial" parent="entities"]
 

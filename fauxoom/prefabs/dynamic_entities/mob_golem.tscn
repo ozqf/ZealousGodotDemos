@@ -83,9 +83,9 @@ material/0 = null
 [node name="single_shot" type="Node" parent="attacks"]
 script = ExtResource( 4 )
 maxUseRange = 99.0
-attackCount = 10
-windUpTime = 0.5
-windDownTime = 0.5
+attackCount = 4
+windUpTime = 1.0
+windDownTime = 1.0
 repeatTime = 0.25
 allowMovement = false
 cooldown = 2.0
@@ -102,7 +102,7 @@ moveSpeed = 2.0
 evadeSpeed = 0.0
 moveTime = 0.5
 stunTime = 0.5
-stunThreshold = 100
+stunThreshold = 200
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )
