@@ -65,9 +65,10 @@ material/0 = null
 
 [node name="burst" type="Node" parent="attacks"]
 script = ExtResource( 4 )
-attackCount = 10
+attackCount = 6
 windUpTime = 1.0
 windDownTime = 0.5
+repeatTime = 0.2
 showAimLaser = true
 allowMovement = false
 cooldown = 15.0

@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://src/projectiles/prj_player_saw.gd" type="Script" id=1]
-[ext_resource path="res://assets/mat_red_glow.tres" type="Material" id=2]
-[ext_resource path="res://assets/primitives/cube_1x1x1.obj" type="ArrayMesh" id=3]
+[ext_resource path="res://assets/primitives/cube_1x1x1.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://src/projectiles/prj_player_saw.gd" type="Script" id=2]
+[ext_resource path="res://assets/mat_red_glow.tres" type="Material" id=3]
 
 [sub_resource type="PhysicsMaterial" id=5]
 friction = 0.8
@@ -28,7 +28,7 @@ height = 0.1
 collision_layer = 256
 mode = 3
 physics_material_override = SubResource( 5 )
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="display" type="Spatial" parent="."]
 
@@ -40,15 +40,15 @@ material/0 = null
 
 [node name="MeshInstance2" type="MeshInstance" parent="display"]
 transform = Transform( 0.08, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0, 0 )
-material_override = ExtResource( 2 )
-mesh = ExtResource( 3 )
+material_override = ExtResource( 3 )
+mesh = ExtResource( 1 )
 skeleton = NodePath("../..")
 material/0 = null
 
 [node name="MeshInstance3" type="MeshInstance" parent="display"]
 transform = Transform( 0.08, 0, 0, 0, 1, 0, 0, 0, 0.1, 0, 0, 0 )
-material_override = ExtResource( 2 )
-mesh = ExtResource( 3 )
+material_override = ExtResource( 3 )
+mesh = ExtResource( 1 )
 skeleton = NodePath("../..")
 material/0 = null
 

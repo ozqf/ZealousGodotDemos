@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=1]
-[ext_resource path="res://assets/sprites/frames/64x64_projectile_frames.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://src/projectiles/projectile.gd" type="Script" id=3]
-[ext_resource path="res://src/instant_area_scan.gd" type="Script" id=4]
-[ext_resource path="res://prefabs/dynamic_entities/rocket_explosion.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/sprites/frames/64x64_projectile_frames.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://prefabs/dynamic_entities/rocket_explosion.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/instant_area_scan.gd" type="Script" id=3]
+[ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=4]
+[ext_resource path="res://src/projectiles/projectile.gd" type="Script" id=5]
 
 [sub_resource type="SphereShape" id=1]
 radius = 3.0
@@ -25,16 +25,16 @@ albedo_color = Color( 1, 1, 0, 1 )
 size = Vector2( 0.1, 0.1 )
 
 [node name="prj_flare_rocket" type="Spatial"]
-script = ExtResource( 3 )
+script = ExtResource( 5 )
 maxSpeed = 35.0
-deathSpawnPrefab = ExtResource( 5 )
+deathSpawnPrefab = ExtResource( 2 )
 
 [node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
 billboard = 1
-frames = ExtResource( 2 )
+frames = ExtResource( 1 )
 frame = 23
-script = ExtResource( 1 )
+script = ExtResource( 4 )
 active = true
 useParentYaw = true
 animationSet = "projectiles"
@@ -43,7 +43,7 @@ defaultAnimation = "rocket"
 [node name="Area" type="Area" parent="."]
 collision_layer = 4
 collision_mask = 1034
-script = ExtResource( 4 )
+script = ExtResource( 3 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 shape = SubResource( 1 )

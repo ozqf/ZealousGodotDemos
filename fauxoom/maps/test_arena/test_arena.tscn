@@ -19,7 +19,7 @@
 [ext_resource path="res://prefabs/static_entities/camera_entity.tscn" type="PackedScene" id=17]
 [ext_resource path="res://prefabs/static_entities/trigger_counter.tscn" type="PackedScene" id=18]
 [ext_resource path="res://prefabs/static_entities/lever_switch.tscn" type="PackedScene" id=19]
-[ext_resource path="res://prefabs/dynamic_entities/prj_ground_spike.tscn" type="PackedScene" id=20]
+[ext_resource path="res://prefabs/projectiles/prj_ground_spike.tscn" type="PackedScene" id=20]
 [ext_resource path="res://prefabs/static_entities/player_barrier_volume.tscn" type="PackedScene" id=21]
 
 [sub_resource type="NavigationMesh" id=1]

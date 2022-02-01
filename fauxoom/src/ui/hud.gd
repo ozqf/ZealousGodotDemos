@@ -17,6 +17,10 @@ onready var _playerStatus = $player_status
 onready var _ammoStatus = $bottom_right_panel
 onready var _crosshair = $centre
 
+# red bars for critical health
+onready var _criticalHealthLeft:Control = $hurt_left
+onready var _criticalHealthRight:Control = $hurt_right
+
 # audio
 onready var audio:AudioStreamPlayer = $audio/AudioStreamPlayer
 onready var audio2:AudioStreamPlayer = $audio/AudioStreamPlayer2
@@ -117,7 +121,11 @@ func player_hit(_data:Dictionary) -> void:
 
 func player_status_update(data:PlayerHudStatus) -> void:
 	
-	_swayTime = data.swayTime 
+	_swayTime = data.swayTime
+
+	var criticalHealth:bool = data.health <= 25
+	_criticalHealthLeft.visible = criticalHealth
+	_criticalHealthRight.visible = criticalHealth
 	
 	_crosshair.player_status_update(data)
 	_playerStatus.player_status_update(data)

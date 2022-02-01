@@ -27,14 +27,15 @@ var _prefab_ground_target_t = preload("res://prefabs/gfx/ground_target_marker.ts
 
 var _prefab_ejected_shell = preload("res://prefabs/gfx/ejected_shell.tscn")
 
-var prj_spike_t = preload("res://prefabs/dynamic_entities/prj_ground_spike.tscn")
-var prj_column_t = preload("res://prefabs/dynamic_entities/prj_column.tscn")
-var flame_t = preload("res://prefabs/dynamic_entities/prj_flame.tscn")
+var prj_point_t = preload("res://prefabs/projectiles/prj_point.tscn")
+var prj_spike_t = preload("res://prefabs/projectiles/prj_ground_spike.tscn")
+var prj_column_t = preload("res://prefabs/projectiles/prj_column.tscn")
+var flame_t = preload("res://prefabs/projectiles/prj_flame.tscn")
 var hyper_aoe_t = preload("res://prefabs/hyper_aoe.tscn")
 
-var flare_t = preload("res://prefabs/dynamic_entities/prj_player_flare.tscn")
+var flare_t = preload("res://prefabs/projectiles/prj_player_flare.tscn")
 var trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
-var rocket_t = preload("res://prefabs/dynamic_entities/prj_player_rocket.tscn")
+var rocket_t = preload("res://prefabs/projectiles/prj_player_rocket.tscn")
 
 var point_t = preload("res://prefabs/point_gizmo.tscn")
 
@@ -46,7 +47,7 @@ var punk_corpse_t = preload("res://prefabs/corpses/punk_corpse.tscn")
 
 # when saw blade is launched, input handling is passed onto the project
 # the project is recycled, if we don't have one, create one and reuse it
-var prj_player_saw_t = preload("res://prefabs/dynamic_entities/prj_player_saw.tscn")
+var prj_player_saw_t = preload("res://prefabs/projectiles/prj_player_saw.tscn")
 
 ###########################
 var _entRoot:Entities = null

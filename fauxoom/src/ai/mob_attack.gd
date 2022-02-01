@@ -1,7 +1,7 @@
 extends Node
 class_name MobAttack
 
-var _prj_point_t = load("res://prefabs/dynamic_entities/prj_point.tscn")
+# var _prj_point_t = load("res://prefabs/projectiles/prj_point.tscn")
 
 export var tag:String = ""
 export var minUseRange:float = 0
@@ -76,7 +76,7 @@ func fire_from(target:Vector3, launch:Spatial) -> void:
 	var forward:Vector3 = -t.basis.z
 
 	if _pattern == null:
-		var prj = _prj_point_t.instance()
+		var prj = Game.prj_point_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
 		prj.launch_prj(selfPos, forward, 0, Interactions.TEAM_ENEMY, _prjMask)
 		return
@@ -85,7 +85,7 @@ func fire_from(target:Vector3, launch:Spatial) -> void:
 	# print("Pattern attack got " + str(numItems) + " items")
 	for _i in range (0, numItems):
 		var item:Dictionary = _patternBuffer[_i]
-		var prj = _prj_point_t.instance()
+		var prj = Game.prj_point_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
 		# var frwd:Vector3 = t.basis.xform_inv(item.forward)
 		var frwd:Vector3 = item.forward

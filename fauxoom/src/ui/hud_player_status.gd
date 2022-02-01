@@ -10,10 +10,12 @@ onready var _hyperTime:TextureProgress = $hyper_time
 func player_status_update(data:PlayerHudStatus) -> void:
 	# counts
 	_healthCount.text = str(data.health)
-	if data.hyperLevel > 0:
+	if data.health > 50:
+		_healthCount.add_color_override("font_color",  Color(1, 1, 1))
+	elif data.health > 25:
 		_healthCount.add_color_override("font_color",  Color(1, 1, 0))
 	else:
-		_healthCount.add_color_override("font_color",  Color(1, 1, 1))
+		_healthCount.add_color_override("font_color",  Color(1, 0, 0))
 	if data.godMode:
 		_healthCount.text += " (INVUL)"
 	_energyCount.text = str(data.energy)

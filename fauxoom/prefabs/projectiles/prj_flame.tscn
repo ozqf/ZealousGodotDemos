@@ -1,10 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://src/projectiles/projectile.gd" type="Script" id=1]
-[ext_resource path="res://assets/mat_red_glow.tres" type="Material" id=2]
-[ext_resource path="res://assets/sprites/frames/64x64_projectile_frames.tres" type="SpriteFrames" id=3]
-[ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=4]
-
+[ext_resource path="res://assets/sprites/frames/64x64_projectile_frames.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=2]
+[ext_resource path="res://src/projectiles/projectile.gd" type="Script" id=3]
+[ext_resource path="res://assets/mat_red_glow.tres" type="Material" id=4]
 
 [sub_resource type="SphereMesh" id=1]
 radius = 0.1
@@ -13,18 +12,18 @@ radial_segments = 16
 rings = 8
 
 [node name="prj_point" type="Spatial"]
-script = ExtResource( 1 )
+script = ExtResource( 3 )
 maxSpeed = 35.0
 timeToLive = 0.25
 
 [node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
 billboard = 1
-frames = ExtResource( 3 )
-script = ExtResource( 4 )
+frames = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="prj_point" type="MeshInstance" parent="."]
 visible = false
 cast_shadow = 0
 mesh = SubResource( 1 )
-material/0 = ExtResource( 2 )
+material/0 = ExtResource( 4 )
