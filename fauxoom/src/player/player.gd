@@ -283,6 +283,7 @@ func _process(_delta:float) -> void:
 	_targettingInfo.velocity = _motor.get_velocity()
 	_targettingInfo.aimPos = aimPos
 	_targettingInfo.flatVelocity = _motor.get_flat_velocity()
+	_targettingInfo.noAttackTime = _attack.noAttackTime
 
 	# Write HUD information
 	var t:Transform = _head.transform

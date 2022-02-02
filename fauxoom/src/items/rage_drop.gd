@@ -13,7 +13,7 @@ var _state = State.Idle
 var _tick:float = 0
 var _type:int = Enums.QuickDropType.Rage
 
-var _gatherRange:float = 5
+var _gatherRange:float = 6
 var _gatherSpeed:float = 1
 var _gatherSpeedMax:float = 15
 var _gatherSpeedAccel:float = 30
@@ -41,7 +41,7 @@ func launch(pos:Vector3, dropType:int) -> void:
 		time = 4
 	else:
 		_sprite.animation = "blue_capsule"
-		time = 12
+		time = 8
 
 func _give_check() -> bool:
 	if _type == Enums.QuickDropType.Health:
@@ -64,7 +64,11 @@ func _process(_delta:float):
 		var targetPos:Vector3 = dict.position
 		var selfPos:Vector3 = self.global_transform.origin
 		var dist:float = selfPos.distance_to(targetPos)
-		if dist > _gatherRange:
+		var noAttackWeight:float = dict.noAttackTime / 4.0
+		if noAttackWeight > 1:
+			noAttackWeight = 1
+		var bonusRange:float = 4.0 * noAttackWeight
+		if dist > (_gatherRange + bonusRange):
 			return
 		# if AI.give_to_player("rage", 5) == 0:
 		# 	return

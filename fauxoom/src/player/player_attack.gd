@@ -15,6 +15,7 @@ var _pendingSlot:int = -1
 
 var _meleeTick:float = 0
 var _meleeTime:float = 0.5
+var noAttackTime:float = 0.0
 
 func init_attack(interactor:PlayerObjectInteractor, inventory) -> void:
 	_interactor = interactor
@@ -55,6 +56,11 @@ func _process(_delta:float) -> void:
 	# record previous input state
 	_weaponInput.primaryOnPrev = _weaponInput.primaryOn
 	_weaponInput.secondaryOnPrev = _weaponInput.secondaryOn
+	
+	if _weaponInput.primaryOn || _weaponInput.secondaryOn:
+		noAttackTime = 0.0
+	else:
+		noAttackTime += _delta
 	
 	# apply new input state
 	_weaponInput.primaryOn = Input.is_action_pressed("attack_1")
