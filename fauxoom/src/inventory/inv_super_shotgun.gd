@@ -37,7 +37,7 @@ func is_cycling() -> bool:
 	if !_equipped:
 		return false
 	#if tick < (refireTime - (3 * (1.0 / 10.0))):
-	if tick < refireTime - 0.4:
+	if tick < refireTime - Game.quickSwitchTime:
 		return false
 	return true
 

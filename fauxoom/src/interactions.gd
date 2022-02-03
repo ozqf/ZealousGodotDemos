@@ -71,6 +71,8 @@ static func get_explosion_check_mask() -> int:
 	return (WORLD | EXPLOSION_CHECK)
 
 static func is_obj_a_mob(obj) -> bool:
+	if !is_instance_valid(obj):
+		return false
 	if !obj.has_method("is_mob"):
 		return false
 	return obj.is_mob()

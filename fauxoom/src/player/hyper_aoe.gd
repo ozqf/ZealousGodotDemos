@@ -35,4 +35,8 @@ func on_scan_result(bodies) -> void:
 func run_hyper_aoe(aoeType:int, weight:float) -> void:
 	_aoeType = aoeType
 	_weight = weight
+	var shockwave = Game.prefab_shockwave_t.instance()
+	Game.get_dynamic_parent().add_child(shockwave)
+	shockwave.global_transform.origin = global_transform.origin
+	shockwave.run(15)
 	.run()

@@ -88,7 +88,7 @@ windUpTime = 1.0
 windDownTime = 1.0
 repeatTime = 0.25
 allowMovement = false
-cooldown = 2.0
+cooldown = 4.0
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
 script = ExtResource( 13 )

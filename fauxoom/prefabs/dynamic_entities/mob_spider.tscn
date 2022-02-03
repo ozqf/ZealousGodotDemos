@@ -76,6 +76,7 @@ requiresLos = false
 
 [node name="spreadshot" type="Node" parent="attacks"]
 script = ExtResource( 15 )
+cooldown = 3.0
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )

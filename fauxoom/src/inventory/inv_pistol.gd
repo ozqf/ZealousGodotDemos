@@ -20,16 +20,16 @@ func custom_init_b() -> void:
 	_prjMask = Interactions.get_player_prj_mask()
 
 func _start_reload() -> void:
-	tick = _reloadTime
+	self.tick = _reloadTime
 	_reloading = true
 
 func write_hud_status(statusDict:PlayerHudStatus) -> void:
 	statusDict.currentLoaded = _loaded
 	statusDict.currentLoadedMax = maxLoaded
-	statusDict.currentAmmo = _inventory.get_count(ammoType)
+	statusDict.currentAmmo = self._inventory.get_count(self.ammoType)
 
 func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> void:
-	var t:Transform = _launchNode.global_transform
+	var t:Transform = self._launchNode.global_transform
 	var forward:Vector3 = -_launchNode.global_transform.basis.z
 	var spreadX:float = rand_range(-_spreadX, _spreadX) * shotSpreadScale
 	var spreadY:float = rand_range(-_spreadY, _spreadY) * shotSpreadScale

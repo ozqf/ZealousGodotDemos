@@ -77,7 +77,16 @@ func is_equipped() -> bool:
 func is_cycling() -> bool:
 	if hyperLevel > 0:
 		return false
-	return tick > 0
+	if Game.allowQuickSwitching:
+		# quick switch isn't *instant* switching ;)
+		if tick <= 0:
+			return false
+		# if tick <= 0 || tick < refireTime - Game.quickSwitchTime:
+		# 	return false
+		return tick > (refireTime - Game.quickSwitchTime)
+		# return true
+	else:
+		return tick > 0
 
 #########################################
 # default attack logic

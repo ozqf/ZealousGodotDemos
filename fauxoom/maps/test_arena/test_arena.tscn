@@ -379,8 +379,12 @@ script = ExtResource( 14 )
 [node name="arena2" type="Spatial" parent="entities"]
 
 [node name="lever_switch" parent="entities" instance=ExtResource( 19 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 24, 1, 8 )
-triggerTargetName = "start_single_endless_wave"
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 23, 1, 8 )
+triggerTargetName = "select_wave"
+
+[node name="lever_switch2" parent="entities" instance=ExtResource( 19 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 25, 1, 8 )
+triggerTargetName = "tactics_1 start_single_endless_wave"
 
 [node name="barriers" type="Spatial" parent="entities"]
 

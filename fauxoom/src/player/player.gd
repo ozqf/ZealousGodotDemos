@@ -42,7 +42,8 @@ var _targettingInfo:Dictionary = {
 	flatVelocity = Vector3(),
 	flatForward = Vector3(),
 	yawDegrees = 0,
-	aimPos = Vector3()
+	aimPos = Vector3(),
+	noAttackTime = 0.0
 }
 
 func _ready():

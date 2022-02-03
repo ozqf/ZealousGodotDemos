@@ -45,9 +45,9 @@ func launch(pos:Vector3, dropType:int) -> void:
 
 func _give_check() -> bool:
 	if _type == Enums.QuickDropType.Health:
-		return AI.give_to_player("health", 5) == 0
+		return AI.give_to_player("health", 4) == 0
 	else:
-		return AI.give_to_player("rage", 5) == 0
+		return AI.give_to_player("rage", 2) == 0
 
 func _process(_delta:float):
 	if _state == State.Idle:

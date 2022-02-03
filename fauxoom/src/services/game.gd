@@ -24,6 +24,7 @@ var _prefab_impact_debris_t = preload("res://prefabs/gfx/bullet_hit_debris.tscn"
 var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
 var _trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
 var _prefab_ground_target_t = preload("res://prefabs/gfx/ground_target_marker.tscn")
+var prefab_shockwave_t = preload("res://prefabs/gfx/gfx_shockwave.tscn")
 
 var _prefab_ejected_shell = preload("res://prefabs/gfx/ejected_shell.tscn")
 
@@ -70,6 +71,7 @@ var _state = GameState.Pregame
 var _gameMode = GameMode.Survival
 
 var allowQuickSwitching:bool = true
+var quickSwitchTime:float = 0.5
 var hyperLevel:int = 0
 
 var _hasPlayerStart:bool = false
