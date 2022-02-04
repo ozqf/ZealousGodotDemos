@@ -37,6 +37,11 @@ static func look_at_safe(spatial:Spatial, target:Vector3) -> void:
 	spatial.look_at(target, up)
 	pass
 
+static func is_obj_safe(obj) -> bool:
+	if obj == null:
+		return false
+	return is_instance_valid(obj)
+
 #####################################
 # geometry stuff
 #####################################

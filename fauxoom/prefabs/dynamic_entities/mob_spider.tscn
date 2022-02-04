@@ -69,7 +69,7 @@ windUpTime = 1.5
 windDownTime = 1.0
 showAimLaser = true
 allowMovement = false
-cooldown = 10.0
+cooldown = 3.0
 faceTargetDuringWindup = false
 faceTargetDuringAttack = false
 requiresLos = false
@@ -85,7 +85,7 @@ health = 400
 moveSpeed = 3.0
 evadeSpeed = 0.0
 stunTime = 0.5
-stunThreshold = 100
+stunThreshold = 200
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )

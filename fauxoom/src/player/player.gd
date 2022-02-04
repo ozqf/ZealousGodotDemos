@@ -338,7 +338,7 @@ func give_item(itemType:String, amount:int) -> int:
 	#	print(_inventory.debug())
 	return took
 
-func hit(hitInfo) -> int:
+func hit(hitInfo:HitInfo) -> int:
 	if hitInfo.attackTeam == Interactions.TEAM_PLAYER:
 		return 0
 	if _dead:
