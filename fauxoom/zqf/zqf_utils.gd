@@ -42,6 +42,13 @@ static func is_obj_safe(obj) -> bool:
 		return false
 	return is_instance_valid(obj)
 
+static func clamp_float(_value:float, _min:float, _max:float) -> float:
+	if _value < _min:
+		return _min
+	if _value > _max:
+		return _max
+	return _value
+
 #####################################
 # geometry stuff
 #####################################
