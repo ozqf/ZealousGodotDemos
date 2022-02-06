@@ -140,6 +140,7 @@ ammoPerShot = 2
 slot = 3
 idle = "ssg_idle"
 fire_1 = "ssg_shoot"
+heaviness = 1
 
 [node name="plasma_gun" type="Node" parent="inventory/weapons"]
 script = ExtResource( 21 )
@@ -149,6 +150,7 @@ ammoType = "plasma"
 slot = 4
 idle = "pg_idle"
 fire_1 = "pg_shoot"
+heaviness = 1
 
 [node name="rocket_launcher" type="Node" parent="inventory/weapons"]
 script = ExtResource( 18 )
@@ -158,6 +160,7 @@ ammoType = "rockets"
 slot = 5
 idle = "rl_idle"
 fire_1 = "rl_shoot"
+heaviness = 1
 
 [node name="flame_thrower" type="Node" parent="inventory/weapons"]
 script = ExtResource( 26 )

@@ -118,11 +118,11 @@ func _find_shield_orbs() -> void:
 		_shieldOrbCount += 1
 		_shieldOrbTotal += 1
 
-func orb_shield_broke(index:int) -> void:
+func orb_shield_broke(_index:int) -> void:
 	_shieldOrbCount -= 1
 	#print("Mob is down to " + str(_shieldOrbCount) + " orbs")
 
-func orb_shield_restored(index:int) -> void:
+func orb_shield_restored(_index:int) -> void:
 	_shieldOrbCount += 1
 	#print("Mob is up to " + str(_shieldOrbCount) + " orbs")
 
@@ -148,7 +148,7 @@ func get_health_max() -> int:
 	return _healthMax
 
 func fill_health_info(info:MobHealthInfo) -> void:
-	info.healthPercentage = (float(_health) / float(_healthMax)) * 100
+	info.healthPercentage = int((float(_health) / float(_healthMax)) * 100.0)
 	info.closeToDeath = _health < Interactions.DAMAGE_SUPER_PUNCH
 	info.invulnerable = false
 	if _shieldOrbCount > 0 || _state == MobState.Spawning:

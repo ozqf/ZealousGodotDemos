@@ -18,6 +18,7 @@ export var reload:String = ""
 export var empty:String = ""
 
 export var akimbo:bool = false
+export var heaviness:int = 0
 
 var chargeUIMode:int = 0
 
@@ -92,46 +93,34 @@ func is_cycling() -> bool:
 # default attack logic
 #########################################
 func play_idle() -> void:
-	_hud.hide_all_sprites()
 	if idle == null || idle == "":
 		return
-	_hud.currentIdleAnim = idle
-	if akimbo:
-		_hud.rightSprite.visible = true
-		_hud.rightSprite.play(idle)
-		_hud.leftSprite.visible = true
-		_hud.leftSprite.play(idle)
-	else:
-		_hud.centreSprite.visible = true
-		_hud.centreSprite.play(idle)
+	get_tree().call_group(
+		Groups.HUD_GROUP_NAME,
+		Groups.HUD_FN_PLAY_WEAPON_IDLE,
+		idle,
+		akimbo)
 
 func play_fire_1(loop:bool = true) -> void:
 	if _hud == null || fire_1 == null || fire_1 == "":
 		return
-	if akimbo:
-		if _leftNext:
-			_leftNext = false
-			_hud.leftSprite.play(fire_1)
-			_hud.leftSprite.frame = 0
-			if !loop:
-				_hud.leftNextAnim = idle
-		else:
-			_leftNext = true
-			_hud.rightSprite.play(fire_1)
-			_hud.rightSprite.frame = 0
-			if !loop:
-				_hud.rightNextAnim = idle
-	else:
-		_hud.centreSprite.play(fire_1)
-		_hud.centreSprite.frame = 0
-		if !loop:
-			_hud.centreNextAnim = idle
+	get_tree().call_group(
+		Groups.HUD_GROUP_NAME,
+		Groups.HUD_FN_PLAY_WEAPON_SHOOT,
+		fire_1,
+		idle,
+		loop,
+		akimbo,
+		heaviness)
 
 func play_empty() -> void:
-	if _hud == null || empty == null || empty == "":
+	if empty == null || empty == "":
 		return
-	_hud.centreSprite.play(empty)
-	_hud.centreSprite.frame = 0
+	get_tree().call_group(
+		Groups.HUD_GROUP_NAME,
+		Groups.HUD_FN_PLAY_WEAPON_IDLE,
+		empty,
+		akimbo)
 
 func read_input(_weaponInput:WeaponInput) -> void:
 	pass

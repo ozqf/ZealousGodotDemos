@@ -5,10 +5,10 @@ var _hit_indicator_t = load("res://prefabs/ui/hud_hit_indicator.tscn")
 
 # player sprites
 onready var gunsContainer:Control = $view_sprites/gun
-onready var centreSprite:AnimatedSprite = $view_sprites/gun/weapon_centre
-onready var centreSpriteBig:AnimatedSprite = $view_sprites/gun/weapon_centre_big
-onready var rightSprite:AnimatedSprite = $view_sprites/gun/weapon_right
-onready var leftSprite:AnimatedSprite = $view_sprites/gun/weapon_left
+onready var centreSprite:HudWeaponSprite = $view_sprites/gun/weapon_centre
+onready var centreSpriteBig:HudWeaponSprite = $view_sprites/gun/weapon_centre_big
+onready var rightSprite:HudWeaponSprite = $view_sprites/gun/weapon_right
+onready var leftSprite:HudWeaponSprite = $view_sprites/gun/weapon_left
 
 onready var _handRight:AnimatedSprite = $view_sprites/bottom_right/right_hand
 onready var _handLeft:AnimatedSprite = $view_sprites/bottom_left/left_hand
@@ -41,12 +41,12 @@ var _currentWeap:Dictionary = Weapons.weapons["ssg"]
 var _akimbo:bool = false
 var _leftHandNext:bool = false
 
-var currentIdleAnim:String = "pistol_idle"
+var currentIdleAnim:String = "pistol_idle" # this defunct?
 var centreNextAnim:String = ""
 var rightNextAnim:String = ""
 var leftNextAnim:String = ""
 
-var _swayTime:float = 0.0
+var swayTime:float = 0.0
 var _lastSoundFrame:int = -1
 
 func _ready() -> void:
@@ -57,9 +57,8 @@ func _ready() -> void:
 	_handRight.visible = false
 	_handLeft.visible = false
 	add_to_group(Groups.PLAYER_GROUP_NAME)
-	var _f = centreSprite.connect("animation_finished", self, "_on_centre_animation_finished")
-	_f = rightSprite.connect("animation_finished", self, "_on_right_animation_finished")
-	_f = leftSprite.connect("animation_finished", self, "_on_left_animation_finished")
+	add_to_group(Groups.HUD_GROUP_NAME)
+	var _f
 	_f = _handRight.connect("animation_finished", self, "_on_right_hand_animation_finished")
 	_f = _handLeft.connect("animation_finished", self, "_on_left_hand_animation_finished")
 
@@ -90,20 +89,22 @@ func hide_all_sprites() -> void:
 	leftNextAnim = ""
 
 func _process(_delta:float) -> void:
-	#_swayTime += (_delta * 12)
+	#swayTime += (_delta * 12)
 	# x can sway from -1 to 1 (left to right)
-	var mulX:float = sin(_swayTime * 0.5)
+	var mulX:float = sin(swayTime * 0.5)
 	# keep y between 0 and 1 so it never moves
 	# above original screen position
-	var mulY:float = (1 + sin(_swayTime)) * 0.5
+	var mulY:float = (1 + sin(swayTime)) * 0.5
 	var x:float = mulX * 16
 	var y:float = mulY * 16
-
+	
+	centreSprite.update_sway_time(swayTime)
+	
 	var t:Transform2D = _centreTrans
-	t.origin.x += x
-	t.origin.y += y
-	centreSprite.transform = t
-
+	#t.origin.x += x
+	#t.origin.y += y
+	#centreSprite.transform = t
+	
 	t = _rightTrans
 	t.origin.x += x
 	t.origin.y += y
@@ -114,6 +115,53 @@ func _process(_delta:float) -> void:
 	t.origin.y += y
 	leftSprite.transform = t
 
+func hud_play_weapon_idle(idleAnimName:String, akimbo:bool = false) -> void:
+	hide_all_sprites()
+	if idleAnimName == null || idleAnimName == "":
+		return
+	# currentIdleAnim = idleAnimName
+	if akimbo:
+		rightSprite.visible = true
+		rightSprite.play(idleAnimName)
+		rightSprite.nextAnim = ""
+		leftSprite.visible = true
+		leftSprite.play(idleAnimName)
+		leftSprite.nextAnim = ""
+	else:
+		centreSprite.visible = true
+		centreSprite.play(idleAnimName)
+		centreSprite.nextAnim = ""
+	pass
+
+func hud_play_weapon_shoot(
+	shootAnimName:String,
+	idleAnimName:String,
+	loop:bool = false,
+	akimbo:bool = false,
+	heaviness:float = 1.0) -> void:
+	var sprite:HudWeaponSprite
+	if !akimbo:
+		sprite = centreSprite
+	else:
+		if _leftHandNext:
+			_leftHandNext = false
+			sprite = leftSprite
+		else:
+			_leftHandNext = true
+			sprite = rightSprite
+	
+	# not akimbo - most common
+	sprite.play(shootAnimName)
+	sprite.frame = 0
+	if !loop:
+		sprite.nextAnim = idleAnimName
+	# kick sprite if attack is heavy
+	if heaviness > 0.0:
+		sprite.run_shoot_push()
+
+func hud_play_weapon_empty() -> void:
+	pass
+
 func player_hit(_data:Dictionary) -> void:
 	var hit = _hit_indicator_t.instance()
 	$centre.add_child(hit)
@@ -121,7 +169,7 @@ func player_hit(_data:Dictionary) -> void:
 
 func player_status_update(data:PlayerHudStatus) -> void:
 	
-	_swayTime = data.swayTime
+	swayTime = data.swayTime
 
 	var criticalHealth:bool = data.health <= 25
 	_criticalHealthLeft.visible = criticalHealth
@@ -130,22 +178,7 @@ func player_status_update(data:PlayerHudStatus) -> void:
 	_crosshair.player_status_update(data)
 	_playerStatus.player_status_update(data)
 	_ammoStatus.player_status_update(data)
-	
-func _on_centre_animation_finished() -> void:
-	if centreNextAnim != "":
-		centreSprite.play(centreNextAnim)
-		centreNextAnim = ""
 
-func _on_right_animation_finished() -> void:
-	if rightNextAnim != "":
-		rightSprite.play(rightNextAnim)
-		rightNextAnim = ""
-
-func _on_left_animation_finished() -> void:
-	if leftNextAnim != "":
-		leftSprite.play(leftNextAnim)
-		leftNextAnim = ""
-	
 func _on_right_hand_animation_finished() -> void:
 	_handRight.visible = false
 	_handLeft.visible = false

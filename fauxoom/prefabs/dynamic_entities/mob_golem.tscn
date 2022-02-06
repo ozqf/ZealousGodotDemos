@@ -32,7 +32,7 @@ collision_layer = 2
 collision_mask = 70
 script = ExtResource( 2 )
 roleClass = 2
-corpsePrefab = "mob_punk"
+corpsePrefab = "mob_golem"
 
 [node name="teleport_column" parent="." instance=ExtResource( 15 )]
 transform = Transform( 3, 0, 0, 0, 2.5, 0, 0, 0, 3, 0, 0, 0 )

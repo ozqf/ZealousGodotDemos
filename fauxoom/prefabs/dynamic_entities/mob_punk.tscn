@@ -86,6 +86,7 @@ script = ExtResource( 13 )
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
+health = 80
 moveSpeed = 6.0
 evadeSpeed = 2.0
 moveTime = 0.5

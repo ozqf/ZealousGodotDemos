@@ -13,11 +13,11 @@ var _data:Dictionary = {
 	rocket_launcher = { count = 0, max = 1, type = "weapon", priority = 6 },
 	flame_thrower = { count = 0, max = 1, type = "weapon", priority = 2 },
 
-	bullets = { count = 100, max = 300, type = "ammo", priority = 0 },
-	shells = { count = 0, max = 30, type = "ammo", priority = 0 },
+	bullets = { count = 100, max = 200, type = "ammo", priority = 0 },
+	shells = { count = 0, max = 40, type = "ammo", priority = 0 },
 	plasma = { count = 0, max = 20, type = "ammo", priority = 0 },
 	rockets = { count = 0, max = 20, type = "ammo", priority = 0 },
-	fuel = { count = 0, max = 1000, type = "ammo", priority = 0 },
+	fuel = { count = 0, max = 800, type = "ammo", priority = 0 },
 	
 	rage = { count = 0, max = 100, type = "resource", priority = 0 },
 

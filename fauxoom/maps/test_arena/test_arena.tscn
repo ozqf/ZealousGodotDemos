@@ -160,7 +160,8 @@ environment = ExtResource( 4 )
 [node name="DirectionalLight" type="DirectionalLight" parent="lights"]
 transform = Transform( 0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, 0, 15, 20 )
 light_energy = 2.0
-directional_shadow_mode = 0
+shadow_enabled = true
+directional_shadow_mode = 1
 
 [node name="entities" type="Spatial" parent="."]
 
@@ -389,19 +390,19 @@ triggerTargetName = "tactics_1 start_single_endless_wave"
 [node name="barriers" type="Spatial" parent="entities"]
 
 [node name="player_barrier_volume" parent="entities/barriers" instance=ExtResource( 21 )]
-transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 25, 6, 25 )
+transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 25, -10, 25 )
 
 [node name="player_barrier_volume2" parent="entities/barriers" instance=ExtResource( 21 )]
-transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 8, 6, 25 )
+transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 8, -10, 25 )
 
 [node name="player_barrier_volume3" parent="entities/barriers" instance=ExtResource( 21 )]
-transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 25, 6, 8 )
+transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 25, -10, 8 )
 
 [node name="player_barrier_volume4" parent="entities/barriers" instance=ExtResource( 21 )]
-transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 8, 6, 8 )
+transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 8, -10, 8 )
 
 [node name="player_barrier_volume5" parent="entities/barriers" instance=ExtResource( 21 )]
-transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 16, 7, 6, 24 )
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 16, 7, -10, 24 )
 
 [node name="player_barrier_volume6" parent="entities/barriers" instance=ExtResource( 21 )]
-transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 16, 40, 6, 24 )
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 16, 40, -10, 24 )

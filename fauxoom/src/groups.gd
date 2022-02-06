@@ -47,3 +47,8 @@ const PLAYER_FN_WEAPON_CHANGE:String = "player_weapon_change"
 const PLAYER_FN_MOVED:String = "player_camera_moved"
 const PLAYER_FN_OPEN_DEBUG_MENU:String = "player_open_debug_menu"
 const PLAYER_FN_CLOSE_DEBUG_MENU:String = "player_close_debug_menu"
+
+const HUD_GROUP_NAME:String = "hud"
+const HUD_FN_PLAY_WEAPON_IDLE:String = "hud_play_weapon_idle"
+const HUD_FN_PLAY_WEAPON_SHOOT:String = "hud_play_weapon_shoot"
+const HUD_FN_PLAY_WEAPON_EMPTY:String = "hud_play_weapon_empty"
