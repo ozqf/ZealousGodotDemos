@@ -2,7 +2,6 @@
 
 [ext_resource path="res://zqf/timed_self_cull.gd" type="Script" id=1]
 
-
 [sub_resource type="PhysicsMaterial" id=3]
 
 [sub_resource type="SphereShape" id=1]
@@ -19,6 +18,7 @@ time = 2.0
 [node name="RigidBody" type="RigidBody" parent="."]
 collision_layer = 256
 physics_material_override = SubResource( 3 )
+gravity_scale = 2.0
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true

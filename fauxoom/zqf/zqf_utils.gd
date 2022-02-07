@@ -37,6 +37,10 @@ static func look_at_safe(spatial:Spatial, target:Vector3) -> void:
 	spatial.look_at(target, up)
 	pass
 
+static func set_forward(spatial:Spatial, forward:Vector3) -> void:
+	var tar:Vector3 = spatial.global_transform.origin + forward
+	look_at_safe(spatial, tar)
+
 static func is_obj_safe(obj) -> bool:
 	if obj == null:
 		return false

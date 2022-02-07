@@ -85,6 +85,8 @@ var _shieldOrbCount:int = 0
 var _dead:bool = false
 var _isSniper:bool = false
 
+var _corpseHitInfo:CorpseSpawnInfo = null
+
 func _ready() -> void:
 	_health = _stats.health
 	if _health <= 0:
@@ -93,6 +95,7 @@ func _ready() -> void:
 	aimLaser = self.get_node_or_null("head/mob_aim_laser")
 	omniCharge = self.get_node_or_null("head/omni_attack_charge")
 	_aiTickInfo = AI.create_tick_info()
+	_corpseHitInfo = Game.new_corpse_spawn_info()
 	_gather_attacks()
 	motor.custom_init(self)
 	motor.speed = _stats.moveSpeed
@@ -346,7 +349,7 @@ func _process(_delta:float) -> void:
 		# build_tick_info(AI.mob_check_target(_tickInfo))
 		var targetInfo:Dictionary = AI.mob_check_target()
 		_build_tick_info(targetInfo, _delta)
-		if _aiTickInfo.id == 0:
+		if _aiTickInfo.id == 0:\
 			# lost target
 			_change_state(MobState.Idle)
 		else:
@@ -374,12 +377,24 @@ func _process(_delta:float) -> void:
 		_tick_stunned(_delta)
 		return
 	elif _state == MobState.Dying:
+		if corpsePrefab == "mob_punk":
+			var corpse = Game.punk_corpse_t.instance()
+			get_tree().get_current_scene().add_child(corpse)
+			corpse.spawn(_corpseHitInfo, global_transform)
+			corpse.global_transform = global_transform
+			print("Spawned corpse at " + str(corpse.global_transform.origin))
+		_change_state(MobState.Dying)
+		queue_free()
+		# ticks for one frame to spawn corpse and pass on
+		# damage
+
 		# velocity = self.move_and_slide(velocity)
 		# velocity *= 0.95
-		motor.move_idle(_delta)
+		# motor.move_idle(_delta)
 		return
 	elif _state == MobState.Dead:
-		motor.move_idle(_delta)
+		# do nothing. waiting for queue_free
+		# motor.move_idle(_delta)
 		return
 
 func apply_stun(_dir:Vector3, durationOverride:float) -> void:
@@ -432,7 +447,7 @@ func _spawn_hit_particles(pos:Vector3, _forward:Vector3,  deathHit:bool) -> void
 			rand_range(-_range, _range))
 		blood.global_transform.origin = (pos + offset)
 	# spawn debris particles
-	var debris:Spatial = Game.prefab_impact_debris_t.instance()
+	var debris:Spatial = Game.prefab_blood_debris_t.instance()
 	root.add_child(debris)
 	debris.global_transform.origin = pos
 	var rigidBody:RigidBody = debris.find_node("RigidBody")
@@ -443,23 +458,25 @@ func _spawn_hit_particles(pos:Vector3, _forward:Vector3,  deathHit:bool) -> void
 
 func corpse_hit(_hitInfo:HitInfo) -> int:
 	# print("Corpse hit - frame == " + str(sprite.get_frame_number()))
-	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
-		var gibbable:bool = (_state == MobState.Dying || _state == MobState.Dead)
-		if gibbable:
-			gib_death(_hitInfo.direction)
-		return 1
-	elif sprite.get_frame_number() <= 1:
-		_spawn_hit_particles(_hitInfo.origin, _hitInfo.direction, false)
-		if _health < -_stats.health * 5:
-			gib_death(_hitInfo.direction / 10)
-		else:
-			_health -= _hitInfo.damage
-			sprite.set_frame_number(0)
-			# velocity += _hitInfo.direction * 3
-			motor.damage_hit(_hitInfo)
-		return 1
-	else:
-		return Interactions.HIT_RESPONSE_PENETRATE
+	_corpseHitInfo.hitCount += 1
+	return Interactions.HIT_RESPONSE_PENETRATE
+	#if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+	#	var gibbable:bool = (_state == MobState.Dying || _state == MobState.Dead)
+	#	if gibbable:
+	#		gib_death(_hitInfo.direction)
+	#	return 1
+	#elif sprite.get_frame_number() <= 1:
+	#	_spawn_hit_particles(_hitInfo.origin, _hitInfo.direction, false)
+	#	if _health < -_stats.health * 5:
+	#		gib_death(_hitInfo.direction / 10)
+	#	else:
+	#		_health -= _hitInfo.damage
+	#		sprite.set_frame_number(0)
+	#		# velocity += _hitInfo.direction * 3
+	#		motor.damage_hit(_hitInfo)
+	#	return 1
+	#else:
+	#	return Interactions.HIT_RESPONSE_PENETRATE
 
 func hit(_hitInfo:HitInfo) -> int:
 	if is_dead():
@@ -469,8 +486,8 @@ func hit(_hitInfo:HitInfo) -> int:
 	if _shieldOrbCount > 0:
 		return Interactions.HIT_RESPONSE_NONE
 	_health -= _hitInfo.damage
-	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
-			print("Explosive hit for " + str(_hitInfo.damage))
+	# if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+	# 		print("Explosive hit for " + str(_hitInfo.damage))
 	if _health <= 0:
 		# die
 		_remove_from_squad()
@@ -478,6 +495,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		motor.mob_died()
 		emit_signal("on_mob_died", self)
 		Interactions.triggerTargets(get_tree(), _ent.triggerTargetName)
+		# collisionShape.disabled = true
 		
 		var influenceNode = get_node_or_null("influence_agent")
 		if influenceNode != null:
@@ -492,18 +510,22 @@ func hit(_hitInfo:HitInfo) -> int:
 			dropType = Enums.QuickDropType.Health
 			dropCount = 5
 		Game.spawn_rage_drops(collisionShape.global_transform.origin, dropType, dropCount)
-
+		
+		_corpseHitInfo.direction = _hitInfo.direction
+		_corpseHitInfo.origin = _hitInfo.origin
+		_corpseHitInfo.damageType = _hitInfo.damageType
+		_corpseHitInfo.hitCount = 1
 		# fx
 		# print("Prefab " + str(_ent.prefabName) + " died at " + str(global_transform.origin))
 		# if _ent.prefabName == "mob_punk":
-		if corpsePrefab == "mob_punk":
-			var corpse = Game.punk_corpse_t.instance()
-			get_tree().get_current_scene().add_child(corpse)
-			corpse.spawn(_hitInfo, global_transform)
-			# corpse.global_transform = global_transform
-			# print("Spawned corpse at " + str(corpse.global_transform.origin))
+		#if corpsePrefab == "mob_punk":
+		#	var corpse = Game.punk_corpse_t.instance()
+		#	get_tree().get_current_scene().add_child(corpse)
+		#	corpse.spawn(_hitInfo, global_transform)
+		#	# corpse.global_transform = global_transform
+		#	# print("Spawned corpse at " + str(corpse.global_transform.origin))
 		_change_state(MobState.Dying)
-		queue_free()
+		# queue_free()
 		return 1
 		
 		# var selfPos:Vector3 = global_transform.origin

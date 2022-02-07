@@ -16,5 +16,6 @@ func fire(target:Vector3) -> void:
 		var prj = Game.prj_spike_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
 		prj.global_transform.origin = p
+		prj.wait(0.02 * i)
 		# prj.launch_prj(p, -t.basis.z, 0, Interactions.TEAM_PLAYER, Interactions.get_player_prj_mask())
 	pass

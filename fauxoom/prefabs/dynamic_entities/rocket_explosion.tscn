@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/sprites/frames/explosion_frames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://zqf/zgu_animated_sprite_3d_controller.gd" type="Script" id=2]
-[ext_resource path="res://zqf/timed_self_cull.gd" type="Script" id=3]
+[ext_resource path="res://src/gfx/rocket_explosion.gd" type="Script" id=3]
 [ext_resource path="res://assets/sounds/impact/explode.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/primitives/hoop_1.obj" type="ArrayMesh" id=5]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_unshaded = true
 
 [node name="explosion" type="Spatial"]
 script = ExtResource( 3 )
@@ -22,3 +26,8 @@ stream = ExtResource( 4 )
 unit_db = 6.0
 autoplay = true
 bus = "game"
+
+[node name="ring" type="MeshInstance" parent="."]
+material_override = SubResource( 1 )
+mesh = ExtResource( 5 )
+material/0 = null

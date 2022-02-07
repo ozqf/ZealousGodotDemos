@@ -16,16 +16,21 @@ var _head_gib_t = preload("res://prefabs/player_gib.tscn")
 
 var _hitInfo_type = preload("res://src/defs/hit_info.gd")
 var _mobHealthInfo_t = preload("res://src/defs/mob_health_info.gd")
+var _corpse_spawn_info_t = preload("res://src/defs/corpse_spawn_info.gd")
 
 var _rage_drop_t = preload("res://prefabs/dynamic_entities/rage_drop.tscn")
 
-var _prefab_impact = preload("res://prefabs/bullet_impact.tscn")
-var _prefab_impact_debris_t = preload("res://prefabs/gfx/bullet_hit_debris.tscn")
-var _prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
+var prefab_impact_debris_t = preload("res://prefabs/gfx/bullet_hit_debris.tscn")
+var prefab_blood_debris_t = preload("res://prefabs/gfx/blood_hit_debris.tscn")
+
+var prefab_impact = preload("res://prefabs/bullet_impact.tscn")
+var prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
+
 var _trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
 var _prefab_ground_target_t = preload("res://prefabs/gfx/ground_target_marker.tscn")
 var prefab_shockwave_t = preload("res://prefabs/gfx/gfx_shockwave.tscn")
 
+var _prefab_ejected_bullet = preload("res://prefabs/gfx/ejected_bullet.tscn")
 var _prefab_ejected_shell = preload("res://prefabs/gfx/ejected_shell.tscn")
 
 var prj_point_t = preload("res://prefabs/projectiles/prj_point.tscn")
@@ -39,10 +44,6 @@ var trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
 var rocket_t = preload("res://prefabs/projectiles/prj_player_rocket.tscn")
 
 var point_t = preload("res://prefabs/point_gizmo.tscn")
-
-var prefab_impact = preload("res://prefabs/bullet_impact.tscn")
-var prefab_impact_debris_t = preload("res://prefabs/gfx/bullet_hit_debris.tscn")
-var prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
 
 var punk_corpse_t = preload("res://prefabs/corpses/punk_corpse.tscn")
 
@@ -120,6 +121,9 @@ func new_hit_info() -> HitInfo:
 
 func new_mob_health_info() -> MobHealthInfo:
 	return _mobHealthInfo_t.new()
+
+func new_corpse_spawn_info() -> CorpseSpawnInfo:
+	return _corpse_spawn_info_t.new()
 
 func config_changed(_cfg:Dictionary) -> void:
 	_camera.fov = Config.cfg.r_fov
@@ -449,7 +453,7 @@ func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:
 	return result
 
 func spawn_impact_sprite(origin:Vector3) -> void:
-	var impact:Spatial = _prefab_impact.instance()
+	var impact:Spatial = prefab_impact.instance()
 	_entRoot.add_child(impact)
 	var t:Transform = impact.global_transform
 	t.origin = origin
@@ -477,8 +481,13 @@ func _spawn_debris_prefab(
 func spawn_impact_debris(
 	origin:Vector3, normal:Vector3, minSpeed:float, maxSpeed:float, count:int) -> void:
 	if Config.cfg.r_hitDebris:
-		_spawn_debris_prefab(_prefab_impact_debris_t, origin, normal, minSpeed, maxSpeed, count)
-	
+		_spawn_debris_prefab(prefab_impact_debris_t, origin, normal, minSpeed, maxSpeed, count)
+
+func spawn_ejected_bullet(
+	origin:Vector3, normal:Vector3, minSpeed:float, maxSpeed:float, count:int) -> void:
+	if Config.cfg.r_hitDebris:
+		_spawn_debris_prefab(_prefab_ejected_bullet, origin, normal, minSpeed, maxSpeed, count)
+		
 func spawn_ejected_shell(
 	origin:Vector3, normal:Vector3, minSpeed:float, maxSpeed:float, count:int) -> void:
 	if Config.cfg.r_hitDebris:

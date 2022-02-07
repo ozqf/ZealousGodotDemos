@@ -7,6 +7,7 @@ export var maxLoaded:int = 12
 var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
 var _pistolReload:AudioStream = preload("res://assets/sounds/item/weapon_reload_light.wav")
 var _awaitOff:bool = false
+var _brassNode:Spatial
 
 var _spreadScale:float = 0
 var _reloading:bool = false
@@ -18,6 +19,7 @@ var _prjMask:int = -1
 func custom_init_b() -> void:
 	_loaded = maxLoaded
 	_prjMask = Interactions.get_player_prj_mask()
+	_brassNode = _launchNode.find_node("ejected_brass_spawn")
 
 func _start_reload() -> void:
 	self.tick = _reloadTime
@@ -72,7 +74,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		# _fire_single(forward, 1000)
 		_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
 		.play_fire_1(false)
-
+		Game.spawn_ejected_bullet(_brassNode.global_transform.origin, _brassNode.global_transform.basis.y, 1, 3, 1)
 		# _loaded -= 1
 
 		# apply some inaccuracy for next shot

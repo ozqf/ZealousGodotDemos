@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/gfx/particle_quad.tres" type="QuadMesh" id=1]
+[ext_resource path="res://assets/gfx/mat_fire_quad.tres" type="Material" id=2]
+
+[node name="burning" type="CPUParticles"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0 )
+material_override = ExtResource( 2 )
+cast_shadow = 0
+amount = 24
+local_coords = false
+mesh = ExtResource( 1 )
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3( 0, 1, 0 )
+spread = 20.0
+gravity = Vector3( 0, 5, 0 )

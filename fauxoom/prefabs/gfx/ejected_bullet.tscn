@@ -1,22 +1,18 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://zqf/timed_self_cull.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/frames/debris_frames.tres" type="SpriteFrames" id=2]
 
 [sub_resource type="PhysicsMaterial" id=1]
+friction = 0.1
+bounce = 0.6
 
 [sub_resource type="SphereShape" id=2]
 radius = 0.05
 
-[sub_resource type="SphereMesh" id=3]
-radius = 0.05
-height = 0.1
-
-[sub_resource type="SpatialMaterial" id=4]
-albedo_color = Color( 0.835294, 0, 0, 1 )
-
-[node name="blood_hit_debris" type="Spatial"]
+[node name="ejected_bullet" type="Spatial"]
 script = ExtResource( 1 )
-time = 2.0
+time = 6.0
 
 [node name="RigidBody" type="RigidBody" parent="."]
 collision_layer = 256
@@ -28,6 +24,7 @@ axis_lock_angular_z = true
 [node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
 shape = SubResource( 2 )
 
-[node name="MeshInstance" type="MeshInstance" parent="RigidBody"]
-mesh = SubResource( 3 )
-material/0 = SubResource( 4 )
+[node name="sprite" type="AnimatedSprite3D" parent="RigidBody"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
+billboard = 1
+frames = ExtResource( 2 )

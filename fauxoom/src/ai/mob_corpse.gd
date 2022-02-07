@@ -10,13 +10,16 @@ enum CorpseState {
 
 onready var _sprite:CustomAnimator3D = $CustomAnimator3D
 onready var _headshotSpurt:CPUParticles = $headshot_spurt
+onready var _wholebodyBurst:CPUParticles = $wholebody_burst
 
 var _velocity:Vector3 = Vector3()
-var _friction:float = 0.99
+var _friction:float = 0.95
 
 var _state = CorpseState.None
 var _tick:float = 0
 var _damageTaken:int = 0
+
+var _wholeBodyBleedTick:float = 0.0
 
 func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
@@ -24,9 +27,8 @@ func _ready() -> void:
 func game_cleanup_temp_ents() -> void:
 	queue_free()
 
-func damage_hit(_hitInfo:HitInfo) -> void:
-	var strength:float = 1.5
-	_velocity += _hitInfo.direction * strength
+func damage_hit(direction:Vector3, _hitStrength:float = 1.5) -> void:
+	_velocity += direction * _hitStrength
 
 func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
 	var numParticles = 4
@@ -44,10 +46,10 @@ func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
 			rand_range(-_range, _range))
 		blood.global_transform.origin = (pos + offset)
 
-func hit(_hitInfo:HitInfo) -> int:
-	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+func hit(_spawnInfo:HitInfo) -> int:
+	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
 		# gib - remove self
-		gib_death(_hitInfo.direction)
+		gib_death(_spawnInfo.direction)
 		return Interactions.HIT_RESPONSE_PENETRATE
 	if _state == CorpseState.Unresponsive:
 		return Interactions.HIT_RESPONSE_PENETRATE
@@ -56,16 +58,20 @@ func hit(_hitInfo:HitInfo) -> int:
 		return Interactions.HIT_RESPONSE_PENETRATE
 
 	if _state == CorpseState.RegularDeath:
-		_damageTaken += _hitInfo.damage
+		_damageTaken += _spawnInfo.damage
 		var selfPos:Vector3 = global_transform.origin
-		var hitHeight:float = _hitInfo.origin.y - selfPos.y
+		var hitHeight:float = _spawnInfo.origin.y - selfPos.y
+		
 		if _damageTaken > 100 && hitHeight > 1.2:
 			headshot_death()
 		else:
-			damage_hit(_hitInfo)
+			var pushStrength = 1.5
+			if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_SHARPNEL:
+				pushStrength = 3
+			damage_hit(_spawnInfo.direction, pushStrength)
 			if _sprite.get_frame_number() == 1:
 				_sprite.set_frame_number(0)
-			_spawn_hit_particles(_hitInfo.origin, false)
+			_spawn_hit_particles(_spawnInfo.origin, false)
 			
 	return Interactions.HIT_RESPONSE_PENETRATE
 
@@ -87,37 +93,55 @@ func gib_death(_forward:Vector3) -> void:
 	# build style explode into gibs
 	Game.spawn_gibs(global_transform.origin, Vector3.UP, 8)
 	_state = CorpseState.Unresponsive
-	self.queue_free()
+	# self.queue_free()
+	visible = false
+	whole_body_bleed(96, 0.3)
 
 func regular_death() -> void:
 	_sprite.play_animation("dying")
 	_state = CorpseState.RegularDeath
 
-func spawn(_hitInfo:HitInfo, _trans:Transform) -> void:
+func whole_body_bleed(amount:int, duration:float) -> void:
+	_wholebodyBurst.emitting = true
+	_wholebodyBurst.amount = amount
+	_wholeBodyBleedTick = duration
+
+func spawn(_spawnInfo:CorpseSpawnInfo, _trans:Transform) -> void:
 	global_transform = _trans
 	var selfPos:Vector3 = global_transform.origin
-	var hitHeight:float = _hitInfo.origin.y - selfPos.y
-	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
-		gib_death(_hitInfo.direction)
+	if _spawnInfo == null:
+		regular_death()
 		return
-	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_PUNCH:
-		gib_death(_hitInfo.direction)
+	var hitHeight:float = _spawnInfo.origin.y - selfPos.y
+	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+		gib_death(_spawnInfo.direction)
 		return
-	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
-		gib_death(_hitInfo.direction)
+	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_PUNCH:
+		regular_death()
 		return
-	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_NONE:
+	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
+		gib_death(_spawnInfo.direction)
+		return
+	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_SHARPNEL:
+		regular_death()
+		whole_body_bleed(48, 0.3)
+		
+		damage_hit(_spawnInfo.direction, 3.0 * _spawnInfo.hitCount)
+		return
+	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_NONE:
 		if hitHeight >= 1.3 && randf() > 0.9:
 			headshot_death()
 			return
-	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_PLASMA:
+	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_PLASMA:
 		headshot_death()
+		whole_body_bleed(48, 0.3)
 		return
 	regular_death()
+	whole_body_bleed(16, 0.3)
 	# if hitHeight > 1.2:
 	# 	headshot_death()
-	# elif _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
-	# 	gib_death(_hitInfo.direction)
+	# elif _spawnInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+	# 	gib_death(_spawnInfo.direction)
 	# else:
 	# 	regular_death()
 
@@ -132,3 +156,8 @@ func _process(_delta:float) -> void:
 	_velocity.z *= _friction
 	_velocity.y -= 15.0 * _delta
 	_velocity = move_and_slide(_velocity)
+	
+	if _wholeBodyBleedTick > 0.0:
+		_wholeBodyBleedTick -= _delta
+		if _wholeBodyBleedTick <= 0.0:
+			_wholebodyBurst.emitting = false

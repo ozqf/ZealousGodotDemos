@@ -22,6 +22,7 @@ var _state = ProjectileState.Idle
 var _time:float = 10
 
 var _velocity:Vector3 = Vector3()
+var _deathNormal:Vector3 = Vector3()
 var _mask:int = -1
 var _team:int = Interactions.TEAM_NONE
 var _ignoreBody = []
@@ -62,6 +63,7 @@ func die() -> void:
 		t.origin -= velNormal * 0.3
 		instance.global_transform = t
 		get_parent().add_child(instance)
+		ZqfUtils.set_forward(instance, _deathNormal)
 
 func _move_as_ray(_delta:float) -> void:
 
@@ -87,6 +89,7 @@ func _move_as_ray(_delta:float) -> void:
 		# else:
 			# print("Inflicted - " + str(_inflicted))
 		global_transform.origin = hit.position
+		_deathNormal = hit.normal
 		die()
 		return
 	t.origin = origin + (_velocity * _delta)
@@ -119,6 +122,7 @@ func launch_prj(origin:Vector3, _forward:Vector3, sourceId:int, prjTeam:int, col
 	t.origin = origin
 	global_transform = t
 	_velocity = _forward * maxSpeed
+	_deathNormal = _forward
 	ZqfUtils.look_at_safe(self, origin + _velocity)
 	
 	# start flying immediately

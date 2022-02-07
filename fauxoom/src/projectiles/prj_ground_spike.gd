@@ -3,6 +3,12 @@ extends Spatial
 const DAMAGE_PER_TICK:int = 10
 const DAMAGE_TICKS_DELAY:float = 0.5
 
+const STATE_WAITING:int = -1
+const STATE_GROWING:int = 0
+const STATE_GROWN:int = 1
+const STATE_SHRINKING:int = 2
+const STATE_DEAD:int = 3
+
 onready var _cone:MeshInstance = $cone
 onready var _area:Area = $Area
 
@@ -10,6 +16,7 @@ var _player = null
 
 var _spikeState:int = 0
 var _time:float = 0
+var _spawnWait:float = 1.0
 var _hitInfo:HitInfo = null
 var _hitTick:float = 0
 
@@ -19,7 +26,13 @@ func _ready() -> void:
 	_area.connect("body_exited", self, "on_body_exited")
 	_hitInfo.attackTeam = Interactions.TEAM_ENEMY
 	_hitInfo.damage = DAMAGE_PER_TICK
-	pass
+	_spikeState = STATE_GROWING
+
+func wait(seconds:float) -> void:
+	_spawnWait = seconds
+	_time = 0.0
+	_spikeState = STATE_WAITING
+	visible = false
 
 func on_body_entered(body) -> void:
 	if _player != null:
@@ -46,12 +59,12 @@ func _set_scale(weight:float) -> void:
 func _process(_delta:float) -> void:
 	_time += _delta
 	var weight:float = 1
-	if _spikeState == 0:
+	if _spikeState == STATE_GROWING:
 		weight = _time / 0.2
 		if _time > 0.2:
 			_time = 0
-			_spikeState = 1
-	elif _spikeState == 1:
+			_spikeState = STATE_GROWN
+	elif _spikeState == STATE_GROWN:
 		# hit player?
 		if ZqfUtils.is_obj_safe(_player):
 			if _hitTick <= 0:
@@ -65,14 +78,22 @@ func _process(_delta:float) -> void:
 			_player = null
 		if _time > 2:
 			_time = 0
-			_spikeState = 2
-	elif _spikeState == 2:
+			_spikeState = STATE_SHRINKING
+	elif _spikeState == STATE_SHRINKING:
 		weight = _time / 1
 		weight = 1 - weight
 		if _time > 1:
 			_time = 0
-			# _spikeState = 0
+			_spikeState = STATE_DEAD
 			queue_free()
+	elif _spikeState == STATE_WAITING:
+		if _time >= _spawnWait:
+			weight = 0.0
+			visible = true
+			_time = 0.0
+			_spikeState = STATE_GROWING
+		else:
+			return
 	else:
 		return
 	_set_scale(weight)

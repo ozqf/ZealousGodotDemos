@@ -36,6 +36,7 @@ prefabName = "player"
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
+visible = false
 offset = Vector2( 0, 52 )
 billboard = 2
 shaded = true
@@ -83,6 +84,9 @@ light_color = Color( 1, 1, 0.282353, 1 )
 shadow_enabled = true
 omni_range = 8.0
 script = ExtResource( 25 )
+
+[node name="ejected_brass_spawn" type="Spatial" parent="head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, -0.5 )
 
 [node name="camera_mount" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )

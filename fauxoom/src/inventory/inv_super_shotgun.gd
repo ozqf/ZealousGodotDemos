@@ -6,9 +6,11 @@ var _ssgLoad:AudioStream = preload("res://assets/sounds/ssg/ssg_load.wav")
 var _ssgClose:AudioStream = preload("res://assets/sounds/ssg/ssg_close.wav")
 
 var _lastSoundFrame:int = -1
+var _brassNode:Spatial
 
 func custom_init_b() -> void:
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SHARPNEL
+	_brassNode = _launchNode.find_node("ejected_brass_spawn")
 
 func read_input(_weaponInput:WeaponInput) -> void:
 	if tick <= 0 && _weaponInput.primaryOn:
@@ -20,9 +22,9 @@ func read_input(_weaponInput:WeaponInput) -> void:
 			var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
 			_fire_single(forward, 1000)
 		
-		var brassForward:Vector3 = -t.basis.z + t.basis.y
-		brassForward = brassForward.normalized()
-		Game.spawn_ejected_shell(t.origin, brassForward, 1, 3, 2)
+		#var brassForward:Vector3 = -t.basis.z + t.basis.y
+		#brassForward = brassForward.normalized()
+		#Game.spawn_ejected_shell(t.origin, brassForward, 1, 3, 2)
 		
 		.play_fire_1(false)
 		_hud.hudAudio.play_stream_weapon_1(_ssgShoot)
@@ -45,14 +47,15 @@ func run_reload_sounds() -> void:
 	if !_equipped:
 		return
 	var frame:int = _hud.centreSprite.frame
-	if frame == 4 && _lastSoundFrame < 4:
-		_lastSoundFrame = 4
+	if frame == 3 && _lastSoundFrame < 3:
+		_lastSoundFrame = 3
 		_hud.hudAudio.play_stream_weapon_2(_ssgOpen, 0)
-	elif frame == 7 && _lastSoundFrame < 7:
-		_lastSoundFrame = 7
+		Game.spawn_ejected_shell(_brassNode.global_transform.origin, _brassNode.global_transform.basis.y, 1, 3, 2)
+	elif frame == 6 && _lastSoundFrame < 6:
+		_lastSoundFrame = 6
 		_hud.hudAudio.play_stream_weapon_2(_ssgLoad, 0)
-	elif frame == 9 && _lastSoundFrame < 9:
-		_lastSoundFrame = 9
+	elif frame == 8 && _lastSoundFrame < 8:
+		_lastSoundFrame = 8
 		_hud.hudAudio.play_stream_weapon_2(_ssgClose, 0)
 
 func _process(_delta:float) -> void:

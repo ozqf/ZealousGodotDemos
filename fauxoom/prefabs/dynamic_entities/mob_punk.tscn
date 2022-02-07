@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://assets/sprites/frames/gfx_frames.tres" type="SpriteFrames" id=14]
 [ext_resource path="res://prefabs/mob_components/teleport_column.tscn" type="PackedScene" id=15]
 [ext_resource path="res://prefabs/mob_components/mob_aim_laser.tscn" type="PackedScene" id=16]
+[ext_resource path="res://prefabs/mob_components/mob_burning_particles.tscn" type="PackedScene" id=17]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -28,6 +29,8 @@ size = Vector3( 0.2, 0.2, 1 )
 collision_layer = 2
 collision_mask = 70
 script = ExtResource( 2 )
+triggerTargets = null
+fleeBoredomSeconds = null
 roleClass = 2
 corpsePrefab = "mob_punk"
 
@@ -86,7 +89,7 @@ script = ExtResource( 13 )
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
-health = 80
+health = 70
 moveSpeed = 6.0
 evadeSpeed = 2.0
 moveTime = 0.5
@@ -121,3 +124,6 @@ visible = false
 billboard = 1
 frames = ExtResource( 14 )
 animation = "teleport"
+
+[node name="burning" parent="." instance=ExtResource( 17 )]
+emitting = false

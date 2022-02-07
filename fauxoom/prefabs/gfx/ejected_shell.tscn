@@ -10,9 +10,9 @@ bounce = 0.6
 [sub_resource type="SphereShape" id=2]
 radius = 0.05
 
-[node name="bullet_hit_debris" type="Spatial"]
+[node name="ejected_shell" type="Spatial"]
 script = ExtResource( 1 )
-time = 4.0
+time = 6.0
 
 [node name="RigidBody" type="RigidBody" parent="."]
 collision_layer = 256
@@ -25,6 +25,7 @@ axis_lock_angular_z = true
 shape = SubResource( 2 )
 
 [node name="sprite" type="AnimatedSprite3D" parent="RigidBody"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
 billboard = 1
 frames = ExtResource( 2 )
 frame = 1

@@ -10,6 +10,7 @@ func _ready():
 func die() -> void:
 	_particles.emitting = false
 	_run_explosion_hits(_scanner.bodies)
+	Game.spawn_impact_debris(global_transform.origin, _deathNormal, 2, 12, 12)
 	.die()
 
 func _run_explosion_hits(bodies) -> void:
