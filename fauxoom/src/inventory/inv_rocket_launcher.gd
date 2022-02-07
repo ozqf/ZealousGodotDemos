@@ -21,6 +21,19 @@ func _fire_rocket() -> void:
 	_hud.hudAudio.play_stream_weapon_1(_rocketShoot)
 	_inventory.take_item(ammoType, ammoPerShot)
 
+func _fire_stasis_grenade() -> void:
+	var rocket = Game.statis_grenade_t.instance()
+	Game.get_dynamic_parent().add_child(rocket)
+	var t:Transform = _launchNode.global_transform
+	var selfPos:Vector3 = t.origin
+	var forward = -t.basis.z
+	rocket.launch_prj(selfPos, forward, 1, Interactions.TEAM_PLAYER, _prjMask)
+	rocket.ownerId = _inventory.get_owner_ent_id()
+	# print("Rockets - connect signal")
+	connect("rocket_detonate", rocket, "triggered_detonate")
+	_hud.hudAudio.play_stream_weapon_1(_rocketShoot)
+	_inventory.take_item(ammoType, ammoPerShot)
+	
 # func is_cycling() -> bool:
 # 	if !_equipped:
 # 		return false
@@ -30,15 +43,19 @@ func _fire_rocket() -> void:
 # 	return true
 
 func read_input(_weaponInput:WeaponInput) -> void:
-	if _weaponInput.secondaryOn:
-		# print("Rockets - detonate")
-		emit_signal("rocket_detonate")
-		return
+	#if _weaponInput.secondaryOn:
+	#	# print("Rockets - detonate")
+	#	emit_signal("rocket_detonate")
+	#	return
 	if tick > 0:
 		return
 	if _weaponInput.primaryOn:
 		tick = refireTime
 		_fire_rocket()
+		.play_fire_1(false)
+	elif _weaponInput.secondaryOn:
+		tick = refireTime
+		_fire_stasis_grenade()
 		.play_fire_1(false)
 
 func _process(_delta:float) -> void:

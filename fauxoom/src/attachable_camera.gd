@@ -9,7 +9,8 @@ var _shakeTick:float = 0.0
 var _shakeDuration:float = 0.25
 var _shakeOffset:Vector3 = Vector3()
 var _shakeRecalcTick:float = 0.0
-var _shakeRecalcWait:float = 1.0 / 15.0
+var _shakeRecalcWait:float = 1.0 / 10.0
+var _shakeStrength:float = 0.1
 
 var _kicked:bool = false
 var _kickDegrees:float = 0.0
@@ -19,6 +20,7 @@ var _kickDuration:float = 0.15
 func _ready() -> void:
 	_worldParent = get_parent()
 	add_to_group(Groups.HUD_GROUP_NAME)
+	add_to_group(Groups.GAME_GROUP_NAME)
 
 func hud_play_weapon_shoot(
 	_shootAnimName:String,
@@ -29,8 +31,20 @@ func hud_play_weapon_shoot(
 	if _heaviness > 0.0:
 		_kickDegrees = 2
 		_kickTick = 0.0
-		_shakeTick = 0.0
-		_shakeDuration = 0.2
+		# shake(0.2, 1)
+
+func game_explosion(_origin:Vector3, _strength:float) -> void:
+	var pos:Vector3 = global_transform.origin
+	var dist:float = _origin.distance_to(pos)
+	var weight:float = dist / 25.0
+	weight = ZqfUtils.clamp_float(weight, 0.0, 1.0)
+	weight = 1.0 - weight
+	shake(0.4 * weight, 0.3 * weight)
+
+func shake(_duration:float, _strength:float) -> void:
+	_shakeTick = 0.0
+	_shakeStrength = _strength
+	_shakeDuration = _duration
 
 func _process(_delta:float) -> void:
 	# tick gun kick
@@ -46,17 +60,19 @@ func _process(_delta:float) -> void:
 	_shakeRecalcTick += _delta
 	if _shakeRecalcTick < _shakeRecalcWait:
 		return
-	weight = _shakeTick / _shakeDuration
-	weight = ZqfUtils.clamp_float(weight, 0.0, 1.0)
-	weight = 1 - weight
-	var shakeX:float = rand_range(-0.1, 0.1) * weight
-	var shakeY:float = rand_range(-0.1, 0.1) * weight
-	var shakeZ:float = rand_range(-0.1, 0.1) * weight
-	var offX:Vector3 = transform.basis.x * shakeX
-	var offY:Vector3 = transform.basis.y * shakeY
-	var offZ:Vector3 = transform.basis.z * shakeZ
-	#_shakeOffset.x = rand_range(-0.1, 0.1) * weight
-	#_shakeOffset.y = rand_range(-0.1, 0.1) * weight
+	if _shakeDuration > 0:
+		weight = _shakeTick / _shakeDuration
+		weight = ZqfUtils.clamp_float(weight, 0.0, 1.0)
+		weight = 1 - weight
+	else:
+		weight = 0.0
+	var offset:float = _shakeStrength * weight
+	var shakeX:float = rand_range(-offset, offset) * weight
+	var shakeY:float = rand_range(-offset, offset) * weight
+	var shakeZ:float = rand_range(-offset, offset) * weight
+	#var offX:Vector3 = transform.basis.x * shakeX
+	#var offY:Vector3 = transform.basis.y * shakeY
+	#var offZ:Vector3 = transform.basis.z * shakeZ
 	
 	_shakeOffset = transform.basis.x * shakeX
 	_shakeOffset += transform.basis.y * shakeY

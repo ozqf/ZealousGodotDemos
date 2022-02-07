@@ -42,6 +42,7 @@ var hyper_aoe_t = preload("res://prefabs/hyper_aoe.tscn")
 var flare_t = preload("res://prefabs/projectiles/prj_player_flare.tscn")
 var trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
 var rocket_t = preload("res://prefabs/projectiles/prj_player_rocket.tscn")
+var statis_grenade_t = preload("res://prefabs/projectiles/prj_stasis_grenade.tscn")
 
 var point_t = preload("res://prefabs/point_gizmo.tscn")
 
@@ -502,3 +503,7 @@ func spawn_ground_target(targetPos:Vector3, duration:float) -> Vector3:
 	var obj = _prefab_ground_target_t.instance()
 	Game.get_dynamic_parent().add_child(obj)
 	return obj.run(targetPos, duration)
+
+func explosion_shake(_origin:Vector3) -> void:
+	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_EVENT_EXPLOSION, _origin, 1.0)
+	pass

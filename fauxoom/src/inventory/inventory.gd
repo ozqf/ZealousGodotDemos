@@ -8,6 +8,7 @@ signal weapon_action(weapon, actionName)
 var _data:Dictionary = {
 	chainsaw = { count = 0, max = 1, type = "weapon", priority = 1 },
 	pistol = { count = 0, max = 2, type = "weapon", priority = 3 },
+	shotgun = { count = 0, max = 1, type = "weapon", priority = 3 },
 	super_shotgun = { count = 0, max = 1, type = "weapon", priority = 4 },
 	plasma_gun = { count = 0, max = 1, type = "weapon", priority = 5 },
 	rocket_launcher = { count = 0, max = 1, type = "weapon", priority = 6 },

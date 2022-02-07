@@ -16,9 +16,11 @@ func read_input(_weaponInput:WeaponInput) -> void:
 	if tick <= 0 && _weaponInput.primaryOn:
 		tick = refireTime
 		var t:Transform = _launchNode.global_transform
+		var randSpreadX:float = 1500
+		var randSpreadY:float = 400
 		for _i in range(0, 10):
-			var spreadX:float = rand_range(-1500, 1500)
-			var spreadY:float = rand_range(-400, 400)
+			var spreadX:float = rand_range(-randSpreadX, randSpreadX)
+			var spreadY:float = rand_range(-randSpreadY, randSpreadY)
 			var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
 			_fire_single(forward, 1000)
 		

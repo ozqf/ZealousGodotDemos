@@ -1,6 +1,6 @@
 extends MobAttack
 
-func fire(target:Vector3) -> void:
+func fire(_target:Vector3) -> void:
 	var t:Transform = _launchNode.global_transform
 	var result = ZqfUtils.hitscan_by_direction_3D(_launchNode, t.origin, -t.basis.z, 60, ZqfUtils.EMPTY_ARRAY, 1)
 	var dest:Vector3 = t.origin + (-t.basis.z * 60.0)
