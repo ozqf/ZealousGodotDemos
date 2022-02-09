@@ -1,10 +1,15 @@
 extends InvWeapon
 
 var _brassNode:Spatial
+var _rocketShoot:AudioStream = preload("res://assets/sounds/weapon/rocket_fire.wav")
+var _prjMask:int = -1
+
+signal rocket_detonate()
 
 func custom_init_b() -> void:
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SHARPNEL
 	_brassNode = _launchNode.find_node("ejected_brass_spawn")
+	_prjMask = Interactions.get_player_prj_mask()
 
 func equip() -> void:
 	_hud.centreSprite.offset.y = -60
@@ -14,25 +19,41 @@ func deequip() -> void:
 	_hud.centreSprite.offset.y = 0
 	.deequip()
 
+func _fire_shotgun() -> void:
+	var t:Transform = _launchNode.global_transform
+	var randSpreadX:float = 500
+	var randSpreadY:float = 200
+	for _i in range(0, 5):
+		var spreadX:float = rand_range(-randSpreadX, randSpreadX)
+		var spreadY:float = rand_range(-randSpreadY, randSpreadY)
+		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
+		_fire_single(forward, 1000)
+
+func _fire_stasis_grenade() -> void:
+	var rocket = Game.statis_grenade_t.instance()
+	Game.get_dynamic_parent().add_child(rocket)
+	var t:Transform = _launchNode.global_transform
+	var selfPos:Vector3 = t.origin
+	var forward = -t.basis.z
+	rocket.launch_prj(selfPos, forward, 1, Interactions.TEAM_PLAYER, _prjMask)
+	rocket.ownerId = _inventory.get_owner_ent_id()
+	# print("Rockets - connect signal")
+	connect("rocket_detonate", rocket, "triggered_detonate")
+	_hud.hudAudio.play_stream_weapon_1(_rocketShoot)
+	_inventory.take_item(ammoType, ammoPerShot)
+		
 func read_input(_weaponInput:WeaponInput) -> void:
+	if _weaponInput.secondaryOn:
+		# print("Rockets - detonate")
+		emit_signal("rocket_detonate")
+		return
 	if tick <= 0 && _weaponInput.primaryOn:
 		tick = refireTime
-		var t:Transform = _launchNode.global_transform
-		var randSpreadX:float = 700
-		var randSpreadY:float = 200
-		for _i in range(0, 5):
-			var spreadX:float = rand_range(-randSpreadX, randSpreadX)
-			var spreadY:float = rand_range(-randSpreadY, randSpreadY)
-			var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
-			_fire_single(forward, 1000)
-		
-		#var brassForward:Vector3 = -t.basis.z + t.basis.y
-		#brassForward = brassForward.normalized()
-		#Game.spawn_ejected_shell(t.origin, brassForward, 1, 3, 2)
+		# _fire_shotgun()
+		_fire_stasis_grenade()
 		
 		.play_fire_1(false)
 		# _hud.hudAudio.play_stream_weapon_1(_ssgShoot)
-
 		# _lastSoundFrame = - 1
 		_inventory.take_item(ammoType, ammoPerShot)
 		self.emit_signal("weapon_action", self, "fire")

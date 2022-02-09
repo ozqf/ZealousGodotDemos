@@ -54,11 +54,15 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="particles" type="CPUParticles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
 material_override = SubResource( 3 )
 cast_shadow = 0
-amount = 12
+amount = 24
+lifetime = 0.5
 local_coords = false
 mesh = SubResource( 4 )
+emission_shape = 1
+emission_sphere_radius = 0.1
 gravity = Vector3( 0, 4, 0 )
 
 [node name="OmniLight" type="OmniLight" parent="."]

@@ -1,5 +1,5 @@
-extends Spatial
-class_name Projectile
+extends RigidBody
+class_name RigidBodyProjectile
 
 export var maxSpeed:float = 15.0
 export var timeToLive:float = 10
@@ -53,7 +53,7 @@ func remove_self() -> void:
 
 func time_out() -> void:
 	remove_self()
-
+	
 func die() -> void:
 	_state = ProjectileState.Dying
 	_time = 1

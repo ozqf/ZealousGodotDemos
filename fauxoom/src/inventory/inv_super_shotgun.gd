@@ -18,7 +18,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		var t:Transform = _launchNode.global_transform
 		var randSpreadX:float = 1500
 		var randSpreadY:float = 400
-		for _i in range(0, 10):
+		for _i in range(0, 14):
 			var spreadX:float = rand_range(-randSpreadX, randSpreadX)
 			var spreadY:float = rand_range(-randSpreadY, randSpreadY)
 			var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
@@ -49,8 +49,8 @@ func run_reload_sounds() -> void:
 	if !_equipped:
 		return
 	var frame:int = _hud.centreSprite.frame
-	if frame == 3 && _lastSoundFrame < 3:
-		_lastSoundFrame = 3
+	if frame == 4 && _lastSoundFrame < 4:
+		_lastSoundFrame = 4
 		_hud.hudAudio.play_stream_weapon_2(_ssgOpen, 0)
 		Game.spawn_ejected_shell(_brassNode.global_transform.origin, _brassNode.global_transform.basis.y, 1, 3, 2)
 	elif frame == 6 && _lastSoundFrame < 6:

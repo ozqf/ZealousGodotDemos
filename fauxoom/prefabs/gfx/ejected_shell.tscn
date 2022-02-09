@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://zqf/timed_self_cull.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/frames/debris_frames.tres" type="SpriteFrames" id=2]
@@ -9,6 +9,13 @@ bounce = 0.6
 
 [sub_resource type="SphereShape" id=2]
 radius = 0.05
+
+[sub_resource type="SpatialMaterial" id=3]
+params_billboard_mode = 1
+albedo_color = Color( 0.431373, 0.431373, 0.431373, 1 )
+
+[sub_resource type="QuadMesh" id=4]
+size = Vector2( 0.05, 0.05 )
 
 [node name="ejected_shell" type="Spatial"]
 script = ExtResource( 1 )
@@ -29,3 +36,13 @@ transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
 billboard = 1
 frames = ExtResource( 2 )
 frame = 1
+
+[node name="CPUParticles" type="CPUParticles" parent="RigidBody"]
+material_override = SubResource( 3 )
+cast_shadow = 0
+emitting = false
+amount = 16
+lifetime = 2.0
+local_coords = false
+mesh = SubResource( 4 )
+gravity = Vector3( 0, 1, 0 )

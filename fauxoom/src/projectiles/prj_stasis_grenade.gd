@@ -1,11 +1,8 @@
-extends Projectile
+extends RigidBodyProjectile
 
 onready var _light:OmniLight = $OmniLight
 onready var _scanner:ZqfVolumeScanner = $volume_scanner
 onready var _particles = $particles
-
-func _ready():
-	pass
 
 func die() -> void:
 	_particles.emitting = false
@@ -66,6 +63,19 @@ func _run_explosion_hits(bodies) -> void:
 		_hitInfo.direction = tarPos - _hitInfo.origin
 		_hitInfo.direction = _hitInfo.direction.normalized()
 		var _inflicted:int = Interactions.hit(_hitInfo, body)
+
+func _spawn_now() -> void:
+	._spawn_now()
+	linear_velocity = _velocity
+	pass
+
+func time_out() -> void:
+	print("Stasis grenade timeout")
+	die()
+	
+func move(_delta:float) -> void:
+	# _move_as_ray(_delta)
+	pass
 
 func _process(_delta:float) -> void:
 	if _scanner.total > 0:

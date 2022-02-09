@@ -270,6 +270,11 @@ _global_script_classes=[ {
 "path": "res://src/projectiles/projectile.gd"
 }, {
 "base": "RigidBody",
+"class": "RigidBodyProjectile",
+"language": "GDScript",
+"path": "res://src/projectiles/rigidbody_projectile.gd"
+}, {
+"base": "RigidBody",
 "class": "SawBlade",
 "language": "GDScript",
 "path": "res://src/projectiles/prj_player_saw.gd"
@@ -417,6 +422,7 @@ _global_script_class_icons={
 "PlayerObjectInteractor": "",
 "PrjUtils": "",
 "Projectile": "",
+"RigidBodyProjectile": "",
 "SawBlade": "",
 "Skill": "",
 "SpawnPoint": "",
@@ -631,6 +637,7 @@ flash_light={
 3d_physics/layer_9="debris"
 3d_physics/layer_10="interactive"
 3d_physics/layer_11="corpse"
+3d_physics/layer_12="projectile_rigidbody"
 3d_physics/layer_19="explosion_check"
 3d_physics/layer_20="editor_geometry"
 

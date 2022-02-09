@@ -11,6 +11,7 @@ enum CorpseState {
 onready var _sprite:CustomAnimator3D = $CustomAnimator3D
 onready var _headshotSpurt:CPUParticles = $headshot_spurt
 onready var _wholebodyBurst:CPUParticles = $wholebody_burst
+onready var _collisionShape:CollisionShape = $CollisionShape
 
 var _velocity:Vector3 = Vector3()
 var _friction:float = 0.95
@@ -47,11 +48,13 @@ func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
 		blood.global_transform.origin = (pos + offset)
 
 func hit(_spawnInfo:HitInfo) -> int:
-	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
-		# gib - remove self
-		gib_death(_spawnInfo.direction)
-		return Interactions.HIT_RESPONSE_PENETRATE
+	# in a state that is not hittable
 	if _state == CorpseState.Unresponsive:
+		return Interactions.HIT_RESPONSE_PENETRATE
+	
+	# gib - remove self
+	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
+		gib_death(_spawnInfo.direction)
 		return Interactions.HIT_RESPONSE_PENETRATE
 	
 	if _sprite.get_frame_number() > 1:
@@ -93,7 +96,10 @@ func gib_death(_forward:Vector3) -> void:
 	# build style explode into gibs
 	Game.spawn_gibs(global_transform.origin, Vector3.UP, 8)
 	_state = CorpseState.Unresponsive
+	# disappear in 10 seconds
+	_tick = 10
 	# self.queue_free()
+	_collisionShape.disabled = true
 	visible = false
 	whole_body_bleed(96, 0.3)
 
@@ -152,6 +158,11 @@ func _process(_delta:float) -> void:
 		_sprite.play_animation("headshot_dying")
 		_state = CorpseState.None
 		_headshotSpurt.emitting = false
+	elif _state == CorpseState.Unresponsive:
+		if _tick <= 0:
+			_tick = 99999
+			queue_free()
+		return
 	_velocity.x *= _friction
 	_velocity.z *= _friction
 	_velocity.y -= 15.0 * _delta
