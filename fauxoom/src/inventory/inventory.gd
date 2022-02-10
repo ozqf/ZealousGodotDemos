@@ -289,7 +289,7 @@ func take_item(itemType:String, amount:int) -> int:
 	
 	if item.count == 0:
 		# emit warning that item is depleted
-		pass
+		return -1
 	return result
 
 func give_item(itemType:String, amount:int) -> int:

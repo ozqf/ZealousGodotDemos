@@ -27,13 +27,15 @@ var _startTransform:Transform = Transform.IDENTITY
 var _recoverTransform:Transform = Transform.IDENTITY
 
 var _godMode:bool = false
-var _hyperLevel:int = 0
-var _hyperTime:float = 0
 var _dead:bool = false
 var _health:int = MAX_HEALTH
 var _swayTime:float = 0.0
 var _hudStatus:PlayerHudStatus = null
 var _targetHealthInfo:MobHealthInfo = null
+
+var _hyperCooldown:float = 0
+var _hyperLevel:int = 0
+var _hyperTime:float = 0
 
 var _targettingInfo:Dictionary = {
 	id = Interactions.PLAYER_RESERVED_ID,
@@ -218,33 +220,47 @@ func _spawn_aoe() -> HyperAoe:
 	aoe.global_transform.origin = _head.global_transform.origin
 	return aoe
 
+func _hyper_on() -> void:
+	_hyperLevel = 1
+	_inventory.take_item("rage", 10)
+	_hyperTime = 0.0
+	var aoe = _spawn_aoe()
+	aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_ON, 0.0)
+
 func _tick_hyper(_delta:float) -> void:
+	if _hyperCooldown > 0:
+		_hyperCooldown -= _delta
 	var prevLevel:int = _hyperLevel
 	var keyPressed:bool = Input.is_action_just_pressed("hyper")
-	var cost:int = Interactions.HYPER_COST
+	var cost:int = 10 # Interactions.HYPER_COST
 	var duration:float = Interactions.HYPER_DURATION
 	if _hyperLevel <= 0:
-		if keyPressed && _inventory.get_count("rage") >= cost:
-			_hyperLevel = 1
-			_inventory.take_item("rage", cost)
-			_hyperTime = duration
-			
-			var aoe = _spawn_aoe()
-			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_ON, 0.0)
+		if keyPressed && _inventory.get_count("rage") >= cost && _hyperCooldown <= 0:
+			_hyper_on()
 		pass
 	else:
+		# consume rage
 		_hyperTime -= _delta
-		if keyPressed:
+		if _hyperTime <= 0:
+			_hyperTime = 1.0
+			# take rage... if none could be taken, exit hyper
+			if _inventory.take_item("rage", 1)  == -1:
+				# ran out of rage
+				_hyperLevel = 0
+				_hyperCooldown = 10.0
+		elif keyPressed:
 			# forced cancel
 			_hyperLevel = 0
 			var aoe = _spawn_aoe()
 			var weight:float = _hyperTime / Interactions.HYPER_DURATION
 			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_CANCEL, weight)
-		elif _hyperTime <= 0:
-			# timeout
-			_hyperLevel = 0
-			var aoe = _spawn_aoe()
-			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_OFF, 0.0)
+			_hyperCooldown = 10.0
+		#elif _hyperTime <= 0:
+		#	# timeout
+		#	_hyperLevel = 0
+		#	var aoe = _spawn_aoe()
+		#	aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_OFF, 0.0)
+		#	_hyperCooldown = 10.0
 	# update?
 	if _hyperLevel != prevLevel:
 		_inventory.update_hyper_level(_hyperLevel)
@@ -338,26 +354,54 @@ func give_item(itemType:String, amount:int) -> int:
 	#	print(_inventory.debug())
 	return took
 
+func _send_hit_message(dmg, direction) -> void:
+	var grp:String = Groups.PLAYER_GROUP_NAME
+	var fn:String = Groups.PLAYER_FN_HIT
+	var data:Dictionary = {
+		damage = dmg,
+		direction = direction,
+		selfYawDegrees = _motor.m_yaw
+	}
+	get_tree().call_group(grp, fn, data)
+
 func hit(hitInfo:HitInfo) -> int:
 	if hitInfo.attackTeam == Interactions.TEAM_PLAYER:
 		return 0
 	if _dead:
 		return 0
+	if _godMode && hitInfo.damageType != Interactions.DAMAGE_TYPE_VOID:
+		# _health -= dmg
+		return 0
 	var dmg = hitInfo.damage
-	if !_godMode:
-		_health -= dmg
+	
+	if _hyperLevel > 0 && hitInfo.damageType != Interactions.DAMAGE_TYPE_VOID:
+		# in hyper, rage absorbs damage
+		var taken:int = _inventory.take_item("rage", dmg)
+		# if we ran out,
+		if _inventory.get_count("rage") == 0:
+			# exit hyper and for this hit we ignore the rest of the damage
+			# because we are nice
+			_hyperLevel = 0
+			_hyperCooldown = 10.0
+			var aoe = _spawn_aoe()
+			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_OFF, 0.0)
+		_send_hit_message(dmg, hitInfo.direction)
+		return dmg
+	
+	# taking actual health, deary me
+	_health -= dmg
+
 	if _health <= 0:
-		kill()
+		# check for hyper save
+		if _hyperLevel == 0 && _inventory.get_count("rage") > 20:
+			_health = 1
+			_hyper_on()
+			return dmg
+		else:
+			kill()
 		return dmg + _health
 	else:
-		var grp:String = Groups.PLAYER_GROUP_NAME
-		var fn:String = Groups.PLAYER_FN_HIT
-		var data:Dictionary = {
-			damage = dmg,
-			direction = hitInfo.direction,
-			selfYawDegrees = _motor.m_yaw
-		}
-		get_tree().call_group(grp, fn, data)
+		_send_hit_message(dmg, hitInfo.direction)
 		return dmg
 
 func kill() -> void:
