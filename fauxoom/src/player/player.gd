@@ -222,7 +222,8 @@ func _spawn_aoe() -> HyperAoe:
 
 func _hyper_on() -> void:
 	_hyperLevel = 1
-	_inventory.take_item("rage", 10)
+	# no rage cost currently, just a minimum to activate
+	# _inventory.take_item("rage", Interactions.HYPER_COST)
 	_hyperTime = 0.0
 	var aoe = _spawn_aoe()
 	aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_ON, 0.0)
@@ -232,7 +233,7 @@ func _tick_hyper(_delta:float) -> void:
 		_hyperCooldown -= _delta
 	var prevLevel:int = _hyperLevel
 	var keyPressed:bool = Input.is_action_just_pressed("hyper")
-	var cost:int = 10 # Interactions.HYPER_COST
+	var cost:int = Interactions.HYPER_COST
 	var duration:float = Interactions.HYPER_DURATION
 	if _hyperLevel <= 0:
 		if keyPressed && _inventory.get_count("rage") >= cost && _hyperCooldown <= 0:
@@ -242,19 +243,19 @@ func _tick_hyper(_delta:float) -> void:
 		# consume rage
 		_hyperTime -= _delta
 		if _hyperTime <= 0:
-			_hyperTime = 1.0
+			_hyperTime = Interactions.HYPER_COST_TICK_TIME
 			# take rage... if none could be taken, exit hyper
-			if _inventory.take_item("rage", 1)  == -1:
+			if _inventory.take_item("rage", Interactions.HYPER_COST_PER_SECOND)  == -1:
 				# ran out of rage
 				_hyperLevel = 0
-				_hyperCooldown = 10.0
+				_hyperCooldown = Interactions.HYPER_COOLDOWN_DURATION
 		elif keyPressed:
 			# forced cancel
 			_hyperLevel = 0
 			var aoe = _spawn_aoe()
 			var weight:float = _hyperTime / Interactions.HYPER_DURATION
 			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_CANCEL, weight)
-			_hyperCooldown = 10.0
+			_hyperCooldown = Interactions.HYPER_COOLDOWN_DURATION
 		#elif _hyperTime <= 0:
 		#	# timeout
 		#	_hyperLevel = 0
@@ -328,6 +329,7 @@ func _process(_delta:float) -> void:
 	_hudStatus.hasInteractionTarget = _interactor.get_is_colliding()
 	_hudStatus.hyperLevel = _hyperLevel
 	_hudStatus.hyperTime = _hyperTime
+	_hudStatus.hyperTime = _hyperCooldown
 
 	_inventory.write_hud_status(_hudStatus)
 	

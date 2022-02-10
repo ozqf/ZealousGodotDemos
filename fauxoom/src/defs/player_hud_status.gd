@@ -11,6 +11,7 @@ var hasInteractionTarget:bool = false
 var weaponChargeMode:int = 0
 var swayScale:float = 0
 var swayTime:float = 0
+
 var hyperLevel:int = 0
 var hyperTime:float = 0.0
 
