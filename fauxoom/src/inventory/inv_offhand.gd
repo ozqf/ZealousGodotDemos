@@ -1,9 +1,12 @@
 extends InvWeapon
 
 export var punchScanRange:float = 2
-export var regularDamage:int = 15
-export var superDamage:int = 100
-export var superCost:int = 50
+export var regularDamage:int = 25
+export var superDamage:int = 200
+export var superCost:int = 25
+
+var _charging:bool = false
+var _chargeTick:float = 0.0
 
 func custom_init_b() -> void:
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_PUNCH
@@ -44,7 +47,34 @@ func _punch(forward:Vector3, scanRange:float) -> Vector3:
 		_perform_hit(result, forward)
 	return hitPoint
 
-func offhand_punch() -> void:
+func offhand_punch(_weight:float) -> void:
+	print("Punch weight time: " + str(_weight))
 	if _hud != null:
 		_hud.play_offhand_punch()
 	_punch(-_launchNode.global_transform.basis.z, punchScanRange)
+
+func is_charging() -> bool:
+	return false
+
+func is_busy() -> bool:
+	if self.tick > 0:
+		return true
+	if _chargeTick > 0:
+		return true
+	return false
+
+func begin_charge() -> void:
+	_charging = true
+	_chargeTick = 0
+
+func _process(delta) -> void:
+	if self.tick > 0:
+		self.tick -= delta
+	if _charging:
+		_chargeTick += delta
+
+#func offhand_punch_read_input(actionName:String) -> void:
+#	if _hud != null:
+#		_hud.play_offhand_punch()
+#	_punch(-_launchNode.global_transform.basis.z, punchScanRange)
+	

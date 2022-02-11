@@ -17,10 +17,22 @@ var _meleeTick:float = 0
 var _meleeTime:float = 0.5
 var noAttackTime:float = 0.0
 
+var _charging:bool = false
+var _chargeTick:float = 0.0
+var _chargeMax:float = 3.0
+
 func init_attack(interactor:PlayerObjectInteractor, inventory) -> void:
 	_interactor = interactor
 	_inventory = inventory
 	_weaponInput = _weapon_input_t.new()
+
+func write_hud_status(_hudStatus:PlayerHudStatus) -> void:
+	if !_charging:
+		return
+	else:
+		_hudStatus.weaponChargeMode = 1
+		_hudStatus.currentAmmo = int((_chargeTick / _chargeMax) * 100.0)
+
 
 func set_attack_enabled(flag:bool) -> void:
 	_active = flag
@@ -30,6 +42,9 @@ func check_action_press_or_release(actionName:String) -> bool:
 	# event fired from the mousewheel...
 	# return (Input.is_action_just_pressed(actionName) || Input.is_action_just_released(actionName))
 	return (Input.is_action_just_released(actionName))
+
+func get_punch_charge_weight() -> float:
+	return _chargeTick / _chargeMax
 
 func _process(_delta:float) -> void:
 	if _active:
@@ -68,15 +83,46 @@ func _process(_delta:float) -> void:
 	if !_active:
 		_weaponInput.primaryOn = false
 		_weaponInput.secondaryOn = false
-
+		_charging = false
+	
 	if _meleeTick > 0:
 		_weaponInput.primaryOn = false
 		_weaponInput.secondaryOn = false
 		_meleeTick -= _delta
-	elif Input.is_action_just_pressed("interact"):
-		_meleeTick = _meleeTime
-		_inventory.offhand.offhand_punch()
-		_interactor.use_target()
+	else:
+		if !_charging:
+			# interact or start a punch
+			if Input.is_action_just_pressed("interact"):
+				if _interactor.get_is_colliding():
+					_interactor.use_target()
+				else:
+					#... start a punch
+					print("Charging...")
+					_charging = true
+					_weaponInput.primaryOn = false
+					_weaponInput.secondaryOn = false
+					_chargeTick = 0.0
+		else:
+			_weaponInput.primaryOn = false
+			_weaponInput.secondaryOn = false
+			_chargeTick += _delta
+			if _chargeTick > _chargeMax:
+				_chargeTick = _chargeMax
+			if Input.is_action_just_released("interact"):
+				_charging = false
+				_meleeTick = _meleeTime
+				_inventory.offhand.offhand_punch(_chargeTick / _chargeMax)
+
+		# if _interactor.get_is_colliding():
+
+		# if Input.is_action_pressed("interact"):
+
+		# old basic interact-or-punch mechanic
+		#if Input.is_action_just_pressed("interact"):
+		#	_meleeTick = _meleeTime
+		#	if !_interactor.use_target():
+		#		_inventory.offhand.offhand_punch()
+		pass
 
 	var weap:InvWeapon = _inventory.get_current_weapon()
 	if weap != null:

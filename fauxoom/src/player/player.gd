@@ -332,6 +332,8 @@ func _process(_delta:float) -> void:
 	_hudStatus.hyperTime = _hyperCooldown
 
 	_inventory.write_hud_status(_hudStatus)
+
+	_attack.write_hud_status(_hudStatus)
 	
 	var grp = Groups.PLAYER_GROUP_NAME
 	var fn = Groups.PLAYER_FN_STATUS

@@ -13,10 +13,15 @@ var _state = State.Idle
 var _tick:float = 0
 var _type:int = Enums.QuickDropType.Rage
 
+var _lifeTime:float = 0.0
+var _gatheringTime:float = 0.0
+
 var _gatherRange:float = 6
 var _gatherSpeed:float = 1
-var _gatherSpeedMax:float = 15
+var _gatherSpeedMax:float = 50
 var _gatherSpeedAccel:float = 30
+var _turnWeight:float = 0.025
+var _kinematicVelocity:Vector3 = Vector3()
 
 func _ready() -> void:
 	if randf() > 0.5:
@@ -49,7 +54,29 @@ func _give_check() -> bool:
 	else:
 		return AI.give_to_player("rage", 2) == 0
 
+func _start_gather() -> void:
+	_state = State.Gather
+	_sprite.modulate = Color.white
+
+func _start_kinematic_move() -> void:
+	# var movePos:Vector3
+	_kinematicVelocity = linear_velocity
+	_gatherSpeed = _kinematicVelocity.length()
+	# if linear_velocity.length() > 0.1:
+		#_kinematicVelocity = linear_velocity
+	# 	movePos = global_transform.origin + linear_velocity
+	# else:
+	# 	movePos = global_transform.origin + Vector3.UP
+	#var moveDir:Vector3 = global_transform.origin + linear_velocity
+	#if moveDir != Vector3.UP:
+	#	look_at(selfPos + linear_velocity, Vector3.UP)
+	# ZqfUtils.look_at_safe(self, movePos)
+	# var speed:float = linear_velocity.length()
+	# print("rage spawned at speed: " + str(speed))
+	mode = RigidBody.MODE_KINEMATIC
+
 func _process(_delta:float):
+	_lifeTime += _delta
 	if _state == State.Idle:
 		_tick += _delta
 		if _tick >= time:
@@ -74,37 +101,59 @@ func _process(_delta:float):
 		# 	return
 		if _give_check():
 			return
-		_state = State.Gather
-#		var moveDir:Vector3 = selfPos + linear_velocity
-#		if moveDir != Vector3.UP:
-#			look_at(selfPos + linear_velocity, Vector3.UP)
-#		look_at(selfPos + linear_velocity, global_transform.basis.y)
-		mode = RigidBody.MODE_KINEMATIC
-		_sprite.modulate = Color.white
+		_start_gather()
 	elif _state == State.Gather:
+		_gatheringTime += _delta
+		if _gatheringTime > 10.0:
+			_remove()
+			return
+		var isKinematic:bool = mode == RigidBody.MODE_KINEMATIC
+		if !isKinematic:
+			if _lifeTime > 0.6:
+				_start_kinematic_move()
+			else:
+				return
+		#if _lifeTime > 1.5 && !isKinematic:
+		#	_start_kinematic_move()
 		var dict:Dictionary = AI.get_player_target()
 		if dict.id == 0:
 			_remove()
 			return
+
+		# k, kinematic move
 		var targetPos:Vector3 = dict.position
-		
 		var selfPos:Vector3 = self.global_transform.origin
 		var dist:float = selfPos.distance_to(targetPos)
 		if dist < 0.2:
 			_remove()
 			return
+		
 		# accelerate...
 		_gatherSpeed += _gatherSpeedAccel * _delta
 		if _gatherSpeed > _gatherSpeedMax:
 			_gatherSpeed = _gatherSpeedMax
-		# ...toward player
-
+		
 		# boring move directly to player
 		var t:Transform = global_transform
-		ZqfUtils.turn_towards_point(self, targetPos, 0.3)
-		var forward:Vector3 = -t.basis.z
-		# var forward:Vector3 = (targetPos - selfPos).normalized()
-		selfPos += (forward * _gatherSpeed) * _delta
-		global_transform.origin = selfPos
+		var toward:Vector3 = (targetPos - selfPos).normalized()
+		var forward:Vector3 = _kinematicVelocity.normalized()
+		forward += (toward * _delta)
+		forward = forward.normalized()
+		_kinematicVelocity = forward * _gatherSpeed
+		global_transform.origin += (_kinematicVelocity * _delta)
+		# var toward:Vector3 = (targetPos - selfPos).normalized() * _gatherSpeed
+		# _kinematicVelocity += (toward)
+		# _kinematicVelocity += (toward * _delta)
+		# _kinematicVelocity = _kinematicVelocity.normalized() * _gatherSpeed
+		# global_transform.origin += (_kinematicVelocity * _delta)
+		#ZqfUtils.turn_towards_point(self, targetPos, _turnWeight)
+		#var forward:Vector3 = -t.basis.z
+		## var forward:Vector3 = (targetPos - selfPos).normalized()
+		#selfPos += (forward * _gatherSpeed) * _delta
+		#global_transform.origin = selfPos
+
+		_turnWeight += _delta * 1.0
+		if _turnWeight > 1:
+			_turnWeight = 1
 	else:
 		pass

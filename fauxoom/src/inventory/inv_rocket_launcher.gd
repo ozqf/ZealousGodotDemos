@@ -43,20 +43,20 @@ func _fire_stasis_grenade() -> void:
 # 	return true
 
 func read_input(_weaponInput:WeaponInput) -> void:
-	#if _weaponInput.secondaryOn:
-	#	# print("Rockets - detonate")
-	#	emit_signal("rocket_detonate")
-	#	return
+	if _weaponInput.secondaryOn:
+		# print("Rockets - detonate")
+		emit_signal("rocket_detonate")
+		return
 	if tick > 0:
 		return
 	if _weaponInput.primaryOn:
 		tick = refireTime
 		_fire_rocket()
 		.play_fire_1(false)
-	elif _weaponInput.secondaryOn:
-		tick = refireTime
-		_fire_stasis_grenade()
-		.play_fire_1(false)
+	# elif _weaponInput.secondaryOn:
+	# 	tick = refireTime
+	# 	_fire_stasis_grenade()
+	# 	.play_fire_1(false)
 
 func _process(_delta:float) -> void:
 	if tick > 0:
