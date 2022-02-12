@@ -2,6 +2,10 @@ extends RigidBody
 
 const Enums = preload("res://src/enums.gd")
 
+const HEALTH_MINOR:String = "health_minor"
+const ADRENALINE_MINOR:String = "adrenaline_minor"
+const BONUS_MINOR:String = "bonus_minor"
+
 export var time:float = 4
 export var remove_parent:bool = false
 
@@ -24,8 +28,8 @@ var _turnWeight:float = 0.025
 var _kinematicVelocity:Vector3 = Vector3()
 
 func _ready() -> void:
-	if randf() > 0.5:
-		_sprite.animation = "blue_capsule"
+	#if randf() > 0.5:
+	#	_sprite.animation = "blue_capsule"
 	pass
 
 func _remove() -> void:
@@ -40,19 +44,32 @@ func launch(pos:Vector3, dropType:int) -> void:
 	velocity.z += rand_range(-5, 5)
 	linear_velocity = velocity
 	
+	if dropType == Enums.QuickDropType.Health:
+		var plyr:Dictionary = AI.get_player_target()
+		if plyr.id != 0 && plyr.health >= 100:
+			print("Convert to minor bonus")
+			dropType = Enums.QuickDropType.Bonus
+		else:
+			print("Cannot convert to minor bonus")
+	
 	_type = dropType
 	if _type == Enums.QuickDropType.Rage:
-		_sprite.animation = "green_capsule"
+		_sprite.animation = ADRENALINE_MINOR
 		time = 4
+	elif _type == Enums.QuickDropType.Bonus:
+		_sprite.animation = BONUS_MINOR
+		time = 8
 	else:
-		_sprite.animation = "blue_capsule"
+		_sprite.animation = HEALTH_MINOR
 		time = 8
 
 func _give_check() -> bool:
+	if _type == Enums.QuickDropType.Rage:
+		return AI.give_to_player("rage", 2) == 0
 	if _type == Enums.QuickDropType.Health:
 		return AI.give_to_player("health", 4) == 0
 	else:
-		return AI.give_to_player("rage", 2) == 0
+		return AI.give_to_player("bonus", 1) == 0
 
 func _start_gather() -> void:
 	_state = State.Gather
@@ -133,24 +150,29 @@ func _process(_delta:float):
 		if _gatherSpeed > _gatherSpeedMax:
 			_gatherSpeed = _gatherSpeedMax
 		
-		# boring move directly to player
 		var t:Transform = global_transform
-		var toward:Vector3 = (targetPos - selfPos).normalized()
-		var forward:Vector3 = _kinematicVelocity.normalized()
-		forward += (toward * _delta)
-		forward = forward.normalized()
-		_kinematicVelocity = forward * _gatherSpeed
+		
+		# terrible janky orbit
+		
+		#var toward:Vector3 = (targetPos - selfPos).normalized()
+		#var forward:Vector3 = _kinematicVelocity.normalized()
+		#forward += (toward * _delta)
+		#forward = forward.normalized()
+		#_kinematicVelocity = forward * _gatherSpeed
+		#global_transform.origin += (_kinematicVelocity * _delta)
+
+
+		# boring move directly to player
+		var toward:Vector3 = (targetPos - selfPos).normalized() * _gatherSpeed
+		_kinematicVelocity += (toward)
+		_kinematicVelocity += (toward * _delta)
+		_kinematicVelocity = _kinematicVelocity.normalized() * _gatherSpeed
 		global_transform.origin += (_kinematicVelocity * _delta)
-		# var toward:Vector3 = (targetPos - selfPos).normalized() * _gatherSpeed
-		# _kinematicVelocity += (toward)
-		# _kinematicVelocity += (toward * _delta)
-		# _kinematicVelocity = _kinematicVelocity.normalized() * _gatherSpeed
-		# global_transform.origin += (_kinematicVelocity * _delta)
-		#ZqfUtils.turn_towards_point(self, targetPos, _turnWeight)
-		#var forward:Vector3 = -t.basis.z
-		## var forward:Vector3 = (targetPos - selfPos).normalized()
-		#selfPos += (forward * _gatherSpeed) * _delta
-		#global_transform.origin = selfPos
+		ZqfUtils.turn_towards_point(self, targetPos, _turnWeight)
+		var forward:Vector3 = -t.basis.z
+		# var forward:Vector3 = (targetPos - selfPos).normalized()
+		selfPos += (forward * _gatherSpeed) * _delta
+		global_transform.origin = selfPos
 
 		_turnWeight += _delta * 1.0
 		if _turnWeight > 1:

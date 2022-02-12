@@ -9,6 +9,9 @@ const STATE_GROWN:int = 1
 const STATE_SHRINKING:int = 2
 const STATE_DEAD:int = 3
 
+export var harmlessMaterial:SpatialMaterial = null
+export var dangerousMaterial:SpatialMaterial = null
+
 onready var _cone:MeshInstance = $cone
 onready var _area:Area = $Area
 
@@ -33,6 +36,8 @@ func wait(seconds:float) -> void:
 	_time = 0.0
 	_spikeState = STATE_WAITING
 	visible = false
+	if harmlessMaterial != null:
+		_cone.material_override = harmlessMaterial
 
 func on_body_entered(body) -> void:
 	if _player != null:
@@ -64,6 +69,8 @@ func _process(_delta:float) -> void:
 		if _time > 0.2:
 			_time = 0
 			_spikeState = STATE_GROWN
+			if dangerousMaterial != null:
+				_cone.material_override = dangerousMaterial
 	elif _spikeState == STATE_GROWN:
 		# hit player?
 		if ZqfUtils.is_obj_safe(_player):
@@ -79,6 +86,8 @@ func _process(_delta:float) -> void:
 		if _time > 2:
 			_time = 0
 			_spikeState = STATE_SHRINKING
+			if harmlessMaterial != null:
+				_cone.material_override = harmlessMaterial
 	elif _spikeState == STATE_SHRINKING:
 		weight = _time / 1
 		weight = 1 - weight
@@ -92,6 +101,8 @@ func _process(_delta:float) -> void:
 			visible = true
 			_time = 0.0
 			_spikeState = STATE_GROWING
+			if harmlessMaterial != null:
+				_cone.material_override = harmlessMaterial
 		else:
 			return
 	else:

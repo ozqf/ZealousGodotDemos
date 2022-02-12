@@ -23,7 +23,8 @@ shape = SubResource( 1 )
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0.95, 0 )
 billboard = 2
 frames = ExtResource( 1 )
-animation = "green_capsule"
+animation = "bonus_minor"
+frame = 2
 playing = true
 
 [node name="MeshInstance" type="MeshInstance" parent="."]

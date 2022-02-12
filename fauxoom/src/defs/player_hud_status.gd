@@ -28,6 +28,7 @@ var fuel:int = 0
 
 # resources
 var rage:int = 0
+var bonus:int = 0
 
 var hasPistol:bool = false
 var hasSuperShotgun:bool = false

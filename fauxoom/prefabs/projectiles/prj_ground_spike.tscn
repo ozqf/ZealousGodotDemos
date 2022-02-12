@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/projectiles/prj_ground_spike.gd" type="Script" id=1]
+[ext_resource path="res://assets/mat_red.tres" type="Material" id=2]
+[ext_resource path="res://assets/mat_shockwave.tres" type="Material" id=3]
 
 [sub_resource type="CylinderMesh" id=1]
 top_radius = 0.0
@@ -13,9 +15,12 @@ radius = 0.5
 
 [node name="prj_ground_spike" type="Spatial"]
 script = ExtResource( 1 )
+harmlessMaterial = ExtResource( 3 )
+dangerousMaterial = ExtResource( 2 )
 
 [node name="cone" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+material_override = ExtResource( 3 )
 mesh = SubResource( 1 )
 material/0 = null
 

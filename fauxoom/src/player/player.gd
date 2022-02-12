@@ -36,6 +36,8 @@ var _targetHealthInfo:MobHealthInfo = null
 var _hyperCooldown:float = 0
 var _hyperLevel:int = 0
 var _hyperTime:float = 0
+var _bonus:int = 0
+var _bonusReductionTick:float = 0.0
 
 var _targettingInfo:Dictionary = {
 	id = Interactions.PLAYER_RESERVED_ID,
@@ -45,7 +47,8 @@ var _targettingInfo:Dictionary = {
 	flatForward = Vector3(),
 	yawDegrees = 0,
 	aimPos = Vector3(),
-	noAttackTime = 0.0
+	noAttackTime = 0.0,
+	health = 100
 }
 
 func _ready():
@@ -267,9 +270,17 @@ func _tick_hyper(_delta:float) -> void:
 		_inventory.update_hyper_level(_hyperLevel)
 	Game.hyperLevel = _hyperLevel
 
+func _tick_bonus(_delta:float) -> void:
+	if _bonus > 0:
+		_bonusReductionTick -= _delta
+		if _bonusReductionTick <= 0.0:
+			_bonusReductionTick = 2.0
+			_bonus -= 1
+
 func _process(_delta:float) -> void:
 	_refresh_input_on()
 	_tick_hyper(_delta)
+	_tick_bonus(_delta)
 	# if _appInputOn && _gameplayInputOn && Input.is_action_just_pressed("interact"):
 	# 	_interactor.use_target()
 	if Input.is_action_just_pressed("flash_light"):
@@ -302,6 +313,7 @@ func _process(_delta:float) -> void:
 	_targettingInfo.aimPos = aimPos
 	_targettingInfo.flatVelocity = _motor.get_flat_velocity()
 	_targettingInfo.noAttackTime = _attack.noAttackTime
+	_targettingInfo.health = _health
 
 	# Write HUD information
 	var t:Transform = _head.transform
@@ -330,6 +342,7 @@ func _process(_delta:float) -> void:
 	_hudStatus.hyperLevel = _hyperLevel
 	_hudStatus.hyperTime = _hyperTime
 	_hudStatus.hyperTime = _hyperCooldown
+	_hudStatus.bonus = _bonus
 
 	_inventory.write_hud_status(_hudStatus)
 
@@ -348,6 +361,11 @@ func give_item(itemType:String, amount:int) -> int:
 		_health += amount
 		if _health > MAX_HEALTH:
 			_health = MAX_HEALTH
+		return amount
+	
+	# we always take bonuses
+	if itemType == "bonus":
+		_bonus += amount
 		return amount
 	
 	# maybe it is an inventory item...?

@@ -7,7 +7,7 @@ onready var _shellCount:Label = $bottom_right_panel/ammo_counts/shells/count
 onready var _plasmaCount:Label = $bottom_right_panel/ammo_counts/plasma/count
 onready var _rocketCount:Label = $bottom_right_panel/ammo_counts/rockets/count
 onready var _fuelCount:Label = $bottom_right_panel/ammo_counts/fuel/count
-
+onready var _bonusCount:Label = $bonus_count
 
 func player_status_update(data:PlayerHudStatus) -> void:
 	if data.hasPistol:
@@ -35,5 +35,6 @@ func player_status_update(data:PlayerHudStatus) -> void:
 		_fuelCount.text = str(data.fuel)
 	else:
 		_fuelCount.get_parent().visible = false
-
+	
+	_bonusCount.text = str(data.bonus)
 	pass

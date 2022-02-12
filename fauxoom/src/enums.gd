@@ -46,7 +46,8 @@ enum TriggerVolumeAction {
 
 enum QuickDropType {
 	Rage,
-	Health
+	Health,
+	Bonus
 }
 
 enum SequenceOrder {
