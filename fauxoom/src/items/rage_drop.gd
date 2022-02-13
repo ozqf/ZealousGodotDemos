@@ -142,7 +142,7 @@ func _process(_delta:float):
 			return
 
 		# k, kinematic move
-		var targetPos:Vector3 = dict.position
+		var targetPos:Vector3 = dict.position - Vector3(0, 0.6, 0)
 		var selfPos:Vector3 = self.global_transform.origin
 		var dist:float = selfPos.distance_to(targetPos)
 		if dist < 0.2:
@@ -168,18 +168,22 @@ func _process(_delta:float):
 
 
 		# boring move directly to player
-		var toward:Vector3 = (targetPos - selfPos).normalized()
-		var lookPos:Vector3 = t.origin + toward
+		# var toward:Vector3 = (targetPos - selfPos).normalized()
+		# var lookPos:Vector3 = t.origin + toward
 		# _kinematicVelocity += (toward)
 		# _kinematicVelocity += (toward * _delta)
 		# _kinematicVelocity = _kinematicVelocity.normalized() * _gatherSpeed
 		# global_transform.origin += (_kinematicVelocity * _delta)
 
-		ZqfUtils.turn_towards_point(_toward, targetPos, _turnWeight)
-		var forward:Vector3 = -_toward.global_transform.basis.z
+		# ZqfUtils.turn_towards_point(_toward, targetPos, _turnWeight)
+		# var forward:Vector3 = -_toward.global_transform.basis.z
 		# var forward:Vector3 = (targetPos - selfPos).normalized()
-		selfPos += (forward * _gatherSpeed) * _delta
-		global_transform.origin = selfPos
+		# selfPos += (forward * _gatherSpeed) * _delta
+		# global_transform.origin = selfPos
+		
+		var toward:Vector3 = (targetPos - selfPos).normalized()
+		var newPos:Vector3 = t.origin + (toward * (15.0 * _delta))
+		global_transform.origin = newPos
 
 		# _turnWeight += _delta * 1.0
 		# if _turnWeight > 1:

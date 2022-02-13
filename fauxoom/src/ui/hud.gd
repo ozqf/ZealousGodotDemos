@@ -18,8 +18,10 @@ onready var _ammoStatus = $bottom_right_panel
 onready var _crosshair = $centre
 
 # red bars for critical health
-onready var _criticalHealthLeft:Control = $hurt_left
-onready var _criticalHealthRight:Control = $hurt_right
+onready var _criticalHealthLeft:ColorRect = $hurt_left/ColorRect
+onready var _criticalHealthRight:ColorRect = $hurt_right/ColorRect
+onready var _criticalHealthTop:ColorRect = $hurt_top/ColorRect
+onready var _criticalHealthBottom:ColorRect = $hurt_bottom/ColorRect
 
 # audio
 onready var audio:AudioStreamPlayer = $audio/AudioStreamPlayer
@@ -48,6 +50,10 @@ var leftNextAnim:String = ""
 
 var swayTime:float = 0.0
 var _lastSoundFrame:int = -1
+
+var _hurtFadeTick:float = 0.0
+var _hurtFadeTime:float = 2.0
+var _hurtColour:Color = Color(1.0, 0, 0, 1.0)
 
 func _ready() -> void:
 	centreSprite.visible = false
@@ -88,7 +94,33 @@ func hide_all_sprites() -> void:
 	rightNextAnim = ""
 	leftNextAnim = ""
 
+func _update_hurt_fade(_delta:float) -> void:
+	var col:Color = Color(1.0, 0.0, 0.0, 0.0)
+	var visible:bool = false
+	if _hurtFadeTick <= 0:
+		visible = false
+	else:
+		_hurtFadeTick -= _delta
+		var weight:float = _hurtFadeTick / _hurtFadeTime
+		weight = ZqfUtils.clamp_float(weight, 0.0, 1.0)
+		visible = true
+		col = _hurtColour
+		col.a = weight
+		# print("Hurt fade " + str(col))
+	
+	_criticalHealthLeft.visible = visible
+	_criticalHealthRight.visible = visible
+	_criticalHealthTop.visible = visible
+	_criticalHealthBottom.visible = visible
+
+	_criticalHealthLeft.color = col
+	_criticalHealthRight.color = col
+	_criticalHealthTop.color = col
+	_criticalHealthBottom.color = col
+	pass
+
 func _process(_delta:float) -> void:
+	_update_hurt_fade(_delta)
 	#swayTime += (_delta * 12)
 	# x can sway from -1 to 1 (left to right)
 	var mulX:float = sin(swayTime * 0.5)
@@ -163,17 +195,28 @@ func hud_play_weapon_empty() -> void:
 	pass
 
 func player_hit(_data:Dictionary) -> void:
+	# spawn a centre hit indicator
 	var hit = _hit_indicator_t.instance()
 	$centre.add_child(hit)
 	hit.spawn(_data.selfYawDegrees, _data.direction)
+	
+	# show hurt border
+	_hurtFadeTick = _hurtFadeTime
+	if _data.healthType == 0:
+		_hurtColour = Color(1.0, 0, 0, 1.0)
+	else:
+		_hurtColour = Color(1.0, 1.0, 0.0, 1.0)
 
 func player_status_update(data:PlayerHudStatus) -> void:
 	
 	swayTime = data.swayTime
 
-	var criticalHealth:bool = data.health <= 25
-	_criticalHealthLeft.visible = criticalHealth
-	_criticalHealthRight.visible = criticalHealth
+	# show hurt if on very low hp
+	# var criticalHealth:bool = data.health <= 25
+	# _criticalHealthLeft.visible = criticalHealth
+	# _criticalHealthRight.visible = criticalHealth
+	# _criticalHealthTop.visible = criticalHealth
+	# _criticalHealthBottom.visible = criticalHealth
 	
 	_crosshair.player_status_update(data)
 	_playerStatus.player_status_update(data)

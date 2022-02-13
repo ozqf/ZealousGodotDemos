@@ -376,13 +376,14 @@ func give_item(itemType:String, amount:int) -> int:
 	#	print(_inventory.debug())
 	return took
 
-func _send_hit_message(dmg, direction) -> void:
+func _send_hit_message(dmg, direction, healthType) -> void:
 	var grp:String = Groups.PLAYER_GROUP_NAME
 	var fn:String = Groups.PLAYER_FN_HIT
 	var data:Dictionary = {
 		damage = dmg,
 		direction = direction,
-		selfYawDegrees = _motor.m_yaw
+		selfYawDegrees = _motor.m_yaw,
+		healthType = healthType
 	}
 	get_tree().call_group(grp, fn, data)
 
@@ -407,7 +408,7 @@ func hit(hitInfo:HitInfo) -> int:
 			_hyperCooldown = 10.0
 			var aoe = _spawn_aoe()
 			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_OFF, 0.0)
-		_send_hit_message(dmg, hitInfo.direction)
+		_send_hit_message(dmg, hitInfo.direction, 1)
 		return dmg
 	
 	# taking actual health, deary me
@@ -423,7 +424,7 @@ func hit(hitInfo:HitInfo) -> int:
 			kill()
 		return dmg + _health
 	else:
-		_send_hit_message(dmg, hitInfo.direction)
+		_send_hit_message(dmg, hitInfo.direction, 0)
 		return dmg
 
 func kill() -> void:

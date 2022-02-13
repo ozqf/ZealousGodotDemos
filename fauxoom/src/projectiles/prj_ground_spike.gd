@@ -9,6 +9,8 @@ const STATE_GROWN:int = 1
 const STATE_SHRINKING:int = 2
 const STATE_DEAD:int = 3
 
+const GROW_TIME:float = 0.4
+
 export var harmlessMaterial:SpatialMaterial = null
 export var dangerousMaterial:SpatialMaterial = null
 
@@ -65,8 +67,8 @@ func _process(_delta:float) -> void:
 	_time += _delta
 	var weight:float = 1
 	if _spikeState == STATE_GROWING:
-		weight = _time / 0.2
-		if _time > 0.2:
+		weight = _time / GROW_TIME
+		if _time > GROW_TIME:
 			_time = 0
 			_spikeState = STATE_GROWN
 			if dangerousMaterial != null:

@@ -25,6 +25,14 @@ func _spawn_enemy(type) -> void:
 	t.origin = dict.aimPos
 	var _mob = Ents.create_mob(type, t, true)
 
+func _spawn_minor_item(dropType:int) -> void:
+	print("Spawn minor item " + str(dropType))
+	var dict:Dictionary = AI.get_player_target()
+	if dict.id == 0:
+		return
+	Game.spawn_rage_drops(dict.aimPos, dropType, 1)
+	pass
+
 func _fire_column_projectile() -> void:
 	var prj = Game.prj_column_t.instance()
 	Game.get_dynamic_parent().add_child(prj)
@@ -88,6 +96,12 @@ func read_input(_weaponInput:WeaponInput) -> void:
 			_spawn_enemy(Enums.EnemyType.Golem)
 		elif mode == Enums.DebuggerMode.SpawnTitan:
 			_spawn_enemy(Enums.EnemyType.Titan)
+		elif mode == Enums.DebuggerMode.ItemSpawnMinorHealth:
+			_spawn_minor_item(Enums.QuickDropType.Health)
+		elif mode == Enums.DebuggerMode.ItemSpawnMinorRage:
+			_spawn_minor_item(Enums.QuickDropType.Rage)
+		elif mode == Enums.DebuggerMode.ItemSpawnMinorBonus:
+			_spawn_minor_item(Enums.QuickDropType.Bonus)
 		else:
 			print("Unknown debug mode " + str(mode))
 			tick = 1

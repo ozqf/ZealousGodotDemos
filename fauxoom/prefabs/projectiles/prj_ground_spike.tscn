@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/projectiles/prj_ground_spike.gd" type="Script" id=1]
-[ext_resource path="res://assets/mat_red.tres" type="Material" id=2]
+[ext_resource path="res://assets/mat_shockwave_red.tres" type="Material" id=2]
 [ext_resource path="res://assets/mat_shockwave.tres" type="Material" id=3]
 
 [sub_resource type="CylinderMesh" id=1]

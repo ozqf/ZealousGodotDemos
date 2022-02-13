@@ -63,7 +63,10 @@ enum DebuggerMode {
 	SpawnWorm,
 	SpawnSpider,
 	SpawnGolem,
-	SpawnTitan
+	SpawnTitan,
+	ItemSpawnMinorHealth,
+	ItemSpawnMinorRage,
+	ItemSpawnMinorBonus
 }
 
 # enum HitResponeeType {
