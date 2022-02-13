@@ -10,6 +10,7 @@ export var time:float = 4
 export var remove_parent:bool = false
 
 onready var _sprite = $Sprite3D
+onready var _toward:Spatial = $toward
 
 enum State { Idle, Gather, Dead }
 
@@ -24,7 +25,7 @@ var _gatherRange:float = 6
 var _gatherSpeed:float = 1
 var _gatherSpeedMax:float = 50
 var _gatherSpeedAccel:float = 30
-var _turnWeight:float = 0.025
+var _turnWeight:float = 0.1
 var _kinematicVelocity:Vector3 = Vector3()
 
 func _ready() -> void:
@@ -76,19 +77,22 @@ func _start_gather() -> void:
 	_sprite.modulate = Color.white
 
 func _start_kinematic_move() -> void:
-	# var movePos:Vector3
-	_kinematicVelocity = linear_velocity
-	_gatherSpeed = _kinematicVelocity.length()
-	# if linear_velocity.length() > 0.1:
-		#_kinematicVelocity = linear_velocity
-	# 	movePos = global_transform.origin + linear_velocity
-	# else:
-	# 	movePos = global_transform.origin + Vector3.UP
-	#var moveDir:Vector3 = global_transform.origin + linear_velocity
-	#if moveDir != Vector3.UP:
-	#	look_at(selfPos + linear_velocity, Vector3.UP)
+	var movePos:Vector3
+	#_kinematicVelocity = linear_velocity
+	#_gatherSpeed = _kinematicVelocity.length()
+	var curSpeed:float = linear_velocity.length()
+	_gatherSpeed = curSpeed
+	if curSpeed > 0.1:
+		_kinematicVelocity = linear_velocity
+		movePos = global_transform.origin + linear_velocity
+	else:
+		movePos = global_transform.origin + Vector3.UP
+	# var moveDir:Vector3 = global_transform.origin + linear_velocity
+	ZqfUtils.look_at_safe(_toward, movePos)
+	# if moveDir != Vector3.UP:
+	# 	look_at(selfPos + linear_velocity, Vector3.UP)
 	# ZqfUtils.look_at_safe(self, movePos)
-	# var speed:float = linear_velocity.length()
+	var speed:float = linear_velocity.length()
 	# print("rage spawned at speed: " + str(speed))
 	mode = RigidBody.MODE_KINEMATIC
 
@@ -126,7 +130,7 @@ func _process(_delta:float):
 			return
 		var isKinematic:bool = mode == RigidBody.MODE_KINEMATIC
 		if !isKinematic:
-			if _lifeTime > 0.6:
+			if _lifeTime > 1.2:
 				_start_kinematic_move()
 			else:
 				return
@@ -150,6 +154,7 @@ func _process(_delta:float):
 		if _gatherSpeed > _gatherSpeedMax:
 			_gatherSpeed = _gatherSpeedMax
 		
+		_gatherSpeed = 2
 		var t:Transform = global_transform
 		
 		# terrible janky orbit
@@ -163,19 +168,21 @@ func _process(_delta:float):
 
 
 		# boring move directly to player
-		var toward:Vector3 = (targetPos - selfPos).normalized() * _gatherSpeed
-		_kinematicVelocity += (toward)
-		_kinematicVelocity += (toward * _delta)
-		_kinematicVelocity = _kinematicVelocity.normalized() * _gatherSpeed
-		global_transform.origin += (_kinematicVelocity * _delta)
-		ZqfUtils.turn_towards_point(self, targetPos, _turnWeight)
-		var forward:Vector3 = -t.basis.z
+		var toward:Vector3 = (targetPos - selfPos).normalized()
+		var lookPos:Vector3 = t.origin + toward
+		# _kinematicVelocity += (toward)
+		# _kinematicVelocity += (toward * _delta)
+		# _kinematicVelocity = _kinematicVelocity.normalized() * _gatherSpeed
+		# global_transform.origin += (_kinematicVelocity * _delta)
+
+		ZqfUtils.turn_towards_point(_toward, targetPos, _turnWeight)
+		var forward:Vector3 = -_toward.global_transform.basis.z
 		# var forward:Vector3 = (targetPos - selfPos).normalized()
 		selfPos += (forward * _gatherSpeed) * _delta
 		global_transform.origin = selfPos
 
-		_turnWeight += _delta * 1.0
-		if _turnWeight > 1:
-			_turnWeight = 1
+		# _turnWeight += _delta * 1.0
+		# if _turnWeight > 1:
+		# 	_turnWeight = 1
 	else:
 		pass

@@ -259,6 +259,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/player/player_object_interactor.gd"
 }, {
+"base": "RigidBodyProjectile",
+"class": "PrjGrenade",
+"language": "GDScript",
+"path": "res://src/projectiles/prj_stasis_grenade.gd"
+}, {
 "base": "Reference",
 "class": "PrjUtils",
 "language": "GDScript",
@@ -420,6 +425,7 @@ _global_script_class_icons={
 "PlayerAttack": "",
 "PlayerHudStatus": "",
 "PlayerObjectInteractor": "",
+"PrjGrenade": "",
 "PrjUtils": "",
 "Projectile": "",
 "RigidBodyProjectile": "",

@@ -1,8 +1,17 @@
 extends RigidBodyProjectile
+class_name PrjGrenade
 
 onready var _light:OmniLight = $OmniLight
 onready var _scanner:ZqfVolumeScanner = $volume_scanner
 onready var _particles = $particles
+onready var _area:Area = $Area
+
+func _ready() -> void:
+	_area.connect("area_entered", self, "on_area_entered")
+	_area.connect("body_entered", self, "on_body_entered")
+
+func _custom_init() -> void:
+	pass
 
 func die() -> void:
 	_particles.emitting = false
@@ -72,10 +81,18 @@ func _spawn_now() -> void:
 func time_out() -> void:
 	print("Stasis grenade timeout")
 	die()
-	
+
 func move(_delta:float) -> void:
 	# _move_as_ray(_delta)
 	pass
+
+func on_area_entered(area:Area) -> void:
+	if Interactions.is_obj_a_mob(area):
+		die()
+
+func on_body_entered(body) -> void:
+	if Interactions.is_obj_a_mob(body):
+		die()
 
 func _process(_delta:float) -> void:
 	if _scanner.total > 0:

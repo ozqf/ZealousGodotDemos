@@ -15,21 +15,25 @@ func player_status_update(data:PlayerHudStatus) -> void:
 		_bulletCount.text = str(data.bullets)
 	else:
 		_bulletCount.get_parent().visible = false
+		
 	if data.hasSuperShotgun:
 		_shellCount.get_parent().visible = true
 		_shellCount.text = str(data.shells)
 	else:
 		_shellCount.get_parent().visible = false
+	
 	if data.hasRailgun:
 		_plasmaCount.get_parent().visible = true
 		_plasmaCount.text = str(data.plasma)
 	else:
 		_plasmaCount.get_parent().visible = false
+	
 	if data.hasRocketLauncher:
 		_rocketCount.get_parent().visible = true
 		_rocketCount.text = str(data.rockets)
 	else:
 		_rocketCount.get_parent().visible = false
+	
 	if data.hasFlameThrower:
 		_fuelCount.get_parent().visible = true
 		_fuelCount.text = str(data.fuel)

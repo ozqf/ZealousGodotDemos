@@ -192,17 +192,17 @@ fire_1 = "ft_shoot"
 script = ExtResource( 19 )
 slot = -1
 
-[node name="empty" type="Node" parent="inventory/weapons"]
-script = ExtResource( 20 )
-slot = -1
-
 [node name="debugger" type="Node" parent="inventory/weapons"]
 script = ExtResource( 22 )
 hudName = "Debugger"
 inventoryType = "debugger"
 refireTime = 0.1
-idle = "pg_idle"
-fire_1 = "pg_shoot"
+idle = "hand_idle"
+fire_1 = "hand_idle"
+
+[node name="empty" type="Node" parent="inventory/weapons"]
+script = ExtResource( 20 )
+slot = -1
 
 [node name="ammo" type="Node" parent="inventory"]
 

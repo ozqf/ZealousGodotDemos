@@ -34,6 +34,10 @@ var ownerId:int = 0
 func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
 	visible = false
+	_custom_init()
+
+func _custom_init() -> void:
+	pass
 
 func triggered_detonate() -> void:
 	if _state != ProjectileState.InFlight:
