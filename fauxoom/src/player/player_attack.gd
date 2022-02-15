@@ -90,38 +90,38 @@ func _process(_delta:float) -> void:
 		_weaponInput.secondaryOn = false
 		_meleeTick -= _delta
 	else:
-		if !_charging:
-			# interact or start a punch
-			if Input.is_action_just_pressed("interact"):
-				if _interactor.get_is_colliding():
-					_interactor.use_target()
-				else:
-					#... start a punch
-					print("Charging...")
-					_charging = true
-					_weaponInput.primaryOn = false
-					_weaponInput.secondaryOn = false
-					_chargeTick = 0.0
-		else:
-			_weaponInput.primaryOn = false
-			_weaponInput.secondaryOn = false
-			_chargeTick += _delta
-			if _chargeTick > _chargeMax:
-				_chargeTick = _chargeMax
-			if Input.is_action_just_released("interact"):
-				_charging = false
-				_meleeTick = _meleeTime
-				_inventory.offhand.offhand_punch(_chargeTick / _chargeMax)
+		###############################################################
+		# charge up punch
+		#if !_charging:
+		#	# interact or start a punch
+		#	if Input.is_action_just_pressed("interact"):
+		#		if _interactor.get_is_colliding():
+		#			_interactor.use_target()
+		#		else:
+		#			#... start a punch
+		#			print("Charging...")
+		#			_charging = true
+		#			_weaponInput.primaryOn = false
+		#			_weaponInput.secondaryOn = false
+		#			_chargeTick = 0.0
+		#else:
+		#	_weaponInput.primaryOn = false
+		#	_weaponInput.secondaryOn = false
+		#	_chargeTick += _delta
+		#	if _chargeTick > _chargeMax:
+		#		_chargeTick = _chargeMax
+		#	if Input.is_action_just_released("interact"):
+		#		_charging = false
+		#		_meleeTick = _meleeTime
+		#		_inventory.offhand.offhand_punch(_chargeTick / _chargeMax)
 
-		# if _interactor.get_is_colliding():
-
-		# if Input.is_action_pressed("interact"):
-
+		
+		###############################################################
 		# old basic interact-or-punch mechanic
-		#if Input.is_action_just_pressed("interact"):
-		#	_meleeTick = _meleeTime
-		#	if !_interactor.use_target():
-		#		_inventory.offhand.offhand_punch()
+		if Input.is_action_just_pressed("interact"):
+			_meleeTick = _meleeTime
+			if !_interactor.use_target():
+				_inventory.offhand.offhand_punch(0)
 		pass
 
 	var weap:InvWeapon = _inventory.get_current_weapon()

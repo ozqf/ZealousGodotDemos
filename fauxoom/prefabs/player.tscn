@@ -69,6 +69,7 @@ script = ExtResource( 10 )
 
 [node name="laser_dot" type="MeshInstance" parent="head"]
 transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -1.4, 0 )
+visible = false
 material_override = ExtResource( 29 )
 mesh = ExtResource( 28 )
 material/0 = null
@@ -192,6 +193,10 @@ fire_1 = "ft_shoot"
 script = ExtResource( 19 )
 slot = -1
 
+[node name="empty" type="Node" parent="inventory/weapons"]
+script = ExtResource( 20 )
+slot = -1
+
 [node name="debugger" type="Node" parent="inventory/weapons"]
 script = ExtResource( 22 )
 hudName = "Debugger"
@@ -199,10 +204,6 @@ inventoryType = "debugger"
 refireTime = 0.1
 idle = "hand_idle"
 fire_1 = "hand_idle"
-
-[node name="empty" type="Node" parent="inventory/weapons"]
-script = ExtResource( 20 )
-slot = -1
 
 [node name="ammo" type="Node" parent="inventory"]
 

@@ -1,5 +1,7 @@
 extends InvWeapon
 
+var _prj_flak_t = preload("res://prefabs/projectiles/prj_flak.tscn")
+
 var _ssgShoot:AudioStream = preload("res://assets/sounds/ssg/ssg_fire.wav")
 var _ssgOpen:AudioStream = preload("res://assets/sounds/ssg/ssg_open.wav")
 var _ssgLoad:AudioStream = preload("res://assets/sounds/ssg/ssg_load.wav")
@@ -7,22 +9,37 @@ var _ssgClose:AudioStream = preload("res://assets/sounds/ssg/ssg_close.wav")
 
 var _lastSoundFrame:int = -1
 var _brassNode:Spatial
+var _prjMask:int = -1
+
 
 func custom_init_b() -> void:
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SHARPNEL
 	_brassNode = _launchNode.find_node("ejected_brass_spawn")
 
+func _fire_flak(origin:Vector3, forward:Vector3) -> void:
+	var prj = _prj_flak_t.instance()
+	Game.get_dynamic_parent().add_child(prj)
+	prj.launch_prj(origin, forward, 1, Interactions.TEAM_PLAYER, _prjMask)
+	pass
+
 func read_input(_weaponInput:WeaponInput) -> void:
 	if tick <= 0 && _weaponInput.primaryOn:
+		var hyper:bool = Game.hyperLevel > 0
 		tick = refireTime
 		var t:Transform = _launchNode.global_transform
 		var randSpreadX:float = 1500
 		var randSpreadY:float = 400
+		if hyper:
+			randSpreadX = 1000
+			randSpreadY = 300
 		for _i in range(0, 14):
 			var spreadX:float = rand_range(-randSpreadX, randSpreadX)
 			var spreadY:float = rand_range(-randSpreadY, randSpreadY)
 			var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
-			_fire_single(forward, 1000)
+			if hyper:
+				_fire_flak(t.origin, forward)
+			else:
+				_fire_single(forward, 1000)
 		
 		#var brassForward:Vector3 = -t.basis.z + t.basis.y
 		#brassForward = brassForward.normalized()

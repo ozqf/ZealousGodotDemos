@@ -13,6 +13,7 @@ var _data:Dictionary = {
 	plasma_gun = { count = 0, max = 1, type = "weapon", priority = 5 },
 	rocket_launcher = { count = 0, max = 1, type = "weapon", priority = 6 },
 	flame_thrower = { count = 0, max = 1, type = "weapon", priority = 2 },
+	debugger = { count = 0, max = 1, type = "weapon", priority = 999 },
 
 	bullets = { count = 100, max = 200, type = "ammo", priority = 0 },
 	shells = { count = 0, max = 40, type = "ammo", priority = 0 },
@@ -52,6 +53,11 @@ func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
 		# if _currentWeapon == null:
 		# 	set_current_weapon(child)
 	# print("Inventory found " + str(weapons.size()) + " weapons")
+
+	if Main.debug_mode():
+		print("Running from editor - give debugger")
+		give_item("debugger", 1)
+
 	select_first_weapon()
 
 func update_hyper_level(hyperLevel:int) -> void:
@@ -133,8 +139,10 @@ func select_first_weapon() -> void:
 	for i in range(0, numWeapons):
 		var weap = weapons[i]
 		if weap.can_equip():
+			print("Select first weapon " + str(i))
 			set_current_weapon(i)
 			return
+	print("Select first weapon " + str(-1))
 	set_current_weapon(-1)
 
 func get_current_weapon() -> InvWeapon:
@@ -153,11 +161,12 @@ func change_weapon_by_slot(_slotNumber:int) -> int:
 	var numWeapons:int = weapons.size()
 	var i:int = 0
 	var current = get_current_weapon()
-	if current.is_cycling():
-		return 0
+	
 	# if current weapon is the same slot number, select
 	# from that index onward to cycle through items in that slot
 	if current != null:
+		if current.is_cycling():
+			return 0
 		if _slotNumber == current.slot:
 			i = _currentWeaponIndex + 1
 			if i >= numWeapons:
@@ -224,7 +233,7 @@ func get_count(itemType:String) -> int:
 	return _data[itemType].count
 
 func give_all() -> void:
-	print("Give all")
+	print("CHEAT - Give all")
 	var keys = _data.keys()
 	for key in keys:
 		_data[key].count = _data[key].max
@@ -237,6 +246,9 @@ func give_all_guns() -> void:
 	for key in keys:
 		var datum = _data[key]
 		if datum.type == "weapon":
+			# ignore giving out debugging tools!
+			if key == "debugger":
+				continue
 			datum.count = datum.max
 		elif datum.type == "ammo":
 			var amount:int = int(float(datum.max) * 0.25)
@@ -297,7 +309,9 @@ func give_item(itemType:String, amount:int) -> int:
 	
 	# handle special types
 	if itemType == "fullpack":
-		give_all()
+		# give_all()
+		give_all_guns()
+		give_all_ammo()
 		return 1
 	elif itemType == "gunrack":
 		give_all_guns()

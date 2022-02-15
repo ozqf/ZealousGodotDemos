@@ -72,38 +72,38 @@ func die() -> void:
 		get_parent().add_child(instance)
 		ZqfUtils.set_forward(instance, _deathNormal)
 
-func _move_as_ray(_delta:float) -> void:
+# func _move_as_ray(_delta:float) -> void:
 
-	var t:Transform = global_transform
-	var origin:Vector3 = t.origin
-	ZqfUtils.look_at_safe(self, origin + _velocity)
-	# step backward slightly, or ray can sometimes penetrate walls...
-	var forward = -global_transform.basis.z
-	origin -= (forward * 0.1)
+# 	var t:Transform = global_transform
+# 	var origin:Vector3 = t.origin
+# 	ZqfUtils.look_at_safe(self, origin + _velocity)
+# 	# step backward slightly, or ray can sometimes penetrate walls...
+# 	var forward = -global_transform.basis.z
+# 	origin -= (forward * 0.1)
 
-	var speed:float = _velocity.length()
-	if speed == 0:
-		return
-	var hit = ZqfUtils.quick_hitscan3D(self, speed * _delta, _ignoreBody, _mask)
-	if hit:
-		# do damage
-		_hitInfo.damage = 15
-		_hitInfo.attackTeam = _team
-		_hitInfo.direction = _velocity.normalized()
-		var _inflicted:int = Interactions.hitscan_hit(_hitInfo, hit)
-		# if _inflicted == Interactions.HIT_RESPONSE_PENETRATE:
-			# print("Penetration hit!")
-		# else:
-			# print("Inflicted - " + str(_inflicted))
-		global_transform.origin = hit.position
-		_deathNormal = hit.normal
-		die()
-		return
-	t.origin = origin + (_velocity * _delta)
-	global_transform = t
+# 	var speed:float = _velocity.length()
+# 	if speed == 0:
+# 		return
+# 	var hit = ZqfUtils.quick_hitscan3D(self, speed * _delta, _ignoreBody, _mask)
+# 	if hit:
+# 		# do damage
+# 		_hitInfo.damage = 15
+# 		_hitInfo.attackTeam = _team
+# 		_hitInfo.direction = _velocity.normalized()
+# 		var _inflicted:int = Interactions.hitscan_hit(_hitInfo, hit)
+# 		# if _inflicted == Interactions.HIT_RESPONSE_PENETRATE:
+# 			# print("Penetration hit!")
+# 		# else:
+# 			# print("Inflicted - " + str(_inflicted))
+# 		global_transform.origin = hit.position
+# 		_deathNormal = hit.normal
+# 		die()
+# 		return
+# 	t.origin = origin + (_velocity * _delta)
+# 	global_transform = t
 
-func move(_delta:float) -> void:
-	_move_as_ray(_delta)
+# func move(_delta:float) -> void:
+# 	_move_as_ray(_delta)
 
 func _process(_delta:float) -> void:
 	if _state == ProjectileState.InFlight:
@@ -112,7 +112,6 @@ func _process(_delta:float) -> void:
 			_time = 99999
 			time_out()
 			return
-		move(_delta)
 	elif _state == ProjectileState.Dying:
 		_time -= _delta
 		if _time <= 0:

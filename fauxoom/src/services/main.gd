@@ -232,6 +232,9 @@ func set_input_off() -> void:
 func _web_mode() -> bool:
 	return (OS.get_name() == "HTML5")
 
+func debug_mode() -> bool:
+	return !OS.has_feature("standalone")
+
 func get_input_on() -> bool:
 	return _inputOn
 
