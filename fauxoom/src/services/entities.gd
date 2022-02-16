@@ -78,6 +78,10 @@ var _prefabs = {
 		prefab = preload("res://prefabs/items/item_hazard_suit.tscn"),
 		entNodePath = "Entity"
 	},
+	frage = {
+		prefab = preload("res://prefabs/items/item_full_rage.tscn"),
+		entNodePath = "Entity"
+	},
 
 	################################################
 	# weapons

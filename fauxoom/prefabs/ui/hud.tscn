@@ -680,6 +680,7 @@ custom_fonts/font = ExtResource( 3 )
 text = "50"
 
 [node name="debug_options" type="VBoxContainer" parent="."]
+visible = false
 margin_left = 192.0
 margin_right = 832.0
 margin_bottom = 192.0
@@ -824,3 +825,74 @@ margin_top = 66.0
 margin_right = 128.0
 margin_bottom = 86.0
 text = "Minor Bonus"
+
+[node name="objectives_screen" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="tabs" type="HBoxContainer" parent="objectives_screen"]
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 64.0
+margin_top = 64.0
+margin_bottom = -216.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="objectives_list" type="VBoxContainer" parent="objectives_screen/tabs"]
+margin_left = 60.0
+margin_right = 188.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 128, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="heading" type="Label" parent="objectives_screen/tabs/objectives_list"]
+margin_right = 128.0
+margin_bottom = 14.0
+text = "Objectives:"
+
+[node name="objective_1" type="Label" parent="objectives_screen/tabs/objectives_list"]
+margin_top = 18.0
+margin_right = 128.0
+margin_bottom = 32.0
+text = "> Survive"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="spacer" type="Control" parent="objectives_screen/tabs"]
+margin_left = 192.0
+margin_right = 256.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 64, 0 )
+
+[node name="items_list" type="VBoxContainer" parent="objectives_screen/tabs"]
+margin_left = 260.0
+margin_right = 388.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 128, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="heading" type="Label" parent="objectives_screen/tabs/items_list"]
+margin_right = 128.0
+margin_bottom = 14.0
+text = "Items:"
+
+[node name="item_1" type="Label" parent="objectives_screen/tabs/items_list"]
+margin_top = 18.0
+margin_right = 128.0
+margin_bottom = 32.0
+text = "> Some key"
+__meta__ = {
+"_edit_use_anchors_": false
+}

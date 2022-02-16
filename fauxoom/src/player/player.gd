@@ -248,7 +248,7 @@ func _tick_hyper(_delta:float) -> void:
 		if _hyperTime <= 0:
 			_hyperTime = Interactions.HYPER_COST_TICK_TIME
 			# take rage... if none could be taken, exit hyper
-			if _inventory.take_item("rage", Interactions.HYPER_COST_PER_SECOND)  == -1:
+			if _inventory.take_item("rage", Interactions.HYPER_COST_PER_TICK)  == -1:
 				# ran out of rage
 				_hyperLevel = 0
 				_hyperCooldown = Interactions.HYPER_COOLDOWN_DURATION
