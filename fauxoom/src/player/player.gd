@@ -17,6 +17,7 @@ onready var _flashLight:SpotLight = $head/SpotLight
 onready var _muzzleFlash:OmniLight = $head/muzzle_flash
 onready var _aimRay:RayCast = $head/aim_ray_cast
 onready var _laserDot:Spatial = $head/laser_dot
+onready var _wallDetector:ZqfVolumeScanner = $wall_detector
 
 var _inputOn:bool = false
 
@@ -279,6 +280,12 @@ func _tick_bonus(_delta:float) -> void:
 
 func _process(_delta:float) -> void:
 	_refresh_input_on()
+	
+	if _wallDetector.bodies.size() > 0:
+		_motor.nearWall = true
+	else:
+		_motor.nearWall = false
+	
 	_tick_hyper(_delta)
 	_tick_bonus(_delta)
 	# if _appInputOn && _gameplayInputOn && Input.is_action_just_pressed("interact"):
@@ -340,9 +347,14 @@ func _process(_delta:float) -> void:
 	_hudStatus.godMode = _godMode
 	_hudStatus.hasInteractionTarget = _interactor.get_is_colliding()
 	_hudStatus.hyperLevel = _hyperLevel
-	_hudStatus.hyperTime = _hyperTime
+	# _hudStatus.hyperTime = _hyperTime
 	_hudStatus.hyperTime = _hyperCooldown
 	_hudStatus.bonus = _bonus
+	_hudStatus.isNearWall = _motor.nearWall
+
+	# calculate hyper cost per second and therefore remaining seconds
+	var costPerSecond:float = 1.0 / Interactions.HYPER_COST_TICK_TIME
+	_hudStatus.hyperSecondsRemaining = float(_inventory.get_count("rage")) / costPerSecond
 
 	_inventory.write_hud_status(_hudStatus)
 

@@ -22,6 +22,7 @@ const GRAVITY:float = 20.0
 
 var mouseSensitivity: float = 1
 var invertedY:bool = false
+var nearWall:bool = false
 
 var _body:KinematicBody = null
 var _head:Spatial = null
@@ -128,19 +129,26 @@ func _physics_process(delta:float) -> void:
 	var pushing:bool = (pushDir.length() > 0)
 	
 	var dashOn:bool = Input.is_action_pressed("move_special")
-	if dashOn && energy >= DASH_ENERGY_COST && _dashTime <= 0 && isOnFloor:
-		_dashTime = DASH_DURATION
-		energy -= DASH_ENERGY_COST
+	if dashOn && energy >= DASH_ENERGY_COST && _dashTime <= 0 && (isOnFloor || nearWall):
 		# if current input, dash dir is just forwards
 		if pushing:
+			_dashTime = DASH_DURATION
+			energy -= DASH_ENERGY_COST
 			_dashPushDir = pushDir
-		else:
-			_dashPushDir = -forward
-			_dashPushDir.y = 0
-			_dashPushDir = _dashPushDir.normalized()
-		_velocity = _dashPushDir * DASH_SPEED
-		_velocity = _body.move_and_slide(_velocity)
-		return
+			_velocity = _dashPushDir * DASH_SPEED
+			_velocity = _body.move_and_slide(_velocity)
+			return
+		# Automatic dash forward if no direction is held down. Is awkward
+		# when trying to do wall-dashes and isn't really necessary anyway
+		#else:
+		#	_dashPushDir = -forward
+		#	_dashPushDir.y = 0
+		#	_dashPushDir = _dashPushDir.normalized()
+		#_dashTime = DASH_DURATION
+		#energy -= DASH_ENERGY_COST
+		#_velocity = _dashPushDir * DASH_SPEED
+		#_velocity = _body.move_and_slide(_velocity)
+		# return
 	
 	var flatVelocity:Vector3 = _velocity
 	flatVelocity.y = 0

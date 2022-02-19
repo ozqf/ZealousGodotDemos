@@ -8,6 +8,8 @@ onready var _healthBar:TextureProgress = $health
 onready var _redDot:ColorRect = $red_dot
 onready var _weaponCharge:ProgressBar = $weapon_charge_bar
 onready var _targetHealth:TextureProgress = $target_health
+onready var _walldashIndicator:Control = $walldash_indicator
+onready var _hyperTime:Label = $hyper_time/Label
 
 var _maxHealthColour:Color = Color(0, 1, 0, 1)
 var _minHealthColour:Color = Color(1, 0, 0, 1)
@@ -29,12 +31,20 @@ func player_status_update(data:PlayerHudStatus) -> void:
 	else:
 		_targetHealth.visible = false
 	
+	_walldashIndicator.visible = data.isNearWall
+	
 	# weapon charge metre
 	if data.weaponChargeMode == 1:
 		_weaponCharge.visible = true
 		_weaponCharge.value = data.currentAmmo
 	else:
 		_weaponCharge.visible = false
+	
+	if data.hyperLevel > 0:
+		_hyperTime.text = str(stepify(data.hyperSecondsRemaining, 0.01))
+		_hyperTime.visible = true
+	else:
+		_hyperTime.visible = false
 
 	# crosshair
 	var c:Color = Color(1, 1, 1, 1)
