@@ -59,6 +59,7 @@ onready var _completeUI:Control = $game_state_overlay/complete
 onready var _deathUI:Control = $game_state_overlay/death
 onready var _hintContainer:Control = $game_state_overlay/hint_text
 onready var _hintLabelTop:Label = $game_state_overlay/hint_text/hint_label_top
+onready var _screenFade:ColorRect = $game_state_overlay/screen_fade
 
 onready var _camera:AttachableCamera = $attachable_camera
 
@@ -228,21 +229,25 @@ func _refresh_overlay() -> void:
 		_pregameUI.visible = true
 		_completeUI.visible = false
 		_deathUI.visible = false
+		_screenFade.visible = true
 		# MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
 		MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
 	elif _state == GameState.Won:
 		_pregameUI.visible = false
 		_completeUI.visible = true
 		_deathUI.visible = false
+		_screenFade.visible = true
 		MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
 	elif _state == GameState.Lost:
 		_pregameUI.visible = false
 		_completeUI.visible = false
+		_screenFade.visible = true
 		_deathUI.visible = true
 		MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
 	else:
 		_pregameUI.visible = false
 		_completeUI.visible = false
+		_screenFade.visible = false
 		_deathUI.visible = false
 		MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
 

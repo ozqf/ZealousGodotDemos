@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/psychic_alert.wav-bf995ec1dad682f57c9f5154bc8f3f22.sample"
+
+[deps]
+
+source_file="res://assets/sounds/mob/psychic/psychic_alert.wav"
+dest_files=[ "res://.import/psychic_alert.wav-bf995ec1dad682f57c9f5154bc8f3f22.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

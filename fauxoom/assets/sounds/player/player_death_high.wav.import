@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/player_death_high.wav-4119db0c0e8535abcfba6503cfda87b7.sample"
+
+[deps]
+
+source_file="res://assets/sounds/player/player_death_high.wav"
+dest_files=[ "res://.import/player_death_high.wav-4119db0c0e8535abcfba6503cfda87b7.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

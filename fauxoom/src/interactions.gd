@@ -53,7 +53,7 @@ const DAMAGE_TYPE_SUPER_PUNCH:int = 8
 
 const HYPER_COST:int = 20
 const HYPER_COST_PER_TICK:int = 1
-const HYPER_COST_TICK_TIME:float = 0.125
+const HYPER_COST_TICK_TIME:float = 0.25 # 0.125
 const HYPER_DURATION:float = 10.0
 const HYPER_COOLDOWN_DURATION:float = 5.0
 

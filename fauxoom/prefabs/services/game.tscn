@@ -43,6 +43,14 @@ label = "Very Hard"
 [node name="game_state_overlay" type="CanvasLayer" parent="."]
 layer = 2
 
+[node name="screen_fade" type="ColorRect" parent="game_state_overlay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="pregame" type="Control" parent="game_state_overlay"]
 anchor_left = 0.5
 anchor_top = 0.5

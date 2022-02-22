@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/serpent_idle.wav-cfa2685d8e654d2ad5aad13fbeab3056.sample"
+
+[deps]
+
+source_file="res://assets/sounds/mob/serpent/serpent_idle.wav"
+dest_files=[ "res://.import/serpent_idle.wav-cfa2685d8e654d2ad5aad13fbeab3056.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

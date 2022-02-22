@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/psychic_pain.wav-1d8df53a133a511349ceabdefdc09ed8.sample"
+
+[deps]
+
+source_file="res://assets/sounds/mob/psychic/psychic_pain.wav"
+dest_files=[ "res://.import/psychic_pain.wav-1d8df53a133a511349ceabdefdc09ed8.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

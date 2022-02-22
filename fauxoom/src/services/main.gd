@@ -247,6 +247,8 @@ func _refresh_input_on() -> void:
 
 func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	print("EXEC " + txt)
+	if _tokens.size() == 0:
+		return
 	if _tokens.size() >= 2:
 		if _tokens[0] == "map":
 			var path:String = "res://maps/" + _tokens[1] + "/" + _tokens[1] + ".tscn"

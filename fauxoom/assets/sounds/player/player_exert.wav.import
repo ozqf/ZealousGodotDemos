@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/player_exert.wav-78ca4c13a36e949309f21cfa8e365ab2.sample"
+
+[deps]
+
+source_file="res://assets/sounds/player/player_exert.wav"
+dest_files=[ "res://.import/player_exert.wav-78ca4c13a36e949309f21cfa8e365ab2.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

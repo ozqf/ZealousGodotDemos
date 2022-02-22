@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/worm_alert.wav-7bffa26b723d6bbe13ba4e4aca3ec793.sample"
+
+[deps]
+
+source_file="res://assets/sounds/mob/worm/worm_alert.wav"
+dest_files=[ "res://.import/worm_alert.wav-7bffa26b723d6bbe13ba4e4aca3ec793.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
