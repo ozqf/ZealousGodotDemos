@@ -348,15 +348,15 @@ transform = Transform( 0.5, 0, 0, 0, 4, 0, 0, 0, 2, 0.5, 2, -1 )
 [node name="world" type="Spatial" parent="."]
 
 [node name="fan" type="Spatial" parent="world"]
-transform = Transform( 1, 0, 0, 0, 0.25, 0, 0, 0, 1, -1, 13, -10 )
+transform = Transform( 1, 0, 0, 0, 0.25, 0, 0, 0, 1, 0, 13, -10 )
 script = ExtResource( 5 )
 degreesPerSecond = Vector3( 0, 90, 0 )
 
 [node name="world_volume_corner" parent="world/fan" instance=ExtResource( 23 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 16, -0.5, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 13, -0.5, 0, 0 )
 
 [node name="world_volume_corner2" parent="world/fan" instance=ExtResource( 23 )]
-transform = Transform( -1, 0, -2.41593e-06, 0, 1, 0, 1.50996e-07, 0, -16, 0.5, 0, 0 )
+transform = Transform( -1, 0, -1.96295e-06, 0, 1, 0, 1.50996e-07, 0, -13, 0.5, 0, 0 )
 
 [node name="lights" type="Spatial" parent="world"]
 
@@ -393,6 +393,26 @@ omni_range = 10.0
 [node name="OmniLight8" type="OmniLight" parent="world/lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 10.5 )
 omni_range = 10.0
+
+[node name="OmniLight9" type="OmniLight" parent="world/lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 6, -0.5 )
+light_energy = 0.3
+omni_range = 30.0
+
+[node name="OmniLight10" type="OmniLight" parent="world/lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6, -0.5 )
+light_energy = 0.3
+omni_range = 30.0
+
+[node name="OmniLight11" type="OmniLight" parent="world/lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 6, -19.5 )
+light_energy = 0.3
+omni_range = 30.0
+
+[node name="OmniLight12" type="OmniLight" parent="world/lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6, -19.5 )
+light_energy = 0.3
+omni_range = 30.0
 
 [node name="OmniLight2" type="OmniLight" parent="world/lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 1, 23.5 )
@@ -435,12 +455,13 @@ light_energy = 2.0
 spot_range = 8.0
 spot_angle = 15.0
 
-[node name="OmniLight7" type="SpotLight" parent="world/lights"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -2, 24, -10 )
+[node name="Spotlight" type="SpotLight" parent="world/lights"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 17, -10 )
 light_energy = 2.0
 shadow_enabled = true
 spot_range = 30.0
 spot_attenuation = 0.0457528
+spot_angle = 55.0
 
 [node name="geometry" type="Spatial" parent="."]
 
@@ -458,14 +479,8 @@ transform = Transform( 3.5, 0, 0, 0, 2, 0, 0, 0, 3, 13, 0, 33 )
 [node name="void_volume" parent="geometry/NavService/NavigationMeshInstance/room_1" instance=ExtResource( 15 )]
 transform = Transform( 200, 0, 0, 0, 50, 0, 0, 0, 300, -97, -85, -171 )
 
-[node name="blocker_volume" parent="geometry/NavService/NavigationMeshInstance" instance=ExtResource( 17 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 28, -15, 0, 4 )
-
 [node name="blocker_volume3" parent="geometry/NavService/NavigationMeshInstance" instance=ExtResource( 17 )]
-transform = Transform( 30, 0, 0, 0, 1, 0, 0, 0, 28, -15, 10, 4 )
-
-[node name="blocker_volume2" parent="geometry/NavService/NavigationMeshInstance" instance=ExtResource( 17 )]
-transform = Transform( 1, 0, 0, 0, 10.05, 0, 0, 0, 28, 14, 0, 4 )
+transform = Transform( 30, 0, 0, 0, 1, 0, 0, 0, 28, -15, 25, 4 )
 
 [node name="block2mesh_tech" type="Spatial" parent="geometry/NavService/NavigationMeshInstance"]
 script = ExtResource( 30 )
@@ -725,6 +740,33 @@ transform = Transform( 20, 0, 0, 0, 4, 0, 0, 0, 1, -5, 2, 4.5 )
 [node name="world_volume5" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
 transform = Transform( 30, 0, 0, 0, 4, 0, 0, 0, 1, 0, 6, 4.5 )
 
+[node name="MeshInstance" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 23 )]
+transform = Transform( 30, 0, 0, 0, 10, 0, 0, 0, 1, -15, 8, 4 )
+
+[node name="MeshInstance2" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 23 )]
+transform = Transform( 30, 0, 0, 0, 10, 0, 0, 0, 1, -15, 8, -25 )
+
+[node name="world_volume_wedge_corner" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 14 )]
+transform = Transform( 4, 0, 0, 0, -1.74846e-07, 5, 0, -4, -2.18557e-07, -14, 8, 4 )
+
+[node name="world_volume_wedge_corner2" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 14 )]
+transform = Transform( -1.74846e-07, 4, 2.18557e-07, 0, -1.74846e-07, 5, 4, 1.74846e-07, 9.55343e-15, -14, 8, -24 )
+
+[node name="world_volume_wedge_corner3" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 14 )]
+transform = Transform( -4, -3.49691e-07, -1.91069e-14, 0, -1.74846e-07, 5, -3.49691e-07, 4, 2.18557e-07, 14, 8, -24 )
+
+[node name="world_volume_wedge_corner4" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 14 )]
+transform = Transform( 5.24537e-07, -4, -2.18557e-07, 0, -1.74846e-07, 5, -4, -5.24537e-07, -2.86603e-14, 14, 8, 4 )
+
+[node name="MeshInstance4" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 23 )]
+transform = Transform( 1, 0, 0, 0, 19, 0, 0, 0, 28, 14, -1, -24 )
+
+[node name="MeshInstance5" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 23 )]
+transform = Transform( 1, 0, 0, 0, 19, 0, 0, 0, 28, -15, -1, -24 )
+
+[node name="MeshInstance3" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 23 )]
+transform = Transform( 30, 0, 0, 0, 1, 0, 0, 0, 30, -15, 18, -25 )
+
 [node name="world_volume47" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
 transform = Transform( 30, 0, 0, 0, 4, 0, 0, 0, 1, 0, 6, -24.5 )
 
@@ -786,34 +828,40 @@ transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 2, 4, 2, 37 )
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 4, 4.5, 0.5, 17 )
 
 [node name="world_volume11" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -5.5, 4.5, -14.5 )
+transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 1, -5.5, 4.5, -14.5 )
 
 [node name="world_volume12" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, 5.5, 4.5, -14.5 )
+transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 1, 5.5, 4.5, -14.5 )
 
 [node name="world_volume13" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -5.5, 4.5, -5.5 )
+transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 1, -5.5, 4.5, -5.5 )
 
 [node name="world_volume14" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, 5.5, 4.5, -5.5 )
+transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 1, 5.5, 4.5, -5.5 )
 
 [node name="world_volume25" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
-transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -5.5 )
+transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.5, -5.5 )
 
 [node name="world_volume27" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
-transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, -14.5 )
+transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.5, -14.5 )
 
 [node name="world_volume28" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 8, 5.5, 9, -10 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 8, 5.5, 9.5, -10 )
 
 [node name="world_volume29" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 8, -5.5, 9, -10 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 8, -5.5, 9.5, -10 )
 
 [node name="world_volume72" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 9, -5.5, 7.5, -0.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 9, -5.5, 9.5, -0.5 )
 
 [node name="world_volume73" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 9, 5.5, 7.5, -0.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 9, 5.5, 9.5, -0.5 )
+
+[node name="world_volume75" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 9, -5.5, 9.5, -19.5 )
+
+[node name="world_volume77" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 9, 5.5, 9.5, -19.5 )
 
 [node name="world_volume21" parent="geometry/NavService/NavigationMeshInstance/block2mesh_tech/volumes" instance=ExtResource( 22 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 4, 0.5, 3.5, 34 )

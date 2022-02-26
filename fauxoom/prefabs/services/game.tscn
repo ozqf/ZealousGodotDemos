@@ -26,19 +26,23 @@ script = ExtResource( 3 )
 label = "Easy"
 speedMultiplier = 0.7
 aggressionMultiplier = 0.7
+spawnBit = 1
 
 [node name="Frisky" type="Node" parent="skills"]
 script = ExtResource( 3 )
 label = "Medium"
 aggressionMultiplier = 0.7
+spawnBit = 2
 
 [node name="Nasty" type="Node" parent="skills"]
 script = ExtResource( 3 )
 label = "Hard"
+spawnBit = 3
 
 [node name="Absurd" type="Node" parent="skills"]
 script = ExtResource( 3 )
 label = "Very Hard"
+spawnBit = 4
 
 [node name="game_state_overlay" type="CanvasLayer" parent="."]
 layer = 2

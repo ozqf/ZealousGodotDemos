@@ -70,6 +70,13 @@ enum GameMode { Classic, Survival }
 var debuggerMode = Enums.DebuggerMode.Deathray
 var debuggerOpen:bool = false
 
+# contains current skill settings
+var _skill:int = 2
+# next skill setting to select on map change
+var _pendingSkill:int = 2
+
+var _skills = []
+
 var _state = GameState.Pregame
 var _gameMode = GameMode.Survival
 
@@ -110,6 +117,10 @@ func _ready() -> void:
 	_result = $game_state_overlay/complete/menu/reset.connect("pressed", self, "on_clicked_reset")
 	Main.set_camera(_camera)
 	_hintContainer.visible = false
+
+	_skills = get_node("skills").get_children()
+
+	print("Game set default skill - " + str(get_skill().label))
 
 	# does checkpoint exist?
 	# if so we can have a 'continue' option
@@ -212,6 +223,9 @@ func _input(_event) -> void:
 func get_dynamic_parent() -> Spatial:
 	return _entRoot
 
+func get_skill() -> Skill:
+	return _skills[_skill] as Skill
+
 func on_restart_map() -> void:
 	print("Game - on_restart_map")
 	get_tree().call_group("console", "console_on_exec", "load start", ["load", "start"])
@@ -286,6 +300,18 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 			# get_tree().change_scene(data.mapPath)
 		else:
 			print("Save is same map - no change")
+	elif _tokens[0] == "skill":
+		if numTokens == 1:
+			var sk:Skill = get_skill()
+			print("Current skill is" + str(sk.name) + " (" + str(sk.label) + ")")
+		else:
+			var newSkill:int = int(_tokens[1])
+			if newSkill < 0 || newSkill >= _skills.size():
+				print("Requested skill " + str(newSkill) + " is out of bounds")
+				return
+			else:
+				_pendingSkill = newSkill
+				print("Set pending skill " + str(_pendingSkill))
 
 ###############
 # save/load state

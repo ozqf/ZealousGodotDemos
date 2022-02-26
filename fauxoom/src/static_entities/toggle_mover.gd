@@ -1,7 +1,7 @@
 extends Spatial
 
 onready var _ent:Entity = $Entity
-onready var _marker:Spatial = $marker
+onready var _marker:Spatial = $MeshInstance
 onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 export var active:bool = false
