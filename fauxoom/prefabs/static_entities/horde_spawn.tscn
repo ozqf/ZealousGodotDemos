@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/static_entities/horde_spawn_entity.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/player/player_a1.png" type="Texture" id=2]
+[ext_resource path="res://assets/primitives/cube_1x1x1.obj" type="ArrayMesh" id=3]
 [ext_resource path="res://src/entity.gd" type="Script" id=4]
+[ext_resource path="res://assets/world/materials/transparent/mat_editor_red.tres" type="Material" id=5]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 0.2, 0.2, 1 )
@@ -13,7 +15,7 @@ script = ExtResource( 1 )
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
 offset = Vector2( 0, 52 )
-billboard = 1
+billboard = 2
 shaded = true
 texture = ExtResource( 2 )
 __meta__ = {
@@ -31,3 +33,9 @@ material/0 = null
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 4 )
 isStatic = true
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1.8, 0, 0, 0, 1, 0, 0.9, 0 )
+material_override = ExtResource( 5 )
+mesh = ExtResource( 3 )
+material/0 = null

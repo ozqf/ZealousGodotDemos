@@ -9,8 +9,9 @@ const KEYBOARD_YAW_DEGREES = 180
 
 const RUN_SPEED:float = 8.5
 const GROUND_ACCELERATION:float = 150.0
-const GROUND_FRICTION:float = 0.8
-const AIR_ACCELERATION:float = 50.0
+const AIR_ACCELERATION:float = 45.0
+const GROUND_FRICTION:float = 0.75
+const AIR_FRICTION:float = 0.99
 
 const DASH_SPEED:float = 20.0
 const DASH_DURATION:float = 0.25
@@ -30,6 +31,7 @@ var _inputOn:bool = false
 var _velocity:Vector3 = Vector3()
 
 var _dashTime:float = 0
+var _dashEmptied:bool = false
 var energy:float = ENERGY_MAX
 var _dashPushDir:Vector3 = Vector3()
 
@@ -100,16 +102,25 @@ func _physics_process(delta:float) -> void:
 		return
 	_read_rotation_keys(delta)
 	_apply_rotations(delta)
-
-	energy += ENERGY_GAIN_PER_SECOND * delta
-	if energy > ENERGY_MAX:
-		energy = ENERGY_MAX
-
+	
+	var isOnFloor:bool = _body.is_on_floor()
+	
+	if energy < ENERGY_MAX:
+		energy += ENERGY_GAIN_PER_SECOND * delta
+		# only let regen finish if on the ground
+		var cap:float = ENERGY_MAX
+		if !isOnFloor:
+			cap -= 1
+		if energy >= cap:
+			_dashEmptied = false
+			energy = cap
+	
 	if _dashTime > 0:
 		_dashTime -= delta
 		if _dashTime <= 0:
-			# stop dash
-			_velocity = Vector3()
+			# stop dash if on floor, otherwise carry velocity
+			if isOnFloor:
+				_velocity = Vector3()
 		else:
 			_velocity = _dashPushDir * DASH_SPEED
 			_velocity = _body.move_and_slide(_velocity)
@@ -120,7 +131,6 @@ func _physics_process(delta:float) -> void:
 	var forward:Vector3 = t.basis.z
 	var left:Vector3 = t.basis.x
 	var pushDir:Vector3 = Vector3()
-	var isOnFloor:bool = _body.is_on_floor()
 	
 	pushDir += (forward * input.z)
 	pushDir += (left * input.x)
@@ -129,11 +139,13 @@ func _physics_process(delta:float) -> void:
 	var pushing:bool = (pushDir.length() > 0)
 	
 	var dashOn:bool = Input.is_action_pressed("move_special")
-	if dashOn && energy >= DASH_ENERGY_COST && _dashTime <= 0 && (isOnFloor || nearWall):
+	if dashOn && !_dashEmptied && energy >= DASH_ENERGY_COST && _dashTime <= 0 && (isOnFloor || nearWall):
 		# if current input, dash dir is just forwards
 		if pushing:
 			_dashTime = DASH_DURATION
 			energy -= DASH_ENERGY_COST
+			if energy < (ENERGY_MAX / 2):
+				_dashEmptied = true
 			_dashPushDir = pushDir
 			_velocity = _dashPushDir * DASH_SPEED
 			_velocity = _body.move_and_slide(_velocity)
@@ -165,10 +177,22 @@ func _physics_process(delta:float) -> void:
 		flatVelocity += (pushDir * accel) * delta
 		# apply speed cap
 		if flatVelocity.length() > velocityCap:
-			flatVelocity = flatVelocity.normalized() * velocityCap
+			if isOnFloor:
+				# pull back via friction
+				flatVelocity *= GROUND_FRICTION
+			else:
+				# apply air friction to cap
+				velocityCap *= AIR_FRICTION
+				# cap velocity
+				flatVelocity = flatVelocity.normalized() * velocityCap
+			
+			
 	else:
 		# apply ground friction to stop player
-		flatVelocity *= GROUND_FRICTION
+		if isOnFloor:
+			flatVelocity *= GROUND_FRICTION
+		else:
+			flatVelocity *= AIR_FRICTION
 	
 	# force stop below threshold
 	if flatVelocity.length() < 0.01:
@@ -181,7 +205,7 @@ func _physics_process(delta:float) -> void:
 	# gravity
 	_velocity.y -= GRAVITY * delta
 	
-	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+	_velocity = _body.move_and_slide(_velocity, Vector3.UP, true)
 	self.emit_signal("moved", _body, _head)
 
 func _get_window_to_screen_ratio():

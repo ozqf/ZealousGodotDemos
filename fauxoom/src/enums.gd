@@ -1,5 +1,6 @@
 
 enum EnemyType {
+	None,
 	Punk,
 	Gunner,
 	FleshWorm,
@@ -19,12 +20,16 @@ enum ProjectileType {
 }
 
 # roles assigned by the manager to a mob during gameplay
+# assault is a fancy way of saying "rush the player and hit them"
+# ranged is a bit more wooly
 enum CombatRole {
 	Assault,
 	Ranged
 }
 
-# roles than an enemy can perform
+# roles that specific enemy types can perform
+# eg punk is ranged only.
+# worm is melee only.
 enum EnemyRoleClass {
 	Mix,
 	Melee,

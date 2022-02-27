@@ -247,6 +247,26 @@ mesh = SubResource( 5 )
 skeleton = NodePath("../../ents/arena_test_2_ents")
 material/0 = null
 
+[node name="lever_switch2" parent="sprite_gallery" instance=ExtResource( 46 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -16, 1, -7 )
+resetTime = 2.0
+triggerTargetName = "save_test_barrier"
+
+[node name="world_volume40" parent="sprite_gallery" instance=ExtResource( 54 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -20.5, 1.5, -7 )
+
+[node name="world_volume41" parent="sprite_gallery" instance=ExtResource( 54 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -11.5, 1.5, -7 )
+
+[node name="save_test_barrier" parent="sprite_gallery" instance=ExtResource( 32 )]
+transform = Transform( 2, 0, 0, 0, 3, 0, 0, 0, 1, -15, 0, -7 )
+
+[node name="save_test_barrier2" parent="sprite_gallery" instance=ExtResource( 32 )]
+transform = Transform( 2, 0, 0, 0, 3, 0, 0, 0, 1, -19, 0, -7 )
+
+[node name="world_volume35" parent="sprite_gallery" instance=ExtResource( 54 )]
+transform = Transform( 2, 0, 0, 0, 10, 0, 0, 0, 2, -16, 4.5, -8 )
+
 [node name="world_volume2" parent="sprite_gallery" instance=ExtResource( 54 )]
 transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 28, 14.1, -0.5, 0 )
 
@@ -752,14 +772,13 @@ spawnPointsSiblingName = "spawn_points"
 
 [node name="a" parent="ents/arena_test_2_ents/arena_2_survival/horde_spawns" instance=ExtResource( 51 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0 )
-type = 0
 tickMax = 3.0
 totalMobs = 999
 maxLiveMobs = 8
 
 [node name="b" parent="ents/arena_test_2_ents/arena_2_survival/horde_spawns" instance=ExtResource( 51 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 3 )
-type = 2
+type = 3
 tickMax = 3.0
 totalMobs = 999
 
@@ -978,14 +997,13 @@ isStatic = true
 
 [node name="punk_spawn" parent="ents/arena_test/survival_controller/horde_spawns" instance=ExtResource( 51 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, 0 )
-type = 0
 tickMax = 1.5
 totalMobs = 999
 maxLiveMobs = 4
 
 [node name="worm_spawn" parent="ents/arena_test/survival_controller/horde_spawns" instance=ExtResource( 51 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -1, 0 )
-type = 2
+type = 3
 tickMax = 6.0
 totalMobs = 999
 
@@ -1021,7 +1039,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 4, -0.4 )
 [node name="mob_spawn_proxy4" parent="ents/arena_test" instance=ExtResource( 37 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -32, 4, 0 )
 triggerName = "test_cyclops"
-type = 3
 delaySpawn = true
 
 [node name="mob_spawn_proxy5" parent="ents/arena_test" instance=ExtResource( 37 )]
@@ -1055,122 +1072,128 @@ respawns = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50 )
 
 [node name="gameplay_start_point" parent="gameplay_test" instance=ExtResource( 34 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -4 )
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 11, -4, -41 )
 
-[node name="mob_spawn_proxy5" parent="gameplay_test" instance=ExtResource( 37 )]
-transform = Transform( 0, 0, 1, 0, 1, 0, -1, 0, 0, -7, -4, -26.5 )
-type = 4
-delaySpawn = true
-sniper = true
+[node name="world_volume_corner54" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 23, -4, -38 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="mob_spawn_proxy8" parent="gameplay_test" instance=ExtResource( 37 )]
-transform = Transform( 0, 0, 1, 0, 1, 0, -1, 0, 0, -7, -7, -23 )
-type = 4
-delaySpawn = true
+[node name="world_volume_corner55" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, -8, -8, -32 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="world_volume55" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, -7, -8.5, -12 )
+[node name="world_volume_corner56" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 1, -13, -5, -36 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="world_volume59" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 2, 0, 0, 0, 8, 0, 0, 0, 12, -14, -5, -12 )
+[node name="world_volume_corner66" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 4, -10, -5, -28 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="world_volume60" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 2, 0, 0, 0, 8, 0, 0, 0, 12, 0, -5, -12 )
+[node name="world_volume_corner69" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 1, -18, -5, -15 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="world_volume61" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 12, 0, 0, 0, 8, 0, 0, 0, 2, -7, -5, -9 )
+[node name="world_volume_corner70" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 1, -25, -5, -20 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="world_volume56" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 8, 0, 0, 0, 4, 0, 0, 0, 1, -7, -6, -14.5 )
+[node name="world_volume_corner58" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 1, -14, -4, -43 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="blocker_volume" parent="gameplay_test" instance=ExtResource( 39 )]
-transform = Transform( 3, 0, 0, 0, 9, 0, 0, 0, 8, -13, -8, -18 )
+[node name="world_volume_corner67" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 14, 0, 0, 0, 8, 0, 0, 0, 1, -28, -8, -43 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="blocker_volume2" parent="gameplay_test" instance=ExtResource( 39 )]
-transform = Transform( 3, 0, 0, 0, 9, 0, 0, 0, 8, -4, -8, -18 )
+[node name="world_volume_corner62" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 9, 0, -9, -22 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="world_volume32" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 8, -7, -8.5, -22 )
+[node name="world_volume_corner63" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 12, 0, -4, -38 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="world_volume42" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 1, -7, -6, -26.5 )
+[node name="world_volume_corner61" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 24, -28, -9, -38 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="world_volume45" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 1, -3, -6, -26.5 )
+[node name="world_volume_corner65" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 28, -56, -9, -42 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="world_volume46" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 1, -11, -6, -26.5 )
+[node name="world_volume_corner68" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 14, 0, 0, 0, 1, 0, 0, 0, 4, -28, -9, -42 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="trigger_volume" parent="gameplay_test" instance=ExtResource( 50 )]
-transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 1, -11, -6, -31.9 )
-triggerTargetName = "spawn_1"
-noAutoHide = true
+[node name="world_volume_corner59" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 18, 0, 0, 0, 4, 0, 0, 0, 4, -14, -8, -42 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
-[node name="mob_spawn_proxy3" parent="gameplay_test" instance=ExtResource( 37 )]
-transform = Transform( -1, 0, 0, 0, 1, 0, 0, 0, -1, 6, -4, -39 )
-delaySpawn = true
+[node name="world_volume_wedge_corner" parent="gameplay_test" instance=ExtResource( 42 )]
+transform = Transform( -3, 0, -2.62268e-07, 0, 2, 0, 1.74846e-07, 0, -2, -14, -8, -38 )
 
-[node name="mob_spawn_proxy4" parent="gameplay_test" instance=ExtResource( 37 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 10, -4, -24 )
-delaySpawn = true
+[node name="world_window" parent="gameplay_test" instance=ExtResource( 44 )]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 1, -7, -4, -36 )
 
-[node name="world_volume74" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 12, 2, -2, -32 )
+[node name="world_window2" parent="gameplay_test" instance=ExtResource( 44 )]
+transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 8, -42, -4, -36 )
+
+[node name="world_window3" parent="gameplay_test" instance=ExtResource( 44 )]
+transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 8, -47, -4, -36 )
+
+[node name="world_volume_corner57" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -11, -5, -35 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
+
+[node name="world_volume_corner64" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -14, -5, -18 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
+
+[node name="world_volume_corner71" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -36, -5, -18 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
+
+[node name="world_volume_corner73" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -36, -5, -28 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
+
+[node name="world_volume_corner72" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -42, -1, -28 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
+
+[node name="world_volume_corner74" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 8, 0, 0, 0, 1, -46, -4, -24 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
+
+[node name="world_volume_corner75" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 8, -46, -1, -36 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
+
+[node name="world_volume_corner76" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -46, -5, -35 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
 [node name="world_volume73" parent="gameplay_test" instance=ExtResource( 54 )]
 transform = Transform( 8, 0, 0, 0, 8, 0, 0, 0, 4, 4, -4, -24 )
 
-[node name="world_volume78" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 18, 0, 0, 0, 4, 0, 0, 0, 4, -5, -6, -40 )
-
 [node name="world_volume79" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 12, 0, 0, 0, 4, 0, 0, 0, 8, -2, -2, -46 )
+transform = Transform( 12, 0, 0, 0, 8, 0, 0, 0, 8, -2, -4, -46 )
 
 [node name="world_volume65" parent="gameplay_test" instance=ExtResource( 54 )]
 transform = Transform( 12, 0, 0, 0, 2, 0, 0, 0, 12, 10, -9, -32 )
 
 [node name="blocker_volume5" parent="gameplay_test" instance=ExtResource( 39 )]
-transform = Transform( 3, 0, 0, 0, 9, 0, 0, 0, 1, -14, -8, -25 )
+transform = Transform( 28, 0, 0, 0, 16, 0, 0, 0, 1, -28, -8, -13 )
 
 [node name="blocker_volume6" parent="gameplay_test" instance=ExtResource( 39 )]
-transform = Transform( 3, 0, 0, 0, 9, 0, 0, 0, 1, -3, -8, -25 )
+transform = Transform( 28, 0, 0, 0, 16, 0, 0, 0, 1, -56, -8, -13 )
 
-[node name="blocker_volume3" parent="gameplay_test" instance=ExtResource( 39 )]
-transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 12, -15, -8, -26 )
+[node name="blocker_volume8" parent="gameplay_test" instance=ExtResource( 39 )]
+transform = Transform( 1, 0, 0, 0, 16, 0, 0, 0, 28, -56, -8, -14 )
 
-[node name="world_volume33" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 14, 0, 0, 0, 1, 0, 0, 0, 12, -7, -8.5, -32 )
-
-[node name="world_volume34" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 1, -7, -3.5, -32 )
-
-[node name="mob_spawn_proxy" parent="gameplay_test" instance=ExtResource( 37 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.5, -4, -39.5 )
-delaySpawn = true
-
-[node name="mob_spawn_proxy2" parent="gameplay_test" instance=ExtResource( 37 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -11.5, -4, -39 )
-delaySpawn = true
-sniper = true
-
-[node name="mob_spawn_proxy6" parent="gameplay_test" instance=ExtResource( 37 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 29, -4, -25 )
-delaySpawn = true
-
-[node name="mob_spawn_proxy7" parent="gameplay_test" instance=ExtResource( 37 )]
-transform = Transform( 0, 0, 1, 0, 1, 0, -1, 0, 0, 23.4, -8, -32.7 )
-delaySpawn = true
-
-[node name="mob_spawn_proxy9" parent="gameplay_test" instance=ExtResource( 37 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 30, -4, -29 )
-delaySpawn = true
-sniper = true
-
-[node name="mob_spawn_proxy10" parent="gameplay_test" instance=ExtResource( 37 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 14, -4, -32 )
-type = 5
-delaySpawn = true
-sniper = true
+[node name="blocker_volume7" parent="gameplay_test" instance=ExtResource( 39 )]
+transform = Transform( 28, 0, 0, 0, 16, 0, 0, 0, 1, -56, -8, -42 )
 
 [node name="world_volume62" parent="gameplay_test" instance=ExtResource( 54 )]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 2, -6, -36 )
@@ -1185,7 +1208,31 @@ transform = Transform( 24, 0, 0, 0, 8, 0, 0, 0, 4, 20, 0, -20 )
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 24, 30, -6, -38 )
 
 [node name="world_volume" parent="gameplay_test" instance=ExtResource( 28 )]
-transform = Transform( -2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 26, -6, -48 )
+transform = Transform( -3, 0, -3.01992e-07, 0, 2, 0, 4.52987e-07, 0, -2, 25, -6, -48 )
+
+[node name="world_volume5" parent="gameplay_test" instance=ExtResource( 28 )]
+transform = Transform( -2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 26, -6, -32 )
+
+[node name="world_volume2" parent="gameplay_test" instance=ExtResource( 28 )]
+transform = Transform( 0.5, 0, 4.76838e-07, 0, 2, 0, -1.19209e-07, 0, 2, 16.5, -6, -40 )
+
+[node name="world_volume4" parent="gameplay_test" instance=ExtResource( 28 )]
+transform = Transform( -1, 0, -7.78829e-07, 0, 2, 0, 3.89414e-07, 0, -2, 27, -6, -40 )
+
+[node name="world_volume7" parent="gameplay_test" instance=ExtResource( 28 )]
+transform = Transform( 4.33126e-07, 0, -2, 0, 2, 0, 1, 0, 8.66252e-07, -2, -6, -37 )
+
+[node name="world_volume8" parent="gameplay_test" instance=ExtResource( 28 )]
+transform = Transform( 1, 0, 9.53674e-07, 0, 2, 0, -4.76837e-07, 0, 2, -37, -2, -26 )
+
+[node name="world_volume9" parent="gameplay_test" instance=ExtResource( 28 )]
+transform = Transform( 1, 0, 9.53674e-07, 0, 2, 0, -4.76837e-07, 0, 2, -31, -6, -26 )
+
+[node name="world_volume3" parent="gameplay_test" instance=ExtResource( 28 )]
+transform = Transform( 1.56958e-07, 0, -2, 0, 4, 0, 0.5, 0, 6.27833e-07, 18, -4, -49.5 )
+
+[node name="world_volume6" parent="gameplay_test" instance=ExtResource( 28 )]
+transform = Transform( 3.13916e-07, 0, -2, 0, 4, 0, 1, 0, 6.27833e-07, 10, -4, -49 )
 
 [node name="world_volume72" parent="gameplay_test" instance=ExtResource( 54 )]
 transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 32, 34, -2, -38 )
@@ -1195,9 +1242,6 @@ transform = Transform( 12, 0, 0, 0, 4, 0, 0, 0, 4, 10, -6, -40 )
 
 [node name="world_volume75" parent="gameplay_test" instance=ExtResource( 54 )]
 transform = Transform( 28.5, 0, 0, 0, 12, 0, 0, 0, 4, 18, -6, -52 )
-
-[node name="world_volume71" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 12, 0, 0, 0, 4, 0, 0, 0, 8, 10, -6, -46 )
 
 [node name="world_volume64" parent="gameplay_test" instance=ExtResource( 54 )]
 transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 4, 2, -9, -32 )
@@ -1214,67 +1258,8 @@ transform = Transform( 12, 0, 0, 0, 2, 0, 0, 0, 12, 22, -9, -32 )
 [node name="world_volume69" parent="gameplay_test" instance=ExtResource( 54 )]
 transform = Transform( 12, 0, 0, 0, 2, 0, 0, 0, 12, 22, -9, -44 )
 
-[node name="world_volume58" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 12, 0, 0, 0, 12, 0, 0, 0, 1, -7, 2, -14.5 )
-
-[node name="world_volume81" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 85, 0, 0, 0, 40, 0, 0, 0, 1, -7, 2, 0.5 )
-
-[node name="world_volume82" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 1, 0, 0, 0, 40, 0, 0, 0, 85, -50, 2, -41.5 )
-
-[node name="lever_switch2" parent="gameplay_test" instance=ExtResource( 46 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7, 1, -8 )
-resetTime = 2.0
-triggerTargetName = "save_test_barrier"
-
-[node name="world_volume40" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -11.5, 1.5, -8 )
-
-[node name="world_volume41" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 4, -2.5, 1.5, -8 )
-
-[node name="world_volume28" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 1, 0, 0, 0, 10, 0, 0, 0, 8, -0.5, 4.5, -10 )
-
-[node name="world_volume57" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 4, -7, -0.5, -8 )
-
 [node name="world_volume80" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 4, -7, -0.5, -4 )
-
-[node name="save_test_barrier" parent="gameplay_test" instance=ExtResource( 32 )]
-transform = Transform( 2, 0, 0, 0, 3, 0, 0, 0, 1, -6, 0, -8 )
-
-[node name="save_test_barrier2" parent="gameplay_test" instance=ExtResource( 32 )]
-transform = Transform( 2, 0, 0, 0, 3, 0, 0, 0, 1, -10, 0, -8 )
-
-[node name="horde_spawn" parent="gameplay_test" instance=ExtResource( 51 )]
-transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -10, -8, -37 )
-triggerName = "spawn_1"
-maxLiveMobs = 1
-
-[node name="item_full_pack2" parent="gameplay_test" instance=ExtResource( 17 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -8, -12 )
-
-[node name="trigger_volume2" parent="gameplay_test" instance=ExtResource( 50 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, -3.5, -41.5 )
-triggerTargetName = "endtrigger"
-noAutoHide = true
-
-[node name="world_volume2" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, -3.5, -41.5 )
-
-[node name="world_volume5" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, -3.5, -41.5 )
-
-[node name="world_volume35" parent="gameplay_test" instance=ExtResource( 54 )]
-transform = Transform( 2, 0, 0, 0, 10, 0, 0, 0, 2, -7, 4.5, -9 )
-
-[node name="trigger_event" parent="gameplay_test" instance=ExtResource( 43 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 2, -42 )
-selfName = "endtrigger"
-type = 1
+transform = Transform( 12, 0, 0, 0, 2, 0, 0, 0, 8, 10, -9, -46 )
 
 [node name="atmosphere_test" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 50 )
@@ -1853,6 +1838,9 @@ transform = Transform( -8.74228e-08, 0, 2, 0, 2, 0, -3, 0, -1.31134e-07, -10, 0,
 [node name="world_volume_wedge_corner8" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 42 )]
 transform = Transform( 2.38419e-07, 0, -2, 0, 2, 0, 3, 0, 3.57628e-07, -6, 0, -8 )
 
+[node name="world_volume_wedge_corner10" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 42 )]
+transform = Transform( 1, 0, 2.46369e-07, 0, 2, 0, -1.23184e-07, 0, 2, -6, 0, -12 )
+
 [node name="world_volume_corner10" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -38, 3, 8 )
 
@@ -2088,7 +2076,3 @@ transform = Transform( -1.74846e-07, 0, -8, 0, 3, 0, 4, 0, -3.49691e-07, -3, 7, 
 
 [node name="corridor_right_angle" parent="geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 74 )]
 transform = Transform( -4, 0, -6.03983e-07, 0, 3, 0, 6.03983e-07, 0, -4, -11, 7, 4 )
-
-[connection signal="trigger" from="gameplay_test/mob_spawn_proxy3" to="gameplay_test/save_test_barrier2" method="on_trigger"]
-[connection signal="trigger" from="gameplay_test/mob_spawn_proxy4" to="gameplay_test/save_test_barrier2" method="on_trigger"]
-[connection signal="trigger" from="gameplay_test/mob_spawn_proxy6" to="gameplay_test/save_test_barrier2" method="on_trigger"]

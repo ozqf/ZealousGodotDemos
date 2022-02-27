@@ -15,6 +15,9 @@ export var delaySpawn:bool = false
 export var spawnAlert:bool = false
 export var sniper:bool = false
 
+export(Enums.EnemyType) var veryEasyOverride = Enums.EnemyType.Punk
+export(Enums.EnemyType) var typeEasyOverride = Enums.EnemyType.Punk
+
 var _used:bool = false
 var _prefabName:String = "mob_punk"
 var _childId:int = 0
