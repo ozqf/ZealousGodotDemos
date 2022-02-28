@@ -11,7 +11,7 @@ const RUN_SPEED:float = 8.5
 const GROUND_ACCELERATION:float = 150.0
 const AIR_ACCELERATION:float = 45.0
 const GROUND_FRICTION:float = 0.75
-const AIR_FRICTION:float = 0.99
+const AIR_FRICTION:float = 0.97
 
 const DASH_SPEED:float = 20.0
 const DASH_DURATION:float = 0.25

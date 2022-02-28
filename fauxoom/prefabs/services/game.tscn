@@ -48,6 +48,7 @@ spawnBit = 4
 layer = 2
 
 [node name="screen_fade" type="ColorRect" parent="game_state_overlay"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )

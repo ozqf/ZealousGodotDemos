@@ -4,6 +4,13 @@
 [ext_resource path="res://src/skybox_camera.gd" type="Script" id=2]
 
 [sub_resource type="Environment" id=1]
+background_mode = 1
+background_energy = 0.0
+ambient_light_energy = 0.0
+ambient_light_sky_contribution = 0.0
+fog_enabled = true
+fog_depth_begin = 5.0
+fog_depth_end = 20.0
 
 [node name="ViewportContainer" type="ViewportContainer"]
 margin_right = 40.0
@@ -22,6 +29,8 @@ render_target_update_mode = 3
 [node name="city_skybox" type="Spatial" parent="Viewport"]
 
 [node name="Camera" type="Camera" parent="Viewport/city_skybox"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0 )
+cull_mask = 524288
 environment = SubResource( 1 )
 script = ExtResource( 2 )
 

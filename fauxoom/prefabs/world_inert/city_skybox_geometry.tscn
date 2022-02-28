@@ -6,87 +6,129 @@
 
 [node name="world_volume_corner1" parent="." instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 1, 0, 0, 0, 16, -8, -2, -8 )
+layers = 524288
 
 [node name="world_volume_corner2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 1, -1, -4 )
+layers = 524288
 
 [node name="world_volume_corner19" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 3, -1, -5 )
+layers = 524288
 
 [node name="world_volume_corner20" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 5, -1, -5 )
+layers = 524288
 
 [node name="world_volume_corner18" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 0, -1, -8 )
+layers = 524288
 
 [node name="world_volume_corner21" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 1, -1, -6 )
+layers = 524288
 
 [node name="world_volume_corner4" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 2, -1, -2 )
+layers = 524288
 
 [node name="world_volume_corner5" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 2, -1, 1 )
+layers = 524288
 
 [node name="world_volume_corner6" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 0, -1, 2 )
+layers = 524288
 
 [node name="world_volume_corner7" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, -2, -1, 3 )
+layers = 524288
 
 [node name="world_volume_corner13" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, -1, -1, 5 )
+layers = 524288
 
 [node name="world_volume_corner14" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 1, -1, 5 )
+layers = 524288
 
 [node name="world_volume_corner15" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 5, -1, 5 )
+layers = 524288
 
 [node name="world_volume_corner16" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 5, -1, -1 )
+layers = 524288
 
 [node name="world_volume_corner22" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 4, -1, 1 )
+layers = 524288
 
 [node name="world_volume_corner23" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 6, -1, 1 )
+layers = 524288
 
 [node name="world_volume_corner24" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 7, -1, -3 )
+layers = 524288
 
 [node name="world_volume_corner8" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, -2, -1, 1 )
+layers = 524288
 
 [node name="world_volume_corner9" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, -3, -1, -1 )
+layers = 524288
 
 [node name="world_volume_corner12" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, -4, -1, -3 )
+layers = 524288
 
 [node name="world_volume_corner10" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 2, -1, 3 )
+layers = 524288
 
 [node name="world_volume_corner11" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, -4, -1, 1 )
+layers = 524288
 
 [node name="world_volume_corner3" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 2, -2, -1, -4 )
+layers = 524288
 
 [node name="world_volume_corner17" parent="." instance=ExtResource( 1 )]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 1, -2, -1, -6 )
+layers = 524288
 
 [node name="OmniLight" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+layers = 524288
+light_cull_mask = 4294443008
 
 [node name="OmniLight2" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1, 4 )
+layers = 524288
+light_cull_mask = 4294443008
+shadow_enabled = true
+omni_range = 3.0
 
 [node name="OmniLight3" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1, -4.5 )
+layers = 524288
+light_cull_mask = 4294443008
+shadow_enabled = true
+omni_range = 3.0
 
 [node name="OmniLight4" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 1, -0.5 )
+layers = 524288
+light_cull_mask = 4294443008
+shadow_enabled = true
+omni_range = 3.0
 
 [node name="OmniLight5" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 1, -1.5 )
+layers = 524288
+light_cull_mask = 4294443008
+shadow_enabled = true
+omni_range = 3.0

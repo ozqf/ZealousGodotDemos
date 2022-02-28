@@ -79,6 +79,8 @@ func _process(_delta:float) -> void:
 
 	transform.origin = _shakeOffset
 
+	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_CAMERA_UPDATE, global_transform.basis)
+
 func attach_to(newParent:Spatial) -> void:
 	if _attachParent != null:
 		detach()

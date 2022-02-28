@@ -1174,6 +1174,10 @@ skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/ar
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -46, -5, -35 )
 skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
 
+[node name="world_volume_corner77" parent="gameplay_test" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -37, -5, -40 )
+skeleton = NodePath("../../geometry/world/NavigationMeshInstance/arena_test_2/arena_test_2_geometry")
+
 [node name="world_volume73" parent="gameplay_test" instance=ExtResource( 54 )]
 transform = Transform( 8, 0, 0, 0, 8, 0, 0, 0, 4, 4, -4, -24 )
 

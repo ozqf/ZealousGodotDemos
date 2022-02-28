@@ -54,6 +54,8 @@ var prj_player_saw_t = preload("res://prefabs/projectiles/prj_player_saw.tscn")
 
 ###########################
 var _entRoot:Entities = null
+var _dynamicRoot:Spatial = null
+
 onready var _pregameUI:Control = $game_state_overlay/pregame
 onready var _completeUI:Control = $game_state_overlay/complete
 onready var _deathUI:Control = $game_state_overlay/death
@@ -221,6 +223,8 @@ func _input(_event) -> void:
 		# 	begin_game()
 
 func get_dynamic_parent() -> Spatial:
+	if _dynamicRoot != null:
+		return _dynamicRoot
 	return _entRoot
 
 func get_skill() -> Skill:
@@ -243,19 +247,19 @@ func _refresh_overlay() -> void:
 		_pregameUI.visible = true
 		_completeUI.visible = false
 		_deathUI.visible = false
-		_screenFade.visible = true
+		# _screenFade.visible = true
 		# MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
 		MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
 	elif _state == GameState.Won:
 		_pregameUI.visible = false
 		_completeUI.visible = true
 		_deathUI.visible = false
-		_screenFade.visible = true
+		# _screenFade.visible = true
 		MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
 	elif _state == GameState.Lost:
 		_pregameUI.visible = false
 		_completeUI.visible = false
-		_screenFade.visible = true
+		# _screenFade.visible = true
 		_deathUI.visible = true
 		MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
 	else:
@@ -360,14 +364,14 @@ func begin_game() -> void:
 	set_game_state(GameState.Playing)
 	var def = _entRoot.get_prefab_def(Entities.PREFAB_PLAYER)
 	var player = def.prefab.instance()
-	_entRoot.add_child(player)
+	get_dynamic_parent().add_child(player)
 	player.teleport(_playerOrigin)
 
 func _clear_dynamic_entities() -> void:
-	var l:int = _entRoot.get_child_count()
+	var l:int = get_dynamic_parent().get_child_count()
 	print("Game - freeing " + str(l) + " ents from root")
 	for _i in range(0, l):
-		_entRoot.get_child(_i).queue_free()
+		get_dynamic_parent().get_child(_i).queue_free()
 
 func _set_to_pregame() -> void:
 	set_game_state(GameState.Pregame)
@@ -422,18 +426,27 @@ func game_on_map_change() -> void:
 func game_pause() -> void:
 	print("Game pause")
 	get_tree().paused = true
-	# _entRoot.pause_mode = PAUSE_MODE_STOP
+	# get_dynamic_parent().pause_mode = PAUSE_MODE_STOP
 	# get_tree().get_current_scene().pause_mode = PAUSE_MODE_STOP
 
 func game_unpause() -> void:
 	print("Game resume")
 	get_tree().paused = false
-	# _entRoot.pause_mode = PAUSE_MODE_INHERIT
+	# get_dynamic_parent().pause_mode = PAUSE_MODE_INHERIT
 	# get_tree().get_current_scene().pause_mode = PAUSE_MODE_INHERIT
 
 ###############
 # registers
 ###############
+
+func register_dynamic_root(_node:Spatial) -> void:
+	if _dynamicRoot == null:
+		_dynamicRoot = _node
+	pass
+
+func deregister_dynamic_root(_node:Spatial) -> void:
+	if _node == _dynamicRoot:
+		_dynamicRoot = null
 
 func register_player(plyr:Player) -> void:
 	if _player != null:
@@ -486,7 +499,7 @@ func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:
 
 func spawn_impact_sprite(origin:Vector3) -> void:
 	var impact:Spatial = prefab_impact.instance()
-	_entRoot.add_child(impact)
+	get_dynamic_parent().add_child(impact)
 	var t:Transform = impact.global_transform
 	t.origin = origin
 	impact.global_transform = t
@@ -496,7 +509,7 @@ func _spawn_debris_prefab(
 
 	for _i in range(0, count):
 		var debris:Spatial = prefab.instance()
-		_entRoot.add_child(debris)
+		get_dynamic_parent().add_child(debris)
 		var t:Transform = Transform.IDENTITY
 		t.origin = origin
 		debris.global_transform = t

@@ -25,6 +25,7 @@ const GAME_FN_PLAYER_SPAWNED:String = "game_on_player_spawned"
 const GAME_FN_PLAYER_DIED:String = "game_on_player_died"
 const GAME_FN_LEVEL_COMPLETED:String = "game_on_level_completed"
 const GAME_FN_REGISTER_PREVIEW_CAMERA:String = "game_register_preview_camera"
+const GAME_FN_CAMERA_UPDATE:String = "game_camera_update"
 
 const GAME_FN_READ_MAP_TEXT_SUCCESS:String = "game_on_read_map_text_success"
 const GAME_FN_READ_MAP_TEXT_FAIL:String = "game_on_read_map_text_fail"
