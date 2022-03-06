@@ -11,9 +11,9 @@ const RUN_SPEED:float = 8.5
 const GROUND_ACCELERATION:float = 150.0
 const AIR_ACCELERATION:float = 45.0
 const GROUND_FRICTION:float = 0.75
-const AIR_FRICTION:float = 0.97
+const AIR_FRICTION:float = 0.98
 
-const DASH_SPEED:float = 20.0
+const DASH_SPEED:float = 18.0
 const DASH_DURATION:float = 0.25
 const ENERGY_MAX:float = 100.0
 const DASH_ENERGY_COST:float = 50.0
@@ -32,6 +32,7 @@ var _velocity:Vector3 = Vector3()
 
 var _dashTime:float = 0
 var _dashEmptied:bool = false
+var _doubleJumps:int = 0
 var energy:float = ENERGY_MAX
 var _dashPushDir:Vector3 = Vector3()
 
@@ -104,6 +105,8 @@ func _physics_process(delta:float) -> void:
 	_apply_rotations(delta)
 	
 	var isOnFloor:bool = _body.is_on_floor()
+	if isOnFloor:
+		_doubleJumps = 0
 	
 	if energy < ENERGY_MAX:
 		energy += ENERGY_GAIN_PER_SECOND * delta
@@ -137,6 +140,8 @@ func _physics_process(delta:float) -> void:
 	pushDir.y = 0
 	pushDir = pushDir.normalized()
 	var pushing:bool = (pushDir.length() > 0)
+	
+	
 	
 	var dashOn:bool = Input.is_action_pressed("move_special")
 	if dashOn && !_dashEmptied && energy >= DASH_ENERGY_COST && _dashTime <= 0 && (isOnFloor || nearWall):
@@ -200,8 +205,12 @@ func _physics_process(delta:float) -> void:
 	
 	_velocity.x = flatVelocity.x
 	_velocity.z = flatVelocity.z
-	if Input.is_action_pressed("move_up") && isOnFloor:
-		_velocity.y = 7
+	if Input.is_action_pressed("move_up"):
+		if isOnFloor:
+			_velocity.y = 7
+		elif _doubleJumps == 0 && _velocity.y < 2:
+			_velocity.y = 7
+			_doubleJumps += 1
 	# gravity
 	_velocity.y -= GRAVITY * delta
 	

@@ -164,6 +164,14 @@ var _prefabs = {
 	},
 
 	################################################
+	# barrels
+	################################################
+	barrel_he = {
+		prefab = preload("res://prefabs/carriable/barrel_explosive.tscn"),
+		entNodePath = "Entity"
+	},
+
+	################################################
 	# debris
 	################################################
 	gib = {
@@ -309,11 +317,6 @@ func load_save_dict(data:Dictionary) -> void:
 	print("Restore dynamic entities")
 	for entData in data.dynamicData:
 		restore_dynamic_entity(entData)
-		# var def = get_prefab_def(entData.prefab)
-		# assert(def != null)
-		# var prefab = def.prefab.instance()
-		# add_child(prefab)
-		# prefab.get_node(def.entNodePath).restore_state(entData)
 
 func console_on_exec(_txt:String, _tokens) -> void:
 	if _txt == "list_ents":

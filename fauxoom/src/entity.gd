@@ -80,12 +80,16 @@ func write_state() -> Dictionary:
 		selfName = selfName,
 		triggerTargetName = triggerTargetName,
 	}
+	if !isStatic:
+		dict.selfName = selfName
+		dict.triggerTargetName = triggerTargetName
 	emit_signal("entity_append_state", dict)
 	return dict
 
 func restore_state(dict:Dictionary) -> void:
 	assert(dict)
-	selfName = dict.selfName
-	triggerTargetName = dict.triggerTargetName
+	if !isStatic:
+		selfName = dict.selfName
+		triggerTargetName = dict.triggerTargetName
 	id = dict.id
 	emit_signal("entity_restore_state", dict)

@@ -128,17 +128,6 @@ fire_1 = "saw_shoot"
 reload = "saw_recall"
 empty = "saw_recall"
 
-[node name="pistol" type="Node" parent="inventory/weapons"]
-script = ExtResource( 15 )
-hudName = "Pistol"
-inventoryType = "pistol"
-ammoType = "bullets"
-slot = 2
-refireTime = 0.2
-idle = "pistol_idle"
-fire_1 = "pistol_shoot"
-maxLoaded = 18
-
 [node name="dual_pistols" type="Node" parent="inventory/weapons"]
 script = ExtResource( 15 )
 hudName = "Dual Pistols"
@@ -149,6 +138,17 @@ refireTime = 0.15
 idle = "pistol_idle"
 fire_1 = "pistol_shoot"
 akimbo = true
+
+[node name="pistol" type="Node" parent="inventory/weapons"]
+script = ExtResource( 15 )
+hudName = "Pistol"
+inventoryType = "pistol"
+ammoType = "bullets"
+slot = 2
+refireTime = 0.2
+idle = "pistol_idle"
+fire_1 = "pistol_shoot"
+maxLoaded = 18
 
 [node name="super_shotgun" type="Node" parent="inventory/weapons"]
 script = ExtResource( 17 )

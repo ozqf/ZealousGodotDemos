@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=2]
+[gd_scene load_steps=85 format=2]
 
 [ext_resource path="res://prefabs/gib.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/frames/item_frames.tres" type="SpriteFrames" id=2]
@@ -58,6 +58,7 @@
 [ext_resource path="res://prefabs/items/item_bullets_small.tscn" type="PackedScene" id=56]
 [ext_resource path="res://prefabs/items/item_cells_small.tscn" type="PackedScene" id=57]
 [ext_resource path="res://prefabs/items/item_rockets_small.tscn" type="PackedScene" id=58]
+[ext_resource path="res://prefabs/carriable/barrel_explosive.tscn" type="PackedScene" id=59]
 [ext_resource path="res://assets/sprites/frames/golem_frames.tres" type="SpriteFrames" id=60]
 [ext_resource path="res://assets/sprites/frames/shotgunner_frames.tres" type="SpriteFrames" id=61]
 [ext_resource path="res://assets/sprites/frames/psychic_frames.tres" type="SpriteFrames" id=62]
@@ -125,13 +126,25 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -0.299999, 5.5 )
 
 [node name="trigger_volume3" parent="hub/Spatial4" instance=ExtResource( 50 )]
 transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 6, -2.5, 0.5, 3.5 )
+action = null
+triggerTargetName = null
 resetSeconds = 0.1
+valueParameter1 = null
+active = null
+noAutoHide = null
 hintMessage = "Gallery"
+touchDamage = null
 
 [node name="trigger_volume2" parent="hub/Spatial4" instance=ExtResource( 50 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.900002, 5.5 )
 action = 1
 triggerTargetName = "gallery_start_point"
+resetSeconds = null
+valueParameter1 = null
+active = null
+noAutoHide = null
+hintMessage = null
+touchDamage = null
 
 [node name="DirectionalLight" type="DirectionalLight" parent="hub"]
 transform = Transform( -0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, 0.612372, -0.612372, -7, 15, 9 )
@@ -161,13 +174,25 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -0.299999, -1.5 )
 
 [node name="trigger_volume3" parent="hub/Spatial" instance=ExtResource( 50 )]
 transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 6, 0.5, 0.5, -1.5 )
+action = null
+triggerTargetName = null
 resetSeconds = 0.1
+valueParameter1 = null
+active = null
+noAutoHide = null
 hintMessage = "Shooting Range"
+touchDamage = null
 
 [node name="trigger_volume2" parent="hub/Spatial" instance=ExtResource( 50 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, -1.5 )
 action = 1
 triggerTargetName = "shooting_start_point"
+resetSeconds = null
+valueParameter1 = null
+active = null
+noAutoHide = null
+hintMessage = null
+touchDamage = null
 
 [node name="Spatial5" type="Spatial" parent="hub"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 20 )
@@ -177,13 +202,25 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -0.299999, -1.5 )
 
 [node name="trigger_volume3" parent="hub/Spatial5" instance=ExtResource( 50 )]
 transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 6, 0.5, 0.5, -1.5 )
+action = null
+triggerTargetName = null
 resetSeconds = 0.1
+valueParameter1 = null
+active = null
+noAutoHide = null
 hintMessage = "Atmosphere Test"
+touchDamage = null
 
 [node name="trigger_volume2" parent="hub/Spatial5" instance=ExtResource( 50 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, -1.5 )
 action = 1
 triggerTargetName = "atmosphere_start_point"
+resetSeconds = null
+valueParameter1 = null
+active = null
+noAutoHide = null
+hintMessage = null
+touchDamage = null
 
 [node name="Spatial2" type="Spatial" parent="hub"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 5 )
@@ -195,11 +232,23 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -0.299999, -0.5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, -0.5 )
 action = 1
 triggerTargetName = "arena_start_point"
+resetSeconds = null
+valueParameter1 = null
+active = null
+noAutoHide = null
+hintMessage = null
+touchDamage = null
 
 [node name="trigger_volume3" parent="hub/Spatial2" instance=ExtResource( 50 )]
 transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 6, 0.5, 0.5, -0.5 )
+action = null
+triggerTargetName = null
 resetSeconds = 0.1
+valueParameter1 = null
+active = null
+noAutoHide = null
 hintMessage = "Arena Test"
+touchDamage = null
 
 [node name="Spatial6" type="Spatial" parent="hub"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -3 )
@@ -211,11 +260,23 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -0.299999, -0.5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, -0.5 )
 action = 1
 triggerTargetName = "arena_2_start_point"
+resetSeconds = null
+valueParameter1 = null
+active = null
+noAutoHide = null
+hintMessage = null
+touchDamage = null
 
 [node name="trigger_volume3" parent="hub/Spatial6" instance=ExtResource( 50 )]
 transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 6, 0.5, 0.5, -0.5 )
+action = null
+triggerTargetName = null
 resetSeconds = 0.1
+valueParameter1 = null
+active = null
+noAutoHide = null
 hintMessage = "Arena Test 2"
+touchDamage = null
 
 [node name="Spatial3" type="Spatial" parent="hub"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3 )
@@ -227,11 +288,23 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -0.3, -1.5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 1.5, -1.5 )
 action = 1
 triggerTargetName = "gameplay_start_point"
+resetSeconds = null
+valueParameter1 = null
+active = null
+noAutoHide = null
+hintMessage = null
+touchDamage = null
 
 [node name="trigger_volume3" parent="hub/Spatial3" instance=ExtResource( 50 )]
 transform = Transform( 6, 0, 0, 0, 4, 0, 0, 0, 6, 0.5, 0.5, -0.5 )
+action = null
+triggerTargetName = null
 resetSeconds = 0.1
+valueParameter1 = null
+active = null
+noAutoHide = null
 hintMessage = "Run And Gun Test"
+touchDamage = null
 
 [node name="OmniLight" type="OmniLight" parent="hub"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 4, 1 )
@@ -623,7 +696,14 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -81, 4, 47 )
 
 [node name="trigger_volume" parent="ents/arena_test_2_ents" instance=ExtResource( 50 )]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 3, -93, 8, 37 )
+action = null
 triggerTargetName = "activate_tag_2"
+resetSeconds = null
+valueParameter1 = null
+active = null
+noAutoHide = null
+hintMessage = null
+touchDamage = null
 
 [node name="activate_tag_2" parent="ents/arena_test_2_ents" instance=ExtResource( 43 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -79, 9, 47 )
@@ -1025,7 +1105,14 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 4, -0.4 )
 
 [node name="trigger_volume" parent="ents/arena_test" instance=ExtResource( 50 )]
 transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, -11, 4, 0 )
+action = null
 triggerTargetName = "activate_tag_1"
+resetSeconds = null
+valueParameter1 = null
+active = null
+noAutoHide = null
+hintMessage = null
+touchDamage = null
 
 [node name="activate_tag_1" parent="ents/arena_test" instance=ExtResource( 43 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 5, -3 )
@@ -1067,6 +1154,9 @@ omni_attenuation = 0.153893
 [node name="item_health_large" parent="ents/arena_test" instance=ExtResource( 18 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4, -8 )
 respawns = true
+
+[node name="barrel_explosive" parent="ents/arena_test" instance=ExtResource( 59 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4, -10 )
 
 [node name="gameplay_test" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50 )
@@ -1439,6 +1529,11 @@ selfRespawnTime = 5.0
 transform = Transform( 20, 0, 0, 0, 1, 0, 0, 0, 7, -13, -9, 43.5 )
 action = 1
 triggerTargetName = "slime_teleport_dest_1"
+resetSeconds = null
+valueParameter1 = null
+active = null
+noAutoHide = null
+hintMessage = null
 touchDamage = 15
 
 [node name="slime_teleport_dest_1" parent="atmosphere_test" instance=ExtResource( 34 )]
@@ -1470,8 +1565,14 @@ triggerTargetName = "toggle_mover_test"
 
 [node name="trigger_volume5" parent="atmosphere_test" instance=ExtResource( 50 )]
 transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.5, 14.4 )
+action = null
+triggerTargetName = null
 resetSeconds = 2.0
+valueParameter1 = null
+active = null
+noAutoHide = null
 hintMessage = "Use the Sawblade (1 by default) to cut through chains."
+touchDamage = null
 
 [node name="Sprite3D4" parent="atmosphere_test" instance=ExtResource( 38 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 3, 15 )
@@ -1518,8 +1619,14 @@ triggerTargetName = "toggle_mover_test2"
 
 [node name="trigger_volume4" parent="atmosphere_test" instance=ExtResource( 50 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 2, -4.5, 0.5, 11.5 )
+action = null
+triggerTargetName = null
 resetSeconds = 2.0
+valueParameter1 = null
+active = null
+noAutoHide = null
 hintMessage = "Press E by default to punch"
+touchDamage = null
 
 [node name="toggle_mover_test2" parent="atmosphere_test" instance=ExtResource( 48 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, 18.5 )
@@ -1540,9 +1647,14 @@ transform = Transform( -8.74228e-08, 0, 1, 0, 1.5, 0, -2, 0, -4.37114e-08, -12, 
 
 [node name="trigger_volume3" parent="atmosphere_test" instance=ExtResource( 50 )]
 transform = Transform( 0.99979, -0.00310196, 0.0202746, 0.00281714, 0.999897, 0.0140624, -0.0203162, -0.0140023, 0.999696, -1.5, 3.5, 6.5 )
+action = null
 triggerTargetName = "toggle_mover_test"
 resetSeconds = 2.0
+valueParameter1 = null
+active = null
 noAutoHide = true
+hintMessage = null
+touchDamage = null
 
 [node name="trigger_volume6" parent="atmosphere_test" instance=ExtResource( 29 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 5.5 )

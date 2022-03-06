@@ -21,15 +21,15 @@ func _ready() -> void:
 	_ent.triggerTargetName = triggerTargetName
 
 func append_state(_dict:Dictionary) -> void:
-	_dict.selfName = name
-	_dict.triggerTargetName = triggerTargetName
+	# _dict.selfName = name
+	# _dict.triggerTargetName = triggerTargetName
 	_dict.active = active
 	_dict.totalCount = totalCount
 	_dict.currentCount = _currentCount
 
 func restore_state(data:Dictionary) -> void:
-	name = data.selfName
-	triggerTargetName = data.triggerTargetName
+	# name = data.selfName
+	# triggerTargetName = data.triggerTargetName
 	active = data.active
 	totalCount = data.totalCount
 	_currentCount = data.currentCount
