@@ -127,6 +127,8 @@ func _physics_process(delta:float) -> void:
 		else:
 			_velocity = _dashPushDir * DASH_SPEED
 			_velocity = _body.move_and_slide(_velocity)
+			# adjust dash path to align with what we've slid along
+			_dashPushDir = _velocity.normalized()
 			return
 
 	var input:Vector3 = _read_input()

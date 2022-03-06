@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://prefabs/items/item_base.tscn" type="PackedScene" id=1]
+
+[node name="item_key_blue" type="Spatial"]
+
+[node name="item_base" parent="." instance=ExtResource( 1 )]
+
+[editable path="item_base"]
