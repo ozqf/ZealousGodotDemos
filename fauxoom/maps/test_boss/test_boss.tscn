@@ -89,7 +89,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3.1, 9 )
 script = ExtResource( 14 )
 
 [node name="smatter_limb" parent="torus_arena_1/static_ents/boss" instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 1, 0.6 )
+transform = Transform( 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 1.6, 0.999999, 0.6 )
 
 [node name="MeshInstance" type="MeshInstance" parent="torus_arena_1/static_ents/boss"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
