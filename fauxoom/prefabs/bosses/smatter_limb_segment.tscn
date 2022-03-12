@@ -15,5 +15,6 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 pixel_size = 0.04
 billboard = 1
+shaded = true
 frames = ExtResource( 1 )
 animation = "limb_segment"
