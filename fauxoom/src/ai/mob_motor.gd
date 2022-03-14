@@ -128,4 +128,6 @@ func damage_hit(_hitInfo:HitInfo) -> void:
 	var strength:float = 1
 	if _stunned:
 		strength = 1.5
+	if _hitInfo.damageType == Interactions.DAMAGE_TYPE_PUNCH:
+		strength *= 2
 	_velocity += _hitInfo.direction * strength

@@ -182,6 +182,7 @@ delaySpawn = true
 
 [node name="item_full_pack" parent="entities" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 16 )
+triggerTargetName = "mob1 mob2"
 respawns = true
 
 [node name="gun_rack" parent="entities" instance=ExtResource( 7 )]
@@ -228,7 +229,7 @@ intParameter1 = 1
 [node name="trigger_event" parent="entities" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -8 )
 selfName = "wave_1"
-triggerTargetName = "mob1 mob2 spawn_1a spawn_1b"
+triggerTargetName = "spawn_1a spawn_1b"
 waitSeconds = 3.0
 
 [node name="wave_1_counter" parent="entities" instance=ExtResource( 18 )]

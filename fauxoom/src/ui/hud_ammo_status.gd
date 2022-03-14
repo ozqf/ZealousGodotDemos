@@ -9,34 +9,45 @@ onready var _rocketCount:Label = $bottom_right_panel/ammo_counts/rockets/count
 onready var _fuelCount:Label = $bottom_right_panel/ammo_counts/fuel/count
 onready var _bonusCount:Label = $bonus_count
 
+func _update_label(label:Label, count:int, percentage:float) -> void:
+	label.text = str(count)
+	if percentage >= 100.0:
+		label.add_color_override("font_color", Color(1, 1, 1, 1))
+	elif percentage >= 50.0:
+		label.add_color_override("font_color", Color(0, 1, 0, 1))
+	elif percentage >= 25.0:
+		label.add_color_override("font_color", Color(1, 1, 0, 1))
+	else:
+		label.add_color_override("font_color", Color(1, 0, 0, 1))
+
 func player_status_update(data:PlayerHudStatus) -> void:
 	if data.hasPistol:
 		_bulletCount.get_parent().visible = true
-		_bulletCount.text = str(data.bullets)
+		_update_label(_bulletCount, data.bullets, data.bulletsPercentage)
 	else:
 		_bulletCount.get_parent().visible = false
 		
 	if data.hasSuperShotgun:
 		_shellCount.get_parent().visible = true
-		_shellCount.text = str(data.shells)
+		_update_label(_shellCount, data.shells, data.shellsPercentage)
 	else:
 		_shellCount.get_parent().visible = false
 	
 	if data.hasRailgun:
 		_plasmaCount.get_parent().visible = true
-		_plasmaCount.text = str(data.plasma)
+		_update_label(_plasmaCount, data.plasma, data.plasmaPercentage)
 	else:
 		_plasmaCount.get_parent().visible = false
 	
 	if data.hasRocketLauncher:
 		_rocketCount.get_parent().visible = true
-		_rocketCount.text = str(data.rockets)
+		_update_label(_rocketCount, data.rockets, data.rocketsPercentage)
 	else:
 		_rocketCount.get_parent().visible = false
 	
 	if data.hasFlameThrower:
 		_fuelCount.get_parent().visible = true
-		_fuelCount.text = str(data.fuel)
+		_update_label(_fuelCount, data.fuel, data.fuelPercentage)
 	else:
 		_fuelCount.get_parent().visible = false
 	

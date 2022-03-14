@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://assets/world/planar_materials/mat_aqf070.tres" type="Material" id=23]
 [ext_resource path="res://maps/prologue_subway/prefabs/subway_tunnel_wall.tscn" type="PackedScene" id=24]
 [ext_resource path="res://prefabs/props/techno_column_medium.tscn" type="PackedScene" id=25]
+[ext_resource path="res://zqf/zqf_flicker.gd" type="Script" id=26]
 
 [node name="prologue_subway" type="Spatial"]
 
@@ -970,6 +971,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 1, 80 )
 shadow_enabled = true
 omni_range = 25.4
 omni_attenuation = 0.196146
+script = ExtResource( 26 )
 
 [node name="OmniLight14" type="OmniLight" parent="geometry/station/lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 9, 80 )

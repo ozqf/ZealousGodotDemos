@@ -31,6 +31,12 @@ func write_hud_status(statusDict:PlayerHudStatus) -> void:
 	statusDict.currentAmmo = self._inventory.get_count(self.ammoType)
 
 func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> void:
+	if Game.hyperLevel > 0:
+		_hitInfo.stunOverrideTime = 0.2
+		_hitInfo.stunOverrideDamage = 200
+	else:
+		_hitInfo.stunOverrideTime = -1
+		_hitInfo.stunOverrideDamage = -1
 	var t:Transform = self._launchNode.global_transform
 	var forward:Vector3 = -_launchNode.global_transform.basis.z
 	var spreadX:float = rand_range(-_spreadX, _spreadX) * shotSpreadScale

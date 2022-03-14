@@ -206,6 +206,12 @@ func write_hud_status(_hudStatus:PlayerHudStatus) -> void:
 	_hudStatus.plasma = get_count("plasma")
 	_hudStatus.rockets = get_count("rockets")
 	_hudStatus.fuel = get_count("fuel")
+
+	_hudStatus.bulletsPercentage = get_percentage("bullets")
+	_hudStatus.shellsPercentage = get_percentage("shells")
+	_hudStatus.plasmaPercentage = get_percentage("plasma")
+	_hudStatus.rocketsPercentage = get_percentage("rockets")
+	_hudStatus.fuelPercentage = get_percentage("fuel")
 	
 	_hudStatus.rage = get_count("rage")
 	
@@ -231,6 +237,12 @@ func get_count(itemType:String) -> int:
 	if itemType == "" || !_data.has(itemType):
 		return -1
 	return _data[itemType].count
+
+func get_percentage(itemType:String) -> float:
+	if itemType == "" || !_data.has(itemType):
+		return 100.0
+	var d = _data[itemType]
+	return (float(d.count) / float(d.max)) * 100.0
 
 func give_all() -> void:
 	print("CHEAT - Give all")

@@ -503,12 +503,12 @@ func hit(_hitInfo:HitInfo) -> int:
 
 		# spawn drops
 		var dropType:int = Enums.QuickDropType.Rage
-		var dropCount:int = 3
+		var dropCount:int = 2
 		if Game.hyperLevel > 0:
 			dropType = Enums.QuickDropType.Health
 		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
 			dropType = Enums.QuickDropType.Health
-			dropCount = 5
+			dropCount = 4
 		Game.spawn_rage_drops(collisionShape.global_transform.origin, dropType, dropCount)
 		
 		_corpseHitInfo.direction = _hitInfo.direction
@@ -553,14 +553,24 @@ func hit(_hitInfo:HitInfo) -> int:
 			_rageDropAccumulator -= 100
 			Game.spawn_rage_drops(collisionShape.global_transform.origin, dropType, 1)
 		
-			# if not awake, wake up!
+		# if not awake, wake up!
 		force_awake()
 		emit_mob_event("pain", -1)
-		_stunAccumulator += _hitInfo.damage
-		if _stunAccumulator > _stats.stunThreshold:
+		var stunDmg:int = _hitInfo.damage
+		if _hitInfo.stunOverrideDamage > 0:
+			stunDmg = _hitInfo.stunOverrideDamage
+		
+		_stunAccumulator += stunDmg
+		# print("Mob stun dmg: " + str(stunDmg) + ". Accumulated " + str(_stunAccumulator) + " vs threshold " + str(_stats.stunThreshold))
+		
+		if _stunAccumulator >= _stats.stunThreshold:
 			apply_stun(_hitInfo.direction, _hitInfo.stunOverrideTime)
-		if !_isSniper:
-			motor.damage_hit(_hitInfo)
+		elif _hitInfo.damageType == Interactions.DAMAGE_TYPE_PUNCH:
+			# print("Mob - punch stun")
+			apply_stun(_hitInfo.direction, 0.25)
+		# punches knockback
+		# if !_isSniper:
+		motor.damage_hit(_hitInfo)
 		return _hitInfo.damage
 
 func void_volume_touch() -> void:

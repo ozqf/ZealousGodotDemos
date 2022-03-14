@@ -56,6 +56,7 @@ func _ready():
 	add_to_group(Config.GROUP)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
+	add_to_group(Groups.PLAYER_GROUP_NAME)
 	
 	_hudStatus = _player_hud_status_t.new()
 	_targetHealthInfo = Game.new_mob_health_info()
@@ -90,6 +91,10 @@ func on_moved(body, head) -> void:
 	var fn:String = Groups.PLAYER_FN_MOVED
 	get_tree().call_group(grp, fn, body, head)
 	pass
+
+func player_ground_slam_start() -> void:
+	print("Player - slam!")
+	_motor.start_ground_slam()
 
 func on_weapon_action(_weapon:InvWeapon, _action:String) -> void:
 	_muzzleFlash.show_for_time(0.1)

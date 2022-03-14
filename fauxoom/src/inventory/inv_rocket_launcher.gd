@@ -3,6 +3,8 @@ extends InvWeapon
 var _rocketShoot:AudioStream = preload("res://assets/sounds/weapon/rocket_fire.wav")
 var _prjMask:int = -1
 
+var _lastHyperLevel:int = 0
+
 signal rocket_detonate()
 
 func custom_init_b() -> void:
@@ -50,7 +52,10 @@ func read_input(_weaponInput:WeaponInput) -> void:
 	if tick > 0:
 		return
 	if _weaponInput.primaryOn:
-		tick = refireTime
+		if Game.hyperLevel > 0:
+			tick = 0.4
+		else:
+			tick = refireTime
 		_fire_rocket()
 		.play_fire_1(false)
 	# elif _weaponInput.secondaryOn:
@@ -59,7 +64,15 @@ func read_input(_weaponInput:WeaponInput) -> void:
 	# 	.play_fire_1(false)
 
 func _process(_delta:float) -> void:
+	if Game.hyperLevel != _lastHyperLevel:
+		_lastHyperLevel = Game.hyperLevel
+		if Game.hyperLevel > 0:
+			akimbo = true
+		else:
+			akimbo = false
+		if _equipped:
+			play_idle()
 	if tick > 0:
-		if !_equipped:
-			_delta /= 2.0
+		# if !_equipped:
+		# 	_delta /= 2.0
 		tick -= _delta

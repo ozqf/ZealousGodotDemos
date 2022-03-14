@@ -11,7 +11,7 @@ const RUN_SPEED:float = 8.5
 const GROUND_ACCELERATION:float = 150.0
 const AIR_ACCELERATION:float = 45.0
 const GROUND_FRICTION:float = 0.75
-const AIR_FRICTION:float = 0.98
+const AIR_FRICTION:float = 0.99
 
 const DASH_SPEED:float = 18.0
 const DASH_DURATION:float = 0.25
@@ -28,6 +28,7 @@ var nearWall:bool = false
 var _body:KinematicBody = null
 var _head:Spatial = null
 var _inputOn:bool = false
+var _groundSlamming:bool = false
 var _velocity:Vector3 = Vector3()
 
 var _dashTime:float = 0
@@ -43,6 +44,12 @@ func set_input_enabled(flag:bool) -> void:
 	if _inputOn == flag:
 		return
 	_inputOn = flag
+
+func start_ground_slam() -> void:
+	if _head == null:
+		return
+	_groundSlamming = true
+	_velocity = (-_head.global_transform.basis.z) * 25.0
 
 func get_velocity() -> Vector3:
 	return _velocity
@@ -101,13 +108,25 @@ func _physics_process(delta:float) -> void:
 		return
 	if !_inputOn:
 		return
-	_read_rotation_keys(delta)
-	_apply_rotations(delta)
-	
+
 	var isOnFloor:bool = _body.is_on_floor()
 	if isOnFloor:
 		_doubleJumps = 0
 	
+	# if slamming, move and wait to be grounded
+	if _groundSlamming:
+		if isOnFloor:
+			# end slam
+			_groundSlamming = false
+			get_tree().call_group(Groups.PLAYER_GROUP_NAME, Groups.PLAYER_FN_GROUND_SLAM_FINISH)
+		else:
+			_velocity.y -= GRAVITY * delta
+			_velocity = _body.move_and_slide(_velocity, Vector3.UP, true)
+			return
+	
+	_read_rotation_keys(delta)
+	_apply_rotations(delta)
+		
 	if energy < ENERGY_MAX:
 		energy += ENERGY_GAIN_PER_SECOND * delta
 		# only let regen finish if on the ground

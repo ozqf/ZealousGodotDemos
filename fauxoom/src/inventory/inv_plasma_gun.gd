@@ -34,6 +34,6 @@ func read_input(_weaponInput:WeaponInput) -> void:
 
 func _process(_delta:float) -> void:
 	if tick > 0:
-		if !_equipped:
-			_delta /= 2.0
+		# if !_equipped:
+		# 	_delta /= 2.0
 		tick -= _delta

@@ -28,6 +28,12 @@ var rockets:int = 0
 var plasma:int = 0
 var fuel:int = 0
 
+var bulletsPercentage:float = 0.0
+var shellsPercentage:float = 0.0
+var rocketsPercentage:float = 0.0
+var plasmaPercentage:float = 0.0
+var fuelPercentage:float = 0.0
+
 # resources
 var rage:int = 0
 var bonus:int = 0
