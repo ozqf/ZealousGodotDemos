@@ -32,7 +32,7 @@ func write_hud_status(statusDict:PlayerHudStatus) -> void:
 
 func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> void:
 	if Game.hyperLevel > 0:
-		_hitInfo.stunOverrideTime = 0.2
+		_hitInfo.stunOverrideTime = 1
 		_hitInfo.stunOverrideDamage = 200
 	else:
 		_hitInfo.stunOverrideTime = -1
