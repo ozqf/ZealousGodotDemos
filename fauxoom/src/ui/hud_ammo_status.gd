@@ -8,6 +8,7 @@ onready var _plasmaCount:Label = $bottom_right_panel/ammo_counts/plasma/count
 onready var _rocketCount:Label = $bottom_right_panel/ammo_counts/rockets/count
 onready var _fuelCount:Label = $bottom_right_panel/ammo_counts/fuel/count
 onready var _bonusCount:Label = $bonus_count
+onready var _bg:ColorRect = $bg
 
 func _update_label(label:Label, count:int, percentage:float) -> void:
 	label.text = str(count)
@@ -21,6 +22,11 @@ func _update_label(label:Label, count:int, percentage:float) -> void:
 		label.add_color_override("font_color", Color(1, 0, 0, 1))
 
 func player_status_update(data:PlayerHudStatus) -> void:
+	if data.hyperLevel > 0:
+		_bg.color = Color(1, 1, 0, 0.25)
+	else:
+		_bg.color = Color(0, 0, 0, 0.25)
+	
 	if data.hasPistol:
 		_bulletCount.get_parent().visible = true
 		_update_label(_bulletCount, data.bullets, data.bulletsPercentage)

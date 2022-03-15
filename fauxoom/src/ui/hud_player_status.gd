@@ -6,6 +6,7 @@ onready var _energyCount:Label = $player_status/energy/count
 onready var _ammoCount:Label = $player_status/ammo/count
 onready var _rageCount:Label = $player_status/rage/count
 onready var _hyperTime:TextureProgress = $hyper_time
+onready var _bg:ColorRect = $bg
 
 func player_status_update(data:PlayerHudStatus) -> void:
 	# counts
@@ -31,11 +32,13 @@ func player_status_update(data:PlayerHudStatus) -> void:
 	_rageCount.text = str(data.rage)
 	
 	if data.hyperLevel > 0:
+		_bg.color = Color(1, 1, 0, 0.25)
 		_hyperTime.tint_progress = Color(1, 1, 0)
 		_hyperTime.visible = true
 		_hyperTime.value = data.rage
 		#_hyperTime.value = int((data.hyperTime / Interactions.HYPER_DURATION) * 100.0)
 	else:
+		_bg.color = Color(0, 0, 0, 0.25)
 		if data.hyperTime > 0:
 			_hyperTime.visible = true
 			_hyperTime.tint_progress = Color(0, 0, 1)

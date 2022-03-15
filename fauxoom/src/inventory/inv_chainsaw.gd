@@ -92,7 +92,10 @@ func _process(_delta:float) -> void:
 	
 	# update revving
 	if _state == State.Sawing:
-		_revs += (100.0 / REV_UP_TIME) * _delta
+		if Game.hyperLevel > 0:
+			_revs += (100.0 / REV_UP_TIME * 4.0) * _delta
+		else:
+			_revs += (100.0 / REV_UP_TIME) * _delta
 	else:
 		_revs -= (100.0 / REV_DOWN_TIME) * _delta
 	if _revs > 100:

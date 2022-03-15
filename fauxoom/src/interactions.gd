@@ -55,7 +55,7 @@ const HYPER_COST:int = 20
 const HYPER_COST_PER_TICK:int = 1
 const HYPER_COST_TICK_TIME:float = 0.25 # 0.125
 const HYPER_DURATION:float = 10.0
-const HYPER_COOLDOWN_DURATION:float = 5.0
+const HYPER_COOLDOWN_DURATION:float = 2.0
 
 const HIT_RESPONSE_NONE:int = -1
 const HIT_RESPONSE_PENETRATE:int = -2
@@ -106,7 +106,7 @@ static func hitscan_hit(_hitInfo:HitInfo, _hitScanResult:Dictionary) -> int:
 # returns -1 if object had no hit function
 # returns -2 if object let hit through
 static func hit(_hitInfo:HitInfo, collider) -> int:
-	if collider.has_method("hit"):
+	if is_instance_valid(collider) &&  collider.has_method("hit"):
 		return collider.hit(_hitInfo)
 	return HIT_RESPONSE_NONE
 

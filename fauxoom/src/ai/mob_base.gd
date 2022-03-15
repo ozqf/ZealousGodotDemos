@@ -398,6 +398,9 @@ func _process(_delta:float) -> void:
 		return
 
 func apply_stun(_dir:Vector3, durationOverride:float) -> void:
+	# if playing spawn ammo, ignore
+	if _state == MobState.Spawning:
+		return
 	# stun
 	if _state != MobState.Stunned:
 		_change_state(MobState.Stunned)

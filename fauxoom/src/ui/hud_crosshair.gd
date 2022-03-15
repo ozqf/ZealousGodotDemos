@@ -41,7 +41,9 @@ func player_status_update(data:PlayerHudStatus) -> void:
 		_weaponCharge.visible = false
 	
 	if data.hyperLevel > 0:
-		_hyperTime.text = str(stepify(data.hyperSecondsRemaining, 0.01))
+		# meh doesn't give specific decimals when trailing 0000s
+		#_hyperTime.text = str(stepify(data.hyperSecondsRemaining, 0.01))
+		_hyperTime.text = str(floor(data.hyperSecondsRemaining))
 		_hyperTime.visible = true
 	else:
 		_hyperTime.visible = false
@@ -56,5 +58,8 @@ func player_status_update(data:PlayerHudStatus) -> void:
 	_energyBar.value = data.energy
 	_energyBar.visible = (_energyBar.value < 100)
 	
-	_healthBar.value = data.health
+	# show rage instead of health
+	_healthBar.value = data.rage
 	_healthBar.visible = (_healthBar.value < 100)
+	#_healthBar.value = data.health
+	#_healthBar.visible = (_healthBar.value < 100)

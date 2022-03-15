@@ -126,7 +126,7 @@ func _physics_process(delta:float) -> void:
 	
 	_read_rotation_keys(delta)
 	_apply_rotations(delta)
-		
+	
 	if energy < ENERGY_MAX:
 		energy += ENERGY_GAIN_PER_SECOND * delta
 		# only let regen finish if on the ground
@@ -142,12 +142,13 @@ func _physics_process(delta:float) -> void:
 		if _dashTime <= 0:
 			# stop dash if on floor, otherwise carry velocity
 			if isOnFloor:
-				_velocity = Vector3()
+				_velocity = _velocity.normalized() * RUN_SPEED
 		else:
-			_velocity = _dashPushDir * DASH_SPEED
+			# _velocity = _dashPushDir * DASH_SPEED
+			
 			_velocity = _body.move_and_slide(_velocity)
 			# adjust dash path to align with what we've slid along
-			_dashPushDir = _velocity.normalized()
+			# _dashPushDir = _velocity.normalized()
 			return
 
 	var input:Vector3 = _read_input()
