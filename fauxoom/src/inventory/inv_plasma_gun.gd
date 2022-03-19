@@ -50,11 +50,10 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		return
 	if _weaponInput.primaryOn:
 		# print("Fire plasma - dmg " + str(_hitInfo.damage) + " type " + str(_hitInfo.damageType))
-		if Game.hyperLevel == 0:
-			_fire_regular()
-			#_fire_special()
-		else:
+		if check_hyper_attack(Interactions.HYPER_COST_PLASMA):
 			_fire_special()
+		else:
+			_fire_regular()
 
 func _process(_delta:float) -> void:
 	if tick > 0:

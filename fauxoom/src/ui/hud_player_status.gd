@@ -25,7 +25,7 @@ func player_status_update(data:PlayerHudStatus) -> void:
 	else:
 		_ammoCount.text = str(data.currentAmmo)
 	
-	if data.rage >= Interactions.HYPER_COST:
+	if data.rage >= Interactions.HYPER_SAVE_COST:
 		_rageCount.add_color_override("font_color", Color(1, 1, 0))
 	else:
 		_rageCount.add_color_override("font_color", Color(1, 1, 1))
@@ -39,7 +39,7 @@ func player_status_update(data:PlayerHudStatus) -> void:
 		#_hyperTime.value = int((data.hyperTime / Interactions.HYPER_DURATION) * 100.0)
 	else:
 		_bg.color = Color(0, 0, 0, 0.25)
-		if data.hyperTime > 0:
+		if data.hyperTime > 0 && Interactions.HYPER_COOLDOWN_DURATION > 0.0:
 			_hyperTime.visible = true
 			_hyperTime.tint_progress = Color(0, 0, 1)
 			_hyperTime.value = int((data.hyperTime / Interactions.HYPER_COOLDOWN_DURATION) * 100.0)

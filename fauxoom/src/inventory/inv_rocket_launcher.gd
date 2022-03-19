@@ -11,6 +11,9 @@ func custom_init_b() -> void:
 	_prjMask = Interactions.get_player_prj_mask()
 
 func _fire_rocket() -> void:
+	# consume rage if needed since attack is the same whether in hyper or not
+	check_hyper_attack(Interactions.HYPER_COST_ROCKET)
+	
 	var rocket = Game.rocket_t.instance()
 	Game.get_dynamic_parent().add_child(rocket)
 	var t:Transform = _launchNode.global_transform

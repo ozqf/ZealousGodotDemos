@@ -51,11 +51,22 @@ const DAMAGE_TYPE_SHARPNEL:int = 6
 const DAMAGE_TYPE_VOID:int = 7
 const DAMAGE_TYPE_SUPER_PUNCH:int = 8
 
-const HYPER_COST:int = 20
-const HYPER_COST_PER_TICK:int = 1
-const HYPER_COST_TICK_TIME:float = 0.25 # 0.125
+const HYPER_ACTIVATE_COST:int = 0
+const HYPER_ACTIVATE_MINIMUM:int = 0
+const HYPER_SAVE_COST:int = 20
+const HYPER_COST_PER_TICK:int = 0 #1
+const HYPER_COST_TICK_TIME:float = 0.0 #0.25 # 0.125
 const HYPER_DURATION:float = 10.0
-const HYPER_COOLDOWN_DURATION:float = 2.0
+const HYPER_COOLDOWN_DURATION:float = 0.0
+
+const HYPER_COST_PISTOL:int = 1
+const HYPER_COST_SHOTGUN:int = 10
+const HYPER_COST_ROCKET:int = 5
+const HYPER_COST_PLASMA:int = 20
+const HYPER_COST_SAW:int = 10
+
+const MOB_DROP_COUNT:int = 3
+const MOB_DROP_COUNT_SUPER_PUNCH:int = 4
 
 const HIT_RESPONSE_NONE:int = -1
 const HIT_RESPONSE_PENETRATE:int = -2

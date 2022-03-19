@@ -6,7 +6,7 @@ var _areas = []
 var _hasFired:bool = false
 var _tick:float = 0
 var _ticks:int = 0
-export var lifeTime:float = 4.0
+export var lifeTime:float = 1.5
 var _hitInfo:HitInfo = null
 
 func _ready():

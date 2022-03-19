@@ -2,7 +2,7 @@ extends RigidBody
 class_name RigidBodyProjectile
 
 export var maxSpeed:float = 15.0
-export var timeToLive:float = 10
+export var timeToLive:float = 30
 export var spawnTime:float = 0
 
 # all projectiles have an animator
@@ -19,7 +19,7 @@ enum ProjectileState {
 }
 
 var _state = ProjectileState.Idle
-var _time:float = 10
+var _time:float = 30
 
 var _velocity:Vector3 = Vector3()
 var _deathNormal:Vector3 = Vector3()

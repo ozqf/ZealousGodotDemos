@@ -89,6 +89,14 @@ func is_cycling() -> bool:
 	else:
 		return tick > 0
 
+func check_hyper_attack(cost:int) -> bool:
+	if Game.hyperLevel == 0:
+		return false
+	if _inventory.get_count("rage") < cost:
+		return false
+	_inventory.take_item("rage", cost)
+	return true
+
 #########################################
 # default attack logic
 #########################################

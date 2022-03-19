@@ -231,9 +231,7 @@ func _spawn_aoe() -> HyperAoe:
 
 func _hyper_on() -> void:
 	_hyperLevel = 1
-	# no rage cost currently, just a minimum to activate
-	# _inventory.take_item("rage", Interactions.HYPER_COST)
-	_hyperTime = 0.0
+	_hyperTime = Interactions.HYPER_DURATION
 	var aoe = _spawn_aoe()
 	aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_ON, 0.0)
 
@@ -242,7 +240,7 @@ func _tick_hyper(_delta:float) -> void:
 		_hyperCooldown -= _delta
 	var prevLevel:int = _hyperLevel
 	var keyPressed:bool = Input.is_action_just_pressed("hyper")
-	var cost:int = Interactions.HYPER_COST
+	var cost:int = Interactions.HYPER_ACTIVATE_MINIMUM
 	var duration:float = Interactions.HYPER_DURATION
 	if _hyperLevel <= 0:
 		if keyPressed && _inventory.get_count("rage") >= cost && _hyperCooldown <= 0:
@@ -258,9 +256,12 @@ func _tick_hyper(_delta:float) -> void:
 				# ran out of rage
 				_hyperLevel = 0
 				_hyperCooldown = Interactions.HYPER_COOLDOWN_DURATION
-		elif keyPressed:
-			# forced cancel
+		
+		# forced cancel
+		if keyPressed:
+			print("Hyper - manual off")
 			_hyperLevel = 0
+			_hyperTime = 0.0
 			var aoe = _spawn_aoe()
 			var weight:float = _hyperTime / Interactions.HYPER_DURATION
 			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_CANCEL, weight)
@@ -356,13 +357,17 @@ func _process(_delta:float) -> void:
 	_hudStatus.hyperTime = _hyperCooldown
 	_hudStatus.bonus = _bonus
 	_hudStatus.isNearWall = _motor.nearWall
-
-	# calculate hyper cost per second and therefore remaining seconds
-	var costPerSecond:float = 1.0 / Interactions.HYPER_COST_TICK_TIME
-	_hudStatus.hyperSecondsRemaining = float(_inventory.get_count("rage")) / costPerSecond
-
+	
+	# get inventory counts so we can use the rage count
 	_inventory.write_hud_status(_hudStatus)
-
+	
+	# calculate hyper cost per second and therefore remaining seconds
+	if Interactions.HYPER_COST_TICK_TIME > 0:
+		var costPerSecond:float = 1.0 / Interactions.HYPER_COST_TICK_TIME
+		_hudStatus.hyperSecondsRemaining = float(_hudStatus.rage) / costPerSecond
+	else:
+		_hudStatus.hyperSecondsRemaining = _hudStatus.rage
+	
 	_attack.write_hud_status(_hudStatus)
 	
 	var grp = Groups.PLAYER_GROUP_NAME
@@ -433,7 +438,7 @@ func hit(hitInfo:HitInfo) -> int:
 
 	if _health <= 0:
 		# check for hyper save
-		if _hyperLevel == 0 && _inventory.get_count("rage") > 20:
+		if _hyperLevel == 0 && _inventory.get_count("rage") > Interactions.HYPER_SAVE_COST:
 			_health = 1
 			_hyper_on()
 			return dmg

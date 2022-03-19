@@ -24,7 +24,12 @@ func _fire_flak(origin:Vector3, forward:Vector3) -> void:
 
 func read_input(_weaponInput:WeaponInput) -> void:
 	if tick <= 0 && _weaponInput.primaryOn:
-		var hyper:bool = Game.hyperLevel > 0
+		var hyper:bool = check_hyper_attack(Interactions.HYPER_COST_SHOTGUN)
+		# var hyper:bool = Game.hyperLevel > 0
+		# if _inventory.get_count("rage") < Interactions.HYPER_COST_SHOTGUN:
+		# 	hyper = false
+		# else:
+		# 	_inventory.take_item("rage", Interactions.HYPER_COST_SHOTGUN)
 		tick = refireTime
 		var t:Transform = _launchNode.global_transform
 		var randSpreadX:float = 1500

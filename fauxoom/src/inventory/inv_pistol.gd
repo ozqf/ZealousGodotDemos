@@ -31,7 +31,7 @@ func write_hud_status(statusDict:PlayerHudStatus) -> void:
 	statusDict.currentAmmo = self._inventory.get_count(self.ammoType)
 
 func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> void:
-	if Game.hyperLevel > 0:
+	if check_hyper_attack(Interactions.HYPER_COST_PISTOL):
 		_hitInfo.stunOverrideTime = 1
 		_hitInfo.stunOverrideDamage = 200
 	else:

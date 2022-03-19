@@ -506,12 +506,12 @@ func hit(_hitInfo:HitInfo) -> int:
 
 		# spawn drops
 		var dropType:int = Enums.QuickDropType.Rage
-		var dropCount:int = 2
+		var dropCount:int = Interactions.MOB_DROP_COUNT
 		if Game.hyperLevel > 0:
 			dropType = Enums.QuickDropType.Health
 		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
 			dropType = Enums.QuickDropType.Health
-			dropCount = 4
+			dropCount = Interactions.MOB_DROP_COUNT_SUPER_PUNCH
 		Game.spawn_rage_drops(collisionShape.global_transform.origin, dropType, dropCount)
 		
 		_corpseHitInfo.direction = _hitInfo.direction
