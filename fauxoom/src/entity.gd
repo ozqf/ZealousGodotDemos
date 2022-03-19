@@ -62,7 +62,8 @@ func on_trigger_entities(target:String, message:String, dict:Dictionary) -> void
 		emit_signal("entity_trigger", message, dict)
 
 func trigger() -> void:
-	# emit_signal("trigger")
+	# when triggering was by signals...
+	# emit_signal("trigger", ZqfUtils.EMPTY_STR, ZqfUtils.EMPTY_DICT)
 	Interactions.triggerTargets(get_tree(), triggerTargetName)
 
 func _on_exiting_tree() -> void:

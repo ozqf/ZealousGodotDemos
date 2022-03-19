@@ -36,5 +36,8 @@ func write_state() -> Dictionary:
 func restore_state(data:Dictionary) -> void:
 	set_active(data.active)
 
+# func on_trigger() -> void:
+# 	set_active(!active)
+
 func on_trigger(_msg:String, _params:Dictionary) -> void:
 	set_active(!active)

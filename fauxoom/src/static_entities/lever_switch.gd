@@ -1,6 +1,6 @@
 extends Spatial
 
-signal trigger()
+# signal trigger()
 
 onready var _off:Spatial = $off
 onready var _on:Spatial = $on
@@ -48,5 +48,5 @@ func use() -> void:
 		_set_on(true)
 		_ent.trigger()
 		_audio.play()
-		emit_signal("trigger")
+		# emit_signal("trigger")
 		# Interactions.triggerTargets(get_tree(), triggerTargetName)

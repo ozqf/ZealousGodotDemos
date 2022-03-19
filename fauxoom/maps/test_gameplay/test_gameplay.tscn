@@ -990,6 +990,3 @@ transform = Transform( 1, 0, 0, 0, -1, 2.98023e-08, 0, -2.08616e-07, -7, 5, 13, 
 
 [node name="world_volume_wedge_corner2" parent="geometry/NavService/NavigationMeshInstance" instance=ExtResource( 14 )]
 transform = Transform( -1, 1.82378e-14, 6.11959e-07, 0, -1, 2.98023e-08, 8.74228e-08, 2.08616e-07, 7, 11, 13, 16 )
-
-[connection signal="trigger" from="static/lever_switch" to="static/room_1_exit_gate" method="on_trigger"]
-[connection signal="trigger" from="static/lever_switch" to="static/room_1_trap_gate" method="on_trigger"]

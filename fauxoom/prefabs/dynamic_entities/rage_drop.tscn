@@ -20,17 +20,24 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0 )
 shape = SubResource( 1 )
 
 [node name="Sprite3D" type="AnimatedSprite3D" parent="."]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0.95, 0 )
+offset = Vector2( 0, 32 )
+pixel_size = 0.02
 billboard = 2
 frames = ExtResource( 1 )
 animation = "bonus_minor"
-frame = 3
+frame = 2
 playing = true
 
 [node name="toward" type="Spatial" parent="."]
 
 [node name="toward_mesh" type="MeshInstance" parent="toward"]
 transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.4, 0, 0.2, -1 )
+visible = false
 mesh = ExtResource( 3 )
 skeleton = NodePath("../..")
 material/0 = null
+
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0 )
+light_energy = 1.25
+omni_range = 1.25

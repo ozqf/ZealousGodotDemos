@@ -60,6 +60,6 @@ func _process(_delta:float) -> void:
 		if _tick >= restoreTime:
 			on()
 		else:
-			var diff:int = restoreTime - _tick
+			var diff:int = int(restoreTime - _tick)
 			if diff < 5:
 				_restoreParticles.emitting = true

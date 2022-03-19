@@ -474,7 +474,9 @@ AI="*res://prefabs/services/ai_manager.tscn"
 [debug]
 
 gdscript/warnings/unused_variable=false
+gdscript/warnings/unused_signal=false
 gdscript/warnings/return_value_discarded=false
+gdscript/warnings/unsafe_call_argument=true
 
 [display]
 

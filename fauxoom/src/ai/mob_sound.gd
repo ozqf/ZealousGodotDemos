@@ -5,5 +5,5 @@ class_name MobSound
 func _ready():
 	var _r = get_parent().connect("mob_event", self, "on_event")
 
-func on_event(tag:String, _index:int) -> void:
+func on_event(_tag:String, _index:int) -> void:
 	pass

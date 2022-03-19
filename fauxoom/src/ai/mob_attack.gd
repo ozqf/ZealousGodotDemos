@@ -68,7 +68,7 @@ func _tick_down(_delta:float) -> bool:
 func cancel() -> void:
 	pass
 
-func fire_from(target:Vector3, launch:Spatial) -> void:
+func fire_from(_target:Vector3, launch:Spatial) -> void:
 	# print("Fire!")
 	
 	var t:Transform = launch.global_transform

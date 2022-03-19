@@ -1,7 +1,7 @@
 extends Spatial
 class_name TriggerTeleport
 
-signal trigger()
+# signal trigger()
 
 onready var _ent:Entity = $Entity
 onready var _collider:CollisionShape = $CollisionShape

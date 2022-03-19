@@ -13,6 +13,7 @@ class_name ZqfUtils
 # raycast exclude lists etc.
 const EMPTY_ARRAY = []
 const EMPTY_DICT = {}
+const EMPTY_STR = ""
 
 const DEG2RAD = 0.017453292519
 const RAD2DEG = 57.29577951308

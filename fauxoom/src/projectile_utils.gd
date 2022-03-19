@@ -2,7 +2,7 @@ class_name PrjUtils
 
 
 static func fire_from(
-	target: Vector3,
+	_target: Vector3,
 	launch: Spatial,
 	pattern: Pattern,
 	projectilePrefab) -> void:

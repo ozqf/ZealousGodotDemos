@@ -1,6 +1,6 @@
 extends Node
 
-signal menu_navigate(name)
+#signal menu_navigate(name)
 
 onready var _console:LineEdit = $console
 onready var _bg:ColorRect = $background

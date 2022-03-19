@@ -2,15 +2,21 @@ extends RigidBody
 
 const Enums = preload("res://src/enums.gd")
 
-const HEALTH_MINOR:String = "health_minor"
-const ADRENALINE_MINOR:String = "adrenaline_minor"
-const BONUS_MINOR:String = "bonus_minor"
+# const ANIMATION_HEALTH_MINOR:String = "health_minor"
+# const ANIMATION_ADRENALINE_MINOR:String = "adrenaline_minor"
+# const ANIMATION_BONUS_MINOR:String = "bonus_minor"
+
+const ANIMATION_HEALTH_MINOR:String = "blue_capsule"
+const ANIMATION_ADRENALINE_MINOR:String = "green_capsule"
+const ANIMATION_BONUS_MINOR:String = "bonus_minor"
+
 
 export var time:float = 4
 export var remove_parent:bool = false
 
 onready var _sprite = $Sprite3D
 onready var _toward:Spatial = $toward
+onready var _light:OmniLight = $OmniLight
 
 enum State { Idle, Gather, Dead }
 
@@ -55,14 +61,17 @@ func launch(pos:Vector3, dropType:int) -> void:
 	
 	_type = dropType
 	if _type == Enums.QuickDropType.Rage:
-		_sprite.animation = ADRENALINE_MINOR
+		_sprite.animation = ANIMATION_ADRENALINE_MINOR
 		time = 4
+		_light.light_color = Color.green
 	elif _type == Enums.QuickDropType.Bonus:
-		_sprite.animation = BONUS_MINOR
+		_sprite.animation = ANIMATION_BONUS_MINOR
 		time = 8
+		_light.light_color = Color.yellow
 	else:
-		_sprite.animation = HEALTH_MINOR
+		_sprite.animation = ANIMATION_HEALTH_MINOR
 		time = 8
+		_light.light_color = Color.blue
 
 func _give_check() -> bool:
 	if _type == Enums.QuickDropType.Rage:
