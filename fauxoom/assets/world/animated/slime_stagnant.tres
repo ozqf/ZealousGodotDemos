@@ -48,7 +48,7 @@ output_port_for_preview = 0
 texture = ExtResource( 1 )
 
 [sub_resource type="VisualShaderNodeScalarOp" id=16]
-default_input_values = [ 0, 0.0, 1, 0.15 ]
+default_input_values = [ 0, 0.0, 1, 0.05 ]
 operator = 2
 
 [sub_resource type="VisualShaderNodeInput" id=17]
@@ -122,7 +122,7 @@ void fragment() {
 	float n_out7p0 = TIME;
 
 // ScalarOp:20
-	float n_in20p1 = 0.15000;
+	float n_in20p1 = 0.05000;
 	float n_out20p0 = n_out7p0 * n_in20p1;
 
 // VectorCompose:8
@@ -183,7 +183,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -418, 58 )
+graph_offset = Vector2( -902, -131 )
 nodes/vertex/2/node = SubResource( 22 )
 nodes/vertex/2/position = Vector2( -200, 100 )
 nodes/vertex/2/size = Vector2( 533, 389 )

@@ -27,9 +27,15 @@ func _calc_limit_promxity(count:float, total:float) -> float:
 
 func _position_nodes() -> void:
 	# in local coordinates:
-
-	var origin:Vector3 = Vector3() # transform.origin
-	var dest:Vector3 = _tip.transform.origin
+	
+	# original, causes wave to originate from tip
+	#var origin:Vector3 = Vector3() # transform.origin
+	#var dest:Vector3 = _tip.transform.origin
+	
+	# reversed: wave originates from root
+	var origin:Vector3 = _tip.transform.origin
+	var dest:Vector3 = Vector3()
+	
 	var left:Vector3 = _tip.transform.basis.x;
 	#print("Limb from " + str(origin) + " to " + str(dest))
 	var numSegments:int = _nodes.get_child_count()
@@ -42,6 +48,7 @@ func _position_nodes() -> void:
 	var offsetOrigin:float = float(numSegments) * time
 	#print("Offset origin: " + str(offsetOrigin))
 	
+	#for i in range (numSegments - 1, -1, -1):
 	for i in range (0, numSegments):
 		var segment = _nodes.get_child(i)
 		var weight:float = float(i) / float(numSegments)
@@ -56,16 +63,17 @@ func _position_nodes() -> void:
 	pass
 
 func _animate(delta:float) -> void:
-	#_moveWeight += (delta * 2.0)
-	_moveWeight = 0.5
+	_moveWeight += (delta * 1.0)
+	#_moveWeight = 0.0
 	var weight:float = sin(_moveWeight)
-	var offset:float = weight * 5.0
+	#weight = 0.0
+	var offset:float = weight * 1.0
 	var up:Vector3 = transform.basis.y
 	var left:Vector3 = transform.basis.x
 	up = Vector3.UP
 	left = Vector3.LEFT
 	# print("Weight " + str(weight) + " offset " + str(offset) + " up " + str(up))
-	var pos:Vector3 = transform.origin
+	var pos:Vector3 = Vector3()
 	pos += up * length
 	pos += left * offset
 	# pos.y += 8.0
