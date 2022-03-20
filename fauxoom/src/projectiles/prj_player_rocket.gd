@@ -5,6 +5,7 @@ onready var _scanner:ZqfVolumeScanner = $volume_scanner
 onready var _particles = $particles
 
 func _ready():
+	_hitInfo.damageType = Interactions.DAMAGE_TYPE_EXPLOSIVE
 	pass
 
 func die() -> void:

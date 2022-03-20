@@ -35,10 +35,12 @@ func _punch(forward:Vector3, scanRange:float) -> Vector3:
 	var result:Dictionary = ZqfUtils.hitscan_by_direction_3D(_launchNode, origin, forward, scanRange, _ignoreBody, mask)
 	var hitPoint:Vector3 = origin + (forward * scanRange)
 	if result:
-		var isMob:bool = Interactions.is_ray_hit_a_mob(result)
+		# var isMob:bool = Interactions.is_ray_hit_a_mob(result)
 		
 		var count:int = _inventory.get_count("rage")
-		if count >= superCost && isMob && Game.hyperLevel > 0:
+		#if count >= superCost && isMob && Game.hyperLevel > 0:
+		if count >= superCost && Game.hyperLevel > 0:
+			print("Super punch")
 			_hitInfo.damage = superDamage
 			_inventory.take_item("rage", superCost)
 			_hitInfo.damageType = Interactions.DAMAGE_TYPE_SUPER_PUNCH

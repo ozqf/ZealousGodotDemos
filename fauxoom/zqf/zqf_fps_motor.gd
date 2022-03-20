@@ -24,6 +24,7 @@ const GRAVITY:float = 20.0
 var mouseSensitivity: float = 1
 var invertedY:bool = false
 var nearWall:bool = false
+var onFloor:bool = false
 
 var _body:KinematicBody = null
 var _head:Spatial = null
@@ -109,7 +110,10 @@ func _physics_process(delta:float) -> void:
 	if !_inputOn:
 		return
 
-	var isOnFloor:bool = _body.is_on_floor()
+	# body is a capsule so cannot trust its floor detection
+	# or we'll just slide off stuff
+	#var isOnFloor:bool = _body.is_on_floor()
+	var isOnFloor:bool = onFloor
 	if isOnFloor:
 		_doubleJumps = 0
 	
@@ -234,7 +238,8 @@ func _physics_process(delta:float) -> void:
 			_velocity.y = 7
 			_doubleJumps += 1
 	# gravity
-	_velocity.y -= GRAVITY * delta
+	if !isOnFloor:
+		_velocity.y -= GRAVITY * delta
 	
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP, true)
 	self.emit_signal("moved", _body, _head)

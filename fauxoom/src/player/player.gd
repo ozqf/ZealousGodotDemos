@@ -18,6 +18,7 @@ onready var _muzzleFlash:OmniLight = $head/muzzle_flash
 onready var _aimRay:RayCast = $head/aim_ray_cast
 onready var _laserDot:Spatial = $head/laser_dot
 onready var _wallDetector:ZqfVolumeScanner = $wall_detector
+onready var _floorDetector:ZqfVolumeScanner = $floor_detector
 
 var _inputOn:bool = false
 
@@ -291,6 +292,7 @@ func _process(_delta:float) -> void:
 		_motor.nearWall = true
 	else:
 		_motor.nearWall = false
+	_motor.onFloor = (_floorDetector.bodies.size() > 0)
 	
 	_tick_hyper(_delta)
 	_tick_bonus(_delta)
