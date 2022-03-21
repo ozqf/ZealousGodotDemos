@@ -1,10 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/sprites/frames/item_frames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://src/entity.gd" type="Script" id=2]
 [ext_resource path="res://src/barrel_explosive.gd" type="Script" id=3]
 
 [sub_resource type="CylinderShape" id=1]
+radius = 0.5
+height = 1.2
+
+[sub_resource type="CylinderShape" id=2]
 radius = 0.5
 height = 1.2
 
@@ -17,13 +21,23 @@ script = ExtResource( 3 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0 )
 shape = SubResource( 1 )
 
-[node name="Sprite3D" type="AnimatedSprite3D" parent="."]
+[node name="Sprite" type="AnimatedSprite3D" parent="."]
 offset = Vector2( 0, 31 )
 pixel_size = 0.04
-billboard = 2
+billboard = 1
 frames = ExtResource( 1 )
-frame = 115
+animation = "barrel_a"
+frame = 1
+playing = true
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 2 )
 prefabName = "barrel_he"
+
+[node name="safe_placement_area" type="Area" parent="."]
+collision_layer = 32
+collision_mask = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="safe_placement_area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0 )
+shape = SubResource( 2 )

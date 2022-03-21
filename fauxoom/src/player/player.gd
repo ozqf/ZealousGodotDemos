@@ -19,6 +19,7 @@ onready var _aimRay:RayCast = $head/aim_ray_cast
 onready var _laserDot:Spatial = $head/laser_dot
 onready var _wallDetector:ZqfVolumeScanner = $wall_detector
 onready var _floorDetector:ZqfVolumeScanner = $floor_detector
+onready var _throwable:Spatial = $head/throwable_sprite
 
 var _inputOn:bool = false
 
@@ -50,7 +51,8 @@ var _targettingInfo:Dictionary = {
 	yawDegrees = 0,
 	aimPos = Vector3(),
 	noAttackTime = 0.0,
-	health = 100
+	health = 100,
+	throwableTransform = Transform.IDENTITY
 }
 
 func _ready():
@@ -329,6 +331,7 @@ func _process(_delta:float) -> void:
 	_targettingInfo.flatVelocity = _motor.get_flat_velocity()
 	_targettingInfo.noAttackTime = _attack.noAttackTime
 	_targettingInfo.health = _health
+	_targettingInfo.throwableTransform = _throwable.global_transform
 
 	# Write HUD information
 	var t:Transform = _head.transform

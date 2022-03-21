@@ -1110,7 +1110,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4, -8 )
 respawns = true
 
 [node name="barrel_explosive" parent="ents/arena_test" instance=ExtResource( 59 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 4, -10 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 2, 2 )
 
 [node name="gameplay_test" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50 )
