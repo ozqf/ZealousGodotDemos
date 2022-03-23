@@ -41,6 +41,7 @@ var _hyperLevel:int = 0
 var _hyperTime:float = 0
 var _bonus:int = 0
 var _bonusReductionTick:float = 0.0
+var _hyperRegenTick:float = 0.0
 
 var _targettingInfo:Dictionary = {
 	id = Interactions.PLAYER_RESERVED_ID,
@@ -245,7 +246,13 @@ func _tick_hyper(_delta:float) -> void:
 	var keyPressed:bool = Input.is_action_just_pressed("hyper")
 	var cost:int = Interactions.HYPER_ACTIVATE_MINIMUM
 	var duration:float = Interactions.HYPER_DURATION
+	
 	if _hyperLevel <= 0:
+		if _inventory.get_count("rage") < 20:
+			_hyperRegenTick += _delta
+			if _hyperRegenTick >= 1.0 / 1.0:
+				_hyperRegenTick = 0.0
+				_inventory.give_item("rage", 1)
 		if keyPressed && _inventory.get_count("rage") >= cost && _hyperCooldown <= 0:
 			_hyper_on()
 		pass
