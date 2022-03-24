@@ -2,6 +2,9 @@ extends KinematicBody
 
 onready var _sprite:AnimatedSprite3D = $sprite
 onready var _areaShape:CollisionShape = $Area/CollisionShape
+onready var _particles = $particles
+onready var _light = $light
+
 var _ent:Entity
 # move to separate class
 # https://godotengine.org/qa/40827/how-to-declare-a-global-named-enum
@@ -18,6 +21,8 @@ export(int) var quantity:int = 1
 
 export(String) var subType:String = ""
 export(int) var subQuantity:int = 1
+
+export var isImportant:bool = false
 
 var _selfRespawnTick:float = 20
 # export(String) var targetName:String = ""
@@ -37,9 +42,7 @@ func _ready() -> void:
 	# hide editor volume - only on the prefab to
 	# make it easier to select in the editor
 	$editor_volume.hide()
-
-
-
+	
 	add_to_group(Groups.GAME_GROUP_NAME)
 	_spawnState = write_state()
 	var _result = $Area.connect("body_entered", self, "on_body_entered")
@@ -52,6 +55,16 @@ func _ready() -> void:
 func set_settings(settings) -> void:
 	_bRespawns = settings.respawns
 	_respawnTime = settings.selfRespawnTime
+
+func set_important_flag(flag:bool) -> void:
+	isImportant = flag
+	check_important_display_flag(_active)
+
+func check_important_display_flag(flag:bool) -> void:
+	if !isImportant:
+		return
+	_particles.emitting = flag
+	_light.visible = flag
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.pos = ZqfUtils.v3_to_dict(get_parent().global_transform.origin)
@@ -102,7 +115,9 @@ func _set_active(flag:bool) -> void:
 
 	if flag == true:
 		_sprite.modulate = Color.white
+		check_important_display_flag(true)
 	else:
+		check_important_display_flag(false)
 		broadcast_pickup()
 		if _bRespawns:
 			_selfRespawnTick = _respawnTime 
@@ -111,10 +126,12 @@ func _set_active(flag:bool) -> void:
 			get_parent().queue_free()
 
 func _process(_delta:float) -> void:
-	_velocity.y += -20 * _delta
-	_velocity.x *= 0.95
-	_velocity.z *= 0.95
-	_velocity = move_and_slide(_velocity)
+	# movement currently causes some items to jitter
+	# maybe due to ever decreasing x/z...?
+	#_velocity.y += -20 * _delta
+	#_velocity.x *= 0.95
+	#_velocity.z *= 0.95
+	#_velocity = move_and_slide(_velocity)
 	# tick respawn timer
 	if !_active:
 		if _selfRespawnTick <= 0:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/sprites/frames/item_frames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://src/items/item_base.gd" type="Script" id=2]
@@ -16,13 +16,26 @@ size = Vector3( 1, 1, 1 )
 flags_transparent = true
 albedo_color = Color( 1, 0, 0, 0.423529 )
 
+[sub_resource type="SpatialMaterial" id=5]
+flags_unshaded = true
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_color = Color( 0.431373, 1, 0, 1 )
+
+[sub_resource type="QuadMesh" id=6]
+material = SubResource( 5 )
+size = Vector2( 0.1, 0.1 )
+
 [node name="item_base" type="KinematicBody"]
 collision_layer = 32
 script = ExtResource( 2 )
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
+generate_lightmap = false
 offset = Vector2( 0, 32 )
+pixel_size = 0.03
 billboard = 1
 frames = ExtResource( 1 )
 frame = 1
@@ -43,3 +56,22 @@ shape = SubResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 mesh = SubResource( 3 )
 material/0 = SubResource( 4 )
+
+[node name="particles" type="CPUParticles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+emitting = false
+amount = 16
+lifetime = 2.0
+mesh = SubResource( 6 )
+emission_shape = 2
+emission_box_extents = Vector3( 0.5, 0.5, 0.5 )
+direction = Vector3( 0, 1, 0 )
+spread = 14.0
+gravity = Vector3( 0, 6, 0 )
+initial_velocity = 4.0
+
+[node name="light" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+visible = false
+light_color = Color( 0.419608, 1, 0.184314, 1 )
+light_energy = 1.2

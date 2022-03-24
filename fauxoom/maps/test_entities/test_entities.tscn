@@ -830,6 +830,7 @@ isStatic = true
 [node name="item_full_pack" parent="ents/arena_test_2_ents" instance=ExtResource( 17 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -68, 5, 57 )
 respawns = true
+isImportant = true
 
 [node name="item_full_pack2" parent="ents/arena_test_2_ents" instance=ExtResource( 17 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -49, 5, 76 )

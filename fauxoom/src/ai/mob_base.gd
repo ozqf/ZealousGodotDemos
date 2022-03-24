@@ -199,6 +199,9 @@ func teleport(t:Transform) -> void:
 func force_awake() -> void:
 	if _state == MobState.Idle:
 		_state = MobState.Hunting
+	for atk in attacks:
+		if atk.cooldown > 5.0:
+			atk.lastSelectTime = time + atk.cooldown
 	emit_mob_event("alert", -1)
 
 func append_state(_dict:Dictionary) -> void:
