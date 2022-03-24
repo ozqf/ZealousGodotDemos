@@ -434,6 +434,20 @@ func headshot_death() -> void:
 	emit_mob_event("death", -1)
 	_change_state(MobState.Dying)
 
+func _select_damaged_drop_count() -> int:
+	return 1
+	
+func _select_death_drop_count() -> int:
+	if _stats.sizeClass == Enums.EnemyStrengthClass.Fodder:
+		return 1
+	if _stats.sizeClass == Enums.EnemyStrengthClass.Medium:
+		return 3
+	if _stats.sizeClass == Enums.EnemyStrengthClass.Large:
+		return 5
+	if _stats.sizeClass == Enums.EnemyStrengthClass.Boss:
+		return 10
+	return 1
+
 func _spawn_hit_particles(pos:Vector3, _forward:Vector3,  deathHit:bool) -> void:
 	var numParticles = 4
 	var _range:float = 0.15
@@ -506,7 +520,7 @@ func hit(_hitInfo:HitInfo) -> int:
 
 		# spawn drops
 		var dropType:int = Enums.QuickDropType.Rage
-		var dropCount:int = Interactions.MOB_DROP_COUNT
+		var dropCount:int = _select_death_drop_count()
 		if Game.hyperLevel > 0:
 			dropType = Enums.QuickDropType.Health
 		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
@@ -566,7 +580,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		_stunAccumulator += stunDmg
 		# print("Mob stun dmg: " + str(stunDmg) + ". Accumulated " + str(_stunAccumulator) + " vs threshold " + str(_stats.stunThreshold))
 		
-		if _stunAccumulator >= _stats.stunThreshold:
+		if _stunAccumulator >= _stats.stunThreshold || _hitInfo.damageType == Interactions.DAMAGE_TYPE_SAW_PROJECTILE:
 			apply_stun(_hitInfo.direction, _hitInfo.stunOverrideTime)
 		elif _hitInfo.damageType == Interactions.DAMAGE_TYPE_PUNCH:
 			# print("Mob - punch stun")

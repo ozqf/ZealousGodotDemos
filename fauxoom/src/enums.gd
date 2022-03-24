@@ -13,6 +13,13 @@ enum EnemyType {
 	Titan
 }
 
+enum EnemyStrengthClass {
+	Fodder,
+	Medium,
+	Large,
+	Boss
+}
+
 enum ProjectileType {
 	Common,
 	Rocket,

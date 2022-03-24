@@ -8,7 +8,7 @@
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.5, 0.5 )
 
-[node name="MeshInstance" type="MeshInstance"]
+[node name="world_volume_corner" type="MeshInstance"]
 use_in_baked_light = true
 mesh = ExtResource( 1 )
 material/0 = ExtResource( 4 )

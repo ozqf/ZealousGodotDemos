@@ -3,7 +3,8 @@ class_name Player
 
 var _player_hud_status_t = preload("res://src/defs/player_hud_status.gd")
 
-const MAX_HEALTH:int = 100
+const MAX_HEALTH:int = 150
+const MAX_MAIN_HEALTH:int = 100
 
 onready var _ent:Entity = $Entity
 onready var _head:Spatial = $head
@@ -31,7 +32,8 @@ var _recoverTransform:Transform = Transform.IDENTITY
 
 var _godMode:bool = false
 var _dead:bool = false
-var _health:int = MAX_HEALTH
+var _health:int = MAX_MAIN_HEALTH
+var _healthReductionTick:float = 0.0
 var _swayTime:float = 0.0
 var _hudStatus:PlayerHudStatus = null
 var _targetHealthInfo:MobHealthInfo = null
@@ -166,6 +168,10 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		if _tokens.size() == 3:
 			var count = int(_tokens[2])
 			_inventory.give_item(_tokens[1], count)
+	if _txt == "devroom":
+		var ent:Entity = Ents.find_static_entity_by_name("devroom")
+		if ent != null:
+			teleport(ent.get_parent().global_transform)
 	if _txt == "inventory":
 		var txt = _inventory.debug()
 		print(txt)
@@ -248,11 +254,14 @@ func _tick_hyper(_delta:float) -> void:
 	var duration:float = Interactions.HYPER_DURATION
 	
 	if _hyperLevel <= 0:
-		if _inventory.get_count("rage") < 20:
-			_hyperRegenTick += _delta
-			if _hyperRegenTick >= 1.0 / 1.0:
-				_hyperRegenTick = 0.0
-				_inventory.give_item("rage", 1)
+		# frenzy auto regen to given limit
+		# decided against, for now at least. Want to keep better control
+		# of the player's rage access.
+		#if _inventory.get_count("rage") < 20:
+		#	_hyperRegenTick += _delta
+		#	if _hyperRegenTick >= 1.0 / 1.0:
+		#		_hyperRegenTick = 0.0
+		#		_inventory.give_item("rage", 1)
 		if keyPressed && _inventory.get_count("rage") >= cost && _hyperCooldown <= 0:
 			_hyper_on()
 		pass
@@ -302,6 +311,13 @@ func _process(_delta:float) -> void:
 	else:
 		_motor.nearWall = false
 	_motor.onFloor = (_floorDetector.bodies.size() > 0)
+
+	# tick down excess health
+	if _health > MAX_MAIN_HEALTH:
+		_healthReductionTick -= _delta
+		if _healthReductionTick <= 0.0:
+			_health -= 1
+			_healthReductionTick = 1.0
 	
 	_tick_hyper(_delta)
 	_tick_bonus(_delta)
@@ -386,16 +402,28 @@ func _process(_delta:float) -> void:
 	var fn = Groups.PLAYER_FN_STATUS
 	get_tree().call_group(grp, fn, _hudStatus)
 
+func _try_give_health(amount:int, limit:int) -> int:
+	if _health >= limit:
+		return 0
+	_health += amount
+	if _health > limit:
+		_health = limit
+	return amount
+
 # returns amount taken
 func give_item(itemType:String, amount:int) -> int:
 	# is this something this class is interested in?
 	if itemType == "health":
-		if _health >= MAX_HEALTH:
-			return 0
-		_health += amount
-		if _health > MAX_HEALTH:
-			_health = MAX_HEALTH
-		return amount
+		return _try_give_health(amount, MAX_MAIN_HEALTH)
+		#if _health >= MAX_MAIN_HEALTH:
+		#	return 0
+		#_health += amount
+		#if _health > MAX_MAIN_HEALTH:
+		#	_health = MAX_MAIN_HEALTH
+		#return amount
+	elif itemType == "health_bonus":
+		return _try_give_health(amount, MAX_HEALTH)
+
 	
 	# we always take bonuses
 	if itemType == "bonus":

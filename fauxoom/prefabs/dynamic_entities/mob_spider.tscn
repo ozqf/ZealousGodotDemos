@@ -86,6 +86,7 @@ moveSpeed = 3.0
 evadeSpeed = 0.0
 stunTime = 0.5
 stunThreshold = 200
+sizeClass = 1
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )

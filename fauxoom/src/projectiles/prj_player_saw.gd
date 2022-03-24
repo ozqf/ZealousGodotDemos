@@ -24,7 +24,7 @@ func _ready() -> void:
 	visible = false
 	_hitInfo = Game.new_hit_info()
 	_hitInfo.damage = 15
-	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SAW
+	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SAW_PROJECTILE
 	_sparks1.emitting = false
 	_sparks2.emitting = false
 
@@ -182,6 +182,7 @@ func _physics_process(_delta):
 		return
 	
 	_hitInfo.stunOverrideTime = _calc_stun_time()
+	_hitInfo.stunOverrideDamage = int(revs)
 	# tick
 	if _state == State.Thrown:
 		spin_display(_delta)

@@ -51,13 +51,15 @@ func launch(pos:Vector3, dropType:int) -> void:
 	velocity.z += rand_range(-5, 5)
 	linear_velocity = velocity
 	
-	if dropType == Enums.QuickDropType.Health:
-		var plyr:Dictionary = AI.get_player_target()
-		if plyr.id != 0 && plyr.health >= 100:
-			print("Convert to minor bonus")
-			dropType = Enums.QuickDropType.Bonus
-		else:
-			print("Cannot convert to minor bonus")
+	# converts excess health to 'bonus' items.
+	# not sure what I want to do with them though
+	#if dropType == Enums.QuickDropType.Health:
+	#	var plyr:Dictionary = AI.get_player_target()
+	#	if plyr.id != 0 && plyr.health >= 100:
+	#		print("Convert to minor bonus")
+	#		dropType = Enums.QuickDropType.Bonus
+	#	else:
+	#		print("Cannot convert to minor bonus")
 	
 	_type = dropType
 	if _type == Enums.QuickDropType.Rage:
@@ -77,7 +79,7 @@ func _give_check() -> bool:
 	if _type == Enums.QuickDropType.Rage:
 		return AI.give_to_player("rage", 2) == 0
 	if _type == Enums.QuickDropType.Health:
-		return AI.give_to_player("health", 4) == 0
+		return AI.give_to_player("health_bonus", 4) == 0
 	else:
 		return AI.give_to_player("bonus", 1) == 0
 

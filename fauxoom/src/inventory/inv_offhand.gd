@@ -3,7 +3,7 @@ extends InvWeapon
 export var punchScanRange:float = 2
 export var regularDamage:int = 25
 export var superDamage:int = 200
-export var superCost:int = 25
+export var superCost:int = 20
 
 var _charging:bool = false
 var _chargeTick:float = 0.0
@@ -60,7 +60,7 @@ func _punch(forward:Vector3, scanRange:float) -> Vector3:
 func offhand_punch(_weight:float) -> void:
 	# print("Punch weight time: " + str(_weight))
 	var count:int = _inventory.get_count("rage")
-	if _launchNode.rotation_degrees.x < -75 && count >= superCost:
+	if _launchNode.rotation_degrees.x < -65 && count >= superCost:
 		var result:Dictionary = ZqfUtils.quick_hitscan3D(_launchNode, 12, ZqfUtils.EMPTY_ARRAY, Interactions.WORLD)
 		if result:
 			print("Slam!")
