@@ -74,7 +74,9 @@ func _ready() -> void:
 	add_to_group(Config.GROUP)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
-	set_input_off()
+	# off - open main menu
+	#set_input_off()
+	set_input_on()
 	
 	if OS.has_feature("JavaScript"):
 		print("JS available")
@@ -244,7 +246,9 @@ func _web_mode() -> bool:
 	return (OS.get_name() == "HTML5")
 
 func debug_mode() -> bool:
-	return !OS.has_feature("standalone")
+	return true
+	# use this to disable the debugger in proper builds
+	#return !OS.has_feature("standalone")
 
 func get_input_on() -> bool:
 	return _inputOn

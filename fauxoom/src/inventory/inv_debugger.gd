@@ -69,7 +69,9 @@ func _fire_spike_line() -> void:
 		# prj.launch_prj(p, -t.basis.z, 0, Interactions.TEAM_PLAYER, Interactions.get_player_prj_mask())
 
 func read_input(_weaponInput:WeaponInput) -> void:
+	#print("Debugger - read input")
 	if tick > 0:
+		#print("Debugger - ticking")
 		return
 	var mode = Game.debuggerMode
 	if _weaponInput.primaryOn:

@@ -57,14 +57,13 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -268.0
+margin_top = -284.0
 margin_right = 512.0
 margin_bottom = 212.0
 custom_fonts/font = ExtResource( 6 )
-text = "Fauxoom prototype - default controls
-WASD - move
-Space - jump
-Shift - dash
+text = "Fauxoom Prototype - Default Controls
+Escape - Toggle menu
+WASD/Space/Shift - move/jump/dash
 Mouse 1/2 - shoot primary/secondary
 1-6 - select weapons
 E - melee/use

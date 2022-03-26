@@ -16,6 +16,7 @@ var _actions = [
 	{ tag = "move_special", label = "Move Special" },
 	{ tag = "attack_1", label = "Attack" },
 	{ tag = "interact", label = "Interact/Use" },
+	{ tag = "hyper", label = "Rage Toggle" },
 	{ tag = "slot_1", label = "Select slot 1" },
 	{ tag = "slot_2", label = "Select slot 2" },
 	{ tag = "slot_3", label = "Select slot 3" },
