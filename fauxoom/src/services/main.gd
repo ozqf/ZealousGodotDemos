@@ -97,6 +97,17 @@ func _ready() -> void:
 	else:
 		print("JS not available")
 
+func exec_command(txt:String) -> void:
+	if txt == null || txt == "":
+		return
+	var tokens = ZqfUtils.tokenise(txt)
+	if tokens.size() == 0:
+		return
+	get_tree().call_group(
+		Groups.CONSOLE_GROUP_NAME,
+		Groups.CONSOLE_FN_EXEC,
+		txt, tokens)
+
 func _process(_delta) -> void:
 
 	_debugTextNW.text = "FPS: " + str(Engine.get_frames_per_second()) + "\n"

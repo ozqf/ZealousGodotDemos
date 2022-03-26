@@ -240,8 +240,8 @@ script = ExtResource( 22 )
 hudName = "Debugger"
 inventoryType = "debugger"
 refireTime = 0.1
-idle = "hand_idle"
-fire_1 = "hand_idle"
+idle = "dev_tool_idle"
+fire_1 = "dev_tool_idle"
 
 [node name="ammo" type="Node" parent="inventory"]
 

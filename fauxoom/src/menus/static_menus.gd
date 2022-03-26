@@ -27,6 +27,7 @@ func _ready() -> void:
 	_f = $root_menu/VBoxContainer/resume.connect("pressed", self, "_on_back_to_game")
 	_f = $root_menu/VBoxContainer/custom_maps.connect("pressed", self, "_on_goto_custom")
 	_f = $root_menu/VBoxContainer/restart.connect("pressed", self, "_on_restart")
+	_f = $root_menu/VBoxContainer/return_to_title.connect("pressed", self, "_on_goto_title")
 	_f = $root_menu/VBoxContainer/load_checkpoint.connect("pressed", self, "_on_load_checkpoint")
 	_f = $root_menu/VBoxContainer/options.connect("pressed", self, "_on_goto_options")
 	_f = $root_menu/VBoxContainer/binds.connect("pressed", self, "_on_goto_binds")
@@ -42,6 +43,11 @@ func _ready() -> void:
 
 	if OS.get_name() == "HTML5":
 		$root_menu/VBoxContainer/quit.visible = false
+
+func _on_goto_title() -> void:
+	Main.set_input_on()
+	Main.exec_command("map title")
+	pass
 
 func _on_goto_embedded() -> void:
 	_change_menu(MenuPage.EmbeddedMaps)

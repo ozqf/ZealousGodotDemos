@@ -459,7 +459,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Fauxoom"
-run/main_scene="res://maps/test_arena/test_arena.tscn"
+run/main_scene="res://maps/title/title.tscn"
 config/icon="res://icon.png"
 
 [autoload]

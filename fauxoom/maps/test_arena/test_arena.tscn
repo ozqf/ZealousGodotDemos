@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/static_entities/player_start.tscn" type="PackedScene" id=2]
@@ -23,10 +23,17 @@
 [ext_resource path="res://prefabs/static_entities/player_barrier_volume.tscn" type="PackedScene" id=21]
 [ext_resource path="res://prefabs/items/item_full_rage.tscn" type="PackedScene" id=22]
 [ext_resource path="res://prefabs/static_entities/info_point_entity.tscn" type="PackedScene" id=23]
+[ext_resource path="res://src/spawning/arena_controller.gd" type="Script" id=24]
+[ext_resource path="res://src/entity.gd" type="Script" id=25]
+[ext_resource path="res://prefabs/static_entities/info_deadline_controller.tscn" type="PackedScene" id=26]
+[ext_resource path="res://prefabs/world_inert/corridor_right_angle.tscn" type="PackedScene" id=27]
+[ext_resource path="res://prefabs/static_entities/teleport_destination.tscn" type="PackedScene" id=28]
+[ext_resource path="res://prefabs/world_inert/corridor.tscn" type="PackedScene" id=29]
+[ext_resource path="res://prefabs/static_entities/trigger_volume.tscn" type="PackedScene" id=30]
 
 [sub_resource type="NavigationMesh" id=1]
-vertices = PoolVector3Array( 8.9, 2, 8.5, 10.1, 1.6, 8.8, 10.1, 2.4, 7.6, 8.6, 2.4, 5.2, 39.2, 2.2, 23.5, 37.7, 1.6, 23.2, 37.7, 2.4, 24.4, 39.5, 2.4, 26.8, 10.1, 2.4, 24.4, 10.1, 1.6, 23.2, 8.6, 2.2, 23.2, 8.9, 2.4, 26.5, 39.5, 2.2, 8.8, 39.2, 2.4, 5.5, 37.7, 2.4, 7.6, 37.7, 1.6, 8.8, 12.2, 2.4, 0.700001, 0.8, 2.4, 0.700001, 5.3, 2.4, 5.5, 8.6, 2.4, 5.2, 11.3, 0.4, 19.3, 11.3, 1.2, 20.5, 17, 0.4, 23.2, 14.15, 0.4, 21.25, 12.725, 0.8, 20.275, 14.15, 0.4, 21.85, 35.6, 2.4, 31.3, 39.5, 2.4, 26.8, 37.7, 2.4, 24.4, 25.7, 2.4, 24.4, 25.4, 2.4, 26.8, 11.3, 1.2, 20.5, 10.1, 1.6, 23.2, 17, 0.4, 23.2, 14.15, 0.4, 21.85, 13.55, 0.4, 23.2, 8.9, 2, 8.5, 5.6, 2.4, 8.8, 7.7, 2.4, 11.8, 11.3, 1.2, 11.5, 10.1, 1.6, 8.8, 42.5, 2.4, 23.2, 47.3, 2.4, 23.5, 47.3, 2.4, 16, 30.8, 0.4, 23.2, 36.5, 1.2, 20.5, 36.5, 0.4, 19.3, 35.075, 0.8, 20.275, 33.65, 0.4, 21.25, 33.65, 0.4, 21.85, 39.5, 2.2, 8.8, 37.7, 1.6, 8.8, 36.5, 1.2, 11.5, 40.4, 2.4, 11.8, 47.3, 2.4, 16, 47.3, 2.4, 8.2, 42.8, 2.4, 8.5, 40.4, 2.4, 11.8, 40.4, 2.4, 20.2, 42.8, 2.4, 8.5, 39.5, 2.2, 8.8, 40.4, 2.4, 11.8, 37.7, 1.6, 23.2, 39.2, 2.2, 23.5, 42.5, 2.4, 23.2, 47.3, 2.4, 16, 40.4, 2.4, 20.2, 0.8, 2.4, 8.2, 5.6, 2.4, 8.8, 5.3, 2.4, 5.5, 0.8, 2.4, 0.700001, 5.6, 2.4, 26.8, 5.3, 2.4, 23.5, 0.8, 2.4, 23.5, 0.8, 2.4, 31.3, 36.5, 1.2, 11.5, 37.7, 1.6, 8.8, 30.8, 0.4, 8.8, 33.65, 0.4, 10.15, 34.25, 0.4, 8.8, 17, 0.4, 8.8, 10.1, 1.6, 8.8, 11.3, 1.2, 11.5, 14.15, 0.4, 10.15, 13.55, 0.4, 8.8, 36.5, 0.4, 19.3, 36.5, 0.4, 12.7, 30.8, 0.4, 8.8, 23.9, 0.4, 8.8, 23.9, 0.4, 23.2, 30.8, 0.4, 23.2, 33.65, 0.4, 21.25, 35.075, 0.8, 20.275, 35.075, 0.8, 11.725, 33.65, 0.4, 10.75, 35.0124, 0.4, 19.0187, 34.9762, 0.4, 13.6214, 23.9, 2.4, 31.3, 35.6, 2.4, 31.3, 25.4, 2.4, 26.8, 22.7, 2.4, 26.8, 36.5, 0.4, 12.7, 36.5, 1.2, 11.5, 30.8, 0.4, 8.8, 33.65, 0.4, 10.75, 35.075, 0.8, 11.725, 33.65, 0.4, 10.15, 17, 0.4, 8.8, 11.3, 1.2, 11.5, 11.3, 0.4, 12.7, 12.725, 0.8, 11.725, 14.15, 0.4, 10.75, 14.15, 0.4, 10.15, 22.7, 2.4, 26.8, 22.4, 2.4, 24.4, 16.1, 2.4, 24.4, 16.1, 2.4, 7.6, 22.4, 2.4, 7.6, 22.7, 2.4, 5.2, 11.3, 0.4, 12.7, 8.9, 0.4, 12.7, 8.9, 0.4, 19.3, 11.3, 0.4, 19.3, 17, 0.4, 8.8, 11.3, 0.4, 12.7, 11.3, 0.4, 19.3, 17, 0.4, 23.2, 23.9, 0.4, 23.2, 23.9, 0.4, 8.8, 14.15, 0.4, 10.75, 12.725, 0.8, 11.725, 12.725, 0.8, 20.275, 14.15, 0.4, 21.25, 13.3881, 0.4, 13.6287, 36.5, 0.4, 19.3, 39.2, 0.4, 19.3, 39.2, 0.4, 12.7, 36.5, 0.4, 12.7, 36.5, 1.2, 20.5, 30.8, 0.4, 23.2, 37.7, 1.6, 23.2, 40.4, 2.4, 20.2, 33.65, 0.4, 21.85, 34.25, 0.4, 23.2, 16.1, 2.4, 24.4, 10.1, 2.4, 24.4, 8.9, 2.4, 26.5, 12.2, 2.4, 31.3, 23.9, 2.4, 31.3, 22.7, 2.4, 26.8, 7.7, 2.4, 11.8, 5.6, 2.4, 8.8, 0.8, 2.4, 8.2, 0.8, 2.4, 16, 7.7, 2.4, 20.2, 0.8, 2.4, 23.5, 5.3, 2.4, 23.5, 8.6, 2.2, 23.2, 7.7, 2.4, 20.2, 0.8, 2.4, 16, 8.6, 2.4, 5.2, 10.1, 2.4, 7.6, 16.1, 2.4, 7.6, 22.7, 2.4, 5.2, 23.9, 2.4, 0.700001, 12.2, 2.4, 0.700001, 5.6, 2.4, 26.8, 0.8, 2.4, 31.3, 12.2, 2.4, 31.3, 8.9, 2.4, 26.5, 42.5, 2.4, 5.2, 47.3, 2.4, 0.700001, 35.6, 2.4, 0.700001, 39.2, 2.4, 5.5, 42.8, 2.4, 26.5, 39.5, 2.4, 26.8, 35.6, 2.4, 31.3, 47.3, 2.4, 31.3, 42.8, 2.4, 26.5, 47.3, 2.4, 31.3, 47.3, 2.4, 23.5, 42.5, 2.4, 23.2, 37.7, 2.4, 7.6, 39.2, 2.4, 5.5, 35.6, 2.4, 0.700001, 25.4, 2.4, 5.2, 25.7, 2.4, 7.6, 47.3, 2.4, 8.2, 47.3, 2.4, 0.700001, 42.5, 2.4, 5.2, 42.8, 2.4, 8.5, 25.4, 2.4, 5.2, 35.6, 2.4, 0.700001, 23.9, 2.4, 0.700001, 22.7, 2.4, 5.2, 11.3, 1.2, 20.5, 7.7, 2.4, 20.2, 8.6, 2.2, 23.2, 10.1, 1.6, 23.2 )
-polygons = [ PoolIntArray( 1, 0, 2 ), PoolIntArray( 2, 0, 3 ), PoolIntArray( 5, 4, 6 ), PoolIntArray( 6, 4, 7 ), PoolIntArray( 9, 8, 10 ), PoolIntArray( 10, 8, 11 ), PoolIntArray( 15, 14, 12 ), PoolIntArray( 12, 14, 13 ), PoolIntArray( 19, 18, 16 ), PoolIntArray( 16, 18, 17 ), PoolIntArray( 20, 24, 21 ), PoolIntArray( 21, 24, 23 ), PoolIntArray( 21, 23, 25 ), PoolIntArray( 25, 23, 22 ), PoolIntArray( 27, 26, 28 ), PoolIntArray( 28, 26, 30 ), PoolIntArray( 28, 30, 29 ), PoolIntArray( 33, 35, 34 ), PoolIntArray( 34, 35, 31 ), PoolIntArray( 31, 35, 32 ), PoolIntArray( 40, 39, 36 ), PoolIntArray( 36, 39, 38 ), PoolIntArray( 36, 38, 37 ), PoolIntArray( 43, 42, 41 ), PoolIntArray( 46, 45, 47 ), PoolIntArray( 47, 45, 48 ), PoolIntArray( 48, 45, 49 ), PoolIntArray( 48, 49, 44 ), PoolIntArray( 51, 50, 52 ), PoolIntArray( 52, 50, 53 ), PoolIntArray( 56, 55, 57 ), PoolIntArray( 57, 55, 54 ), PoolIntArray( 57, 54, 58 ), PoolIntArray( 61, 60, 59 ), PoolIntArray( 62, 66, 63 ), PoolIntArray( 63, 66, 64 ), PoolIntArray( 64, 66, 65 ), PoolIntArray( 68, 67, 69 ), PoolIntArray( 69, 67, 70 ), PoolIntArray( 72, 71, 73 ), PoolIntArray( 73, 71, 74 ), PoolIntArray( 77, 79, 78 ), PoolIntArray( 78, 79, 75 ), PoolIntArray( 75, 79, 76 ), PoolIntArray( 80, 83, 84 ), PoolIntArray( 84, 83, 82 ), PoolIntArray( 84, 82, 81 ), PoolIntArray( 89, 96, 90 ), PoolIntArray( 90, 95, 91 ), PoolIntArray( 91, 95, 92 ), PoolIntArray( 92, 95, 85 ), PoolIntArray( 85, 96, 86 ), PoolIntArray( 86, 96, 93 ), PoolIntArray( 93, 96, 94 ), PoolIntArray( 94, 96, 87 ), PoolIntArray( 87, 96, 88 ), PoolIntArray( 88, 96, 89 ), PoolIntArray( 96, 95, 90 ), PoolIntArray( 95, 96, 85 ), PoolIntArray( 100, 99, 97 ), PoolIntArray( 97, 99, 98 ), PoolIntArray( 101, 105, 102 ), PoolIntArray( 102, 105, 104 ), PoolIntArray( 102, 104, 106 ), PoolIntArray( 106, 104, 103 ), PoolIntArray( 109, 108, 110 ), PoolIntArray( 110, 108, 111 ), PoolIntArray( 111, 108, 112 ), PoolIntArray( 111, 112, 107 ), PoolIntArray( 115, 114, 113 ), PoolIntArray( 116, 118, 117 ), PoolIntArray( 122, 121, 119 ), PoolIntArray( 119, 121, 120 ), PoolIntArray( 127, 133, 128 ), PoolIntArray( 128, 133, 123 ), PoolIntArray( 123, 133, 129 ), PoolIntArray( 129, 133, 130 ), PoolIntArray( 130, 133, 124 ), PoolIntArray( 124, 133, 125 ), PoolIntArray( 125, 133, 131 ), PoolIntArray( 131, 133, 132 ), PoolIntArray( 132, 133, 126 ), PoolIntArray( 126, 133, 127 ), PoolIntArray( 137, 136, 134 ), PoolIntArray( 134, 136, 135 ), PoolIntArray( 139, 142, 143 ), PoolIntArray( 143, 142, 138 ), PoolIntArray( 143, 138, 140 ), PoolIntArray( 140, 138, 141 ), PoolIntArray( 146, 145, 147 ), PoolIntArray( 147, 145, 144 ), PoolIntArray( 147, 144, 149 ), PoolIntArray( 147, 149, 148 ), PoolIntArray( 151, 150, 152 ), PoolIntArray( 152, 150, 153 ), PoolIntArray( 153, 150, 154 ), PoolIntArray( 157, 156, 158 ), PoolIntArray( 158, 156, 155 ), PoolIntArray( 158, 155, 159 ), PoolIntArray( 160, 165, 161 ), PoolIntArray( 161, 165, 162 ), PoolIntArray( 162, 165, 163 ), PoolIntArray( 163, 165, 164 ), PoolIntArray( 169, 168, 166 ), PoolIntArray( 166, 168, 167 ), PoolIntArray( 173, 172, 170 ), PoolIntArray( 170, 172, 171 ), PoolIntArray( 175, 174, 176 ), PoolIntArray( 176, 174, 177 ), PoolIntArray( 181, 180, 178 ), PoolIntArray( 178, 180, 179 ), PoolIntArray( 183, 182, 184 ), PoolIntArray( 184, 182, 185 ), PoolIntArray( 185, 182, 186 ), PoolIntArray( 190, 189, 187 ), PoolIntArray( 187, 189, 188 ), PoolIntArray( 194, 193, 191 ), PoolIntArray( 191, 193, 192 ), PoolIntArray( 198, 197, 195 ), PoolIntArray( 195, 197, 196 ) ]
+vertices = PoolVector3Array( 18.4, 1.4, -49.6, 18.4, 1.4, -54.1, 10.6, 1.4, -54.1, 10, 1.4, -49.6, 10.3, 1.4, -57.4, 10, 1.4, -62.2, 1.9, 1.4, -62.2, 1.9, 1.4, -55.9, 10, 1.4, -49.6, 10.6, 1.4, -54.1, 10.3, 1.4, -57.4, 1.9, 1.4, -55.9, 1.9, 1.4, -49.6, 10.3, 1.4, -57.4, 18.4, 1.4, -57.7, 18.4, 1.4, -62.2, 10, 1.4, -62.2, 11.5, 9.4, -56.5, 11.5, 9.4, -55.6, 19.6, 9.4, -55.3, 19.6, 9.4, -56.8, 8.8, 2.2, 8.60001, 10.3, 1.6, 8.9, 10.3, 2.4, 7.7, 8.50001, 2.4, 5.3, 39.4, 2.2, 23.6, 37.6, 1.6, 23.3, 37.6, 2.4, 24.5, 39.7, 2.4, 26.9, 10.3, 2.4, 24.5, 10.3, 1.6, 23.3, 8.50001, 2.2, 23.3, 8.8, 2.4, 26.6, 39.7, 2.4, 8.9, 39.4, 2.4, 5.60001, 37.6, 2.4, 7.7, 37.6, 1.6, 8.9, 37.6, 2.4, 24.5, 25.9, 2.4, 24.5, 25.9, 2.4, 26.3, 35.5, 2.4, 31.4, 39.7, 2.4, 26.9, 16.9, 0.4, 8.9, 11.5, 0.4, 12.8, 11.5, 0.4, 19.4, 16.9, 0.4, 23.3, 23.8, 0.4, 23.3, 23.8, 0.4, 8.9, 14.2, 0.4, 10.85, 12.85, 0.8, 11.825, 12.85, 0.8, 20.375, 14.2, 0.4, 21.35, 42.4, 2.4, 5.3, 47.2, 2.4, 0.800003, 35.5, 2.4, 0.800003, 39.4, 2.4, 5.60001, 12.1, 2.4, 0.800003, 8.50001, 2.4, 5.3, 10.3, 2.4, 7.7, 22.3, 2.4, 7.7, 22.6, 2.4, 5.3, 8.8, 2.2, 8.60001, 5.50001, 2.4, 8.9, 7.60001, 2.4, 11.9, 11.5, 1.2, 11.6, 10.3, 1.6, 8.9, 36.4, 0.4, 19.4, 36.4, 0.4, 12.8, 30.7, 0.4, 8.9, 23.8, 0.4, 8.9, 23.8, 0.4, 23.3, 30.7, 0.4, 23.3, 33.55, 0.4, 21.35, 34.975, 0.8, 20.375, 34.975, 0.8, 11.825, 33.55, 0.4, 10.85, 35.1881, 0.4, 13.4287, 35.2244, 0.4, 18.826, 36.4, 1.2, 20.6, 30.7, 0.4, 23.3, 37.6, 1.6, 23.3, 40.6, 2.4, 20.3, 33.55, 0.4, 21.95, 34.15, 0.4, 23.3, 37.6, 1.6, 8.9, 36.4, 1.2, 11.6, 40.6, 2.4, 11.9, 39.7, 2.4, 8.9, 42.7, 2.4, 8.60001, 40.6, 2.4, 11.9, 40.6, 2.4, 20.3, 47.2, 2.4, 16.1, 47.2, 2.4, 8.3, 42.7, 2.4, 8.60001, 39.7, 2.4, 8.9, 40.6, 2.4, 11.9, 37.6, 1.6, 23.3, 39.4, 2.2, 23.6, 42.4, 2.4, 23.3, 47.2, 2.4, 16.1, 40.6, 2.4, 20.3, 0.700005, 2.4, 8.3, 5.50001, 2.4, 8.9, 5.2, 2.4, 5.60001, 0.700005, 2.4, 0.800003, 5.50001, 2.4, 26.9, 5.2, 2.4, 23.6, 0.700005, 2.4, 23.6, 0.700005, 2.4, 31.4, 16.9, 0.4, 8.9, 10.3, 1.6, 8.9, 11.5, 1.2, 11.6, 14.2, 0.4, 10.25, 13.6, 0.4, 8.9, 36.4, 1.2, 11.6, 37.6, 1.6, 8.9, 30.7, 0.4, 8.9, 33.55, 0.4, 10.25, 34.15, 0.4, 8.9, 47.2, 2.4, 8.3, 47.2, 2.4, 0.800003, 42.4, 2.4, 5.3, 42.7, 2.4, 8.60001, 23.8, 2.4, 31.4, 25.3, 2.4, 26.9, 22.6, 2.4, 26.9, 12.1, 2.4, 31.4, 16.9, 0.4, 8.9, 11.5, 1.2, 11.6, 11.5, 0.4, 12.8, 12.85, 0.8, 11.825, 14.2, 0.4, 10.85, 14.2, 0.4, 10.25, 36.4, 0.4, 12.8, 36.4, 1.2, 11.6, 30.7, 0.4, 8.9, 33.55, 0.4, 10.85, 34.975, 0.8, 11.825, 33.55, 0.4, 10.25, 11.5, 0.4, 12.8, 8.8, 0.4, 12.8, 8.8, 0.4, 19.4, 11.5, 0.4, 19.4, 42.4, 2.4, 23.3, 47.2, 2.4, 23.6, 47.2, 2.4, 16.1, 36.4, 0.4, 19.4, 39.4, 0.4, 19.4, 39.4, 0.4, 12.8, 36.4, 0.4, 12.8, 42.7, 2.4, 26.6, 39.7, 2.4, 26.9, 35.5, 2.4, 31.4, 47.2, 2.4, 31.4, 7.60001, 2.4, 11.9, 5.50001, 2.4, 8.9, 0.700005, 2.4, 8.3, 0.700005, 2.4, 16.1, 7.60001, 2.4, 20.3, 0.700005, 2.4, 23.6, 5.2, 2.4, 23.6, 8.50001, 2.2, 23.3, 7.60001, 2.4, 20.3, 0.700005, 2.4, 16.1, 5.50001, 2.4, 26.9, 0.700005, 2.4, 31.4, 12.1, 2.4, 31.4, 8.8, 2.4, 26.6, 30.7, 0.4, 23.3, 36.4, 1.2, 20.6, 36.4, 0.4, 19.4, 34.975, 0.8, 20.375, 33.55, 0.4, 21.35, 33.55, 0.4, 21.95, 10.3, 2.4, 24.5, 8.8, 2.4, 26.6, 12.1, 2.4, 31.4, 22.6, 2.4, 26.9, 22.3, 2.4, 24.5, 23.8, 2.4, 0.800003, 22.6, 2.4, 5.3, 25.6, 2.4, 5.3, 35.5, 2.4, 0.800003, 37.6, 2.4, 7.7, 39.4, 2.4, 5.60001, 35.5, 2.4, 0.800003, 25.6, 2.4, 5.3, 25.9, 2.4, 7.7, 23.8, 2.4, 0.800003, 12.1, 2.4, 0.800003, 22.6, 2.4, 5.3, 25.9, 2.4, 26.3, 25.3, 2.4, 26.9, 23.8, 2.4, 31.4, 35.5, 2.4, 31.4, 11.5, 1.2, 20.6, 7.60001, 2.4, 20.3, 8.50001, 2.2, 23.3, 10.3, 1.6, 23.3, 42.7, 2.4, 26.6, 47.2, 2.4, 31.4, 47.2, 2.4, 23.6, 42.4, 2.4, 23.3, 11.5, 1.2, 20.6, 10.3, 1.6, 23.3, 16.9, 0.4, 23.3, 14.2, 0.4, 21.95, 13.6, 0.4, 23.3, 11.5, 0.4, 19.4, 11.5, 1.2, 20.6, 16.9, 0.4, 23.3, 14.2, 0.4, 21.35, 12.85, 0.8, 20.375, 14.2, 0.4, 21.95, 12.1, 2.4, 0.800003, 0.700005, 2.4, 0.800003, 5.2, 2.4, 5.60001, 8.50001, 2.4, 5.3, -95.6, 13.4, 38, -94.1, 13.4, 37.7, -94.1, 13.4, 37.1, -97.4, 13.4, 37.4, -97.4, 13.2, 38.3, -96.5, 13.2, 38.15, -98.6, 12.4, 38.3, -98.3, 12.4, 36.2, -106.4, 12.4, 40.4, -97.4, 13.2, 38.3, -98.6, 12.4, 38.3, -106.4, 12.4, 40.4, -98.3, 12.4, 36.2, -95.6, 12.4, 36.2, -95.6, 12.4, 31.7, -98.3, 12.4, 36.2, -95.6, 12.4, 31.7, -106.4, 12.4, 31.4, -106.4, 12.4, 40.4, -95.6, 13.4, 38, -97.4, 13.2, 38.3, -106.4, 12.4, 40.4, -106.4, 12.4, 49.4, -95.6, 12.4, 49.4, -95.6, 12.4, 39.6286, -96.5, 13.2, 38.15, -89, 5.4, 41.9, -89, 5.4, 41.3, -89.6, 5.4, 41.3, -89.6, 5.4, 45.5, -76.7, 3.4, 77.3, -72.5, 2.2, 74.6, -83.6, 3.4, 74.6, -86.3, 3.4, 77.3, -75.3, 3.4, 76.4, -74.0857, 3, 74.6, -75.6714, 3.4, 74.6, -82.1, 1.4, 68.9, -82.1, 1.4, 72.2, -81.2, 1.4, 72.5, -77.3, 1.4, 68.9, -65.3, 1.4, 70.7, -65.6, 1.4, 68.9, -68.6, 1.4, 68.9, -72.5, 1.4, 73.4, -72.5, 2.2, 74.6, -67.1, 1.4, 77.3, -71.15, 1.4, 75.275, -85.7, 3.4, 34.7, -79.4, 4.8, 34.4, -82.1, 3.4, 31.7, -93.2, 3.4, 31.7, -82.55, 3.4, 34.55, -80.975, 3.8, 34.475, -86.3, 5.4, 54.5, -83.6, 5.4, 59.9, -83.6, 5.4, 56.3, -78.5, 1.4, 42.8, -82.7, 1.2, 45.8, -82.1, 1.2, 47.3, -77.3, 1.4, 47.3, -72.2, 1.4, 42.8, -79.4, 5.4, 35.6, -83.6, 5.4, 35.9, -77.9, 5.4, 41.3, -77.3, 1.4, 68.9, -81.2, 1.4, 72.5, -81.2, 1.4, 73.4, -72.5, 1.4, 73.4, -68.6, 1.4, 68.9, -83.6, 5.4, 47, -89, 5.4, 41.9, -89.6, 5.4, 45.5, -85.7, 3.4, 35.6, -89, 3.4, 39.5, -82.7, 1.2, 45.8, -78.5, 1.4, 42.8, -82.1, 1.4, 39.2, -86.48, 1.8, 42.02, -86.3, 4, 65.9, -83.3, 3.4, 67.1, -83.6, 5.4, 59.9, -86.3, 5.4, 54.5, -86.3, 5.4, 62.6429, -83.48, 5.4, 62.78, -52.7, 1.4, 43.4, -52.7, 1.4, 42.8, -59.3, 1.4, 42.8, -86.3, 4, 65.9, -86.3, 3.4, 77.3, -83.6, 3.4, 74.6, -83.3, 3.4, 67.1, -86.3, 3.4, 67.5286, -79.4, 4.8, 34.4, -79.4, 5.4, 35.6, -77.9, 5.4, 41.3, -70.4, 5.4, 38.9, -70.7, 5.4, 31.7, -77.95, 5.4, 33.95, -83.6, 5.4, 47, -89.6, 5.4, 45.5, -90.8, 4.8, 45.5, -93.2, 5.4, 54.2, -86.3, 5.4, 54.5, -91.2, 5.4, 46.95, -56.6, 1.4, 47.3, -51.8, 1.4, 43.7, -52.7, 1.4, 43.4, -59.3, 1.4, 42.8, -65.6, 1.4, 42.8, -67.1, 1.4, 47.3, -68, 5.4, 59.6, -65.6, 5.4, 56.9, -75.5, 5.4, 56.9, -77.3, 5.4, 59.3, -51.8, 1.4, 52.4, -56.6, 1.4, 56.9, -47.6, 1.4, 56.9, -50.6, 2.2, 52.4, -49.1, 1.4, 54.65, -77.3, 5.4, 59.3, -75.5, 5.4, 56.9, -83.6, 5.4, 56.3, -83.6, 5.4, 59.9, -93.2, 3.4, 42.8, -90.8, 4.8, 45.5, -90.8, 3.4, 39.5, -93.2, 3.4, 31.7, -90.8, 3.4, 42.5, -93.2, 3.4, 42.8, -93.2, 5.4, 54.2, -90.8, 4.8, 45.5, -93.2, 5.4, 47.6857, -91.2, 5.4, 46.95, -47.6, 3.4, 38.9, -59, 3.4, 38.9, -52.4, 3.4, 41.3, -50.3, 3.4, 41.6, -85.7, 3.4, 35.6, -85.7, 3.4, 34.7, -93.2, 3.4, 31.7, -90.8, 3.4, 39.5, -89, 3.4, 39.5, -70.7, 5.4, 31.7, -82.1, 3.4, 31.7, -79.4, 4.8, 34.4, -77.95, 5.4, 33.95, -77.2143, 5.4, 31.7, -78.8429, 5, 31.7, -72.2, 1.4, 42.8, -77.3, 1.4, 47.3, -67.1, 1.4, 47.3, -65.6, 1.4, 42.8, -47.6, 3.4, 47.9, -47.6, 3.4, 38.9, -50.3, 3.4, 41.6, -50.6, 2.2, 52.4, -49.1, 3.4, 50.15, -50.5143, 3.4, 49.3143, -50.5571, 3, 50.8571, -47.6, 4.6, 68.3, -47.6, 1.4, 59.3, -54.5, 1.4, 59.3, -54.5, 5.4, 70.7, -47.6, 1.6, 62.3, -54.5, 1.6, 62.5572, -54.5, 5, 69.0714, -70.4, 5.4, 38.9, -77.9, 5.4, 41.3, -52.4, 3.4, 41.3, -59, 3.4, 38.9, -62.2571, 5, 38.9, -63.8857, 5.4, 38.9, -64.3, 5.4, 41.3, -60.9, 4.4, 41.3, -59.2, 3.4, 41.3, -47.6, 5.4, 77.3, -47.6, 4.6, 68.3, -54.5, 5.4, 70.7, -57.5, 4.2, 77.3, -54.2, 5.4, 77.3, -47.6, 5.4, 69.8, -55.7, 5.2, 73.34, -50.6, 2.2, 52.4, -47.6, 1.4, 56.9, -47.6, 3.4, 47.9, -49.1, 3.4, 50.15, -49.1, 1.4, 54.65, -47.6, 1.4, 53.9, -47.6, 3.4, 49.4, -57.5, 4.2, 77.3, -54.5, 5.4, 70.7, -65.3, 1.4, 70.7, -67.1, 1.4, 77.3, -63.9, 1.4, 77.3, -62.3, 1.8, 77.3, -55.7, 5.2, 73.34, -62.2143, 1.8, 70.7, -86.3, 5.4, 54.5, -83.6, 5.4, 56.3, -83.6, 5.4, 47, -51.8, 1.4, 52.4, -51.8, 1.4, 43.7, -56.6, 1.4, 47.3, -56.6, 1.4, 56.9, -76.7, 3.4, 77.3, -67.1, 1.4, 77.3, -72.5, 2.2, 74.6, -75.3, 3.4, 76.4, -75.1, 3.4, 77.3, -71.9, 1.8, 77.3, -70.3, 1.4, 77.3, -71.15, 1.4, 75.275, -106.1, 7.4, 46.4, -103.7, 7.4, 46.4, -103.4, 7.4, 38.3, -106.1, 7.4, 35.9, -103.4, 7.4, 38.3, -94.4, 7.4, 38.3, -94.4, 7.4, 35.9, -106.1, 7.4, 35.9, -82.1, 2, 36.8, -78.8, 1.4, 39.8, -78.8, 1.4, 35.9, -82.1, 1.4, 35.9, -58.4, 13.4, 37.4, -69.8, 13.4, 37.1, -69.8, 13.4, 37.7, -58.1, 13.4, 37.7, -58.1, 13.4, 37.7, -46.4, 13.4, 38, -46.4, 13.4, 37.4, -58.4, 13.4, 37.4, -68.3, 5.4, 49.7, -75.5, 5.4, 56.9, -65.6, 5.4, 56.9, -65.6, 5.4, 49.4, -68.6, 5.4, 41.9, -65.6, 5.4, 41.9, -59, 3.4, 41.6, -62.2, 5, 41.7, -63.8, 5.4, 41.75, -62.3, 5, 41.75, -68.6, 5.4, 41.9, -68.3, 5.4, 49.7, -65.6, 5.4, 49.4, -65.6, 5.4, 41.9, -52.4, 3.4, 41.3, -77.9, 5.4, 41.3, -68.6, 5.4, 41.9, -59, 3.4, 41.6, -59.2, 3.4, 41.3, -60.9, 4.4, 41.3, -64.3, 5.4, 41.3, -63.8, 5.4, 41.75, -62.2, 5, 41.7, -89.3, 1.4, 46.4, -84.8, 1.4, 46.4, -88.1, 2, 42.8, -89.3, 1.4, 42.8, -87, 1.4, 44, -82.1, 1.4, 68.9, -77.3, 1.4, 68.9, -77.6, 1.4, 58.1, -82.1, 1.4, 58.1, -82.1, 1.2, 47.3, -82.1, 1.4, 58.1, -77.6, 1.4, 58.1, -77.3, 1.4, 47.3, -76.4, 13.4, 48.5, -76.4, 13.4, 55.7, -69.5, 13.4, 49.1, -69.5, 13.4, 48.5, -75.2, 1.4, 49.7, -75.2, 1.4, 57.8, -67.1, 1.4, 50, -75.2, 5.4, 49.7, -75.2, 5.4, 53.9, -71, 5.4, 50, -69.8, 1.4, 55.1, -68.6, 1.4, 56.6, -66.5, 1.4, 56.3, -64.7, 1.4, 49.7, -68.3, 1.4, 58.7, -68.6, 1.4, 56.6, -69.8, 1.4, 55.1, -75.2, 1.4, 60.2, -75.2, 1.4, 66.2, -68.6, 1.4, 66.2, -68.6, 1.4, 66.2, -68.6, 1.4, 68.9, -65.6, 1.4, 68.9, -65.3, 1.4, 66.2, -66.2, 1.4, 58.4, -68.3, 1.4, 58.7, -58.4, 1.4, 59.3, -58.7, 1.4, 56.6, -66.2, 1.4, 58.4, -65.3, 1.4, 66.2, -58.7, 1.4, 66.2, -56.6, 1.4, 56.9, -58.7, 1.4, 56.6, -58.4, 1.4, 59.3, -54.5, 1.4, 59.3, -64.7, 1.4, 49.7, -66.5, 1.4, 56.3, -66.2, 1.4, 58.4, -58.7, 1.4, 56.6, -58.7, 1.4, 49.7, -54.5, 1.4, 59.3, -47.6, 1.4, 59.3, -47.6, 1.4, 56.9, -56.6, 1.4, 56.9, -57.8, 13.4, 67.4, -64.4, 13.4, 67.4, -64.4, 13.4, 69.5, -55.4, 13.4, 69.5, -55.4, 13.4, 60.5, -57.5, 13.4, 60.5, -57.8, 13.4, 67.4, -55.4, 13.4, 69.5, -54.2, 1.4, 67.1, -54.2, 1.4, 69.2, -47.6, 1.4, 69.2, -47.6, 1.4, 67.1, -57.8, 1.4, 70.7, -57.8, 1.4, 77.3, -55.7, 1.4, 77.3, -55.7, 1.4, 70.7, -54.2, 1.4, 70.7, -54.2, 1.4, 77.3, -47.6, 1.4, 77.3, -47.6, 1.4, 70.7 )
+polygons = [ PoolIntArray( 1, 0, 2 ), PoolIntArray( 2, 0, 3 ), PoolIntArray( 5, 4, 6 ), PoolIntArray( 6, 4, 7 ), PoolIntArray( 9, 8, 10 ), PoolIntArray( 10, 8, 11 ), PoolIntArray( 11, 8, 12 ), PoolIntArray( 14, 13, 15 ), PoolIntArray( 15, 13, 16 ), PoolIntArray( 17, 20, 18 ), PoolIntArray( 18, 20, 19 ), PoolIntArray( 22, 21, 23 ), PoolIntArray( 23, 21, 24 ), PoolIntArray( 26, 25, 27 ), PoolIntArray( 27, 25, 28 ), PoolIntArray( 30, 29, 31 ), PoolIntArray( 31, 29, 32 ), PoolIntArray( 36, 35, 33 ), PoolIntArray( 33, 35, 34 ), PoolIntArray( 41, 40, 37 ), PoolIntArray( 37, 40, 39 ), PoolIntArray( 37, 39, 38 ), PoolIntArray( 43, 49, 44 ), PoolIntArray( 44, 49, 50 ), PoolIntArray( 50, 49, 48 ), PoolIntArray( 50, 48, 51 ), PoolIntArray( 51, 48, 45 ), PoolIntArray( 45, 48, 42 ), PoolIntArray( 45, 42, 47 ), PoolIntArray( 45, 47, 46 ), PoolIntArray( 55, 54, 52 ), PoolIntArray( 52, 54, 53 ), PoolIntArray( 57, 56, 58 ), PoolIntArray( 58, 56, 60 ), PoolIntArray( 58, 60, 59 ), PoolIntArray( 65, 64, 61 ), PoolIntArray( 61, 64, 63 ), PoolIntArray( 61, 63, 62 ), PoolIntArray( 70, 69, 71 ), PoolIntArray( 71, 75, 72 ), PoolIntArray( 72, 77, 73 ), PoolIntArray( 73, 77, 66 ), PoolIntArray( 66, 76, 67 ), PoolIntArray( 67, 76, 74 ), PoolIntArray( 74, 76, 75 ), PoolIntArray( 75, 71, 68 ), PoolIntArray( 68, 71, 69 ), PoolIntArray( 75, 76, 72 ), PoolIntArray( 72, 76, 77 ), PoolIntArray( 77, 76, 66 ), PoolIntArray( 79, 82, 83 ), PoolIntArray( 83, 82, 78 ), PoolIntArray( 83, 78, 80 ), PoolIntArray( 80, 78, 81 ), PoolIntArray( 84, 87, 85 ), PoolIntArray( 85, 87, 86 ), PoolIntArray( 88, 92, 89 ), PoolIntArray( 89, 92, 91 ), PoolIntArray( 89, 91, 90 ), PoolIntArray( 95, 94, 93 ), PoolIntArray( 96, 100, 97 ), PoolIntArray( 97, 100, 98 ), PoolIntArray( 98, 100, 99 ), PoolIntArray( 102, 101, 103 ), PoolIntArray( 103, 101, 104 ), PoolIntArray( 106, 105, 107 ), PoolIntArray( 107, 105, 108 ), PoolIntArray( 109, 112, 113 ), PoolIntArray( 113, 112, 111 ), PoolIntArray( 113, 111, 110 ), PoolIntArray( 116, 118, 117 ), PoolIntArray( 117, 118, 114 ), PoolIntArray( 114, 118, 115 ), PoolIntArray( 122, 121, 119 ), PoolIntArray( 119, 121, 120 ), PoolIntArray( 124, 123, 125 ), PoolIntArray( 125, 123, 126 ), PoolIntArray( 129, 128, 130 ), PoolIntArray( 130, 128, 131 ), PoolIntArray( 131, 128, 132 ), PoolIntArray( 131, 132, 127 ), PoolIntArray( 133, 137, 134 ), PoolIntArray( 134, 137, 136 ), PoolIntArray( 134, 136, 138 ), PoolIntArray( 138, 136, 135 ), PoolIntArray( 142, 141, 139 ), PoolIntArray( 139, 141, 140 ), PoolIntArray( 145, 144, 143 ), PoolIntArray( 149, 148, 146 ), PoolIntArray( 146, 148, 147 ), PoolIntArray( 151, 150, 152 ), PoolIntArray( 152, 150, 153 ), PoolIntArray( 155, 154, 156 ), PoolIntArray( 156, 154, 157 ), PoolIntArray( 157, 154, 158 ), PoolIntArray( 161, 160, 162 ), PoolIntArray( 162, 160, 159 ), PoolIntArray( 162, 159, 163 ), PoolIntArray( 167, 166, 164 ), PoolIntArray( 164, 166, 165 ), PoolIntArray( 170, 169, 171 ), PoolIntArray( 171, 169, 172 ), PoolIntArray( 172, 169, 173 ), PoolIntArray( 172, 173, 168 ), PoolIntArray( 175, 174, 176 ), PoolIntArray( 176, 174, 177 ), PoolIntArray( 177, 174, 178 ), PoolIntArray( 180, 179, 181 ), PoolIntArray( 181, 179, 182 ), PoolIntArray( 184, 183, 185 ), PoolIntArray( 185, 183, 186 ), PoolIntArray( 186, 183, 187 ), PoolIntArray( 188, 190, 189 ), PoolIntArray( 192, 191, 193 ), PoolIntArray( 193, 191, 194 ), PoolIntArray( 198, 197, 195 ), PoolIntArray( 195, 197, 196 ), PoolIntArray( 202, 201, 199 ), PoolIntArray( 199, 201, 200 ), PoolIntArray( 205, 207, 206 ), PoolIntArray( 206, 207, 203 ), PoolIntArray( 203, 207, 204 ), PoolIntArray( 208, 212, 209 ), PoolIntArray( 209, 212, 211 ), PoolIntArray( 209, 211, 213 ), PoolIntArray( 213, 211, 210 ), PoolIntArray( 217, 216, 214 ), PoolIntArray( 214, 216, 215 ), PoolIntArray( 222, 221, 223 ), PoolIntArray( 223, 221, 218 ), PoolIntArray( 218, 221, 219 ), PoolIntArray( 219, 221, 220 ), PoolIntArray( 226, 225, 224 ), PoolIntArray( 229, 228, 227 ), PoolIntArray( 232, 231, 230 ), PoolIntArray( 234, 233, 235 ), PoolIntArray( 235, 233, 236 ), PoolIntArray( 237, 242, 243 ), PoolIntArray( 243, 242, 238 ), PoolIntArray( 238, 242, 239 ), PoolIntArray( 239, 242, 240 ), PoolIntArray( 240, 242, 241 ), PoolIntArray( 245, 244, 246 ), PoolIntArray( 246, 244, 247 ), PoolIntArray( 249, 252, 253 ), PoolIntArray( 253, 252, 254 ), PoolIntArray( 254, 252, 248 ), PoolIntArray( 254, 248, 250 ), PoolIntArray( 250, 248, 251 ), PoolIntArray( 256, 255, 257 ), PoolIntArray( 257, 255, 258 ), PoolIntArray( 263, 262, 265 ), PoolIntArray( 265, 262, 264 ), PoolIntArray( 264, 262, 261 ), PoolIntArray( 264, 261, 259 ), PoolIntArray( 259, 261, 260 ), PoolIntArray( 267, 271, 268 ), PoolIntArray( 268, 271, 270 ), PoolIntArray( 268, 270, 266 ), PoolIntArray( 268, 266, 269 ), PoolIntArray( 274, 273, 272 ), PoolIntArray( 277, 276, 278 ), PoolIntArray( 278, 276, 275 ), PoolIntArray( 278, 275, 279 ), PoolIntArray( 282, 281, 280 ), PoolIntArray( 284, 283, 285 ), PoolIntArray( 285, 283, 286 ), PoolIntArray( 286, 283, 287 ), PoolIntArray( 290, 289, 288 ), PoolIntArray( 292, 291, 296 ), PoolIntArray( 296, 291, 295 ), PoolIntArray( 296, 295, 293 ), PoolIntArray( 293, 295, 294 ), PoolIntArray( 298, 297, 302 ), PoolIntArray( 302, 297, 301 ), PoolIntArray( 302, 301, 299 ), PoolIntArray( 299, 301, 300 ), PoolIntArray( 305, 304, 303 ), PoolIntArray( 306, 309, 310 ), PoolIntArray( 310, 309, 308 ), PoolIntArray( 310, 308, 307 ), PoolIntArray( 311, 316, 312 ), PoolIntArray( 312, 316, 313 ), PoolIntArray( 313, 316, 314 ), PoolIntArray( 314, 316, 315 ), PoolIntArray( 319, 318, 322 ), PoolIntArray( 322, 318, 317 ), PoolIntArray( 322, 317, 321 ), PoolIntArray( 322, 321, 320 ), PoolIntArray( 324, 323, 325 ), PoolIntArray( 325, 323, 326 ), PoolIntArray( 326, 323, 327 ), PoolIntArray( 327, 323, 328 ), PoolIntArray( 332, 331, 329 ), PoolIntArray( 329, 331, 330 ), PoolIntArray( 336, 337, 333 ), PoolIntArray( 333, 337, 335 ), PoolIntArray( 333, 335, 334 ), PoolIntArray( 341, 340, 338 ), PoolIntArray( 338, 340, 339 ), PoolIntArray( 343, 342, 346 ), PoolIntArray( 346, 342, 344 ), PoolIntArray( 344, 342, 345 ), PoolIntArray( 349, 351, 347 ), PoolIntArray( 347, 351, 350 ), PoolIntArray( 350, 351, 348 ), PoolIntArray( 355, 354, 352 ), PoolIntArray( 352, 354, 353 ), PoolIntArray( 356, 360, 357 ), PoolIntArray( 357, 360, 359 ), PoolIntArray( 357, 359, 358 ), PoolIntArray( 362, 366, 363 ), PoolIntArray( 363, 366, 364 ), PoolIntArray( 364, 366, 365 ), PoolIntArray( 364, 365, 361 ), PoolIntArray( 370, 369, 367 ), PoolIntArray( 367, 369, 368 ), PoolIntArray( 374, 377, 375 ), PoolIntArray( 375, 377, 376 ), PoolIntArray( 375, 376, 371 ), PoolIntArray( 371, 376, 373 ), PoolIntArray( 371, 373, 372 ), PoolIntArray( 381, 384, 378 ), PoolIntArray( 378, 384, 383 ), PoolIntArray( 378, 383, 382 ), PoolIntArray( 382, 383, 379 ), PoolIntArray( 379, 383, 380 ), PoolIntArray( 387, 393, 388 ), PoolIntArray( 388, 393, 392 ), PoolIntArray( 388, 392, 389 ), PoolIntArray( 389, 392, 390 ), PoolIntArray( 390, 392, 391 ), PoolIntArray( 390, 391, 385 ), PoolIntArray( 385, 391, 386 ), PoolIntArray( 397, 400, 398 ), PoolIntArray( 398, 400, 396 ), PoolIntArray( 398, 396, 394 ), PoolIntArray( 394, 396, 399 ), PoolIntArray( 399, 396, 395 ), PoolIntArray( 403, 407, 404 ), PoolIntArray( 404, 407, 401 ), PoolIntArray( 401, 407, 406 ), PoolIntArray( 401, 406, 405 ), PoolIntArray( 405, 406, 402 ), PoolIntArray( 411, 410, 412 ), PoolIntArray( 412, 410, 413 ), PoolIntArray( 413, 410, 415 ), PoolIntArray( 413, 415, 408 ), PoolIntArray( 408, 415, 414 ), PoolIntArray( 414, 415, 409 ), PoolIntArray( 416, 418, 417 ), PoolIntArray( 420, 419, 421 ), PoolIntArray( 421, 419, 422 ), PoolIntArray( 423, 426, 427 ), PoolIntArray( 427, 426, 428 ), PoolIntArray( 428, 426, 425 ), PoolIntArray( 428, 425, 430 ), PoolIntArray( 428, 430, 429 ), PoolIntArray( 429, 430, 424 ), PoolIntArray( 432, 431, 433 ), PoolIntArray( 433, 431, 434 ), PoolIntArray( 436, 435, 437 ), PoolIntArray( 437, 435, 438 ), PoolIntArray( 442, 441, 439 ), PoolIntArray( 439, 441, 440 ), PoolIntArray( 444, 443, 445 ), PoolIntArray( 445, 443, 446 ), PoolIntArray( 448, 447, 449 ), PoolIntArray( 449, 447, 450 ), PoolIntArray( 454, 453, 451 ), PoolIntArray( 451, 453, 452 ), PoolIntArray( 457, 460, 458 ), PoolIntArray( 458, 460, 459 ), PoolIntArray( 459, 460, 456 ), PoolIntArray( 459, 456, 455 ), PoolIntArray( 463, 462, 464 ), PoolIntArray( 464, 462, 461 ), PoolIntArray( 465, 468, 469 ), PoolIntArray( 469, 468, 470 ), PoolIntArray( 470, 468, 473 ), PoolIntArray( 470, 473, 472 ), PoolIntArray( 470, 472, 471 ), PoolIntArray( 471, 472, 467 ), PoolIntArray( 471, 467, 466 ), PoolIntArray( 476, 478, 477 ), PoolIntArray( 477, 478, 474 ), PoolIntArray( 474, 478, 475 ), PoolIntArray( 482, 481, 479 ), PoolIntArray( 479, 481, 480 ), PoolIntArray( 484, 483, 485 ), PoolIntArray( 485, 483, 486 ), PoolIntArray( 490, 489, 487 ), PoolIntArray( 487, 489, 488 ), PoolIntArray( 492, 491, 493 ), PoolIntArray( 496, 495, 494 ), PoolIntArray( 498, 497, 499 ), PoolIntArray( 499, 497, 500 ), PoolIntArray( 502, 501, 503 ), PoolIntArray( 503, 501, 504 ), PoolIntArray( 504, 501, 505 ), PoolIntArray( 505, 501, 506 ), PoolIntArray( 508, 507, 509 ), PoolIntArray( 509, 507, 510 ), PoolIntArray( 510, 507, 512 ), PoolIntArray( 510, 512, 511 ), PoolIntArray( 514, 513, 515 ), PoolIntArray( 515, 513, 516 ), PoolIntArray( 516, 513, 517 ), PoolIntArray( 519, 518, 520 ), PoolIntArray( 520, 518, 521 ), PoolIntArray( 524, 523, 525 ), PoolIntArray( 525, 523, 522 ), PoolIntArray( 525, 522, 526 ), PoolIntArray( 528, 527, 529 ), PoolIntArray( 529, 527, 530 ), PoolIntArray( 532, 531, 533 ), PoolIntArray( 533, 531, 534 ), PoolIntArray( 536, 535, 537 ), PoolIntArray( 537, 535, 538 ), PoolIntArray( 542, 541, 539 ), PoolIntArray( 539, 541, 540 ), PoolIntArray( 546, 545, 543 ), PoolIntArray( 543, 545, 544 ), PoolIntArray( 550, 549, 547 ), PoolIntArray( 547, 549, 548 ) ]
 sample_partition_type/sample_partition_type = 2
 
 [node name="test_arena" type="Spatial"]
@@ -37,121 +44,357 @@ script = ExtResource( 10 )
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Navigation"]
 navmesh = SubResource( 1 )
 
-[node name="geometry" type="Spatial" parent="Navigation/NavigationMeshInstance"]
+[node name="devroom" type="Spatial" parent="Navigation/NavigationMeshInstance"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26, -16 )
 
-[node name="world_volume_corner" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner" parent="Navigation/NavigationMeshInstance/devroom" instance=ExtResource( 1 )]
+transform = Transform( 20, 0, 0, 0, 1, 0, 0, 0, 16, 0, -26, -48 )
+
+[node name="world_volume_corner2" parent="Navigation/NavigationMeshInstance/devroom" instance=ExtResource( 1 )]
+transform = Transform( 20, 0, 0, 0, 8, 0, 0, 0, 1, 0, -25, -48 )
+
+[node name="world_volume_corner6" parent="Navigation/NavigationMeshInstance/devroom" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 8, 0, 0, 0, 2, 11, -25, -41 )
+
+[node name="world_volume_corner4" parent="Navigation/NavigationMeshInstance/devroom" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 14, 0, -25, -47 )
+
+[node name="world_volume_corner5" parent="Navigation/NavigationMeshInstance/devroom" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 8, 0, 0, 0, 14, 19, -25, -47 )
+
+[node name="world_volume_corner3" parent="Navigation/NavigationMeshInstance/devroom" instance=ExtResource( 1 )]
+transform = Transform( 20, 0, 0, 0, 8, 0, 0, 0, 1, 0, -25, -33 )
+
+[node name="arena_test_1" type="Spatial" parent="Navigation/NavigationMeshInstance"]
+
+[node name="world_volume_corner" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 2, 0, 0, 0, 8, 0, 0, 0 )
 
-[node name="world_volume_corner16" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner16" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 2, 0, 0, 0, 8, 0, 0, 24 )
 
-[node name="world_volume_corner7" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner7" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 2, 0, 0, 0, 8, 16, 0, 0 )
 
-[node name="world_volume_corner18" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner18" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 2, 0, 0, 0, 8, 16, 0, 24 )
 
-[node name="world_volume_corner12" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner12" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 2, 0, 0, 0, 8, 32, 0, 0 )
 
-[node name="world_volume_corner20" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner20" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 2, 0, 0, 0, 8, 32, 0, 24 )
 
-[node name="world_volume_corner4" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner4" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 2, 6, 2, 6 )
 
-[node name="world_volume_corner33" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner33" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8 )
 
-[node name="world_volume_corner13" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner13" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 2, 40, 2, 6 )
 
-[node name="world_volume_corner9" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner9" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 2, 23, 2, 6 )
 
-[node name="world_volume_corner22" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner22" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 2, 6, 2, 24 )
 
-[node name="world_volume_corner23" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner23" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 2, 40, 2, 24 )
 
-[node name="world_volume_corner24" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner24" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 2, 0, 0, 0, 4, 0, 0, 0, 2, 23, 2, 24 )
 
-[node name="world_volume_corner5" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner5" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 17, -1, 2, -1 )
 
-[node name="world_volume_corner30" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner30" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 17, -1, 2, 16 )
 
-[node name="world_volume_corner31" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner31" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 17, 48, 2, -1 )
 
-[node name="world_volume_corner32" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner32" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 17, 48, 2, 16 )
 
-[node name="world_volume_corner6" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner6" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, 0, 2, -1 )
 
-[node name="world_volume_corner25" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner25" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, 16, 2, -1 )
 
-[node name="world_volume_corner26" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner26" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, 32, 2, -1 )
 
-[node name="world_volume_corner27" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner27" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, 0, 2, 32 )
 
-[node name="world_volume_corner28" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner28" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, 16, 2, 32 )
 
-[node name="world_volume_corner29" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner29" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 4, 0, 0, 0, 1, 32, 2, 32 )
 
-[node name="world_volume_corner3" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner3" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 8, 0, 0, 0, 2, 0, 0, 0, 8, 0, 0, 8 )
 
-[node name="world_volume_corner11" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner11" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 8, 0, 0, 0, 2, 0, 0, 0, 8, 40, 0, 8 )
 
-[node name="world_volume_corner21" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner21" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 8, 0, 0, 0, 2, 0, 0, 0, 8, 40, 0, 16 )
 
-[node name="world_volume_corner2" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner2" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 1, 0, 0, 0, 16, 0, -1, 0 )
 
-[node name="world_volume_corner14" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner14" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 8, 0, 0, 0, 2, 0, 0, 0, 8, 0, 0, 16 )
 
-[node name="world_volume_corner15" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner15" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 1, 0, 0, 0, 16, 0, -1, 16 )
 
-[node name="world_volume_corner10" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner10" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 1, 0, 0, 0, 16, 32, -1, 0 )
 
-[node name="world_volume_corner19" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner19" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 1, 0, 0, 0, 16, 32, -1, 16 )
 
-[node name="world_volume_corner8" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner8" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 1, 0, 0, 0, 16, 16, -1, 0 )
 
-[node name="world_volume_corner17" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 1 )]
+[node name="world_volume_corner17" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 1 )]
 transform = Transform( 16, 0, 0, 0, 1, 0, 0, 0, 16, 16, -1, 16 )
 
-[node name="world_volume_wedge_corner2" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 3 )]
+[node name="world_volume_wedge_corner2" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 3 )]
 transform = Transform( -3, 0, -1.74846e-07, 0, 1, 0, 2.62268e-07, 0, -2, 40, 0, 12 )
 
-[node name="world_volume_wedge_corner4" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 3 )]
+[node name="world_volume_wedge_corner4" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 3 )]
 transform = Transform( -3, 0, -1.74846e-07, 0, 1, 0, 2.62268e-07, 0, -2, 40, 0, 24 )
 
-[node name="world_volume_wedge_corner3" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 3 )]
+[node name="world_volume_wedge_corner3" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 3 )]
 transform = Transform( 3, 0, 3.49692e-07, 0, 1, 0, -5.24536e-07, 0, 2, 8, 0, 20 )
 
-[node name="world_volume_wedge_corner5" parent="Navigation/NavigationMeshInstance/geometry" instance=ExtResource( 3 )]
+[node name="world_volume_wedge_corner5" parent="Navigation/NavigationMeshInstance/arena_test_1" instance=ExtResource( 3 )]
 transform = Transform( 3, 0, 3.49692e-07, 0, 1, 0, -5.24536e-07, 0, 2, 8, 0, 8 )
 
-[node name="player_start" parent="." instance=ExtResource( 2 )]
-transform = Transform( 0, 0, -1, 0, 1, 0, 1, 0, 0, 9, 0, 16 )
+[node name="arena_test_2" type="Spatial" parent="Navigation/NavigationMeshInstance"]
+
+[node name="arena_test_2_geometry" type="Spatial" parent="Navigation/NavigationMeshInstance/arena_test_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -92, 0, 35 )
+
+[node name="world_volume_wedge_corner" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( 2.82843, 0, -2.82843, 0, 2, 0, 2.82843, 0, 2.82843, 7.8, -1, 0.100002 )
+
+[node name="world_volume_wedge_corner6" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( -8.74228e-08, 0, -2, 0, 1, 0, 2, 0, -8.74228e-08, 9, 3, 28 )
+
+[node name="world_volume_wedge_corner7" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( 2, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, 2, 29, 3, 3 )
+
+[node name="world_volume_wedge_corner10" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( -8.74228e-08, 0, -2, 0, 1, 0, 2, 0, -8.74228e-08, 45, 1, 15 )
+
+[node name="world_volume_wedge_corner12" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( -1.74846e-07, 0, 4, 0, 2, 0, -4, 0, -1.74846e-07, 37, 1, 35 )
+
+[node name="world_volume_wedge_corner13" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( -4, 0, -3.49691e-07, 0, 2, 0, 3.49691e-07, 0, -4, 37, 1, 43 )
+
+[node name="world_volume_wedge_corner11" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( 2, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, 2, 17, 1, 39 )
+
+[node name="world_volume_wedge_corner5" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( -8.74228e-08, 0, 2, 0, 1, 0, -2, 0, -8.74228e-08, -2, 3, 12 )
+
+[node name="world_volume_wedge_corner8" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( -2, 0, -3.01992e-07, 0, 1, 0, 3.01992e-07, 0, -2, 14, 3, 0 )
+
+[node name="world_volume_wedge_corner2" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( -3.5, 5.28485e-07, 1.32005e-14, 0, -1.5299e-07, 2, 5.28485e-07, 3.5, 8.74228e-08, 14, 1, 0 )
+
+[node name="world_volume_wedge_corner14" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( -1.62921e-06, -10, -2.18557e-08, 0, -4.37114e-07, 0.5, -10, 1.62921e-06, 3.56074e-15, 15, 0, 13 )
+
+[node name="world_volume_wedge_corner3" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( 3.5, 0, 0, 0, -1.5299e-07, 2, 0, -3.5, -8.74228e-08, 2, 1, 12 )
+
+[node name="world_volume_wedge_corner9" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( -6.55671e-08, 1.5, 2.18557e-08, 0, -6.55671e-08, 0.5, 1.5, 6.55671e-08, 9.55343e-16, 24, 4, 22 )
+
+[node name="world_volume_wedge_corner15" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( -1.5299e-07, 3.5, 1.74846e-07, 0, -1.5299e-07, 4, 3.5, 1.5299e-07, 7.64274e-15, 16, 5, 14 )
+
+[node name="world_volume_wedge_corner16" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( -2.40413e-07, 5.5, 6.55671e-08, 0, -2.40413e-07, 1.5, 5.5, 2.40413e-07, 2.86603e-15, 16, 1, 14 )
+
+[node name="world_volume_wedge_corner4" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 3 )]
+transform = Transform( -1.31134e-07, 3, 8.74228e-08, 0, -1.31134e-07, 2, 3, 1.31134e-07, 3.82137e-15, 2, -1, 0 )
+
+[node name="world_volume_corner" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 20, 0, 0, 0, 1, 0, 0, 0, 20, 15, 0, 13 )
+
+[node name="world_volume_corner34" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 26, 0, 0, 0, 1, 0, 0, 0, 6, 15, 0, 7 )
+
+[node name="world_volume_corner35" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 26, 9, 0, 13 )
+
+[node name="world_volume_corner38" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 26, 35, 0, 13 )
+
+[node name="world_volume_corner47" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 24, 0, 0, 0, 1, 0, 0, 0, 4, 21, 0, 39 )
+
+[node name="world_volume_corner49" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 24, 41, 0, 15 )
+
+[node name="world_volume_corner39" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 6, 8, 0, 33 )
+
+[node name="world_volume_corner2" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 1, 0, 0, 0, 11, 16, 4, 14 )
+
+[node name="world_volume_corner33" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 3, 0, 0, 0, 1, 0, 0, 0, 8, 24, 4, 14 )
+
+[node name="world_volume_corner3" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 7, 15, 1, 14 )
+
+[node name="world_volume_corner13" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 6, 0, 0, 0, 24, -3, 1, -4 )
+
+[node name="world_volume_corner50" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 4, -3, 7, -4 )
+
+[node name="world_volume_corner51" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 3, 0, 0, 0, 1, -15, 7, 12 )
+
+[node name="world_volume_corner53" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 12, 0, 0, 0, 1.05, 0, 0, 0, 19, -15, 11, -4 )
+
+[node name="world_volume_corner52" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 16, -3, 7, 4 )
+
+[node name="world_volume_corner43" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 24, -3, 10, -4 )
+
+[node name="world_volume_corner15" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 9, 0, 0, 0, 12, 0, 0, 0, 1, -4, 1, 20 )
+
+[node name="world_volume_corner16" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 23, 4, 1, 21 )
+
+[node name="world_volume_corner44" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 28, 4, 12, -8 )
+
+[node name="world_volume_corner45" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 28, 0, 0, 0, 1, 0, 0, 0, 1, -6, 12, 2 )
+
+[node name="world_volume_corner37" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 41, 0, 0, 0, 12, 0, 0, 0, 1, 5, 1, 43 )
+
+[node name="world_volume_corner48" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 4, 0, 0, 0, 8, 37, 1, 35 )
+
+[node name="world_volume_corner17" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 9, 22, 1, -6 )
+
+[node name="world_volume_corner18" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 23, 0, 0, 0, 12, 0, 0, 0, 1, 23, 1, 2 )
+
+[node name="world_volume_corner36" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 40, 45, 1, 3 )
+
+[node name="world_volume_corner14" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 29, 0, 0, 0, 12, 0, 0, 0, 1, -6, 1, -5 )
+
+[node name="world_volume_corner6" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 12, 0, 0, 0, 1, 15, 1, 13 )
+
+[node name="world_volume_corner21" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 12, 0, 0, 0, 1, 27, 1, 13 )
+
+[node name="world_volume_corner25" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 7, 0, 0, 0, 12, 0, 0, 0, 1, 16, 1, 32 )
+
+[node name="world_volume_corner24" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 8, 15, 1, 25 )
+
+[node name="world_volume_corner26" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 7, 34, 1, 14 )
+
+[node name="world_volume_corner41" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 1, 40, 1, 7 )
+
+[node name="world_volume_corner42" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 1, 9, 1, 38 )
+
+[node name="world_volume_corner20" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 1, 23, 1, 13 )
+
+[node name="world_volume_corner29" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 7, 0, 0, 0, 12, 0, 0, 0, 1, 27, 1, 32 )
+
+[node name="world_volume_corner23" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 4, 15, 1, 21 )
+
+[node name="world_volume_corner27" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 12, 0, 0, 0, 8, 34, 1, 25 )
+
+[node name="world_volume_corner40" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 24, 1, 22 )
+
+[node name="world_volume_corner28" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 2, 0, 0, 0, 12, 0, 0, 0, 10, 35, 1, 25 )
+
+[node name="world_volume_corner30" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 12, 0, 0, 0, 2, 27, 1, 33 )
+
+[node name="world_volume_corner4" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 11, 0, 0, 0, 4, 0, 0, 0, 8, -2, 1, 12 )
+
+[node name="world_volume_corner7" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 8, 5, 1, 20 )
+
+[node name="world_volume_corner8" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 7, 0, 0, 0, 4, 0, 0, 0, 4, 22, 1, 3 )
+
+[node name="world_volume_corner5" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 6, 23, 4, 7 )
+
+[node name="world_volume_corner19" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 12, 0, 0, 0, 2, 0, 0, 0, 4, 29, 1, 3 )
+
+[node name="world_volume_corner32" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 12, 0, 0, 0, 2, 0, 0, 0, 4, 5, 1, 39 )
+
+[node name="world_volume_corner22" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 11, 5, 1, 28 )
+
+[node name="world_volume_corner31" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 2, 0, 0, 0, 12, 41, 1, 3 )
+
+[node name="world_volume_corner10" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 6, 0, 0, 0, 1, 0, 0, 0, 4, 9, 4, 21 )
+
+[node name="world_volume_corner9" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 4, 0, 0, 0, 11, 14, 1, -4 )
+
+[node name="world_volume_corner11" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 4, 0, 0, 0, 4, 2, -1, -4 )
+
+[node name="world_volume_corner12" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 1 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 16, -2, -1, -8 )
+
+[node name="corridor" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 29 )]
+transform = Transform( 4, 0, 0, 0, 3, 0, 0, 0, 8, -15, 7, 4 )
+
+[node name="corridor2" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 29 )]
+transform = Transform( -1.74846e-07, 0, -8, 0, 3, 0, 4, 0, -3.49691e-07, -3, 7, 0 )
+
+[node name="corridor_right_angle" parent="Navigation/NavigationMeshInstance/arena_test_2/arena_test_2_geometry" instance=ExtResource( 27 )]
+transform = Transform( -4, 0, -6.03983e-07, 0, 3, 0, 6.03983e-07, 0, -4, -11, 7, 4 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 4 )
@@ -168,108 +411,137 @@ directional_shadow_mode = 1
 
 [node name="entities" type="Spatial" parent="."]
 
-[node name="prj_ground_spike" parent="entities" instance=ExtResource( 20 )]
+[node name="devroom_ents" type="Spatial" parent="entities"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26, -16 )
+
+[node name="player_start" parent="entities/devroom_ents" instance=ExtResource( 2 )]
+transform = Transform( 0, 0, -1, 0, 1, 0, 1, 0, 0, 4, -25, -40 )
+
+[node name="trigger_volume" parent="entities/devroom_ents" instance=ExtResource( 30 )]
+transform = Transform( 5.5, 0, 0, 0, 6.66, 0, 0, 0, 6.9, 14, -22, -44 )
+hintMessage = "Arena 1 -small, open"
+
+[node name="trigger_volume3" parent="entities/devroom_ents" instance=ExtResource( 30 )]
+transform = Transform( 5.5, 0, 0, 0, 6.66, 0, 0, 0, 6.9, 20, -22, -44 )
+action = 1
+triggerTargetName = "arena_1_start_point"
+hintMessage = "Arena 1 -small, open"
+
+[node name="trigger_volume4" parent="entities/devroom_ents" instance=ExtResource( 30 )]
+transform = Transform( 5.5, 0, 0, 0, 6.66, 0, 0, 0, 6.9, 20, -22, -36 )
+action = 1
+triggerTargetName = "arena_2_start_point"
+hintMessage = "Arena 1 -small, open"
+
+[node name="trigger_volume2" parent="entities/devroom_ents" instance=ExtResource( 30 )]
+transform = Transform( 5.5, 0, 0, 0, 6.66, 0, 0, 0, 6.9, 14, -22, -36 )
+hintMessage = "Arena 2 - large"
+
+[node name="arena_test_1_ents" type="Spatial" parent="entities"]
+
+[node name="prj_ground_spike" parent="entities/arena_test_1_ents" instance=ExtResource( 20 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 12 )
 
-[node name="mob_spawn_proxy" parent="entities" instance=ExtResource( 6 )]
+[node name="mob_spawn_proxy" parent="entities/arena_test_1_ents" instance=ExtResource( 6 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 45, 2, 12 )
 triggerName = "mob1"
 delaySpawn = true
 
-[node name="mob_spawn_proxy2" parent="entities" instance=ExtResource( 6 )]
+[node name="mob_spawn_proxy2" parent="entities/arena_test_1_ents" instance=ExtResource( 6 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 45, 2, 20 )
 triggerName = "mob2"
 delaySpawn = true
 
-[node name="item_full_pack" parent="entities" instance=ExtResource( 5 )]
+[node name="item_full_pack" parent="entities/arena_test_1_ents" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 16 )
 triggerTargetName = "mob1 mob2"
 respawns = true
+isImportant = true
 
-[node name="gun_rack" parent="entities" instance=ExtResource( 7 )]
+[node name="gun_rack" parent="entities/arena_test_1_ents" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 16 )
 
-[node name="ai_nodes" type="Spatial" parent="entities"]
+[node name="ai_nodes" type="Spatial" parent="entities/arena_test_1_ents"]
 
-[node name="ai_tactic_node" parent="entities/ai_nodes" instance=ExtResource( 8 )]
+[node name="ai_tactic_node" parent="entities/arena_test_1_ents/ai_nodes" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 43, 2, 27 )
 tag = 1
 sniperSpot = true
 
-[node name="ai_tactic_node2" parent="entities/ai_nodes" instance=ExtResource( 8 )]
+[node name="ai_tactic_node2" parent="entities/arena_test_1_ents/ai_nodes" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 43, 2, 4 )
 tag = 1
 sniperSpot = true
 
-[node name="ai_tactic_node3" parent="entities/ai_nodes" instance=ExtResource( 8 )]
+[node name="ai_tactic_node3" parent="entities/arena_test_1_ents/ai_nodes" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, 27 )
 tag = 1
 sniperSpot = true
 
-[node name="ai_tactic_node4" parent="entities/ai_nodes" instance=ExtResource( 8 )]
+[node name="ai_tactic_node4" parent="entities/arena_test_1_ents/ai_nodes" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, 4 )
 tag = 1
 sniperSpot = true
 
-[node name="ai_tactic_node5" parent="entities/ai_nodes" instance=ExtResource( 8 )]
+[node name="ai_tactic_node5" parent="entities/arena_test_1_ents/ai_nodes" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 2, 27 )
 tag = 1
 sniperSpot = true
 
-[node name="ai_tactic_node6" parent="entities/ai_nodes" instance=ExtResource( 8 )]
+[node name="ai_tactic_node6" parent="entities/arena_test_1_ents/ai_nodes" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 2, 4 )
 tag = 1
 sniperSpot = true
 
-[node name="trigger_event2" parent="entities" instance=ExtResource( 9 )]
+[node name="trigger_event2" parent="entities/arena_test_1_ents" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, -2 )
 selfName = "tactics_1"
 type = 2
 intParameter1 = 1
 
-[node name="trigger_event" parent="entities" instance=ExtResource( 9 )]
+[node name="trigger_event" parent="entities/arena_test_1_ents" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -8 )
 selfName = "wave_1"
 triggerTargetName = "spawn_1a spawn_1b"
 waitSeconds = 3.0
 
-[node name="wave_1_counter" parent="entities" instance=ExtResource( 18 )]
+[node name="wave_1_counter" parent="entities/arena_test_1_ents" instance=ExtResource( 18 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, -3 )
 triggerTargetName = "select_wave"
 totalCount = 2
 
-[node name="wave_2_counter" parent="entities" instance=ExtResource( 18 )]
+[node name="wave_2_counter" parent="entities/arena_test_1_ents" instance=ExtResource( 18 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -3 )
 triggerTargetName = "select_wave"
 totalCount = 2
 
-[node name="wave_3_counter" parent="entities" instance=ExtResource( 18 )]
+[node name="wave_3_counter" parent="entities/arena_test_1_ents" instance=ExtResource( 18 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, -3 )
 triggerTargetName = "select_wave"
 
-[node name="trigger_event3" parent="entities" instance=ExtResource( 9 )]
+[node name="trigger_event3" parent="entities/arena_test_1_ents" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, -8 )
 selfName = "wave_2"
 triggerTargetName = "spawn_2a spawn_2b"
 waitSeconds = 3.0
 
-[node name="trigger_event4" parent="entities" instance=ExtResource( 9 )]
+[node name="trigger_event4" parent="entities/arena_test_1_ents" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51, 0, -8 )
 selfName = "wave_3"
 triggerTargetName = "spawn_3a spawn_3b"
 waitSeconds = 3.0
 
-[node name="trigger_sequence" parent="entities" instance=ExtResource( 16 )]
+[node name="trigger_sequence" parent="entities/arena_test_1_ents" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -15 )
 selfName = "select_wave"
 triggerTargetName = "wave_1 wave_2 wave_3"
 
-[node name="trigger_event5" parent="entities" instance=ExtResource( 9 )]
+[node name="trigger_event5" parent="entities/arena_test_1_ents" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -13 )
 selfName = "start_single_endless_wave"
 triggerTargetName = "tactics_1 endless_wave_spawns"
 
-[node name="endless_wave_spawn_1" parent="entities" instance=ExtResource( 12 )]
+[node name="endless_wave_spawn_1" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -11 )
 triggerName = "endless_wave_spawns"
 positionsSiblingName = "spawn_positions"
@@ -279,7 +551,7 @@ totalMobs = 0
 maxLiveMobs = 4
 order = 0
 
-[node name="endless_wave_spawn_2" parent="entities" instance=ExtResource( 12 )]
+[node name="endless_wave_spawn_2" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -11 )
 triggerName = "endless_wave_spawns"
 positionsSiblingName = "spawn_positions"
@@ -289,7 +561,7 @@ tickMax = 5.0
 totalMobs = 0
 order = 0
 
-[node name="endless_wave_spawn_3" parent="entities" instance=ExtResource( 12 )]
+[node name="endless_wave_spawn_3" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -11 )
 triggerName = "endless_wave_spawns"
 positionsSiblingName = "spawn_positions"
@@ -299,28 +571,28 @@ tickMax = 10.0
 totalMobs = 0
 order = 0
 
-[node name="spawn_positions" type="Spatial" parent="entities"]
+[node name="spawn_positions" type="Spatial" parent="entities/arena_test_1_ents"]
 script = ExtResource( 15 )
 
-[node name="a" parent="entities/spawn_positions" instance=ExtResource( 13 )]
+[node name="a" parent="entities/arena_test_1_ents/spawn_positions" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, 3 )
 
-[node name="b" parent="entities/spawn_positions" instance=ExtResource( 13 )]
+[node name="b" parent="entities/arena_test_1_ents/spawn_positions" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2, 3 )
 
-[node name="c" parent="entities/spawn_positions" instance=ExtResource( 13 )]
+[node name="c" parent="entities/arena_test_1_ents/spawn_positions" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, 29 )
 
-[node name="d" parent="entities/spawn_positions" instance=ExtResource( 13 )]
+[node name="d" parent="entities/arena_test_1_ents/spawn_positions" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2, 29 )
 
-[node name="e" parent="entities/spawn_positions" instance=ExtResource( 13 )]
+[node name="e" parent="entities/arena_test_1_ents/spawn_positions" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 16 )
 
-[node name="f" parent="entities/spawn_positions" instance=ExtResource( 13 )]
+[node name="f" parent="entities/arena_test_1_ents/spawn_positions" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 16 )
 
-[node name="spawn_1" parent="entities" instance=ExtResource( 12 )]
+[node name="spawn_1" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 30, 0, -6 )
 triggerName = "spawn_1a"
 triggerTargetName = "spawn_1b wave_1_counter"
@@ -331,7 +603,7 @@ tickMax = 0.1
 maxLiveMobs = 4
 order = 0
 
-[node name="spawn_3" parent="entities" instance=ExtResource( 12 )]
+[node name="spawn_3" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 51, 0, -6 )
 triggerName = "spawn_3a"
 triggerTargetName = "spawn_3b wave_3_counter"
@@ -343,7 +615,7 @@ totalMobs = 1
 maxLiveMobs = 1
 order = 0
 
-[node name="spawn_1b" parent="entities" instance=ExtResource( 12 )]
+[node name="spawn_1b" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 34, 0, -6 )
 triggerName = "spawn_1b"
 triggerTargetName = "wave_1_counter"
@@ -351,7 +623,7 @@ positionsSiblingName = "spawn_positions"
 positionsFilter = "e f"
 totalMobs = 0
 
-[node name="spawn_2" parent="entities" instance=ExtResource( 12 )]
+[node name="spawn_2" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 39, 0, -6 )
 triggerName = "spawn_2a"
 triggerTargetName = "spawn_2b wave_2_counter"
@@ -361,7 +633,7 @@ type = 3
 totalMobs = 12
 maxLiveMobs = 4
 
-[node name="spawn_2b" parent="entities" instance=ExtResource( 12 )]
+[node name="spawn_2b" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 43, 0, -6 )
 triggerName = "spawn_2b"
 triggerTargetName = "wave_2_counter"
@@ -371,49 +643,241 @@ tickMax = 1.0
 totalMobs = 0
 maxLiveMobs = 4
 
-[node name="arena" parent="entities" instance=ExtResource( 11 )]
+[node name="arena" parent="entities/arena_test_1_ents" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, -6 )
 
-[node name="waves" type="Node" parent="entities/arena"]
+[node name="waves" type="Node" parent="entities/arena_test_1_ents/arena"]
 
-[node name="Node" type="Node" parent="entities/arena/waves"]
+[node name="Node" type="Node" parent="entities/arena_test_1_ents/arena/waves"]
 script = ExtResource( 14 )
 
-[node name="spawns" type="Node" parent="entities/arena"]
+[node name="spawns" type="Node" parent="entities/arena_test_1_ents/arena"]
 
-[node name="arena2" type="Spatial" parent="entities"]
+[node name="arena2" type="Spatial" parent="entities/arena_test_1_ents"]
 
-[node name="lever_switch" parent="entities" instance=ExtResource( 19 )]
+[node name="lever_switch" parent="entities/arena_test_1_ents" instance=ExtResource( 19 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 23, 1, 8 )
 triggerTargetName = "select_wave"
 
-[node name="lever_switch2" parent="entities" instance=ExtResource( 19 )]
+[node name="lever_switch2" parent="entities/arena_test_1_ents" instance=ExtResource( 19 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 25, 1, 8 )
 triggerTargetName = "tactics_1 start_single_endless_wave"
 
-[node name="barriers" type="Spatial" parent="entities"]
+[node name="barriers" type="Spatial" parent="entities/arena_test_1_ents"]
 
-[node name="player_barrier_volume" parent="entities/barriers" instance=ExtResource( 21 )]
+[node name="player_barrier_volume" parent="entities/arena_test_1_ents/barriers" instance=ExtResource( 21 )]
 transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 25, -10, 25 )
 
-[node name="player_barrier_volume2" parent="entities/barriers" instance=ExtResource( 21 )]
+[node name="player_barrier_volume2" parent="entities/arena_test_1_ents/barriers" instance=ExtResource( 21 )]
 transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 8, -10, 25 )
 
-[node name="player_barrier_volume3" parent="entities/barriers" instance=ExtResource( 21 )]
+[node name="player_barrier_volume3" parent="entities/arena_test_1_ents/barriers" instance=ExtResource( 21 )]
 transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 25, -10, 8 )
 
-[node name="player_barrier_volume4" parent="entities/barriers" instance=ExtResource( 21 )]
+[node name="player_barrier_volume4" parent="entities/arena_test_1_ents/barriers" instance=ExtResource( 21 )]
 transform = Transform( 15, 0, 0, 0, 4, 0, 0, 0, 1, 8, -10, 8 )
 
-[node name="player_barrier_volume5" parent="entities/barriers" instance=ExtResource( 21 )]
+[node name="player_barrier_volume5" parent="entities/arena_test_1_ents/barriers" instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 16, 7, -10, 24 )
 
-[node name="player_barrier_volume6" parent="entities/barriers" instance=ExtResource( 21 )]
+[node name="player_barrier_volume6" parent="entities/arena_test_1_ents/barriers" instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 16, 40, -10, 24 )
 
-[node name="item_full_rage" parent="entities" instance=ExtResource( 22 )]
+[node name="item_full_rage" parent="entities/arena_test_1_ents" instance=ExtResource( 22 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, 16 )
 
-[node name="info_point_entity" parent="entities" instance=ExtResource( 23 )]
+[node name="info_point_entity" parent="entities/arena_test_1_ents" instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 6, 7 )
 targetName = "devroom"
+
+[node name="arena_1_start_point" parent="entities/arena_test_1_ents" instance=ExtResource( 28 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 10, 0, 16 )
+
+[node name="arena_test_2_ents" type="Spatial" parent="entities"]
+
+[node name="lever_switch" parent="entities/arena_test_2_ents" instance=ExtResource( 19 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -49, 6, 78 )
+triggerTargetName = "arena_2_survival"
+
+[node name="info_deadline_controller" parent="entities/arena_test_2_ents" instance=ExtResource( 26 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -81, 19, 47 )
+
+[node name="trigger_volume" parent="entities/arena_test_2_ents" instance=ExtResource( 30 )]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 3, -93, 8, 37 )
+triggerTargetName = "activate_tag_2"
+
+[node name="activate_tag_2" parent="entities/arena_test_2_ents" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -84, 9, 47 )
+selfName = "activate_tag_2"
+type = 2
+intParameter1 = 2
+
+[node name="arena_2_start_point" parent="entities/arena_test_2_ents" instance=ExtResource( 28 )]
+transform = Transform( 1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, -105, 7, 45 )
+
+[node name="waypoints" type="Spatial" parent="entities/arena_test_2_ents"]
+
+[node name="ai_tactic_node" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -66, 5, 48 )
+tag = 2
+sniperSpot = true
+
+[node name="ai_tactic_node2" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -68, 5, 48 )
+tag = 2
+sniperSpot = true
+
+[node name="ai_tactic_node3" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -77, 5, 57 )
+tag = 2
+sniperSpot = true
+
+[node name="ai_tactic_node4" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -77, 5, 59 )
+tag = 2
+sniperSpot = true
+
+[node name="ai_tactic_node5" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -78, 1, 67 )
+tag = 2
+
+[node name="ai_tactic_node6" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -78, 1, 69 )
+tag = 2
+
+[node name="ai_tactic_node7" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -76, 1, 69 )
+tag = 2
+
+[node name="ai_tactic_node8" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 1, 67.5 )
+tag = 2
+
+[node name="ai_tactic_node9" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -66, 1, 71 )
+tag = 2
+
+[node name="ai_tactic_node10" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 1, 71 )
+tag = 2
+
+[node name="ai_tactic_node14" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -66, 1, 66 )
+tag = 2
+
+[node name="ai_tactic_node15" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 1, 66 )
+tag = 2
+
+[node name="ai_tactic_node11" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -54, 1, 59 )
+tag = 2
+
+[node name="ai_tactic_node12" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -54, 1, 61 )
+tag = 2
+
+[node name="ai_tactic_node16" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -59, 1, 61 )
+tag = 2
+
+[node name="ai_tactic_node17" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -59, 1, 59 )
+tag = 2
+
+[node name="ai_tactic_node25" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -84, 3, 34 )
+tag = 2
+
+[node name="ai_tactic_node26" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -86, 3, 35 )
+tag = 2
+
+[node name="ai_tactic_node27" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -90, 3, 39 )
+tag = 2
+
+[node name="ai_tactic_node28" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -91, 3, 41 )
+tag = 2
+
+[node name="spawn_points" type="Spatial" parent="entities/arena_test_2_ents"]
+
+[node name="1" parent="entities/arena_test_2_ents/spawn_points" instance=ExtResource( 8 )]
+transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -73, 5, 34 )
+tag = 2
+
+[node name="2" parent="entities/arena_test_2_ents/spawn_points" instance=ExtResource( 8 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -91, 5, 52 )
+tag = 2
+
+[node name="3" parent="entities/arena_test_2_ents/spawn_points" instance=ExtResource( 8 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -85, 3, 76 )
+tag = 2
+sniperSpot = true
+
+[node name="4" parent="entities/arena_test_2_ents/spawn_points" instance=ExtResource( 8 )]
+transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -49, 3, 40 )
+tag = 2
+sniperSpot = true
+
+[node name="5" parent="entities/arena_test_2_ents/spawn_points" instance=ExtResource( 8 )]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -53, 5, 72 )
+tag = 2
+sniperSpot = true
+
+[node name="6" parent="entities/arena_test_2_ents/spawn_points" instance=ExtResource( 8 )]
+transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -85, 5, 47 )
+tag = 2
+sniperSpot = true
+
+[node name="7" parent="entities/arena_test_2_ents/spawn_points" instance=ExtResource( 8 )]
+transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -78, 5, 40 )
+tag = 2
+sniperSpot = true
+
+[node name="8" parent="entities/arena_test_2_ents/spawn_points" instance=ExtResource( 8 )]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -60, 1, 65 )
+tag = 2
+
+[node name="trigger_event" parent="entities/arena_test_2_ents" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -85, 6, 53 )
+
+[node name="arena_2_survival" type="Spatial" parent="entities/arena_test_2_ents"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -75, 17, 50 )
+script = ExtResource( 24 )
+selfName = "arena_2_survival"
+spawnPointsSiblingName = "spawn_points"
+
+[node name="horde_spawns" type="Spatial" parent="entities/arena_test_2_ents/arena_2_survival"]
+
+[node name="a" parent="entities/arena_test_2_ents/arena_2_survival/horde_spawns" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0 )
+tickMax = 3.0
+totalMobs = 9999
+maxLiveMobs = 8
+
+[node name="b" parent="entities/arena_test_2_ents/arena_2_survival/horde_spawns" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 3 )
+type = 3
+tickMax = 3.0
+totalMobs = 9999
+maxLiveMobs = 3
+
+[node name="c" parent="entities/arena_test_2_ents/arena_2_survival/horde_spawns" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 5 )
+type = 8
+tickMax = 10.0
+totalMobs = 9999
+
+[node name="Entity" type="Node" parent="entities/arena_test_2_ents/arena_2_survival"]
+script = ExtResource( 25 )
+isStatic = true
+
+[node name="item_full_pack" parent="entities/arena_test_2_ents" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -68, 5, 57 )
+respawns = true
+isImportant = true
+
+[node name="item_full_pack3" parent="entities/arena_test_2_ents" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -105, 7, 40 )

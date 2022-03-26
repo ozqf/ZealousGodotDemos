@@ -244,7 +244,7 @@ func on_clicked_reset() -> void:
 
 func _refresh_overlay() -> void:
 	if _state == GameState.Pregame:
-		_pregameUI.visible = true
+		_pregameUI.visible = _hasPlayerStart
 		_completeUI.visible = false
 		_deathUI.visible = false
 		# _screenFade.visible = true
@@ -376,6 +376,7 @@ func _clear_dynamic_entities() -> void:
 func _set_to_pregame() -> void:
 	set_game_state(GameState.Pregame)
 
+
 func reset_game() -> void:
 	if _state == GameState.Pregame:
 		return
@@ -391,6 +392,7 @@ func set_game_state(gameState) -> void:
 	if _state == GameState.Pregame:
 		_camera.detach()
 		_camera.global_transform = Transform.IDENTITY
+
 	_refresh_overlay()
 
 func game_on_player_died(_info:Dictionary) -> void:
