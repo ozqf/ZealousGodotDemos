@@ -7,15 +7,15 @@ flags = 19
 atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 128, 128 )
 
-[sub_resource type="AtlasTexture" id=2]
-flags = 19
-atlas = ExtResource( 1 )
-region = Rect2( 128, 0, 32, 32 )
-
 [sub_resource type="AtlasTexture" id=3]
 flags = 19
 atlas = ExtResource( 1 )
 region = Rect2( 256, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 19
+atlas = ExtResource( 1 )
+region = Rect2( 128, 0, 32, 32 )
 
 [resource]
 animations = [ {
@@ -24,13 +24,13 @@ animations = [ {
 "name": "nest",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 2 ) ],
-"loop": true,
-"name": "limb_segment",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 3 ) ],
 "loop": true,
 "name": "nest_giant",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 2 ) ],
+"loop": true,
+"name": "limb_segment",
 "speed": 5.0
 } ]

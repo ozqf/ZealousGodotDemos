@@ -5,6 +5,7 @@ onready var _ent:Entity = $Entity
 export var selfName:String = ""
 export var triggerTargetName:String = ""
 export var waitSeconds:float = 0
+export(Environment) var worldEnvironment:Environment = null
 
 var _active:bool = false
 var _tick:float = 0
@@ -13,7 +14,8 @@ enum EventType {
 	None = 0,
 	LevelComplete = 1,
 	ActivateWaypointTag = 2,
-	DeactivateWaypointTag = 3
+	DeactivateWaypointTag = 3,
+	ApplyEnvironment = 4
 }
 
 export(EventType) var type = EventType.None
@@ -30,6 +32,8 @@ func _ready() -> void:
 	_r = _ent.connect("entity_trigger", self, "on_trigger")
 	_ent.selfName = selfName
 	_ent.triggerTargetName = triggerTargetName
+	if worldEnvironment != null:
+		Game.register_environment(worldEnvironment, _ent.selfName)
 	# _spawnState = write_state()
 
 func on_trigger(_msg:String, _params:Dictionary) -> void:
@@ -76,5 +80,8 @@ func run_event() -> void:
 		AI.activate_waypoint_tag(intParameter1)
 	elif type == EventType.DeactivateWaypointTag:
 		AI.deactivate_waypoint_tag(intParameter1)
+	elif type == EventType.ApplyEnvironment:
+		# get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_SET_ENVIRONMENT, worldEnvironment)
+		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_SET_ENVIRONMENT, _ent.selfName)
 	else:
 		print("Trigger event has invalid type set: " + str(int(type)))

@@ -64,6 +64,9 @@ onready var _hintLabelTop:Label = $game_state_overlay/hint_text/hint_label_top
 onready var _screenFade:ColorRect = $game_state_overlay/screen_fade
 
 onready var _camera:AttachableCamera = $attachable_camera
+var _defaultEnvironment:Environment = null
+var _environment:String = ""
+var _environments = ZqfUtils.EMPTY_DICT
 
 enum GameState { Pregame, Playing, Won, Lost }
 
@@ -121,6 +124,8 @@ func _ready() -> void:
 	_hintContainer.visible = false
 
 	_skills = get_node("skills").get_children()
+	
+	_defaultEnvironment = _camera.environment
 
 	print("Game set default skill - " + str(get_skill().label))
 
@@ -329,7 +334,8 @@ func load_save_dict(dict:Dictionary) -> void:
 	
 	# restore state
 	set_game_state(dict.state)
-	# restore mode
+	# restore environment
+	game_set_environment(dict.env)
 	
 	# refresh in-game UI stuff
 	_refresh_overlay()
@@ -343,7 +349,8 @@ func save_game(filePath:String) -> void:
 	print("Writing save " + filePath)
 	var data:Dictionary = {
 		mapPath = get_tree().get_current_scene().filename,
-		state = _state
+		state = _state,
+		env = _environment
 	}
 	data.ai = AI.write_save_dict()
 	data.ents = Ents.write_save_dict()
@@ -421,9 +428,20 @@ func game_on_level_completed() -> void:
 func game_on_map_change() -> void:
 	print("Game - saw map change")
 	_justLoaded = true
+	_environments = ZqfUtils.EMPTY_DICT
+	game_set_environment(ZqfUtils.EMPTY_STR)
 	# _hasPlayerStart = false
 	_clear_dynamic_entities()
 	_set_to_pregame()
+
+func game_set_environment(name:String) -> void:
+	if name == null || name == ZqfUtils.EMPTY_STR:
+		_camera.environment = _defaultEnvironment
+		_environment = ZqfUtils.EMPTY_STR
+		return
+	if _environments.has(name):
+		_environment = name
+		_camera.environment = _environments[name]
 
 func game_pause() -> void:
 	print("Game pause")
@@ -475,6 +493,13 @@ func register_player_start(_obj:Spatial) -> void:
 func deregister_player_start(_obj:Spatial) -> void:
 	_hasPlayerStart = false
 	_refresh_overlay()
+
+func register_environment(env:Environment, name:String) -> void:
+	_environments[name] = env
+
+###############
+# spawns
+###############
 
 func spawn_rage_drops(pos:Vector3, dropType:int, dropCount:int) -> void:
 	var prefab = _rage_drop_t

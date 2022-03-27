@@ -33,6 +33,9 @@ const GAME_FN_LOAD_BASE64:String = "game_on_load_base64"
 const GAME_FN_SAVE_MAP_TEXT:String = "game_on_save_map_text"
 const GAME_FN_WROTE_MAP_TEXT:String = "game_on_wrote_map_text"
 
+# single param - the new environment to apply
+const GAME_FN_SET_ENVIRONMENT:String = "game_set_environment"
+
 # generic entity events group
 const ENTS_GROUP_NAME:String = "entities"
 const ENTS_FN_TRIGGER_ENTITIES:String = "on_trigger_entities"
