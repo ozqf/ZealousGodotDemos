@@ -83,11 +83,11 @@
 [ext_resource path="res://prefabs/static_entities/camera_entity.tscn" type="PackedScene" id=81]
 [ext_resource path="res://prefabs/world_inert/corridor_outer.tscn" type="PackedScene" id=82]
 [ext_resource path="res://maps/test_entities/test_entities_atmosphere.tres" type="Environment" id=83]
-[ext_resource path="res://src/static_entities/trigger_event.gd" type="Script" id=84]
 [ext_resource path="res://assets/world/materials/mat_light_ray.tres" type="Material" id=85]
 [ext_resource path="res://assets/primitives/corridor_outer.obj" type="ArrayMesh" id=86]
 [ext_resource path="res://zqf/timed_emit.gd" type="Script" id=87]
 [ext_resource path="res://assets/world/raw/quick_mist.png" type="Texture" id=88]
+[ext_resource path="res://assets/sounds/world/Lab_Amb.ogg" type="AudioStream" id=89]
 
 [sub_resource type="Environment" id=1]
 ambient_light_color = Color( 0.517647, 0.52549, 0.733333, 1 )
@@ -325,12 +325,6 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.5, 3
 light_color = Color( 0.333333, 1, 0.513726, 1 )
 light_energy = 3.0
 spot_angle = 30.0
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, 48 )
-stream = ExtResource( 5 )
-autoplay = true
-bus = "game"
 
 [node name="sprite_gallery" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 0, 0 )
@@ -736,7 +730,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -11 )
 
 [node name="lever_switch" parent="ents/arena_test_2_ents" instance=ExtResource( 46 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -88, 6, 55 )
-triggerTargetName = "arena_2_survival"
+triggerTargetName = "arena_2_survival basement_env"
 
 [node name="info_deadline_controller" parent="ents/arena_test_2_ents" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -81, 19, 47 )
@@ -1163,7 +1157,6 @@ intParameter1 = 1
 
 [node name="activate_tag_2" parent="ents/arena_test" instance=ExtResource( 43 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 5, -5 )
-script = ExtResource( 84 )
 selfName = "activate_tag_1"
 worldEnvironment = SubResource( 10 )
 type = 4
@@ -1206,6 +1199,25 @@ respawns = true
 
 [node name="barrel_explosive" parent="ents/arena_test" instance=ExtResource( 59 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 2, 2 )
+
+[node name="atmosphere_test" type="Spatial" parent="ents"]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="ents/atmosphere_test"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, 48 )
+stream = ExtResource( 5 )
+autoplay = true
+bus = "game"
+
+[node name="AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="ents/atmosphere_test"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 9, 48 )
+stream = ExtResource( 89 )
+attenuation_model = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="ents/atmosphere_test"]
+stream = ExtResource( 89 )
+volume_db = -10.0
+autoplay = true
+bus = "game"
 
 [node name="gameplay_test" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50 )
@@ -1827,7 +1839,7 @@ billboard = 1
 texture = ExtResource( 88 )
 
 [node name="Sprite3D10" type="Sprite3D" parent="atmosphere_test"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.5, -3 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0.5, -3 )
 modulate = Color( 1, 1, 1, 0.129412 )
 pixel_size = 0.03
 billboard = 1
@@ -1835,6 +1847,34 @@ texture = ExtResource( 88 )
 
 [node name="Sprite3D11" type="Sprite3D" parent="atmosphere_test"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.5, -4 )
+modulate = Color( 1, 1, 1, 0.129412 )
+pixel_size = 0.03
+billboard = 1
+texture = ExtResource( 88 )
+
+[node name="Sprite3D18" type="Sprite3D" parent="atmosphere_test"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.5, -7 )
+modulate = Color( 1, 1, 1, 0.129412 )
+pixel_size = 0.03
+billboard = 1
+texture = ExtResource( 88 )
+
+[node name="Sprite3D21" type="Sprite3D" parent="atmosphere_test"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.5, -8 )
+modulate = Color( 1, 1, 1, 0.129412 )
+pixel_size = 0.03
+billboard = 1
+texture = ExtResource( 88 )
+
+[node name="Sprite3D22" type="Sprite3D" parent="atmosphere_test"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.5, -8 )
+modulate = Color( 1, 1, 1, 0.129412 )
+pixel_size = 0.03
+billboard = 1
+texture = ExtResource( 88 )
+
+[node name="Sprite3D23" type="Sprite3D" parent="atmosphere_test"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.5, -5 )
 modulate = Color( 1, 1, 1, 0.129412 )
 pixel_size = 0.03
 billboard = 1
@@ -1861,6 +1901,20 @@ pixel_size = 0.03
 billboard = 1
 texture = ExtResource( 88 )
 
+[node name="Sprite3D19" type="Sprite3D" parent="atmosphere_test"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, -1.5, 3 )
+modulate = Color( 1, 1, 1, 0.129412 )
+pixel_size = 0.03
+billboard = 1
+texture = ExtResource( 88 )
+
+[node name="Sprite3D20" type="Sprite3D" parent="atmosphere_test"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -1.5, 4 )
+modulate = Color( 1, 1, 1, 0.129412 )
+pixel_size = 0.03
+billboard = 1
+texture = ExtResource( 88 )
+
 [node name="Sprite3D15" type="Sprite3D" parent="atmosphere_test"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, -4 )
 modulate = Color( 1, 1, 1, 0.129412 )
@@ -1876,7 +1930,7 @@ billboard = 1
 texture = ExtResource( 88 )
 
 [node name="Sprite3D17" type="Sprite3D" parent="atmosphere_test"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0.5, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.5, 0 )
 modulate = Color( 1, 1, 1, 0.129412 )
 pixel_size = 0.03
 billboard = 1
