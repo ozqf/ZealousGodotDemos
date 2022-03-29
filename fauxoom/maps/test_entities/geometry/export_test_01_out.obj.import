@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/export_test_01_out.obj-84378a9c968d3ec67cf0283aa00191ad.mesh"
+
+[deps]
+
+files=[ "res://.import/export_test_01_out.obj-84378a9c968d3ec67cf0283aa00191ad.mesh" ]
+
+source_file="res://maps/test_entities/geometry/export_test_01_out.obj"
+dest_files=[ "res://.import/export_test_01_out.obj-84378a9c968d3ec67cf0283aa00191ad.mesh", "res://.import/export_test_01_out.obj-84378a9c968d3ec67cf0283aa00191ad.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

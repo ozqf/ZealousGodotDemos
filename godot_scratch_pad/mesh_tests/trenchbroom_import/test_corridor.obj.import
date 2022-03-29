@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/test_corridor.obj-47bfb21d3dff8bca50a21d9ea5a4767c.mesh"
+
+[deps]
+
+files=[ "res://.import/test_corridor.obj-47bfb21d3dff8bca50a21d9ea5a4767c.mesh" ]
+
+source_file="res://mesh_tests/trenchbroom_import/test_corridor.obj"
+dest_files=[ "res://.import/test_corridor.obj-47bfb21d3dff8bca50a21d9ea5a4767c.mesh", "res://.import/test_corridor.obj-47bfb21d3dff8bca50a21d9ea5a4767c.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

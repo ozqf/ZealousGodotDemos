@@ -1,0 +1,6 @@
+newmtl test_textures/aqconc08
+map_Kd textures\test_textures\aqconc08
+
+newmtl test_textures/aqmetl01
+map_Kd textures\test_textures\aqmetl01
+

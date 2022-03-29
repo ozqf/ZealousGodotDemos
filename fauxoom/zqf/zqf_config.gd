@@ -26,6 +26,7 @@ var cfg:Dictionary = {
 	move_special = 0,
 	attack_1 = 0,
 	interact = 0,
+	hyper = 0,
 	slot_1 = 0,
 	slot_2 = 0,
 	slot_3 = 0,

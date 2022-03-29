@@ -1,12 +1,25 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://mesh_tests/multiple_materials/cube_1x1x1_mats_2.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://mesh_tests/multiple_materials/mat_block_grey_planar.tres" type="Material" id=2]
 [ext_resource path="res://mesh_tests/multiple_materials/mat_block_orange_planar.tres" type="Material" id=3]
 [ext_resource path="res://mesh_tests/multiple_materials/cube_1x1x1_no_mats.obj" type="ArrayMesh" id=4]
 [ext_resource path="res://mesh_tests/blender_import/world_test_01/world_tests.gltf" type="PackedScene" id=5]
+[ext_resource path="res://mesh_tests/trenchbroom_import/aqconc08.tres" type="Material" id=6]
+[ext_resource path="res://mesh_tests/trenchbroom_import/test_map_chunk.obj" type="ArrayMesh" id=7]
+[ext_resource path="res://mesh_tests/trenchbroom_import/mat_32x32_grey_block.tres" type="Material" id=8]
+[ext_resource path="res://mesh_tests/trenchbroom_import/test_corridor.obj" type="ArrayMesh" id=9]
+
+[sub_resource type="Environment" id=1]
+ambient_light_color = Color( 0.145098, 0.14902, 0.337255, 1 )
+
+[sub_resource type="CapsuleMesh" id=2]
+radius = 0.5
 
 [node name="root" type="Spatial"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = ExtResource( 1 )
@@ -19,3 +32,97 @@ mesh = ExtResource( 4 )
 material/0 = ExtResource( 2 )
 
 [node name="world_tests" parent="." instance=ExtResource( 5 )]
+
+[node name="test_map_chunk" type="MeshInstance" parent="."]
+transform = Transform( 0.031, 0, 0, 0, 0.031, 0, 0, 0, 0.031, -9, 0, -2 )
+mesh = ExtResource( 7 )
+material/0 = ExtResource( 6 )
+material/1 = ExtResource( 6 )
+material/2 = ExtResource( 6 )
+material/3 = ExtResource( 6 )
+material/4 = ExtResource( 6 )
+material/5 = ExtResource( 6 )
+material/6 = ExtResource( 6 )
+material/7 = ExtResource( 6 )
+material/8 = ExtResource( 6 )
+material/9 = ExtResource( 6 )
+material/10 = ExtResource( 6 )
+material/11 = ExtResource( 6 )
+material/12 = ExtResource( 6 )
+material/13 = ExtResource( 6 )
+material/14 = null
+material/15 = null
+material/16 = null
+material/17 = null
+material/18 = null
+material/19 = null
+material/20 = null
+material/21 = null
+material/22 = null
+material/23 = null
+material/24 = null
+material/25 = null
+material/26 = null
+material/27 = null
+material/28 = null
+material/29 = null
+material/30 = null
+material/31 = null
+material/32 = null
+material/33 = null
+material/34 = null
+material/35 = null
+material/36 = null
+material/37 = null
+material/38 = null
+material/39 = null
+material/40 = null
+material/41 = null
+material/42 = null
+material/43 = null
+material/44 = null
+material/45 = null
+material/46 = null
+material/47 = null
+material/48 = null
+material/49 = null
+material/50 = null
+material/51 = null
+material/52 = null
+material/53 = null
+material/54 = null
+material/55 = null
+material/56 = null
+material/57 = null
+material/58 = null
+material/59 = null
+material/60 = null
+material/61 = null
+material/62 = null
+material/63 = null
+material/64 = null
+material/65 = null
+material/66 = null
+material/67 = null
+material/68 = null
+material/69 = null
+material/70 = null
+material/71 = null
+material/72 = null
+material/73 = null
+material/74 = null
+material/75 = null
+
+[node name="MeshInstance3" type="MeshInstance" parent="."]
+transform = Transform( 0.031, 0, 0, 0, 0.031, 0, 0, 0, 0.031, -1, 0, 10 )
+mesh = ExtResource( 9 )
+material/0 = ExtResource( 8 )
+
+[node name="OmniLight" type="OmniLight" parent="MeshInstance3"]
+transform = Transform( 32.2581, 0, 0, 0, 32.2581, 0, 0, 0, 32.2581, 0, 32.2581, 64.5161 )
+shadow_enabled = true
+
+[node name="MeshInstance4" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -2, 1, 9 )
+mesh = SubResource( 2 )
+material/0 = null

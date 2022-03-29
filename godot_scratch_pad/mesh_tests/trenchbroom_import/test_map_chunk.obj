@@ -1,0 +1,386 @@
+mtllib test_map_chunk.mtl
+# vertices
+v -64 -32 -64
+v -64 -32 64
+v -64 0 64
+v -64 0 -64
+v 64 0 64
+v 64 -32 64
+v 64 -32 -64
+v 64 0 -64
+v 32 80 -64
+v 32 80 64
+v 32 112 64
+v 32 112 -64
+v 64 112 64
+v 64 80 64
+v 64 80 -64
+v 64 112 -64
+v -160 -32 -96
+v -160 -32 -64
+v -160 112 -64
+v -160 112 -96
+v 64 112 -64
+v 64 -32 -64
+v 64 -32 -96
+v 64 112 -96
+v -64 -32 64
+v -64 -32 96
+v -64 112 96
+v -64 112 64
+v 64 112 96
+v 64 -32 96
+v 64 -32 64
+v 64 112 64
+v -64 -32 64
+v -96 -32 96
+v -96 112 96
+v -64 112 64
+v -64 112 96
+v -64 -32 96
+v -224 -32 96
+v -224 -32 224
+v -224 0 224
+v -224 0 96
+v -96 0 224
+v -96 -32 224
+v -96 -32 96
+v -96 0 96
+v -96 -32 96
+v -96 -32 224
+v -96 112 224
+v -96 112 96
+v -64 112 224
+v -64 -32 224
+v -64 -32 96
+v -64 112 96
+v -256 -32 -0
+v -256 -32 224
+v -256 112 224
+v -256 112 -0
+v -224 112 224
+v -224 -32 224
+v -224 -32 -0
+v -224 112 -0
+v -224 112 -0
+v -224 112 -64
+v -224 -32 -64
+v -224 -32 -0
+v -160 -32 -64
+v -160 112 -64
+v -224 -32 -64
+v -224 -32 96
+v -224 0 96
+v -224 0 -64
+v -64 0 96
+v -64 -32 96
+v -64 -32 -64
+v -64 0 -64
+v -64 80 -64
+v -64 80 64
+v -64 112 64
+v -64 112 -64
+v -32 112 64
+v -32 80 64
+v -32 80 -64
+v -32 112 -64
+v -224 80 96
+v -224 80 128
+v -224 112 128
+v -224 112 96
+v -96 112 128
+v -96 80 128
+v -96 80 96
+v -96 112 96
+v -224 80 192
+v -224 80 224
+v -224 112 224
+v -224 112 192
+v -96 112 224
+v -96 80 224
+v -96 80 192
+v -96 112 192
+
+# texture coordinates
+vt -2 -0.5
+vt 2 -0.5
+vt 2 0.5
+vt -2 0.5
+vt -2 -2
+vt 2 -2
+vt 2 2
+vt -2 2
+vt -2 3
+vt 2 3
+vt 2 4
+vt -2 4
+vt 1 4
+vt 1 3
+vt -1 -2
+vt -1 2
+vt 1 2
+vt 1 -2
+vt -1 3
+vt -1 4
+vt -3 -0.5
+vt -3 4
+vt -5 4
+vt -5 -0.5
+vt 5 2
+vt 5 3
+vt -5 3
+vt -5 2
+vt 5 -0.5
+vt 5 4
+vt 3 4
+vt 3 -0.5
+vt -2 -3
+vt 2 -3
+vt 3 -3
+vt -3 -3
+vt 7 -0.5
+vt 7 0.5
+vt 3 0.5
+vt -3 0.5
+vt -7 0.5
+vt -7 -0.5
+vt 3 -7
+vt 7 -7
+vt 7 -3
+vt -7 -3
+vt -7 -7
+vt -3 -7
+vt 7 4
+vt 2 -7
+vt -2 -7
+vt -7 4
+vt 0 -0.5
+vt 0 4
+vt -8 4
+vt -8 -0.5
+vt 8 -7
+vt 8 -0
+vt 7 -0
+vt -7 -0
+vt -8 -0
+vt -8 -7
+vt 8 -0.5
+vt 8 4
+vt 8.572527703398379e-16 4
+vt 8.572527703398379e-16 -0.5
+vt -7 -0.99999994039535522
+vt -5 -3
+vt 5 -3
+vt 7 -0.99999994039535522
+vt 7 2
+vt -7 2
+vt 3 3
+vt 4 3
+vt 4 4
+vt -7 3
+vt -3 3
+vt 3 -4
+vt 7 -4
+vt -7 -4
+vt -3 -4
+vt 7 3
+vt -4 4
+vt -4 3
+vt 6 3
+vt 6 4
+vt 7 -6
+vt 3 -6
+vt -3 -6
+vt -7 -6
+vt -6 4
+vt -6 3
+
+# face normals
+vn -1 0 -0
+vn 0 0 1
+vn 0 -1 -0
+vn 0 1 -0
+vn 0 0 -1
+vn 1 0 -0
+vn -0.70710678118654757 0 -0.70710678118654757
+vn 0.70710678118654757 0 0.70710678118654757
+
+# objects
+o entity0_brush0
+usemtl test_textures/aqconc08
+f 1/1/1 2/2/1 3/3/1 4/4/1
+usemtl test_textures/aqconc08
+f 5/3/2 3/4/2 2/1/2 6/2/2
+usemtl test_textures/aqconc08
+f 6/5/3 2/6/3 1/7/3 7/8/3
+usemtl test_textures/aqmetl01
+f 8/7/4 4/8/4 3/5/4 5/6/4
+usemtl test_textures/aqconc08
+f 7/1/5 1/2/5 4/3/5 8/4/5
+usemtl test_textures/aqconc08
+f 8/3/6 5/4/6 6/1/6 7/2/6
+
+o entity0_brush1
+usemtl test_textures/aqconc08
+f 9/9/1 10/10/1 11/11/1 12/12/1
+usemtl test_textures/aqconc08
+f 13/11/2 11/13/2 10/14/2 14/10/2
+usemtl test_textures/aqconc08
+f 14/5/3 10/15/3 9/16/3 15/8/3
+usemtl test_textures/aqconc08
+f 16/7/4 12/17/4 11/18/4 13/6/4
+usemtl test_textures/aqconc08
+f 15/9/5 9/19/5 12/20/5 16/12/5
+usemtl test_textures/aqconc08
+f 16/11/6 13/12/6 14/9/6 15/10/6
+
+o entity0_brush2
+usemtl test_textures/aqconc08
+f 17/21/1 18/1/1 19/12/1 20/22/1
+usemtl test_textures/aqconc08
+f 21/11/2 19/23/2 18/24/2 22/2/2
+usemtl test_textures/aqconc08
+f 22/8/3 18/25/3 17/26/3 23/9/3
+usemtl test_textures/aqconc08
+f 24/10/4 20/27/4 19/28/4 21/7/4
+usemtl test_textures/aqconc08
+f 23/1/5 17/29/5 20/30/5 24/12/5
+usemtl test_textures/aqconc08
+f 24/31/6 21/11/6 22/2/6 23/32/6
+
+o entity0_brush3
+usemtl test_textures/aqconc08
+f 25/2/1 26/32/1 27/31/1 28/11/1
+usemtl test_textures/aqconc08
+f 29/11/2 27/12/2 26/1/2 30/2/2
+usemtl test_textures/aqconc08
+f 30/33/3 26/34/3 25/6/3 31/5/3
+usemtl test_textures/aqconc08
+f 32/6/4 28/5/4 27/33/4 29/34/4
+usemtl test_textures/aqconc08
+f 31/1/5 25/2/5 28/11/5 32/12/5
+usemtl test_textures/aqconc08
+f 32/12/6 29/22/6 30/21/6 31/1/6
+
+o entity0_brush4
+usemtl test_textures/aqconc08
+f 33/2/7 34/32/7 35/31/7 36/11/7
+usemtl test_textures/aqconc08
+f 37/12/2 35/22/2 34/21/2 38/1/2
+usemtl test_textures/aqconc08
+f 38/34/3 34/35/3 33/6/3
+usemtl test_textures/aqconc08
+f 36/5/4 35/36/4 37/33/4
+usemtl test_textures/aqconc08
+f 38/21/6 33/1/6 36/12/6 37/22/6
+
+o entity0_brush5
+usemtl test_textures/aqconc08
+f 39/32/1 40/37/1 41/38/1 42/39/1
+usemtl test_textures/aqconc08
+f 43/40/2 41/41/2 40/42/2 44/21/2
+usemtl test_textures/aqconc08
+f 44/43/3 40/44/3 39/45/3 45/35/3
+usemtl test_textures/aqmetl01
+f 46/36/4 42/46/4 41/47/4 43/48/4
+usemtl test_textures/aqconc08
+f 45/32/5 39/37/5 42/38/5 46/39/5
+usemtl test_textures/aqconc08
+f 46/40/6 43/41/6 44/42/6 45/21/6
+
+o entity0_brush6
+usemtl test_textures/aqconc08
+f 47/32/1 48/37/1 49/49/1 50/31/1
+usemtl test_textures/aqconc08
+f 51/12/2 49/22/2 48/21/2 52/1/2
+usemtl test_textures/aqconc08
+f 52/50/3 48/43/3 47/35/3 53/34/3
+usemtl test_textures/aqconc08
+f 54/33/4 50/36/4 49/48/4 51/51/4
+usemtl test_textures/aqconc08
+f 53/2/5 47/32/5 50/31/5 54/11/5
+usemtl test_textures/aqconc08
+f 54/22/6 51/52/6 52/42/6 53/21/6
+
+o entity0_brush7
+usemtl test_textures/aqconc08
+f 55/53/1 56/37/1 57/49/1 58/54/1
+usemtl test_textures/aqconc08
+f 59/52/2 57/55/2 56/56/2 60/42/2
+usemtl test_textures/aqconc08
+f 60/44/3 56/57/3 55/58/3 61/59/3
+usemtl test_textures/aqconc08
+f 62/60/4 58/61/4 57/62/4 59/47/4
+usemtl test_textures/aqconc08
+f 61/37/5 55/63/5 58/64/5 62/49/5
+usemtl test_textures/aqconc08
+f 62/54/6 59/52/6 60/42/6 61/53/6
+
+o entity0_brush8
+usemtl test_textures/aqconc08
+f 63/65/1 64/12/1 65/1/1 66/66/1
+usemtl test_textures/aqconc08
+f 66/67/3 65/46/3 67/68/3
+usemtl test_textures/aqconc08
+f 68/69/4 64/45/4 63/70/4
+usemtl test_textures/aqconc08
+f 67/29/5 65/37/5 64/49/5 68/30/5
+usemtl test_textures/aqconc08
+f 63/52/8 66/42/8 67/24/8 68/23/8
+
+o entity0_brush9
+usemtl test_textures/aqconc08
+f 69/1/1 70/32/1 71/39/1 72/4/1
+usemtl test_textures/aqconc08
+f 73/4/2 71/41/2 70/42/2 74/1/2
+usemtl test_textures/aqconc08
+f 74/34/3 70/45/3 69/71/3 75/7/3
+usemtl test_textures/aqmetl01
+f 76/8/4 72/72/4 71/46/4 73/33/4
+usemtl test_textures/aqconc08
+f 75/2/5 69/37/5 72/38/5 76/3/5
+usemtl test_textures/aqconc08
+f 76/3/6 73/40/6 74/21/6 75/2/6
+
+o entity0_brush10
+usemtl test_textures/aqconc08
+f 77/9/1 78/10/1 79/11/1 80/12/1
+usemtl test_textures/aqconc08
+f 81/20/2 79/12/2 78/9/2 82/19/2
+usemtl test_textures/aqconc08
+f 82/18/3 78/6/3 77/7/3 83/17/3
+usemtl test_textures/aqconc08
+f 84/16/4 80/8/4 79/5/4 81/15/4
+usemtl test_textures/aqconc08
+f 83/14/5 77/10/5 80/11/5 84/13/5
+usemtl test_textures/aqconc08
+f 84/11/6 81/12/6 82/9/6 83/10/6
+
+o entity0_brush11
+usemtl test_textures/aqconc08
+f 85/73/1 86/74/1 87/75/1 88/31/1
+usemtl test_textures/aqconc08
+f 89/22/2 87/52/2 86/76/2 90/77/2
+usemtl test_textures/aqconc08
+f 90/78/3 86/79/3 85/45/3 91/35/3
+usemtl test_textures/aqconc08
+f 92/36/4 88/46/4 87/80/4 89/81/4
+usemtl test_textures/aqconc08
+f 91/73/5 85/82/5 88/49/5 92/31/5
+usemtl test_textures/aqconc08
+f 92/22/6 89/83/6 90/84/6 91/77/6
+
+o entity0_brush12
+usemtl test_textures/aqconc08
+f 93/85/1 94/82/1 95/49/1 96/86/1
+usemtl test_textures/aqconc08
+f 97/22/2 95/52/2 94/76/2 98/77/2
+usemtl test_textures/aqconc08
+f 98/43/3 94/44/3 93/87/3 99/88/3
+usemtl test_textures/aqconc08
+f 100/89/4 96/90/4 95/47/4 97/48/4
+usemtl test_textures/aqconc08
+f 99/73/5 93/82/5 96/49/5 100/31/5
+usemtl test_textures/aqconc08
+f 100/91/6 97/52/6 98/76/6 99/92/6
+

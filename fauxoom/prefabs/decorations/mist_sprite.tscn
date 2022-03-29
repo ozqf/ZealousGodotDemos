@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/world/raw/quick_mist.png" type="Texture" id=1]
+
+[node name="Sprite3D5" type="Sprite3D"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.5, 2 )
+modulate = Color( 1, 1, 1, 0.129412 )
+pixel_size = 0.03
+billboard = 1
+texture = ExtResource( 1 )
