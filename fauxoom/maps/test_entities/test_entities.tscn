@@ -2552,19 +2552,19 @@ skeleton = NodePath("../../../../../atmosphere_test/world_volume_corner12")
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 54, -2, 97 )
 mesh = ExtResource( 92 )
 skeleton = NodePath("../../../../../atmosphere_test")
-material/0 = null
-material/1 = null
-material/2 = null
-material/3 = null
-material/4 = null
-material/5 = null
-material/6 = null
-material/7 = null
-material/8 = null
-material/9 = null
-material/10 = null
-material/11 = null
-material/12 = null
+material/0 = ExtResource( 29 )
+material/1 = ExtResource( 29 )
+material/2 = ExtResource( 29 )
+material/3 = ExtResource( 29 )
+material/4 = ExtResource( 29 )
+material/5 = ExtResource( 29 )
+material/6 = ExtResource( 29 )
+material/7 = ExtResource( 29 )
+material/8 = ExtResource( 29 )
+material/9 = ExtResource( 29 )
+material/10 = ExtResource( 29 )
+material/11 = ExtResource( 29 )
+material/12 = ExtResource( 29 )
 
 [node name="StaticBody" type="StaticBody" parent="geometry/world/NavigationMeshInstance/atmosphere_test/MeshInstance2"]
 
