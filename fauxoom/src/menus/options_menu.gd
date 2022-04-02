@@ -7,6 +7,7 @@ onready var _invertedY:CheckBox = $VBoxContainer/inverted_mouse/CheckBox
 onready var _sensitivity:LineEdit = $VBoxContainer/mouse_sensitivity/LineEdit
 
 onready var _windowed:CheckBox = $VBoxContainer/windowed/CheckBox
+onready var _vsync:CheckBox = $VBoxContainer/vsync/CheckBox
 onready var _fovLabel:Label = $VBoxContainer/fov/Label
 onready var _fov:HSlider = $VBoxContainer/fov/HSlider
 
@@ -17,6 +18,7 @@ func _ready() -> void:
 	var _f = $VBoxContainer/back.connect("pressed", self, "_on_back")
 	_f = _invertedY.connect("pressed", self, "_inverted_y_pressed")
 	_f = _windowed.connect("pressed", self, "_windowed_pressed")
+	_f = _vsync.connect("pressed", self, "_vsync_pressed")
 	_f = _fov.connect("value_changed", self, "_fov_changed")
 	_f = _sensitivity.connect("text_changed", self, "_sensitivity_changed")
 	_f = _sfx.connect("value_changed", self, "_sfx_changed")
@@ -26,6 +28,7 @@ func on() -> void:
 	self.visible = true
 	_invertedY.pressed = Config.cfg.i_invertedY
 	_windowed.pressed = !Config.cfg.r_fullscreen
+	_vsync.pressed = Config.cfg.r_vsync
 	_sensitivity.text = str(Config.cfg.i_sensitivity)
 	_sfx.value = Config.cfg.s_sfx
 	_bgm.value = Config.cfg.s_bgm
@@ -66,4 +69,9 @@ func _inverted_y_pressed() -> void:
 
 func _windowed_pressed() -> void:
 	Config.cfg.r_fullscreen = !_windowed.pressed
+	Config.broadcast_cfg_change()
+
+func _vsync_pressed() -> void:
+	Config.cfg.r_vsync = _vsync.pressed
+	print("Vsync: " + str(Config.cfg.r_vsync))
 	Config.broadcast_cfg_change()
