@@ -212,6 +212,7 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.tars = triggerTargets
 	_dict.srcId = _sourceId
 	_dict.snipe = _isSniper
+	_spawnColumn.append_state(_dict)
 
 func restore_state(_dict:Dictionary) -> void:
 	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
@@ -221,6 +222,7 @@ func restore_state(_dict:Dictionary) -> void:
 	# _moveYaw = _dict.yaw
 	triggerTargets = _dict.tars
 	set_behaviour(_dict.snipe)
+	_spawnColumn.restore_state(_dict)
 
 	# rewire to source
 	var id:int = _dict.srcId

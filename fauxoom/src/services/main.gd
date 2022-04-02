@@ -179,6 +179,7 @@ func config_changed(_cfg:Dictionary) -> void:
 func _apply_window_settings() -> void:
 	print("Apply window settings")
 	OS.window_fullscreen = Config.cfg.r_fullscreen
+	OS.vsync_enabled = Config.cfg.r_vsync
 
 func _set_bus_volume_percent(busIndex:int, percentage:float) -> void:
 	if percentage <= 0:

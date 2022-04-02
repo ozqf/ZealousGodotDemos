@@ -61,6 +61,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="head/right_cannon"]
+visible = false
 mesh = SubResource( 3 )
 material/0 = null
 
@@ -68,6 +69,7 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, 0 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="head/left_cannon"]
+visible = false
 mesh = SubResource( 3 )
 skeleton = NodePath("../../right_cannon")
 material/0 = null
@@ -97,8 +99,8 @@ inactiveWhenAttacking = true
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
 entityType = "mob_golem"
-health = 1000
-moveSpeed = 2.0
+health = 1500
+moveSpeed = 2.5
 evadeSpeed = 0.0
 moveTime = 0.5
 stunTime = 0.5

@@ -10,7 +10,8 @@ export var cfgName:String = "fauxoom"
 
 var cfg:Dictionary = {
 	r_fullscreen = true,
-	r_fov = 80,
+	r_fov = 90,
+	r_vsync = true,
 	r_hitDebris = false,
 	r_bloodParticles = false,
 	i_sensitivity = 1,

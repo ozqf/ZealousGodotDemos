@@ -32,6 +32,9 @@ export var requiresLos:bool = true
 export var useLastSeenPosition:bool = true
 export var ignoreAutoSelect:bool = false
 
+# eg 
+var prjPrefabOverride = null
+
 # set by mob when attacks are collected
 var index:int = 0
 
@@ -76,7 +79,11 @@ func fire_from(_target:Vector3, launch:Spatial) -> void:
 	var forward:Vector3 = -t.basis.z
 
 	if _pattern == null:
-		var prj = Game.prj_point_t.instance()
+		var prj = null
+		if prjPrefabOverride == null:
+			prj = Game.prj_point_t.instance()
+		else:
+			prj = prjPrefabOverride.instance()
 		Game.get_dynamic_parent().add_child(prj)
 		prj.launch_prj(selfPos, forward, 0, Interactions.TEAM_ENEMY, _prjMask)
 		return
@@ -85,7 +92,11 @@ func fire_from(_target:Vector3, launch:Spatial) -> void:
 	# print("Pattern attack got " + str(numItems) + " items")
 	for _i in range (0, numItems):
 		var item:Dictionary = _patternBuffer[_i]
-		var prj = Game.prj_point_t.instance()
+		var prj = null
+		if prjPrefabOverride != null:
+			prj = Game.prj_point_t.instance()
+		else:
+			prj = prjPrefabOverride.instance()
 		Game.get_dynamic_parent().add_child(prj)
 		# var frwd:Vector3 = t.basis.xform_inv(item.forward)
 		var frwd:Vector3 = item.forward

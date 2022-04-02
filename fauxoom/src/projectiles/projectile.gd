@@ -105,7 +105,7 @@ func _move_as_ray(_delta:float) -> void:
 func move(_delta:float) -> void:
 	_move_as_ray(_delta)
 
-func _process(_delta:float) -> void:
+func _physics_process(_delta:float) -> void:
 	if _state == ProjectileState.InFlight:
 		_time -= _delta
 		if _time <= 0:

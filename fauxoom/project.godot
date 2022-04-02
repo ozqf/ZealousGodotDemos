@@ -480,6 +480,9 @@ gdscript/warnings/unsafe_call_argument=true
 
 [display]
 
+window/size/width=1280
+window/size/height=720
+window/vsync/use_vsync=false
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 

@@ -34,6 +34,7 @@ var _prefab_ejected_bullet = preload("res://prefabs/gfx/ejected_bullet.tscn")
 var _prefab_ejected_shell = preload("res://prefabs/gfx/ejected_shell.tscn")
 
 var prj_point_t = preload("res://prefabs/projectiles/prj_point.tscn")
+var prj_golem_t = preload("res://prefabs/projectiles/prj_golem.tscn")
 var prj_spike_t = preload("res://prefabs/projectiles/prj_ground_spike.tscn")
 var prj_column_t = preload("res://prefabs/projectiles/prj_column.tscn")
 var flame_t = preload("res://prefabs/projectiles/prj_flame.tscn")

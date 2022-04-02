@@ -109,7 +109,7 @@ func set_current_weapon(index:int) -> void:
 	# 	newWeap.equip()
 	if _currentWeaponIndex >= 0:
 		newWeap = weapons[_currentWeaponIndex]
-		print("Equip weapon " + newWeap.name)
+		# print("Equip weapon " + newWeap.name)
 		newWeap.equip()
 	# if newWeap != null:
 	# 	print("Switched to " + newWeap.name)

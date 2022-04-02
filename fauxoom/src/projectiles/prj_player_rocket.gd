@@ -68,9 +68,9 @@ func _run_explosion_hits(bodies) -> void:
 		_hitInfo.direction = _hitInfo.direction.normalized()
 		var _inflicted:int = Interactions.hit(_hitInfo, body)
 
-func _process(_delta:float) -> void:
+func _physics_process(_delta:float) -> void:
 	if _scanner.total > 0:
 		_light.light_color = Color(1, 0, 0, 1)
 	else:
 		_light.light_color = Color(1, 1, 0, 1)
-	._process(_delta)
+	._physics_process(_delta)
