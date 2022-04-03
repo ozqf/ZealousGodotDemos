@@ -8,6 +8,7 @@ const ROOT_DIRECTORY:String = "user://cfg/"
 
 export var cfgName:String = "fauxoom"
 
+# public... I got lazy :/
 var cfg:Dictionary = {
 	r_fullscreen = true,
 	r_fov = 90,
@@ -43,7 +44,6 @@ var cfg:Dictionary = {
 var _pendingFilePath:String = ""
 var _saveTick:float = 0
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	# broadcast change if file load failed, have to give everyone the default
 	if !load_cfg(cfgName):
@@ -60,6 +60,9 @@ func _process(_delta:float) -> void:
 # saving/loading
 ################################
 
+# variables being added/remove between versions make the dictionary's
+# members brittle. So compare keys and don't just copy the other
+# over the default as it may be missing keys.
 func _apply_loaded_dict(other:Dictionary) -> void:
 	for key in other.keys():
 		if !cfg.has(key):
@@ -82,7 +85,6 @@ func _write_cfg(fileName:String) -> void:
 		return
 	file.store_string(to_json(cfg))
 	file.close()
-	print("Write done")
 
 func load_cfg(fileName:String) -> bool:
 	var path = ROOT_DIRECTORY + fileName + ".json"
@@ -92,8 +94,6 @@ func load_cfg(fileName:String) -> bool:
 		print("Failed to read cfg")
 		return false
 	_apply_loaded_dict(dict)
-	# cfg = dict
-	print("Read cfg")
 	broadcast_cfg_change()
 	return true
 

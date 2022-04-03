@@ -17,34 +17,29 @@ var _slop:AudioStream = preload("res://assets/sounds/impact/slop.wav")
 func alert() -> void:
 	var r = randf()
 	if r > 0.666:
-		stream = _alert1
+		play_voice(_alert1)
 	elif r > 0.333:
-		stream = _alert2
+		play_voice(_alert2)
 	else:
-		stream = _alert3
-	play(0)
+		play_voice(_alert3)
 
 func death() -> void:
 	var r = randf()
 	if r > 0.666:
-		stream = _death1
+		play_voice(_death1)
 	elif r > 0.333:
-		stream = _death2
+		play_voice(_death2)
 	else:
-		stream = _death3
-	play(0)
+		play_voice(_death3)
 
 func gib() -> void:
-	stream = _slop
-	play(0)
+	play_voice(_slop)
 
 func on_event(tag:String, _index:int) -> void:
 	if tag == "shoot":
-		stream = _shoot
-		play(0)
+		play_equipment(_shoot)
 	elif tag == "pain":
-		stream = _pain
-		play(0)
+		play_voice(_pain)
 	elif tag == "death":
 		death()
 	elif tag == "gib":

@@ -98,6 +98,7 @@ disabled = true
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 6 )
+unit_db = -4.0
 autoplay = true
 max_distance = 50.0
 bus = "game"

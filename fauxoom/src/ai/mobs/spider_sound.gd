@@ -7,22 +7,15 @@ var _pain:AudioStream = preload("res://assets/sounds/mob/monster_pain.wav")
 var _death:AudioStream = preload("res://assets/sounds/mob/spider/spider_death.wav")
 
 func on_event(tag:String, _index:int) -> void:
-	print("Golem sound - " + tag)
 	if tag == "shoot":
-		stream = _shoot
-		play(0)
+		play_equipment(_shoot)
 	elif tag == "windup":
-		stream = _attack
-		play(0)
+		play_voice(_attack)
 	elif tag == "pain":
-		stream = _pain
-		play(0)
+		play_voice(_pain)
 	elif tag == "death":
-		stream = _death
-		play(0)
+		play_voice(_death)
 	elif tag == "gib":
-		stream = _death
-		play(0)
+		play_voice(_death)
 	elif tag == "alert":
-		stream = _alert
-		play(0)
+		play_voice(_alert)

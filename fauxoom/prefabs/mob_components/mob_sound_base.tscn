@@ -5,6 +5,6 @@
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D"]
 stream = ExtResource( 1 )
-unit_db = 6.0
+unit_db = 10.0
 bus = "game"
 script = ExtResource( 2 )

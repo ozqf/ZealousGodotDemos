@@ -129,6 +129,8 @@ func _ready() -> void:
 	
 	_defaultEnvironment = _camera.environment
 
+	# config_changed(Config.cfg)
+
 	print("Game set default skill - " + str(get_skill().label))
 
 	# does checkpoint exist?
@@ -148,7 +150,8 @@ func new_corpse_spawn_info() -> CorpseSpawnInfo:
 	return _corpse_spawn_info_t.new()
 
 func config_changed(_cfg:Dictionary) -> void:
-	_camera.fov = Config.cfg.r_fov
+	print("Game - read fov")
+	_camera.fov = _cfg.r_fov
 
 func write_save_file(fileName:String) -> void:
 	var path = build_save_path(fileName)
