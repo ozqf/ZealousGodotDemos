@@ -2,6 +2,8 @@ extends InvWeapon
 
 const Enums = preload("res://src/enums.gd")
 
+var _gas_sac_t = preload("res://prefabs/dynamic_entities/mob_gas_sac.tscn")
+
 func custom_init_b() -> void:
 	_hitInfo.damage = 100000
 
@@ -24,6 +26,14 @@ func _spawn_enemy(type) -> void:
 	var t:Transform = Transform()
 	t.origin = dict.aimPos
 	var _mob = Ents.create_mob(type, t, true)
+
+func _spawn_prefab(prefab) -> void:
+	var dict:Dictionary = AI.get_player_target()
+	if dict.id == 0:
+		return
+	var obj = prefab.instance()
+	Game.get_dynamic_parent().add_child(obj)
+	obj.global_transform.origin = dict.aimPos
 
 func _spawn_minor_item(dropType:int) -> void:
 	print("Spawn minor item " + str(dropType))
@@ -103,6 +113,9 @@ func read_input(_weaponInput:WeaponInput) -> void:
 			_spawn_enemy(Enums.EnemyType.Golem)
 		elif mode == Enums.DebuggerMode.SpawnTitan:
 			_spawn_enemy(Enums.EnemyType.Titan)
+		elif mode == Enums.DebuggerMode.SpawnGasSac:
+			_spawn_prefab(_gas_sac_t)
+		
 		elif mode == Enums.DebuggerMode.ItemSpawnMinorHealth:
 			_spawn_minor_item(Enums.QuickDropType.Health)
 		elif mode == Enums.DebuggerMode.ItemSpawnMinorRage:

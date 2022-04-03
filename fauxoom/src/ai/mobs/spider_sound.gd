@@ -1,7 +1,7 @@
 extends MobSound
 
 var _shoot:AudioStream = preload("res://assets/sounds/frenzy/Frenzy_On_Start.wav")
-var _attack:AudioStream = preload("res://assets/sounds/mob/spider/spider_alert.wav")
+var _attack:AudioStream = preload("res://assets/sounds/mob/monster_pain.wav")
 var _alert:AudioStream = preload("res://assets/sounds/mob/spider/spider_alert.wav")
 var _pain:AudioStream = preload("res://assets/sounds/mob/monster_pain.wav")
 var _death:AudioStream = preload("res://assets/sounds/mob/spider/spider_death.wav")

@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/sprites/frames/gas_sac_frames.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=2]
+[ext_resource path="res://src/ai/mob_gas_sac.gd" type="Script" id=3]
+
+[sub_resource type="SphereShape" id=1]
+radius = 0.6
+
+[node name="mob_gas_sac" type="KinematicBody"]
+collision_layer = 2
+collision_mask = 6
+script = ExtResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]
+pixel_size = 0.03
+billboard = 1
+frames = ExtResource( 1 )
+script = ExtResource( 2 )

@@ -751,7 +751,7 @@ align = 1
 [node name="HBoxContainer" type="HBoxContainer" parent="debug_options"]
 margin_top = 18.0
 margin_right = 640.0
-margin_bottom = 152.0
+margin_bottom = 176.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -760,7 +760,7 @@ __meta__ = {
 [node name="cheats_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
 margin_left = 54.0
 margin_right = 182.0
-margin_bottom = 134.0
+margin_bottom = 158.0
 rect_min_size = Vector2( 128, 0 )
 
 [node name="Label" type="Label" parent="debug_options/HBoxContainer/cheats_container"]
@@ -783,7 +783,7 @@ text = "Give All"
 [node name="laser_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
 margin_left = 186.0
 margin_right = 322.0
-margin_bottom = 134.0
+margin_bottom = 158.0
 rect_min_size = Vector2( 128, 0 )
 
 [node name="Label" type="Label" parent="debug_options/HBoxContainer/laser_container"]
@@ -818,7 +818,7 @@ text = "Attack Test Spikes"
 [node name="spawns_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
 margin_left = 326.0
 margin_right = 454.0
-margin_bottom = 134.0
+margin_bottom = 158.0
 rect_min_size = Vector2( 128, 0 )
 
 [node name="Label" type="Label" parent="debug_options/HBoxContainer/spawns_container"]
@@ -856,10 +856,16 @@ margin_right = 128.0
 margin_bottom = 134.0
 text = "Titan"
 
+[node name="gas_sac" type="Button" parent="debug_options/HBoxContainer/spawns_container"]
+margin_top = 138.0
+margin_right = 128.0
+margin_bottom = 158.0
+text = "Gas Sac"
+
 [node name="items_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
 margin_left = 458.0
 margin_right = 586.0
-margin_bottom = 134.0
+margin_bottom = 158.0
 rect_min_size = Vector2( 128, 0 )
 
 [node name="Label" type="Label" parent="debug_options/HBoxContainer/items_container"]

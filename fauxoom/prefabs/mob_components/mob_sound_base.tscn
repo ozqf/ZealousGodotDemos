@@ -3,8 +3,15 @@
 [ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=1]
 [ext_resource path="res://src/ai/mob_sound.gd" type="Script" id=2]
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D"]
+[node name="mob_sound" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="voice" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 1 )
 unit_db = 10.0
 bus = "game"
-script = ExtResource( 2 )
+
+[node name="equipment" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 1 )
+unit_db = 10.0
+bus = "game"

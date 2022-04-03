@@ -19,4 +19,4 @@ func on_event(tag:String, _index:int) -> void:
 	elif tag == "gib":
 		play_voice(_death)
 	elif tag == "alert":
-		play_voice(_alert)
+		play_voice_loud(_alert)
