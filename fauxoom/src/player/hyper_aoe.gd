@@ -12,10 +12,12 @@ var _aoeType:int = 0
 var _weight:float = 0.0
 
 func _ready() -> void:
+	print("Hyper AoE ready")
 	self.connect("scan_result", self, "on_scan_result")
 	pass
 
 func on_scan_result(bodies) -> void:
+	print("Hyper AoE found " + str(bodies.size()) + " bodies")
 	var pos:Vector3 = global_transform.origin
 	for body in bodies:
 		if !Interactions.is_obj_a_mob(body):
@@ -29,7 +31,6 @@ func on_scan_result(bodies) -> void:
 			Game.spawn_rage_drops(mobPos, Enums.QuickDropType.Health, 1)
 		else:
 			body.apply_stun(toward, 2.0)
-		print("Hyper aoe - stunning mob")
 	queue_free()
 
 func run_hyper_aoe(aoeType:int, weight:float) -> void:
@@ -40,3 +41,4 @@ func run_hyper_aoe(aoeType:int, weight:float) -> void:
 	shockwave.global_transform.origin = global_transform.origin
 	shockwave.run(15)
 	.run()
+	_ticks = 30

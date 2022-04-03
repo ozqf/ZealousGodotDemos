@@ -99,7 +99,7 @@ func on_moved(body, head) -> void:
 	pass
 
 func player_ground_slam_start() -> void:
-	print("Player - slam!")
+	print("Player - start slam!")
 	_motor.start_ground_slam()
 
 func on_weapon_action(_weapon:InvWeapon, _action:String) -> void:

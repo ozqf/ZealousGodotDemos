@@ -18,10 +18,11 @@ func _spawn_aoe(pos:Vector3) -> HyperAoe:
 	var aoe = Game.hyper_aoe_t.instance()
 	Game.get_dynamic_parent().add_child(aoe)
 	aoe.global_transform.origin = pos
-	aoe.run_hyper_aoe(HyperAoe.TYPE_SUPER_PUNCH, 0.0)
+	aoe.run_hyper_aoe(HyperAoe.TYPE_SUPER_PUNCH, 1.0)
 	return aoe
 
 func player_ground_slam_finished() -> void:
+	print("Offhand finish slam")
 	if _hud != null:
 		_hud.play_offhand_punch()
 	Game.spawn_impact_sprite(_slamPos)
@@ -63,7 +64,7 @@ func offhand_punch(_weight:float) -> void:
 	if _launchNode.rotation_degrees.x < -65 && count >= superCost:
 		var result:Dictionary = ZqfUtils.quick_hitscan3D(_launchNode, 12, ZqfUtils.EMPTY_ARRAY, Interactions.WORLD)
 		if result:
-			print("Slam!")
+			# print("Slam!")
 			_inventory.take_item("rage", superCost)
 			_slamPos = result.position
 			var grp:String = Groups.PLAYER_GROUP_NAME
