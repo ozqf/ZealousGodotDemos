@@ -76,11 +76,9 @@ __meta__ = {
 }
 
 [node name="debug_text3" type="Label" parent="static_menus/debug"]
-anchor_top = 8.0
-anchor_bottom = 8.0
-margin_top = -128.0
-margin_right = 192.0
-margin_bottom = 128.0
+anchor_top = 0.181
+anchor_right = 0.153
+anchor_bottom = 0.715
 text = "Line 1
 Line 2
 Line 3

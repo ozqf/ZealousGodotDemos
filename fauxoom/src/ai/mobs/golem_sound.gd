@@ -1,10 +1,10 @@
 extends MobSound
 
 var _shoot:AudioStream = preload("res://assets/sounds/frenzy/Frenzy_On_Start.wav")
-var _attack:AudioStream = preload("res://assets/sounds/mob/spider/spider_alert.wav")
-var _alert:AudioStream = preload("res://assets/sounds/mob/spider/spider_alert.wav")
-var _pain:AudioStream = preload("res://assets/sounds/mob/monster_pain.wav")
-var _death:AudioStream = preload("res://assets/sounds/mob/spider/spider_death.wav")
+var _attack:AudioStream = preload("res://assets/sounds/mob/golem/golem_attack.wav")
+var _alert:AudioStream = preload("res://assets/sounds/mob/golem/golem_alert.wav")
+var _pain:AudioStream = preload("res://assets/sounds/mob/golem/golem_pain.wav")
+var _death:AudioStream = preload("res://assets/sounds/mob/golem/golem_death.wav")
 
 func on_event(tag:String, _index:int) -> void:
 	print("Golem sound - " + tag)

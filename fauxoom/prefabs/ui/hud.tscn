@@ -734,7 +734,6 @@ custom_fonts/font = ExtResource( 3 )
 text = "50"
 
 [node name="debug_options" type="VBoxContainer" parent="."]
-visible = false
 margin_left = 192.0
 margin_right = 832.0
 margin_bottom = 192.0
@@ -759,8 +758,8 @@ __meta__ = {
 }
 
 [node name="cheats_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
-margin_left = 58.0
-margin_right = 186.0
+margin_left = 54.0
+margin_right = 182.0
 margin_bottom = 134.0
 rect_min_size = Vector2( 128, 0 )
 
@@ -782,37 +781,43 @@ margin_bottom = 62.0
 text = "Give All"
 
 [node name="laser_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
-margin_left = 190.0
-margin_right = 318.0
+margin_left = 186.0
+margin_right = 322.0
 margin_bottom = 134.0
 rect_min_size = Vector2( 128, 0 )
 
 [node name="Label" type="Label" parent="debug_options/HBoxContainer/laser_container"]
-margin_right = 128.0
+margin_right = 136.0
 margin_bottom = 14.0
 text = "Laser"
 
 [node name="deathray" type="Button" parent="debug_options/HBoxContainer/laser_container"]
 margin_top = 18.0
-margin_right = 128.0
+margin_right = 136.0
 margin_bottom = 38.0
 text = "Deathray"
 
 [node name="scan_enemy" type="Button" parent="debug_options/HBoxContainer/laser_container"]
 margin_top = 42.0
-margin_right = 128.0
+margin_right = 136.0
 margin_bottom = 62.0
 text = "Scan Enemy"
 
-[node name="attack_test" type="Button" parent="debug_options/HBoxContainer/laser_container"]
+[node name="attack_test_column" type="Button" parent="debug_options/HBoxContainer/laser_container"]
 margin_top = 66.0
-margin_right = 128.0
+margin_right = 136.0
 margin_bottom = 86.0
-text = "Attack Test"
+text = "Attack Test Column"
+
+[node name="attack_test_spikes" type="Button" parent="debug_options/HBoxContainer/laser_container"]
+margin_top = 90.0
+margin_right = 136.0
+margin_bottom = 110.0
+text = "Attack Test Spikes"
 
 [node name="spawns_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
-margin_left = 322.0
-margin_right = 450.0
+margin_left = 326.0
+margin_right = 454.0
 margin_bottom = 134.0
 rect_min_size = Vector2( 128, 0 )
 
@@ -852,8 +857,8 @@ margin_bottom = 134.0
 text = "Titan"
 
 [node name="items_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]
-margin_left = 454.0
-margin_right = 582.0
+margin_left = 458.0
+margin_right = 586.0
 margin_bottom = 134.0
 rect_min_size = Vector2( 128, 0 )
 

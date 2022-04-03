@@ -49,8 +49,8 @@ var point_t = preload("res://prefabs/point_gizmo.tscn")
 
 var punk_corpse_t = preload("res://prefabs/corpses/punk_corpse.tscn")
 
-# when saw blade is launched, input handling is passed onto the project
-# the project is recycled, if we don't have one, create one and reuse it
+# when saw blade is launched, input handling is passed onto the projectile
+# the projectile is recycled, if we don't have one, create one and reuse it
 var prj_player_saw_t = preload("res://prefabs/projectiles/prj_player_saw.tscn")
 
 ###########################
@@ -74,6 +74,7 @@ enum GameState { Pregame, Playing, Won, Lost }
 enum GameMode { Classic, Survival }
 
 var debuggerMode = Enums.DebuggerMode.Deathray
+var debuggerAtkMode:String = "column"
 var debuggerOpen:bool = false
 
 # contains current skill settings

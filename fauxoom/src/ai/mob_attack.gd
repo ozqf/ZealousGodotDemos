@@ -71,7 +71,7 @@ func _tick_down(_delta:float) -> bool:
 func cancel() -> void:
 	pass
 
-func fire_from(_target:Vector3, launch:Spatial) -> void:
+func fire_from(_target:Vector3, launch:Spatial, _spinDegrees:float = 0.0) -> void:
 	# print("Fire!")
 	
 	var t:Transform = launch.global_transform
@@ -86,6 +86,10 @@ func fire_from(_target:Vector3, launch:Spatial) -> void:
 			prj = prjPrefabOverride.instance()
 		Game.get_dynamic_parent().add_child(prj)
 		prj.launch_prj(selfPos, forward, 0, Interactions.TEAM_ENEMY, _prjMask)
+		if _spinDegrees != 0.0:
+			var rot:Vector3 = prj.rotation_degrees
+			rot.z = _spinDegrees
+			prj.rotation_degrees = rot
 		return
 	var numItems:int = 0
 	numItems = _pattern.fill_items(selfPos, forward, _patternBuffer, numItems)
@@ -93,7 +97,7 @@ func fire_from(_target:Vector3, launch:Spatial) -> void:
 	for _i in range (0, numItems):
 		var item:Dictionary = _patternBuffer[_i]
 		var prj = null
-		if prjPrefabOverride != null:
+		if prjPrefabOverride == null:
 			prj = Game.prj_point_t.instance()
 		else:
 			prj = prjPrefabOverride.instance()
@@ -101,7 +105,10 @@ func fire_from(_target:Vector3, launch:Spatial) -> void:
 		# var frwd:Vector3 = t.basis.xform_inv(item.forward)
 		var frwd:Vector3 = item.forward
 		prj.launch_prj(item.pos, frwd, 0, Interactions.TEAM_ENEMY, _prjMask)
-
+		if _spinDegrees != 0.0:
+			var rot:Vector3 = prj.rotation_degrees
+			rot.z = _spinDegrees
+			prj.rotation_degrees = rot
 
 func fire(target:Vector3) -> void:
 	fire_from(target, _launchNode)

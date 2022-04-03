@@ -507,6 +507,8 @@ func hit(_hitInfo:HitInfo) -> int:
 		return Interactions.HIT_RESPONSE_NONE
 	if _shieldOrbCount > 0:
 		return Interactions.HIT_RESPONSE_NONE
+	if _hitInfo.attackTeam == Interactions.TEAM_ENEMY:
+		return Interactions.HIT_RESPONSE_NONE
 	_health -= _hitInfo.damage
 	# if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
 	# 		print("Explosive hit for " + str(_hitInfo.damage))

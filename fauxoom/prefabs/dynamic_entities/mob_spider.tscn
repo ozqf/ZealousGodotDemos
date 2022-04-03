@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://prefabs/mob_components/mob_sound_base.tscn" type="PackedScene" id=13]
 [ext_resource path="res://src/ai/mobs/spider_sound.gd" type="Script" id=14]
 [ext_resource path="res://src/ai/mob_attack.gd" type="Script" id=15]
+[ext_resource path="res://prefabs/mob_components/omni_attack_charge.tscn" type="PackedScene" id=16]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -51,6 +52,9 @@ shape = SubResource( 1 )
 [node name="head" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0 )
 
+[node name="omni_attack_charge" parent="head" instance=ExtResource( 16 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, -1 )
+
 [node name="mob_aim_laser" parent="head" instance=ExtResource( 10 )]
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
@@ -65,6 +69,7 @@ material/0 = null
 
 [node name="spike_wall" type="Node" parent="attacks"]
 script = ExtResource( 4 )
+minUseRange = 8.0
 windUpTime = 1.5
 windDownTime = 2.0
 showAimLaser = true
@@ -76,14 +81,16 @@ requiresLos = false
 
 [node name="spreadshot" type="Node" parent="attacks"]
 script = ExtResource( 15 )
-cooldown = 3.0
+attackCount = 10
+showOmniCharge = true
+allowMovement = false
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
 entityType = "mob_spider"
 health = 400
 moveSpeed = 3.0
-evadeSpeed = 0.0
+evadeSpeed = 1.0
 stunTime = 0.5
 stunThreshold = 200
 sizeClass = 1

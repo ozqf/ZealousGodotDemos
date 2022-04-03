@@ -105,6 +105,7 @@ func _apply_rotations(_delta: float):
 	_head.rotation_degrees = camRot
 
 func _physics_process(delta:float) -> void:
+#func _process(delta:float) -> void:
 	if _body == null:
 		return
 	if !_inputOn:

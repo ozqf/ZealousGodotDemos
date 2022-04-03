@@ -96,7 +96,7 @@ func change_state(newState:int) -> void:
 		# look at target
 		_mob.head.look_at(lastTarPos, Vector3.UP)
 		set_rotation_to_target(lastTarPos)
-
+		_mob.emit_mob_event("windup", -1)
 		if _mob.aimLaser != null && atk.showAimLaser:
 			_mob.aimLaser.on(_tick, false)
 		if _mob.omniCharge != null && atk.showOmniCharge:

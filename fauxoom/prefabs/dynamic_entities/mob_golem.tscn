@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -8,14 +8,16 @@
 [ext_resource path="res://assets/sprites/frames/golem_frames.tres" type="SpriteFrames" id=6]
 [ext_resource path="res://prefabs/mob_components/mob_motor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/ai/mobs/golem_ticker.gd" type="Script" id=8]
-[ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=9]
-[ext_resource path="res://src/ai/mob_sound.gd" type="Script" id=10]
+[ext_resource path="res://prefabs/mob_components/mob_sound_base.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/ai/mobs/golem_sound.gd" type="Script" id=10]
 [ext_resource path="res://prefabs/mob_components/orb_shield.tscn" type="PackedScene" id=11]
 [ext_resource path="res://zqf/zqf_orbiter.gd" type="Script" id=12]
 [ext_resource path="res://src/ai/mob_motor_ground.gd" type="Script" id=13]
 [ext_resource path="res://assets/sprites/frames/gfx_frames.tres" type="SpriteFrames" id=14]
 [ext_resource path="res://prefabs/mob_components/teleport_column.tscn" type="PackedScene" id=15]
 [ext_resource path="res://prefabs/mob_components/mob_fx.tscn" type="PackedScene" id=16]
+[ext_resource path="res://src/patterns/pattern_arc.gd" type="Script" id=17]
+[ext_resource path="res://prefabs/mob_components/omni_attack_charge.tscn" type="PackedScene" id=18]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -74,6 +76,9 @@ mesh = SubResource( 3 )
 skeleton = NodePath("../../right_cannon")
 material/0 = null
 
+[node name="omni_attack_charge" parent="head" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -1 )
+
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
 visible = false
@@ -82,15 +87,31 @@ material/0 = null
 
 [node name="attacks" type="Node" parent="."]
 
-[node name="single_shot" type="Node" parent="attacks"]
+[node name="columns" type="Node" parent="attacks"]
 script = ExtResource( 4 )
 maxUseRange = 99.0
-attackCount = 4
+attackCount = 12
 windUpTime = 1.0
 windDownTime = 1.0
-repeatTime = 0.25
+repeatTime = 0.5
 allowMovement = false
 cooldown = 4.0
+
+[node name="close_in" type="Node" parent="attacks"]
+script = ExtResource( 4 )
+maxUseRange = 5.0
+windUpTime = 1.5
+windDownTime = 1.5
+showOmniCharge = true
+allowMovement = false
+faceTargetDuringWindup = false
+faceTargetDuringAttack = false
+requiresLos = false
+
+[node name="pattern" type="Node" parent="attacks/close_in"]
+script = ExtResource( 17 )
+count = 12
+arcDegreesX = 360.0
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
 script = ExtResource( 13 )
@@ -99,7 +120,7 @@ inactiveWhenAttacking = true
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
 entityType = "mob_golem"
-health = 1500
+health = 1000
 moveSpeed = 2.5
 evadeSpeed = 0.0
 moveTime = 0.5
@@ -114,10 +135,8 @@ prefabName = "mob_golem"
 [node name="ticker" type="Spatial" parent="."]
 script = ExtResource( 8 )
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource( 9 )
-unit_db = 6.0
-bus = "game"
+[node name="AudioStreamPlayer3D" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 script = ExtResource( 10 )
 
 [node name="orbs" type="Spatial" parent="."]

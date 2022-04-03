@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Frenzy_On_Start.wav-95d9b57ab068c40097bd40f0b796e9dd.sample"
+
+[deps]
+
+source_file="res://assets/sounds/frenzy/Frenzy_On_Start.wav"
+dest_files=[ "res://.import/Frenzy_On_Start.wav-95d9b57ab068c40097bd40f0b796e9dd.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

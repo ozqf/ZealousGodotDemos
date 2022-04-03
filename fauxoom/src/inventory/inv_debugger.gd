@@ -40,9 +40,10 @@ func _fire_column_projectile() -> void:
 	var selfPos:Vector3 = _launchNode.global_transform.origin
 	var forward:Vector3 = -_launchNode.global_transform.basis.z
 	prj.launch_prj(selfPos, forward, Interactions.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, mask)
-	var rot:Vector3 = prj.rotation_degrees
-	rot.z = 90.0
-	prj.rotation_degrees = rot
+	# rotate by 90 degrees to make the column horizontal (so a row then...)
+	# var rot:Vector3 = prj.rotation_degrees
+	# rot.z = 90.0
+	# prj.rotation_degrees = rot
 	pass
 
 func _fire_test_projectile() -> void:
@@ -74,6 +75,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		#print("Debugger - ticking")
 		return
 	var mode = Game.debuggerMode
+	var atkMode:String = Game.debuggerAtkMode
 	if _weaponInput.primaryOn:
 		if Game.debuggerOpen:
 			return
@@ -84,9 +86,12 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		elif mode == Enums.DebuggerMode.ScanEnemy:
 			raycast_for_debug_mob(-_launchNode.global_transform.basis.z)
 		elif mode == Enums.DebuggerMode.AttackTest:
-			#_fire_column_projectile()
+			if atkMode == 'spikes':
+				_fire_spike_line()
+			else:
+				_fire_column_projectile()
+			#
 			#_fire_test_projectile()
-			_fire_spike_line() 
 			pass
 		elif mode == Enums.DebuggerMode.SpawnPunk:
 			_spawn_enemy(Enums.EnemyType.Punk)

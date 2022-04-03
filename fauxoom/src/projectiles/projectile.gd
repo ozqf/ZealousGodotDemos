@@ -33,7 +33,7 @@ var ownerId:int = 0
 
 func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
-	visible = false
+	#visible = false
 	_custom_init()
 
 func _custom_init() -> void:
@@ -143,6 +143,7 @@ func launch_prj(origin:Vector3, _forward:Vector3, sourceId:int, prjTeam:int, col
 	_team = prjTeam
 	_hitInfo.sourceId = sourceId
 	_hitInfo.damageType = 0
+	_hitInfo.attackTeam = _team
 	var t:Transform = global_transform
 	t.origin = origin
 	global_transform = t

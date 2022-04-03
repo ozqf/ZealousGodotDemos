@@ -8,8 +8,8 @@
 [ext_resource path="res://assets/sprites/frames/titan_frames.tres" type="SpriteFrames" id=6]
 [ext_resource path="res://prefabs/mob_components/mob_motor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/ai/mobs/titan_ticker.gd" type="Script" id=8]
-[ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=9]
-[ext_resource path="res://src/ai/mob_sound.gd" type="Script" id=10]
+[ext_resource path="res://prefabs/mob_components/mob_sound_base.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/ai/mobs/titan_sound.gd" type="Script" id=10]
 [ext_resource path="res://prefabs/mob_components/orb_shield.tscn" type="PackedScene" id=11]
 [ext_resource path="res://src/patterns/pattern_cube_volume.gd" type="Script" id=12]
 [ext_resource path="res://src/patterns/pattern_arc.gd" type="Script" id=13]
@@ -92,28 +92,8 @@ script = ExtResource( 12 )
 minOffset = Vector3( -0.5, -1, -0.5 )
 maxOffset = Vector3( 0.5, 1, 0.5 )
 
-[node name="rapid_burst" type="Node" parent="attacks"]
+[node name="spread_burst" type="Node" parent="attacks"]
 script = ExtResource( 4 )
-minUseRange = 8.0
-maxUseRange = 20.0
-repeatTime = 0.0
-attackAnimTime = 0.2
-
-[node name="pattern" type="Node" parent="attacks/rapid_burst"]
-script = ExtResource( 12 )
-minOffset = Vector3( -1, -1.5, -1 )
-maxOffset = Vector3( 1, 1.5, 1 )
-
-[node name="ranged_shot" type="Node" parent="attacks"]
-script = ExtResource( 18 )
-attackCount = 5
-cooldown = 5.0
-requiresLos = false
-useLastSeenPosition = false
-
-[node name="delta_attack" type="Node" parent="attacks"]
-script = ExtResource( 4 )
-maxUseRange = 0.0
 attackCount = 20
 windUpTime = 1.0
 windDownTime = 1.0
@@ -121,11 +101,30 @@ repeatTime = 0.05
 attackAnimTime = 0.05
 showOmniCharge = true
 allowMovement = false
-cooldown = 10.0
+cooldown = 20.0
 
-[node name="pattern" type="Node" parent="attacks/delta_attack"]
+[node name="pattern" type="Node" parent="attacks/spread_burst"]
 script = ExtResource( 13 )
 arcDegreesX = 70.0
+
+[node name="scatter_shot" type="Node" parent="attacks"]
+script = ExtResource( 4 )
+minUseRange = 5.0
+maxUseRange = 50.0
+repeatTime = 0.0
+attackAnimTime = 0.2
+
+[node name="pattern" type="Node" parent="attacks/scatter_shot"]
+script = ExtResource( 12 )
+minOffset = Vector3( -1, -1.5, -1 )
+maxOffset = Vector3( 1, 1.5, 1 )
+
+[node name="no_los_mortar" type="Node" parent="attacks"]
+script = ExtResource( 18 )
+attackCount = 5
+cooldown = 2.0
+requiresLos = false
+useLastSeenPosition = false
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
 script = ExtResource( 16 )
@@ -145,15 +144,11 @@ prefabName = "mob_titan"
 [node name="ticker" type="Spatial" parent="."]
 script = ExtResource( 8 )
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource( 9 )
-unit_db = 5.0
-max_distance = 50.0
-bus = "game"
-script = ExtResource( 10 )
-
 [node name="mob_fx" parent="." instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+
+[node name="AudioStreamPlayer3D" parent="." instance=ExtResource( 9 )]
+script = ExtResource( 10 )
 
 [node name="orbs" type="Spatial" parent="."]
 script = ExtResource( 20 )
@@ -166,8 +161,8 @@ degreesPerSecond = Vector3( 0, 45, 0 )
 
 [node name="orb_shield" parent="orbs/orbs" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
-restoreTime = 30.0
+restoreTime = 20.0
 
 [node name="orb_shield2" parent="orbs/orbs" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
-restoreTime = 30.0
+restoreTime = 10.0

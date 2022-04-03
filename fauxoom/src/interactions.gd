@@ -80,6 +80,9 @@ static func get_enemy_prj_mask() -> int:
 static func get_player_prj_mask() -> int:
 	return (WORLD | ACTORS)
 
+static func get_entity_mask() -> int:
+	return (ACTORS | PLAYER)
+
 static func get_corpse_hit_mask() -> int:
 	return CORPSE
 
@@ -118,7 +121,7 @@ static func hitscan_hit(_hitInfo:HitInfo, _hitScanResult:Dictionary) -> int:
 # returns -1 if object had no hit function
 # returns -2 if object let hit through
 static func hit(_hitInfo:HitInfo, collider) -> int:
-	if is_instance_valid(collider) &&  collider.has_method("hit"):
+	if is_instance_valid(collider) && collider.has_method("hit"):
 		return collider.hit(_hitInfo)
 	return HIT_RESPONSE_NONE
 
