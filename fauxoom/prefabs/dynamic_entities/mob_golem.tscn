@@ -90,7 +90,7 @@ material/0 = null
 [node name="columns" type="Node" parent="attacks"]
 script = ExtResource( 4 )
 maxUseRange = 99.0
-attackCount = 12
+attackCount = 8
 windUpTime = 1.0
 windDownTime = 1.0
 repeatTime = 0.5
@@ -99,6 +99,7 @@ cooldown = 4.0
 
 [node name="close_in" type="Node" parent="attacks"]
 script = ExtResource( 4 )
+enabled = false
 maxUseRange = 5.0
 windUpTime = 1.5
 windDownTime = 1.5

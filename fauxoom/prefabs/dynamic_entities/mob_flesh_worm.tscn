@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://src/ai/ai_ticker.gd" type="Script" id=8]
 [ext_resource path="res://src/ai/mob_motor_ground.gd" type="Script" id=9]
 [ext_resource path="res://prefabs/mob_components/teleport_column.tscn" type="PackedScene" id=10]
+[ext_resource path="res://prefabs/mob_components/mob_sound_base.tscn" type="PackedScene" id=11]
+[ext_resource path="res://src/ai/mobs/worm_sound.gd" type="Script" id=12]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -24,6 +26,9 @@ collision_mask = 70
 script = ExtResource( 2 )
 fleeBoredomSeconds = -1.0
 roleClass = 1
+
+[node name="mob_sound" parent="." instance=ExtResource( 11 )]
+script = ExtResource( 12 )
 
 [node name="teleport_column" parent="." instance=ExtResource( 10 )]
 transform = Transform( 1.2, 0, 0, 0, 2, 0, 0, 0, 1.2, 0, 0, 0 )

@@ -38,6 +38,8 @@ func gib() -> void:
 func on_event(tag:String, _index:int) -> void:
 	if tag == "shoot":
 		play_equipment(_shoot)
+	elif tag == "windup":
+		alert()
 	elif tag == "pain":
 		play_voice(_pain)
 	elif tag == "death":

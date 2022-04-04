@@ -4,6 +4,8 @@ class_name MobAttack
 # var _prj_point_t = load("res://prefabs/projectiles/prj_point.tscn")
 
 export var tag:String = ""
+# flag to force this mob attack from being selected automatically.
+export var enabled:bool = true
 export var minUseRange:float = 0
 export var maxUseRange:float = 9999
 export var attackCount:int = 1

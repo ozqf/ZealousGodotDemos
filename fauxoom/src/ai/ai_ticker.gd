@@ -170,6 +170,8 @@ func _select_attack(_tickInfo:AITickInfo) -> int:
 	var numAttacks:int = _mob.attacks.size()
 	for _i in range (0, numAttacks):
 		var att:MobAttack = _mob.attacks[_i]
+		if !att.enabled:
+			continue
 		if !_check_attack_cooldown(att):
 			continue
 		# if att.cooldown > 0:
