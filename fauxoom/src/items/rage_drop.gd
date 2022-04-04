@@ -141,7 +141,7 @@ func _process(_delta:float):
 			return
 		var isKinematic:bool = mode == RigidBody.MODE_KINEMATIC
 		if !isKinematic:
-			if _lifeTime > 1.2:
+			if _lifeTime > 0.5: #1.2:
 				_start_kinematic_move()
 			else:
 				return

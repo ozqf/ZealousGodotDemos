@@ -40,7 +40,8 @@ enum CombatRole {
 enum EnemyRoleClass {
 	Mix,
 	Melee,
-	Ranged
+	Ranged,
+	Ignored # this enemy is acting on its own
 }
 
 enum PatternType {

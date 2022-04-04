@@ -141,11 +141,12 @@ func _set_last_tar_pos(_tickInfo:AITickInfo) -> void:
 func custom_change_state(_newState:int, _oldState:int) -> bool:
 	return false
 
-func _start_attack(_delta:float, _tickInfo:AITickInfo) -> void:
+# returns true if an attack started
+func _start_attack(_delta:float, _tickInfo:AITickInfo) -> bool:
 	_attackIndex = _select_attack(_tickInfo)
 	if _attackIndex < 0:
 		# oh dear, no usable attack
-		return
+		return false
 	# maxCycles = _mob.attacks[_attackIndex].attackCount
 	_cycles = 0
 	_set_last_tar_pos(_tickInfo)
@@ -153,6 +154,7 @@ func _start_attack(_delta:float, _tickInfo:AITickInfo) -> void:
 	# _mob.face_target_flat(lastTarPos)
 	change_state(STATE_WINDUP)
 	set_rotation_to_target(_tickInfo.targetPos)
+	return true
 
 func _check_attack_cooldown(att:MobAttack) -> bool:
 	var time:float = _mob.time
@@ -273,7 +275,10 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 	
 	if _state == STATE_MOVE:
 		if isSniper:
-			_start_attack(_delta, _tickInfo)
+			# try and attack. if we can't, hunt.
+			if !_start_attack(_delta, _tickInfo):
+				_mob.motor.move_hunt(_delta)
+				set_rotation_to_movement()
 			return
 		# if _tickInfo.healthPercentage > 50:
 		# 	_mob.motor.set_move_target(_tickInfo.targetPos)
@@ -283,7 +288,7 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 		# 	if AI.find_flee_position(_mob.motor.get_agent()):
 		# 		_mob.motor.set_move_target(_mob.motor.get_agent().target)
 		# 	pass
-		if _tickInfo.trueDistance > 2:
+		if _tickInfo.trueDistance > 3:
 			_mob.motor.move_hunt(_delta)
 			set_rotation_to_movement()
 		# if _check_for_attack_start(_tickInfo):

@@ -150,6 +150,9 @@ func get_health() -> int:
 func get_health_max() -> int:
 	return _healthMax
 
+func get_stats() -> MobStats:
+	return _stats
+
 func fill_health_info(info:MobHealthInfo) -> void:
 	info.healthPercentage = int((float(_health) / float(_healthMax)) * 100.0)
 	info.closeToDeath = _health < Interactions.DAMAGE_SUPER_PUNCH

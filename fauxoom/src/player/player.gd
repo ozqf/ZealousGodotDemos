@@ -450,7 +450,7 @@ func _send_hit_message(dmg, direction, healthType) -> void:
 	get_tree().call_group(grp, fn, data)
 
 func hit(hitInfo:HitInfo) -> int:
-	print("Player hit")
+	# print("Player hit")
 	if hitInfo.attackTeam == Interactions.TEAM_PLAYER:
 		return 0
 	if _dead:

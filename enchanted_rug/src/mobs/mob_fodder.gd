@@ -5,6 +5,7 @@ var _projectile_t = preload("res://prefabs/projectiles/prj_ball_large.tscn")
 onready var _head:Spatial = $head
 onready var _torso:Spatial = $torso
 onready var _turret = $head/turret
+export var fodderType:int = 0
 
 var _tick:float = 0
 
@@ -20,6 +21,9 @@ func _process(_delta:float):
 
 	_tick -= _delta
 	if _tick <= 0:
-		_tick = 0.25
-		# _shoot(tar)
-		_turret.immediate_fire(tar.position)
+		if fodderType == 1:
+			pass
+		else:
+			_tick = 0.25
+			# _shoot(tar)
+			_turret.immediate_fire(tar.position)

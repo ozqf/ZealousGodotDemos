@@ -40,6 +40,7 @@ var _numRoleSnipe:int = 0
 # cheats/debugging
 var _noTarget:bool = false
 var _debugPathPoints = []
+var _debugForceAllSnipers:bool = false
 
 var _emptyTargetInfo:Dictionary = {
 	id = 0,
@@ -124,10 +125,32 @@ func tally_mob_roles() -> void:
 	_numRoleCharge = 0
 	for i in range(0, _mobs.size()):
 		var mob = _mobs[i]
+		# mob.stats.sizeClass = Enums.EnemyStrengthClass.
 		if mob.roleId == Enums.CombatRole.Ranged:
 			_numRoleSnipe += 1
 		else:
 			_numRoleCharge += 1
+	
+	# divide up roles
+	#var snipers = []
+	#var melees = []
+	#var mixed = []
+	#for mob in _mobs:
+	#	#var sizeClass = mob.get_stats().sizeClass
+	#	var roleClass = mob.roleClass
+	#	if roleClass == Enums.EnemyRoleClass.Melee:
+	#		melees.push_back(mob)
+	#	elif roleClass == Enums.EnemyRoleClass.Ranged:
+	#		snipers.push_back(mob)
+	#	elif roleClass == Enums.EnemyRoleClass.Mix:
+	#		mixed.push_back(mob)
+	#	#if sizeClass == Enums.EnemyStrengthClass.Fodder:
+	#	# elif sizeClass == Enums.EnemyStrengthClass.Large:
+	#	# 	pass 
+	## how many do we have to use?
+	#var total:int = snipers.size() + melees.size() + mixed.size()
+	#var numMelee:int = int(ceil(float(total) / 2.0))
+	#var numSnipers:int = total - numMelee
 
 ###############
 # Get player info
@@ -159,15 +182,20 @@ func register_mob(mob) -> void:
 	# tally before we add this new mob, so we can give it a suitable role:
 	tally_mob_roles()
 	_mobs.push_back(mob)
-	# for testing snipers, assign everyone that role
-#	mob.roleId = 1
-#	_numRoleSnipe += 1
-
+	
 	# if melee we can't assign as a sniper so just assign away
 	if mob.roleClass == Enums.EnemyRoleClass.Melee:
-		mob.roleId = 0
+		mob.roleId = Enums.CombatRole.Assault
 		_numRoleCharge += 1
 		return
+	
+	# for testing snipers, assign everyone that role
+	if _debugForceAllSnipers:
+		mob.roleId = Enums.CombatRole.Ranged
+		_numRoleSnipe += 1
+		return
+
+	
 	# try to distribute evenly
 	if _numRoleSnipe < _numRoleCharge:
 		mob.roleId = Enums.CombatRole.Ranged

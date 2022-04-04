@@ -542,17 +542,18 @@ selfName = "start_single_endless_wave"
 triggerTargetName = "tactics_1 endless_wave_spawns"
 
 [node name="endless_wave_spawn_1" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -11 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -11 )
 triggerName = "endless_wave_spawns"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "a b"
+type = 3
 tickMax = 3.0
 totalMobs = 0
 maxLiveMobs = 4
 order = 0
 
 [node name="endless_wave_spawn_2" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -11 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -11 )
 triggerName = "endless_wave_spawns"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "c d"
@@ -562,7 +563,7 @@ totalMobs = 0
 order = 0
 
 [node name="endless_wave_spawn_3" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -11 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -11 )
 triggerName = "endless_wave_spawns"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "e f"
@@ -701,7 +702,7 @@ transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 10, 0, 
 
 [node name="lever_switch" parent="entities/arena_test_2_ents" instance=ExtResource( 19 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -49, 6, 78 )
-triggerTargetName = "arena_2_survival"
+triggerTargetName = "arena_2_survival arena_2_gate"
 
 [node name="info_deadline_controller" parent="entities/arena_test_2_ents" instance=ExtResource( 26 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -81, 19, 47 )
@@ -726,13 +727,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -66, 5, 48 )
 tag = 2
 sniperSpot = true
 
-[node name="ai_tactic_node2" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -68, 5, 48 )
+[node name="ai_tactic_node3" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -77, 5, 57 )
 tag = 2
 sniperSpot = true
 
-[node name="ai_tactic_node3" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -77, 5, 57 )
+[node name="ai_tactic_node2" parent="entities/arena_test_2_ents/waypoints" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -68, 5, 48 )
 tag = 2
 sniperSpot = true
 
@@ -859,20 +860,28 @@ spawnPointsSiblingName = "spawn_points"
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0 )
 tickMax = 3.0
 totalMobs = 9999
-maxLiveMobs = 8
+maxLiveMobs = 6
 
 [node name="b" parent="entities/arena_test_2_ents/arena_2_survival/horde_spawns" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 3 )
 type = 3
 tickMax = 3.0
 totalMobs = 9999
-maxLiveMobs = 3
+maxLiveMobs = 4
 
 [node name="c" parent="entities/arena_test_2_ents/arena_2_survival/horde_spawns" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 5 )
 type = 8
-tickMax = 10.0
+tickMax = 15.0
 totalMobs = 9999
+maxLiveMobs = 3
+
+[node name="c2" parent="entities/arena_test_2_ents/arena_2_survival/horde_spawns" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 8 )
+type = 7
+tickMax = 15.0
+totalMobs = 9999
+maxLiveMobs = 3
 
 [node name="Entity" type="Node" parent="entities/arena_test_2_ents/arena_2_survival"]
 script = ExtResource( 25 )
@@ -885,3 +894,8 @@ isImportant = true
 
 [node name="item_full_pack3" parent="entities/arena_test_2_ents" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -105, 7, 40 )
+
+[node name="player_barrier_volume" parent="entities/arena_test_2_ents" instance=ExtResource( 21 )]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 4, -95, 7, 39 )
+triggerTargetName = "arena_2_gate"
+active = false
