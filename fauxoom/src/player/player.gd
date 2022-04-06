@@ -6,6 +6,8 @@ var _player_hud_status_t = preload("res://src/defs/player_hud_status.gd")
 const MAX_HEALTH:int = 150
 const MAX_MAIN_HEALTH:int = 100
 
+const SLIME_HURT_DELAY:float = 1.0
+
 onready var _ent:Entity = $Entity
 onready var _head:Spatial = $head
 onready var _cameraMount:Spatial = $camera_mount
@@ -39,6 +41,7 @@ var _hudStatus:PlayerHudStatus = null
 var _targetHealthInfo:MobHealthInfo = null
 
 var _slimeOverlapTick:float = 0.0
+var _slimeNoOverlapTick:float = 0.0
 var _slimeHurtTick:float = 0.0
 var _slimeOverlapCount:int = 0.0
 
@@ -311,12 +314,16 @@ func _process(_delta:float) -> void:
 	_refresh_input_on()
 
 	if _slimeOverlapCount > 0:
+		_slimeNoOverlapTick = 0.0
 		_slimeOverlapTick += _delta
 	else:
-		# decays slower than builds, or hopping around
-		# keeps it at zero!
-		_slimeOverlapTick -= (_delta * 0.25)
-	_slimeOverlapTick = ZqfUtils.clamp_float(_slimeOverlapTick, 0.0, 2.0)
+		_slimeNoOverlapTick += _delta
+		# delay reducing slime gauge or hopping around
+		if _slimeNoOverlapTick > 2.0:
+			# keeps it at zero!
+			# also decay slower than build
+			_slimeOverlapTick -= (_delta * 0.25)
+	_slimeOverlapTick = ZqfUtils.clamp_float(_slimeOverlapTick, 0.0, SLIME_HURT_DELAY)
 	_slimeHurtTick -= _delta
 	
 	if _wallDetector.bodies.size() > 0:
@@ -399,7 +406,7 @@ func _process(_delta:float) -> void:
 	_hudStatus.bonus = _bonus
 	_hudStatus.isNearWall = _motor.nearWall
 
-	_hudStatus.slimeOverlapPercentage = (_slimeOverlapTick / 2.0) * 100.0
+	_hudStatus.slimeOverlapPercentage = (_slimeOverlapTick / SLIME_HURT_DELAY) * 100.0
 	
 	# get inventory counts so we can use the rage count
 	_inventory.write_hud_status(_hudStatus)
@@ -483,7 +490,7 @@ func hit(hitInfo:HitInfo) -> int:
 
 	# check for slime overlap
 	if hitInfo.damageType == Interactions.DAMAGE_TYPE_SLIME:
-		if _slimeOverlapTick < 2.0:
+		if _slimeOverlapTick < SLIME_HURT_DELAY:
 			return 0
 	
 	if _hyperLevel > 0 && hitInfo.damageType != Interactions.DAMAGE_TYPE_VOID:

@@ -43,7 +43,7 @@ func _fire_special() -> void:
 	# column.global_transform = t
 	# column.scale = Vector3(1.0, 1.0, scale)
 	# Game.get_dynamic_parent().add_child(column)
-	print("Create column at " + str(t.origin) + " scale " + str(scale))
+	# print("Create column at " + str(t.origin) + " scale " + str(scale))
 
 func read_input(_weaponInput:WeaponInput) -> void:
 	if tick > 0:

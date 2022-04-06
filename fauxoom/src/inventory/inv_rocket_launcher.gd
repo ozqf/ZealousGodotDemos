@@ -12,10 +12,15 @@ func custom_init_b() -> void:
 
 func _fire_rocket() -> void:
 	# consume rage if needed since attack is the same whether in hyper or not
-	check_hyper_attack(Interactions.HYPER_COST_ROCKET)
+	var isHyper:bool = check_hyper_attack(Interactions.HYPER_COST_ROCKET)
 	
 	var rocket = Game.rocket_t.instance()
 	Game.get_dynamic_parent().add_child(rocket)
+	# make sure rocket is in tree before calling any functions
+	if isHyper:
+		rocket.get_hit_info().hyperLevel = 1
+	else:
+		rocket.get_hit_info().hyperLevel = 0
 	var t:Transform = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward = -t.basis.z
@@ -67,9 +72,14 @@ func read_input(_weaponInput:WeaponInput) -> void:
 	# 	.play_fire_1(false)
 
 func _process(_delta:float) -> void:
+	var hasRage:bool = _inventory.get_count("rage") >= Interactions.HYPER_COST_ROCKET
+	if !hasRage && akimbo:
+		akimbo = false
+		if _equipped:
+			play_idle()
 	if Game.hyperLevel != _lastHyperLevel:
 		_lastHyperLevel = Game.hyperLevel
-		if Game.hyperLevel > 0:
+		if Game.hyperLevel > 0 && hasRage:
 			akimbo = true
 		else:
 			akimbo = false

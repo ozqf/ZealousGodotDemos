@@ -506,12 +506,12 @@ func register_environment(env:Environment, name:String) -> void:
 # spawns
 ###############
 
-func spawn_rage_drops(pos:Vector3, dropType:int, dropCount:int) -> void:
+func spawn_rage_drops(pos:Vector3, dropType:int, dropCount:int, autoGather:bool = false) -> void:
 	var prefab = _rage_drop_t
 	for _i in range(0, dropCount):
 		var drop:RigidBody = prefab.instance()
 		add_child(drop)
-		drop.launch(pos, dropType)
+		drop.launch_rage_drop(pos, dropType, autoGather)
 
 # returns last gib spawned
 func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:

@@ -2,7 +2,9 @@
 
 [resource]
 ambient_light_color = Color( 0.309804, 0.317647, 0.407843, 1 )
-ambient_light_energy = 3.7
+ambient_light_energy = 1.88
 fog_enabled = true
 fog_color = Color( 0, 0, 0, 1 )
 fog_depth_end = 68.8
+glow_enabled = true
+glow_blend_mode = 0

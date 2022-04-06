@@ -19,15 +19,18 @@ func _fire_attack(attack:MobAttack, tarPos:Vector3) -> void:
 	#attack.prjPrefabOverride = Game.prj_golem_t
 	attack.prjPrefabOverride = Game.prj_column_t
 	var spinDegrees:float = 0.0
+
+
+	var leadPos:Vector3 = tarPos + (_aiTickInfo.flatVelocity)
 	if _attackCount % 2 == 0:
-		var leadPos:Vector3 = tarPos + (_aiTickInfo.flatVelocity)
 		_right.look_at(leadPos, Vector3.UP)
-		_left.look_at(leadPos, Vector3.UP)
+		_left.look_at(tarPos, Vector3.UP)
 	else:
 		_right.look_at(tarPos, Vector3.UP)
-		_left.look_at(tarPos, Vector3.UP)
+		_left.look_at(leadPos, Vector3.UP)
+	
 	attack.fire_from(tarPos, _right, 0.0)
-	attack.fire_from(tarPos, _left, 0.0)
+	# attack.fire_from(tarPos, _left, 0.0)
 
 	_attackCount += 1
 

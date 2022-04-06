@@ -534,12 +534,16 @@ func hit(_hitInfo:HitInfo) -> int:
 		# spawn drops
 		var dropType:int = Enums.QuickDropType.Rage
 		var dropCount:int = _select_death_drop_count()
-		if Game.hyperLevel > 0:
+		if _hitInfo.hyperLevel > 0:
 			dropType = Enums.QuickDropType.Health
 		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
 			dropType = Enums.QuickDropType.Health
 			dropCount = Interactions.MOB_DROP_COUNT_SUPER_PUNCH
-		Game.spawn_rage_drops(collisionShape.global_transform.origin, dropType, dropCount)
+		Game.spawn_rage_drops(
+			collisionShape.global_transform.origin,
+			dropType,
+			dropCount,
+			_hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_RAIL)
 		
 		_corpseHitInfo.direction = _hitInfo.direction
 		_corpseHitInfo.origin = _hitInfo.origin
@@ -576,12 +580,16 @@ func hit(_hitInfo:HitInfo) -> int:
 		var dropType:int = Enums.QuickDropType.Rage
 		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
 			dropType = Enums.QuickDropType.Health
-		if Game.hyperLevel > 0:
+		if _hitInfo.hyperLevel > 0:
 			dropType = Enums.QuickDropType.Health
 		
 		while _rageDropAccumulator >= 100:
 			_rageDropAccumulator -= 100
-			Game.spawn_rage_drops(collisionShape.global_transform.origin, dropType, 1)
+			Game.spawn_rage_drops(
+				collisionShape.global_transform.origin,
+				dropType,
+				1,
+				_hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_RAIL)
 		
 		# if not awake, wake up!
 		force_awake()

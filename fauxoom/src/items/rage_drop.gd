@@ -43,7 +43,7 @@ func _remove() -> void:
 	_state = State.Dead
 	self.queue_free()
 
-func launch(pos:Vector3, dropType:int) -> void:
+func launch_rage_drop(pos:Vector3, dropType:int, autoGather:bool) -> void:
 	global_transform.origin = pos
 	var velocity:Vector3 = Vector3()
 	velocity.x += rand_range(-5, 5)
@@ -74,6 +74,11 @@ func launch(pos:Vector3, dropType:int) -> void:
 		_sprite.animation = ANIMATION_HEALTH_MINOR
 		time = 8
 		_light.light_color = Color.blue
+	
+	if autoGather && !_give_check():
+		_start_gather()
+		# skip the short delay before gather
+		_lifeTime = 2.0
 
 func _give_check() -> bool:
 	if _type == Enums.QuickDropType.Rage:

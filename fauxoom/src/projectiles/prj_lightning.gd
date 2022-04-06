@@ -16,8 +16,9 @@ func _ready():
 	_scanner.connect("area_exited", self, "_on_area_exited")
 	_hitInfo = Game.new_hit_info()
 	_hitInfo.damage = 200
-	_hitInfo.damageType = Interactions.DAMAGE_TYPE_PLASMA
+	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SUPER_RAIL
 	_hitInfo.attackTeam = Interactions.TEAM_PLAYER
+	_hitInfo.hyperLevel = 1
 	pass # Replace with function body.
 
 func _on_body_entered(_body:PhysicsBody) -> void:

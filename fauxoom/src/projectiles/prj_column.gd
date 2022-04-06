@@ -42,6 +42,13 @@ func _process(_delta) -> void:
 	_downMesh.transform.origin = Vector3(0, downLength * 0.5, 0)
 	pass
 
+func die() -> void:
+	_up.enabled = false
+	_down.enabled = false
+	_upMesh.visible = false
+	_downMesh.visible = false
+	.die()
+
 func _body_entered_up(body) -> void:
 	if body.name == "player":
 		print("Column up hit")

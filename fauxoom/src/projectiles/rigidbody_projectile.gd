@@ -39,6 +39,9 @@ func _ready() -> void:
 func _custom_init() -> void:
 	pass
 
+func get_hit_info() -> HitInfo:
+	return _hitInfo
+	
 func triggered_detonate() -> void:
 	if _state != ProjectileState.InFlight:
 		return
