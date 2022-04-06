@@ -317,6 +317,12 @@ func take_item(itemType:String, amount:int) -> int:
 		return -1
 	return result
 
+func _broadcast_got_item(itemType:String) -> void:
+	get_tree().call_group(
+		Groups.PLAYER_GROUP_NAME,
+		Groups.PLAYER_FN_GOT_ITEM,
+		itemType)
+
 func give_item(itemType:String, amount:int) -> int:
 	# print("Touched item " + itemType)
 	
@@ -325,12 +331,15 @@ func give_item(itemType:String, amount:int) -> int:
 		# give_all()
 		give_all_guns()
 		give_all_ammo()
+		_broadcast_got_item(itemType)
 		return 1
 	elif itemType == "gunrack":
 		give_all_guns()
+		_broadcast_got_item(itemType)
 		return 1
 	elif itemType == "ammopack":
 		give_all_ammo()
+		_broadcast_got_item(itemType)
 		return 1
 	
 	# item isn't in generic list - we don't know what this item is
@@ -354,6 +363,7 @@ func give_item(itemType:String, amount:int) -> int:
 		if slotNumber != -1:
 			var result:int = change_weapon_by_slot(slotNumber)
 			print("Changing to slot " + str(slotNumber) + " for weapon " + itemType + " result " + str(result))
+	_broadcast_got_item(itemType)
 	return amount
 
 func debug() -> String:

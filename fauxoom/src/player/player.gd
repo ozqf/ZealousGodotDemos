@@ -424,12 +424,19 @@ func _process(_delta:float) -> void:
 	var fn = Groups.PLAYER_FN_STATUS
 	get_tree().call_group(grp, fn, _hudStatus)
 
+func _broadcast_got_item(itemType:String) -> void:
+	get_tree().call_group(
+		Groups.PLAYER_GROUP_NAME,
+		Groups.PLAYER_FN_GOT_ITEM,
+		itemType)
+
 func _try_give_health(amount:int, limit:int) -> int:
 	if _health >= limit:
 		return 0
 	_health += amount
 	if _health > limit:
 		_health = limit
+	_broadcast_got_item("health")
 	return amount
 
 # returns amount taken
@@ -437,12 +444,6 @@ func give_item(itemType:String, amount:int) -> int:
 	# is this something this class is interested in?
 	if itemType == "health":
 		return _try_give_health(amount, MAX_MAIN_HEALTH)
-		#if _health >= MAX_MAIN_HEALTH:
-		#	return 0
-		#_health += amount
-		#if _health > MAX_MAIN_HEALTH:
-		#	_health = MAX_MAIN_HEALTH
-		#return amount
 	elif itemType == "health_bonus":
 		return _try_give_health(amount, MAX_HEALTH)
 
@@ -450,14 +451,11 @@ func give_item(itemType:String, amount:int) -> int:
 	# we always take bonuses
 	if itemType == "bonus":
 		_bonus += amount
+		_broadcast_got_item(itemType)
 		return amount
 	
 	# maybe it is an inventory item...?
 	var took:int = _inventory.give_item(itemType, amount)
-	# if took > 0:
-	# 	pass
-	#	print("Player took " + itemType + " x " + str(took))
-	#	print(_inventory.debug())
 	return took
 
 func _send_hit_message(dmg, direction, healthType) -> void:

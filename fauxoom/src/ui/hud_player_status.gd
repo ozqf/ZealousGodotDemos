@@ -8,6 +8,38 @@ onready var _rageCount:Label = $player_status/rage/count
 onready var _hyperTime:TextureProgress = $hyper_time
 onready var _bg:ColorRect = $bg
 
+onready var _healthLabel:Label = $player_status/health/Label
+onready var _rageLabel:Label = $player_status/rage/Label
+
+const PICKUP_GLOW_TIME:float = 1.0
+
+var _healthGlowTick:float = 0.0
+var _rageGlowTick:float = 0.0
+
+func _ready() -> void:
+	add_to_group(Groups.PLAYER_GROUP_NAME)
+
+func player_got_item(itemType:String) -> void:
+	if itemType == "rage":
+		_rageGlowTick = PICKUP_GLOW_TIME
+	elif itemType == "health":
+		_healthGlowTick = PICKUP_GLOW_TIME
+	pass
+
+func _process(_delta) -> void:
+	_healthGlowTick -= _delta
+	_rageGlowTick -= _delta
+	if _healthGlowTick < 0.0:
+		_healthGlowTick = 0.0
+	if _rageGlowTick < 0.0:
+		_rageGlowTick = 0.0
+	
+	var c = Color(1, 1, 1).linear_interpolate(Color(0, 0, 1), _healthGlowTick)
+	_healthLabel.add_color_override("font_color", c)
+	
+	var c2 = Color(1, 1, 1).linear_interpolate(Color(0, 1, 0), _rageGlowTick)
+	_rageLabel.add_color_override("font_color", c2)
+
 func player_status_update(data:PlayerHudStatus) -> void:
 	# counts
 	_healthCount.text = str(data.health)
