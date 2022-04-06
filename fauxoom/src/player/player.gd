@@ -38,6 +38,10 @@ var _swayTime:float = 0.0
 var _hudStatus:PlayerHudStatus = null
 var _targetHealthInfo:MobHealthInfo = null
 
+var _slimeOverlapTick:float = 0.0
+var _slimeHurtTick:float = 0.0
+var _slimeOverlapCount:int = 0.0
+
 var _hyperCooldown:float = 0
 var _hyperLevel:int = 0
 var _hyperTime:float = 0
@@ -305,6 +309,15 @@ func _tick_bonus(_delta:float) -> void:
 
 func _process(_delta:float) -> void:
 	_refresh_input_on()
+
+	if _slimeOverlapCount > 0:
+		_slimeOverlapTick += _delta
+	else:
+		# decays slower than builds, or hopping around
+		# keeps it at zero!
+		_slimeOverlapTick -= (_delta * 0.25)
+	_slimeOverlapTick = ZqfUtils.clamp_float(_slimeOverlapTick, 0.0, 2.0)
+	_slimeHurtTick -= _delta
 	
 	if _wallDetector.bodies.size() > 0:
 		_motor.nearWall = true
@@ -385,6 +398,8 @@ func _process(_delta:float) -> void:
 	_hudStatus.hyperTime = _hyperCooldown
 	_hudStatus.bonus = _bonus
 	_hudStatus.isNearWall = _motor.nearWall
+
+	_hudStatus.slimeOverlapPercentage = (_slimeOverlapTick / 2.0) * 100.0
 	
 	# get inventory counts so we can use the rage count
 	_inventory.write_hud_status(_hudStatus)
@@ -449,6 +464,12 @@ func _send_hit_message(dmg, direction, healthType) -> void:
 	}
 	get_tree().call_group(grp, fn, data)
 
+func set_over_slime(flag:bool) -> void:
+	if flag:
+		_slimeOverlapCount += 1
+	else:
+		_slimeOverlapCount -= 1
+
 func hit(hitInfo:HitInfo) -> int:
 	# print("Player hit")
 	if hitInfo.attackTeam == Interactions.TEAM_PLAYER:
@@ -459,6 +480,11 @@ func hit(hitInfo:HitInfo) -> int:
 		# _health -= dmg
 		return 0
 	var dmg = hitInfo.damage
+
+	# check for slime overlap
+	if hitInfo.damageType == Interactions.DAMAGE_TYPE_SLIME:
+		if _slimeOverlapTick < 2.0:
+			return 0
 	
 	if _hyperLevel > 0 && hitInfo.damageType != Interactions.DAMAGE_TYPE_VOID:
 		# in hyper, rage absorbs damage

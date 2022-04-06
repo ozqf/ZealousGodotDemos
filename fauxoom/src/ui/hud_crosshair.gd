@@ -7,6 +7,7 @@ onready var _energyBar:TextureProgress = $energy
 onready var _healthBar:TextureProgress = $health
 onready var _redDot:ColorRect = $red_dot
 onready var _weaponCharge:ProgressBar = $weapon_charge_bar
+onready var _slimeTimeBar:ProgressBar = $slime_time_bar
 onready var _targetHealth:TextureProgress = $target_health
 onready var _walldashIndicator:Control = $walldash_indicator
 onready var _hyperTime:Label = $hyper_time/Label
@@ -57,6 +58,12 @@ func player_status_update(data:PlayerHudStatus) -> void:
 	_redDot.color = c
 	_energyBar.value = data.energy
 	_energyBar.visible = (_energyBar.value < 100)
+
+	if data.slimeOverlapPercentage > 1.0:
+		_slimeTimeBar.visible = true
+		_slimeTimeBar.value = data.slimeOverlapPercentage
+	else:
+		_slimeTimeBar.visible = false
 	
 	# show rage instead of health
 	_healthBar.value = data.rage

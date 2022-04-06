@@ -54,6 +54,13 @@ static func clamp_float(_value:float, _min:float, _max:float) -> float:
 		return _max
 	return _value
 
+static func clamp_int(_value:int, _min:int, _max:int) -> int:
+	if _value < _min:
+		return _min
+	if _value > _max:
+		return _max
+	return _value
+
 #####################################
 # geometry stuff
 #####################################

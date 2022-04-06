@@ -323,6 +323,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="slime_time_bar" type="ProgressBar" parent="centre"]
+modulate = Color( 0.0901961, 1, 0, 1 )
+margin_left = -40.0
+margin_top = 104.0
+margin_right = 40.0
+margin_bottom = 118.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="target_health" type="TextureProgress" parent="centre"]
 margin_left = -64.0
 margin_top = -284.0

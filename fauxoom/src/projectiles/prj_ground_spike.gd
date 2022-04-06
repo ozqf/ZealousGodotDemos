@@ -10,6 +10,7 @@ const STATE_SHRINKING:int = 2
 const STATE_DEAD:int = 3
 
 const GROW_TIME:float = 0.4
+const GROWN_TIME:float = 1.5
 
 export var harmlessMaterial:SpatialMaterial = null
 export var dangerousMaterial:SpatialMaterial = null
@@ -85,7 +86,7 @@ func _process(_delta:float) -> void:
 				_hitTick -= _delta
 		else:
 			_player = null
-		if _time > 2:
+		if _time > GROWN_TIME:
 			_time = 0
 			_spikeState = STATE_SHRINKING
 			if harmlessMaterial != null:

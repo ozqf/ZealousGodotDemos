@@ -72,7 +72,7 @@ var _prevState = MobState.Idle
 
 var _aiTickInfo:AITickInfo = null
 
-var _thinkTick:float = 0
+var _thinkTick:float = 0.0
 
 var _stunAccumulator:int = 0
 var _pushAccumulator:Vector3 = Vector3()
@@ -444,7 +444,10 @@ func headshot_death() -> void:
 
 func _select_damaged_drop_count() -> int:
 	return 1
-	
+
+func _over_slime() -> void:
+	pass
+
 func _select_death_drop_count() -> int:
 	if _stats.sizeClass == Enums.EnemyStrengthClass.Fodder:
 		return 1
