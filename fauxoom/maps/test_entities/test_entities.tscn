@@ -1,4 +1,4 @@
-[gd_scene load_steps=109 format=2]
+[gd_scene load_steps=110 format=2]
 
 [ext_resource path="res://prefabs/gib.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/frames/item_frames.tres" type="SpriteFrames" id=2]
@@ -93,6 +93,7 @@
 [ext_resource path="res://assets/world/materials/mat_grey_chequer.tres" type="Material" id=91]
 [ext_resource path="res://maps/test_entities/geometry/fauxoom_test_map_01_out.obj" type="ArrayMesh" id=92]
 [ext_resource path="res://prefabs/projectiles/prj_column.tscn" type="PackedScene" id=93]
+[ext_resource path="res://maps/test_entities/scripts/test_entities_spawner.gd" type="Script" id=94]
 
 [sub_resource type="Environment" id=1]
 ambient_light_color = Color( 0.517647, 0.52549, 0.733333, 1 )
@@ -1097,7 +1098,7 @@ transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, -28, 0.005, 0 )
 autoUpdate = false
 
 [node name="survival_gate" parent="ents/arena_test" instance=ExtResource( 32 )]
-transform = Transform( 0.5, 0, 0, 0, 3, 0, 0, 0, 12, 0, 0, 6 )
+transform = Transform( 0.5, 0, 0, 0, 9, 0, 0, 0, 12, 0, 0, 6 )
 active = false
 
 [node name="info_deadline_controller" parent="ents/arena_test" instance=ExtResource( 3 )]
@@ -1217,6 +1218,20 @@ respawns = true
 
 [node name="barrel_explosive" parent="ents/arena_test" instance=ExtResource( 59 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 2, 2 )
+
+[node name="gas_sac_spawner" type="Spatial" parent="ents/arena_test"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 2, 0 )
+script = ExtResource( 94 )
+respawnTime = 0.1
+count = 100
+
+[node name="point_gizmo" parent="ents/arena_test/gas_sac_spawner" instance=ExtResource( 25 )]
+
+[node name="item_flame_thrower" parent="ents/arena_test" instance=ExtResource( 68 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0 )
+
+[node name="item_full_pack" parent="ents/arena_test" instance=ExtResource( 17 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0 )
 
 [node name="atmosphere_test" type="Spatial" parent="ents"]
 
@@ -2224,7 +2239,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 14, -14.5, 9.5, 0 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 14, -29.5, 9.5, 0 )
 
 [node name="blocker_volume4" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 39 )]
-transform = Transform( 44, 0, 0, 0, 9, 0, 0, 0, 1, -41, 2, -16 )
+transform = Transform( 44, 0, 0, 0, 9, 0, 0, 0, 1, -42, 3, -14 )
 
 [node name="blocker_volume5" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 39 )]
 transform = Transform( 44, 0, 0, 0, 9, 0, 0, 0, 1, -43, 3, 15 )
@@ -2233,7 +2248,7 @@ transform = Transform( 44, 0, 0, 0, 9, 0, 0, 0, 1, -43, 3, 15 )
 transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 28, -43, 3, 14 )
 
 [node name="blocker_volume8" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 39 )]
-transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 12, 0, 3, 6 )
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 28, 0, 9, 14 )
 
 [node name="blocker_volume7" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 39 )]
 transform = Transform( 11, 0, 0, 0, 9, 0, 0, 0, 10, -53, 3, 5 )
@@ -2282,6 +2297,9 @@ transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 8, 0, 0, -14 )
 
 [node name="world_volume_corner17" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
 transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 8, 0, 0, 6 )
+
+[node name="world_volume_corner18" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 4, 8, 0, -2 )
 
 [node name="world_volume_corner15" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 26, 13, 0, -13 )

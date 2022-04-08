@@ -12,7 +12,14 @@ func _fire_rocket() -> void:
 	var t:Transform = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin
 	selfPos.y -= 0.3
+	
+	var randSpreadX:float = 1200
+	var randSpreadY:float = 800
+	var spreadX:float = rand_range(-randSpreadX, randSpreadX)
+	var spreadY:float = rand_range(-randSpreadY, randSpreadY)
 	var forward = -t.basis.z
+	forward = ZqfUtils.calc_forward_spread_from_basis(selfPos, t.basis, spreadX, spreadY)
+
 	rocket.launch_prj(selfPos, forward, Interactions.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
 	_hud.hudAudio.play_stream_weapon_1(_rocketShoot)
 	_inventory.take_item(ammoType, ammoPerShot)

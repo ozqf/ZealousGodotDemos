@@ -14,7 +14,7 @@ rings = 8
 [node name="prj_point" type="Spatial"]
 script = ExtResource( 3 )
 maxSpeed = 35.0
-timeToLive = 0.25
+timeToLive = 0.4
 
 [node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
