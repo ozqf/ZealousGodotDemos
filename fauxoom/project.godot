@@ -664,6 +664,7 @@ toggle_objectives={
 3d_physics/layer_12="projectile_rigidbody"
 3d_physics/layer_13="sensors"
 3d_physics/layer_14="hazards"
+3d_physics/layer_15="player_only_solid"
 3d_physics/layer_19="explosion_check"
 3d_physics/layer_20="editor_geometry"
 
