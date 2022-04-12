@@ -78,6 +78,8 @@ enum DebuggerMode {
 	SpawnGolem,
 	SpawnTitan,
 	SpawnGasSac,
+	SpawnSerpent,
+	SpawnCyclops,
 	ItemSpawnMinorHealth,
 	ItemSpawnMinorRage,
 	ItemSpawnMinorBonus

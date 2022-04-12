@@ -16,6 +16,8 @@ onready var _spawnSpider:Button = $HBoxContainer/spawns_container/spider
 onready var _spawnGolem:Button = $HBoxContainer/spawns_container/golem
 onready var _spawnTitan:Button = $HBoxContainer/spawns_container/titan
 onready var _spawnGasSac:Button = $HBoxContainer/spawns_container/gas_sac
+onready var _spawnSerpent:Button = $HBoxContainer/spawns_container/serpent
+onready var _spawnCyclops:Button = $HBoxContainer/spawns_container/cyclops
 
 onready var _spawnMinorHp:Button = $HBoxContainer/items_container/minor_health
 onready var _spawnMinorRage:Button = $HBoxContainer/items_container/minor_rage
@@ -41,6 +43,8 @@ func _ready() -> void:
 	_r = _spawnGolem.connect("pressed", self, "_click_spawn_golem")
 	_r = _spawnTitan.connect("pressed", self, "_click_spawn_titan")
 	_r = _spawnGasSac.connect("pressed", self, "_click_spawn_gas_sac")
+	_r = _spawnSerpent.connect("pressed", self, "_click_spawn_serpent")
+	_r = _spawnCyclops.connect("pressed", self, "_click_spawn_cyclops")
 
 	_r = _spawnMinorHp.connect("pressed", self, "_click_spawn_minor_health")
 	_r = _spawnMinorRage.connect("pressed", self, "_click_spawn_minor_rage")
@@ -116,6 +120,12 @@ func _click_spawn_titan() -> void:
 
 func _click_spawn_gas_sac() -> void:
 	Game.debuggerMode = Enums.DebuggerMode.SpawnGasSac
+
+func _click_spawn_serpent() -> void:
+	Game.debuggerMode = Enums.DebuggerMode.SpawnSerpent
+
+func _click_spawn_cyclops() -> void:
+	Game.debuggerMode = Enums.DebuggerMode.SpawnCyclops
 
 func _click_generic() -> void:
 	pass

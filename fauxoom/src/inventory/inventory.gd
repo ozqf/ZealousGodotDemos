@@ -272,6 +272,8 @@ func give_all_guns() -> void:
 	select_best_gun()
 
 func select_best_gun() -> void:
+	if Game.debuggerOpen:
+		return
 	# select a gun if we didn't have one equipped
 	var priority:int = -1
 	var bestKey

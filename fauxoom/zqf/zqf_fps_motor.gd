@@ -255,6 +255,8 @@ func _get_window_to_screen_ratio():
 func _input(_event: InputEvent):
 	if !_inputOn:
 		return
+	if Game.debuggerOpen:
+		return
 	if _event is InputEventMouseMotion:
 		# NOTE: Apply input to m_pitch/m_yaw values. But do not
 		# set spatial rotations yet.

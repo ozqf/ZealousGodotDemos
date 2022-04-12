@@ -115,6 +115,10 @@ func read_input(_weaponInput:WeaponInput) -> void:
 			_spawn_enemy(Enums.EnemyType.Titan)
 		elif mode == Enums.DebuggerMode.SpawnGasSac:
 			_spawn_prefab(_gas_sac_t)
+		elif mode == Enums.DebuggerMode.SpawnSerpent:
+			_spawn_enemy(Enums.EnemyType.Serpent)
+		elif mode == Enums.DebuggerMode.SpawnCyclops:
+			_spawn_enemy(Enums.EnemyType.Cyclops)
 		
 		elif mode == Enums.DebuggerMode.ItemSpawnMinorHealth:
 			_spawn_minor_item(Enums.QuickDropType.Health)
