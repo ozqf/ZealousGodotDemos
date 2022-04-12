@@ -883,7 +883,7 @@ maxLiveMobs = 3
 
 [node name="c2" parent="entities/arena_test_2_ents/arena_2_survival/horde_spawns" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 8 )
-type = 7
+type = 6
 tickMax = 15.0
 totalMobs = 9999
 maxLiveMobs = 3

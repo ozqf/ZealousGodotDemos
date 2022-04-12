@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -7,13 +7,12 @@
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=5]
 [ext_resource path="res://assets/sprites/frames/cyclops_frames.tres" type="SpriteFrames" id=6]
 [ext_resource path="res://prefabs/mob_components/mob_motor.tscn" type="PackedScene" id=7]
-[ext_resource path="res://src/ai/mobs/titan_ticker.gd" type="Script" id=8]
-[ext_resource path="res://assets/sounds/mob/punk/punk_alert_1.wav" type="AudioStream" id=9]
-[ext_resource path="res://src/ai/mob_sound.gd" type="Script" id=10]
+[ext_resource path="res://src/ai/mobs/cyclops_ticker.gd" type="Script" id=8]
+[ext_resource path="res://prefabs/mob_components/mob_sound_base.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/ai/mob_motor_flying.gd" type="Script" id=10]
 [ext_resource path="res://prefabs/mob_components/orb_shield.tscn" type="PackedScene" id=11]
 [ext_resource path="res://src/patterns/pattern_cube_volume.gd" type="Script" id=12]
 [ext_resource path="res://prefabs/mob_components/omni_attack_charge.tscn" type="PackedScene" id=13]
-[ext_resource path="res://src/ai/mob_motor_default.gd" type="Script" id=14]
 [ext_resource path="res://influence_map/influence_agent.tscn" type="PackedScene" id=15]
 [ext_resource path="res://prefabs/mob_components/teleport_column.tscn" type="PackedScene" id=16]
 
@@ -70,17 +69,16 @@ showOmniCharge = true
 
 [node name="pattern" type="Node" parent="attacks/attack2"]
 script = ExtResource( 12 )
-minOffset = Vector3( -1, -1, -1 )
-maxOffset = Vector3( 1, 1, 1 )
+minOffset = Vector3( -2, -2, -2 )
+maxOffset = Vector3( 2, 2, 2 )
 
 [node name="attack" type="Node" parent="attacks"]
 script = ExtResource( 4 )
+attackCount = 3
+windDownTime = 0.5
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
-script = ExtResource( 14 )
-moveType = 1
-moveStyle = 1
-evadeDegrees = 75.0
+script = ExtResource( 10 )
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
@@ -97,12 +95,7 @@ prefabName = "mob_cyclops"
 [node name="ticker" type="Spatial" parent="."]
 script = ExtResource( 8 )
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource( 9 )
-unit_db = 5.0
-max_distance = 50.0
-bus = "game"
-script = ExtResource( 10 )
+[node name="mob_sound" parent="." instance=ExtResource( 9 )]
 
 [node name="orb" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )

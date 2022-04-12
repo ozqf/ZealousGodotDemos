@@ -5,12 +5,6 @@ var _pathTick:float = 0
 
 var _pathProximityThreshold:float = 0.1
 
-var _evading:bool = false
-var _evadeTarget:Spatial = null 
-
-func custom_init(body:KinematicBody) -> void:
-	.custom_init(body)
-
 func _update_path() -> void:
 	if !_hasTarget:
 		return
@@ -23,11 +17,11 @@ func _update_path() -> void:
 		_agent.pathIndex = -1
 #	print("Ground motor got " + str(_agent.pathNumNodes) + " path nodes")
 
-func force_path_update() -> void:
+func _force_path_update() -> void:
 	_pathTick = .5
 	_update_path()
 
-func pick_evade_point(_verbose:bool) -> Spatial:
+func _pick_evade_point(_verbose:bool) -> Spatial:
 	var r:float = randf()
 	var p:Spatial = null
 	if _floorLeft.isValid:
@@ -49,40 +43,13 @@ func pick_evade_point(_verbose:bool) -> Spatial:
 		return p
 	return null
 
-var _evadeTick:float = 0.0
-
-func _evade_step(_delta:float) -> void:
-	var from:Vector3 = _body.global_transform.origin
-	var to:Vector3 = _evadeTarget.global_transform.origin
-	# make sure move is flat!
-	to.y = from.y
-	var toward:Vector3 = to - from
-	toward = toward.normalized()
-	_body.move_and_slide(toward * 4)
-
-	# face move (attack) target
-	var towardTarget:Vector3 = moveTargetPos - from
-	from.y = moveTargetPos.y
-	_set_yaw_by_vector3(towardTarget.normalized())
-
 func move_evade(_delta:float) -> void:
-	_evadeTick -= _delta
-	if _evadeTarget != null:
-		if !_evadeTarget.isValid:
-			_evadeTarget = pick_evade_point(false)
-		elif _evadeTick <= 0.0 && randf() > 0.5:
-			_evadeTarget = pick_evade_point(false)
-	else:
-		_evadeTarget = pick_evade_point(false)
-		if _evadeTarget == null:
-			# we can't move :(
-			print(name + " has no evade target")
-			return
-	_evade_step(_delta)
+	if _tick_evade_status(_delta):
+		_evade_step(_delta)
 
 func move_hunt(_delta:float) -> void:
 	if _pathTick <= 0:
-		force_path_update()
+		_force_path_update()
 	else:
 		_pathTick -= _delta
 	if _agent.pathIndex == -1:

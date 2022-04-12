@@ -1,3 +1,5 @@
+# Old motor, no pathfinding. Do not use!
+# Kept for debugging purposes.
 extends MobMotor
 
 var _acceleration:float = 25.0

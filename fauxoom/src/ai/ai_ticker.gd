@@ -240,13 +240,6 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 			var distMode:int = 0
 			if _tickInfo.canSeeTarget:
 				_mob.motor.set_move_target(_tickInfo.targetPos)
-				# we can see player so player can see us.
-				# switch to random evasion
-				pass
-				# if _tickInfo.moveThinkTick <= 0:
-				# 	_tickInfo.moveThinkTick = 0.25
-				# 	var v:Vector3 = _mob.motor.pick_evade_point(_tickInfo.verbose)
-				# 	_mob.motor.set_move_target(v)
 			else:
 				# can't see target, move directly toward them
 				_mob.motor.set_move_target(_tickInfo.targetPos)

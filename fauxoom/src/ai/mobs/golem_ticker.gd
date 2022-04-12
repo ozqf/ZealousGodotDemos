@@ -30,7 +30,7 @@ func _fire_attack(attack:MobAttack, tarPos:Vector3) -> void:
 		_left.look_at(leadPos, Vector3.UP)
 	
 	attack.fire_from(tarPos, _right, 0.0)
-	# attack.fire_from(tarPos, _left, 0.0)
+	attack.fire_from(tarPos, _left, 0.0)
 
 	_attackCount += 1
 

@@ -924,9 +924,10 @@ maxLiveMobs = 3
 
 [node name="c" parent="ents/arena_test_2_ents/arena_2_survival/horde_spawns" instance=ExtResource( 51 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 5 )
-type = 8
+type = 6
 tickMax = 10.0
 totalMobs = 9999
+maxLiveMobs = 3
 
 [node name="Entity" type="Node" parent="ents/arena_test_2_ents/arena_2_survival"]
 script = ExtResource( 6 )
@@ -2245,16 +2246,19 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 14, -14.5, 9.5, 0 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 14, -29.5, 9.5, 0 )
 
 [node name="blocker_volume4" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 39 )]
-transform = Transform( 44, 0, 0, 0, 9, 0, 0, 0, 1, -42, 3, -14 )
+transform = Transform( 62.92, 0, 0, 0, 9.9, 0, 0, 0, 1.1, -43, 3, -14 )
 
 [node name="blocker_volume5" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 39 )]
-transform = Transform( 44, 0, 0, 0, 9, 0, 0, 0, 1, -43, 3, 15 )
+transform = Transform( 62, 0, 0, 0, 10, 0, 0, 0, 1, -43, 3, 15 )
 
 [node name="blocker_volume6" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 39 )]
 transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 28, -43, 3, 14 )
 
+[node name="blocker_volume9" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 39 )]
+transform = Transform( 43, 0, 0, 0, 1, 0, 0, 0, 28, -42, 12, 14 )
+
 [node name="blocker_volume8" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 39 )]
-transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 28, 0, 9, 14 )
+transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 28, 13, 4, 14 )
 
 [node name="blocker_volume7" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 39 )]
 transform = Transform( 11, 0, 0, 0, 9, 0, 0, 0, 10, -53, 3, 5 )
@@ -2293,10 +2297,10 @@ transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 24, -14, 3, -12 )
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -10, 3, 8 )
 
 [node name="world_volume_corner13" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
-transform = Transform( 13, 0, 0, 0, 4, 0, 0, 0, 1, 1, 0, 13 )
+transform = Transform( 13, 0, 0, 0, 3, 0, 0, 0, 1, 1, 0, 14 )
 
 [node name="world_volume_corner14" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
-transform = Transform( 13, 0, 0, 0, 4, 0, 0, 0, 1, 1, 0, -14 )
+transform = Transform( 13, 0, 0, 0, 4, 0, 0, 0, 1, 1, 0, -15 )
 
 [node name="world_volume_corner16" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
 transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 8, 0, 0, -14 )
@@ -2308,7 +2312,7 @@ transform = Transform( 1, 0, 0, 0, 9, 0, 0, 0, 8, 0, 0, 6 )
 transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 4, 8, 0, -2 )
 
 [node name="world_volume_corner15" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
-transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 26, 13, 0, -13 )
+transform = Transform( 1, 0, 0, 0, 4, 0, 0, 0, 28, 13, 0, -14 )
 
 [node name="world_volume_corner11" parent="geometry/world/NavigationMeshInstance/arena_test" instance=ExtResource( 30 )]
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -10, 3, -12 )
