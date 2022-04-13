@@ -2,4 +2,18 @@
 
 Various game experiments and demos created using the Godot engine.
 
-Fauxoom is the main project, created with Godot 3.4 stable
+## Fauxoom
+
+![Fauxoom screenshot](https://i.imgur.com/xiM95Vn.jpg)
+
+Fauxoom is the main project, a retro style FPS using assets from the Freedoom project
+[https://freedoom.github.io/]
+
+## Enchanted Rug
+
+Experimentation with hovering/flying movement in 3D.
+
+## Sticky Knight
+
+2d platformer, experimenting with ability to walk on walls/ceilings.
+

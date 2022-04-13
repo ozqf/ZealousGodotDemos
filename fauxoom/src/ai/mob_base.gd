@@ -450,7 +450,7 @@ func _over_slime() -> void:
 
 func _select_death_drop_count() -> int:
 	if _stats.sizeClass == Enums.EnemyStrengthClass.Fodder:
-		return 1
+		return 2
 	if _stats.sizeClass == Enums.EnemyStrengthClass.Medium:
 		return 3
 	if _stats.sizeClass == Enums.EnemyStrengthClass.Large:

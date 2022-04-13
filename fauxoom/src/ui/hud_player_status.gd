@@ -43,14 +43,16 @@ func _process(_delta) -> void:
 func player_status_update(data:PlayerHudStatus) -> void:
 	# counts
 	_healthCount.text = str(data.health)
-	if data.health > 50:
+	if data.godMode:
+		# _healthCount.text += " (INVUL)"
+		_healthCount.add_color_override("font_color",  Color(0.5, 0.5, 0.5))
+	elif data.health > 50:
 		_healthCount.add_color_override("font_color",  Color(1, 1, 1))
 	elif data.health > 25:
 		_healthCount.add_color_override("font_color",  Color(1, 1, 0))
 	else:
 		_healthCount.add_color_override("font_color",  Color(1, 0, 0))
-	if data.godMode:
-		_healthCount.text += " (INVUL)"
+	
 	_energyCount.text = str(data.energy)
 	if data.currentLoadedMax > 0:
 		_ammoCount.text = str(data.currentLoaded) + " / " + str(data.currentLoadedMax) + " - " + str(data.currentAmmo)
