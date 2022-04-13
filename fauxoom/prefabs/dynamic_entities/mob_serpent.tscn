@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -8,25 +8,27 @@
 [ext_resource path="res://assets/sprites/frames/serpent_frames.tres" type="SpriteFrames" id=6]
 [ext_resource path="res://prefabs/mob_components/mob_motor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://prefabs/mob_components/mob_leap_ticker.tscn" type="PackedScene" id=8]
-[ext_resource path="res://src/ai/mob_sound.gd" type="Script" id=9]
+[ext_resource path="res://prefabs/mob_components/mob_sound_base.tscn" type="PackedScene" id=9]
 [ext_resource path="res://prefabs/mob_components/teleport_column.tscn" type="PackedScene" id=10]
+[ext_resource path="res://src/ai/mob_motor_ground.gd" type="Script" id=11]
 
 [sub_resource type="BoxShape" id=1]
-extents = Vector3( 0.5, 0.75, 0.5 )
+extents = Vector3( 0.5, 1, 0.5 )
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.2, 0.2, 1 )
 
 [node name="mob_serpent" type="KinematicBody"]
 collision_layer = 2
-collision_mask = 71
+collision_mask = 70
 script = ExtResource( 2 )
 
 [node name="teleport_column" parent="." instance=ExtResource( 10 )]
+transform = Transform( 2, 0, 0, 0, 2.6, 0, 0, 0, 2, 0, 0, 0 )
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
 offset = Vector2( 0, 48 )
+pixel_size = 0.04
 billboard = 2
 shaded = true
 frames = ExtResource( 6 )
@@ -36,13 +38,14 @@ animationSet = "serpent"
 defaultAnimation = "walk"
 
 [node name="body" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = SubResource( 1 )
 
 [node name="head" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
 
 [node name="motor" parent="." instance=ExtResource( 7 )]
+script = ExtResource( 11 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
@@ -54,10 +57,11 @@ material/0 = null
 
 [node name="attack" type="Node" parent="attacks"]
 script = ExtResource( 4 )
+cooldown = 4.0
 
 [node name="stats" type="Node" parent="."]
 script = ExtResource( 1 )
-health = 100
+health = 400
 moveSpeed = 8.0
 
 [node name="Entity" type="Node" parent="."]
@@ -66,6 +70,4 @@ prefabName = "mob_serpent"
 
 [node name="ticker" parent="." instance=ExtResource( 8 )]
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-bus = "game"
-script = ExtResource( 9 )
+[node name="mob_sound" parent="." instance=ExtResource( 9 )]

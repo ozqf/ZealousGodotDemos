@@ -4,6 +4,7 @@ class_name AITicker
 
 const Enums = preload("res://src/enums.gd")
 
+const STATE_INITIAL:int = -1
 const STATE_MOVE:int = 0
 const STATE_WINDUP:int = 1
 const STATE_ATTACK:int = 2

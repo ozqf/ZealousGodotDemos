@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/world/tech_materials/mat_doortrak.tres" type="Material" id=1]
+[ext_resource path="res://prefabs/doors/tech_door_01/tech_door_01.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://assets/world/materials/mat_world_window.tres" type="Material" id=3]
+[ext_resource path="res://assets/world/tech_materials/mat_door9_1.tres" type="Material" id=4]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 2, 2, 0.3 )
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 2, 2.7, 0.2 )
+
+[node name="tech_door_01" type="KinematicBody"]
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = ExtResource( 2 )
+material/0 = ExtResource( 1 )
+material/1 = ExtResource( 4 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 3 )
