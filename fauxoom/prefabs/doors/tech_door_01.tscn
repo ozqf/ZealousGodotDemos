@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/world/tech_materials/mat_doortrak.tres" type="Material" id=1]
 [ext_resource path="res://prefabs/doors/tech_door_01/tech_door_01.obj" type="ArrayMesh" id=2]
 [ext_resource path="res://assets/world/materials/mat_world_window.tres" type="Material" id=3]
 [ext_resource path="res://assets/world/tech_materials/mat_door9_1.tres" type="Material" id=4]
+[ext_resource path="res://src/static_entities/door.gd" type="Script" id=5]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 2, 2, 0.3 )
@@ -12,6 +13,8 @@ extents = Vector3( 2, 2, 0.3 )
 size = Vector3( 2, 2.7, 0.2 )
 
 [node name="tech_door_01" type="KinematicBody"]
+collision_layer = 513
+script = ExtResource( 5 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )

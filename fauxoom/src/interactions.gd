@@ -106,11 +106,11 @@ static func is_ray_hit_a_mob(_hitScanResult:Dictionary) -> bool:
 static func is_collider_usable(collider) -> bool:
 	if collider == null || !is_instance_valid(collider):
 		return false
-	return collider.has_method("use")
+	return collider.has_method("use_interactive")
 
-static func use_collider(collider) -> bool:
-	if collider.has_method("use"):
-		collider.use()
+static func use_collider(collider, _user) -> bool:
+	if collider.has_method("use_interactive"):
+		collider.use_interactive(_user)
 		return true
 	return false
 

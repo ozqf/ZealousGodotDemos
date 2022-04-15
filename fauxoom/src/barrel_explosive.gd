@@ -20,12 +20,13 @@ func restore_state(_dict:Dictionary) -> void:
 	global_transform.origin = ZqfUtils.v3_from_dict(_dict.pos)
 	_dead = _dict.dead
 
-func use() -> void:
+func use_interactive(_user) -> String:
 	
 	print("Barrel - use!")
 	_beingCarried = true
 	_shape.disabled = true
 	_sprite.modulate = Color(1, 0, 0, 0.5)
+	return ""
 
 func hit(_hitInfo:HitInfo) -> int:
 	print("Barrel - hit for " + str(_hitInfo.damage))

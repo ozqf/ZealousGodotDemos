@@ -6,7 +6,7 @@ func get_is_colliding() -> bool:
 
 func use_target() -> bool:
 	if is_colliding():
-		return Interactions.use_collider(get_collider())
+		return Interactions.use_collider(get_collider(), self)
 	return false
 
 func _process(_delta:float):

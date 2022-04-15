@@ -26,6 +26,13 @@ enum ProjectileType {
 	Column
 }
 
+enum KeyType {
+	None,
+	Blue,
+	Yellow,
+	Red
+}
+
 # roles assigned by the manager to a mob during gameplay
 # assault is a fancy way of saying "rush the player and hit them"
 # ranged is a bit more wooly

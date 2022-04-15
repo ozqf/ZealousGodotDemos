@@ -43,10 +43,12 @@ func _set_on(flag:bool) -> void:
 	_on.visible = on
 	_shape.disabled = on
 
-func use() -> void:
+func use_interactive(_user) -> String:
 	if !on:
 		_set_on(true)
 		_ent.trigger()
 		_audio.play()
+		return ""
 		# emit_signal("trigger")
 		# Interactions.triggerTargets(get_tree(), triggerTargetName)
+	return ""

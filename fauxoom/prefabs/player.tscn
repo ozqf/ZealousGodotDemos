@@ -142,6 +142,29 @@ script = ExtResource( 5 )
 [node name="inventory" type="Node" parent="."]
 script = ExtResource( 9 )
 
+[node name="inactive" type="Node" parent="inventory"]
+
+[node name="pistol" type="Node" parent="inventory/inactive"]
+script = ExtResource( 15 )
+hudName = "Pistol"
+inventoryType = "pistol"
+ammoType = "bullets"
+slot = 2
+refireTime = 0.2
+idle = "pistol_idle"
+fire_1 = "pistol_shoot"
+maxLoaded = 18
+
+[node name="flame_thrower" type="Node" parent="inventory/inactive"]
+script = ExtResource( 26 )
+hudName = "Flame Thrower"
+inventoryType = "flame_thrower"
+ammoType = "fuel"
+slot = 7
+refireTime = 0.05
+idle = "ft_idle"
+fire_1 = "ft_shoot"
+
 [node name="weapons" type="Node" parent="inventory"]
 
 [node name="chainsaw" type="Node" parent="inventory/weapons"]
@@ -164,17 +187,6 @@ refireTime = 0.15
 idle = "pistol_idle"
 fire_1 = "pistol_shoot"
 akimbo = true
-
-[node name="pistol" type="Node" parent="inventory/weapons"]
-script = ExtResource( 15 )
-hudName = "Pistol"
-inventoryType = "pistol"
-ammoType = "bullets"
-slot = 2
-refireTime = 0.2
-idle = "pistol_idle"
-fire_1 = "pistol_shoot"
-maxLoaded = 18
 
 [node name="super_shotgun" type="Node" parent="inventory/weapons"]
 script = ExtResource( 17 )
@@ -217,16 +229,6 @@ slot = 5
 idle = "rl_idle"
 fire_1 = "rl_shoot"
 heaviness = 1
-
-[node name="flame_thrower" type="Node" parent="inventory/weapons"]
-script = ExtResource( 26 )
-hudName = "Flame Thrower"
-inventoryType = "flame_thrower"
-ammoType = "fuel"
-slot = 7
-refireTime = 0.05
-idle = "ft_idle"
-fire_1 = "ft_shoot"
 
 [node name="offhand" type="Node" parent="inventory/weapons"]
 script = ExtResource( 19 )

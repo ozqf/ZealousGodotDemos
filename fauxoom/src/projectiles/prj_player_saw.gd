@@ -105,7 +105,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 		# check vs interactor
 		elif (body.collision_layer & Interactions.INTERACTIVE) != 0:
 			print("Hit interactive body")
-			Interactions.use_collider(body)
+			# Interactions.use_collider(body)
 			set_stuck()
 			move = false
 			# print("Saw - stuck!")
