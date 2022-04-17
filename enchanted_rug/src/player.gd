@@ -8,7 +8,11 @@ onready var _body:Spatial = $body
 onready var _camera:Camera = $head/Camera
 onready var _thirdPersonMount:Spatial = $head/third_person_max
 onready var _cameraRay:RayCast = $head/camera_ray
+onready var _aimRay:RayCast = $head/aim_ray
+onready var _aimPoint:Spatial = $head/aim_ray/aim_point
 onready var _nearWorld:ZqfCountOverlaps = $near_world_area
+onready var _veryNearWorld:ZqfCountOverlaps = $very_near_world_area
+onready var _attack = $attack_control
 
 # fx stuff for showing movement properties
 onready var _speedTrail:CPUParticles = $body/rug/speed_trail
@@ -139,6 +143,14 @@ func _set_third_person(flag:bool) -> void:
 func _exit_tree():
 	get_tree().call_group(Main.GROUP_NAME, Main.GAME_PLAYER_REMOVE_FN, self)
 
+func _update_aim_point() -> void:
+	if _aimRay.is_colliding():
+		_aimPoint.global_transform.origin = _aimRay.get_collision_point()
+	else:
+		# foo
+		_aimPoint.transform.origin = Vector3(0, 0, -200)
+	_attack.set_aim_point(_aimPoint.global_transform.origin)
+
 func _process(_delta:float) -> void:
 	var pos:Vector3 = global_transform.origin
 	var hit:Dictionary = ZqfUtils.hitscan_by_pos_3D(self, pos, Vector3.DOWN, settings.maxAltitude.value, [], 1)
@@ -151,6 +163,7 @@ func _process(_delta:float) -> void:
 		_vars.altitude = settings.maxAltitude.value
 	
 	_update_camera()
+	_update_aim_point()
 
 # toggle mouse input in event for HTML5
 func _input(_event: InputEvent) -> void:
@@ -249,17 +262,22 @@ func _read_move_input() -> Vector3:
 		return Vector3()
 	var dir:Vector3 = Vector3()
 	if Input.is_action_pressed("move_forward"):
-		dir.z += -1
+		dir.z -= 1
 	if Input.is_action_pressed("move_backward"):
-		dir.z -= -1
+		dir.z += 1
 	if Input.is_action_pressed("move_left"):
-		dir.x += -1
+		dir.x -= +1
 	if Input.is_action_pressed("move_right"):
-		dir.x -= -1
+		dir.x += 1
 	if Input.is_action_pressed("move_up"):
-		dir.y -= -1
+		dir.y += 1
 	if Input.is_action_pressed("move_down"):
-		dir.y += -1
+		dir.y -= 1
+	
+	# if against a surface ignore move down if it is enabled
+	# if inputDir.y < 0 && _veryNearWorld.total_overlaps() > 0:
+	# 	inputDir.y = 0
+	
 	return dir
 
 func _apply_rotation(spatialNode:Spatial, mouse:Vector2) -> void:
@@ -362,7 +380,6 @@ func _apply_move_2(inputDir:Vector3, _delta:float, _isPressingBoost:bool) -> Str
 		var mul:float = range_lerp(curSpeed, 20, 40, 0.9, 0.999999)
 		if mul > 0.99:
 			mul = 0.99
-		# velocity *= 0.9
 		velocity *= mul
 	
 	# good, the player hasn't fallen asleep... apply player input
