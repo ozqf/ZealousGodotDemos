@@ -20,8 +20,24 @@ func _fire_attack(attack:MobAttack, tarPos:Vector3) -> void:
 	attack.prjPrefabOverride = Game.prj_column_t
 	var spinDegrees:float = 0.0
 
+	var leadOffset:Vector3 = Vector3()
 
-	var leadPos:Vector3 = tarPos + (_aiTickInfo.flatVelocity)
+	# pick offset based on player movement
+	if _aiTickInfo.flatVelocity.length_squared() > 0.1:
+		leadOffset = _aiTickInfo.flatVelocity
+	else:
+		# just randomly pick left or right
+		var toward:Vector3 = tarPos - _mob.global_transform.origin
+		var right = toward.normalized().cross(Vector3.UP)
+		if randf() > 0.5:
+			leadOffset = right * 5
+		else:
+			var left:Vector3 = -right
+			leadOffset = left * 5
+	
+	var leadPos:Vector3 = tarPos + leadOffset
+
+	#var leadPos:Vector3 = tarPos + (_aiTickInfo.flatVelocity)
 	if _attackCount % 2 == 0:
 		_right.look_at(leadPos, Vector3.UP)
 		_left.look_at(tarPos, Vector3.UP)
@@ -34,6 +50,6 @@ func _fire_attack(attack:MobAttack, tarPos:Vector3) -> void:
 
 	_attackCount += 1
 
-func _select_attack(_tickInfo:AITickInfo) -> int:
-	_aiTickInfo = _tickInfo
-	return ._select_attack(_tickInfo)
+func _select_attack(_aiInfo:AITickInfo) -> int:
+	_aiTickInfo = _aiInfo
+	return ._select_attack(_aiInfo)

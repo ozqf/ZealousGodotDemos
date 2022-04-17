@@ -62,6 +62,7 @@ var _targettingInfo:Dictionary = {
 	aimPos = Vector3(),
 	noAttackTime = 0.0,
 	health = 100,
+	grounded = false,
 	throwableTransform = Transform.IDENTITY
 }
 
@@ -375,6 +376,7 @@ func _process(_delta:float) -> void:
 	_targettingInfo.noAttackTime = _attack.noAttackTime
 	_targettingInfo.health = _health
 	_targettingInfo.throwableTransform = _throwable.global_transform
+	_targettingInfo.grounded = _motor.onFloor
 
 	# Write HUD information
 	var t:Transform = _head.transform
