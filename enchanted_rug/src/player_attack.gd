@@ -21,7 +21,7 @@ func _fire(launchNode:Spatial) -> void:
 	var forward:Vector3 = -launchNode.global_transform.basis.z
 	var prj = _projectile_t.instance()
 	get_tree().get_current_scene().add_child(prj)
-	prj.launch(pos, forward)
+	prj.prj_launch(pos, forward)
 
 func _process(_delta:float) -> void:
 	if _refireTick <= 0:

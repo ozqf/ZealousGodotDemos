@@ -153,7 +153,9 @@ func _update_aim_point() -> void:
 
 func _process(_delta:float) -> void:
 	var pos:Vector3 = global_transform.origin
-	var hit:Dictionary = ZqfUtils.hitscan_by_pos_3D(self, pos, Vector3.DOWN, settings.maxAltitude.value, [], 1)
+	var dest:Vector3 = Vector3(0, -settings.maxAltitude.value, 0)
+	var hit:Dictionary = ZqfUtils.hitscan_by_position_3D(self, pos, dest, ZqfUtils.EMPTY_ARRAY, 1)
+	#var hit:Dictionary = ZqfUtils.hitscan_by_position_3D(self, pos, Vector3.DOWN, settings.maxAltitude.value, [], 1)
 	if hit:
 		_groundHit = true
 		_vars.groundPos = hit.position

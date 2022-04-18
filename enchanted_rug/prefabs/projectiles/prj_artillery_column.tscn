@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/prj_artillery_column.gd" type="Script" id=1]
+[ext_resource path="res://shared/materials/mat_yellow_fullbright.tres" type="Material" id=2]
+
+[sub_resource type="CylinderShape" id=1]
+
+[sub_resource type="CylinderMesh" id=2]
+top_radius = 10.0
+bottom_radius = 10.0
+height = 80.0
+
+[sub_resource type="SphereMesh" id=3]
+radius = 1.5
+height = 3.0
+radial_segments = 16
+rings = 8
+is_hemisphere = true
+
+[node name="prj_artillery_column" type="Area"]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, -3.6558e-06, 0 )
+shape = SubResource( 1 )
+
+[node name="column_mesh" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 1.74846e-06, -40 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="shell_mesh" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0 )
+mesh = SubResource( 3 )
+material/0 = ExtResource( 2 )

@@ -194,10 +194,7 @@ script = ExtResource( 11 )
 material = ExtResource( 13 )
 
 [node name="mob_fodder" parent="world_mesh" instance=ExtResource( 21 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 31 )
-
-[node name="mob_fodder2" parent="world_mesh" instance=ExtResource( 21 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 41 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 44, 218 )
 
 [node name="world_static" type="Spatial" parent="."]
 
@@ -215,6 +212,33 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4.5, 33 )
 
 [node name="world_barrier_volume2" parent="world_static" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 128, 0, 0, 0, 256, -543.5, 148, 149 )
+
+[node name="world_volume" parent="world_static" instance=ExtResource( 1 )]
+transform = Transform( 20, 0, 0, 0, 10, 0, 0, 0, 20, -36, 39, 227 )
+
+[node name="world_volume3" parent="world_static" instance=ExtResource( 1 )]
+transform = Transform( 40, 0, 0, 0, 40, 0, 0, 0, 40, -288, 95, 348 )
+
+[node name="world_volume2" parent="world_static" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 10, 0, 0, 0, 16, 71, 2, 227 )
+
+[node name="world_volume8" parent="world_static" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 10, 0, 0, 0, 16, 293, 59, -68 )
+
+[node name="world_volume9" parent="world_static" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 10, 0, 0, 0, 16, 435, 71, -294 )
+
+[node name="world_volume4" parent="world_static" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 10, 0, 0, 0, 16, 71, 2, 270 )
+
+[node name="world_volume5" parent="world_static" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 10, 0, 0, 0, 16, 106, 2, 303 )
+
+[node name="world_volume6" parent="world_static" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 10, 0, 0, 0, 16, 71, 2, 329 )
+
+[node name="world_volume7" parent="world_static" instance=ExtResource( 1 )]
+transform = Transform( 8, 0, 0, 0, 10, 0, 0, 0, 16, 25, 2, 334 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 8, 0 )

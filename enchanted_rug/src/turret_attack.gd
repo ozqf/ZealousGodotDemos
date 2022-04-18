@@ -3,12 +3,16 @@ extends Spatial
 var _point_projectile_t = preload("res://prefabs/projectiles/projectile.tscn")
 var _large_projectile_t = preload("res://prefabs/projectiles/prj_ball_large.tscn")
 var _column_projectile_t = preload("res://prefabs/projectiles/prj_column.tscn")
+var _artillery_column_projectile_t = preload("res://prefabs/projectiles/prj_artillery_column.tscn")
+var _flak_projectile_t = preload("res://prefabs/projectiles/prj_flak.tscn")
 
 enum ProjectileType {
 	Point,
 	Column,
 	Small,
-	Large
+	Large,
+	ArtilleryColumn,
+	Flak
 }
 
 export var targetName:String = ""
@@ -45,13 +49,17 @@ func _fire_projectile(forward:Vector3, _spinStart:float = 0, _spinRate:float = 0
 		prj = _column_projectile_t.instance()
 	elif projectileType == ProjectileType.Large:
 		prj = _large_projectile_t.instance()
+	elif projectileType == ProjectileType.ArtilleryColumn:
+		prj = _artillery_column_projectile_t.instance()
+	elif projectileType == ProjectileType.Flak:
+		prj = _flak_projectile_t.instance()
 	else:
 		prj = _point_projectile_t.instance()
 	if has_node("ProjectileMovement") && prj.has_method("copy_settings"):
 		prj.copy_settings($ProjectileMovement)
 	
 	get_tree().get_current_scene().add_child(prj)
-	prj.launch(pos, forward, _spinStart, _spinRate)
+	prj.prj_launch(pos, forward, _spinStart, _spinRate)
 
 func _fire_offset(spreadX:float, spreadY:float, _spinStart:float = 0, _spinRate:float = 0) -> void:
 	var t:Transform = global_transform

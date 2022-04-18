@@ -34,7 +34,7 @@ func _physics_process(delta) -> void:
 	if hit != null:
 		remove()
 
-func launch(pos:Vector3, dir:Vector3, _spinStartDegrees:float = 0, _spinRateDegrees:float = 0) -> void:
+func prj_launch(pos:Vector3, dir:Vector3, _spinStartDegrees:float = 0, _spinRateDegrees:float = 0) -> void:
 	_launched = true
 	var t:Transform = Transform.IDENTITY
 	t.origin = pos
