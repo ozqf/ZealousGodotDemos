@@ -7,12 +7,12 @@ var _artillery_column_projectile_t = preload("res://prefabs/projectiles/prj_arti
 var _flak_projectile_t = preload("res://prefabs/projectiles/prj_flak.tscn")
 
 enum ProjectileType {
-	Point,
-	Column,
-	Small,
-	Large,
-	ArtilleryColumn,
-	Flak
+	Point,				# 0
+	Column,				# 1
+	Small,				# 2
+	Large,				# 3
+	ArtilleryColumn,	# 4
+	Flak				# 5
 }
 
 export var targetName:String = ""
@@ -28,11 +28,13 @@ export var ignoreAimZ:bool = false
 var _active:bool = false
 var _refireTick:float = 0
 var _rollDir:float = 1
+var _prjInfo:PrjLaunchInfo = null
 
 var _aimForward:Vector3 = Vector3()
 
 func _ready() -> void:
 	add_to_group(Main.GROUP_NAME)
+	_prjInfo = Main.new_prj_info()
 
 func game_trigger(triggerTargetName:String) -> void:
 	if targetName != "" && targetName == triggerTargetName:
@@ -41,8 +43,8 @@ func game_trigger(triggerTargetName:String) -> void:
 func set_active(flag:bool) -> void:
 	_active = flag
 
-func _fire_projectile(forward:Vector3, _spinStart:float = 0, _spinRate:float = 0) -> void:
-	var pos:Vector3 = global_transform.origin
+func _fire_projectile(prjInfo:PrjLaunchInfo) -> void:
+	#var pos:Vector3 = global_transform.origin
 
 	var prj
 	if projectileType == ProjectileType.Column:
@@ -59,12 +61,12 @@ func _fire_projectile(forward:Vector3, _spinStart:float = 0, _spinRate:float = 0
 		prj.copy_settings($ProjectileMovement)
 	
 	get_tree().get_current_scene().add_child(prj)
-	prj.prj_launch(pos, forward, _spinStart, _spinRate)
+	prj.prj_launch(prjInfo)
 
-func _fire_offset(spreadX:float, spreadY:float, _spinStart:float = 0, _spinRate:float = 0) -> void:
-	var t:Transform = global_transform
-	var offset:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
-	_fire_projectile(offset)
+# func _fire_offset(spreadX:float, spreadY:float, _spinStart:float = 0, _spinRate:float = 0) -> void:
+# 	var t:Transform = global_transform
+# 	var offset:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
+# 	_fire_projectile(offset)
 
 func _refresh_aim(target:Vector3) -> void:
 	var forward:Vector3
@@ -87,16 +89,16 @@ func _refresh_aim(target:Vector3) -> void:
 
 # tell the turret to fire at a position manually instead
 # of waiting for its timing
-func immediate_fire(_position:Vector3) -> void:
-	_refresh_aim(_position)
-	_fire()
+func immediate_fire(overridePrjInfo:PrjLaunchInfo) -> void:
+	_refresh_aim(overridePrjInfo.target)
+	_fire(overridePrjInfo)
 
-func _fire() -> void:
+func _fire(prjInfo:PrjLaunchInfo) -> void:
 	_refireTick = refireRate
-	_fire_projectile(_aimForward, 0, projectileRollRate * _rollDir)
-	_fire_projectile(_aimForward, 45, projectileRollRate * _rollDir)
-	_fire_projectile(_aimForward, 90, projectileRollRate * _rollDir)
-	_fire_projectile(_aimForward, 135, projectileRollRate * _rollDir)
+	_fire_projectile(prjInfo)
+	# _fire_projectile(_aimForward, 45, projectileRollRate * _rollDir)
+	# _fire_projectile(_aimForward, 90, projectileRollRate * _rollDir)
+	# _fire_projectile(_aimForward, 135, projectileRollRate * _rollDir)
 		
 	if alternateRoll:
 		_rollDir *= -1
@@ -111,7 +113,7 @@ func _process(_delta:float) -> void:
 	_refresh_aim(tar.position)
 	
 	if _refireTick <= 0:
-		_fire()
+		_fire(_prjInfo)
 		
 		# _fire_offset(-5000, 0)
 		# _fire_offset(5000, 0)

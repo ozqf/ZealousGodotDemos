@@ -1,4 +1,4 @@
-extends Node
+extends Spatial
 
 var _state:int = 0
 var _tick:float = 0.0
@@ -10,6 +10,6 @@ func _process(_delta:float) -> void:
 			_state = 1
 			self.queue_free()
 
-func prj_launch(_pos:Vector3, _dir:Vector3, _spinStartDegrees:float = 0, _spinRateDegrees:float = 0) -> void:
-	# global_transform.origin = 
+func prj_launch(_launchInfo:PrjLaunchInfo) -> void:
+	global_transform.origin = _launchInfo.target
 	pass

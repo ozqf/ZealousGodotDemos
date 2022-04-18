@@ -79,15 +79,15 @@ func _physics_process(delta) -> void:
 func copy_settings(move:ProjectileMovement) -> void:
 	move.apply_to(self)
 
-func prj_launch(pos:Vector3, dir:Vector3, _spinStartDegrees:float = 0, _spinRateDegrees:float = 0) -> void:
+func prj_launch(_launchInfo:PrjLaunchInfo) -> void:
 	var t:Transform = global_transform
-	t.origin = pos
+	t.origin = _launchInfo.origin
 	global_transform = t
 
-	ZqfUtils.look_at_safe(self, pos + dir)
+	ZqfUtils.look_at_safe(self, t.origin + _launchInfo.forward)
 	
 	var rot:Vector3 = rotation_degrees
-	rot.z = _spinStartDegrees
+	rot.z = _launchInfo.spinStartDegrees
 	rotation_degrees = rot
-	spinRateDegrees = _spinRateDegrees
+	spinRateDegrees = _launchInfo.spinRateDegrees
 

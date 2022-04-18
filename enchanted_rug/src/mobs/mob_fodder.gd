@@ -9,7 +9,7 @@ onready var _turret = $head/turret
 export var fodderType:int = 0
 
 var _tick:float = 0
-var _refireTime:float = 2 # 0.25
+var _refireTime:float = 1 # 0.25
 var _prjInfo:PrjLaunchInfo = null
 
 func _ready() -> void:
@@ -27,6 +27,10 @@ func _process(_delta:float):
 	_head.look_at(aimPos, Vector3.UP)
 	_torso.rotation_degrees.y = _head.rotation_degrees.y
 
+	_prjInfo.target = aimPos
+	_prjInfo.origin = _turret.global_transform.origin
+	_prjInfo.forward = (_prjInfo.origin - _prjInfo.target).normalized()
+
 	_tick -= _delta
 	if _tick <= 0:
 		if !ZqfUtils.los_check(_turret, _turret.global_transform.origin, aimPos, 1):
@@ -36,4 +40,4 @@ func _process(_delta:float):
 		else:
 			_tick = _refireTime
 			# _shoot(tar)
-			_turret.immediate_fire(aimPos)
+			_turret.immediate_fire(_prjInfo)

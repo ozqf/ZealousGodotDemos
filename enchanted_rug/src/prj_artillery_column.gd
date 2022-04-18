@@ -40,17 +40,17 @@ func _detonate() -> void:
 	ZqfUtils.look_at_safe(self, _dest + Vector3.UP)
 	# ZqfUtils.look_at_safe(self, _dest + _destForward)
 
-func prj_launch(_pos:Vector3, _dir:Vector3, _spinStartDegrees:float = 0, _spinRateDegrees:float = 0) -> void:
-	var hit:Dictionary = ZqfUtils.hitscan_by_direction_3D(self, _pos, _dir, 1000, ZqfUtils.EMPTY_ARRAY, 1)
-	var spawnPoint:Vector3 = _pos + (_dir * 1000)
+func prj_launch(_launchInfo:PrjLaunchInfo) -> void:
+	var hit:Dictionary = ZqfUtils.hitscan_by_direction_3D(self, _launchInfo.origin, _launchInfo.forward, 1000, ZqfUtils.EMPTY_ARRAY, 1)
+	var spawnPoint:Vector3 = _launchInfo.origin + (_launchInfo.forward * 1000)
 	var forward:Vector3 = Vector3.UP
 	if hit:
 		spawnPoint = hit.position
 		forward = hit.normal
-	_launchOrigin = _pos
+	_launchOrigin = _launchInfo.origin
 	_dest = spawnPoint
 	_destForward = forward
-	global_transform.origin = _pos
+	global_transform.origin = _launchInfo.origin
 	_state = STATE_FLYING
 	get_node("column_mesh").visible = false
 	get_node("shell_mesh").visible = true
