@@ -83,7 +83,7 @@ material_override = ExtResource( 6 )
 script = ExtResource( 5 )
 
 [node name="Camera" type="Camera" parent="head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 8 )
 far = 2048.0
 
 [node name="MeshInstance" type="MeshInstance" parent="head"]
@@ -97,7 +97,7 @@ enabled = true
 collision_mask = 3
 
 [node name="third_person_max" type="Spatial" parent="head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 8 )
 
 [node name="attack" type="Spatial" parent="head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.3, 0 )

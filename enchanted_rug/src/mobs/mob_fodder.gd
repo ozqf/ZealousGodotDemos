@@ -16,28 +16,53 @@ func _ready() -> void:
 	_turret.projectileType = 5
 	_prjInfo = Main.new_prj_info()
 
-func _shoot(_target:Dictionary) -> void:
-	pass
+# returns true if firing was successful
+func _shoot(_launchInfo:PrjLaunchInfo, _targetOffset:Vector3) -> bool:
+	var originalTar:Vector3 = _launchInfo.target
+	_launchInfo.target += _targetOffset
+	_prjInfo.origin = _turret.global_transform.origin
+	
+	if !ZqfUtils.los_check(_turret, _turret.global_transform.origin, _prjInfo.target, 1):
+		# restore
+		_launchInfo.target = originalTar
+		return false
+	_prjInfo.forward = (_prjInfo.origin - _prjInfo.target).normalized()
+	_turret.immediate_fire(_prjInfo)
+	# restore
+	_launchInfo.target = originalTar
+	return true
 
 func _process(_delta:float):
 	var tar:Dictionary = Main.get_target()
 	if tar.valid == false:
 		return
+	var tarSpeed:float = (tar.velocity * 1.0).length()
 	var aimPos:Vector3 = tar.position + (tar.velocity * 1.0)
 	_head.look_at(aimPos, Vector3.UP)
 	_torso.rotation_degrees.y = _head.rotation_degrees.y
 
-	_prjInfo.target = aimPos
-	_prjInfo.origin = _turret.global_transform.origin
-	_prjInfo.forward = (_prjInfo.origin - _prjInfo.target).normalized()
-
 	_tick -= _delta
 	if _tick <= 0:
+		_prjInfo.target = aimPos
+		
 		if !ZqfUtils.los_check(_turret, _turret.global_transform.origin, aimPos, 1):
 			return
 		if fodderType == 1:
 			pass
 		else:
 			_tick = _refireTime
-			# _shoot(tar)
-			_turret.immediate_fire(_prjInfo)
+			var count:int = 0
+			if _shoot(_prjInfo, Vector3.ZERO):
+				count += 1
+			for _i in range(0, 3):
+				var offset:Vector3 = Vector3(
+					rand_range(-tarSpeed, tarSpeed),
+					rand_range(-tarSpeed, tarSpeed),
+					rand_range(-tarSpeed, tarSpeed))
+				if _shoot(_prjInfo, offset):
+					count += 1
+			
+			# reset firing time if something launched
+			if count > 0:
+				_tick = _refireTime
+			#_turret.immediate_fire(_prjInfo)
