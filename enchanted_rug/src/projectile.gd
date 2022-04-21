@@ -6,6 +6,10 @@ export var speed:float = 125.0
 var _ttl:float = 10
 var _dead:bool = false
 var _launched:bool = false
+var _hitInfo:HitInfo
+
+func _ready() -> void:
+	_hitInfo = Main.new_hit_info()
 
 func remove() -> void:
 	if _dead:
@@ -30,8 +34,10 @@ func _physics_process(delta) -> void:
 		remove()
 		return
 	var move:Vector3 = (-global_transform.basis.z * speed) * delta
-	var hit = move_and_collide(move)
-	if hit != null:
+	var result = move_and_collide(move)
+	if result != null:
+		# print("Prj hit!")
+		Interactions.hit(result.collider, _hitInfo)
 		remove()
 
 func prj_launch(_launchInfo:PrjLaunchInfo) -> void:
@@ -40,3 +46,4 @@ func prj_launch(_launchInfo:PrjLaunchInfo) -> void:
 	t.origin = _launchInfo.origin
 	global_transform = t
 	look_at(_launchInfo.origin + _launchInfo.forward, Vector3.UP)
+	_hitInfo.teamId = _launchInfo.teamId

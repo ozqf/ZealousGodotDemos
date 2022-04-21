@@ -18,6 +18,7 @@ onready var _attack = $attack_control
 onready var _speedTrail:CPUParticles = $body/rug/speed_trail
 onready var _speedTrail2:CPUParticles = $body/rug/speed_trail2
 onready var _blueGlow:MeshInstance = $body/rug_blue_power
+onready var _redGlow:MeshInstance = $body/rug_red_power
 
 # const MAX_SPEED:float = 25.0
 # const MIN_SPEED:float = 10.0
@@ -94,8 +95,8 @@ var _prevTransform:Transform = Transform.IDENTITY
 var _thirdPersonMode:bool = false
 var _cameraDebug:String = ""
 
-var _boostCharge:float = 0
-var _boostChargeMax:float = 2
+var _boostCharge:float = 0.0
+var _boostChargeMax:float = 1.0
 
 func get_settings() -> Dictionary:
 	return settings
@@ -285,10 +286,9 @@ func _read_move_input() -> Vector3:
 func _apply_rotation(spatialNode:Spatial, mouse:Vector2) -> void:
 	var rot:Vector3 = spatialNode.rotation_degrees
 	var _invertedMul:float = 1
-	# eh, flipping if player is inverted doesn't work due to input flipping
-	# mode when descending/ascending at extreme angles.
-	# if _head.global_transform.basis.y.y < 0:
-	# 	_invertedMul = -1
+	# if inverted, flip yaw input
+	if _head.global_transform.basis.y.dot(Vector3.UP) < 0:
+		_invertedMul = -1
 	rot.y += mouse.x * _invertedMul
 	rot.x += mouse.y
 	spatialNode.rotation_degrees = rot
@@ -366,6 +366,18 @@ func _calc_gravity(inputNormal:Vector3, _delta:float) -> Vector3:
 
 func _apply_move_2(inputDir:Vector3, _delta:float, _isPressingBoost:bool) -> String:
 	var velocity:Vector3 = _vars.velocity
+
+	if _isPressingBoost:
+		_boostCharge += _delta
+		# wipe input whilst holding boost
+		#inputDir = Vector3()
+	elif _boostCharge > 0:
+		var weight:float = _boostCharge / _boostChargeMax
+		var boostSpeed:float = 40.0 * weight
+		boostSpeed = ZqfUtils.clamp_float(boostSpeed, 0.0, 40.0)
+		# print("Boost: time " + str(_boostCharge) + " speed: " + str(boostSpeed))
+		_boostCharge = 0
+		velocity = inputDir * boostSpeed
 	
 	# normally speed cap is max player push...
 	var speedCap:float = settings.maxPushSpeed.value
@@ -385,7 +397,12 @@ func _apply_move_2(inputDir:Vector3, _delta:float, _isPressingBoost:bool) -> Str
 		velocity *= mul
 	
 	# good, the player hasn't fallen asleep... apply player input
-	var framePush:Vector3 = (inputDir * settings.pushStrength.value) * _delta
+	var framePush:Vector3
+	if !_isPressingBoost:
+		framePush = (inputDir * settings.pushStrength.value) * _delta
+	else:
+		# if boosting, just coast forward
+		framePush = velocity.normalized() * settings.pushStrength.value
 	velocity += framePush
 	# cap if necessary
 	if velocity.length() > speedCap:
@@ -478,10 +495,12 @@ func _physics_process(_delta:float) -> void:
 	# if Input.is_action_just_pressed("reset"):
 	# 	_vars.velocity = Vector3()
 	# 	global_transform = _spawnTransform
-	if Input.is_action_just_pressed("mode"):
-		_vars.moveMode += 1
-		if _vars.moveMode > 4:
-			_vars.moveMode = 0
+
+	#if Input.is_action_just_pressed("mode"):
+	#	_vars.moveMode += 1
+	#	if _vars.moveMode > 4:
+	#		_vars.moveMode = 0
+	
 	# set body rotation			
 	_apply_rotation(_head, _mouse.read_accumulator())
 	_update_body_rotation(_delta)
@@ -502,13 +521,20 @@ func _physics_process(_delta:float) -> void:
 	_speedTrail.emitting = _emitTrail
 	_speedTrail2.emitting = _emitTrail
 	_blueGlow.visible = _is_near_geometry()
+	_redGlow.visible = isBoosting
+
+	var upDot:float = _head.global_transform.basis.y.dot(Vector3.UP)
 	
 	if !_inputOn:
 		moveTxt += "Mouse free\n"
 	txt = "Mode: " + str(_vars.moveMode) + "\n" + moveTxt
+	txt += "upDot: " + str(upDot) + "\n"
 	txt += "Current Speed: " + str(_vars.velocity.length()) + "\n"
 	txt += "World overlaps: " + str(_nearWorld.total_overlaps()) + "\n"
+	txt += "Boost charge: " + str((_boostCharge / _boostChargeMax) * 100.0) + "\n"
 	
+	
+
 	var temp:float = _vars.altitude
 	if temp < settings.minAltitude.value:
 		temp = 0

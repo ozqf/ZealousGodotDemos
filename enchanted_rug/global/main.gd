@@ -1,6 +1,7 @@
 extends Spatial
 
 var _prj_info_t = preload("res://src/defs/prj_launch_info.gd")
+var _hit_info_t = preload("res://src/defs/hit_info.gd")
 
 const GROUP_NAME:String = "game"
 
@@ -23,6 +24,9 @@ func _ready() -> void:
 
 func new_prj_info() -> PrjLaunchInfo:
 	return _prj_info_t.new()
+
+func new_hit_info() -> HitInfo:
+	return _hit_info_t.new()
 
 func console_execute(_txt:String, _tokens) -> void:
 	if _txt == "reset":

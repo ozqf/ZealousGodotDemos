@@ -7,13 +7,14 @@ onready var _torso:Spatial = $torso
 onready var _turret = $head/turret
 
 export var fodderType:int = 0
+export var inactive:bool = false
 
 var _tick:float = 0
 var _refireTime:float = 1 # 0.25
 var _prjInfo:PrjLaunchInfo = null
 
 func _ready() -> void:
-	_turret.projectileType = 5
+	_turret.projectileType = 6
 	_prjInfo = Main.new_prj_info()
 
 # returns true if firing was successful
@@ -33,6 +34,8 @@ func _shoot(_launchInfo:PrjLaunchInfo, _targetOffset:Vector3) -> bool:
 	return true
 
 func _process(_delta:float):
+	if inactive:
+		return
 	var tar:Dictionary = Main.get_target()
 	if tar.valid == false:
 		return

@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "HitInfo",
+"language": "GDScript",
+"path": "res://src/defs/hit_info.gd"
+}, {
+"base": "Reference",
+"class": "Interactions",
+"language": "GDScript",
+"path": "res://src/interactions.gd"
+}, {
 "base": "MeshInstance",
 "class": "MeshGenerator",
 "language": "GDScript",
@@ -40,6 +50,8 @@ _global_script_classes=[ {
 "path": "res://zgu/zqf_utils.gd"
 } ]
 _global_script_class_icons={
+"HitInfo": "",
+"Interactions": "",
 "MeshGenerator": "",
 "MouseLook": "",
 "PrjLaunchInfo": "",

@@ -5,6 +5,7 @@ var _large_projectile_t = preload("res://prefabs/projectiles/prj_ball_large.tscn
 var _column_projectile_t = preload("res://prefabs/projectiles/prj_column.tscn")
 var _artillery_column_projectile_t = preload("res://prefabs/projectiles/prj_artillery_column.tscn")
 var _flak_projectile_t = preload("res://prefabs/projectiles/prj_flak.tscn")
+var _missile_t = preload("res://prefabs/projectiles/prj_missile.tscn")
 
 enum ProjectileType {
 	Point,				# 0
@@ -12,7 +13,8 @@ enum ProjectileType {
 	Small,				# 2
 	Large,				# 3
 	ArtilleryColumn,	# 4
-	Flak				# 5
+	Flak,				# 5
+	Missile				# 6
 }
 
 export var targetName:String = ""
@@ -55,12 +57,15 @@ func _fire_projectile(prjInfo:PrjLaunchInfo) -> void:
 		prj = _artillery_column_projectile_t.instance()
 	elif projectileType == ProjectileType.Flak:
 		prj = _flak_projectile_t.instance()
+	elif projectileType == ProjectileType.Missile:
+		prj = _missile_t.instance()
 	else:
 		prj = _point_projectile_t.instance()
 	if has_node("ProjectileMovement") && prj.has_method("copy_settings"):
 		prj.copy_settings($ProjectileMovement)
 	
 	get_tree().get_current_scene().add_child(prj)
+	prjInfo.teamId = Interactions.TEAM_ENEMY
 	prj.prj_launch(prjInfo)
 
 # func _fire_offset(spreadX:float, spreadY:float, _spinStart:float = 0, _spinRate:float = 0) -> void:

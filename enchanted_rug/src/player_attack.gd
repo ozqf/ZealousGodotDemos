@@ -27,6 +27,10 @@ func _fire(launchNode:Spatial) -> void:
 	_prjInfo.origin = pos
 	_prjInfo.forward = forward
 	_prjInfo.target = _aimPoint
+	_prjInfo.teamId = Interactions.TEAM_PLAYER
+
+	prj.speed = 200.0
+
 	prj.prj_launch(_prjInfo)
 
 func _process(_delta:float) -> void:
