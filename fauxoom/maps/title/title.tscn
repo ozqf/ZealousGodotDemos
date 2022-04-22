@@ -72,7 +72,7 @@ F - Toggle Rage mode on/off
 -- Rage Mode --
 Enemies drop rage on damage or death.
 In rage mode, all weapon attacks are boosted.
-Rage attacks drop damage instead of health
+Rage attacks and kills drop health instead of rage
 Rage is consumed instead of health when taking damage.
 Melee damage is also boosted, and meleeing the ground when airborne will
 trigger a slam attack that stuns nearby enemies."

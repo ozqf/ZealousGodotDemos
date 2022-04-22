@@ -37,9 +37,17 @@ transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -53, 17
 [node name="world_volume_corner" parent="." instance=ExtResource( 2 )]
 transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 12, 0, -20, 0 )
 
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
+[node name="lights" type="Spatial" parent="."]
+
+[node name="DirectionalLight" type="DirectionalLight" parent="lights"]
 transform = Transform( 0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, -13, 24, -17 )
 shadow_enabled = true
+
+[node name="SpotLight" type="SpotLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -29, 12, -27 )
+light_energy = 2.0
+spot_range = 15.0
+spot_angle = 22.5
 
 [node name="Navigation" type="Navigation" parent="."]
 script = ExtResource( 6 )
