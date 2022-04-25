@@ -51,6 +51,7 @@ var _hyperTime:float = 0
 var _bonus:int = 0
 var _bonusReductionTick:float = 0.0
 var _hyperRegenTick:float = 0.0
+var _moveMode:int = 0
 
 var _targettingInfo:Dictionary = {
 	id = Interactions.PLAYER_RESERVED_ID,
@@ -425,6 +426,12 @@ func _process(_delta:float) -> void:
 	var grp = Groups.PLAYER_GROUP_NAME
 	var fn = Groups.PLAYER_FN_STATUS
 	get_tree().call_group(grp, fn, _hudStatus)
+
+func _physics_process(delta:float) -> void:
+	if _moveMode == 0:
+		_motor.physics_tick(delta)
+	else:
+		pass
 
 func _broadcast_got_item(itemType:String) -> void:
 	get_tree().call_group(

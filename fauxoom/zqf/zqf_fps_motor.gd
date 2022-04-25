@@ -104,7 +104,7 @@ func _apply_rotations(_delta: float):
 	camRot.x = m_pitch
 	_head.rotation_degrees = camRot
 
-func _physics_process(delta:float) -> void:
+func physics_tick(delta:float) -> void:
 #func _process(delta:float) -> void:
 	if _body == null:
 		return

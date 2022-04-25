@@ -329,7 +329,9 @@ func console_on_exec(_txt:String, _tokens) -> void:
 			+ " dynamic ents, ")
 		print("Static:")
 		for _i in range(0, staticEnts.size()):
-			print(staticEnts[_i].get_parent().name)
+			var ent = staticEnts[_i]
+			print(ent.selfName + " targets: " + ent.triggerTargetName)
 		print("Dynamic:")
 		for _i in range(0, dynEnts.size()):
-			print(dynEnts[_i].get_parent().name)
+			var ent = dynEnts[_i]
+			print(ent.selfName + " targets: " + ent.triggerTargetName)

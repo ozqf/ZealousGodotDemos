@@ -121,6 +121,7 @@ func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
 	_refresh_overlay()
 	var _result = $game_state_overlay/death/menu/reset.connect("pressed", self, "on_clicked_reset")
+	_result = $game_state_overlay/death/menu/checkpoint.connect("pressed", self, "on_clicked_checkpoint")
 	_result = $game_state_overlay/complete/menu/reset.connect("pressed", self, "on_clicked_reset")
 	Main.set_camera(_camera)
 	_hintContainer.visible = false
@@ -241,16 +242,16 @@ func get_skill() -> Skill:
 	return _skills[_skill] as Skill
 
 func on_restart_map() -> void:
-	print("Game - on_restart_map")
 	get_tree().call_group("console", "console_on_exec", "load start", ["load", "start"])
 
 func on_clicked_retry() -> void:
-	print("Game - on_clicked_retry")
 	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "checkpoint"])
 
 func on_clicked_reset() -> void:
-	print("Game - on_clicked_reset")
 	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "start"])
+
+func on_clicked_checkpoint() -> void:
+	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "checkpoint"])
 
 func _refresh_overlay() -> void:
 	if _state == GameState.Pregame:

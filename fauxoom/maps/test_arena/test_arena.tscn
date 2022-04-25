@@ -713,8 +713,9 @@ triggerTargetName = "activate_tag_2 arena_2_survival arena_2_gate"
 [node name="info_deadline_controller" parent="entities/arena_test_2_ents" instance=ExtResource( 26 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -81, 19, 47 )
 
-[node name="trigger_volume" parent="entities/arena_test_2_ents" instance=ExtResource( 30 )]
-transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 3, -90, 8, 37 )
+[node name="trigger_volume2" parent="entities/arena_test_2_ents" instance=ExtResource( 30 )]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, -49, 7, 76 )
+triggerTargetName = "checkpoint"
 
 [node name="activate_tag_2" parent="entities/arena_test_2_ents" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -84, 9, 47 )
@@ -915,3 +916,7 @@ active = false
 
 [node name="slime_stagnant" parent="entities/arena_test_2_ents" instance=ExtResource( 6 )]
 transform = Transform( 45, 0, 0, 0, 1, 0, 0, 0, 45, -65, 1.2, 59 )
+
+[node name="checkpoint" parent="entities/arena_test_2_ents" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -54, 8, 76 )
+type = 5

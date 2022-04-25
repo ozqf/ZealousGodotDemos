@@ -15,7 +15,8 @@ enum EventType {
 	LevelComplete = 1,
 	ActivateWaypointTag = 2,
 	DeactivateWaypointTag = 3,
-	ApplyEnvironment = 4
+	ApplyEnvironment = 4,
+	Checkpoint
 }
 
 export(EventType) var type = EventType.None
@@ -30,7 +31,10 @@ func _ready() -> void:
 	var _r = _ent.connect("entity_append_state", self, "append_state")
 	_r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_trigger", self, "on_trigger")
-	_ent.selfName = selfName
+	if selfName != "":
+		_ent.selfName = selfName
+	else:
+		_ent.selfName = name
 	_ent.triggerTargetName = triggerTargetName
 	if worldEnvironment != null:
 		Game.register_environment(worldEnvironment, _ent.selfName)
@@ -83,5 +87,8 @@ func run_event() -> void:
 	elif type == EventType.ApplyEnvironment:
 		# get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_SET_ENVIRONMENT, worldEnvironment)
 		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_SET_ENVIRONMENT, _ent.selfName)
+	elif type == EventType.Checkpoint:
+		print("Checkpoint")
+		Main.exec_command("save checkpoint")
 	else:
 		print("Trigger event has invalid type set: " + str(int(type)))
