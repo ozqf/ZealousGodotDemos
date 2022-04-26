@@ -391,7 +391,7 @@ func _process(_delta:float) -> void:
 			get_tree().get_current_scene().add_child(corpse)
 			corpse.spawn(_corpseHitInfo, global_transform)
 			corpse.global_transform = global_transform
-			print("Spawned corpse at " + str(corpse.global_transform.origin))
+			#print("Spawned corpse at " + str(corpse.global_transform.origin))
 		_change_state(MobState.Dying)
 		queue_free()
 		# ticks for one frame to spawn corpse and pass on

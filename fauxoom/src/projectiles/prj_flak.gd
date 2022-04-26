@@ -11,15 +11,11 @@ func _ready() -> void:
 
 func on_area_entered(area:Area) -> void:
 	if Interactions.is_obj_a_mob(area):
-		print("flak hit mob area")
 		Interactions.hit(_hitInfo, area)
-		# die()
 
 func on_body_entered(body) -> void:
 	if Interactions.is_obj_a_mob(body):
-		print("flak hit mob body")
 		Interactions.hit(_hitInfo, body)
-		# die()
 #
 
 func _spawn_now() -> void:

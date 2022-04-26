@@ -62,16 +62,16 @@ material/0 = null
 
 [node name="attack2" type="Node" parent="attacks"]
 script = ExtResource( 4 )
-minUseRange = 20.0
-attackCount = 4
+minUseRange = 5.0
+attackCount = 8
 windUpTime = 1.5
 windDownTime = 1.0
-repeatTime = 0.25
+repeatTime = 0.4
 showOmniCharge = true
 
 [node name="pattern" type="Node" parent="attacks/attack2"]
 script = ExtResource( 12 )
-count = 12
+count = 4
 minOffset = Vector3( -1.5, -1.5, -1.5 )
 maxOffset = Vector3( 1.5, 1.5, 1.5 )
 

@@ -12,7 +12,6 @@ var _ticks:int = -1
 var _bodies = []
 
 func _ready() -> void:
-	print("Area scan ready")
 	var _r = connect("body_entered", self, "_body_entered")
 
 func run() -> void:

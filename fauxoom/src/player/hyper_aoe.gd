@@ -12,7 +12,6 @@ var _aoeType:int = 0
 var _weight:float = 0.0
 
 func _ready() -> void:
-	print("Hyper AoE ready")
 	self.connect("scan_result", self, "on_scan_result")
 	pass
 
