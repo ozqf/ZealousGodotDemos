@@ -633,21 +633,22 @@ totalMobs = 0
 [node name="spawn_2" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 39, 0, -6 )
 triggerName = "spawn_2a"
-triggerTargetName = "spawn_2b wave_2_counter"
+triggerTargetName = "wave_2_counter"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "e f"
 type = 3
-totalMobs = 12
-maxLiveMobs = 4
+totalMobs = 0
+maxLiveMobs = 3
 
 [node name="spawn_2b" parent="entities/arena_test_1_ents" instance=ExtResource( 12 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 43, 0, -6 )
 triggerName = "spawn_2b"
-triggerTargetName = "wave_2_counter"
+triggerTargetName = "spawn_2a wave_2_counter"
 positionsSiblingName = "spawn_positions"
 positionsFilter = "a b c d"
-tickMax = 1.0
-totalMobs = 0
+type = 6
+tickMax = 4.0
+totalMobs = 12
 maxLiveMobs = 4
 
 [node name="arena" parent="entities/arena_test_1_ents" instance=ExtResource( 11 )]

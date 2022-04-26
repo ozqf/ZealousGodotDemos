@@ -62,12 +62,13 @@ material/0 = null
 
 [node name="attack2" type="Node" parent="attacks"]
 script = ExtResource( 4 )
-minUseRange = 5.0
+minUseRange = 10.0
 attackCount = 8
 windUpTime = 1.5
 windDownTime = 1.0
 repeatTime = 0.4
 showOmniCharge = true
+allowMovement = false
 
 [node name="pattern" type="Node" parent="attacks/attack2"]
 script = ExtResource( 12 )
@@ -89,7 +90,7 @@ entityType = "mob_titan"
 health = 300
 moveSpeed = 7.5
 moveTime = 0.995
-stunThreshold = 100
+stunThreshold = 200
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )

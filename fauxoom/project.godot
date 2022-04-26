@@ -370,6 +370,11 @@ _global_script_classes=[ {
 "path": "res://zqf/zqf_fps_motor.gd"
 }, {
 "base": "Node",
+"class": "ZqfSpawnPatterns",
+"language": "GDScript",
+"path": "res://zqf/zqf_spawn_patterns.gd"
+}, {
+"base": "Node",
 "class": "ZqfUtils",
 "language": "GDScript",
 "path": "res://zqf/zqf_utils.gd"
@@ -452,6 +457,7 @@ _global_script_class_icons={
 "ZealousBlock": "",
 "ZqfConfig": "",
 "ZqfFPSMotor": "",
+"ZqfSpawnPatterns": "",
 "ZqfUtils": "",
 "ZqfVolumeScanner": ""
 }
