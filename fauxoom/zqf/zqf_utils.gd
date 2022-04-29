@@ -201,6 +201,15 @@ static func get_window_to_screen_ratio() -> Vector2:
 	var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
 	return result
 
+static func read_csv_int(csv:String, index:int, failure:int) -> int:
+	if csv == null || csv == "":
+		return failure
+	var split = csv.split(",", false)
+	var last:int = split.size() - 1
+	if index > last:
+		index = last
+	return int(split[index])
+
 #####################################
 # Serialisation
 #####################################

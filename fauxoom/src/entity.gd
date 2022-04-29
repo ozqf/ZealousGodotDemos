@@ -43,6 +43,11 @@ func _ready():
 		assert(prefab != null)
 	# print("Ent " + get_parent().name + " id: " + str(id))
 
+func get_label() -> String:
+	if selfName != "":
+		return selfName
+	return get_parent().name
+
 # set this if getting from this entity component node to the actual root of the prefab
 # is not as simple as get_parent()
 func set_root_override(root:Node) -> void:

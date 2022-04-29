@@ -319,19 +319,30 @@ func load_save_dict(data:Dictionary) -> void:
 		restore_dynamic_entity(entData)
 
 func console_on_exec(_txt:String, _tokens) -> void:
-	if _txt == "list_ents":
+	if _tokens[0] == "list_ents":
+		var txt:String = ""
 		var staticEnts = get_tree().get_nodes_in_group(Groups.STATIC_ENTS_GROUP_NAME)
 		var dynEnts = get_tree().get_nodes_in_group(Groups.DYNAMIC_ENTS_GROUP_NAME)
-		print("Ents: "
-			+ str(staticEnts.size())
-			+ " static ents, "
-			+ str(dynEnts.size())
-			+ " dynamic ents, ")
-		print("Static:")
+		txt += "Ents: " + str(staticEnts.size()) + " static ents, " + str(dynEnts.size()) + " dynamic ents\n"
+		txt += "Static:\n"
+		var noNamesCount:int = 0
 		for _i in range(0, staticEnts.size()):
 			var ent = staticEnts[_i]
-			print(ent.selfName + " targets: " + ent.triggerTargetName)
-		print("Dynamic:")
+			txt += "> " + ent.get_label() + " targets: " + ent.triggerTargetName + "\n"
+		txt += "Dynamic:\n"
 		for _i in range(0, dynEnts.size()):
 			var ent = dynEnts[_i]
-			print(ent.selfName + " targets: " + ent.triggerTargetName)
+			txt += "> " + ent.get_label() + " targets: " + ent.triggerTargetName + "\n"
+		if _tokens.size() == 1:
+			print(txt)
+			return
+		var path = "user://" + _tokens[1] + ".txt"
+		var file = File.new()
+		var err = file.open(path, File.WRITE)
+		if err != 0:
+			print("Err opening " + path + " to save ent list")
+			return
+		print("List ents - writing " + str(txt.length()) + " to " + path)
+		file.store_string(txt)
+		file.close()
+		

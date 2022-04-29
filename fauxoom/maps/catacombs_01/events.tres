@@ -1,0 +1,29 @@
+{
+	"events": [
+		{
+			"name": "arena_1_prepare",
+			"actions": [
+				{ "target": "event_test_gate_1", "message": "off" },
+				{ "target": "event_test_gate_2", "message": "on" },
+				{ "target": "event_test_start_trigger", "message": "on" }
+			]
+		},
+		{
+			"name": "arena_1_start",
+			"actions": [
+				{ "target": "event_test_gate_1", "message": "on" },
+				{ "target": "event_test_gate_2", "message": "on" },
+				{ "target": "arena_1_wave_1_mobs" },
+				{ "target": "event_test_end_trigger", "message": "on" }
+			]
+		},
+		{
+			"name": "arena_1_end",
+			"count": 2,
+			"actions": [
+				{ "target": "event_test_gate_1", "message": "off" },
+				{ "target": "event_test_gate_2", "message": "off" }
+			]
+		}
+	]
+}

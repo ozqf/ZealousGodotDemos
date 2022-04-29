@@ -43,4 +43,9 @@ func restore_state(data:Dictionary) -> void:
 # 	set_active(!active)
 
 func on_trigger(_msg:String, _params:Dictionary) -> void:
-	set_active(!active)
+	if _msg == "on":
+		set_active(true)
+	elif _msg == "off":
+		set_active(false)
+	else:
+		set_active(!active)

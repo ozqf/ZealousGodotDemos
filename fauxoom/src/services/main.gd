@@ -64,6 +64,8 @@ var isRebinding:bool = false
 var _mapDef:MapDef = null
 var _pendingMapDef:MapDef = null
 
+var _lastRequestedMap:String = ""
+
 func _ready() -> void:
 	self.pause_mode = PAUSE_MODE_PROCESS
 	print("Main service start")#
@@ -267,8 +269,11 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 		return
 	if _tokens.size() >= 2:
 		if _tokens[0] == "map":
+			_lastRequestedMap = _tokens[1]
 			var path:String = "res://maps/" + _tokens[1] + "/" + _tokens[1] + ".tscn"
 			change_map(path)
+	if txt == "map_path":
+		print("Map path: " + get_tree().current_scene.filename)
 	if txt == "quit" || txt == "exit":
 		get_tree().quit()
 	if txt == "info":
@@ -284,6 +289,12 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 			fileName = _tokens[1]
 		if !Config.load_cfg(fileName):
 			print("Failed to load cfg")
+	if _tokens[0] == "split_test":
+		var testStr:String = "11,22,33,44,55,66"
+		if _tokens.size() >= 2:
+			testStr = _tokens[1]
+		var result:int = ZqfUtils.read_csv_int(testStr, 2, 99)
+		print("Csv Split result: " + str(result))
 
 func change_map(path:String) -> void:
 	if !ResourceLoader.exists(path):
