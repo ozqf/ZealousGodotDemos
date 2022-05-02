@@ -69,10 +69,6 @@ var _defaultEnvironment:Environment = null
 var _environment:String = ""
 var _environments = ZqfUtils.EMPTY_DICT
 
-enum GameState { Pregame, Playing, Won, Lost }
-
-enum GameMode { Classic, Survival }
-
 var debuggerMode = Enums.DebuggerMode.Deathray
 var debuggerAtkMode:String = "column"
 var debuggerOpen:bool = false
@@ -84,8 +80,8 @@ var _pendingSkill:int = 2
 
 var _skills = []
 
-var _state = GameState.Pregame
-var _gameMode = GameMode.Survival
+var _state = Enums.GameState.Pregame
+var _gameMode = Enums.GameMode.EntityEditor # GameMode.Classic
 
 var allowQuickSwitching:bool = true
 var quickSwitchTime:float = 0.5
@@ -112,6 +108,9 @@ var _emptyTargetInfo:Dictionary = {
 	position = Vector3(),
 	yawDegrees = 0
 }
+
+func get_game_mode() -> int:
+	return _gameMode
 
 func _ready() -> void:
 	print("Game singleton init")
@@ -165,13 +164,20 @@ func show_hint_text(txt:String) -> void:
 	_hintContainer.visible = true
 
 func _process(_delta:float) -> void:
+	if _gameMode == Enums.GameMode.EntityEditor:
+		_process_editor(_delta)
+	else:
+		_process_gameplay(_delta)
+	pass
+
+func _process_gameplay(_delta:float) -> void:
 	
 	if get_tree().paused == false:
 		if _hintTextTick <= 0:
 			_hintContainer.visible = false
 		else:
 			_hintTextTick -= _delta
-	# if _state == GameState.Pregame && _hasPlayerStart:
+	# if _state == Enums.GameState.Pregame && _hasPlayerStart:
 	# 	begin_game()
 	if _pendingSaveName != "":
 		print("Have pending save " + _pendingSaveName)
@@ -198,9 +204,12 @@ func _process(_delta:float) -> void:
 		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_RUN_MAP_SPAWNS)
 		# write restart savegame
 		_pendingSaveName = START_SAVE_FILE_NAME
-	# if _state == GameState.Pregame:
-	# 	if Input.is_action_just_pressed("ui_select"):
-	# 		begin_game()
+
+func _process_editor(_delta:float) -> void:
+	if _justLoaded:
+		_justLoaded = false
+		print("Game - editor mode just loaded")
+	pass
 
 func build_save_path(fileName) -> String:
 	return "user://" + fileName + ".json"
@@ -220,13 +229,13 @@ func _input(_event) -> void:
 	# 	if !Main.get_input_on():
 	# 		# menu is up, abort
 	# 		return
-	# 	if _state == GameState.Pregame:
+	# 	if _state == Enums.GameState.Pregame:
 	# 		if !_hasPlayerStart:
 	# 			Main.set_input_off()
 	# 			return
 	# 		elif Input.is_action_just_pressed("ui_select"):
 	# 			begin_game()
-		# var a = _state == GameState.Pregame
+		# var a = _state == Enums.GameState.Pregame
 		# var b = Input.is_action_just_pressed("ui_select")
 		# var c = Main.get_input_on()
 		# var d = _hasPlayerStart
@@ -254,31 +263,45 @@ func on_clicked_checkpoint() -> void:
 	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "checkpoint"])
 
 func _refresh_overlay() -> void:
-	if _state == GameState.Pregame:
+	if _gameMode == Enums.GameMode.EntityEditor:
+		_refresh_editor_overlay()
+	else:
+		_refresh_gameplay_overlay()
+
+func _refresh_gameplay_overlay() -> void:
+	if _state == Enums.GameState.Pregame:
 		_pregameUI.visible = _hasPlayerStart
 		_completeUI.visible = false
 		_deathUI.visible = false
 		# _screenFade.visible = true
 		# MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
 		MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
-	elif _state == GameState.Won:
+	elif _state == Enums.GameState.Won:
 		_pregameUI.visible = false
 		_completeUI.visible = true
 		_deathUI.visible = false
 		# _screenFade.visible = true
 		MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
-	elif _state == GameState.Lost:
+	elif _state == Enums.GameState.Lost:
 		_pregameUI.visible = false
 		_completeUI.visible = false
 		# _screenFade.visible = true
 		_deathUI.visible = true
 		MouseLock.add_claim(get_tree(), MOUSE_CLAIM)
 	else:
+		# oooh, gameplay. Good to have some of that
 		_pregameUI.visible = false
 		_completeUI.visible = false
 		_screenFade.visible = false
 		_deathUI.visible = false
 		MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
+
+func _refresh_editor_overlay() -> void:
+	_pregameUI.visible = false
+	_completeUI.visible = false
+	_screenFade.visible = false
+	_deathUI.visible = false
+	MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
 
 func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	var numTokens:int = _tokens.size()
@@ -374,7 +397,7 @@ func _write_save_file(filePath:String, data:Dictionary) -> void:
 ###############
 func begin_game() -> void:
 	print("Game - begin play")
-	set_game_state(GameState.Playing)
+	set_game_state(Enums.GameState.Playing)
 	var def = _entRoot.get_prefab_def(Entities.PREFAB_PLAYER)
 	var player = def.prefab.instance()
 	get_dynamic_parent().add_child(player)
@@ -387,11 +410,11 @@ func _clear_dynamic_entities() -> void:
 		get_dynamic_parent().get_child(_i).queue_free()
 
 func _set_to_pregame() -> void:
-	set_game_state(GameState.Pregame)
+	set_game_state(Enums.GameState.Pregame)
 
 
 func reset_game() -> void:
-	if _state == GameState.Pregame:
+	if _state == Enums.GameState.Pregame:
 		return
 	_camera.detach()
 	_camera.global_transform = Transform.IDENTITY
@@ -402,7 +425,7 @@ func set_game_state(gameState) -> void:
 	if _state == gameState:
 		return
 	_state = gameState
-	if _state == GameState.Pregame:
+	if _state == Enums.GameState.Pregame:
 		_camera.detach()
 		_camera.global_transform = Transform.IDENTITY
 
@@ -410,9 +433,9 @@ func set_game_state(gameState) -> void:
 
 func game_on_player_died(_info:Dictionary) -> void:
 	print("Game - saw player died!")
-	if _state != GameState.Playing:
+	if _state != Enums.GameState.Playing:
 		return
-	set_game_state(GameState.Lost)
+	set_game_state(Enums.GameState.Lost)
 	
 	# var def = _entRoot.get_prefab_def(Entities.PREFAB_GIB)
 	# var gib = def.prefab.instance()
@@ -428,8 +451,8 @@ func game_on_player_died(_info:Dictionary) -> void:
 	_camera.attach_to(gib)
 
 func game_on_level_completed() -> void:
-	if _state == GameState.Playing:
-		set_game_state(GameState.Won)
+	if _state == Enums.GameState.Playing:
+		set_game_state(Enums.GameState.Won)
 
 func game_on_map_change() -> void:
 	print("Game - saw map change")
@@ -478,7 +501,7 @@ func register_player(plyr:Player) -> void:
 	if _player != null:
 		print("Cannot register another player!")
 		return
-	set_game_state(GameState.Playing)
+	set_game_state(Enums.GameState.Playing)
 	print("Game - register player")
 	_player = plyr
 	_camera.attach_to(_player.get_node("camera_mount"))

@@ -75,6 +75,10 @@ enum SequenceOrder {
 	Random
 }
 
+enum GameState { Pregame, Playing, Won, Lost }
+
+enum GameMode { Classic, EntityEditor, Survival }
+
 enum DebuggerMode {
 	Deathray,
 	ScanEnemy,

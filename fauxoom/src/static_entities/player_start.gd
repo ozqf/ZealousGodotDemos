@@ -1,5 +1,7 @@
 extends Spatial
 
+const Enums = preload("res://src/enums.gd")
+
 onready var _ent:Entity = $Entity
 
 enum InventoryState {
@@ -27,7 +29,7 @@ func append_state(_dict:Dictionary) -> void:
 
 func restore_state(_dict:Dictionary) -> void:
 	_hasSpawned = _dict.hasSpawned
-	
+
 func game_on_reset() -> void:
 	print("Player start saw game reset")
 
@@ -51,5 +53,5 @@ func start_play(_dynamicParentNode:Spatial) -> void:
 		player.give_all()
 
 func _process(_delta:float) -> void:
-	if !_hasSpawned && Input.is_action_just_pressed("ui_select"):
+	if !_hasSpawned && Game.get_game_mode() == Enums.GameMode.Classic && Input.is_action_just_pressed("ui_select"):
 		start_play(Game.get_dynamic_parent())

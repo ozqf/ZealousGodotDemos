@@ -107,6 +107,8 @@ func _unhandled_input(event):
 				_leftMouseHeld = false
 
 func _input(event):
+	if !_initialised:
+		return
 	if event is InputEventMouseMotion:
 		_update_cursor_pos()
 

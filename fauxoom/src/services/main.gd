@@ -5,6 +5,11 @@ const _EDITOR_SCENE_PATH = "res://maps/level_editor.tscn"
 
 # const _DEFAULT_CFG_NAME = "fauxoom"
 
+# the first concept for this project was a browser based game with a level editor...
+# load of stuff in this class is based around a 'gridmap' and loading these base64 strings
+# into map data. This stuff is defunct now, but I've not bothered cleaning it out yet.
+# sorry.
+
 # smaller test
 const _TEST_MAP:String = "774BAAgIAQEBAQEBAQEBAQAAAAAAAAEBAAAAAAAAAQEAAAICAAABAQAAAgIAAAEBAAAAAAAAAQEAAAAAAAABAQEBAQEBAQHvvgIDAAYA"
 
@@ -68,7 +73,7 @@ var _lastRequestedMap:String = ""
 
 func _ready() -> void:
 	self.pause_mode = PAUSE_MODE_PROCESS
-	print("Main service start")#
+	print("Main service start")
 	_masterBusId = AudioServer.get_bus_index("Master")
 	_gameBusId = AudioServer.get_bus_index("game")
 	_bgmBusId = AudioServer.get_bus_index("bgm")
