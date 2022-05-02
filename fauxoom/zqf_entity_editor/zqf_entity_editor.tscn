@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://zqf_entity_editor/zqf_entity_editor_camera.gd" type="Script" id=1]
-[ext_resource path="res://zqf_entity_editor/zqf_entity_editor.gd" type="Script" id=2]
-[ext_resource path="res://zqf/zqf_ui_mouse_over.gd" type="Script" id=3]
-[ext_resource path="res://zqf_entity_editor/ui/ZqfEntityEditorButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://zqf_entity_editor/zee_camera.gd" type="Script" id=1]
+[ext_resource path="res://zqf/zqf_ui_mouse_over.gd" type="Script" id=2]
+[ext_resource path="res://zqf_entity_editor/zee_main.gd" type="Script" id=3]
+[ext_resource path="res://zqf_entity_editor/ui/zee_button.tscn" type="PackedScene" id=4]
+[ext_resource path="res://zqf_entity_editor/zee_entity_list.gd" type="Script" id=5]
 
 [sub_resource type="SpatialMaterial" id=4]
 flags_unshaded = true
@@ -25,7 +26,7 @@ albedo_color = Color( 0.176471, 1, 0.176471, 1 )
 size = Vector3( 0.2, 1, 0.2 )
 
 [node name="ZqfEntityEditor" type="Spatial"]
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [node name="camera" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 6 )
@@ -61,11 +62,12 @@ material/0 = null
 [node name="ents" type="Spatial" parent="."]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 9
 
 [node name="left_sidebar_root" type="VBoxContainer" parent="CanvasLayer"]
 margin_right = 256.0
 margin_bottom = 720.0
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -146,3 +148,41 @@ margin_top = 24.0
 margin_right = 256.0
 margin_bottom = 44.0
 text = "save"
+
+[node name="modal" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/modal"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.376471 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="FileDialog" type="FileDialog" parent="CanvasLayer/modal"]
+visible = true
+anchor_left = 0.3
+anchor_right = 0.7
+anchor_bottom = 1.0
+margin_top = 64.0
+margin_right = -6.10352e-05
+margin_bottom = -16.0
+access = 1
+filters = PoolStringArray( "*.ents" )
+show_hidden_files = true
+current_dir = "user://"
+current_path = "user://"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="entity_list" type="Node" parent="."]
+script = ExtResource( 5 )

@@ -1,5 +1,5 @@
 extends Spatial
-class_name ZqfEntityEditorCamera
+class_name ZEECamera
 
 const MOUSE_MOVE_SCALE:float = 0.1
 const PITCH_CAP_DEGREES = 89

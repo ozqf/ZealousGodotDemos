@@ -345,6 +345,11 @@ _global_script_classes=[ {
 "path": "res://src/defs/weapons.gd"
 }, {
 "base": "Spatial",
+"class": "ZEECamera",
+"language": "GDScript",
+"path": "res://zqf_entity_editor/zee_camera.gd"
+}, {
+"base": "Spatial",
 "class": "ZGUBlock2Mesh",
 "language": "GDScript",
 "path": "res://zqf/block_to_mesh.gd"
@@ -363,11 +368,6 @@ _global_script_classes=[ {
 "class": "ZqfConfig",
 "language": "GDScript",
 "path": "res://zqf/zqf_config.gd"
-}, {
-"base": "Spatial",
-"class": "ZqfEntityEditorCamera",
-"language": "GDScript",
-"path": "res://zqf_entity_editor/zqf_entity_editor_camera.gd"
 }, {
 "base": "Node",
 "class": "ZqfFPSMotor",
@@ -457,11 +457,11 @@ _global_script_class_icons={
 "TriggerVolume": "",
 "WeaponInput": "",
 "Weapons": "",
+"ZEECamera": "",
 "ZGUBlock2Mesh": "",
 "ZGUInvisibleWall": "",
 "ZealousBlock": "",
 "ZqfConfig": "",
-"ZqfEntityEditorCamera": "",
 "ZqfFPSMotor": "",
 "ZqfSpawnPatterns": "",
 "ZqfUtils": "",
@@ -478,6 +478,7 @@ config/icon="res://icon.png"
 
 Main="*res://prefabs/services/main.tscn"
 Config="*res://prefabs/services/config.tscn"
+ZqfEntityEditor="*res://zqf_entity_editor/zqf_entity_editor.tscn"
 Game="*res://prefabs/services/game.tscn"
 Ents="*res://prefabs/services/entities.tscn"
 Bgm="*res://prefabs/services/bgm.tscn"

@@ -81,7 +81,8 @@ var _pendingSkill:int = 2
 var _skills = []
 
 var _state = Enums.GameState.Pregame
-var _gameMode = Enums.GameMode.EntityEditor # GameMode.Classic
+var _gameMode = Enums.GameMode.Classic
+#var _gameMode = Enums.GameMode.EntityEditor
 
 var allowQuickSwitching:bool = true
 var quickSwitchTime:float = 0.5
