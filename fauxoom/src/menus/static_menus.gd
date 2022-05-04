@@ -70,15 +70,14 @@ func _on_goto_binds() -> void:
 
 func _on_restart() -> void:
 	Main.set_input_on()
-	get_tree().call_group("console", "console_on_exec", "load start", ["load", "start"])
+	Main.submit_console_command("load start")
 
 func _on_load_checkpoint() -> void:
 	Main.set_input_on()
-	get_tree().call_group("console", "console_on_exec", "load start", ["load", "checkpoint"])
+	Main.submit_console_command("load checkpoint")
 
 func _on_root_quit() -> void:
-	get_tree().call_group("console", "console_on_exec", "exit", ["exit"])
-	# get_tree().quit()
+	Main.submit_console_command("exit")
 
 func _root_on() -> void:
 	_rootMenu.visible = true
@@ -137,5 +136,4 @@ func _process(_delta:float) -> void:
 		var txt:String = _console.text
 		_console.text = ""
 		if txt != "":
-			var tokens = ZqfUtils.tokenise(txt)
-			get_tree().call_group("console", "console_on_exec", txt, tokens)
+			Main.submit_console_command(txt)

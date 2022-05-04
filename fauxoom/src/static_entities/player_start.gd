@@ -25,9 +25,11 @@ func _ready() -> void:
 	_r = _ent.connect("entity_trigger", self, "on_trigger")
 
 func append_state(_dict:Dictionary) -> void:
+	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
 	_dict.hasSpawned = _hasSpawned
 
 func restore_state(_dict:Dictionary) -> void:
+	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
 	_hasSpawned = _dict.hasSpawned
 
 func game_on_reset() -> void:
@@ -45,7 +47,8 @@ func _exit_tree() -> void:
 func start_play(_dynamicParentNode:Spatial) -> void:
 	print("Player start - play")
 	_hasSpawned = true
-	var def = Ents.get_prefab_def(Entities.PREFAB_PLAYER)
+	#var def = Ents.get_prefab_def(Entities.PREFAB_PLAYER)
+	var def = Ents.get_prefab_def("player")
 	var player = def.prefab.instance()
 	_dynamicParentNode.add_child(player)
 	player.spawn(self.global_transform)

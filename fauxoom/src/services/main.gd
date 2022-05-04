@@ -71,7 +71,10 @@ var _mapDef:MapDef = null
 var _pendingMapDef:MapDef = null
 
 var _lastRequestedMap:String = ""
+var _lastRequestedEntities:String = ""
+
 var _currentMapName:String = ""
+var _currentEntities:String = ""
 
 func _ready() -> void:
 	self.pause_mode = PAUSE_MODE_PROCESS
@@ -110,17 +113,6 @@ func _ready() -> void:
 	else:
 		print("JS not available")
 
-func submit_console_command(txt:String) -> void:
-	if txt == null || txt == "":
-		return
-	var tokens = ZqfUtils.tokenise(txt)
-	if tokens.size() == 0:
-		return
-	get_tree().call_group(
-		Groups.CONSOLE_GROUP_NAME,
-		Groups.CONSOLE_FN_EXEC,
-		txt, tokens)
-
 func _process(_delta) -> void:
 
 	_debugTextNW.text = "FPS: " + str(Engine.get_frames_per_second()) + "\n"
@@ -158,6 +150,9 @@ func get_app_state() -> int:
 
 func get_current_map_name() -> String:
 	return _currentMapName
+
+func get_current_entities_file() -> String:
+	return _currentEntities
 
 func get_menu_keycode() -> int:
 	var menuCode = KEY_ESCAPE
@@ -278,19 +273,38 @@ func _refresh_input_on() -> void:
 		else:
 			set_input_on()
 
+func submit_console_command(txt:String) -> void:
+	if txt == null || txt == "":
+		return
+	var tokens = ZqfUtils.tokenise(txt)
+	if tokens.size() == 0:
+		return
+	print("SUBMIT: " + txt)
+	get_tree().call_group(
+		Groups.CONSOLE_GROUP_NAME,
+		Groups.CONSOLE_FN_EXEC,
+		txt, tokens)
+
 func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
-	print("EXEC " + txt)
 	if _tokens.size() == 0:
 		return
 	if _tokens.size() >= 2:
+		var mapName:String = _tokens[1]
+
+		var entName:String = ""
+		if _tokens.size() >= 3:
+			entName = _tokens[2]
+
 		if _tokens[0] == "map":
-			_lastRequestedMap = _tokens[1]
+			_lastRequestedMap = mapName
+			_lastRequestedEntities = entName
 			_pendingState = Enums.AppState.Game
-			change_map(_lastRequestedMap)
+			change_map(mapName, entName)
 		elif _tokens[0] == "edit":
-			_lastRequestedMap = _tokens[1]
+			_lastRequestedMap = mapName
+			_lastRequestedEntities = entName
 			_pendingState = Enums.AppState.Editor
-			change_map(_lastRequestedMap)
+			change_map(mapName, entName)
 	if txt == "map_path":
 		print("Map path: " + get_tree().current_scene.filename)
 	elif txt == "edit_entities":
@@ -322,12 +336,12 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 func _map_name_to_path(name:String) -> String:
 	return "res://maps/" + name + "/" + name + ".tscn"
 
-func change_map(name:String) -> void:
-	var path:String = _map_name_to_path(name)
+func change_map(mapName:String, _entityFileName) -> void:
+	var path:String = _map_name_to_path(mapName)
 	if !ResourceLoader.exists(path):
 		print("Map " + path + " not found")
 		return
-	_currentMapName = name
+	_currentMapName = mapName
 	if _pendingState != _state:
 		_state = _pendingState
 		print("Changing App State: " + str(_state))

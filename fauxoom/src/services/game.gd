@@ -255,16 +255,16 @@ func get_skill() -> Skill:
 	return _skills[_skill] as Skill
 
 func on_restart_map() -> void:
-	get_tree().call_group("console", "console_on_exec", "load start", ["load", "start"])
+	Main.submit_console_command("load start")
 
 func on_clicked_retry() -> void:
-	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "checkpoint"])
+	Main.submit_console_command("load checkpoint")
 
 func on_clicked_reset() -> void:
-	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "start"])
+	Main.submit_console_command("load start")
 
 func on_clicked_checkpoint() -> void:
-	get_tree().call_group("console", "console_on_exec", "load checkpoint", ["load", "checkpoint"])
+	Main.submit_console_command("load checkpoint")
 
 func _refresh_overlay() -> void:
 	if _gameMode == Enums.GameMode.EntityEditor:
@@ -336,9 +336,12 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 		print("Set pending ents dict from " + path)
 		var curScene = get_tree().get_current_scene().filename
 		var newScene = data.mapPath
+		var newEntFile = ""
+		if data.has("entPath"):
+			newEntFile = data.entPath
 		if curScene != newScene:
 			print("Save is for a different map...")
-			Main.change_map(data.mapPath)
+			Main.change_map(data.mapPath, "")
 			# get_tree().change_scene(data.mapPath)
 		else:
 			print("Save is same map - no change")
@@ -382,6 +385,7 @@ func save_game(filePath:String) -> void:
 	print("Writing save " + filePath)
 	var data:Dictionary = {
 		mapPath = get_tree().get_current_scene().filename,
+		entPath = Main.get_current_entities_file(),
 		state = _state,
 		env = _environment
 	}

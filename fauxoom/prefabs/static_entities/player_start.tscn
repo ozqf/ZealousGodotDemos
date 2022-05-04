@@ -30,4 +30,4 @@ material/0 = null
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )
-isStatic = true
+prefabName = "player_start"

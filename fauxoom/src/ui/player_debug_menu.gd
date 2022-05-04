@@ -51,8 +51,7 @@ func _ready() -> void:
 	_r = _spawnMinorBonus.connect("pressed", self, "_click_spawn_minor_bonus")
 
 func _exec(txt:String) -> void:
-	var tokens = ZqfUtils.tokenise(txt)
-	get_tree().call_group("console", "console_on_exec", txt, tokens)
+	Main.submit_console_command(txt)
 
 func _on_tree_exiting() -> void:
 	player_close_debug_menu()

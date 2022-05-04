@@ -1,6 +1,6 @@
 extends Node
 
-onready var _ed:FlatMapEditor = $flat_map_editor
+onready var _ed = $flat_map_editor
 var _mapDef:MapDef = null;
 
 var _templates = [

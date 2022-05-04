@@ -16,7 +16,7 @@ const PREFAB_MOB_GOLEM:String = "mob_golem"
 const PREFAB_MOB_PSYCHIC:String = "mob_psychic"
 const PREFAB_MOB_TITAN:String = "mob_titan"
 
-const PREFAB_PLAYER:String = "player"
+# const PREFAB_PLAYER:String = "player"
 const PREFAB_GIB:String = "gib"
 
 var _prefabs = {
@@ -25,23 +25,28 @@ var _prefabs = {
 	################################################
 	mob_punk = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_punk.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		label = "Punk"
 	},
 	mob_worm = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_flesh_worm.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		label = "Worm"
 	},
 	mob_gunner = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_gunner.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		label = "Gunner"
 	},
 	mob_cyclops = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_cyclops.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		label = "Cyclops"
 	},
 	mob_serpent = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_serpent.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		label = "Serpent"
 	},
 	mob_spider = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_spider.tscn"),
@@ -164,6 +169,14 @@ var _prefabs = {
 	},
 
 	################################################
+	# info
+	################################################
+	player_start = {
+		prefab = preload("res://prefabs/static_entities/player_start.tscn"),
+		entNodePath = "Entity"
+	},
+
+	################################################
 	# barrels
 	################################################
 	barrel_he = {
@@ -186,6 +199,9 @@ var _nextStaticId:int = -1
 func _ready() -> void:
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
+
+func get_prefabs_copy() -> Dictionary:
+	return _prefabs.duplicate(true)
 
 func game_on_map_change() -> void:
 	_nextDynamicId = Interactions.PLAYER_RESERVED_ID + 1
@@ -317,6 +333,10 @@ func load_save_dict(data:Dictionary) -> void:
 	print("Restore dynamic entities")
 	for entData in data.dynamicData:
 		restore_dynamic_entity(entData)
+
+func load_entities_file(_entFilePath:String) -> void:
+	var data = ZqfUtils.load_dict_json_file(_entFilePath)
+	pass
 
 func console_on_exec(_txt:String, _tokens) -> void:
 	if _tokens[0] == "list_ents":
