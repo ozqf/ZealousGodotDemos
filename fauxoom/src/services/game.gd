@@ -110,6 +110,9 @@ var _emptyTargetInfo:Dictionary = {
 	yawDegrees = 0
 }
 
+func set_game_mode(mode:int) -> void:
+	_gameMode = mode
+
 func get_game_mode() -> int:
 	return _gameMode
 
@@ -413,7 +416,6 @@ func _clear_dynamic_entities() -> void:
 func _set_to_pregame() -> void:
 	set_game_state(Enums.GameState.Pregame)
 
-
 func reset_game() -> void:
 	if _state == Enums.GameState.Pregame:
 		return
@@ -438,8 +440,6 @@ func game_on_player_died(_info:Dictionary) -> void:
 		return
 	set_game_state(Enums.GameState.Lost)
 	
-	# var def = _entRoot.get_prefab_def(Entities.PREFAB_GIB)
-	# var gib = def.prefab.instance()
 	var gib = _head_gib_t.instance()
 	add_child(gib)
 	gib.enable_rotation()
@@ -459,6 +459,12 @@ func game_on_map_change() -> void:
 	print("Game - saw map change")
 	_justLoaded = true
 	_environments = ZqfUtils.EMPTY_DICT
+	if Main.get_app_state() == Enums.AppState.Game:
+		set_game_mode(Enums.GameMode.Classic)
+		EntityEditor.disable()
+	else:
+		set_game_mode(Enums.GameMode.EntityEditor)
+		EntityEditor.enable()
 	game_set_environment(ZqfUtils.EMPTY_STR)
 	# _hasPlayerStart = false
 	_clear_dynamic_entities()

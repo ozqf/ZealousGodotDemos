@@ -1,4 +1,9 @@
-extends Node
+extends Spatial
+class_name ZEEMain
+
+const GROUP_NAME:String = "zqf_entity_editor"
+const FN_ENABLE:String = "zee_enable"
+const FN_DISABLE:String = "zee_disable"
 
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 var _ent_t = preload("res://zqf_entity_editor/zee_entity.tscn")
@@ -19,7 +24,7 @@ onready var _fileDialog:FileDialog = $CanvasLayer/modal/FileDialog
 onready var _ray:RayCast = $camera/RayCast
 onready var _3dCursor:Spatial = $cursor3d
 onready var _entsRoot:Spatial = $ents
-onready var _cameraControl:ZEECamera = $camera
+onready var _cameraControl = $camera
 onready var _camera:Camera = $camera/Camera
 
 onready var _entList = $entity_list
@@ -28,6 +33,7 @@ var _canPlaceEnt:bool = false
 var _flyCamera:bool = true
 var _rootMode = EdEnums.RootMode.File
 var _templateIndex:int = -1
+var _enabled:bool = false
 
 var _templates = [
 	{
@@ -53,12 +59,15 @@ var _templates = [
 ]
 
 func _ready() -> void:
+	add_to_group(GROUP_NAME)
 	_set_fly_camera_on(false)
 	for i in range(0, _templates.size()):
 		var template = _templates[i]
 		_add_button(_templateListButtons, template.name, template.label, "_template_button_clicked")
 	_set_root_mode(EdEnums.RootMode.File)
 	_modalBlocker.visible = false
+
+	_entList.zee_ent_list_init($ents)
 
 	_fileUILoad.connect("clicked", self, "_file_button_clicked")
 	_fileUISave.connect("clicked", self, "_file_button_clicked")
@@ -67,11 +76,35 @@ func _ready() -> void:
 	_fileDialog.connect("popup_hide", self, "_file_modal_closed")
 	_fileDialog.connect("file_selected", self, "_file_selected")
 
+	disable()
+
+func enable() -> void:
+	get_tree().call_group(GROUP_NAME, FN_ENABLE)
+
+func disable() -> void:
+	get_tree().call_group(GROUP_NAME, FN_DISABLE)
+
+func zee_enable() -> void:
+	_enabled = true
+	visible = true
+	var uiNodes = $CanvasLayer.get_children()
+	for i in range(0, uiNodes.size()):
+		uiNodes[i].visible = true
+	_modalBlocker.visible = false
+
+func zee_disable() -> void:
+	_enabled = false
+	visible = false
+	var uiNodes = $CanvasLayer.get_children()
+	for i in range(0, uiNodes.size()):
+		uiNodes[i].visible = false
+	_modalBlocker.visible = false
+
 func get_modal_blocking() -> bool:
 	if _fileDialog.visible:
 		return true
 	return false
-
+ 
 func _file_selected(path:String) -> void:
 	if path == "" || path == "user://":
 		print("Empty path, aborted")
@@ -83,14 +116,9 @@ func _file_selected(path:String) -> void:
 
 	if mode == FileDialog.MODE_SAVE_FILE:
 		# write save
-		var data = {
-			ents = []
-		}
-		var ents = _entsRoot.get_children()
-		var entsCount:int = ents.size()
-		for i in range(0, entsCount):
-			var ent = ents[i]
-			data.ents.push_back(ent.write())
+		var data = {}
+		data.mapName = Main.get_current_map_name()
+		data.ents = _entList.write_ents_list()
 		var file = File.new()
 		var err = file.open(path, File.WRITE)
 		if err != 0:
@@ -131,14 +159,7 @@ func _set_fly_camera_on(flag:bool) -> void:
 	if _flyCamera == flag:
 		return
 	_flyCamera = flag
-	if _flyCamera:
-		_cameraControl.inputOn = true
-		_cameraControl.turningOn = true
-		MouseLock.remove_claim(get_tree(), "EntityEditor")
-	else:
-		_cameraControl.inputOn = true
-		_cameraControl.turningOn = false
-		MouseLock.add_claim(get_tree(), "EntityEditor")
+	_cameraControl.set_fly_camera_enabled(flag)
 
 func _refresh_ui() -> void:
 	if _templateIndex < 0:
@@ -168,20 +189,13 @@ func _set_root_mode(newMode) -> void:
 	
 	_modeLabel.text = modeTxt
 
-func _create_entity_at(pos:Vector3, templateIndex:int) -> void:
-	var temp = _templates[templateIndex]
-	print("Create a " + str(temp.label) + " ent at " + str(pos))
-	var obj = _ent_t.instance()
-	_entsRoot.add_child(obj)
-	obj.global_transform.origin = pos
-	obj.templateName = temp.name
-
 func _left_click() -> void:
 	if _rootMode == EdEnums.RootMode.Add:
 		if !_canPlaceEnt:
 			return
 		var pos:Vector3 = _3dCursor.global_transform.origin
-		_create_entity_at(pos, _templateIndex)
+		var template = _templates[_templateIndex]
+		_entList.create_entity_at(pos, template)
 
 func _open_save_file() -> void:
 	print("Saving " + str(_templates.size()) + " entities")

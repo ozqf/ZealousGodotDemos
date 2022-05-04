@@ -1,5 +1,7 @@
 extends Spatial
 
+const Enums = preload("res://src/enums.gd")
+
 const _GAME_SCENE_PATH = "res://maps/grid_map.tscn"
 const _EDITOR_SCENE_PATH = "res://maps/level_editor.tscn"
 
@@ -34,8 +36,6 @@ const _MAPS = [{
 	}
 ]
 
-enum AppState { Game, Editor }
-
 var debugDegrees:float = 0
 var debug_int:int = 0
 var debugV3_1:Vector3 = Vector3()
@@ -53,7 +53,8 @@ var _debugNEMode:int = 0
 
 var playerDebug:String = ""
 
-var _state = AppState.Game
+var _state = Enums.AppState.Game
+var _pendingState = Enums.AppState.Game
 var _camera:Camera = null
 var _emptyTrans:Transform = Transform.IDENTITY
 var _url:String = ""
@@ -70,6 +71,7 @@ var _mapDef:MapDef = null
 var _pendingMapDef:MapDef = null
 
 var _lastRequestedMap:String = ""
+var _currentMapName:String = ""
 
 func _ready() -> void:
 	self.pause_mode = PAUSE_MODE_PROCESS
@@ -84,6 +86,8 @@ func _ready() -> void:
 	# off - open main menu
 	#set_input_off()
 	set_input_on()
+
+	EntityEditor.disable()
 	
 	if OS.has_feature("JavaScript"):
 		print("JS available")
@@ -106,7 +110,7 @@ func _ready() -> void:
 	else:
 		print("JS not available")
 
-func exec_command(txt:String) -> void:
+func submit_console_command(txt:String) -> void:
 	if txt == null || txt == "":
 		return
 	var tokens = ZqfUtils.tokenise(txt)
@@ -148,6 +152,12 @@ func _process(_delta) -> void:
 	# broadcast change if file load failed, have to give everyone the default
 	# if !load_cfg(_DEFAULT_CFG_NAME):
 	# 	broadcast_cfg_change()
+
+func get_app_state() -> int:
+	return _state
+
+func get_current_map_name() -> String:
+	return _currentMapName
 
 func get_menu_keycode() -> int:
 	var menuCode = KEY_ESCAPE
@@ -224,12 +234,12 @@ func set_pending_map(newPendingMap:MapDef) -> void:
 
 func on_game_play_level() -> void:
 	_mapDef = _pendingMapDef
-	_state = AppState.Game
+	_state = Enums.AppState.Game
 	var _foo = get_tree().change_scene(_GAME_SCENE_PATH)
 
 func on_game_edit_level() -> void:
 	_mapDef = _pendingMapDef
-	_state = AppState.Editor
+	_state = Enums.AppState.Editor
 	var _foo = get_tree().change_scene(_EDITOR_SCENE_PATH)
 
 func set_input_on() -> void:
@@ -275,36 +285,52 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	if _tokens.size() >= 2:
 		if _tokens[0] == "map":
 			_lastRequestedMap = _tokens[1]
-			var path:String = "res://maps/" + _tokens[1] + "/" + _tokens[1] + ".tscn"
-			change_map(path)
+			_pendingState = Enums.AppState.Game
+			change_map(_lastRequestedMap)
+		elif _tokens[0] == "edit":
+			_lastRequestedMap = _tokens[1]
+			_pendingState = Enums.AppState.Editor
+			change_map(_lastRequestedMap)
 	if txt == "map_path":
 		print("Map path: " + get_tree().current_scene.filename)
-	if txt == "quit" || txt == "exit":
+	elif txt == "edit_entities":
+		print("Edit entities")
+	elif txt == "quit" || txt == "exit":
 		get_tree().quit()
-	if txt == "info":
+	elif txt == "info":
 		print("OS name: " + OS.get_name())
-	if _tokens[0] == "cfg_save":
+	elif txt == "mouse":
+		get_tree().call_group(MouseLock.GROUP_NAME, MouseLock.DEBUG_LOCK_FN)
+	elif _tokens[0] == "cfg_save":
 		var fileName:String = Config.cfgName
 		if _tokens.size() >= 2:
 			fileName = _tokens[1]
 		Config.save_cfg(fileName)
-	if _tokens[0] == "cfg_load":
+	elif _tokens[0] == "cfg_load":
 		var fileName:String = Config.cfgName
 		if _tokens.size() >= 2:
 			fileName = _tokens[1]
 		if !Config.load_cfg(fileName):
 			print("Failed to load cfg")
-	if _tokens[0] == "split_test":
+	elif _tokens[0] == "split_test":
 		var testStr:String = "11,22,33,44,55,66"
 		if _tokens.size() >= 2:
 			testStr = _tokens[1]
 		var result:int = ZqfUtils.read_csv_int(testStr, 2, 99)
 		print("Csv Split result: " + str(result))
 
-func change_map(path:String) -> void:
+func _map_name_to_path(name:String) -> String:
+	return "res://maps/" + name + "/" + name + ".tscn"
+
+func change_map(name:String) -> void:
+	var path:String = _map_name_to_path(name)
 	if !ResourceLoader.exists(path):
 		print("Map " + path + " not found")
 		return
+	_currentMapName = name
+	if _pendingState != _state:
+		_state = _pendingState
+		print("Changing App State: " + str(_state))
 	var grp:String = Groups.GAME_GROUP_NAME
 	var fn:String = Groups.GAME_FN_MAP_CHANGE
 	get_tree().call_group(grp, fn)

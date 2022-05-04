@@ -89,6 +89,6 @@ func run_event() -> void:
 		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_SET_ENVIRONMENT, _ent.selfName)
 	elif type == EventType.Checkpoint:
 		print("Checkpoint")
-		Main.exec_command("save checkpoint")
+		Main.submit_console_command("save checkpoint")
 	else:
 		print("Trigger event has invalid type set: " + str(int(type)))

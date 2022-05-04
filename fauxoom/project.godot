@@ -80,11 +80,6 @@ _global_script_classes=[ {
 "path": "res://src/entity.gd"
 }, {
 "base": "Spatial",
-"class": "EntityEditor",
-"language": "GDScript",
-"path": "res://map_gen/src/entity_editor.gd"
-}, {
-"base": "Spatial",
 "class": "FlatMapEditor",
 "language": "GDScript",
 "path": "res://map_gen/src/flat_map_editor.gd"
@@ -345,9 +340,14 @@ _global_script_classes=[ {
 "path": "res://src/defs/weapons.gd"
 }, {
 "base": "Spatial",
-"class": "ZEECamera",
+"class": "ZEEEntities",
 "language": "GDScript",
-"path": "res://zqf_entity_editor/zee_camera.gd"
+"path": "res://map_gen/src/entity_editor.gd"
+}, {
+"base": "Spatial",
+"class": "ZEEMain",
+"language": "GDScript",
+"path": "res://zqf_entity_editor/zee_main.gd"
 }, {
 "base": "Spatial",
 "class": "ZGUBlock2Mesh",
@@ -404,7 +404,6 @@ _global_script_class_icons={
 "EmbeddedSpawn": "",
 "Entities": "",
 "Entity": "",
-"EntityEditor": "",
 "FlatMapEditor": "",
 "GameController": "",
 "GridEditor": "",
@@ -457,7 +456,8 @@ _global_script_class_icons={
 "TriggerVolume": "",
 "WeaponInput": "",
 "Weapons": "",
-"ZEECamera": "",
+"ZEEEntities": "",
+"ZEEMain": "",
 "ZGUBlock2Mesh": "",
 "ZGUInvisibleWall": "",
 "ZealousBlock": "",
@@ -478,7 +478,7 @@ config/icon="res://icon.png"
 
 Main="*res://prefabs/services/main.tscn"
 Config="*res://prefabs/services/config.tscn"
-ZqfEntityEditor="*res://zqf_entity_editor/zqf_entity_editor.tscn"
+EntityEditor="*res://zqf_entity_editor/zqf_entity_editor.tscn"
 Game="*res://prefabs/services/game.tscn"
 Ents="*res://prefabs/services/entities.tscn"
 Bgm="*res://prefabs/services/bgm.tscn"

@@ -1,5 +1,4 @@
 extends Spatial
-class_name ZEECamera
 
 const MOUSE_MOVE_SCALE:float = 0.1
 const PITCH_CAP_DEGREES = 89
@@ -10,13 +9,47 @@ var invertedY:bool = true
 
 var m_yaw: float = 0
 var m_pitch: float = 0
+var _enabled:bool = true
 var inputOn:bool = true
+var _flyOn:bool = true
 var turningOn:bool = true
 var _head:Spatial = null
 var _speed:float = 10.0
 
 func _ready() -> void:
+	add_to_group(ZEEMain.GROUP_NAME)
 	_head = self
+
+func zee_enable() -> void:
+	print("Enabled editor camera")
+	_enabled = true
+	visible = true
+	$Camera.current = true
+	set_fly_camera_enabled(_flyOn)
+
+func zee_disable() -> void:
+	print("Disable editor camera")
+	_enabled = false
+	visible = false
+	$Camera.current = false
+	# make sure cursor lock is cleared
+	_refresh_mouse_claim()
+
+func set_fly_camera_enabled(flag:bool) -> void:
+	_flyOn = flag
+	if _flyOn:
+		inputOn = true
+		turningOn = true
+	else:
+		inputOn = true
+		turningOn = false
+	_refresh_mouse_claim()
+	
+func _refresh_mouse_claim() -> void:
+	if inputOn && _enabled && !_flyOn:
+		MouseLock.add_claim(get_tree(), "EntityEditor")
+	else:
+		MouseLock.remove_claim(get_tree(), "EntityEditor")
 
 func _apply_rotations(_delta: float):
 	m_yaw = ZqfUtils.cap_degrees(m_yaw)
@@ -53,7 +86,7 @@ func _read_rotation_keys(_delta:float) -> void:
 
 # Process mouse input via raw input events, if mouse is captured
 func _input(_event: InputEvent):
-	if !inputOn || !turningOn:
+	if !inputOn || !_enabled || !turningOn:
 		return
 	if Game.debuggerOpen:
 		return
@@ -83,7 +116,7 @@ func _input(_event: InputEvent):
 	pass
 
 func _process(_delta:float) -> void:
-	if !inputOn:
+	if !inputOn || !_enabled:
 		return
 	if turningOn:
 		_read_rotation_keys(_delta)

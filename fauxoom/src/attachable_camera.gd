@@ -84,6 +84,7 @@ func _process(_delta:float) -> void:
 func attach_to(newParent:Spatial) -> void:
 	if _attachParent != null:
 		detach()
+	current = true
 	_attachParent = newParent
 	# reset local position
 	_worldParent.remove_child(self)
@@ -94,6 +95,7 @@ func attach_to(newParent:Spatial) -> void:
 func detach() -> void:
 	if _attachParent == null:
 		return
+	current = false
 	var t:Transform = _attachParent.global_transform
 	_attachParent.remove_child(self)
 	_attachParent.disconnect("tree_exiting", self, "detach")

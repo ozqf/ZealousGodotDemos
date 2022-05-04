@@ -26,6 +26,7 @@ func _ready() -> void:
 	_f = $root_menu/VBoxContainer/embedded_maps.connect("pressed", self, "_on_goto_embedded")
 	_f = $root_menu/VBoxContainer/resume.connect("pressed", self, "_on_back_to_game")
 	_f = $root_menu/VBoxContainer/custom_maps.connect("pressed", self, "_on_goto_custom")
+	_f = $root_menu/VBoxContainer/edit_entities.connect("pressed", self, "_on_goto_edit_entities")
 	_f = $root_menu/VBoxContainer/restart.connect("pressed", self, "_on_restart")
 	_f = $root_menu/VBoxContainer/return_to_title.connect("pressed", self, "_on_goto_title")
 	_f = $root_menu/VBoxContainer/load_checkpoint.connect("pressed", self, "_on_load_checkpoint")
@@ -46,7 +47,7 @@ func _ready() -> void:
 
 func _on_goto_title() -> void:
 	Main.set_input_on()
-	Main.exec_command("map title")
+	Main.submit_console_command("map title")
 	pass
 
 func _on_goto_embedded() -> void:
@@ -57,6 +58,9 @@ func _on_back_to_game() -> void:
 
 func _on_goto_custom() -> void:
 	_change_menu(MenuPage.CustomMaps)
+
+func _on_goto_edit_entities() -> void:
+	Main.submit_console_command("edit catacombs_01")
 
 func _on_goto_options() -> void:
 	_change_menu(MenuPage.Options)
