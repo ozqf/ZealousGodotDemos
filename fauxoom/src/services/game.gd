@@ -468,6 +468,7 @@ func game_on_map_change() -> void:
 		EntityEditor.disable()
 	else:
 		set_game_mode(Enums.GameMode.EntityEditor)
+		EntityEditor.clear()
 		EntityEditor.enable()
 	game_set_environment(ZqfUtils.EMPTY_STR)
 	# _hasPlayerStart = false

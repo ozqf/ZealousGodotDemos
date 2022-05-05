@@ -29,41 +29,42 @@ onready var _camera:Camera = $camera/Camera
 
 onready var _entList = $entity_list
 
+var _initialised:bool = false
 var _canPlaceEnt:bool = false
 var _flyCamera:bool = true
 var _rootMode = EdEnums.RootMode.File
-var _templateIndex:int = -1
 var _enabled:bool = false
 
-var _templates = [
-	{
-		name = "player_start",
-		label = "Player Start",
-		ShapeType = EdEnums.ShapeType.Actor
-	},
-	{
-		name = "weapon_rack",
-		label = "Weapon Rack",
-		ShapeType = EdEnums.ShapeType.Point
-	},
-	{
-		name = "ammo_pack",
-		label = "Ammo Pack",
-		ShapeType = EdEnums.ShapeType.Point
-	},
-	{
-		name = "mob_spawn",
-		label = "Mob Spawn",
-		ShapeType = EdEnums.ShapeType.Actor
-	}
-]
+# var _templates = [
+# 	{
+# 		name = "player_start",
+# 		label = "Player Start",
+# 		ShapeType = EdEnums.ShapeType.Actor
+# 	},
+# 	{
+# 		name = "weapon_rack",
+# 		label = "Weapon Rack",
+# 		ShapeType = EdEnums.ShapeType.Point
+# 	},
+# 	{
+# 		name = "ammo_pack",
+# 		label = "Ammo Pack",
+# 		ShapeType = EdEnums.ShapeType.Point
+# 	},
+# 	{
+# 		name = "mob_spawn",
+# 		label = "Mob Spawn",
+# 		ShapeType = EdEnums.ShapeType.Actor
+# 	}
+# ]
+
+var _prefabs:Dictionary = {};
+var _currentPrefab:String = ""
+var _templateKeys = []
 
 func _ready() -> void:
 	add_to_group(GROUP_NAME)
 	_set_fly_camera_on(false)
-	for i in range(0, _templates.size()):
-		var template = _templates[i]
-		_add_button(_templateListButtons, template.name, template.label, "_template_button_clicked")
 	_set_root_mode(EdEnums.RootMode.File)
 	_modalBlocker.visible = false
 
@@ -78,7 +79,29 @@ func _ready() -> void:
 
 	disable()
 
+func init() -> void:
+	if _initialised:
+		return
+	_initialised = true
+	_prefabs = Ents.get_prefabs_copy()
+	_templateKeys = _prefabs.keys()
+	for i in range(_templateKeys.size() - 1, 0, -1):
+		var key = _templateKeys[i]
+		var prefab = _prefabs[key]
+		if prefab.has("noEditor") && prefab.noEditor:
+			_prefabs.erase(key)
+			continue
+		var label:String = key
+		if prefab.has("label"):
+			label = prefab.label
+		_add_button(_templateListButtons, key, label, "_template_button_clicked")
+	_currentPrefab = _templateKeys[0]
+
+func clear() -> void:
+	_entList.clear_all_ents()
+
 func enable() -> void:
+	init()
 	get_tree().call_group(GROUP_NAME, FN_ENABLE)
 
 func disable() -> void:
@@ -142,11 +165,8 @@ func _add_button(_parent:Control, name:String, label:String, callbackName) -> vo
 
 func _template_button_clicked(_button) -> void:
 	print("Saw click of " + str(_button.name))
-
-	for i in range(0, _templates.size()):
-		var temp = _templates[i]
-		if temp.name == _button.name:
-			_templateIndex = i
+	# var prefab = _prefabs[_button.name]
+	_currentPrefab = _button.name
 	_refresh_ui()
 
 func _file_button_clicked(_button) -> void:
@@ -162,10 +182,14 @@ func _set_fly_camera_on(flag:bool) -> void:
 	_cameraControl.set_fly_camera_enabled(flag)
 
 func _refresh_ui() -> void:
-	if _templateIndex < 0:
+	if _currentPrefab == "":
 		_templateName.text = "No template selected"
 		return
-	_templateName.text = _templates[_templateIndex].name
+	var prefab = _prefabs[_currentPrefab]
+	if prefab.has("label"):
+		_templateName.text = prefab.label
+	else:
+		_templateName.text = _currentPrefab
 
 func _set_root_mode(newMode) -> void:
 	var oldMode = _rootMode
@@ -193,12 +217,14 @@ func _left_click() -> void:
 	if _rootMode == EdEnums.RootMode.Add:
 		if !_canPlaceEnt:
 			return
+		if _currentPrefab == "":
+			return
 		var pos:Vector3 = _3dCursor.global_transform.origin
-		var template = _templates[_templateIndex]
-		_entList.create_entity_at(pos, template)
+		var prefab = _prefabs[_currentPrefab]
+		_entList.create_entity_at(pos, prefab, _currentPrefab)
 
 func _open_save_file() -> void:
-	print("Saving " + str(_templates.size()) + " entities")
+	print("Saving " + str(_entList.get_entity_count()) + " entities")
 	_fileDialog.set_mode(FileDialog.MODE_SAVE_FILE)
 	_fileDialog.popup()
 	_modalBlocker.visible = true

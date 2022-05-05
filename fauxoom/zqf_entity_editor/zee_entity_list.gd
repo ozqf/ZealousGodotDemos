@@ -1,26 +1,34 @@
 extends Node
 
 var _ent_t = preload("res://zqf_entity_editor/zee_entity.tscn")
+var _proxy_t = preload("res://zqf_entity_editor/zee_point_entity_proxy.tscn")
 
 var _entsRoot:Spatial
 
-func _clear_all_ents() -> void:
+func clear_all_ents() -> void:
 	var entsNode = _entsRoot.get_children()
 	var entsCount:int = entsNode.size()
 	for i in range(0, entsCount):
 		var ent = entsNode[i]
 		ent.queue_free()
 
+	pass
+
 func zee_ent_list_init(entsRoot:Spatial):
 	_entsRoot = entsRoot
 
-func create_entity_at(pos:Vector3, template) -> void:
+func create_entity_at(pos:Vector3, prefabDef, prefabName) -> void:
 	#var temp = _templates[templateIndex]
-	print("Create a " + str(template.label) + " ent at " + str(pos))
-	var obj = _ent_t.instance()
-	_entsRoot.add_child(obj)
-	obj.global_transform.origin = pos
-	obj.templateName = template.name
+	print("Create a " + str(prefabName) + " ent at " + str(pos))
+	# var obj = _ent_t.instance()
+	# _entsRoot.add_child(obj)
+	# obj.global_transform.origin = pos
+	# obj.templateName = template.name
+	var ent = prefabDef.prefab.instance()
+	ent.global_transform.origin = pos
+	var proxy = _proxy_t.instance()
+	ent.add_child(proxy)
+	_entsRoot.add_child(ent)
 
 func write_ents_list():
 	var results = []
@@ -32,4 +40,7 @@ func write_ents_list():
 	return results
 
 func read_ents_list(_entsArray):
-	_clear_all_ents()
+	clear_all_ents()
+
+func get_entity_count() -> int:
+	return _entsRoot.get_child_count()

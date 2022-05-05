@@ -26,39 +26,47 @@ var _prefabs = {
 	mob_punk = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_punk.tscn"),
 		entNodePath = "Entity",
-		label = "Punk"
+		label = "Punk",
+		noEditor = true
 	},
 	mob_worm = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_flesh_worm.tscn"),
 		entNodePath = "Entity",
-		label = "Worm"
+		label = "Worm",
+		noEditor = true
 	},
 	mob_gunner = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_gunner.tscn"),
 		entNodePath = "Entity",
-		label = "Gunner"
+		label = "Gunner",
+		noEditor = true
 	},
 	mob_cyclops = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_cyclops.tscn"),
 		entNodePath = "Entity",
-		label = "Cyclops"
+		label = "Cyclops",
+		noEditor = true
 	},
 	mob_serpent = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_serpent.tscn"),
 		entNodePath = "Entity",
-		label = "Serpent"
+		label = "Serpent",
+		noEditor = true
 	},
 	mob_spider = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_spider.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		noEditor = true
 	},
 	mob_golem = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_golem.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		noEditor = true
 	},
 	mob_titan = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_titan.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		noEditor = true
 	},
 
 	################################################
@@ -66,18 +74,21 @@ var _prefabs = {
 	################################################
 	player = {
 		prefab = preload("res://prefabs/player.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		noEditor = true
 	},
 	################################################
 	# health
 	################################################
 	hp_s = {
 		prefab = preload("res://prefabs/items/item_health_small.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	hp_l = {
 		prefab = preload("res://prefabs/items/item_health_large.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	hazard_suit = {
 		prefab = preload("res://prefabs/items/item_hazard_suit.tscn"),
@@ -85,7 +96,8 @@ var _prefabs = {
 	},
 	frage = {
 		prefab = preload("res://prefabs/items/item_full_rage.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 
 	################################################
@@ -93,27 +105,33 @@ var _prefabs = {
 	################################################
 	chainsaw = {
 		prefab = preload("res://prefabs/items/item_chainsaw.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	pistol = {
 		prefab = preload("res://prefabs/items/item_pistol.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	ssg = {
 		prefab = preload("res://prefabs/items/item_super_shotgun.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	pg = {
 		prefab = preload("res://prefabs/items/item_plasma_gun.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	rocket_launcher = {
 		prefab = preload("res://prefabs/items/item_rocket_launcher.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	flame_thrower = {
 		prefab = preload("res://prefabs/items/item_flame_thrower.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 
 	################################################
@@ -121,51 +139,63 @@ var _prefabs = {
 	################################################
 	shell_s = {
 		prefab = preload("res://prefabs/items/item_shells_small.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	shell_l = {
 		prefab = preload("res://prefabs/items/item_shells_large.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	bullet_s = {
 		prefab = preload("res://prefabs/items/item_bullets_small.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	bullet_l = {
 		prefab = preload("res://prefabs/items/item_bullets_large.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	rocket_s = {
 		prefab = preload("res://prefabs/items/item_rockets_small.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	rocket_l = {
 		prefab = preload("res://prefabs/items/item_rockets_large.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	cell_s = {
 		prefab = preload("res://prefabs/items/item_cells_small.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	cell_l = {
 		prefab = preload("res://prefabs/items/item_cells_large.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	fuel_s = {
 		prefab = preload("res://prefabs/items/item_fuel_small.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	fuel_l = {
 		prefab = preload("res://prefabs/items/item_fuel_large.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	fullpack = {
 		prefab = preload("res://prefabs/items/item_full_pack.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 	gunrack = {
 		prefab = preload("res://prefabs/items/item_gun_rack.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 
 	################################################
@@ -173,7 +203,8 @@ var _prefabs = {
 	################################################
 	player_start = {
 		prefab = preload("res://prefabs/static_entities/player_start.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "info"
 	},
 
 	################################################
@@ -181,7 +212,8 @@ var _prefabs = {
 	################################################
 	barrel_he = {
 		prefab = preload("res://prefabs/carriable/barrel_explosive.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		category = "items"
 	},
 
 	################################################
@@ -273,7 +305,7 @@ func find_static_entity_by_name(entName:String) -> Entity:
 		if ent.selfName == entName:
 			return ent as Entity
 	return null
-	
+
 #################################################
 # save/load
 func write_save_dict() -> Dictionary:
