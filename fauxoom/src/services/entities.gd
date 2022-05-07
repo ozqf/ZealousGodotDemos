@@ -105,32 +105,26 @@ var _prefabs = {
 	################################################
 	chainsaw = {
 		prefab = preload("res://prefabs/items/item_chainsaw.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	pistol = {
 		prefab = preload("res://prefabs/items/item_pistol.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	ssg = {
 		prefab = preload("res://prefabs/items/item_super_shotgun.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	pg = {
 		prefab = preload("res://prefabs/items/item_plasma_gun.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	rocket_launcher = {
 		prefab = preload("res://prefabs/items/item_rocket_launcher.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	flame_thrower = {
 		prefab = preload("res://prefabs/items/item_flame_thrower.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 
@@ -139,37 +133,30 @@ var _prefabs = {
 	################################################
 	shell_s = {
 		prefab = preload("res://prefabs/items/item_shells_small.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	shell_l = {
 		prefab = preload("res://prefabs/items/item_shells_large.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	bullet_s = {
 		prefab = preload("res://prefabs/items/item_bullets_small.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	bullet_l = {
 		prefab = preload("res://prefabs/items/item_bullets_large.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	rocket_s = {
 		prefab = preload("res://prefabs/items/item_rockets_small.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	rocket_l = {
 		prefab = preload("res://prefabs/items/item_rockets_large.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	cell_s = {
 		prefab = preload("res://prefabs/items/item_cells_small.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	cell_l = {
@@ -179,22 +166,18 @@ var _prefabs = {
 	},
 	fuel_s = {
 		prefab = preload("res://prefabs/items/item_fuel_small.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	fuel_l = {
 		prefab = preload("res://prefabs/items/item_fuel_large.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	fullpack = {
 		prefab = preload("res://prefabs/items/item_full_pack.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 	gunrack = {
 		prefab = preload("res://prefabs/items/item_gun_rack.tscn"),
-		entNodePath = "Entity",
 		category = "items"
 	},
 
@@ -203,8 +186,14 @@ var _prefabs = {
 	################################################
 	player_start = {
 		prefab = preload("res://prefabs/static_entities/player_start.tscn"),
-		entNodePath = "Entity",
 		category = "info"
+	},
+	trigger_volume = {
+		prefab = preload("res://prefabs/static_entities/trigger_volume.tscn"),
+		category = "info"
+	},
+	player_barrier_volume = {
+		prefab = preload("res://prefabs/static_entities/player_barrier_volume.tscn"),
 	},
 
 	################################################
@@ -231,6 +220,18 @@ var _nextStaticId:int = -1
 func _ready() -> void:
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
+
+	# patch missing fields in prefab defs
+	var keys = _prefabs.keys()
+	for i in range(0, keys.size()):
+		var key = keys[i]
+		var prefab:Dictionary = _prefabs[key]
+		if !prefab.has("entNodePath"):
+			prefab.entNodePath = "Entity"
+		if !prefab.has("label"):
+			prefab.label = key
+		if !prefab.has("noEditor"):
+			prefab.noEditor = false
 
 func get_prefabs_copy() -> Dictionary:
 	return _prefabs.duplicate(true)

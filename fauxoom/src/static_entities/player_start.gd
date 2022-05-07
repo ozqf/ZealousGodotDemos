@@ -2,8 +2,6 @@ extends Spatial
 
 const Enums = preload("res://src/enums.gd")
 
-onready var _ent:Entity = $Entity
-
 enum InventoryState {
 	Resume,
 	None,
@@ -13,6 +11,7 @@ enum InventoryState {
 export var delaySpawn:bool = true
 export(InventoryState) var inventoryState = InventoryState.Resume
 
+onready var _ent:Entity = $Entity
 var _hasSpawned:bool = false
 
 func _ready() -> void:
@@ -23,6 +22,10 @@ func _ready() -> void:
 	var _r = _ent.connect("entity_append_state", self, "append_state")
 	_r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_trigger", self, "on_trigger")
+
+func get_editor_info() -> Dictionary:
+	visible = true
+	return {}
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.xform = ZqfUtils.transform_to_dict(global_transform)

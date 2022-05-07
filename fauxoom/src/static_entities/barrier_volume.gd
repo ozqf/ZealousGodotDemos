@@ -22,6 +22,10 @@ func _ready() -> void:
 	_err = _ent.connect("entity_append_state", self, "append_state")
 	_err = _ent.connect("entity_trigger", self, "on_trigger")
 
+func get_editor_info() -> Dictionary:
+	visible = true
+	return {}
+
 func set_active(flag:bool) -> void:
 	active = flag
 	_shape.disabled = !active

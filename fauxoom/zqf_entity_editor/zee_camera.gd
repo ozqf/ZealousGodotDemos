@@ -35,6 +35,9 @@ func zee_disable() -> void:
 	# make sure cursor lock is cleared
 	_refresh_mouse_claim()
 
+func reset() -> void:
+	global_transform = Transform.IDENTITY
+
 func set_fly_camera_enabled(flag:bool) -> void:
 	_flyOn = flag
 	if _flyOn:

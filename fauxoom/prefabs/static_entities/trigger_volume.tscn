@@ -29,4 +29,4 @@ material/0 = SubResource( 3 )
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 2 )
-isStatic = true
+prefabName = "trigger_volume"

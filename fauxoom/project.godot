@@ -159,6 +159,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://map_gen/src/map_gen.gd"
 }, {
+"base": "Spatial",
+"class": "MapGenEntityEditor",
+"language": "GDScript",
+"path": "res://map_gen/src/entity_editor.gd"
+}, {
 "base": "Reference",
 "class": "MapSpawnDef",
 "language": "GDScript",
@@ -340,11 +345,6 @@ _global_script_classes=[ {
 "path": "res://src/defs/weapons.gd"
 }, {
 "base": "Spatial",
-"class": "ZEEEntities",
-"language": "GDScript",
-"path": "res://map_gen/src/entity_editor.gd"
-}, {
-"base": "Spatial",
 "class": "ZEEEntityProxy",
 "language": "GDScript",
 "path": "res://zqf_entity_editor/zee_entity_proxy_base.gd"
@@ -425,6 +425,7 @@ _global_script_class_icons={
 "MapDef": "",
 "MapEncoder": "",
 "MapGen": "",
+"MapGenEntityEditor": "",
 "MapSpawnDef": "",
 "MeshGenerator": "",
 "MobAttack": "",
@@ -461,7 +462,6 @@ _global_script_class_icons={
 "TriggerVolume": "",
 "WeaponInput": "",
 "Weapons": "",
-"ZEEEntities": "",
 "ZEEEntityProxy": "",
 "ZEEMain": "",
 "ZGUBlock2Mesh": "",

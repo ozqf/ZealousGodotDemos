@@ -25,10 +25,14 @@ func create_entity_at(pos:Vector3, prefabDef, prefabName) -> void:
 	# obj.global_transform.origin = pos
 	# obj.templateName = template.name
 	var ent = prefabDef.prefab.instance()
-	ent.global_transform.origin = pos
 	var proxy = _proxy_t.instance()
 	ent.add_child(proxy)
 	_entsRoot.add_child(ent)
+	ent.global_transform.origin = pos
+	if ent.has_method("get_editor_info"):
+		ent.get_editor_info()
+	else:
+		print("Warning: Instance has no editor info")
 
 func write_ents_list():
 	var results = []

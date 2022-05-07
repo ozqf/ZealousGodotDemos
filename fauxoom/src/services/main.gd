@@ -307,8 +307,11 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 			change_map(mapName, entName)
 	if txt == "map_path":
 		print("Map path: " + get_tree().current_scene.filename)
-	elif txt == "edit_entities":
-		print("Edit entities")
+	elif txt == "edit":
+		_lastRequestedMap = "sandbox"
+		_lastRequestedEntities = ""
+		_pendingState = Enums.AppState.Editor
+		change_map(_lastRequestedMap, _lastRequestedEntities)
 	elif txt == "quit" || txt == "exit":
 		get_tree().quit()
 	elif txt == "info":

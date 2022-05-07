@@ -25,7 +25,7 @@ material/0 = ExtResource( 4 )
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 2 )
-isStatic = true
+prefabName = "player_barrier_volume"
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 3 )

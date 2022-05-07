@@ -86,23 +86,33 @@ margin_right = 256.0
 margin_bottom = 60.0
 alignment = 1
 
+[node name="reset_camera" type="Button" parent="CanvasLayer/left_sidebar_root/HBoxContainer"]
+margin_left = 78.0
+margin_right = 178.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 48, 32 )
+text = "Reset Camera"
+
 [node name="file" type="Button" parent="CanvasLayer/left_sidebar_root/HBoxContainer"]
-margin_left = 52.0
-margin_right = 100.0
+visible = false
+margin_left = 104.0
+margin_right = 152.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 48, 32 )
 text = "file"
 
 [node name="add" type="Button" parent="CanvasLayer/left_sidebar_root/HBoxContainer"]
-margin_left = 104.0
-margin_right = 152.0
+visible = false
+margin_left = 156.0
+margin_right = 204.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 48, 32 )
 text = "add"
 
 [node name="edit" type="Button" parent="CanvasLayer/left_sidebar_root/HBoxContainer"]
-margin_left = 156.0
-margin_right = 204.0
+visible = false
+margin_left = 208.0
+margin_right = 256.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 48, 32 )
 text = "edit"

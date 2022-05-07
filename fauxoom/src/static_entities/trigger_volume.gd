@@ -31,6 +31,10 @@ func _ready() -> void:
 	# refresh collider disabled
 	set_active(active)
 
+func get_editor_info() -> Dictionary:
+	visible = true
+	return {}
+
 func set_active(flag:bool) -> void:
 	active = flag
 	_collider.disabled = !active

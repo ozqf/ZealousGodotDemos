@@ -77,6 +77,9 @@ func _ready() -> void:
 	_fileDialog.connect("popup_hide", self, "_file_modal_closed")
 	_fileDialog.connect("file_selected", self, "_file_selected")
 
+	var resetButton = $CanvasLayer/left_sidebar_root/HBoxContainer/reset_camera
+	resetButton.connect("pressed", _cameraControl, "reset")
+
 	disable()
 
 func init() -> void:

@@ -1,5 +1,5 @@
 extends Spatial
-class_name ZEEEntities
+class_name MapGenEntityEditor
 
 const _prefab_spawn_t = preload("res://map_gen/prefabs/point_spawn.tscn")
 const actor_spawn_t = preload("res://map_gen/prefabs/actor_spawn.tscn")

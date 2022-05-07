@@ -10,7 +10,7 @@ onready var _gridButton:Button = $main_options/mode_select/grid
 onready var _entsButton:Button = $main_options/mode_select/entities
 
 onready var _grid:GridEditor = $grid_editor
-onready var _ents:EntityEditor = $entity_editor
+onready var _ents:MapGenEntityEditor = $entity_editor
 
 onready var _cursor:Spatial = $cursor
 onready var _camera:Camera = $Camera
