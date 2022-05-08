@@ -64,6 +64,9 @@ func console_on_exec(_txt: String, _tokens:PoolStringArray) -> void:
 		for _i in range(0, _tacticNodes.size()):
 			var n = _tacticNodes[_i]
 			print(str(_i) + " Can see player " + str(n.canSeePlayer) + " dist: " + str(n.distToPlayer))
+	elif _txt == "notarget":
+		_noTarget = !_noTarget
+		print("No Target: " + str(_noTarget))
 
 func game_on_player_spawned(player) -> void:
 	print("AI singleton - got player")

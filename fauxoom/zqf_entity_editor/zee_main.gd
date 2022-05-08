@@ -101,7 +101,8 @@ func init() -> void:
 	_currentPrefab = _templateKeys[0]
 
 func clear() -> void:
-	_entList.clear_all_ents()
+	# _entList.clear_all_ents()
+	pass
 
 func enable() -> void:
 	init()
@@ -144,7 +145,8 @@ func _file_selected(path:String) -> void:
 		# write save
 		var data = {}
 		data.mapName = Main.get_current_map_name()
-		data.ents = _entList.write_ents_list()
+		# data.ents = _entList.write_ents_list()
+		data.ents = Ents.write_save_dict()
 		var file = File.new()
 		var err = file.open(path, File.WRITE)
 		if err != 0:

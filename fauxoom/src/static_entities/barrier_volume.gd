@@ -24,7 +24,18 @@ func _ready() -> void:
 
 func get_editor_info() -> Dictionary:
 	visible = true
-	return {}
+	var data = {
+		scalable = true,
+		rotatable = true,
+		fields = [
+			{ name = "active", type = "bool" }
+		]
+	}
+	return data
+
+# returns true if field was set successfully
+func set_editor_field(_fieldName:String, _value) -> bool:
+	return true
 
 func set_active(flag:bool) -> void:
 	active = flag

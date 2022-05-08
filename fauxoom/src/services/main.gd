@@ -70,9 +70,6 @@ var isRebinding:bool = false
 var _mapDef:MapDef = null
 var _pendingMapDef:MapDef = null
 
-var _lastRequestedMap:String = ""
-var _lastRequestedEntities:String = ""
-
 var _currentMapName:String = ""
 var _currentEntities:String = ""
 
@@ -288,30 +285,8 @@ func submit_console_command(txt:String) -> void:
 func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	if _tokens.size() == 0:
 		return
-	if _tokens.size() >= 2:
-		var mapName:String = _tokens[1]
-
-		var entName:String = ""
-		if _tokens.size() >= 3:
-			entName = _tokens[2]
-
-		if _tokens[0] == "map":
-			_lastRequestedMap = mapName
-			_lastRequestedEntities = entName
-			_pendingState = Enums.AppState.Game
-			change_map(mapName, entName)
-		elif _tokens[0] == "edit":
-			_lastRequestedMap = mapName
-			_lastRequestedEntities = entName
-			_pendingState = Enums.AppState.Editor
-			change_map(mapName, entName)
 	if txt == "map_path":
 		print("Map path: " + get_tree().current_scene.filename)
-	elif txt == "edit":
-		_lastRequestedMap = "sandbox"
-		_lastRequestedEntities = ""
-		_pendingState = Enums.AppState.Editor
-		change_map(_lastRequestedMap, _lastRequestedEntities)
 	elif txt == "quit" || txt == "exit":
 		get_tree().quit()
 	elif txt == "info":
@@ -339,20 +314,23 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 func _map_name_to_path(name:String) -> String:
 	return "res://maps/" + name + "/" + name + ".tscn"
 
-func change_map(mapName:String, _entityFileName) -> void:
+# returns false if change failed
+func change_scene(mapName:String, _entityFileName, _appState) -> bool:
 	var path:String = _map_name_to_path(mapName)
 	if !ResourceLoader.exists(path):
 		print("Map " + path + " not found")
-		return
+		return false
 	_currentMapName = mapName
-	if _pendingState != _state:
-		_state = _pendingState
+	_currentEntities = _entityFileName
+	if _state != _appState:
+		_state = _appState
 		print("Changing App State: " + str(_state))
 	var grp:String = Groups.GAME_GROUP_NAME
 	var fn:String = Groups.GAME_FN_MAP_CHANGE
 	get_tree().call_group(grp, fn)
 	var _foo = get_tree().change_scene(path)
 	set_input_on()
+	return true
 
 # a globally accessible camera is required for 3D sprite frame selection
 func set_camera(cam:Camera) -> void:
