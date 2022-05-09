@@ -1,0 +1,7 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://zqf/zqf_raw_text_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+text = "{\"ents\":{\"dynamicData\":[{\"hasSpawned\":false,\"id\":2,\"prefab\":\"player_start\",\"selfName\":\"\",\"triggerTargetName\":\"\",\"xform\":{\"px\":28.005968,\"py\":0.000034,\"pz\":34.975029,\"xx\":1,\"xy\":0,\"xz\":0,\"yx\":0,\"yy\":1,\"yz\":0,\"zx\":0,\"zy\":0,\"zz\":1}},{\"active\":true,\"bRespawns\":false,\"id\":3,\"pos\":{\"x\":28.027012,\"y\":0.00001,\"z\":30.005369},\"prefab\":\"shell_s\",\"selfName\":\"\",\"tick\":20,\"triggerTargetName\":\"\"},{\"active\":true,\"bRespawns\":false,\"id\":4,\"pos\":{\"x\":28.027159,\"y\":0.000011,\"z\":32.598633},\"prefab\":\"shell_s\",\"selfName\":\"\",\"tick\":20,\"triggerTargetName\":\"\"},{\"active\":true,\"bRespawns\":false,\"id\":5,\"pos\":{\"x\":28.003353,\"y\":0.000009,\"z\":27.545738},\"prefab\":\"ssg\",\"selfName\":\"\",\"tick\":20,\"triggerTargetName\":\"\"}],\"nextDynamicId\":6,\"nextStaticId\":-1,\"numDynamic\":4,\"numStatic\":0,\"staticData\":[]},\"mapName\":\"sandbox\"}"
