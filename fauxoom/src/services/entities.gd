@@ -275,7 +275,8 @@ func _select_prefab(enemyType:int) -> String:
 func create_mob(enemyType:int, _transform:Transform, alert:bool):
 	var prefabLabel:String = _select_prefab(enemyType)
 	var mob = get_prefab_def(prefabLabel).prefab.instance()
-	Game.get_dynamic_parent().add_child(mob)
+	# Game.get_dynamic_parent().add_child(mob)
+	self.add_child(mob)
 	mob.teleport(_transform)
 	if alert:
 		mob.force_awake()

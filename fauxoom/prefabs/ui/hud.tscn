@@ -330,6 +330,7 @@ margin_top = 104.0
 margin_right = 40.0
 margin_bottom = 118.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -342,6 +343,7 @@ rect_scale = Vector2( 8, 0.5 )
 value = 100.0
 texture_progress = ExtResource( 16 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -351,23 +353,27 @@ margin_top = -12.0
 margin_right = 32.0
 margin_bottom = 12.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="ColorRect" type="ColorRect" parent="centre/walldash_indicator"]
+margin_left = 6.0
 margin_top = 8.0
 margin_right = 8.0
 margin_bottom = 16.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="ColorRect2" type="ColorRect" parent="centre/walldash_indicator"]
 margin_left = 56.0
 margin_top = 8.0
-margin_right = 64.0
+margin_right = 58.0
 margin_bottom = 16.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 

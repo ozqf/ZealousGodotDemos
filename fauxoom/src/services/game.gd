@@ -329,7 +329,12 @@ func _build_entity_file_path(fileName, embedded:bool) -> String:
 	var root:String = "user://ents"
 	var extension:String = ".json"
 	if embedded:
-		root = "res://ents"
+		if ZqfUtils.is_running_in_editor():
+			# if running an editor build look in project files
+			root = "./ents"
+		else:
+			# if exported look in packaged resources
+			root = "res://ents"
 	ZqfUtils.make_dir(root)
 	return root + "/" + fileName + extension
 
@@ -343,15 +348,20 @@ func _load_entities_for_play(_fileName, _fileSource) -> bool:
 			path = userPath
 	# did we not get a path?
 	if path == "":
-		if _fileSource != Enums.FileSource.EmbeddedOnly:
+		if _fileSource != Enums.FileSource.UserOnly:
 			# we're allowed to look in embedded resources
 			if ZqfUtils.does_file_exist(embeddedPath):
 				path = embeddedPath
-				push_error("File " + _fileName + " not found in resources or user dir")
+			else:
+				var msg = "File " + _fileName + " not found in resources (" + embeddedPath + ")"
+				push_error(msg)
+				return false
 	
 	if path == "":
 		# still nothing? Give up
-		push_error("File " + _fileName + " not found")
+		var msg = "File " + _fileName + " not found in resources (" + embeddedPath
+		msg += ") or user dir: (" + userPath + ")"
+		push_error(msg)
 		return false
 	
 	# okay, do stuff
@@ -404,10 +414,11 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 	elif first == "current_map":
 		print("Playing map " + get_tree().get_current_scene().filename)
 	elif first == "play":
-		var fileName = "catacombs_01_default"
+		var fileName = "catacombs_entity_test"
 		if numTokens > 1:
 			fileName = _tokens[1]
-		_load_entities_for_play(fileName, Enums.FileSource.EmbeddedAndUser)
+		if !_load_entities_for_play(fileName, Enums.FileSource.EmbeddedAndUser):
+			print("Play from file failed")
 		pass
 	elif first == "edit":
 		pass

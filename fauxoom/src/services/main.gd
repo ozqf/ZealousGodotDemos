@@ -127,7 +127,7 @@ func _process(_delta) -> void:
 		_debugTextNE.text = "Fauxoom PRE-ALPHA"
 	elif _debugNEMode == 1:
 		_debugTextNE.text = AI.get_debug_text()
-	# if _web_mode():
+	# if ZqfUtils.is_web_build()():
 	# 	_debugTextNE.text += "URL: " + _url + "\n"
 	# else:
 		# _debugTextNE.text += "CmdLine: " + str(OS.get_cmdline_args().join(", ")) + "\n"
@@ -153,7 +153,7 @@ func get_current_entities_file() -> String:
 
 func get_menu_keycode() -> int:
 	var menuCode = KEY_ESCAPE
-	if _web_mode():
+	if ZqfUtils.is_web_build():
 		menuCode = KEY_TAB
 	return menuCode
 
@@ -165,7 +165,7 @@ func _input(_event: InputEvent) -> void:
 		if _inputOn:
 			print("Toggle menu on")
 			set_input_off()
-		elif !_web_mode():
+		elif !ZqfUtils.is_web_build():
 			print("Toggle menu off")
 			set_input_on()
 
@@ -252,9 +252,6 @@ func set_input_off() -> void:
 	var fn = Groups.GAME_FN_PAUSE
 	get_tree().call_group(grp, fn)
 
-func _web_mode() -> bool:
-	return (OS.get_name() == "HTML5")
-
 func debug_mode() -> bool:
 	return true
 	# use this to disable the debugger in proper builds
@@ -310,6 +307,13 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 			testStr = _tokens[1]
 		var result:int = ZqfUtils.read_csv_int(testStr, 2, 99)
 		print("Csv Split result: " + str(result))
+	elif _tokens[0] == "check_file":
+		if _tokens.size() < 2:
+			print("Specify a file path!")
+			return
+		var path = _tokens[1]
+		var exists:bool = ZqfUtils.does_file_exist(path)
+		print(path + " exists: " + str(exists))
 
 func _map_name_to_path(name:String) -> String:
 	return "res://maps/" + name + "/" + name + ".tscn"

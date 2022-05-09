@@ -1,0 +1,106 @@
+{
+    "ents": {
+        "dynamicData": [
+            {
+                "hasSpawned": false,
+                "id": 2,
+                "prefab": "player_start",
+                "selfName": "",
+                "triggerTargetName": "",
+                "xform": {
+                    "px": -52.939774,
+                    "py": -1,
+                    "pz": -53.997375,
+                    "xx": 1,
+                    "xy": 0,
+                    "xz": 0,
+                    "yx": 0,
+                    "yy": 1,
+                    "yz": 0,
+                    "zx": 0,
+                    "zy": 0,
+                    "zz": 1
+                }
+            },
+            {
+                "active": true,
+                "bRespawns": false,
+                "id": 3,
+                "pos": {
+                    "x": -52.957142,
+                    "y": -1,
+                    "z": -42.010475
+                },
+                "prefab": "pistol",
+                "selfName": "",
+                "tick": 20,
+                "triggerTargetName": ""
+            },
+            {
+                "active": true,
+                "bRespawns": false,
+                "id": 4,
+                "pos": {
+                    "x": -55.970695,
+                    "y": -1,
+                    "z": -36.977936
+                },
+                "prefab": "bullet_l",
+                "selfName": "",
+                "tick": 20,
+                "triggerTargetName": ""
+            },
+            {
+                "active": true,
+                "bRespawns": false,
+                "id": 5,
+                "pos": {
+                    "x": -49.981937,
+                    "y": -1,
+                    "z": -36.990494
+                },
+                "prefab": "bullet_l",
+                "selfName": "",
+                "tick": 20,
+                "triggerTargetName": ""
+            }
+        ],
+        "nextDynamicId": 6,
+        "nextStaticId": -3,
+        "numDynamic": 4,
+        "numStatic": 2,
+        "staticData": [
+            {
+                "active": false,
+                "dir": 1,
+                "id": -1,
+                "loop": false,
+                "prefab": "",
+                "selfName": "toggle_mover",
+                "time": 0,
+                "triggerTargetName": "",
+                "xform": {
+                    "px": 3,
+                    "py": -4,
+                    "pz": -1,
+                    "xx": 1,
+                    "xy": 0,
+                    "xz": 0,
+                    "yx": 0,
+                    "yy": 1,
+                    "yz": 0,
+                    "zx": 0,
+                    "zy": 0,
+                    "zz": 1
+                }
+            },
+            {
+                "id": -2,
+                "prefab": "",
+                "selfName": "devroom",
+                "triggerTargetName": ""
+            }
+        ]
+    },
+    "mapName": "catacombs_01"
+}

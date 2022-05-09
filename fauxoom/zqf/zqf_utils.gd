@@ -418,6 +418,12 @@ static func load_dict_json_file(_path:String) -> Dictionary:
 	file.close()
 	return data
 
+static func is_running_in_editor() -> bool:
+	return !OS.has_feature("standalone")
+
+static func is_web_build() -> bool:
+	return OS.get_name() == "HTML5"
+
 #####################################
 # 3D sprite directions
 #####################################
