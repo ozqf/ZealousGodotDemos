@@ -9,7 +9,7 @@ const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 var _ent_t = preload("res://zqf_entity_editor/zee_entity.tscn")
 var _button_t = preload("res://zqf_entity_editor/ui/zee_button.tscn")
 
-const EXTENSION:String = ".ents"
+const EXTENSION:String = ".json"
 
 onready var _leftPanelRoot = $CanvasLayer/left_sidebar_root
 onready var _modeLabel:Label = $CanvasLayer/left_sidebar_root/mode_label
@@ -102,6 +102,10 @@ func init() -> void:
 
 func clear() -> void:
 	# _entList.clear_all_ents()
+	pass
+
+func refresh_entities() -> void:
+	_entList.refresh_entity_widgets()
 	pass
 
 func enable() -> void:

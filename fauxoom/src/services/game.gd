@@ -220,6 +220,8 @@ func _process_gameplay(_delta:float) -> void:
 func _process_editor(_delta:float) -> void:
 	_check_for_pending_save()
 	if _check_for_pending_load_dict():
+		# we've just loaded entities from a file - inform the editor
+		EntityEditor.refresh_entities()
 		pass
 	elif _justLoaded:
 		_justLoaded = false

@@ -335,6 +335,9 @@ func restore_dynamic_entity(dict:Dictionary) -> void:
 	var prefab = def.prefab.instance()
 	add_child(prefab)
 	prefab.get_node(def.entNodePath).restore_state(dict)
+	if Main.get_app_state() == Enums.AppState.Editor:
+		get_tree().call_group(
+			Groups.ENTS_GROUP_NAME, Groups.ENTS_FN_RESTORED_ENTITY, prefab, def)
 
 func load_save_dict(data:Dictionary) -> void:
 	# print("Read save")

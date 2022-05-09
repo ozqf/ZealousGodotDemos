@@ -40,6 +40,7 @@ const GAME_FN_SET_ENVIRONMENT:String = "game_set_environment"
 const ENTS_GROUP_NAME:String = "entities"
 const ENTS_FN_TRIGGER_ENTITIES:String = "on_trigger_entities"
 const ENTS_FN_SET_DEBUG_MOB:String = "on_set_debug_mob"
+const ENTS_FN_RESTORED_ENTITY:String = "on_restored_entity"
 
 const STATIC_ENTS_GROUP_NAME:String = "static_entities"
 const DYNAMIC_ENTS_GROUP_NAME:String = "dynamic_entities"
