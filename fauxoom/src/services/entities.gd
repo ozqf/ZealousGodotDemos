@@ -186,14 +186,17 @@ var _prefabs = {
 	################################################
 	player_start = {
 		prefab = preload("res://prefabs/static_entities/player_start.tscn"),
-		category = "info"
+		category = "info",
+		label = "Player Start"
 	},
 	trigger_volume = {
 		prefab = preload("res://prefabs/static_entities/trigger_volume.tscn"),
-		category = "info"
+		category = "info",
+		label = "Trigger Volume"
 	},
 	player_barrier_volume = {
 		prefab = preload("res://prefabs/static_entities/player_barrier_volume.tscn"),
+		label = "Barrier Volume"
 	},
 
 	################################################
@@ -210,7 +213,8 @@ var _prefabs = {
 	################################################
 	gib = {
 		prefab = preload("res://prefabs/gib.tscn"),
-		entNodePath = "Entity"
+		entNodePath = "Entity",
+		noEditor = true
 	}
 }
 
@@ -241,6 +245,9 @@ func game_on_map_change() -> void:
 	_nextStaticId = -1
 
 func get_prefab_def(_name:String) -> Dictionary:
+	if _name == null || _name == "":
+		push_error("Empty prefab name")
+		return {}
 	if !_prefabs.has(_name):
 		print("No EntityType '" + _name + "' found!")
 		return {}

@@ -165,6 +165,37 @@ func show_hint_text(txt:String) -> void:
 	_hintLabelTop.text = txt
 	_hintContainer.visible = true
 
+func _process_gameplay(_delta:float) -> void:
+	
+	if get_tree().paused == false:
+		if _hintTextTick <= 0:
+			_hintContainer.visible = false
+		else:
+			_hintTextTick -= _delta
+	# if _state == Enums.GameState.Pregame && _hasPlayerStart:
+	# 	begin_game()
+	_check_for_pending_save()
+	if _check_for_pending_load_dict():
+		pass
+	elif _justLoaded:
+		_justLoaded = false
+		print("Just loaded fresh map - writing reset save")
+		# tell initial spawns to run
+		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_RUN_MAP_SPAWNS)
+		# write restart savegame
+		_pendingSaveName = START_SAVE_FILE_NAME
+
+func _process_editor(_delta:float) -> void:
+	_check_for_pending_save()
+	if _check_for_pending_load_dict():
+		# we've just loaded entities from a file - inform the editor
+		EntityEditor.refresh_entities()
+		pass
+	elif _justLoaded:
+		_justLoaded = false
+		print("Game - editor mode just loaded")
+	pass
+
 func _process(_delta:float) -> void:
 	if _gameMode == Enums.GameMode.EntityEditor:
 		_process_editor(_delta)
@@ -197,57 +228,10 @@ func _check_for_pending_load_dict() -> bool:
 		return true
 	return false
 
-func _process_gameplay(_delta:float) -> void:
-	
-	if get_tree().paused == false:
-		if _hintTextTick <= 0:
-			_hintContainer.visible = false
-		else:
-			_hintTextTick -= _delta
-	# if _state == Enums.GameState.Pregame && _hasPlayerStart:
-	# 	begin_game()
-	_check_for_pending_save()
-	if _check_for_pending_load_dict():
-		pass
-	elif _justLoaded:
-		_justLoaded = false
-		print("Just loaded fresh map - writing reset save")
-		# tell initial spawns to run
-		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_RUN_MAP_SPAWNS)
-		# write restart savegame
-		_pendingSaveName = START_SAVE_FILE_NAME
-
-func _process_editor(_delta:float) -> void:
-	_check_for_pending_save()
-	if _check_for_pending_load_dict():
-		# we've just loaded entities from a file - inform the editor
-		EntityEditor.refresh_entities()
-		pass
-	elif _justLoaded:
-		_justLoaded = false
-		print("Game - editor mode just loaded")
-	pass
-
-func _build_save_path(fileName, embedded:bool) -> String:
-	var root:String = "user://saves"
-	var extension:String = ".json"
-	if embedded:
-		root = "res://saves"
-	ZqfUtils.make_dir(root)
-	return root + "/" + fileName + extension
-
-func _build_entity_file_path(fileName, embedded:bool) -> String:
-	var root:String = "user://ents"
-	var extension:String = ".json"
-	if embedded:
-		root = "res://ents"
-	ZqfUtils.make_dir(root)
-	return root + "/" + fileName + extension
-
-func get_entity_prefab(name:String) -> Object:
-	if name == null || name == "":
-		push_error("entity prefab name is null or empty")
-	return _entRoot.get_prefab_def(name).prefab
+# func get_entity_prefab(name:String) -> Object:
+# 	if name == null || name == "":
+# 		push_error("entity prefab name is null or empty")
+# 	return _entRoot.get_prefab_def(name).prefab
 
 func _cleanup_temp_entities() -> void:
 	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_CLEANUP_TEMP_ENTS)
@@ -333,6 +317,60 @@ func _refresh_editor_overlay() -> void:
 	_deathUI.visible = false
 	MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
 
+func _build_save_path(fileName, embedded:bool) -> String:
+	var root:String = "user://saves"
+	var extension:String = ".json"
+	if embedded:
+		root = "res://saves"
+	ZqfUtils.make_dir(root)
+	return root + "/" + fileName + extension
+
+func _build_entity_file_path(fileName, embedded:bool) -> String:
+	var root:String = "user://ents"
+	var extension:String = ".json"
+	if embedded:
+		root = "res://ents"
+	ZqfUtils.make_dir(root)
+	return root + "/" + fileName + extension
+
+func _load_entities_for_play(_fileName, _fileSource) -> bool:
+	var path:String = ""
+	var embeddedPath:String = _build_entity_file_path(_fileName, true)
+	var userPath:String = _build_entity_file_path(_fileName, false)
+	# first try user directory if we're allowed
+	if _fileSource == Enums.FileSource.UserOnly || _fileSource == Enums.FileSource.EmbeddedAndUser:
+		if ZqfUtils.does_file_exist(userPath):
+			path = userPath
+	# did we not get a path?
+	if path == "":
+		if _fileSource != Enums.FileSource.EmbeddedOnly:
+			# we're allowed to look in embedded resources
+			if ZqfUtils.does_file_exist(embeddedPath):
+				path = embeddedPath
+				push_error("File " + _fileName + " not found in resources or user dir")
+	
+	if path == "":
+		# still nothing? Give up
+		push_error("File " + _fileName + " not found")
+		return false
+	
+	# okay, do stuff
+	var data:Dictionary = ZqfUtils.load_dict_json_file(path)
+	if !data:
+		push_error("Failed to create dictionary from " + path)
+		return false
+	# stage entity load for next frame
+	_pendingLoadDict = data
+	# cleanup current entities
+	_cleanup_temp_entities()
+	
+	# data.entFilePath will not be set on an entities file, only
+	# a savegame!
+	Main.change_scene(data.mapName, _fileName, Enums.AppState.Game)
+
+	return true
+	
+
 func _exec_file_load(fileName, appState, fileIsEmbedded:bool) -> void:
 	var path:String
 	if appState == Enums.AppState.Game:
@@ -346,13 +384,13 @@ func _exec_file_load(fileName, appState, fileIsEmbedded:bool) -> void:
 	_cleanup_temp_entities()
 	print("Set pending ents dict from " + path)
 	var curScene = get_tree().get_current_scene().filename
-	var newScene = data.mapPath
+	var newScene = data.mapName
 	var newEntFile = ""
-	if data.has("entPath"):
-		newEntFile = data.entPath
+	if data.has("entsFileName"):
+		newEntFile = data.entsFileName
 	if curScene != newScene:
 		print("Save is for a different map...")
-		Main.change_scene(data.mapPath, "", appState)
+		Main.change_scene(data.mapName, "", appState)
 	else:
 		print("Save is same map - no change")
 
@@ -365,25 +403,35 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		reset_game()
 	elif first == "current_map":
 		print("Playing map " + get_tree().get_current_scene().filename)
-	elif first == "map" || first == "edit":
-		var mapName = "sandbox"
-		var entsName = ""
-		var appState = Enums.AppState.Game
-		if numTokens >= 2:
-			mapName = _tokens[1]
-		if numTokens >= 3:
-			entsName = _tokens[2]
-		if first == "edit":
-			appState = Enums.AppState.Editor
-		# initiate map and scene change
-		Main.change_scene(mapName, entsName, appState)
+	elif first == "play":
+		var fileName = "catacombs_01_default"
+		if numTokens > 1:
+			fileName = _tokens[1]
+		_load_entities_for_play(fileName, Enums.FileSource.EmbeddedAndUser)
 		pass
-	elif first == "edit_ents":
-		if numTokens < 2:
-			print("Missing ents file name")
-			return
-		var fileName = _tokens[1]
-		_exec_file_load(fileName, Enums.AppState.Editor, false)
+	elif first == "edit":
+		pass
+	elif first == "new":
+		pass
+	# elif first == "map" || first == "edit_old":
+	# 	var mapName = "sandbox"
+	# 	var entsName = ""
+	# 	var appState = Enums.AppState.Game
+	# 	if numTokens >= 2:
+	# 		mapName = _tokens[1]
+	# 	if numTokens >= 3:
+	# 		entsName = _tokens[2]
+	# 	if first == "edit_old":
+	# 		appState = Enums.AppState.Editor
+	# 	# initiate map and scene change
+	# 	Main.change_scene(mapName, entsName, appState)
+	# 	pass
+	# elif first == "edit_ents":
+	# 	if numTokens < 2:
+	# 		print("Missing ents file name")
+	# 		return
+	# 	var fileName = _tokens[1]
+	# 	_exec_file_load(fileName, Enums.AppState.Editor, false)
 	elif first == "save":
 		var fileName:String = QUICK_SAVE_FILE_NAME
 		if numTokens >= 2:
@@ -418,9 +466,13 @@ func load_save_dict(dict:Dictionary) -> void:
 		_player.free()
 	
 	# restore state
-	set_game_state(dict.state)
+	if dict.has("state"):
+		set_game_state(dict.state)
+	else:
+		set_game_state(Enums.GameState.Pregame)
 	# restore environment
-	game_set_environment(dict.env)
+	if dict.has("env"):
+		game_set_environment(dict.env)
 	
 	# refresh in-game UI stuff
 	_refresh_overlay()
@@ -433,11 +485,10 @@ func load_save_dict(dict:Dictionary) -> void:
 func save_game(filePath:String) -> void:
 	print("Writing save " + filePath)
 	var data:Dictionary = {
-		# mapPath = get_tree().get_current_scene().filename,
-		mapPath = Main.get_current_map_name(),
+		mapName = Main.get_current_map_name(),
 		# we need to know what the former entity file was if we need to reset
 		# the level
-		entPath = Main.get_current_entities_file(),
+		entsFileName = Main.get_current_entities_file(),
 		state = _state,
 		env = _environment
 	}

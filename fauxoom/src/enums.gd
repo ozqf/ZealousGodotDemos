@@ -75,6 +75,12 @@ enum SequenceOrder {
 	Random
 }
 
+enum FileSource {
+	EmbeddedAndUser,
+	EmbeddedOnly,
+	UserOnly
+}
+
 enum AppState { Game, Editor }
 
 enum GameState { Pregame, Playing, Won, Lost }

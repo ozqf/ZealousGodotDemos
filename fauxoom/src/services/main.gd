@@ -316,6 +316,15 @@ func _map_name_to_path(name:String) -> String:
 
 # returns false if change failed
 func change_scene(mapName:String, _entityFileName, _appState) -> bool:
+	# is the new scene the same as the one we are on?
+	var curScene = get_tree().get_current_scene().filename
+	if curScene == mapName:
+		# update state and drop out
+		if _state != _appState:
+			_state = _appState
+			print("Changing App State: " + str(_state))
+		return true
+
 	var path:String = _map_name_to_path(mapName)
 	if !ResourceLoader.exists(path):
 		print("Map " + path + " not found")
