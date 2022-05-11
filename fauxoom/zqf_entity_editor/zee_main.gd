@@ -12,6 +12,7 @@ var _button_t = preload("res://zqf_entity_editor/ui/zee_button.tscn")
 const EXTENSION:String = ".json"
 
 onready var _leftPanelRoot = $CanvasLayer/left_sidebar_root
+onready var _fileNamesLabel:Label = $CanvasLayer/left_sidebar_root/file_names
 onready var _modeLabel:Label = $CanvasLayer/left_sidebar_root/mode_label
 onready var _templateListButtons:Control = $CanvasLayer/left_sidebar_root/template_list/buttons
 onready var _templateName:Control = $CanvasLayer/left_sidebar_root/template_list/buttons/current_template_name
@@ -110,6 +111,7 @@ func refresh_entities() -> void:
 
 func enable() -> void:
 	init()
+	_fileNamesLabel.text = "Editing: " + Main.get_current_map_name() + " / " + Main.get_current_entities_file()
 	get_tree().call_group(GROUP_NAME, FN_ENABLE)
 
 func disable() -> void:

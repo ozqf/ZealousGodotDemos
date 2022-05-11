@@ -338,7 +338,9 @@ func _build_entity_file_path(fileName, embedded:bool) -> String:
 	ZqfUtils.make_dir(root)
 	return root + "/" + fileName + extension
 
-func _load_entities_for_play(_fileName, _fileSource) -> bool:
+func _load_entities(_fileName, _fileSource, appState) -> bool:
+	if appState != Enums.AppState.Game && appState != Enums.AppState.Editor:
+		appState = Enums.AppState.Game
 	var path:String = ""
 	var embeddedPath:String = _build_entity_file_path(_fileName, true)
 	var userPath:String = _build_entity_file_path(_fileName, false)
@@ -376,7 +378,7 @@ func _load_entities_for_play(_fileName, _fileSource) -> bool:
 	
 	# data.entFilePath will not be set on an entities file, only
 	# a savegame!
-	Main.change_scene(data.mapName, _fileName, Enums.AppState.Game)
+	Main.change_scene(data.mapName, _fileName, appState)
 
 	return true
 	
@@ -417,12 +419,25 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		var fileName = "catacombs_entity_test"
 		if numTokens > 1:
 			fileName = _tokens[1]
-		if !_load_entities_for_play(fileName, Enums.FileSource.EmbeddedAndUser):
+		if !_load_entities(fileName, Enums.FileSource.EmbeddedAndUser, Enums.AppState.Game):
 			print("Play from file failed")
 		pass
 	elif first == "edit":
-		pass
+		var fileName
+		if numTokens > 1:
+			fileName = _tokens[1]
+		elif Main.get_current_entities_file() != "":
+			fileName = Main.get_current_entities_file()
+		else:
+			fileName = "sandbox_01"
+		if !_load_entities(fileName, Enums.FileSource.EmbeddedAndUser, Enums.AppState.Editor):
+			print("Edit from file failed")
 	elif first == "new":
+		var fileName = "sandbox"
+		if numTokens > 1:
+			fileName = _tokens[1]
+		if !Main.change_scene(fileName, "", Enums.AppState.Editor):
+			print("New entities from scene failed")
 		pass
 	# elif first == "map" || first == "edit_old":
 	# 	var mapName = "sandbox"

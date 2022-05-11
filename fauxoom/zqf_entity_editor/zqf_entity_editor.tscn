@@ -72,18 +72,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="mode_label" type="Label" parent="CanvasLayer/left_sidebar_root"]
+[node name="spacer" type="Label" parent="CanvasLayer/left_sidebar_root"]
 margin_right = 256.0
 margin_bottom = 24.0
+rect_min_size = Vector2( 0, 24 )
+align = 1
+valign = 1
+
+[node name="file_names" type="Label" parent="CanvasLayer/left_sidebar_root"]
+margin_top = 28.0
+margin_right = 256.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 0, 24 )
+text = "file_names"
+align = 1
+valign = 1
+
+[node name="mode_label" type="Label" parent="CanvasLayer/left_sidebar_root"]
+margin_top = 56.0
+margin_right = 256.0
+margin_bottom = 80.0
 rect_min_size = Vector2( 0, 24 )
 text = "mode_label"
 align = 1
 valign = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/left_sidebar_root"]
-margin_top = 28.0
+margin_top = 84.0
 margin_right = 256.0
-margin_bottom = 60.0
+margin_bottom = 116.0
 alignment = 1
 
 [node name="reset_camera" type="Button" parent="CanvasLayer/left_sidebar_root/HBoxContainer"]
@@ -121,9 +138,9 @@ __meta__ = {
 }
 
 [node name="template_list" type="Control" parent="CanvasLayer/left_sidebar_root"]
-margin_top = 64.0
+margin_top = 120.0
 margin_right = 256.0
-margin_bottom = 64.0
+margin_bottom = 120.0
 
 [node name="buttons" type="VBoxContainer" parent="CanvasLayer/left_sidebar_root/template_list"]
 margin_right = 256.0
@@ -140,9 +157,9 @@ __meta__ = {
 }
 
 [node name="file_ui_container" type="VBoxContainer" parent="CanvasLayer/left_sidebar_root"]
-margin_top = 68.0
+margin_top = 124.0
 margin_right = 256.0
-margin_bottom = 112.0
+margin_bottom = 168.0
 
 [node name="load" parent="CanvasLayer/left_sidebar_root/file_ui_container" instance=ExtResource( 4 )]
 anchor_right = 0.0
