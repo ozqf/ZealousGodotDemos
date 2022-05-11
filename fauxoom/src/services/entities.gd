@@ -199,6 +199,16 @@ var _prefabs = {
 		label = "Barrier Volume"
 	},
 
+	info_destination = {
+		prefab = preload("res://prefabs/static_entities/teleport_destination.tscn"),
+		label = "Info Destination"
+	},
+	
+	info_point = {
+		prefab = preload("res://prefabs/static_entities/info_point_entity.tscn"),
+		label = "Info Point"
+	},
+
 	################################################
 	# barrels
 	################################################
@@ -311,6 +321,15 @@ func find_static_entity_by_name(entName:String) -> Entity:
 		return null
 	var staticEnts = get_tree().get_nodes_in_group(Groups.STATIC_ENTS_GROUP_NAME)
 	for ent in staticEnts:
+		if ent.selfName == entName:
+			return ent as Entity
+	return null
+
+func find_dynamic_entity_by_name(entName:String) -> Entity:
+	if entName == null || entName == "":
+		return null
+	var ents = get_tree().get_nodes_in_group(Groups.DYNAMIC_ENTS_GROUP_NAME)
+	for ent in ents:
 		if ent.selfName == entName:
 			return ent as Entity
 	return null

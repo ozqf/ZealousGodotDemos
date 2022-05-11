@@ -284,6 +284,9 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 		return
 	if txt == "map_path":
 		print("Map path: " + get_tree().current_scene.filename)
+		var map = get_current_map_name()
+		var ents = get_current_entities_file()
+		print("Scene/Entities: " + map +" / " + ents)
 	elif txt == "quit" || txt == "exit":
 		get_tree().quit()
 	elif txt == "info":

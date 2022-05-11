@@ -257,6 +257,26 @@ static func transform_from_dict(dict:Dictionary) -> Transform:
 	t.basis.z.z = dict.zz
 	return t
 
+static func safe_dict_i(d:Dictionary, field:String, fail:int) -> int:
+	if d.has(field):
+		return d[field] as int
+	return fail
+
+static func safe_dict_f(d:Dictionary, field:String, fail:float) -> float:
+	if d.has(field):
+		return d[field] as float
+	return fail
+
+static func safe_dict_s(d:Dictionary, field:String, fail:String) -> String:
+	if d.has(field):
+		return d[field] as String
+	return fail
+
+static func safe_dict_b(d:Dictionary, field:String, fail:bool) -> bool:
+	if d.has(field):
+		return d[field] as bool
+	return fail
+
 #####################################
 # Spatial scan wrappers
 #####################################

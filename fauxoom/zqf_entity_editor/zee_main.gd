@@ -269,6 +269,9 @@ func _process(_delta) -> void:
 	elif Input.is_action_just_pressed("slot_5"):
 		_set_root_mode(EdEnums.RootMode.Scale)
 	
+	if Input.is_action_just_pressed("editor_camera_reset"):
+		_cameraControl.global_transform = Transform.IDENTITY
+
 	if _flyCamera:
 		if _ray.is_colliding():
 			# cursor is forward of camera

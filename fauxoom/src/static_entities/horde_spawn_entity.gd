@@ -78,6 +78,7 @@ func find_positions_sibling() -> void:
 		_spawnPoints.push_back(positionNodes[i].global_transform)
 
 func append_state(_dict:Dictionary) -> void:
+	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
 	_dict.liveMobs = _liveMobs
 	_dict.deadMobs = _deadMobs
 	_dict.totalMobs = totalMobs
@@ -87,6 +88,7 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.pIndex = _spawnPointIndex
 
 func restore_state(_dict:Dictionary) -> void:
+	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
 	_liveMobs = _dict.liveMobs
 	_deadMobs = _dict.deadMobs
 	totalMobs = _dict.totalMobs

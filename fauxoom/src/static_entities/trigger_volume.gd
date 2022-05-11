@@ -53,11 +53,25 @@ func _process(_delta:float) -> void:
 			set_active(true)
 
 func append_state(_dict:Dictionary) -> void:
+	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
+	_dict.a = action
 	_dict.active = active
 	_dict.tick = _resetTick
+	_dict.rs = resetSeconds
+	_dict.vp1 = valueParameter1
+	_dict.nah = noAutoHide
+	_dict.hm =  hintMessage
+	_dict.dt = touchDamage
 
 func restore_state(data:Dictionary) -> void:
-	_resetTick = data.tick
+	global_transform = ZqfUtils.transform_from_dict(data.xform)
+	action = ZqfUtils.safe_dict_i(data, "a", 0)
+	_resetTick = ZqfUtils.safe_dict_f(data, "tick", 0)
+	resetSeconds = ZqfUtils.safe_dict_f(data, "rs", 0)
+	valueParameter1 = ZqfUtils.safe_dict_i(data, "vp1", 0)
+	noAutoHide = ZqfUtils.safe_dict_b(data, "nah", false)
+	hintMessage = ZqfUtils.safe_dict_s(data, "hm", "")
+	touchDamage = ZqfUtils.safe_dict_i(data, "td", 0)
 	set_active(data.active)
 
 func on_trigger(_msg:String, _params:Dictionary) -> void:
@@ -69,13 +83,16 @@ func on_trigger(_msg:String, _params:Dictionary) -> void:
 		set_active(!active)
 
 func _on_body_entered(_body:PhysicsBody) -> void:
-	if triggerTargetName != "":
-		Interactions.triggerTargets(get_tree(), triggerTargetName)
+	_ent.trigger()
+	# if triggerTargetName != "":
+	# 	Interactions.triggerTargets(get_tree(), triggerTargetName)
 	emit_signal("trigger")
 	if action == Enums.TriggerVolumeAction.TeleportSubject:
-		var targetEnt:Entity = Ents.find_static_entity_by_name(triggerTargetName)
+		var targetEnt:Entity = Ents.find_static_entity_by_name(_ent.triggerTargetName)
 		if targetEnt == null:
-			print("Trigger teleport failed to find target " + str(triggerTargetName))
+			targetEnt = Ents.find_dynamic_entity_by_name(_ent.triggerTargetName)
+		if targetEnt == null:
+			print("Trigger teleport failed to find target '" + str(_ent.triggerTargetName) + "'")
 			return
 		var target:Spatial = targetEnt.get_root_node() as Spatial
 		# target = find_node("teleport_destination") as Spatial
