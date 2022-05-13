@@ -10,7 +10,8 @@ func _ready() -> void:
 
 func _on_test_gameplay() -> void:
 	_on_back()
-	Main.submit_console_command("map test_gameplay")
+	# Main.submit_console_command("map test_gameplay")
+	Main.submit_console_command("play catacombs_entity_Test")
 #	var txt:String = "map test_gameplay"
 #	var tokens = ZqfUtils.tokenise(txt)
 #	get_tree().call_group(
@@ -21,7 +22,8 @@ func _on_test_gameplay() -> void:
 
 func _on_test_arenas() -> void:
 	_on_back()
-	Main.submit_console_command("map test_arena")
+	# Main.submit_console_command("map test_arena")
+	Main.submit_console_command("play test_arena_01")
 
 func _on_test_entities() -> void:
 	_on_back()

@@ -325,11 +325,18 @@ func _map_name_to_path(name:String) -> String:
 func change_scene(mapName:String, _entityFileName, _appState) -> bool:
 	# is the new scene the same as the one we are on?
 	var curScene = get_tree().get_current_scene().filename
+	var curEvents = get_current_entities_file()
 	if curScene == mapName:
 		# update state and drop out
 		if _state != _appState:
 			_state = _appState
 			print("Changing App State: " + str(_state))
+		# if the entity file has changed we should still emit a scene
+		# change event
+		# if curEvents != _entityFileName || _appState != _state:
+		# 	var grp:String = Groups.GAME_GROUP_NAME
+		# 	var fn:String = Groups.GAME_FN_MAP_CHANGE
+		# 	get_tree().call_group(grp, fn)
 		return true
 
 	var path:String = _map_name_to_path(mapName)

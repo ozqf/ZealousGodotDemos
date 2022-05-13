@@ -35,6 +35,7 @@ radius = 0.2
 collision_layer = 2048
 physics_material_override = SubResource( 7 )
 gravity_scale = 2.0
+continuous_cd = true
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true

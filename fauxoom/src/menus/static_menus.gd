@@ -57,7 +57,8 @@ func _on_back_to_game() -> void:
 	Main.set_input_on()
 
 func _on_goto_custom() -> void:
-	_change_menu(MenuPage.CustomMaps)
+	Main.submit_console_command("new sandbox")
+	# _change_menu(MenuPage.CustomMaps)
 
 func _on_goto_edit_entities() -> void:
 	Main.submit_console_command("edit catacombs_01")

@@ -99,6 +99,8 @@ var _pendingSaveName:String = ""
 var _pendingLoadDict:Dictionary = {}
 # this must default to true so that it triggers on initial startup
 var _justLoaded:bool = true
+# ditto, in this case it is used to detect that a new map was started
+var _freshMap:bool = true
 
 var _hintTextTick:float = 0
 
@@ -182,8 +184,6 @@ func _process_gameplay(_delta:float) -> void:
 		print("Just loaded fresh map - writing reset save")
 		# tell initial spawns to run
 		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_RUN_MAP_SPAWNS)
-		# write restart savegame
-		_pendingSaveName = START_SAVE_FILE_NAME
 
 func _process_editor(_delta:float) -> void:
 	_check_for_pending_save()
@@ -216,9 +216,14 @@ func _check_for_pending_save() -> void:
 func _check_for_pending_load_dict() -> bool:
 	if _pendingLoadDict:
 		print("Have pending ents - loading")
+		if _freshMap:
+			_freshMap = false
+			# queue writing start save
+			_pendingSaveName = START_SAVE_FILE_NAME
+			pass
 		# we may have just switched maps but have entities to load.
 		# make sure to not trigger the initial spawns events
-		_justLoaded = false
+		# _justLoaded = false
 		# clear pending and run
 		var dict = _pendingLoadDict
 		# make sure to clear the dict now!
@@ -375,7 +380,7 @@ func _load_entities(_fileName, _fileSource, appState) -> bool:
 	_pendingLoadDict = data
 	# cleanup current entities
 	_cleanup_temp_entities()
-	
+
 	# data.entFilePath will not be set on an entities file, only
 	# a savegame!
 	Main.change_scene(data.mapName, _fileName, appState)
@@ -416,12 +421,14 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 	elif first == "current_map":
 		print("Playing map " + get_tree().get_current_scene().filename)
 	elif first == "play":
+		print(">>> play '" + _txt + "' <<<")
 		var fileName = "catacombs_entity_test"
 		if numTokens > 1:
 			fileName = _tokens[1]
 		if !_load_entities(fileName, Enums.FileSource.EmbeddedAndUser, Enums.AppState.Game):
 			print("Play from file failed")
-		pass
+		else:
+			_freshMap = true
 	elif first == "edit":
 		var fileName
 		if numTokens > 1:
@@ -589,7 +596,7 @@ func game_on_level_completed() -> void:
 		set_game_state(Enums.GameState.Won)
 
 func game_on_map_change() -> void:
-	print("Game - saw map change")
+	print("Game - saw map change, just loaded is on ")
 	_justLoaded = true
 	_environments = ZqfUtils.EMPTY_DICT
 	if Main.get_app_state() == Enums.AppState.Game:

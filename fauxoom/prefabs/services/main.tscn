@@ -222,7 +222,6 @@ __meta__ = {
 margin_top = 194.0
 margin_right = 384.0
 margin_bottom = 214.0
-disabled = true
 text = "CUSTOM MAPS"
 __meta__ = {
 "_edit_lock_": true
