@@ -10,9 +10,13 @@ const DEBUG_LOCK_FN:String = "on_debug_mouse_claims"
 var _claims:PoolStringArray = []
 
 static func add_claim(t:SceneTree, claim:String) -> void:
+	if t == null:
+		return
 	t.call_group(GROUP_NAME, ADD_LOCK_FN, claim)
 
 static func remove_claim(t:SceneTree, claim:String) -> void:
+	if t == null:
+		return
 	t.call_group(GROUP_NAME, REMOVE_LOCK_FN, claim)
 
 func _index_of(txt:String) -> int:

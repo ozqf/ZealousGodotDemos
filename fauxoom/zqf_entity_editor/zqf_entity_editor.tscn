@@ -97,10 +97,28 @@ text = "mode_label"
 align = 1
 valign = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/left_sidebar_root"]
+[node name="highlighted_proxy_label" type="Label" parent="CanvasLayer/left_sidebar_root"]
 margin_top = 84.0
 margin_right = 256.0
-margin_bottom = 116.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 0, 24 )
+text = "Highlighted proxy label"
+align = 1
+valign = 1
+
+[node name="selected_proxy_label" type="Label" parent="CanvasLayer/left_sidebar_root"]
+margin_top = 112.0
+margin_right = 256.0
+margin_bottom = 136.0
+rect_min_size = Vector2( 0, 24 )
+text = "selected_proxy_label"
+align = 1
+valign = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/left_sidebar_root"]
+margin_top = 140.0
+margin_right = 256.0
+margin_bottom = 172.0
 alignment = 1
 
 [node name="reset_camera" type="Button" parent="CanvasLayer/left_sidebar_root/HBoxContainer"]
@@ -138,9 +156,9 @@ __meta__ = {
 }
 
 [node name="template_list" type="Control" parent="CanvasLayer/left_sidebar_root"]
-margin_top = 120.0
+margin_top = 176.0
 margin_right = 256.0
-margin_bottom = 120.0
+margin_bottom = 176.0
 
 [node name="buttons" type="VBoxContainer" parent="CanvasLayer/left_sidebar_root/template_list"]
 margin_right = 256.0
@@ -157,9 +175,9 @@ __meta__ = {
 }
 
 [node name="file_ui_container" type="VBoxContainer" parent="CanvasLayer/left_sidebar_root"]
-margin_top = 124.0
+margin_top = 180.0
 margin_right = 256.0
-margin_bottom = 168.0
+margin_bottom = 224.0
 
 [node name="load" parent="CanvasLayer/left_sidebar_root/file_ui_container" instance=ExtResource( 4 )]
 anchor_right = 0.0

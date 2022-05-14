@@ -10,3 +10,6 @@ func set_entity_info(_info:Dictionary, ent:Entity) -> void:
 		return
 	# init
 	pass
+
+func get_label() -> String:
+	return _ent.prefabName + ": " + _ent.selfName

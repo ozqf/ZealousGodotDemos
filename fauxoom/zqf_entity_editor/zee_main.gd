@@ -5,6 +5,9 @@ const GROUP_NAME:String = "zqf_entity_editor"
 const FN_ENABLE:String = "zee_enable"
 const FN_DISABLE:String = "zee_disable"
 
+const WORLD_MASK:int = 1
+const ENTITY_MASK:int = (1 << 20)
+
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 var _ent_t = preload("res://zqf_entity_editor/zee_entity.tscn")
 var _button_t = preload("res://zqf_entity_editor/ui/zee_button.tscn")
@@ -14,6 +17,8 @@ const EXTENSION:String = ".json"
 onready var _leftPanelRoot = $CanvasLayer/left_sidebar_root
 onready var _fileNamesLabel:Label = $CanvasLayer/left_sidebar_root/file_names
 onready var _modeLabel:Label = $CanvasLayer/left_sidebar_root/mode_label
+onready var _highlightedLabel:Label = $CanvasLayer/left_sidebar_root/highlighted_proxy_label
+onready var _selectedLabel:Label = $CanvasLayer/left_sidebar_root/selected_proxy_label
 onready var _templateListButtons:Control = $CanvasLayer/left_sidebar_root/template_list/buttons
 onready var _templateName:Control = $CanvasLayer/left_sidebar_root/template_list/buttons/current_template_name
 onready var _fileUI:Control = $CanvasLayer/left_sidebar_root/file_ui_container
@@ -35,6 +40,9 @@ var _canPlaceEnt:bool = false
 var _flyCamera:bool = true
 var _rootMode = EdEnums.RootMode.File
 var _enabled:bool = false
+
+var _highlightedProxy:ZEEEntityProxy = null
+var _selectedProxy:ZEEEntityProxy = null
 
 # var _templates = [
 # 	{
@@ -68,6 +76,8 @@ func _ready() -> void:
 	_set_fly_camera_on(false)
 	_set_root_mode(EdEnums.RootMode.File)
 	_modalBlocker.visible = false
+	_highlightedLabel.text = ""
+	_selectedLabel.text = ""
 
 	_entList.zee_ent_list_init($ents)
 
@@ -132,6 +142,26 @@ func zee_disable() -> void:
 	for i in range(0, uiNodes.size()):
 		uiNodes[i].visible = false
 	_modalBlocker.visible = false
+
+func set_highlighted_proxy(obj:Object) -> void:
+	var proxy:ZEEEntityProxy = obj as ZEEEntityProxy
+	if _highlightedProxy == proxy:
+		return
+	_highlightedProxy = proxy
+	if _highlightedProxy == null:
+		_highlightedLabel.text = ""
+		return
+	_highlightedLabel.text = _highlightedProxy.get_label()
+
+func set_selected_proxy(proxy:ZEEEntityProxy) -> void:
+	if proxy == _selectedProxy:
+		return
+	if proxy == null:
+		_selectedLabel.text = ""
+		_selectedProxy = null
+		return
+	_selectedProxy = proxy
+	_selectedLabel.text = _selectedProxy.get_label()
 
 func get_modal_blocking() -> bool:
 	if _fileDialog.visible:
@@ -233,6 +263,9 @@ func _left_click() -> void:
 		var pos:Vector3 = _3dCursor.global_transform.origin
 		var prefab = _prefabs[_currentPrefab]
 		_entList.create_entity_at(pos, prefab, _currentPrefab)
+	elif _rootMode == EdEnums.RootMode.Select:
+		set_selected_proxy(_highlightedProxy)
+
 
 func _open_save_file() -> void:
 	print("Saving " + str(_entList.get_entity_count()) + " entities")
@@ -245,6 +278,44 @@ func _open_load_file() -> void:
 	_fileDialog.set_mode(FileDialog.MODE_OPEN_FILE)
 	_fileDialog.popup()
 	_modalBlocker.visible = true
+
+func _cast_interaction_ray(mask) -> Object:
+	var useRayNode:bool = false
+	#useRay = _flyCamera
+	if useRayNode:
+		if _ray.is_colliding():
+			# cursor is forward of camera
+			var pos:Vector3 = _ray.get_collision_point()
+			_3dCursor.global_transform.origin = pos
+			# var normal:Vector3 = _ray.get_collision_normal()
+			# var lookPos:Vector3 = pos + normal
+			# ZqfUtils.look_at_safe(_3dCursor, lookPos)
+			_3dCursor.visible = true
+			_canPlaceEnt = true
+			return _ray.get_collider()
+		else:
+			_3dCursor.visible = false
+			_canPlaceEnt = false
+			return null
+	else:
+		# cursor free, cast from camera
+		var origin:Vector3 = _camera.global_transform.origin
+		#var mask:int = 1
+		var cursorPos:Vector2 = get_viewport().get_mouse_position()
+		var dir:Vector3 = _camera.project_ray_normal(cursorPos)
+		var result:Dictionary = ZqfUtils.hitscan_by_direction_3D(_camera, origin, dir, 1000.0, ZqfUtils.EMPTY_ARRAY, mask)
+		if result:
+			_3dCursor.global_transform.origin = result.position
+			_3dCursor.visible = true
+			_canPlaceEnt = true
+			# var lookPos:Vector3 = result.position + result.normal
+			# ZqfUtils.look_at_safe(_3dCursor, lookPos)
+			return result.collider
+		else:
+			_3dCursor.visible = false
+			_canPlaceEnt = false
+			return null
+	pass
 
 func _process(_delta) -> void:
 	if get_modal_blocking():
@@ -271,37 +342,15 @@ func _process(_delta) -> void:
 	
 	if Input.is_action_just_pressed("editor_camera_reset"):
 		_cameraControl.global_transform = Transform.IDENTITY
-
-	if _flyCamera:
-		if _ray.is_colliding():
-			# cursor is forward of camera
-			var pos:Vector3 = _ray.get_collision_point()
-			_3dCursor.global_transform.origin = pos
-			# var normal:Vector3 = _ray.get_collision_normal()
-			# var lookPos:Vector3 = pos + normal
-			# ZqfUtils.look_at_safe(_3dCursor, lookPos)
-			_3dCursor.visible = true
-			_canPlaceEnt = true
-		else:
-			_3dCursor.visible = false
-			_canPlaceEnt = false
+	
+	if _rootMode == EdEnums.RootMode.Select:
+		var result = _cast_interaction_ray(ENTITY_MASK)
+		set_highlighted_proxy(result)
+	elif _rootMode == EdEnums.RootMode.Add:
+		_cast_interaction_ray(WORLD_MASK)
 	else:
-		# cursor free, cast from camera
-		var origin:Vector3 = _camera.global_transform.origin
-		var mask:int = 1
-		var cursorPos:Vector2 = get_viewport().get_mouse_position()
-		var dir:Vector3 = _camera.project_ray_normal(cursorPos)
-		var result:Dictionary = ZqfUtils.hitscan_by_direction_3D(_camera, origin, dir, 1000.0, ZqfUtils.EMPTY_ARRAY, mask)
-		if result:
-			_3dCursor.global_transform.origin = result.position
-			_3dCursor.visible = true
-			_canPlaceEnt = true
-			# var lookPos:Vector3 = result.position + result.normal
-			# ZqfUtils.look_at_safe(_3dCursor, lookPos)
-			pass
-		else:
-			_3dCursor.visible = false
-			_canPlaceEnt = false
+		_canPlaceEnt = false
+		_3dCursor.visible = false
 
 func _is_mouse_over_left_panel() -> bool:
 	var pos:Vector2 = get_viewport().get_mouse_position()
