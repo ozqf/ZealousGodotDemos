@@ -15,8 +15,6 @@ func _ready() -> void:
 	_refresh_settings()
 
 func _refresh_settings() -> void:
-	if selfRespawnTime > 0.0:
-		respawns = true
 	$item_base.set_settings(respawns, selfRespawnTime, isImportant)
 	_ent.selfName = selfName
 	_ent.triggerTargetName = triggerTargetName
@@ -28,19 +26,21 @@ func get_editor_info() -> Dictionary:
 	# visible = true
 	return {
 		prefab = _ent.prefabName,
-		fields = [
-			{ name: "selfName", value="", type="text" },
-			{ name: "targets", value="", type="text" },
-			{ name: "respawnTime", value=20.0, type="float" },
-			{ name: "respawns", value=false, type="flag" },
-			{ name: "isImportant", value=false, type="flag" }
-		]
+		fields = {
+			selfName = { "name": "selfName", "value":_ent.selfName, "type": "text" },
+			targets = { "name": "targets", "value":_ent.triggerTargetName, "type": "text" },
+			respawnTime = { "name": "respawnTime", "value":selfRespawnTime, "type": "float" },
+			respawns = { "name": "respawns", "value":respawns, "type": "flag" },
+			isImportant = { "name": "isImportant", "value":isImportant, "type": "flag" }
+		}
 	}
 
-func refresh_editor_fields(_dict:Dictionary) -> void:
-	selfName = String(_dict.selfName)
-	triggerTargetName = String(_dict.targets)
-	respawns = bool(_dict.respawns)
-	selfRespawnTime = float(_dict.respawnTime)
-	isImportant = bool(_dict.isImportant)
+func refresh_editor_info(data:Dictionary) -> void:
+	var fields = data.fields
+	print("Item settings - refresh fields")
+	selfName = String(fields.selfName.value)
+	triggerTargetName = String(fields.targets.value)
+	respawns = ZqfUtils.parse_bool(fields.respawns.value)
+	selfRespawnTime = float(fields.respawnTime.value)
+	isImportant = ZqfUtils.parse_bool(fields.isImportant.value)
 	_refresh_settings()

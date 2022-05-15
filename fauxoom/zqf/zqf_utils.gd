@@ -185,6 +185,15 @@ static func bits_to_string(flags:int) -> String:
 			txt += str(0)
 	return txt
 
+static func parse_bool(value) -> bool:
+	if value is bool:
+		return value
+	var txt:String = str(value)
+	txt = txt.to_lower()
+	if txt == null || txt == "" || txt == "false" || txt == "f":
+		return false
+	return true
+
 static func array_add_safe(arr, item) -> void:
 	var i:int = arr.find(item)
 	if i == -1:

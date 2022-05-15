@@ -44,6 +44,9 @@ var _enabled:bool = false
 var _highlightedProxy:ZEEEntityProxy = null
 var _selectedProxy:ZEEEntityProxy = null
 
+var _focusCount:int = 0
+var _focus:Control = null
+
 # var _templates = [
 # 	{
 # 		name = "player_start",
@@ -79,6 +82,8 @@ func _ready() -> void:
 	_highlightedLabel.text = ""
 	_selectedLabel.text = ""
 
+	get_viewport().connect("gui_focus_changed", self, "_on_gui_focus_changed")
+
 	_entList.zee_ent_list_init($ents)
 
 	_fileUILoad.connect("clicked", self, "_file_button_clicked")
@@ -92,6 +97,14 @@ func _ready() -> void:
 	resetButton.connect("pressed", _cameraControl, "reset")
 
 	disable()
+
+func _on_gui_focus_changed(control:Control) -> void:
+	print("Focused: " + str(control))
+	_focus = control
+	pass
+
+func camera_has_focus() -> bool:
+	return _focus == null || _focus.name == "__focus__"
 
 func init() -> void:
 	if _initialised:
@@ -159,11 +172,21 @@ func set_selected_proxy(proxy:ZEEEntityProxy) -> void:
 	if proxy == null:
 		_selectedLabel.text = ""
 		_selectedProxy = null
+		print("Clearing selection...")
 		get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_NEW_ENTITY_PROXY, null)
 		return
 	_selectedProxy = proxy
 	_selectedLabel.text = _selectedProxy.get_label()
 	get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_NEW_ENTITY_PROXY, _selectedProxy)
+
+func _delete_selection() -> void:
+	if _selectedProxy == null:
+		return
+	print("Deleting selection...")
+	var target = _selectedProxy
+	set_selected_proxy(null)
+	target.delete_prefab()
+	pass
 
 func get_modal_blocking() -> bool:
 	if _fileDialog.visible:
@@ -263,6 +286,7 @@ func _left_click() -> void:
 			return
 		if _currentPrefab == "":
 			return
+		print("Add prefab name: " + str(_currentPrefab))
 		var pos:Vector3 = _3dCursor.global_transform.origin
 		var prefab = _prefabs[_currentPrefab]
 		_entList.create_entity_at(pos, prefab, _currentPrefab)
@@ -321,7 +345,8 @@ func _cast_interaction_ray(mask) -> Object:
 	pass
 
 func _process(_delta) -> void:
-	if get_modal_blocking():
+	if get_modal_blocking() || !camera_has_focus():
+
 		return
 	if Input.is_action_pressed("attack_2"):
 		# fly camera, locked cursor
@@ -332,19 +357,24 @@ func _process(_delta) -> void:
 		_set_fly_camera_on(false)
 		pass
 	
-	if Input.is_action_just_pressed("slot_1"):
-		_set_root_mode(EdEnums.RootMode.File)
-	elif Input.is_action_just_pressed("slot_2"):
-		_set_root_mode(EdEnums.RootMode.Select)
-	elif Input.is_action_just_pressed("slot_3"):
-		_set_root_mode(EdEnums.RootMode.Add)
-	elif Input.is_action_just_pressed("slot_4"):
-		_set_root_mode(EdEnums.RootMode.LinkTargets)
-	elif Input.is_action_just_pressed("slot_5"):
-		_set_root_mode(EdEnums.RootMode.Scale)
+	if camera_has_focus():
+		if Input.is_action_just_pressed("slot_1"):
+			_set_root_mode(EdEnums.RootMode.File)
+		elif Input.is_action_just_pressed("slot_2"):
+			_set_root_mode(EdEnums.RootMode.Select)
+		elif Input.is_action_just_pressed("slot_3"):
+			_set_root_mode(EdEnums.RootMode.Add)
+		elif Input.is_action_just_pressed("slot_4"):
+			_set_root_mode(EdEnums.RootMode.LinkTargets)
+		elif Input.is_action_just_pressed("slot_5"):
+			_set_root_mode(EdEnums.RootMode.Scale)
+		
+		if Input.is_action_just_pressed("editor_delete"):
+			_delete_selection()
 	
-	if Input.is_action_just_pressed("editor_camera_reset"):
-		_cameraControl.global_transform = Transform.IDENTITY
+		if Input.is_action_just_pressed("editor_camera_reset"):
+			_cameraControl.global_transform = Transform.IDENTITY
+		pass
 	
 	if _rootMode == EdEnums.RootMode.Select:
 		var result = _cast_interaction_ray(ENTITY_MASK)

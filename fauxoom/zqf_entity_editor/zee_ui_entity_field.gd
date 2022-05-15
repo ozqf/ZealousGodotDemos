@@ -1,4 +1,5 @@
 extends Node
+class_name ZEEUIField
 
 signal field_changed(fieldName, fieldValue)
 
@@ -16,5 +17,5 @@ func init(newFieldName, fieldLabel, defaultValue) -> void:
 	_label.text = fieldLabel
 	_input.text = str(defaultValue)
 
-func on_field_value_set() -> void:
-	self.emit_signal("field_changed", fieldName, _input.text)
+func on_field_value_set(_txt) -> void:
+	self.emit_signal("field_changed", fieldName, _txt)
