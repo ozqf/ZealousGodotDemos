@@ -21,6 +21,9 @@ func _refresh_settings() -> void:
 	_ent.selfName = selfName
 	_ent.triggerTargetName = triggerTargetName
 
+func set_enable(_flag:bool) -> void:
+	pass
+
 func get_editor_info() -> Dictionary:
 	# visible = true
 	return {

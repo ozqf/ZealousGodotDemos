@@ -24,42 +24,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="ColorRect/VBoxContainer"]
-margin_right = 256.0
-margin_bottom = 14.0
-text = "Name"
-align = 1
-valign = 1
-
-[node name="name_input" type="LineEdit" parent="ColorRect/VBoxContainer"]
-margin_top = 18.0
-margin_right = 256.0
-margin_bottom = 42.0
-rect_min_size = Vector2( 256, 0 )
-text = "entity_name"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label2" type="Label" parent="ColorRect/VBoxContainer"]
-margin_top = 46.0
-margin_right = 256.0
-margin_bottom = 60.0
-text = "Targets"
-align = 1
-valign = 1
-
-[node name="targets_input" type="LineEdit" parent="ColorRect/VBoxContainer"]
-margin_top = 64.0
-margin_right = 256.0
-margin_bottom = 88.0
-rect_min_size = Vector2( 256, 0 )
-text = "target_csv"
-
 [node name="entity_field" parent="ColorRect/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 92.0
-margin_bottom = 134.0
+margin_bottom = 42.0
+fieldName = "selfName"
 
 [node name="entity_field2" parent="ColorRect/VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 138.0
-margin_bottom = 180.0
+margin_top = 46.0
+margin_bottom = 88.0
+fieldName = "targets"

@@ -1,16 +1,20 @@
 extends Node
 
+signal field_changed(fieldName, fieldValue)
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+onready var _label:Label = $Label
+onready var _input:LineEdit = $input
 
+export var fieldName:String = ""
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var _r = _input.connect("text_entered", self, "on_field_value_set")
+	pass
 
+func init(newFieldName, fieldLabel, defaultValue) -> void:
+	fieldName = newFieldName
+	_label.text = fieldLabel
+	_input.text = str(defaultValue)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func on_field_value_set() -> void:
+	self.emit_signal("field_changed", fieldName, _input.text)

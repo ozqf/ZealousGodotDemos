@@ -1,9 +1,8 @@
 extends Spatial
 class_name ZEEMain
 
-const GROUP_NAME:String = "zqf_entity_editor"
-const FN_ENABLE:String = "zee_enable"
-const FN_DISABLE:String = "zee_disable"
+# const FN_ENABLE:String = "zee_enable"
+# const FN_DISABLE:String = "zee_disable"
 
 const WORLD_MASK:int = 1
 const ENTITY_MASK:int = (1 << 20)
@@ -11,7 +10,6 @@ const ENTITY_MASK:int = (1 << 20)
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 var _ent_t = preload("res://zqf_entity_editor/zee_entity.tscn")
 var _button_t = preload("res://zqf_entity_editor/ui/zee_button.tscn")
-var _prop_field_t = preload("res://zqf_entity_editor/zee_ui_entity_field.tscn")
 
 const EXTENSION:String = ".json"
 
@@ -27,6 +25,7 @@ onready var _fileUILoad:Button = $CanvasLayer/left_sidebar_root/file_ui_containe
 onready var _fileUISave:Button = $CanvasLayer/left_sidebar_root/file_ui_container/save
 onready var _modalBlocker:Control = $CanvasLayer/modal
 onready var _fileDialog:FileDialog = $CanvasLayer/modal/FileDialog
+onready var _entPropsPanel = $CanvasLayer/zee_entity_props_panel
 
 onready var _ray:RayCast = $camera/RayCast
 onready var _3dCursor:Spatial = $cursor3d
@@ -73,7 +72,7 @@ var _currentPrefab:String = ""
 var _templateKeys = []
 
 func _ready() -> void:
-	add_to_group(GROUP_NAME)
+	add_to_group(EdEnums.GROUP_NAME)
 	_set_fly_camera_on(false)
 	_set_root_mode(EdEnums.RootMode.File)
 	_modalBlocker.visible = false
@@ -112,9 +111,6 @@ func init() -> void:
 		_add_button(_templateListButtons, key, label, "_template_button_clicked")
 	_currentPrefab = _templateKeys[0]
 
-func create_ui_field():
-	return _prop_field_t.instance()
-
 func clear() -> void:
 	# _entList.clear_all_ents()
 	pass
@@ -126,12 +122,12 @@ func refresh_entities() -> void:
 func enable() -> void:
 	init()
 	_fileNamesLabel.text = "Editing: " + Main.get_current_map_name() + " / " + Main.get_current_entities_file()
-	get_tree().call_group(GROUP_NAME, FN_ENABLE)
+	get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_GLOBAL_ENABLED)
 
 func disable() -> void:
-	get_tree().call_group(GROUP_NAME, FN_DISABLE)
+	get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_GLOBAL_DISABLED)
 
-func zee_enable() -> void:
+func zee_on_global_enabled() -> void:
 	_enabled = true
 	visible = true
 	var uiNodes = $CanvasLayer.get_children()
@@ -139,7 +135,7 @@ func zee_enable() -> void:
 		uiNodes[i].visible = true
 	_modalBlocker.visible = false
 
-func zee_disable() -> void:
+func zee_on_global_disabled() -> void:
 	_enabled = false
 	visible = false
 	var uiNodes = $CanvasLayer.get_children()
@@ -163,9 +159,11 @@ func set_selected_proxy(proxy:ZEEEntityProxy) -> void:
 	if proxy == null:
 		_selectedLabel.text = ""
 		_selectedProxy = null
+		get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_NEW_ENTITY_PROXY, null)
 		return
 	_selectedProxy = proxy
 	_selectedLabel.text = _selectedProxy.get_label()
+	get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_NEW_ENTITY_PROXY, _selectedProxy)
 
 func get_modal_blocking() -> bool:
 	if _fileDialog.visible:
@@ -257,6 +255,7 @@ func _set_root_mode(newMode) -> void:
 		modeTxt = "Scale"
 	
 	_modeLabel.text = modeTxt
+	get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_ROOT_MODE_CHANGE, _rootMode)
 
 func _left_click() -> void:
 	if _rootMode == EdEnums.RootMode.Add:

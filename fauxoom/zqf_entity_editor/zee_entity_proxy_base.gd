@@ -28,5 +28,7 @@ func refresh_fields() -> void:
 		_prefab.refresh_editor_fields(_data)
 
 func get_label() -> String:
-	return _prefabDef.name + ": " + _data.selfName
- 
+	if _data.has("selfName"):
+		return _prefabDef.name + ": " + _data.selfName
+	else:
+		return _prefabDef.name

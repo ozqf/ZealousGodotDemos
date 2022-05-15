@@ -1,5 +1,7 @@
 extends Spatial
 
+const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
+
 const MOUSE_MOVE_SCALE:float = 0.1
 const PITCH_CAP_DEGREES = 89
 const KEYBOARD_YAW_DEGREES = 180
@@ -17,17 +19,17 @@ var _head:Spatial = null
 var _speed:float = 10.0
 
 func _ready() -> void:
-	add_to_group(ZEEMain.GROUP_NAME)
+	add_to_group(EdEnums.GROUP_NAME)
 	_head = self
 
-func zee_enable() -> void:
+func zee_on_global_enabled() -> void:
 	print("Enabled editor camera")
 	_enabled = true
 	visible = true
 	$Camera.current = true
 	set_fly_camera_enabled(_flyOn)
 
-func zee_disable() -> void:
+func zee_on_global_disabled() -> void:
 	print("Disable editor camera")
 	_enabled = false
 	visible = false
