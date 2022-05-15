@@ -11,6 +11,7 @@ const ENTITY_MASK:int = (1 << 20)
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 var _ent_t = preload("res://zqf_entity_editor/zee_entity.tscn")
 var _button_t = preload("res://zqf_entity_editor/ui/zee_button.tscn")
+var _prop_field_t = preload("res://zqf_entity_editor/zee_ui_entity_field.tscn")
 
 const EXTENSION:String = ".json"
 
@@ -110,6 +111,9 @@ func init() -> void:
 			label = prefab.label
 		_add_button(_templateListButtons, key, label, "_template_button_clicked")
 	_currentPrefab = _templateKeys[0]
+
+func create_ui_field():
+	return _prop_field_t.instance()
 
 func clear() -> void:
 	# _entList.clear_all_ents()

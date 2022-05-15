@@ -24,6 +24,9 @@ var _prefabs = {
 	# mobs
 	################################################
 	mob_punk = {
+		# name field should always = the dictionary key, and is set
+		# during _ready()
+		name = "mob_punk",
 		prefab = preload("res://prefabs/dynamic_entities/mob_punk.tscn"),
 		entNodePath = "Entity",
 		label = "Punk",
@@ -240,6 +243,7 @@ func _ready() -> void:
 	for i in range(0, keys.size()):
 		var key = keys[i]
 		var prefab:Dictionary = _prefabs[key]
+		prefab.name = key
 		if !prefab.has("entNodePath"):
 			prefab.entNodePath = "Entity"
 		if !prefab.has("label"):

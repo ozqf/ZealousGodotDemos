@@ -52,12 +52,10 @@ func _ready() -> void:
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
 	_result = _ent.connect("entity_append_state", self, "append_state")
 
-func set_settings(settings) -> void:
-	_bRespawns = settings.respawns
-	_respawnTime = settings.selfRespawnTime
-
-func set_important_flag(flag:bool) -> void:
-	isImportant = flag
+func set_settings(bRespawns, respawnTime:float, important:bool) -> void:
+	_bRespawns = bRespawns
+	_respawnTime = respawnTime
+	isImportant = important
 	check_important_display_flag(_active)
 
 func check_important_display_flag(flag:bool) -> void:
@@ -71,11 +69,15 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.active = _active
 	_dict.tick = _selfRespawnTick
 	_dict.bRespawns = _bRespawns
+	_dict.important = isImportant
 
 func write_state() -> Dictionary:
 	return {
 		position = global_transform.origin,
-		active = _active
+		active = _active,
+		tick = _selfRespawnTick,
+		bRespawns = _bRespawns,
+		bImportant = isImportant
 	}
 
 func restore_state(_dict:Dictionary) -> void:

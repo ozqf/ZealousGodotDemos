@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://zqf_entity_editor/zee_ui_entity_field.gd" type="Script" id=1]
+
+[node name="entity_field" type="VBoxContainer"]
+margin_right = 256.0
+margin_bottom = 64.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_right = 256.0
+margin_bottom = 14.0
+text = "label"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="input" type="LineEdit" parent="."]
+margin_top = 18.0
+margin_right = 256.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 256, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

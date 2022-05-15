@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://zqf_entity_editor/zee_camera.gd" type="Script" id=1]
 [ext_resource path="res://zqf/zqf_ui_mouse_over.gd" type="Script" id=2]
 [ext_resource path="res://zqf_entity_editor/zee_main.gd" type="Script" id=3]
 [ext_resource path="res://zqf_entity_editor/ui/zee_button.tscn" type="PackedScene" id=4]
 [ext_resource path="res://zqf_entity_editor/zee_entity_list.gd" type="Script" id=5]
+[ext_resource path="res://zqf_entity_editor/zee_entity_props_panel.tscn" type="PackedScene" id=6]
 
 [sub_resource type="SpatialMaterial" id=4]
 flags_unshaded = true
@@ -63,6 +64,12 @@ material/0 = null
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 9
+
+[node name="zee_entity_props_panel" parent="CanvasLayer" instance=ExtResource( 6 )]
+anchor_top = 0.356
+anchor_bottom = 0.978
+margin_top = -0.320007
+margin_bottom = -0.160034
 
 [node name="left_sidebar_root" type="VBoxContainer" parent="CanvasLayer"]
 margin_right = 256.0

@@ -1,16 +1,15 @@
-extends Node
+extends Control
 
+onready var _nameInput:LineEdit = $ColorRect/VBoxContainer/name_input
+onready var _targetsInput:LineEdit = $ColorRect/VBoxContainer/targets_input
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var _r = _nameInput.connect("text_changed", self, "_on_text_changed")
+	_r = _targetsInput.connect("text_changed", self, "_on_targets_changed")
+	pass
 
+func _on_name_changed(txt:String) -> void:
+	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _on_targets_changed(txt:String) -> void:
+	pass
