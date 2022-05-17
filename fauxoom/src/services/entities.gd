@@ -201,15 +201,17 @@ var _prefabs = {
 		prefab = preload("res://prefabs/static_entities/player_barrier_volume.tscn"),
 		label = "Barrier Volume"
 	},
-
 	info_destination = {
 		prefab = preload("res://prefabs/static_entities/teleport_destination.tscn"),
 		label = "Info Destination"
 	},
-	
 	info_point = {
 		prefab = preload("res://prefabs/static_entities/info_point_entity.tscn"),
 		label = "Info Point"
+	},
+	door_tech_01 = {
+		prefab = preload("res://prefabs/doors/tech_door_01.tscn"),
+		label = "Door - Tech 01"
 	},
 
 	################################################

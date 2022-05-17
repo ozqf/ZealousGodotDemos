@@ -104,7 +104,7 @@ func _on_gui_focus_changed(control:Control) -> void:
 	pass
 
 func camera_has_focus() -> bool:
-	return _focus == null || _focus.name == "__focus__"
+	return _focus == null || !is_instance_valid(_focus) || _focus.name == "__focus__" || !(_focus is LineEdit)
 
 func init() -> void:
 	if _initialised:
@@ -173,7 +173,7 @@ func set_selected_proxy(proxy:ZEEEntityProxy) -> void:
 		_selectedLabel.text = ""
 		_selectedProxy = null
 		print("Clearing selection...")
-		get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_NEW_ENTITY_PROXY, null)
+		get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_CLEAR_ENTITY_SELECTION)
 		return
 	_selectedProxy = proxy
 	_selectedLabel.text = _selectedProxy.get_label()
@@ -371,6 +371,7 @@ func _process(_delta) -> void:
 		
 		if Input.is_action_just_pressed("editor_delete"):
 			_delete_selection()
+			return
 	
 		if Input.is_action_just_pressed("editor_camera_reset"):
 			_cameraControl.global_transform = Transform.IDENTITY

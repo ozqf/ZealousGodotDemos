@@ -10,6 +10,7 @@ export var fieldName:String = ""
 
 func _ready():
 	var _r = _input.connect("text_entered", self, "on_field_value_set")
+	_r = _input.connect("text_changed", self, "on_field_value_set")
 	pass
 
 func init(newFieldName, fieldLabel, defaultValue) -> void:
@@ -19,3 +20,6 @@ func init(newFieldName, fieldLabel, defaultValue) -> void:
 
 func on_field_value_set(_txt) -> void:
 	self.emit_signal("field_changed", fieldName, _txt)
+
+func on_field_entered(_txt) -> void:
+	_input.release_focus()

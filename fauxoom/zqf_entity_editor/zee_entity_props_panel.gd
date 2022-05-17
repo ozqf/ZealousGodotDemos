@@ -16,6 +16,8 @@ func _ready():
 	self.add_to_group(EdEnums.GROUP_NAME)
 	var _r = _nameInput.connect("field_changed", self, "on_field_changed")
 	_r = _targetsInput.connect("field_changed", self, "on_field_changed")
+	_nameInput.visible = false
+	_targetsInput.visible = false
 	pass
 
 func _refresh() -> void:
@@ -54,14 +56,17 @@ func zee_on_global_disabled() -> void:
 	_proxy = null
 	_refresh()
 
+func zee_on_clear_entity_selection() -> void:
+	_proxy = null
+	print("Props panel - clearing proxy")
+	_refresh()
+
 func zee_on_new_entity_proxy(newProxy) -> void:
 	if newProxy == null || !(newProxy is ZEEEntityProxy):
-		_proxy = null
-		print("Props panel - clearing proxy")
-		_refresh()
+		zee_on_clear_entity_selection()
 		return
 	_proxy = newProxy as ZEEEntityProxy
-	print("Props panel - got new proxy")
+	print("Props panel - got new proxy - " + str(_proxy))
 	_refresh()
 
 func create_ui_field():

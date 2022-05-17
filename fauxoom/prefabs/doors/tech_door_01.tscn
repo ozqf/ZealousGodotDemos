@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/world/tech_materials/mat_doortrak.tres" type="Material" id=1]
 [ext_resource path="res://prefabs/doors/tech_door_01/tech_door_01.obj" type="ArrayMesh" id=2]
 [ext_resource path="res://assets/world/materials/mat_world_window.tres" type="Material" id=3]
 [ext_resource path="res://assets/world/tech_materials/mat_door9_1.tres" type="Material" id=4]
 [ext_resource path="res://src/static_entities/door.gd" type="Script" id=5]
+[ext_resource path="res://src/entity.gd" type="Script" id=6]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 2, 2, 0.3 )
@@ -29,3 +30,7 @@ material/1 = ExtResource( 4 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0 )
 mesh = SubResource( 2 )
 material/0 = ExtResource( 3 )
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 6 )
+prefabName = "door_tech_01"

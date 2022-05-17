@@ -84,6 +84,7 @@ func restore_state(_dict:Dictionary) -> void:
 	_bRespawns = ZqfUtils.safe_dict_b(_dict, "bRespawns", _bRespawns)
 	isImportant = ZqfUtils.safe_dict_b(_dict, "important", isImportant)
 	_set_active(ZqfUtils.safe_dict_b(_dict, "active", _active))
+	check_important_display_flag(isImportant)
 
 func set_settings(bRespawns, respawnTime:float, important:bool) -> void:
 	_bRespawns = bRespawns
@@ -93,6 +94,8 @@ func set_settings(bRespawns, respawnTime:float, important:bool) -> void:
 
 func check_important_display_flag(flag:bool) -> void:
 	if !isImportant:
+		_particles.emitting = false
+		_light.visible = false
 		return
 	_particles.emitting = flag
 	_light.visible = flag

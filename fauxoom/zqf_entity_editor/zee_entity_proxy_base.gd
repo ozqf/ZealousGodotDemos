@@ -1,10 +1,15 @@
 extends Spatial
 class_name ZEEEntityProxy
 
+const DIRTY_REFRESH_TIME:float = 0.25
+
 var _prefab
 var _prefabDef
 var selfName:String = ""
 var _data:Dictionary
+
+var _dirty:bool = false
+var _dirtyTick:float = 0.0
 
 func set_prefab(prefab, prefabDef) -> void:
 	_prefab = prefab
@@ -36,8 +41,12 @@ func _write_save_from_info(data:Dictionary) -> Dictionary:
 	return save
 
 func zee_refresh_fields() -> void:
-	# if _prefab.has_method("refresh_editor_info"):
-	# 	_prefab.refresh_editor_info(_data)
+	print("Proxy - dirty")
+	_dirty = true
+	_dirtyTick = DIRTY_REFRESH_TIME
+
+func _refresh() -> void:
+	print("Proxy - refresh")
 	var save:Dictionary = _write_save_from_info(_data)
 	if _prefab.has_method("restore_from_editor"):
 		_prefab.restore_from_editor(save)
@@ -63,3 +72,10 @@ func get_label() -> String:
 		return _prefabDef.name + ": " + _data.selfName
 	else:
 		return _prefabDef.name
+
+func _process(_delta:float) -> void:
+	if _dirty:
+		_dirtyTick -= _delta
+		if _dirtyTick <= 0:
+			_dirty = false
+			_refresh()

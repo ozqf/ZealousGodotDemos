@@ -6,6 +6,7 @@ const FN_GLOBAL_ENABLED:String = "zee_on_global_enabled"
 const FN_GLOBAL_DISABLED:String = "zee_on_global_disabled"
 # one param: new entity proxy instance
 const FN_NEW_ENTITY_PROXY:String = "zee_on_new_entity_proxy"
+const FN_CLEAR_ENTITY_SELECTION:String = "zee_on_clear_entity_selection"
 
 enum RootMode {
 	File,
