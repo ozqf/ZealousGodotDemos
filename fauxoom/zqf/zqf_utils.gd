@@ -286,6 +286,16 @@ static func safe_dict_b(d:Dictionary, field:String, fail:bool) -> bool:
 		return d[field] as bool
 	return fail
 
+static func safe_dict_v3(d:Dictionary, field:String, fail:Vector3) -> Vector3:
+	if d.has(field):
+		return v3_from_dict(d[field])
+	return fail
+
+static func safe_dict_transform(d:Dictionary, field:String, fail:Transform) -> Transform:
+	if d.has(field):
+		return transform_from_dict(d[field])
+	return fail
+
 #####################################
 # Spatial scan wrappers
 #####################################

@@ -1,4 +1,5 @@
 extends KinematicBody
+class_name ItemBase
 
 onready var _sprite:AnimatedSprite3D = $sprite
 onready var _areaShape:CollisionShape = $Area/CollisionShape
@@ -30,7 +31,7 @@ var _active:bool = true
 var _dead:bool = false
 var _settings = null
 var _player = null
-var _spawnState:Dictionary
+#var _spawnState:Dictionary
 var _bRespawns:bool = false
 var _respawnTime:float = 20
 
@@ -44,13 +45,28 @@ func _ready() -> void:
 	$editor_volume.hide()
 	
 	add_to_group(Groups.GAME_GROUP_NAME)
-	_spawnState = write_state()
+	#_spawnState = write_state()
 	var _result = $Area.connect("body_entered", self, "on_body_entered")
 	_result = $Area.connect("body_exited", self, "on_body_exited")
 
 	_ent = get_parent().get_node("Entity")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
 	_result = _ent.connect("entity_append_state", self, "append_state")
+
+func get_editor_info() -> Dictionary:
+	# visible = true
+	return {
+		prefab = _ent.prefabName,
+		fields = {
+			selfName = { "name": "selfName", "value":_ent.selfName, "type": "text" },
+			triggerTargetName = { "name": "triggerTargetName", "value":_ent.selfName, "type": "text" },
+			pos = { "name": "pos", "value": global_transform.origin, "type": "position" },
+			targets = { "name": "targets", "value":_ent.triggerTargetName, "type": "text" },
+			respawnTime = { "name": "respawnTime", "value":_respawnTime, "type": "float" },
+			bRespawns = { "name": "bRespawns", "value":_bRespawns, "type": "flag" },
+			important = { "name": "important", "value":isImportant, "type": "flag" }
+		}
+	}
 
 func set_settings(bRespawns, respawnTime:float, important:bool) -> void:
 	_bRespawns = bRespawns
@@ -68,28 +84,24 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.pos = ZqfUtils.v3_to_dict(get_parent().global_transform.origin)
 	_dict.active = _active
 	_dict.tick = _selfRespawnTick
+	_dict.respawnTime = _respawnTime
 	_dict.bRespawns = _bRespawns
 	_dict.important = isImportant
 
-func write_state() -> Dictionary:
-	return {
-		position = global_transform.origin,
-		active = _active,
-		tick = _selfRespawnTick,
-		bRespawns = _bRespawns,
-		bImportant = isImportant
-	}
-
 func restore_state(_dict:Dictionary) -> void:
-	get_parent().global_transform.origin = ZqfUtils.v3_from_dict(_dict.pos)
-	_selfRespawnTick = _dict.tick
-	_bRespawns = _dict.bRespawns
-	# global_transform.origin = data.position
-	_set_active(_dict.active)
+	var pos:Vector3 = get_parent().global_transform.origin
+	get_parent().global_transform.origin = ZqfUtils.safe_dict_v3(_dict, "pos", pos)
+	# get_parent().global_transform.origin = ZqfUtils.v3_from_dict(_dict.pos)
+	_selfRespawnTick = ZqfUtils.safe_dict_f(_dict, "tick", _selfRespawnTick)
+	_respawnTime = ZqfUtils.safe_dict_f(_dict, "respawnTime", _respawnTime)
+	_bRespawns = ZqfUtils.safe_dict_b(_dict, "bRespawns", _bRespawns)
+	isImportant = ZqfUtils.safe_dict_b(_dict, "important", isImportant)
+	_set_active(ZqfUtils.safe_dict_b(_dict, "active", _active))
 
 func game_on_reset() -> void:
 	# print("Item saw reset")
-	restore_state(_spawnState)
+	#restore_state(_spawnState)
+	pass
 
 func on_body_entered(body:Node) -> void:
 	if body.has_method("give_item"):
