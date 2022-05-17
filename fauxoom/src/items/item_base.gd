@@ -68,18 +68,6 @@ func get_editor_info() -> Dictionary:
 		}
 	}
 
-func set_settings(bRespawns, respawnTime:float, important:bool) -> void:
-	_bRespawns = bRespawns
-	_respawnTime = respawnTime
-	isImportant = important
-	check_important_display_flag(_active)
-
-func check_important_display_flag(flag:bool) -> void:
-	if !isImportant:
-		return
-	_particles.emitting = flag
-	_light.visible = flag
-
 func append_state(_dict:Dictionary) -> void:
 	_dict.pos = ZqfUtils.v3_to_dict(get_parent().global_transform.origin)
 	_dict.active = _active
@@ -91,12 +79,23 @@ func append_state(_dict:Dictionary) -> void:
 func restore_state(_dict:Dictionary) -> void:
 	var pos:Vector3 = get_parent().global_transform.origin
 	get_parent().global_transform.origin = ZqfUtils.safe_dict_v3(_dict, "pos", pos)
-	# get_parent().global_transform.origin = ZqfUtils.v3_from_dict(_dict.pos)
 	_selfRespawnTick = ZqfUtils.safe_dict_f(_dict, "tick", _selfRespawnTick)
 	_respawnTime = ZqfUtils.safe_dict_f(_dict, "respawnTime", _respawnTime)
 	_bRespawns = ZqfUtils.safe_dict_b(_dict, "bRespawns", _bRespawns)
 	isImportant = ZqfUtils.safe_dict_b(_dict, "important", isImportant)
 	_set_active(ZqfUtils.safe_dict_b(_dict, "active", _active))
+
+func set_settings(bRespawns, respawnTime:float, important:bool) -> void:
+	_bRespawns = bRespawns
+	_respawnTime = respawnTime
+	isImportant = important
+	check_important_display_flag(_active)
+
+func check_important_display_flag(flag:bool) -> void:
+	if !isImportant:
+		return
+	_particles.emitting = flag
+	_light.visible = flag
 
 func game_on_reset() -> void:
 	# print("Item saw reset")

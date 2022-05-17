@@ -207,6 +207,27 @@ func force_awake() -> void:
 			atk.lastSelectTime = time + atk.cooldown
 	emit_mob_event("alert", -1)
 
+func restore_state(_dict:Dictionary) -> void:
+	global_transform = ZqfUtils.safe_dict_transform(_dict, "xform", global_transform)
+	_change_state(ZqfUtils.safe_dict_i(_dict, "state", _state))
+	_prevState = ZqfUtils.safe_dict_i(_dict, "prevState", _prevState)
+	_health = ZqfUtils.safe_dict_i(_dict, "hp", _health)
+	# _moveYaw = _dict.yaw
+	triggerTargets = ZqfUtils.safe_dict_s(_dict, "tars", triggerTargets)
+	
+	set_behaviour(ZqfUtils.safe_dict_b(_dict, "snipe", _isSniper))
+	_spawnColumn.restore_state(_dict)
+
+	# rewire to source
+	var id:int = ZqfUtils.safe_dict_i(_dict, "srcId", 0)
+	if id == 0:
+		return
+	var node = Ents.find_static_entity_by_id(id)
+	if node == null:
+		print("Mob found no static ent " + str(id) + " to call on death")
+		return
+	set_source(node.get_root_node(), id)
+
 func append_state(_dict:Dictionary) -> void:
 	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
 	_dict.hp = _health
@@ -217,25 +238,17 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.snipe = _isSniper
 	_spawnColumn.append_state(_dict)
 
-func restore_state(_dict:Dictionary) -> void:
-	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
-	_change_state(_dict.state)
-	_prevState = _dict.prevState
-	_health = _dict.hp
-	# _moveYaw = _dict.yaw
-	triggerTargets = _dict.tars
-	set_behaviour(_dict.snipe)
-	_spawnColumn.restore_state(_dict)
+func get_editor_info() -> Dictionary:
+	return {
+		prefab = _ent.prefabName,
+		fields = {
+			xform = { "name": "xform", "type": "xform", "value": global_transform },
+			snipe = { "name": "snipe", "type": "bool", "value": false }
+		}
+	}
 
-	# rewire to source
-	var id:int = _dict.srcId
-	if id == 0:
-		return
-	var node = Ents.find_static_entity_by_id(id)
-	if node == null:
-		print("Mob found no static ent " + str(id) + " to call on death")
-		return
-	set_source(node.get_root_node(), id)
+func restore_from_editor(dict:Dictionary) -> void:
+	_ent.restore_state(dict)
 
 func game_on_reset() -> void:
 	queue_free()

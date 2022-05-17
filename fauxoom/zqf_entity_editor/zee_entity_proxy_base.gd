@@ -29,6 +29,8 @@ func _write_save_from_info(data:Dictionary) -> Dictionary:
 			save[key] = ZqfUtils.v3_to_dict(_prefab.global_transform.origin)
 		elif field.type == "flag":
 			save[key] = ZqfUtils.parse_bool(field.value)
+		elif field.type == "xform":
+			save[key] = ZqfUtils.transform_to_dict(_prefab.global_transform)
 		else:
 			save[key] = field.value
 	return save

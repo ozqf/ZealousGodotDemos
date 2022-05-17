@@ -95,7 +95,7 @@ func write_state() -> Dictionary:
 func restore_state(dict:Dictionary) -> void:
 	assert(dict)
 	if !isStatic:
-		selfName = dict.selfName
+		selfName = ZqfUtils.safe_dict_s(dict, "selfName", "")
 		triggerTargetName = ZqfUtils.safe_dict_s(dict, "triggerTargetName", "")
 	if dict.has("id"):
 		id = dict.id

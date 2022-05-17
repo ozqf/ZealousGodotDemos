@@ -33,10 +33,10 @@ func append_state(dict:Dictionary) -> void:
 	dict.tpc_degps = _spinDegreesPerSecond
 
 func restore_state(dict:Dictionary) -> void:
-	visible = dict.tpc_vis
-	_tick = dict.tpc_tick
-	_degrees = dict.tpc_deg
-	_spinDegreesPerSecond = dict.tpc_degps
+	visible = ZqfUtils.safe_dict_b(dict, "tpc_vis", visible)
+	_tick = ZqfUtils.safe_dict_f(dict, "tpc_tick", _tick)
+	_degrees = ZqfUtils.safe_dict_f(dict, "tpc_deg", _degrees)
+	_spinDegreesPerSecond = ZqfUtils.safe_dict_f(dict, "tpc_degps", _spinDegreesPerSecond)
 	_refresh()
 
 func _refresh() -> void:
