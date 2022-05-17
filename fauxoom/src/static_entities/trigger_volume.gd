@@ -31,9 +31,44 @@ func _ready() -> void:
 	# refresh collider disabled
 	set_active(active)
 
+func append_state(_dict:Dictionary) -> void:
+	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
+	_dict.a = action
+	_dict.active = active
+	_dict.tick = _resetTick
+	_dict.rs = resetSeconds
+	_dict.vp1 = valueParameter1
+	_dict.nah = noAutoHide
+	_dict.hm =  hintMessage
+	_dict.dt = touchDamage
+
+func restore_from_editor(dict:Dictionary) -> void:
+	_ent.restore_state(dict)
+
+func restore_state(data:Dictionary) -> void:
+	# global_transform = ZqfUtils.transform_from_dict(data.xform)
+	ZqfUtils.safe_dict_apply_transform(data, "xform", self)
+	action = ZqfUtils.safe_dict_i(data, "a", 0)
+	_resetTick = ZqfUtils.safe_dict_f(data, "tick", 0)
+	resetSeconds = ZqfUtils.safe_dict_f(data, "rs", 0)
+	valueParameter1 = ZqfUtils.safe_dict_i(data, "vp1", 0)
+	noAutoHide = ZqfUtils.safe_dict_b(data, "nah", false)
+	hintMessage = ZqfUtils.safe_dict_s(data, "hm", "")
+	touchDamage = ZqfUtils.safe_dict_i(data, "td", 0)
+	set_active(data.active)
+
 func get_editor_info() -> Dictionary:
 	visible = true
-	return {}
+
+	var info = {
+		prefab = _ent.prefabName,
+		fields = {}
+	}
+	ZEEMain.create_field(info.fields, "active", "Start Active", "bool", active)
+	ZEEMain.create_field(info.fields, "a", "action", "int", action)
+	ZEEMain.create_field(info.fields, "rs", "Reset Seconds", "float", resetSeconds)
+	ZEEMain.create_field(info.fields, "vp1", "Value Param 1", "int", valueParameter1)
+	return info
 
 func set_active(flag:bool) -> void:
 	active = flag
@@ -51,28 +86,6 @@ func _process(_delta:float) -> void:
 		if _resetTick >= resetSeconds:
 			_resetTick = 0
 			set_active(true)
-
-func append_state(_dict:Dictionary) -> void:
-	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
-	_dict.a = action
-	_dict.active = active
-	_dict.tick = _resetTick
-	_dict.rs = resetSeconds
-	_dict.vp1 = valueParameter1
-	_dict.nah = noAutoHide
-	_dict.hm =  hintMessage
-	_dict.dt = touchDamage
-
-func restore_state(data:Dictionary) -> void:
-	global_transform = ZqfUtils.transform_from_dict(data.xform)
-	action = ZqfUtils.safe_dict_i(data, "a", 0)
-	_resetTick = ZqfUtils.safe_dict_f(data, "tick", 0)
-	resetSeconds = ZqfUtils.safe_dict_f(data, "rs", 0)
-	valueParameter1 = ZqfUtils.safe_dict_i(data, "vp1", 0)
-	noAutoHide = ZqfUtils.safe_dict_b(data, "nah", false)
-	hintMessage = ZqfUtils.safe_dict_s(data, "hm", "")
-	touchDamage = ZqfUtils.safe_dict_i(data, "td", 0)
-	set_active(data.active)
 
 func on_trigger(_msg:String, _params:Dictionary) -> void:
 	if _msg == "on":

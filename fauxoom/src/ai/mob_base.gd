@@ -214,7 +214,7 @@ func restore_state(_dict:Dictionary) -> void:
 	_health = ZqfUtils.safe_dict_i(_dict, "hp", _health)
 	# _moveYaw = _dict.yaw
 	triggerTargets = ZqfUtils.safe_dict_s(_dict, "tars", triggerTargets)
-	
+
 	set_behaviour(ZqfUtils.safe_dict_b(_dict, "snipe", _isSniper))
 	_spawnColumn.restore_state(_dict)
 
@@ -242,7 +242,7 @@ func get_editor_info() -> Dictionary:
 	return {
 		prefab = _ent.prefabName,
 		fields = {
-			xform = { "name": "xform", "type": "xform", "value": global_transform },
+			# xform = { "name": "xform", "type": "xform", "value": global_transform },
 			snipe = { "name": "snipe", "type": "bool", "value": false }
 		}
 	}

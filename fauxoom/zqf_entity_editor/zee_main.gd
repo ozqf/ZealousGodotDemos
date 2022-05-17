@@ -1,8 +1,8 @@
 extends Spatial
 class_name ZEEMain
 
-# const FN_ENABLE:String = "zee_enable"
-# const FN_DISABLE:String = "zee_disable"
+static func create_field(targetDict:Dictionary, name:String, label:String, type:String, value) -> void:
+	targetDict[name] = { "name": name, "label": label, "value": value, "type": type }
 
 const WORLD_MASK:int = 1
 const ENTITY_MASK:int = (1 << 20)

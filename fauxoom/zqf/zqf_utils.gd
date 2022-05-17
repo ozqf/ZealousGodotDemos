@@ -296,6 +296,10 @@ static func safe_dict_transform(d:Dictionary, field:String, fail:Transform) -> T
 		return transform_from_dict(d[field])
 	return fail
 
+static func safe_dict_apply_transform(d:Dictionary, field:String, target:Spatial) -> void:
+	if d.has(field):
+		target.global_transform = transform_from_dict(d[field])
+
 #####################################
 # Spatial scan wrappers
 #####################################

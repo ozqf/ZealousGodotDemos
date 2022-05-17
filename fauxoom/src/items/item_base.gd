@@ -60,7 +60,7 @@ func get_editor_info() -> Dictionary:
 		fields = {
 			selfName = { "name": "selfName", "value":_ent.selfName, "type": "text" },
 			triggerTargetName = { "name": "triggerTargetName", "value":_ent.selfName, "type": "text" },
-			pos = { "name": "pos", "value": global_transform.origin, "type": "position" },
+			# pos = { "name": "pos", "value": global_transform.origin, "type": "position" },
 			targets = { "name": "targets", "value":_ent.triggerTargetName, "type": "text" },
 			respawnTime = { "name": "respawnTime", "value":_respawnTime, "type": "float" },
 			bRespawns = { "name": "bRespawns", "value":_bRespawns, "type": "flag" },
