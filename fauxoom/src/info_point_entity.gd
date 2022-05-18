@@ -20,5 +20,5 @@ func append_state(_dict:Dictionary) -> void:
 	pass
 
 func restore_state(data:Dictionary) -> void:
-	global_transform = ZqfUtils.transform_from_dict(data.xform)
+	ZqfUtils.safe_dict_apply_transform(data, "xform", self)
 	pass

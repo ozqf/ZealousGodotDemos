@@ -93,6 +93,12 @@ func _ready() -> void:
 	_fileDialog.connect("popup_hide", self, "_file_modal_closed")
 	_fileDialog.connect("file_selected", self, "_file_selected")
 
+	# if working in the editor just use local file system
+	if ZqfUtils.is_running_in_editor():
+		_fileDialog.access = FileDialog.ACCESS_FILESYSTEM
+		_fileDialog.current_dir = "./"
+		_fileDialog.current_path = "./"
+
 	var resetButton = $CanvasLayer/left_sidebar_root/HBoxContainer/reset_camera
 	resetButton.connect("pressed", _cameraControl, "reset")
 
@@ -378,8 +384,13 @@ func _process(_delta) -> void:
 		pass
 	
 	if _rootMode == EdEnums.RootMode.Select:
-		var result = _cast_interaction_ray(ENTITY_MASK)
+		var result = _cast_interaction_ray(ENTITY_MASK | WORLD_MASK)
 		set_highlighted_proxy(result)
+		if _selectedProxy != null && Input.is_action_just_pressed("editor_control"):
+			# move selection
+			_selectedProxy.set_prefab_position(_3dCursor.global_transform.origin)
+			pass
+
 	elif _rootMode == EdEnums.RootMode.Add:
 		_cast_interaction_ray(WORLD_MASK)
 	else:

@@ -149,6 +149,9 @@ func teleport(_trans:Transform) -> void:
 	print("Player position: " + str(self.global_transform.origin))
 	_motor.set_yaw_degrees(_yaw)
 
+func set_position(pos:Vector3) -> void:
+	global_transform.origin = pos
+
 func get_targetting_info() -> Dictionary:
 	return _targettingInfo
 

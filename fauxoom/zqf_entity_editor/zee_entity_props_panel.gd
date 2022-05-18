@@ -50,11 +50,10 @@ func zee_on_root_mode_changed(newMode) -> void:
 	_refresh()
 
 func zee_on_global_enabled() -> void:
-	_refresh()
+	zee_on_clear_entity_selection()
 
 func zee_on_global_disabled() -> void:
-	_proxy = null
-	_refresh()
+	zee_on_clear_entity_selection()
 
 func zee_on_clear_entity_selection() -> void:
 	_proxy = null

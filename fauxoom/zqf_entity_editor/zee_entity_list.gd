@@ -16,16 +16,11 @@ func on_restored_entity(prefab, prefabDef) -> void:
 	create_entity_proxy(prefab, prefabDef, ent)
 	pass
 
-func create_entity_proxy(prefab, prefabDef, _ent) -> void:
+func create_entity_proxy(prefab, prefabDef, _ent) -> ZEEEntityProxy:
 	var proxy = _proxy_t.instance()
 	prefab.add_child(proxy)
 	proxy.set_prefab(prefab, prefabDef)
-	#if prefab.has_method("get_editor_info"):
-	#	proxy.set_entity_info(prefab.get_editor_info(), ent)
-	#else:
-	#	print("Warning: Instance has no editor info")
-	#	proxy.set_entity_info(ZqfUtils.EMPTY_DICT, ent)
-	#pass
+	return proxy
 
 func refresh_entity_widgets() -> void:
 	var numEnts:int = _entsRoot.get_child_count()
@@ -42,10 +37,10 @@ func create_entity_at(pos:Vector3, prefabDef, prefabName) -> void:
 		return
 	
 	_entsRoot.add_child(prefab)
-	prefab.global_transform.origin = pos
 	
 	# add entity proxy for widgets etc
-	create_entity_proxy(prefab, prefabDef, ent)
+	var proxy:ZEEEntityProxy = create_entity_proxy(prefab, prefabDef, ent)
+	proxy.set_prefab_position(pos)
 
 func get_entity_count() -> int:
 	return _entsRoot.get_child_count()

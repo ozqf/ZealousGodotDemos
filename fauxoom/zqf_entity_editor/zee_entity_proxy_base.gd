@@ -1,3 +1,7 @@
+# Class that attaches to a non-editor related object and handles
+# editor manipulation of the object.
+# Objects must have methods to export their fields etc to the proxy
+# or it can't do very much
 extends Spatial
 class_name ZEEEntityProxy
 
@@ -66,6 +70,12 @@ func get_fields() -> Dictionary:
 func delete_prefab() -> void:
 	_prefab.queue_free()
 	pass
+
+func set_prefab_position(pos:Vector3) -> void:
+	if _prefab.has_method("set_position"):
+		_prefab.set_position(pos)
+	else:
+		_prefab.global_transform.origin = pos
 
 func get_label() -> String:
 	if _data.has("selfName"):
