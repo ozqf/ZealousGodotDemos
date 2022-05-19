@@ -434,7 +434,7 @@ static func tokenise(_text:String) -> PoolStringArray:
 	return tokens
 
 #####################################
-# misc
+# files
 #####################################
 
 static func does_file_exist(path:String) -> bool:
@@ -450,6 +450,26 @@ static func make_dir(path:String) -> void:
 	if !dir.dir_exists(path):
 		dir.make_dir(path)
 
+static func get_files_in_directory(path:String, extension:String):
+	var files = []
+	var dir = Directory.new()
+	var err = dir.open(path)
+	if err != 0:
+		print("Error " + str(err) + " finding files in " + path)
+		return files
+	dir.list_dir_begin(true)
+	while true:
+		var file = dir.get_next()
+		if file == "":
+			break;
+		if file == "." || file == "..":
+			continue;
+		if !file.ends_with(extension):
+			continue;
+		files.push_back(file)
+	dir.list_dir_end()
+	return files
+
 # if returned dictionary is falsy, the file wasn't loaded
 static func load_dict_json_file(_path:String) -> Dictionary:
 	var file = File.new()
@@ -460,6 +480,10 @@ static func load_dict_json_file(_path:String) -> Dictionary:
 	var data = parse_json(file.get_as_text())
 	file.close()
 	return data
+
+#####################################
+# system
+#####################################
 
 static func is_running_in_editor() -> bool:
 	return !OS.has_feature("standalone")

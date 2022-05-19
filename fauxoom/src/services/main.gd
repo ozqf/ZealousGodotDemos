@@ -279,6 +279,12 @@ func submit_console_command(txt:String) -> void:
 		Groups.CONSOLE_FN_EXEC,
 		txt, tokens)
 
+func _list_dir(path:String, extension:String) -> void:
+	var files = ZqfUtils.get_files_in_directory(path, extension)
+	print("Found " + str(files.size()) + " files in " + path)
+	for file in files:
+		print(file)
+
 func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	if _tokens.size() == 0:
 		return
@@ -317,6 +323,17 @@ func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 		var path = _tokens[1]
 		var exists:bool = ZqfUtils.does_file_exist(path)
 		print(path + " exists: " + str(exists))
+	elif _tokens[0] == "list_entfiles":
+		print("----- Files in app folder -----")
+		_list_dir("ents", ".json")
+		print("----- Files in user folder -----")
+		_list_dir("user://ents", ".json")
+	elif _tokens[0] == "list_dir":
+		if _tokens.size() < 3:
+			print("List files in dir: list_dir <path> <extension>")
+			return
+		_list_dir(_tokens[1], _tokens[2])
+		return
 
 func _map_name_to_path(name:String) -> String:
 	return "res://maps/" + name + "/" + name + ".tscn"

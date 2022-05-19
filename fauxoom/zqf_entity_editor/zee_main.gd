@@ -403,7 +403,7 @@ func _is_mouse_over_left_panel() -> bool:
 
 # Process mouse input via raw input events, if mouse is captured
 func _input(_event: InputEvent):
-	if get_modal_blocking():
+	if !_enabled || get_modal_blocking():
 		return
 	if _event is InputEventMouseButton:
 		var ev = _event as InputEventMouseButton
