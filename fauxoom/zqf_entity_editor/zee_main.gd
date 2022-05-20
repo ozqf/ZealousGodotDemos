@@ -299,6 +299,14 @@ func _left_click() -> void:
 	elif _rootMode == EdEnums.RootMode.Select:
 		set_selected_proxy(_highlightedProxy)
 
+func _update_cursor_pos(pos:Vector3, normal:Vector3) -> void:
+	var scale:float = 0.5
+	pos.x = (round(pos.x / scale)) * scale
+	pos.y = (round(pos.y / scale)) * scale
+	pos.z = (round(pos.z / scale)) * scale
+	#pos.x = round(pos.x)
+	#pos.y = round(pos.y)
+	_3dCursor.global_transform.origin = pos
 
 func _open_save_file() -> void:
 	print("Saving " + str(_entList.get_entity_count()) + " entities")
@@ -319,10 +327,7 @@ func _cast_interaction_ray(mask) -> Object:
 		if _ray.is_colliding():
 			# cursor is forward of camera
 			var pos:Vector3 = _ray.get_collision_point()
-			_3dCursor.global_transform.origin = pos
-			# var normal:Vector3 = _ray.get_collision_normal()
-			# var lookPos:Vector3 = pos + normal
-			# ZqfUtils.look_at_safe(_3dCursor, lookPos)
+			_update_cursor_pos(pos, _ray.get_collision_normal())
 			_3dCursor.visible = true
 			_canPlaceEnt = true
 			return _ray.get_collider()
@@ -338,11 +343,9 @@ func _cast_interaction_ray(mask) -> Object:
 		var dir:Vector3 = _camera.project_ray_normal(cursorPos)
 		var result:Dictionary = ZqfUtils.hitscan_by_direction_3D(_camera, origin, dir, 1000.0, ZqfUtils.EMPTY_ARRAY, mask)
 		if result:
-			_3dCursor.global_transform.origin = result.position
+			_update_cursor_pos(result.position, result.normal)
 			_3dCursor.visible = true
 			_canPlaceEnt = true
-			# var lookPos:Vector3 = result.position + result.normal
-			# ZqfUtils.look_at_safe(_3dCursor, lookPos)
 			return result.collider
 		else:
 			_3dCursor.visible = false
@@ -411,7 +414,3 @@ func _input(_event: InputEvent):
 		# print("Mouse ev press index: " + str(ev.get_button_index()))
 		if ev.pressed && ev.get_button_index() == 1 && !_is_mouse_over_left_panel():
 			_left_click()
-			# if _canPlaceEnt && Input.is_action_just_pressed("attack_1"):
-			# 	var pos:Vector3 = _3dCursor.global_transform.origin
-			# 	_create_entity_at(pos)
-			# pass

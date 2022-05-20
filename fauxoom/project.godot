@@ -714,6 +714,7 @@ editor_alt={
 3d_physics/layer_19="explosion_check"
 3d_physics/layer_20="editor_geometry"
 3d_physics/layer_21="editor_entities"
+3d_physics/layer_22="editor_widgets"
 
 [rendering]
 
