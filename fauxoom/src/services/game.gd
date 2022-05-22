@@ -386,7 +386,6 @@ func _load_entities(_fileName, _fileSource, appState) -> bool:
 	Main.change_scene(data.mapName, _fileName, appState)
 
 	return true
-	
 
 func _exec_file_load(fileName, appState, fileIsEmbedded:bool) -> void:
 	var path:String
@@ -596,13 +595,15 @@ func game_on_level_completed() -> void:
 		set_game_state(Enums.GameState.Won)
 
 func game_on_map_change() -> void:
-	print("Game - saw map change, just loaded is on ")
+	print("GAME - saw map change, just loaded is on ")
 	_justLoaded = true
 	_environments = ZqfUtils.EMPTY_DICT
 	if Main.get_app_state() == Enums.AppState.Game:
+		print("GAME - play mode")
 		set_game_mode(Enums.GameMode.Classic)
 		EntityEditor.disable()
 	else:
+		print("GAME - edit mode")
 		set_game_mode(Enums.GameMode.EntityEditor)
 		EntityEditor.clear()
 		EntityEditor.enable()

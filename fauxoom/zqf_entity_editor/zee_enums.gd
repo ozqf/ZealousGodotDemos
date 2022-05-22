@@ -4,8 +4,11 @@ const GROUP_NAME:String = "zqf_entity_editor"
 const FN_ROOT_MODE_CHANGE:String = "zee_on_root_mode_changed"
 const FN_GLOBAL_ENABLED:String = "zee_on_global_enabled"
 const FN_GLOBAL_DISABLED:String = "zee_on_global_disabled"
+
 # one param: new entity proxy instance
 const FN_NEW_ENTITY_PROXY:String = "zee_on_new_entity_proxy"
+# can't just clear proxy by sending a null as this counts as a no-parameter function
+# so this is a second message to clear the proxy reference
 const FN_CLEAR_ENTITY_SELECTION:String = "zee_on_clear_entity_selection"
 
 enum RootMode {
@@ -13,6 +16,7 @@ enum RootMode {
 	Select,
 	Add,
 	LinkTargets,
+	Rotate,
 	Scale
 }
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://zqf_entity_editor/zee_camera.gd" type="Script" id=1]
 [ext_resource path="res://zqf/zqf_ui_mouse_over.gd" type="Script" id=2]
@@ -6,25 +6,8 @@
 [ext_resource path="res://zqf_entity_editor/ui/zee_button.tscn" type="PackedScene" id=4]
 [ext_resource path="res://zqf_entity_editor/zee_entity_list.gd" type="Script" id=5]
 [ext_resource path="res://zqf_entity_editor/zee_entity_props_panel.tscn" type="PackedScene" id=6]
-
-[sub_resource type="SpatialMaterial" id=4]
-flags_unshaded = true
-albedo_color = Color( 0, 0.345098, 1, 1 )
-
-[sub_resource type="CubeMesh" id=1]
-size = Vector3( 0.2, 0.2, 1 )
-
-[sub_resource type="SpatialMaterial" id=5]
-albedo_color = Color( 1, 0, 0, 1 )
-
-[sub_resource type="CubeMesh" id=2]
-size = Vector3( 1, 0.2, 0.2 )
-
-[sub_resource type="SpatialMaterial" id=6]
-albedo_color = Color( 0.176471, 1, 0.176471, 1 )
-
-[sub_resource type="CubeMesh" id=3]
-size = Vector3( 0.2, 1, 0.2 )
+[ext_resource path="res://zqf_entity_editor/gizmos/zee_transform_gizmo.tscn" type="PackedScene" id=7]
+[ext_resource path="res://zqf_entity_editor/gizmos/zee_cursor3d.tscn" type="PackedScene" id=8]
 
 [node name="ZqfEntityEditor" type="Spatial"]
 script = ExtResource( 3 )
@@ -40,27 +23,11 @@ current = true
 enabled = true
 cast_to = Vector3( 0, 0, -1000 )
 
-[node name="cursor3d" type="Spatial" parent="."]
-
-[node name="MeshInstance" type="MeshInstance" parent="cursor3d"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
-material_override = SubResource( 4 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="MeshInstance2" type="MeshInstance" parent="cursor3d"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
-material_override = SubResource( 5 )
-mesh = SubResource( 2 )
-material/0 = null
-
-[node name="MeshInstance3" type="MeshInstance" parent="cursor3d"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-material_override = SubResource( 6 )
-mesh = SubResource( 3 )
-material/0 = null
+[node name="cursor3d" parent="." instance=ExtResource( 8 )]
 
 [node name="ents" type="Spatial" parent="."]
+
+[node name="zee_transform_gizmo" parent="." instance=ExtResource( 7 )]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 9

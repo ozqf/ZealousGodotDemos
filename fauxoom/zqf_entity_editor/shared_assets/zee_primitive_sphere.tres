@@ -1,0 +1,7 @@
+[gd_resource type="SphereMesh" format=2]
+
+[resource]
+radius = 0.25
+height = 0.5
+radial_segments = 16
+rings = 8

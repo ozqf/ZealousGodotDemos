@@ -65,6 +65,15 @@ static func clamp_int(_value:int, _min:int, _max:int) -> int:
 # geometry stuff
 #####################################
 
+static func snap_f(val:float, stepSize:float) -> float:
+	return (round(val / stepSize)) * stepSize
+
+static func snap_v3(pos:Vector3, stepSize:float) -> Vector3:
+	pos.x = (round(pos.x / stepSize)) * stepSize
+	pos.y = (round(pos.y / stepSize)) * stepSize
+	pos.z = (round(pos.z / stepSize)) * stepSize
+	return pos
+
 static func dot_product(x0: float, y0: float, x1: float, y1: float):
 	return x0 * x1 + y0 * y1
 

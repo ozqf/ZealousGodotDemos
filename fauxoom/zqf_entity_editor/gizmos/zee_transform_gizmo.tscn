@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://zqf_entity_editor/shared_assets/zee_primitive_sphere.tres" type="SphereMesh" id=1]
+[ext_resource path="res://zqf_entity_editor/shared_assets/zee_mat_red_transparent.tres" type="Material" id=2]
+[ext_resource path="res://zqf_entity_editor/shared_assets/zee_primitive_sphere_shape.tres" type="Shape" id=3]
+[ext_resource path="res://zqf_entity_editor/gizmos/zee_cursor3d.tscn" type="PackedScene" id=4]
+[ext_resource path="res://zqf_entity_editor/gizmos/zee_transform_gizmo.gd" type="Script" id=5]
+
+[node name="zee_transform_gizmo" type="Spatial"]
+script = ExtResource( 5 )
+
+[node name="rotate" type="Spatial" parent="."]
+
+[node name="centre" type="KinematicBody" parent="rotate"]
+collision_layer = 2097152
+collision_mask = 2097152
+
+[node name="cursor3d" parent="rotate/centre" instance=ExtResource( 4 )]
+
+[node name="CollisionShape" type="CollisionShape" parent="rotate/centre"]
+shape = ExtResource( 3 )
+
+[node name="handle_pivot" type="Spatial" parent="rotate"]
+
+[node name="handle" type="KinematicBody" parent="rotate/handle_pivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
+collision_layer = 2097152
+collision_mask = 2097152
+
+[node name="mesh" type="MeshInstance" parent="rotate/handle_pivot/handle"]
+mesh = ExtResource( 1 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="rotate/handle_pivot/handle"]
+shape = ExtResource( 3 )

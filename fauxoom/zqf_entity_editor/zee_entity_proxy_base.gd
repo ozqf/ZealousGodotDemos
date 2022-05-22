@@ -77,6 +77,15 @@ func set_prefab_position(pos:Vector3) -> void:
 	else:
 		_prefab.global_transform.origin = pos
 
+func set_prefab_yaw(degrees:float) -> void:
+	if _prefab.has_method("zee_set_yaw_degrees"):
+		_prefab.zee_set_yaw_degrees(degrees)
+		return
+	_prefab.rotation_degrees = Vector3(0, degrees, 0)
+
+func get_prefab_transform() -> Transform:
+	return _prefab.global_transform
+
 func get_label() -> String:
 	if _data.has("selfName"):
 		return _prefabDef.name + ": " + _data.selfName

@@ -132,6 +132,7 @@ func init() -> void:
 
 func clear() -> void:
 	# _entList.clear_all_ents()
+	set_selected_proxy(null)
 	pass
 
 func refresh_entities() -> void:
@@ -144,6 +145,7 @@ func enable() -> void:
 	get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_GLOBAL_ENABLED)
 
 func disable() -> void:
+	set_selected_proxy(null)
 	get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_GLOBAL_DISABLED)
 
 func zee_on_global_enabled() -> void:
@@ -155,6 +157,7 @@ func zee_on_global_enabled() -> void:
 	_modalBlocker.visible = false
 
 func zee_on_global_disabled() -> void:
+	set_selected_proxy(null)
 	_enabled = false
 	visible = false
 	var uiNodes = $CanvasLayer.get_children()
@@ -280,6 +283,8 @@ func _set_root_mode(newMode) -> void:
 		modeTxt = "Add"
 	elif _rootMode == EdEnums.RootMode.LinkTargets:
 		modeTxt = "LinkTargets"
+	elif _rootMode == EdEnums.RootMode.Rotate:
+		modeTxt = "Rotate"
 	elif _rootMode == EdEnums.RootMode.Scale:
 		modeTxt = "Scale"
 	
@@ -299,13 +304,11 @@ func _left_click() -> void:
 	elif _rootMode == EdEnums.RootMode.Select:
 		set_selected_proxy(_highlightedProxy)
 
-func _update_cursor_pos(pos:Vector3, normal:Vector3) -> void:
+func _update_cursor_pos(pos:Vector3, _normal:Vector3) -> void:
 	var scale:float = 0.5
 	pos.x = (round(pos.x / scale)) * scale
 	pos.y = (round(pos.y / scale)) * scale
 	pos.z = (round(pos.z / scale)) * scale
-	#pos.x = round(pos.x)
-	#pos.y = round(pos.y)
 	_3dCursor.global_transform.origin = pos
 
 func _open_save_file() -> void:
@@ -376,6 +379,8 @@ func _process(_delta) -> void:
 		elif Input.is_action_just_pressed("slot_4"):
 			_set_root_mode(EdEnums.RootMode.LinkTargets)
 		elif Input.is_action_just_pressed("slot_5"):
+			_set_root_mode(EdEnums.RootMode.Rotate)
+		elif Input.is_action_just_pressed("slot_6"):
 			_set_root_mode(EdEnums.RootMode.Scale)
 		
 		if Input.is_action_just_pressed("editor_delete"):

@@ -1,19 +1,11 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://zqf_entity_editor/zee_entity_proxy_base.gd" type="Script" id=1]
+[ext_resource path="res://zqf_entity_editor/shared_assets/zee_primitive_sphere.tres" type="SphereMesh" id=2]
+[ext_resource path="res://zqf_entity_editor/shared_assets/zee_mat_red_transparent.tres" type="Material" id=3]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.25
-
-[sub_resource type="SphereMesh" id=2]
-radius = 0.25
-height = 0.5
-radial_segments = 16
-rings = 8
-
-[sub_resource type="SpatialMaterial" id=3]
-flags_unshaded = true
-albedo_color = Color( 1, 0, 0, 1 )
 
 [sub_resource type="CubeMesh" id=4]
 size = Vector3( 0.1, 0.25, 0.25 )
@@ -27,8 +19,8 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-mesh = SubResource( 2 )
-material/0 = SubResource( 3 )
+mesh = ExtResource( 2 )
+material/0 = ExtResource( 3 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, -0.125 )
