@@ -145,6 +145,12 @@ func _process(_delta) -> void:
 func get_app_state() -> int:
 	return _state
 
+func is_in_game() -> bool:
+	return _state == Enums.AppState.Game
+
+func is_in_editor() -> bool:
+	return _state == Enums.AppState.Editor
+
 func get_current_map_name() -> String:
 	return _currentMapName
 

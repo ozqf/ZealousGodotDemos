@@ -81,8 +81,6 @@ var _pendingSkill:int = 2
 var _skills = []
 
 var _state = Enums.GameState.Pregame
-var _gameMode = Enums.GameMode.Classic
-#var _gameMode = Enums.GameMode.EntityEditor
 
 var allowQuickSwitching:bool = true
 var quickSwitchTime:float = 0.5
@@ -110,8 +108,8 @@ var _emptyTargetInfo:Dictionary = {
 	yawDegrees = 0
 }
 
-func set_game_mode(mode:int) -> void:
-	_gameMode = mode
+# func set_game_mode(mode:int) -> void:
+# 	_gameMode = mode
 
 func _ready() -> void:
 	print("Game singleton init")
@@ -194,11 +192,12 @@ func _process_editor(_delta:float) -> void:
 	pass
 
 func _process(_delta:float) -> void:
-	if _gameMode == Enums.GameMode.EntityEditor:
+	if Main.is_in_editor():
 		_process_editor(_delta)
-	else:
+	elif Main.is_in_game():
 		_process_gameplay(_delta)
-	pass
+	else:
+		print("GAME - unknown App state")
 
 func _check_for_pending_save() -> void:
 	if _pendingSaveName != "":
@@ -279,10 +278,12 @@ func on_clicked_checkpoint() -> void:
 	Main.submit_console_command("load checkpoint")
 
 func _refresh_overlay() -> void:
-	if _gameMode == Enums.GameMode.EntityEditor:
+	if Main.is_in_game():
+		_refresh_gameplay_overlay()
+	elif Main.is_in_editor():
 		_refresh_editor_overlay()
 	else:
-		_refresh_gameplay_overlay()
+		print("GAME - refresh overlay - unknown app state")
 
 func _refresh_gameplay_overlay() -> void:
 	if _state == Enums.GameState.Pregame:
@@ -597,13 +598,14 @@ func game_on_map_change() -> void:
 	_environments = ZqfUtils.EMPTY_DICT
 	if Main.get_app_state() == Enums.AppState.Game:
 		print("GAME - play mode")
-		set_game_mode(Enums.GameMode.Classic)
 		EntityEditor.disable()
-	else:
+	elif Main.get_app_state() == Enums.AppState.Editor:
 		print("GAME - edit mode")
-		set_game_mode(Enums.GameMode.EntityEditor)
 		EntityEditor.clear()
 		EntityEditor.enable()
+	else:
+		EntityEditor.disable()
+		print("GAME - on_map_change - unknown app state")
 	game_set_environment(ZqfUtils.EMPTY_STR)
 	# _hasPlayerStart = false
 	_clear_dynamic_entities()
