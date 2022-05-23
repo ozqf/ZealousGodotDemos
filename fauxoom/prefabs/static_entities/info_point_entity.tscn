@@ -11,4 +11,4 @@ script = ExtResource( 3 )
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 1 )
-isStatic = true
+prefabName = "info_point"

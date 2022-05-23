@@ -213,6 +213,10 @@ var _prefabs = {
 		prefab = preload("res://prefabs/doors/tech_door_01.tscn"),
 		label = "Door - Tech 01"
 	},
+	king_tower = {
+		prefab = preload("res://prefabs/KingTower.tscn"),
+		label = "King of the Hill Tower"
+	},
 
 	################################################
 	# barrels

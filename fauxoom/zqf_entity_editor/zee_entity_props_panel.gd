@@ -37,7 +37,7 @@ func _refresh() -> void:
 		var def = fieldDefs[key]
 		var field:ZEEUIField = _prop_field_t.instance()
 		_dynamicProps.add_child(field)
-		field.init(def.name, def.name, def.value)
+		field.init(def.name, def.label, def.value)
 		field.connect("field_changed", self, "on_field_changed")
 
 func _delete_all_fields() -> void:

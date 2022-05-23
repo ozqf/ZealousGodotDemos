@@ -18,6 +18,7 @@ onready var _fileNamesLabel:Label = $CanvasLayer/left_sidebar_root/file_names
 onready var _modeLabel:Label = $CanvasLayer/left_sidebar_root/mode_label
 onready var _highlightedLabel:Label = $CanvasLayer/left_sidebar_root/highlighted_proxy_label
 onready var _selectedLabel:Label = $CanvasLayer/left_sidebar_root/selected_proxy_label
+onready var _templateList:Control = $CanvasLayer/left_sidebar_root/template_list
 onready var _templateListButtons:Control = $CanvasLayer/left_sidebar_root/template_list/buttons
 onready var _templateName:Control = $CanvasLayer/left_sidebar_root/template_list/buttons/current_template_name
 onready var _fileUI:Control = $CanvasLayer/left_sidebar_root/file_ui_container
@@ -270,7 +271,8 @@ func _refresh_ui() -> void:
 func _set_root_mode(newMode) -> void:
 	var oldMode = _rootMode
 	_rootMode = newMode
-	_templateListButtons.visible = false
+	_templateList.visible = false
+	# _templateListButtons.visible = false
 	_fileUI.visible = false
 	var modeTxt = "None"
 
@@ -280,7 +282,8 @@ func _set_root_mode(newMode) -> void:
 	elif _rootMode == EdEnums.RootMode.Select:
 		modeTxt = "Select"
 	elif _rootMode == EdEnums.RootMode.Add:
-		_templateListButtons.visible = true
+		_templateList.visible = true
+		# _templateListButtons.visible = true
 		modeTxt = "Add"
 	elif _rootMode == EdEnums.RootMode.LinkTargets:
 		modeTxt = "LinkTargets"

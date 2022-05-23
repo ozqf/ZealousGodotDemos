@@ -13,7 +13,8 @@ func _ready():
 		_ent.selfName = targetName
 	else:
 		_ent.selfName = name
-	visible = false
+	if Main.is_in_game():
+		visible = false
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.xform = ZqfUtils.transform_to_dict(global_transform)

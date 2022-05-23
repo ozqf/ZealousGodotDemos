@@ -15,6 +15,15 @@ var _data:Dictionary
 var _dirty:bool = false
 var _dirtyTick:float = 0.0
 
+func _patch_fields(fields:Dictionary) -> void:
+	var keys = fields.keys()
+	for key in keys:
+		var field = fields[key]
+		if !field.has("name"):
+			field.name = key
+		if !field.has("label"):
+			field.label = field.name
+
 func set_prefab(prefab, prefabDef) -> void:
 	_prefab = prefab
 	_prefabDef = prefabDef
@@ -22,6 +31,8 @@ func set_prefab(prefab, prefabDef) -> void:
 	_data = {}
 	if prefab.has_method("get_editor_info"):
 		_data = prefab.get_editor_info()
+		if _data.has("fields"):
+			_patch_fields(_data.fields)
 
 func _write_save_from_info(data:Dictionary) -> Dictionary:
 	var save:Dictionary = {}

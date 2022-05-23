@@ -130,29 +130,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="template_list" type="Control" parent="CanvasLayer/left_sidebar_root"]
+[node name="template_list" type="ScrollContainer" parent="CanvasLayer/left_sidebar_root"]
 margin_top = 176.0
 margin_right = 256.0
-margin_bottom = 176.0
+margin_bottom = 688.0
+rect_min_size = Vector2( 0, 512 )
 
 [node name="buttons" type="VBoxContainer" parent="CanvasLayer/left_sidebar_root/template_list"]
-margin_right = 256.0
-margin_bottom = 40.0
+margin_bottom = 14.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="current_template_name" type="Label" parent="CanvasLayer/left_sidebar_root/template_list/buttons"]
-margin_right = 256.0
 margin_bottom = 14.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="file_ui_container" type="VBoxContainer" parent="CanvasLayer/left_sidebar_root"]
-margin_top = 180.0
+margin_top = 692.0
 margin_right = 256.0
-margin_bottom = 224.0
+margin_bottom = 736.0
 
 [node name="load" parent="CanvasLayer/left_sidebar_root/file_ui_container" instance=ExtResource( 4 )]
 anchor_right = 0.0

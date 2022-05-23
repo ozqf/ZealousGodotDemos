@@ -58,6 +58,10 @@ func get_root_node() -> Node:
 		return _rootOverride
 	return get_parent()
 
+func attach_command_signals(root:Node) -> void:
+	var _result = self.connect("entity_append_state", root, "append_state")
+	_result = self.connect("entity_restore_state", root, "restore_state")
+
 func on_trigger_entities(target:String, message:String, dict:Dictionary) -> void:
 	if target == "":
 		return
@@ -83,20 +87,20 @@ func write_state() -> Dictionary:
 	var dict = {
 		prefab = prefabName,
 		id = id,
-		selfName = selfName,
-		triggerTargetName = triggerTargetName,
+		sn = selfName,
+		tcsv = triggerTargetName,
 	}
 	if !isStatic:
-		dict.selfName = selfName
-		dict.triggerTargetName = triggerTargetName
+		dict.sn = selfName
+		dict.tcsv = triggerTargetName
 	emit_signal("entity_append_state", dict)
 	return dict
 
 func restore_state(dict:Dictionary) -> void:
 	assert(dict)
 	if !isStatic:
-		selfName = ZqfUtils.safe_dict_s(dict, "selfName", "")
-		triggerTargetName = ZqfUtils.safe_dict_s(dict, "triggerTargetName", "")
+		selfName = ZqfUtils.safe_dict_s(dict, "sn", "")
+		triggerTargetName = ZqfUtils.safe_dict_s(dict, "tcsv", "")
 	if dict.has("id"):
 		id = dict.id
 	emit_signal("entity_restore_state", dict)

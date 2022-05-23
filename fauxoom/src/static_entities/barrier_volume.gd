@@ -24,14 +24,14 @@ func _ready() -> void:
 
 func get_editor_info() -> Dictionary:
 	visible = true
-	var data = {
+	var info = {
 		scalable = true,
 		rotatable = true,
-		fields = {
-			active = { name = "active", type = "bool", "value": active }
-		}
+		fields = {}
 	}
-	return data
+	ZEEMain.create_field(info.fields, "sn", "Self Name", "text", _ent.selfName)
+	ZEEMain.create_field(info.fields, "active", "Active", "bool", active)
+	return info
 
 # returns true if field was set successfully
 func set_editor_field(_fieldName:String, _value) -> bool:
