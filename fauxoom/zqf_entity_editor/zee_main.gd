@@ -143,6 +143,7 @@ func enable() -> void:
 	init()
 	_fileNamesLabel.text = "Editing: " + Main.get_current_map_name() + " / " + Main.get_current_entities_file()
 	get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_GLOBAL_ENABLED)
+	_focus.grab_focus()
 
 func disable() -> void:
 	set_selected_proxy(null)

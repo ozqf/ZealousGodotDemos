@@ -66,6 +66,12 @@ func _process(_delta:float) -> void:
 	if result == null:
 		return
 	var pos:Vector3 = result as Vector3
+
+	if Input.is_action_just_pressed("editor_control"):
+		# move selection
+		_proxy.set_prefab_position(pos)
+		pass
+
 	if Input.is_action_just_pressed("attack_1"):
 		_pivot.rotation_degrees = Vector3()
 		_dragging = true

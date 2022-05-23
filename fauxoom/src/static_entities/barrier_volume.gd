@@ -27,9 +27,9 @@ func get_editor_info() -> Dictionary:
 	var data = {
 		scalable = true,
 		rotatable = true,
-		fields = [
-			{ name = "active", type = "bool" }
-		]
+		fields = {
+			active = { name = "active", type = "bool", "value": active }
+		}
 	}
 	return data
 
@@ -45,6 +45,7 @@ func set_active(flag:bool) -> void:
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.active = active
+	_dict.xform = ZqfUtils.transform_to_dict(self.global_transform)
 
 func write_state() -> Dictionary:
 	return {
@@ -53,6 +54,7 @@ func write_state() -> Dictionary:
 
 func restore_state(data:Dictionary) -> void:
 	set_active(data.active)
+	ZqfUtils.safe_dict_apply_transform(data, "xform", self)
 
 # func on_trigger() -> void:
 # 	set_active(!active)

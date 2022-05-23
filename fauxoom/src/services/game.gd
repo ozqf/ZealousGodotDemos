@@ -113,9 +113,6 @@ var _emptyTargetInfo:Dictionary = {
 func set_game_mode(mode:int) -> void:
 	_gameMode = mode
 
-func get_game_mode() -> int:
-	return _gameMode
-
 func _ready() -> void:
 	print("Game singleton init")
 	_entRoot = Ents
