@@ -66,3 +66,8 @@ func on_trigger(_msg:String, _params:Dictionary) -> void:
 		set_active(false)
 	else:
 		set_active(!active)
+
+func ents_on_global_command(command:String) -> void:
+	if command == Groups.ENTS_CMD_DISABLE_ALL_FORCEFIELDS:
+		set_active(false)
+	pass

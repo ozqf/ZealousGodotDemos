@@ -97,6 +97,12 @@ func set_prefab_yaw(degrees:float) -> void:
 func get_prefab_transform() -> Transform:
 	return _prefab.global_transform
 
+func get_prefab_scale() -> Vector3:
+	return _prefab.scale
+
+func set_prefab_scale(newScale:Vector3) -> void:
+	_prefab.scale = newScale
+
 func get_label() -> String:
 	if _data.has("selfName"):
 		return _prefabDef.name + ": " + _data.selfName

@@ -203,7 +203,7 @@ func get_modal_blocking() -> bool:
 	if _fileDialog.visible:
 		return true
 	return false
- 
+
 func _file_selected(path:String) -> void:
 	if path == "" || path == "user://":
 		print("Empty path, aborted")
