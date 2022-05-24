@@ -101,7 +101,12 @@ func get_prefab_scale() -> Vector3:
 	return _prefab.scale
 
 func set_prefab_scale(newScale:Vector3) -> void:
+	var selfScale:Vector3 = Vector3()
+	selfScale.x = 1.0 / newScale.x
+	selfScale.y = 1.0 / newScale.y
+	selfScale.z = 1.0 / newScale.z
 	_prefab.scale = newScale
+	self.scale = selfScale
 
 func get_label() -> String:
 	if _data.has("selfName"):

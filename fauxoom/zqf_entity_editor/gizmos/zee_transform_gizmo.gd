@@ -13,6 +13,7 @@ enum TransformMode {
 onready var _rotate:Spatial = $rotate
 onready var _pivot:Spatial = $rotate/handle_pivot
 onready var _pivotHandle:Spatial = $rotate/handle_pivot/handle
+onready var _3dCursor:Spatial = $rotate/centre/cursor3d
 
 onready var _scale:Spatial = $scale
 onready var _xAxisHandle:Spatial = $scale/x
@@ -147,7 +148,6 @@ func _tick_scale_x(pos:Vector3) -> void:
 # start drags, tick input
 #####################################################
 func _start_drag(pos:Vector3, newMode) -> void:
-	_pivot.rotation_degrees = Vector3()
 	_dragging = true
 	_dragStartPos = global_transform.origin
 	_dragEndPos = pos
@@ -167,11 +167,12 @@ func _tick_drag(_delta:float) -> void:
 
 	if Input.is_action_just_pressed("attack_1"):
 		if _nextTransformMode == TransformMode.RotateYaw:
+			_pivot.rotation_degrees = Vector3()
 			_start_drag(pos, TransformMode.RotateYaw)
 		elif _nextTransformMode == TransformMode.ScaleX:
 			_dragStartScale = _proxy.get_prefab_scale()
 			_start_drag(pos, TransformMode.ScaleX)
-		
+	
 	elif Input.is_action_just_released("attack_1"):
 		# end drag
 		_dragging = false
@@ -195,5 +196,6 @@ func _process(_delta:float) -> void:
 	
 	var t:Transform = _proxy.get_prefab_transform()
 	global_transform.origin = t.origin
+	_3dCursor.rotation_degrees = _proxy.rotation_degrees
 	
 	_tick_drag(_delta)
