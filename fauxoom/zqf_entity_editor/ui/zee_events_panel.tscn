@@ -1,0 +1,60 @@
+[gd_scene format=2]
+
+[node name="zee_events_panel" type="Control"]
+anchor_right = 0.2
+anchor_bottom = 0.622
+margin_bottom = 0.159973
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="container" type="VBoxContainer" parent="."]
+margin_right = 256.0
+margin_bottom = 448.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mode" type="HBoxContainer" parent="container"]
+margin_right = 256.0
+margin_bottom = 24.0
+
+[node name="LineEdit" type="LineEdit" parent="container/mode"]
+margin_right = 192.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 192, 24 )
+
+[node name="create" type="Button" parent="container/mode"]
+margin_left = 196.0
+margin_right = 249.0
+margin_bottom = 24.0
+text = "Create"
+
+[node name="scroll" type="ScrollContainer" parent="container"]
+margin_top = 28.0
+margin_right = 256.0
+margin_bottom = 412.0
+rect_min_size = Vector2( 0, 384 )
+scroll_horizontal_enabled = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="container/scroll"]
+
+[node name="Control" type="Control" parent="container/scroll/VBoxContainer"]
+
+[node name="Label" type="Label" parent="container/scroll/VBoxContainer/Control"]
+margin_right = 192.0
+margin_bottom = 14.0
+text = "MyEventName"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="edit" type="Button" parent="container/scroll/VBoxContainer/Control"]
+margin_left = 200.0
+margin_top = 4.0
+margin_right = 253.0
+margin_bottom = 28.0
+text = "Edit"
+__meta__ = {
+"_edit_use_anchors_": false
+}

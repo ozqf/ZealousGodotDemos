@@ -219,6 +219,7 @@ func _file_selected(path:String) -> void:
 		data.mapName = Main.get_current_map_name()
 		# data.ents = _entList.write_ents_list()
 		data.ents = Ents.write_save_dict()
+		data.events = Game.get_events().write_state()
 		var file = File.new()
 		var err = file.open(path, File.WRITE)
 		if err != 0:

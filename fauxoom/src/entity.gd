@@ -101,6 +101,7 @@ func restore_state(dict:Dictionary) -> void:
 	if !isStatic:
 		selfName = ZqfUtils.safe_dict_s(dict, "sn", "")
 		triggerTargetName = ZqfUtils.safe_dict_s(dict, "tcsv", "")
+		print("Restored trigger target name " + str(triggerTargetName))
 	if dict.has("id"):
 		id = dict.id
 	emit_signal("entity_restore_state", dict)

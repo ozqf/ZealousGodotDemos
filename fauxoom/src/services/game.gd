@@ -57,6 +57,7 @@ var prj_player_saw_t = preload("res://prefabs/projectiles/prj_player_saw.tscn")
 var _entRoot:Entities = null
 var _dynamicRoot:Spatial = null
 
+onready var _events = $map_events
 onready var _pregameUI:Control = $game_state_overlay/pregame
 onready var _completeUI:Control = $game_state_overlay/complete
 onready var _deathUI:Control = $game_state_overlay/death
@@ -95,6 +96,7 @@ var _debugMob = null
 var _player:Player = null
 var _pendingSaveName:String = ""
 var _pendingLoadDict:Dictionary = {}
+var _pendingLoadDictIsSave:bool = false
 # this must default to true so that it triggers on initial startup
 var _justLoaded:bool = true
 # ditto, in this case it is used to detect that a new map was started
@@ -138,6 +140,10 @@ func _ready() -> void:
 		print("Checkpoint file found")
 	else:
 		print("No checkpoint file found")
+
+func set_pending_load_dict(dict:Dictionary, isSaveGame:bool) -> void:
+	_pendingLoadDict = dict
+	_pendingLoadDictIsSave = isSaveGame
 
 func new_hit_info() -> HitInfo:
 	return _hitInfo_type.new()
@@ -225,6 +231,7 @@ func _check_for_pending_load_dict() -> bool:
 		# make sure to clear the dict now!
 		_pendingLoadDict = {}
 		_cleanup_temp_entities()
+		_events.clear()
 		load_save_dict(dict)
 		return true
 	return false
@@ -264,6 +271,9 @@ func get_dynamic_parent() -> Spatial:
 
 func get_skill() -> Skill:
 	return _skills[_skill] as Skill
+
+func get_events() -> Object:
+	return _events
 
 func on_restart_map() -> void:
 	Main.submit_console_command("load start")
@@ -511,6 +521,10 @@ func load_save_dict(dict:Dictionary) -> void:
 		Ents.load_save_dict(dict.ents)
 	if dict.has("ai"):
 		AI.load_save_dict(dict.ai)
+	if dict.has("events"):
+		_events.restore(dict.events)
+	else:
+		_events.clear()
 
 func save_game(filePath:String) -> void:
 	print("Writing save " + filePath)
@@ -524,6 +538,7 @@ func save_game(filePath:String) -> void:
 	}
 	data.ai = AI.write_save_dict()
 	data.ents = Ents.write_save_dict()
+	data.events = _events.write_state()
 	_write_save_file(filePath, data)
 
 func _write_save_file(filePath:String, data:Dictionary) -> void:
