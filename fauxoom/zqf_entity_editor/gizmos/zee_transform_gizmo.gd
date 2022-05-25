@@ -31,40 +31,16 @@ var _currentTransformMode = TransformMode.None
 
 func _ready():
 	add_to_group(EdEnums.GROUP_NAME)
-	_pivotHandle.connect("mouse_entered", self, "on_mouse_entered_pivot_handle")
-	_pivotHandle.connect("mouse_exited", self, "on_mouse_exited_pivot_handle")
-
-	_xAxisHandle.connect("mouse_entered", self, "on_mouse_entered_x_axis_handle")
-	_xAxisHandle.connect("mouse_exited", self, "on_mouse_exited_x_axis_handle")
-	pass
-
-func on_mouse_entered_pivot_handle() -> void:
-	print("Mouse entered pivot handle")
-	_set_next_mode(TransformMode.RotateYaw)
-
-func on_mouse_exited_pivot_handle() -> void:
-	print("Mouse exited pivot handle")
-	_clear_next_mode(TransformMode.RotateYaw)
-
-func on_mouse_entered_x_axis_handle() -> void:
-	print("Mouse entered x axis")
-	_set_next_mode(TransformMode.ScaleX)
-
-func on_mouse_exited_x_axis_handle() -> void:
-	print("Mouse exited x axis")
-	_clear_next_mode(TransformMode.ScaleX)
 
 func _set_next_mode(newTransformMode) -> void:
 	if _nextTransformMode != TransformMode.None:
 		return
 	_nextTransformMode = newTransformMode
-	print("Transform mode is " + str(_nextTransformMode))
 
 func _clear_next_mode(transformModeToClear) -> void:
 	if _nextTransformMode != transformModeToClear:
 		return
 	_nextTransformMode = TransformMode.None
-	print("Transform mode is " + str(_nextTransformMode))
 
 func _set_current_mode(transformMode) -> void:
 	_currentTransformMode = transformMode
@@ -72,15 +48,6 @@ func _set_current_mode(transformMode) -> void:
 func _enable() -> void:
 	_enabled = true
 	visible = true
-	if _zeeRootMode == EdEnums.RootMode.Rotate:
-		# _rotate.visible = true
-		# _scale.visible = false
-		pass
-	elif _zeeRootMode == EdEnums.RootMode.Scale:
-		# _rotate.visible = false
-		# _scale.visible = true
-		pass
-	pass
 
 func _disable() -> void:
 	_enabled = false
@@ -122,6 +89,26 @@ func _cast_ray_to_horizontal():
 	var dir:Vector3 = cam.project_ray_normal(cursorPos)
 	var result = _dragPlane.intersects_ray(cam.global_transform.origin, dir)
 	return result
+
+func _find_next_drag_handle() -> void:
+	var cursorPos:Vector2 = get_viewport().get_mouse_position()
+	var cam:Camera = get_viewport().get_camera()
+	var dir:Vector3 = cam.project_ray_normal(cursorPos)
+	var origin:Vector3 = cam.global_transform.origin
+	var mask:int = (1 << 21)
+	var result = ZqfUtils.hitscan_by_direction_3D(self, origin, dir, 1000.0, ZqfUtils.EMPTY_ARRAY, mask)
+	if !result:
+		_nextTransformMode = TransformMode.None
+		return
+	var col = result.collider
+	if col == _pivotHandle:
+		_set_next_mode(TransformMode.RotateYaw)
+	elif col == _xAxisHandle:
+		_set_next_mode(TransformMode.ScaleX)
+	else:
+		_nextTransformMode = TransformMode.None
+		return
+	pass
 
 #####################################################
 # update drags
@@ -198,4 +185,5 @@ func _process(_delta:float) -> void:
 	global_transform.origin = t.origin
 	_3dCursor.rotation_degrees = _proxy.rotation_degrees
 	
+	_find_next_drag_handle()
 	_tick_drag(_delta)
