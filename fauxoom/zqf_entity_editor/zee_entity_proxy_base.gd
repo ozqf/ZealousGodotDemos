@@ -27,6 +27,7 @@ func _patch_fields(fields:Dictionary) -> void:
 func set_prefab(prefab, prefabDef) -> void:
 	_prefab = prefab
 	_prefabDef = prefabDef
+	_refresh_self_scale()
 
 	_data = {}
 	if prefab.has_method("get_editor_info"):
@@ -94,19 +95,29 @@ func set_prefab_yaw(degrees:float) -> void:
 		return
 	_prefab.rotation_degrees = Vector3(0, degrees, 0)
 
+func get_prefab_yaw_degrees() -> float:
+	return _prefab.rotation_degrees.y
+
 func get_prefab_transform() -> Transform:
 	return _prefab.global_transform
+
+func get_prefab_basis() -> Basis:
+	return _prefab.global_transform.basis
 
 func get_prefab_scale() -> Vector3:
 	return _prefab.scale
 
-func set_prefab_scale(newScale:Vector3) -> void:
+func _refresh_self_scale() -> void:
+	var newScale:Vector3 = _prefab.scale
 	var selfScale:Vector3 = Vector3()
 	selfScale.x = 1.0 / newScale.x
 	selfScale.y = 1.0 / newScale.y
 	selfScale.z = 1.0 / newScale.z
-	_prefab.scale = newScale
 	self.scale = selfScale
+
+func set_prefab_scale(newScale:Vector3) -> void:
+	_prefab.scale = newScale
+	_refresh_self_scale()
 
 func get_label() -> String:
 	if _data.has("selfName"):

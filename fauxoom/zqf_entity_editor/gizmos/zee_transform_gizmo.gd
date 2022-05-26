@@ -17,6 +17,8 @@ onready var _3dCursor:Spatial = $rotate/centre/cursor3d
 
 onready var _scale:Spatial = $scale
 onready var _xAxisHandle:Spatial = $scale/x
+onready var _yAxisHandle:Spatial = $scale/y
+onready var _zAxisHandle:Spatial = $scale/z
 
 var _proxy:ZEEEntityProxy = null
 var _enabled:bool = false
@@ -66,7 +68,10 @@ func zee_on_root_mode_changed(_newMode) -> void:
 
 func zee_on_new_entity_proxy(newProxy) -> void:
 	_proxy = newProxy
-	pass
+	_refresh_rotation_display()
+	# var yaw:float = _proxy.get_prefab_yaw_degrees()
+	# _pivot.rotation_degrees = Vector3(0, yaw, 0)
+	# _3dCursor.rotation_degrees = Vector3(0, yaw, 0)
 
 func zee_on_clear_entity_selection() -> void:
 	_proxy = null
@@ -105,10 +110,22 @@ func _find_next_drag_handle() -> void:
 		_set_next_mode(TransformMode.RotateYaw)
 	elif col == _xAxisHandle:
 		_set_next_mode(TransformMode.ScaleX)
+	elif col == _yAxisHandle:
+		_set_next_mode(TransformMode.ScaleY)
+	elif col == _zAxisHandle:
+		_set_next_mode(TransformMode.ScaleZ)
 	else:
 		_nextTransformMode = TransformMode.None
 		return
 	pass
+
+func _refresh_rotation_display() -> void:
+	if !ZqfUtils.is_obj_safe(_proxy):
+		return
+	var yaw:float = _proxy.get_prefab_yaw_degrees()
+	_pivot.rotation_degrees = Vector3(0, yaw, 0)
+	_3dCursor.rotation_degrees = Vector3(0, yaw, 0)
+	_scale.rotation_degrees = Vector3(0, yaw, 0)
 
 #####################################################
 # update drags
@@ -117,18 +134,50 @@ func _tick_yaw(pos:Vector3) -> void:
 	_dragEndPos = pos
 	var degrees:float = rad2deg(ZqfUtils.yaw_between(_dragStartPos, _dragEndPos))
 	degrees = ZqfUtils.snap_f(degrees, 45.0)
-	_pivot.rotation_degrees = Vector3(0, degrees, 0)
 	_proxy.set_prefab_yaw(degrees)
+	_refresh_rotation_display()
+	# _pivot.rotation_degrees = Vector3(0, degrees, 0)
+	# _3dCursor.rotation_degrees = Vector3(0, degrees, 0)
 
-func _tick_scale_x(pos:Vector3) -> void:
+func _tick_scale(pos:Vector3) -> void:
 	_dragEndPos = pos
+	var normal:Vector3
+	var rot:Basis = _proxy.get_prefab_basis()
+	var resultScaling:Vector3 = Vector3()
+	if _currentTransformMode == TransformMode.ScaleX:
+		normal = rot.x
+		resultScaling.x = 1
+	elif _currentTransformMode == TransformMode.ScaleY:
+		normal = rot.y
+		resultScaling.y = 1
+	else:
+		normal = rot.z
+		resultScaling.z = 1
+	
 	var dist:float = _dragStartPos.distance_to(_dragEndPos)
+	if dist < 0.25:
+		dist = 0.0
 	dist = ZqfUtils.snap_f(dist, 0.25)
-	dist = ZqfUtils.clamp_float(dist, 0.25, 1000.0)
+	# dist = ZqfUtils.clamp_float(dist, 0.25, 1000.0)
+
+	var between:Vector3 = _dragEndPos - _dragStartPos
+	
+	var dp:float = between.dot(normal)
+	if dp < 0.0:
+		dist = -dist
+
 	var scale = _dragStartScale
-	scale.x += dist
+
+	scale.x += (dist * resultScaling.x)
+	scale.y += (dist * resultScaling.y)
+	scale.z += (dist * resultScaling.z)
+	
 	if scale.x < 0.1:
 		scale.x = 0.1
+	if scale.y < 0.1:
+		scale.y = 0.1
+	if scale.z < 0.1:
+		scale.z = 0.1
 	_proxy.set_prefab_scale(scale)
 
 #####################################################
@@ -159,6 +208,12 @@ func _tick_drag(_delta:float) -> void:
 		elif _nextTransformMode == TransformMode.ScaleX:
 			_dragStartScale = _proxy.get_prefab_scale()
 			_start_drag(pos, TransformMode.ScaleX)
+		elif _nextTransformMode == TransformMode.ScaleY:
+			_dragStartScale = _proxy.get_prefab_scale()
+			_start_drag(pos, TransformMode.ScaleY)
+		elif _nextTransformMode == TransformMode.ScaleZ:
+			_dragStartScale = _proxy.get_prefab_scale()
+			_start_drag(pos, TransformMode.ScaleZ)
 	
 	elif Input.is_action_just_released("attack_1"):
 		# end drag
@@ -169,10 +224,11 @@ func _tick_drag(_delta:float) -> void:
 		if _currentTransformMode == TransformMode.RotateYaw:
 			_tick_yaw(pos)
 		elif _currentTransformMode == TransformMode.ScaleX:
-			_tick_scale_x(pos)
-	pass
-
-func _tick_scale(_delta:float) -> void:
+			_tick_scale(pos)
+		elif _currentTransformMode == TransformMode.ScaleY:
+			_tick_scale(pos)
+		elif _currentTransformMode == TransformMode.ScaleZ:
+			_tick_scale(pos)
 	pass
 
 func _process(_delta:float) -> void:
@@ -183,7 +239,7 @@ func _process(_delta:float) -> void:
 	
 	var t:Transform = _proxy.get_prefab_transform()
 	global_transform.origin = t.origin
-	_3dCursor.rotation_degrees = _proxy.rotation_degrees
+	# _3dCursor.rotation_degrees = _proxy.rotation_degrees
 	
 	_find_next_drag_handle()
 	_tick_drag(_delta)
