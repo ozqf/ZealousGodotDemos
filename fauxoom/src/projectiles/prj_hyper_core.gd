@@ -1,16 +1,29 @@
-extends Node
+extends RigidBodyProjectile
 
+var _area:Area
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+func _custom_init() -> void:
+	_area = $Area
+	_area.set_subject(self)
+	_area.connect("area_entered", self, "on_area_entered")
+	_area.connect("body_entered", self, "on_body_entered")
+	pass
 
+func on_area_entered(area:Area) -> void:
+	if Interactions.is_obj_a_mob(area):
+		Interactions.hit(_hitInfo, area)
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func on_body_entered(body) -> void:
+	if Interactions.is_obj_a_mob(body):
+		Interactions.hit(_hitInfo, body)
+#
 
+func _spawn_now() -> void:
+	._spawn_now()
+	linear_velocity = _velocity
+	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func hit(_hitInfo:HitInfo) -> int:
+	print("Hyper Core popped!")
+	self.queue_free()
+	return Interactions.HIT_RESPONSE_ABSORBED

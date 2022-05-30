@@ -34,8 +34,8 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.resetTick = _resetTick
 
 func restore_state(data:Dictionary) -> void:
-	_set_on(data.on)
-	_resetTick = data.resetTick
+	_set_on(ZqfUtils.safe_dict_b(data, "on", false))
+	_resetTick = ZqfUtils.safe_dict_f(data, "resetTick", 0.0)
 
 func _set_on(flag:bool) -> void:
 	on = flag

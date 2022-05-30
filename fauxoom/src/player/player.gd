@@ -83,7 +83,7 @@ func _ready():
 	_inventory.connect("weapon_action", self, "on_weapon_action")
 	_inventory.custom_init(_head, self, _hud)
 	_inventory.ownerId = Interactions.PLAYER_RESERVED_ID
-	_attack.init_attack(_interactor, _inventory)
+	_attack.init_attack(_head, _interactor, _inventory)
 	_attack.set_attack_enabled(false)
 	
 	var _result

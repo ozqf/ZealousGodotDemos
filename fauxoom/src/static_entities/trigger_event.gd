@@ -54,8 +54,8 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.tick = _tick
 
 func restore_state(_dict:Dictionary) -> void:
-	_active = _dict.active
-	_tick = _dict.tick
+	_active = ZqfUtils.safe_dict_b(_dict, "active", _active)
+	_tick = ZqfUtils.safe_dict_f(_dict, "tick", _tick)
 
 func _process(_delta:float) -> void:
 	if !_active:

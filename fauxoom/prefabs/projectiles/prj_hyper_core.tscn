@@ -1,16 +1,27 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/sprites/frames/64x64_projectile_frames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=2]
 [ext_resource path="res://src/projectiles/prj_hyper_core.gd" type="Script" id=3]
+[ext_resource path="res://src/hit_redirector.gd" type="Script" id=4]
+
+[sub_resource type="PhysicsMaterial" id=3]
+friction = 0.75
+bounce = 0.4
 
 [sub_resource type="SphereShape" id=1]
-radius = 0.5
+radius = 0.2
 
-[node name="prj_hyper_core" type="Area"]
-collision_layer = 4
-collision_mask = 4
+[sub_resource type="SphereShape" id=2]
+radius = 0.75
+
+[node name="prj_hyper_core" type="RigidBody"]
+collision_layer = 2048
+physics_material_override = SubResource( 3 )
+gravity_scale = 1.25
+continuous_cd = true
 script = ExtResource( 3 )
+maxSpeed = 20.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )
@@ -20,3 +31,17 @@ pixel_size = 0.04
 billboard = 1
 frames = ExtResource( 1 )
 script = ExtResource( 2 )
+
+[node name="OmniLight" type="OmniLight" parent="."]
+light_color = Color( 1, 0.486275, 0.145098, 1 )
+light_energy = 2.0
+omni_range = 2.5
+omni_attenuation = 0.267944
+
+[node name="Area" type="Area" parent="."]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 2 )

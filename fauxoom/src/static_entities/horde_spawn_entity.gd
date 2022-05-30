@@ -88,14 +88,14 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.pIndex = _spawnPointIndex
 
 func restore_state(_dict:Dictionary) -> void:
-	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
-	_liveMobs = _dict.liveMobs
-	_deadMobs = _dict.deadMobs
-	totalMobs = _dict.totalMobs
-	_tick = _dict.tick
-	_active = _dict.active
-	_finished = _dict.finished
-	_spawnPointIndex = _dict.pIndex
+	ZqfUtils.safe_dict_apply_transform(_dict, "xform", self)
+	_liveMobs = 		ZqfUtils.safe_dict_i(_dict, "liveMobs", _liveMobs)
+	_deadMobs = 		ZqfUtils.safe_dict_i(_dict, "deadMobs", _deadMobs)
+	totalMobs = 		ZqfUtils.safe_dict_i(_dict, "totalMobs", totalMobs)
+	_tick = 			ZqfUtils.safe_dict_f(_dict, "tick", _tick)
+	_active = 			ZqfUtils.safe_dict_b(_dict, "active", _active)
+	_finished = 		ZqfUtils.safe_dict_b(_dict, "finished", _finished)
+	_spawnPointIndex = 	ZqfUtils.safe_dict_i(_dict, "pIndex", _spawnPointIndex)
 
 func on_trigger(_msg:String, _params:Dictionary) -> void:
 	if !_active:

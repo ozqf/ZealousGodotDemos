@@ -93,7 +93,10 @@ func _move_as_ray(_delta:float) -> void:
 		_hitInfo.damage = 15
 		_hitInfo.attackTeam = _team
 		_hitInfo.direction = _velocity.normalized()
-		var _inflicted:int = Interactions.hitscan_hit(_hitInfo, hit)
+		var response:int = Interactions.hitscan_hit(_hitInfo, hit)
+		if response == Interactions.HIT_RESPONSE_ABSORBED:
+			remove_self()
+			return
 		# if _inflicted == Interactions.HIT_RESPONSE_PENETRATE:
 			# print("Penetration hit!")
 		# else:

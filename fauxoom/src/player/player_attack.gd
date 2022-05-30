@@ -1,12 +1,14 @@
 extends Node
 class_name PlayerAttack
 
+var _hyper_core_projectile_t = preload("res://prefabs/projectiles/prj_hyper_core.tscn")
 var _weapon_input_t = preload("res://src/defs/weapon_input.gd")
 var _weaponInput:WeaponInput = null
 
 # var _launchNode:Spatial = null
 # var _parentBody:PhysicsBody = null
 # var _inventory:Inventory = null
+var _launchNode:Spatial = null
 var _interactor:PlayerObjectInteractor
 var _inventory = null
 var _active:bool = false
@@ -21,7 +23,8 @@ var _charging:bool = false
 var _chargeTick:float = 0.0
 var _chargeMax:float = 3.0
 
-func init_attack(interactor:PlayerObjectInteractor, inventory) -> void:
+func init_attack(launchNode:Spatial, interactor:PlayerObjectInteractor, inventory) -> void:
+	_launchNode = launchNode
 	_interactor = interactor
 	_inventory = inventory
 	_weaponInput = _weapon_input_t.new()
@@ -46,6 +49,17 @@ func check_action_press_or_release(actionName:String) -> bool:
 func get_punch_charge_weight() -> float:
 	return _chargeTick / _chargeMax
 
+func fire_hyper_core() -> void:
+	var t:Transform = _launchNode.global_transform
+	var origin:Vector3 = t.origin
+	var dir:Vector3 = -t.basis.z
+	var prj = _hyper_core_projectile_t.instance()
+	Game.get_dynamic_parent().add_child(prj)
+	
+	var mask:int = Interactions.WORLD
+	prj.launch_prj(origin, dir, Interactions.PLAYER_RESERVED_ID, Interactions.TEAM_NONE, mask)
+	pass
+
 func _process(_delta:float) -> void:
 	if _active:
 		if check_action_press_or_release("slot_1"):
@@ -67,6 +81,11 @@ func _process(_delta:float) -> void:
 			var result:int = _inventory.change_weapon_by_slot(_pendingSlot)
 			if result != 0:
 				_pendingSlot = -1
+		
+		if Input.is_action_just_pressed("attack_offhand"):
+			if _inventory.get_count("rage") >= 10:
+				_inventory.take_item("rage", 10)
+				fire_hyper_core()
 	
 	# record previous input state
 	_weaponInput.primaryOnPrev = _weaponInput.primaryOn

@@ -72,6 +72,7 @@ const MOB_DROP_COUNT:int = 3
 const MOB_DROP_COUNT_SUPER_PUNCH:int = 4
 
 const HIT_RESPONSE_NONE:int = -1
+const HIT_RESPONSE_ABSORBED:int = -2
 const HIT_RESPONSE_PENETRATE:int = -2
 
 const DAMAGE_SUPER_PUNCH:int = 100
