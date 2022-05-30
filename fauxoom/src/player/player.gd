@@ -33,6 +33,7 @@ var _startTransform:Transform = Transform.IDENTITY
 var _recoverTransform:Transform = Transform.IDENTITY
 
 var _godMode:bool = false
+var _godRestoreTick:float = 0.0
 var _dead:bool = false
 var _health:int = MAX_MAIN_HEALTH
 var _healthReductionTick:float = 0.0
@@ -264,6 +265,13 @@ func _tick_hyper(_delta:float) -> void:
 	var keyPressed:bool = Input.is_action_just_pressed("hyper")
 	var cost:int = Interactions.HYPER_ACTIVATE_MINIMUM
 	var duration:float = Interactions.HYPER_DURATION
+
+	# infinity hyper if god mode is on
+	if _godMode:
+		_godRestoreTick += _delta
+		if _godRestoreTick > (1.0 / 5.0):
+			_godRestoreTick = 0.0
+			self.give_item("rage", 1)
 	
 	if _hyperLevel <= 0:
 		# frenzy auto regen to given limit

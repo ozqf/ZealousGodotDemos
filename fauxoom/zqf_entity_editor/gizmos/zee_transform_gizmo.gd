@@ -4,6 +4,8 @@ const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 
 enum TransformMode {
 	None,
+	TranslateHorizontal,
+	TranslateVertical,
 	RotateYaw,
 	ScaleX,
 	ScaleY,
@@ -11,6 +13,7 @@ enum TransformMode {
 }
 
 onready var _rotate:Spatial = $rotate
+onready var _centre:Spatial = $rotate/centre
 onready var _pivot:Spatial = $rotate/handle_pivot
 onready var _pivotHandle:Spatial = $rotate/handle_pivot/handle
 onready var _3dCursor:Spatial = $rotate/centre/cursor3d
@@ -108,6 +111,8 @@ func _find_next_drag_handle() -> void:
 	var col = result.collider
 	if col == _pivotHandle:
 		_set_next_mode(TransformMode.RotateYaw)
+	elif col == _centre:
+		_set_next_mode(TransformMode.TranslateHorizontal)
 	elif col == _xAxisHandle:
 		_set_next_mode(TransformMode.ScaleX)
 	elif col == _yAxisHandle:
@@ -130,6 +135,12 @@ func _refresh_rotation_display() -> void:
 #####################################################
 # update drags
 #####################################################
+
+func _tick_translate(pos:Vector3) -> void:
+	pos = ZqfUtils.snap_v3(pos, 0.5)
+	_proxy.set_prefab_position(pos)
+	pass
+
 func _tick_yaw(pos:Vector3) -> void:
 	_dragEndPos = pos
 	var degrees:float = rad2deg(ZqfUtils.yaw_between(_dragStartPos, _dragEndPos))
@@ -195,16 +206,13 @@ func _tick_drag(_delta:float) -> void:
 	if result == null:
 		return
 	var pos:Vector3 = result as Vector3
-
-	if Input.is_action_just_pressed("editor_control"):
-		# move selection
-		_proxy.set_prefab_position(pos)
-		pass
-
+	
 	if Input.is_action_just_pressed("attack_1"):
 		if _nextTransformMode == TransformMode.RotateYaw:
 			_pivot.rotation_degrees = Vector3()
 			_start_drag(pos, TransformMode.RotateYaw)
+		elif _nextTransformMode == TransformMode.TranslateHorizontal:
+			_start_drag(pos, TransformMode.TranslateHorizontal)
 		elif _nextTransformMode == TransformMode.ScaleX:
 			_dragStartScale = _proxy.get_prefab_scale()
 			_start_drag(pos, TransformMode.ScaleX)
@@ -223,6 +231,10 @@ func _tick_drag(_delta:float) -> void:
 	if Input.is_action_pressed("attack_1"):
 		if _currentTransformMode == TransformMode.RotateYaw:
 			_tick_yaw(pos)
+		elif _currentTransformMode == TransformMode.TranslateHorizontal:
+			_tick_translate(pos)
+		elif _currentTransformMode == TransformMode.TranslateVertical:
+			_tick_translate(pos)
 		elif _currentTransformMode == TransformMode.ScaleX:
 			_tick_scale(pos)
 		elif _currentTransformMode == TransformMode.ScaleY:
