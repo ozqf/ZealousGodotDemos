@@ -14,6 +14,7 @@ var _prjMask:int = -1
 
 func custom_init_b() -> void:
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SHARPNEL
+	_hitInfo.comboType = Interactions.COMBO_CLASS_SHRAPNEL
 	_hitInfo.stunOverrideDamage = _hitInfo.damage * 2
 	_brassNode = _launchNode.find_node("ejected_brass_spawn")
 

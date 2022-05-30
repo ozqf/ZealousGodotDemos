@@ -6,6 +6,7 @@ var _column_t = preload("res://prefabs/projectiles/prj_lightning.tscn")
 func custom_init_b() -> void:
 	_hitInfo.damage = 100
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_PLASMA
+	_hitInfo.comboType = Interactions.COMBO_CLASS_RAILGUN
 	print("Init plasma - dmg " + str(_hitInfo.damage) + " type " + str(_hitInfo.damageType))
 
 # func is_cycling() -> bool:

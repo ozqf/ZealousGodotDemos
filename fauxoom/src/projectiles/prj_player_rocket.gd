@@ -6,6 +6,7 @@ onready var _particles = $particles
 
 func _ready():
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_EXPLOSIVE
+	_hitInfo.comboType = Interactions.COMBO_CLASS_ROCKET
 	pass
 
 func die() -> void:

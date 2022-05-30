@@ -24,6 +24,14 @@ func _spawn_now() -> void:
 	pass
 
 func hit(_hitInfo:HitInfo) -> int:
-	print("Hyper Core popped!")
+	var combo:int = _hitInfo.comboType
+	if combo == Interactions.COMBO_CLASS_RAILGUN:
+		print("Core rail combo")
+	elif combo == Interactions.COMBO_CLASS_SHRAPNEL:
+		print("Core Shrapnel combo")
+	elif combo == Interactions.COMBO_CLASS_ROCKET:
+		print("Core Rocket combo")
+	else:
+		print("Hyper Core popped!")
 	self.queue_free()
 	return Interactions.HIT_RESPONSE_ABSORBED
