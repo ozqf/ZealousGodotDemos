@@ -19,6 +19,7 @@ func write_hud_status(statusDict:PlayerHudStatus) -> void:
 
 func custom_init_b() -> void:
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SAW
+	_hitInfo.comboType = Interactions.COMBO_CLASS_SAWBLADE
 
 func equip() -> void:
 	.equip()

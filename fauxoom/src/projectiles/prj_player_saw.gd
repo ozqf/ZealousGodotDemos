@@ -25,6 +25,7 @@ func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
 	_hitInfo.damage = 15
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SAW_PROJECTILE
+	_hitInfo.comboType = Interactions.COMBO_CLASS_STAKE
 	_sparks1.emitting = false
 	_sparks2.emitting = false
 
@@ -196,11 +197,16 @@ func _physics_process(_delta):
 			revs -= (100.0 / REV_DOWN_TIME) * _delta
 			if revs < 0:
 				revs = 0
-			var particleCount:int = int(64.0 * revs / 100.0)
-			if particleCount <= 0:
-				particleCount = 1
-			_sparks1.amount = particleCount
-			_sparks2.amount = particleCount
+			# this doesn't seem to work... do particle emitters
+			# not like their amount value changing?
+			# var particleCount:int = int(64.0 * (revs / 100.0))
+			# if particleCount <= 0:
+			# 	particleCount = 1
+			# print("Particle count " + str(particleCount))
+			# _sparks1.amount = particleCount
+			# _sparks2.amount = particleCount
+			_sparks1.amount = 16
+			_sparks2.amount = 16
 		else:
 			print("Sawblade drop - ran out of revs")
 			set_dropped()

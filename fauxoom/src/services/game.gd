@@ -40,6 +40,7 @@ var prj_column_t = preload("res://prefabs/projectiles/prj_column.tscn")
 var flame_t = preload("res://prefabs/projectiles/prj_flame.tscn")
 var hyper_aoe_t = preload("res://prefabs/hyper_aoe.tscn")
 
+var stake_t = preload("res://prefabs/projectiles/prj_player_stake.tscn")
 var flare_t = preload("res://prefabs/projectiles/prj_player_flare.tscn")
 var trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
 var rocket_t = preload("res://prefabs/projectiles/prj_player_rocket.tscn")

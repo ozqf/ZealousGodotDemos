@@ -14,6 +14,7 @@ bottom_radius = 0.35
 height = 0.1
 
 [sub_resource type="SpatialMaterial" id=2]
+flags_unshaded = true
 params_billboard_mode = 1
 albedo_color = Color( 1, 1, 0, 1 )
 
@@ -28,6 +29,7 @@ height = 0.1
 collision_layer = 256
 mode = 3
 physics_material_override = SubResource( 5 )
+continuous_cd = true
 script = ExtResource( 2 )
 
 [node name="display" type="Spatial" parent="."]
@@ -55,7 +57,7 @@ material/0 = null
 [node name="sparks_1" type="CPUParticles" parent="display"]
 material_override = SubResource( 2 )
 cast_shadow = 0
-amount = 64
+amount = 10
 lifetime = 2.0
 local_coords = false
 mesh = SubResource( 3 )

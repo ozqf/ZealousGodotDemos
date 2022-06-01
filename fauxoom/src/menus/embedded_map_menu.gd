@@ -23,7 +23,7 @@ func _on_test_gameplay() -> void:
 func _on_test_arenas() -> void:
 	_on_back()
 	# Main.submit_console_command("map test_arena")
-	Main.submit_console_command("play test_arena_01")
+	Main.submit_console_command("play test_arena")
 
 func _on_test_entities() -> void:
 	_on_back()

@@ -21,6 +21,10 @@ func custom_init_b() -> void:
 	_prjMask = Interactions.get_player_prj_mask()
 	_brassNode = _launchNode.find_node("ejected_brass_spawn")
 
+# quick-switch awaaaaaaay
+func is_cycling() -> bool:
+	return false
+
 func _start_reload() -> void:
 	self.tick = _reloadTime
 	_reloading = true
@@ -45,13 +49,21 @@ func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> voi
 	_fire_single(forward, 1000)
 	self.emit_signal("weapon_action", self, "fire")
 
-func _fire_flare() -> void:
-	var flare = Game.flare_t.instance()
-	Game.get_dynamic_parent().add_child(flare)
+func _fire_flare(hyper:bool) -> void:
+	var prj
+	if hyper:
+		prj = Game.flare_t.instance()
+	else:
+		prj = Game.stake_t.instance()
+	Game.get_dynamic_parent().add_child(prj)
 	var t:Transform = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward = -t.basis.z
-	flare.launch_prj(selfPos, forward, Interactions.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
+	if hyper:
+		prj.get_hit_info().comboType = Interactions.COMBO_CLASS_STAKE
+	else:
+		prj.get_hit_info().comboType = Interactions.COMBO_CLASS_STAKE
+	prj.launch_prj(selfPos, forward, Interactions.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
 
 func read_input(_weaponInput:WeaponInput) -> void:
 	if _reloading:
@@ -93,7 +105,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 	# elif _secondaryOn && _loaded < maxLoaded:
 	# 	_start_reload()
 	elif _weaponInput.secondaryOn:
-		_fire_flare()
+		_fire_flare(Game.hyperLevel > 0)
 		# for _i in range(0, _loaded):
 		# 	_custom_shoot(2000, 1200, 1)
 		_loaded = 0

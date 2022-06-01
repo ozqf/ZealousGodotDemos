@@ -12,6 +12,7 @@ var _slamPos:Vector3 = Vector3()
 func custom_init_b() -> void:
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_PUNCH
 	_hitInfo.damage = regularDamage
+	_hitInfo.comboType = Interactions.COMBO_CLASS_PUNCH
 	add_to_group(Groups.PLAYER_GROUP_NAME)
 
 func _spawn_aoe(pos:Vector3) -> HyperAoe:

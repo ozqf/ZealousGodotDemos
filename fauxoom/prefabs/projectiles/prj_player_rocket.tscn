@@ -30,7 +30,7 @@ maxSpeed = 20.0
 deathSpawnPrefab = ExtResource( 2 )
 
 [node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
+pixel_size = 0.03
 billboard = 1
 frames = ExtResource( 1 )
 frame = 23
