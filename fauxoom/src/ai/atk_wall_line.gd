@@ -10,7 +10,7 @@ func fire(_target:Vector3) -> void:
 	# PrjUtils.spawn_line(t.origin, dest, 1, points)
 	PrjUtils.spawn_ground_line(_launchNode, t.origin, dest, 1, points)
 	var numPoints:int = points.size()
-	print("Got " + str(numPoints) + " points")
+	# print("Line atk got " + str(numPoints) + " points")
 	for i in range(0, numPoints):
 		var p:Vector3 = points[i]
 		var prj = Game.prj_spike_t.instance()

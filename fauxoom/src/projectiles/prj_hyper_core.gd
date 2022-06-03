@@ -11,6 +11,7 @@ enum HyperCoreState {
 var _coreState = HyperCoreState.None
 var _area:Area
 var _scaleBoost:int = 0
+var _dead:bool = false
 
 func _custom_init() -> void:
 	_area = $Area
@@ -52,10 +53,18 @@ func spawn_explosion(pos:Vector3) -> void:
 	var aoe = _explosion_t.instance()
 	Game.get_dynamic_parent().add_child(aoe)
 	aoe.global_transform.origin = pos
+	if _scaleBoost > 0:
+		aoe.damage = 400
+		aoe.explosiveRadius = 6
 	pass
 
 func spawn_lightning_orb(pos:Vector3) -> void:
-	spawn_explosion(pos)
+	var aoe = Game.hyper_aoe_t.instance()
+	Game.get_dynamic_parent().add_child(aoe)
+	aoe.global_transform.origin = pos
+	aoe.run_hyper_aoe(HyperAoe.TYPE_SUPER_PUNCH, 1.0)
+	if _scaleBoost > 0:
+		spawn_explosion(pos)
 
 func spawn_shrapnel_bomb(pos:Vector3) -> void:
 	spawn_explosion(pos)
@@ -69,6 +78,9 @@ func _refresh() -> void:
 		animator.modulate = Color(1, 1, 1)
 
 func hit(_hitInfo:HitInfo) -> int:
+	if _dead:
+		return Interactions.HIT_RESPONSE_NONE
+	
 	var combo:int = _hitInfo.comboType
 	if combo == Interactions.COMBO_CLASS_RAILGUN:
 		spawn_lightning_orb(self.global_transform.origin)
@@ -99,5 +111,6 @@ func hit(_hitInfo:HitInfo) -> int:
 	else:
 		print("Hyper Core popped by dmg type " + str(_hitInfo.damageType))
 		spawn_explosion(self.global_transform.origin)
+	_dead = true
 	self.queue_free()
 	return Interactions.HIT_RESPONSE_ABSORBED
