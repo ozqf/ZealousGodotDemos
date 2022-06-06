@@ -309,11 +309,17 @@ margin_right = 384.0
 margin_bottom = 38.0
 text = "Arenas"
 
+[node name="test_king" type="Button" parent="static_menus/embedded_maps/VBoxContainer"]
+margin_top = 18.0
+margin_right = 384.0
+margin_bottom = 38.0
+text = "King of the Hill"
+
 [node name="test_gameplay" type="Button" parent="static_menus/embedded_maps/VBoxContainer"]
 margin_top = 42.0
 margin_right = 384.0
 margin_bottom = 62.0
-text = "Run N Gun Test"
+text = "Test Gameplay"
 
 [node name="test_entities" type="Button" parent="static_menus/embedded_maps/VBoxContainer"]
 margin_top = 66.0

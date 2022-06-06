@@ -12,6 +12,7 @@ var _coreState = HyperCoreState.None
 var _area:Area
 var _scaleBoost:int = 0
 var _dead:bool = false
+var _lastTransform:Transform = Transform.IDENTITY
 
 func _custom_init() -> void:
 	_area = $Area
@@ -21,7 +22,6 @@ func _custom_init() -> void:
 
 	# self.connect("area_entered", self, "on_area_entered_body")
 	self.connect("body_entered", self, "on_body_entered_body")
-	pass
 
 func on_area_entered_area(area:Area) -> void:
 	if Interactions.is_obj_a_mob(area):
@@ -43,6 +43,7 @@ func on_body_entered_body(_body) -> void:
 	print("Hyper core stop")
 	self.mode = MODE_KINEMATIC
 	_coreState = HyperCoreState.Stuck
+	global_transform = _lastTransform
 
 func _spawn_now() -> void:
 	._spawn_now()
@@ -114,3 +115,6 @@ func hit(_hitInfo:HitInfo) -> int:
 	_dead = true
 	self.queue_free()
 	return Interactions.HIT_RESPONSE_ABSORBED
+
+func _physics_process(_delta:float) -> void:
+	_lastTransform = global_transform

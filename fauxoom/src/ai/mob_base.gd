@@ -85,6 +85,9 @@ var _shieldOrbCount:int = 0
 var _dead:bool = false
 var _isSniper:bool = false
 
+# if this is on, ask for a target regardless of any other checks
+var _forceAwake:bool = false
+
 var _corpseHitInfo:CorpseSpawnInfo = null
 
 func _ready() -> void:
@@ -200,12 +203,21 @@ func teleport(t:Transform) -> void:
 	# _moveYaw = rotation_degrees.y
 
 func force_awake() -> void:
-	if _state == MobState.Idle:
-		_state = MobState.Hunting
+	_forceAwake = true
+
+func _attempt_force_awake() -> void:
+	#if _state == MobState.Hunting:
+	#	return
+	if _state != MobState.Idle:
+		return
+	
+	_state = MobState.Hunting
+	#_state = MobState.Hunting
 	for atk in attacks:
 		if atk.cooldown > 5.0:
 			atk.lastSelectTime = time + atk.cooldown
 	emit_mob_event("alert", -1)
+	get_tree().call_group(Groups.ENTS_GROUP_NAME, Groups.ENTS_FN_MOB_AWOKE_ID, _ent.id)
 
 func restore_state(_dict:Dictionary) -> void:
 	global_transform = ZqfUtils.safe_dict_transform(_dict, "xform", global_transform)
@@ -290,6 +302,7 @@ func _change_state(_newState) -> void:
 	elif _state == MobState.Spawning:
 		_spawnColumn.run(1.5)
 	elif _state == MobState.Dying:
+		get_tree().call_group(Groups.ENTS_GROUP_NAME, Groups.ENTS_FN_MOB_DIED_ID, _ent.id)
 		_err = sprite.play_animation("dying")
 		# collisionShape.disabled = true
 		self.collision_layer = Interactions.CORPSE
@@ -371,14 +384,16 @@ func _process(_delta:float) -> void:
 		# build_tick_info(AI.mob_check_target(_tickInfo))
 		var targetInfo:Dictionary = AI.mob_check_target()
 		_build_tick_info(targetInfo, _delta)
-		if _aiTickInfo.id == 0:\
+		if _aiTickInfo.id == 0:
 			# lost target
 			_change_state(MobState.Idle)
 		else:
 			_ticker.custom_tick(_delta, _aiTickInfo)
 		# sprite.yawDegrees = rad2deg(motor.moveYaw)
 	elif _state == MobState.Idle:
-		if _thinkTick <= 0:
+		if _forceAwake:
+			_attempt_force_awake()
+		elif _thinkTick <= 0:
 			_thinkTick = _stats.losCheckTime
 			# if AI.check_player_in_front(global_transform.origin, _moveYaw):
 			# 	if Game.check_los_to_player(global_transform.origin):
@@ -415,8 +430,6 @@ func _process(_delta:float) -> void:
 		# motor.move_idle(_delta)
 		return
 	elif _state == MobState.Dead:
-		# do nothing. waiting for queue_free
-		# motor.move_idle(_delta)
 		return
 
 func apply_stun(_dir:Vector3, durationOverride:float) -> void:
@@ -573,7 +586,6 @@ func hit(_hitInfo:HitInfo) -> int:
 		#	# corpse.global_transform = global_transform
 		#	# print("Spawned corpse at " + str(corpse.global_transform.origin))
 		_change_state(MobState.Dying)
-		# queue_free()
 		return 1
 		
 		# var selfPos:Vector3 = global_transform.origin

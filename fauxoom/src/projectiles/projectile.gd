@@ -39,6 +39,10 @@ func _ready() -> void:
 func _custom_init() -> void:
 	pass
 
+func override_damage(value:int) -> void:
+	if value > 0.0:
+		_hitInfo.damage = value
+
 func get_hit_info() -> HitInfo:
 	return _hitInfo
 

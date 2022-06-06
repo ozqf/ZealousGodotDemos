@@ -42,6 +42,10 @@ const ENTS_FN_TRIGGER_ENTITIES:String = "on_trigger_entities"
 const ENTS_FN_SET_DEBUG_MOB:String = "on_set_debug_mob"
 const ENTS_FN_RESTORED_ENTITY:String = "on_restored_entity"
 const ENTS_FN_GLOBAL_COMMAND:String = "ents_on_global_command"
+const ENTS_FN_MOB_AWOKE_ID:String = "ents_mob_awoke_id"
+const ENTS_FN_MOB_DIED_ID:String = "ents_mob_died_id"
+# called after an entity file has been loaded
+const ENTS_FN_POST_LOAD:String = "ents_post_load"
 
 const ENTS_CMD_DISABLE_ALL_FORCEFIELDS:String = "disable_all_forcefields"
 const ENTS_CMD_KILL_ALL_AI:String = "kill_all_ai"

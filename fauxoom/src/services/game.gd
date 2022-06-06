@@ -454,25 +454,12 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		if !Main.change_scene(fileName, "", Enums.AppState.Editor):
 			print("New entities from scene failed")
 		pass
-	# elif first == "map" || first == "edit_old":
-	# 	var mapName = "sandbox"
-	# 	var entsName = ""
-	# 	var appState = Enums.AppState.Game
-	# 	if numTokens >= 2:
-	# 		mapName = _tokens[1]
-	# 	if numTokens >= 3:
-	# 		entsName = _tokens[2]
-	# 	if first == "edit_old":
-	# 		appState = Enums.AppState.Editor
-	# 	# initiate map and scene change
-	# 	Main.change_scene(mapName, entsName, appState)
-	# 	pass
-	# elif first == "edit_ents":
-	# 	if numTokens < 2:
-	# 		print("Missing ents file name")
-	# 		return
-	# 	var fileName = _tokens[1]
-	# 	_exec_file_load(fileName, Enums.AppState.Editor, false)
+	elif first == "map":
+		var fileName = "sandbox"
+		if numTokens > 1:
+			fileName = _tokens[1]
+		if !Main.change_scene(fileName, "", Enums.AppState.Game):
+			print("Map load failed")
 	elif first == "save":
 		var fileName:String = QUICK_SAVE_FILE_NAME
 		if numTokens >= 2:

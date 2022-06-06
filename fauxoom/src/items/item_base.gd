@@ -141,13 +141,28 @@ func _set_active(flag:bool) -> void:
 			print("Culling item " + str(_ent.prefabName))
 			get_parent().queue_free()
 
-func _process(_delta:float) -> void:
+func set_velocity(newVelocity) -> void:
+	_velocity = newVelocity
+
+func _physics_process(_delta:float) -> void:
 	# movement currently causes some items to jitter
 	# maybe due to ever decreasing x/z...?
-	#_velocity.y += -20 * _delta
-	#_velocity.x *= 0.95
-	#_velocity.z *= 0.95
-	#_velocity = move_and_slide(_velocity)
+	_velocity.y += -20 * _delta
+	# check for ground friction
+	if self.is_on_floor():
+		_sprite.modulate = Color.green
+		_velocity.x *= 0.95
+		_velocity.z *= 0.95
+		if abs(_velocity.x) < 0.05:
+			_velocity.x = 0.0
+		if abs(_velocity.y) < 0.05:
+			_velocity.y = 0.0
+	else:
+		_sprite.modulate = Color.white
+	_velocity = self.move_and_slide(_velocity, Vector3.UP)
+
+func _process(_delta:float) -> void:
+	
 	# tick respawn timer
 	if !_active:
 		if _selfRespawnTick <= 0:

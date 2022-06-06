@@ -48,6 +48,9 @@ func get_label() -> String:
 		return selfName
 	return get_parent().name
 
+func get_ent_transform() -> Transform:
+	return get_parent().global_transform
+
 # set this if getting from this entity component node to the actual root of the prefab
 # is not as simple as get_parent()
 func set_root_override(root:Node) -> void:

@@ -30,3 +30,6 @@ func get_editor_info() -> Dictionary:
 
 func restore_from_editor(dict:Dictionary) -> void:
 	_ent.restore_state(dict)
+
+func set_velocity(newVelocity:Vector3) -> void:
+	_item.set_velocity(newVelocity)

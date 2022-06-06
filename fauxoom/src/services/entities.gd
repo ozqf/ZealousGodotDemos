@@ -309,6 +309,15 @@ func create_mob(enemyType:int, _transform:Transform, alert:bool):
 		mob.force_awake()
 	return mob
 
+func create_item(prefabName:String, pos:Vector3):
+	var def:Dictionary = get_prefab_def(prefabName)
+	if !def:
+		return null
+	var item = def.prefab.instance()
+	self.add_child(item)
+	item.global_transform.origin = pos
+	return item
+
 func assign_dynamic_id() -> int:
 	var id:int = _nextDynamicId
 	_nextDynamicId += 1
@@ -350,6 +359,16 @@ func find_dynamic_entity_by_name(entName:String) -> Entity:
 		if ent.selfName == entName:
 			return ent as Entity
 	return null
+
+func find_dynamic_entities_by_prefab(prefabType:String):
+	if prefabType == null || prefabType == "":
+		return ZqfUtils.EMPTY_ARRAY
+	var results = []
+	var ents = get_tree().get_nodes_in_group(Groups.DYNAMIC_ENTS_GROUP_NAME)
+	for ent in ents:
+		if ent.prefabName == prefabType:
+			results.push_back(ent)
+	return results
 
 #################################################
 # save/load
@@ -413,6 +432,9 @@ func load_save_dict(data:Dictionary) -> void:
 	print("Restore dynamic entities")
 	for entData in data.dynamicData:
 		restore_dynamic_entity(entData)
+	# call post load now dict has been run
+	print("Ents dict loaded - run linkup")
+	get_tree().call_group(Groups.ENTS_GROUP_NAME, Groups.ENTS_FN_POST_LOAD)
 
 func load_entities_file(_entFilePath:String) -> void:
 	var data = ZqfUtils.load_dict_json_file(_entFilePath)
