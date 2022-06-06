@@ -7,6 +7,13 @@ onready var _ent:Entity = $Entity
 
 export var nodesCSV:String = ""
 
+enum KingTowerState {
+	Idle,
+	InEditor
+}
+
+var _state = KingTowerState.Idle
+
 var _nodeIndex:int = -1
 var _nodeNames = []
 
@@ -16,17 +23,36 @@ var _activeMobIds = []
 var _mobSpawnTick:float = 0.1
 
 var _ammoTick:float = 4.0
-var _ammoCooldown:float = 4.0
+var _ammoCooldown:float = 10.0
 
 func _ready() -> void:
 	add_to_group(Groups.ENTS_GROUP_NAME)
+	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	var _result = _ent.connect("entity_append_state", self, "append_state")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
 	# _result = _ent.connect("entity_trigger", self, "on_trigger")
-	
+	if Main.get_app_state() == Enums.AppState.Editor:
+		_set_state(KingTowerState.InEditor)
+
+func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
+	if txt != "king":
+		return
+	print("-- King tower status --")
+	print("Mob spawn tick " + str(_mobSpawnTick))
+	var numMobs:int = _activeMobIds.size()
+	print("Live mob ids: (" + str(numMobs) + "):")
+	var mobTxt:String = ""
+	for _i in range(0, numMobs):
+		mobTxt += str(_activeMobIds[_i]) + ", "
+	print(mobTxt)
+	var numPoints:int = _pointEnts.size()
+	print("Num point ents " + str(numPoints))
+
+func _set_state(newState) -> void:
+	_state = newState
 
 func ents_post_load() -> void:
-	_pointEnts = Ents.find_dynamic_entities_by_prefab("info_point")
+	_pointEnts = Ents.find_dynamic_entities_by_prefab("info_point", "foo")
 	print("King Tower found " + str(_pointEnts.size()) + " point ents")
 	pass
 
@@ -91,12 +117,15 @@ func _spawn_ammo() -> void:
 	var vel:Vector3 = Vector3()
 	vel.y = 10.0 # rand_range(5.0, 15.0)
 	var radians:float = rand_range(0, PI * 2)
-	var speed = rand_range(2.0, 5.0)
+	var speed = rand_range(2.0, 4.0)
 	vel.x = cos(radians) * speed
 	vel.z = sin(radians) * speed
 	item.set_velocity(vel)
+	item.set_time_to_live(8.0)
 
 func _process(_delta:float):
+	if _state == KingTowerState.InEditor:
+		return
 	if _mobSpawnTick <= 0.0:
 		_mobSpawnTick = 0.1
 		if _activeMobIds.size() < 3:
@@ -111,6 +140,7 @@ func _process(_delta:float):
 	
 	if _ammoTick <= 0.0:
 		_ammoTick = _ammoCooldown
-		_spawn_ammo()
+		for _i in range(0, 4):
+			_spawn_ammo()
 	else:
 		_ammoTick -= _delta

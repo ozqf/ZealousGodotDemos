@@ -53,6 +53,7 @@ func _spawn_now() -> void:
 func spawn_explosion(pos:Vector3) -> void:
 	var aoe = _explosion_t.instance()
 	Game.get_dynamic_parent().add_child(aoe)
+	aoe.set_hyper_level(1)
 	aoe.global_transform.origin = pos
 	if _scaleBoost > 0:
 		aoe.damage = 400

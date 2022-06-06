@@ -264,6 +264,15 @@ func _ready() -> void:
 		if !prefab.has("noEditor"):
 			prefab.noEditor = false
 
+func build_global_tag_list() -> PoolStringArray:
+	var tagsDict = {}
+	var ents = get_tree().get_nodes_in_group(Groups.ENTS_GROUP_NAME)
+	for ent in ents:
+		if !(ent is Entity):
+			continue
+		ent.append_global_tags(tagsDict)
+	return PoolStringArray(tagsDict.keys())
+
 func get_prefabs_copy() -> Dictionary:
 	return _prefabs.duplicate(true)
 
@@ -360,12 +369,14 @@ func find_dynamic_entity_by_name(entName:String) -> Entity:
 			return ent as Entity
 	return null
 
-func find_dynamic_entities_by_prefab(prefabType:String):
+func find_dynamic_entities_by_prefab(prefabType:String, queryTag:String = ""):
 	if prefabType == null || prefabType == "":
 		return ZqfUtils.EMPTY_ARRAY
 	var results = []
 	var ents = get_tree().get_nodes_in_group(Groups.DYNAMIC_ENTS_GROUP_NAME)
 	for ent in ents:
+		if queryTag != "" && !ent.has_tag(queryTag):
+			continue
 		if ent.prefabName == prefabType:
 			results.push_back(ent)
 	return results
@@ -441,7 +452,7 @@ func load_entities_file(_entFilePath:String) -> void:
 	pass
 
 func console_on_exec(_txt:String, _tokens) -> void:
-	if _tokens[0] == "list_ents":
+	if _tokens[0] == "ents_list":
 		var txt:String = ""
 		var staticEnts = get_tree().get_nodes_in_group(Groups.STATIC_ENTS_GROUP_NAME)
 		var dynEnts = get_tree().get_nodes_in_group(Groups.DYNAMIC_ENTS_GROUP_NAME)
@@ -467,4 +478,6 @@ func console_on_exec(_txt:String, _tokens) -> void:
 		print("List ents - writing " + str(txt.length()) + " to " + path)
 		file.store_string(txt)
 		file.close()
-		
+	elif _txt == "ents_tags":
+		var tags:PoolStringArray = build_global_tag_list()
+		print("Tags: " + tags.join(", "))

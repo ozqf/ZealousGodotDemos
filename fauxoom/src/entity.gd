@@ -22,9 +22,12 @@ export var selfName:String = ""
 # the space separated list of other entities to trigger when this
 # entity's trigger event occurs
 export var triggerTargetName:String = ""
+# tags are for grouping entities for querying
+export var tagCSV:String = ""
 # id to identify this entity. negative for static, positive for dynamic
 var id:int = 0
 var _rootOverride:Node = null
+var _tags:PoolStringArray = PoolStringArray()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -41,6 +44,7 @@ func _ready():
 		# check we have a valid entity def specified or we can't save!
 		var prefab = Ents.get_prefab_def(prefabName)
 		assert(prefab != null)
+	_refresh_tag_list()
 	# print("Ent " + get_parent().name + " id: " + str(id))
 
 func get_label() -> String:
@@ -50,6 +54,20 @@ func get_label() -> String:
 
 func get_ent_transform() -> Transform:
 	return get_parent().global_transform
+
+func _refresh_tag_list() -> void:
+	_tags = tagCSV.split(",", false, 0)
+
+func has_tag(queryTag:String) -> bool:
+	for tag in _tags:
+		if tag == queryTag:
+			return true
+	return false
+
+func append_global_tags(tagDict:Dictionary) -> void:
+	for tag in _tags:
+		if !tagDict.has(tag):
+			tagDict[tag] = ""
 
 # set this if getting from this entity component node to the actual root of the prefab
 # is not as simple as get_parent()
@@ -92,7 +110,9 @@ func write_state() -> Dictionary:
 		id = id,
 		sn = selfName,
 		tcsv = triggerTargetName,
+		tagcsv = _tags.join(",")
 	}
+	var tagTxt:String
 	if !isStatic:
 		dict.sn = selfName
 		dict.tcsv = triggerTargetName
@@ -107,4 +127,7 @@ func restore_state(dict:Dictionary) -> void:
 		print("Restored trigger target name " + str(triggerTargetName))
 	if dict.has("id"):
 		id = dict.id
+	if dict.has("tagcsv"):
+		tagCSV = dict.tagcsv
+		_refresh_tag_list()
 	emit_signal("entity_restore_state", dict)

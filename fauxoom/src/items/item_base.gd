@@ -35,6 +35,9 @@ var _player = null
 var _bRespawns:bool = false
 var _respawnTime:float = 20
 
+var _ttlTick:float = 0.0
+var _ttlTime:float = 0.0
+
 var _velocity:Vector3 = Vector3()
 
 var _hasTriggeredTargets:bool = false
@@ -141,6 +144,10 @@ func _set_active(flag:bool) -> void:
 			print("Culling item " + str(_ent.prefabName))
 			get_parent().queue_free()
 
+func set_time_to_live(seconds:float) -> void:
+	_ttlTime = seconds
+	_ttlTick = 0.0
+
 func set_velocity(newVelocity) -> void:
 	_velocity = newVelocity
 
@@ -150,18 +157,21 @@ func _physics_process(_delta:float) -> void:
 	_velocity.y += -20 * _delta
 	# check for ground friction
 	if self.is_on_floor():
-		_sprite.modulate = Color.green
 		_velocity.x *= 0.95
 		_velocity.z *= 0.95
 		if abs(_velocity.x) < 0.05:
 			_velocity.x = 0.0
 		if abs(_velocity.y) < 0.05:
 			_velocity.y = 0.0
-	else:
-		_sprite.modulate = Color.white
 	_velocity = self.move_and_slide(_velocity, Vector3.UP)
 
 func _process(_delta:float) -> void:
+
+	if _ttlTime > 0.0:
+		_ttlTick += _delta
+		if _ttlTick > _ttlTime:
+			_set_active(false)
+			return
 	
 	# tick respawn timer
 	if !_active:

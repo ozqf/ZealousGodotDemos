@@ -57,12 +57,12 @@ func _write_save_from_info(data:Dictionary) -> Dictionary:
 	return save
 
 func zee_refresh_fields() -> void:
-	print("Proxy - dirty")
+	#print("Proxy - dirty")
 	_dirty = true
 	_dirtyTick = DIRTY_REFRESH_TIME
 
 func _refresh() -> void:
-	print("Proxy - refresh")
+	#print("Proxy - refresh")
 	var save:Dictionary = _write_save_from_info(_data)
 	if _prefab.has_method("restore_from_editor"):
 		_prefab.restore_from_editor(save)

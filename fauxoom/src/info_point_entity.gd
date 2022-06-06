@@ -23,3 +23,15 @@ func append_state(_dict:Dictionary) -> void:
 func restore_state(data:Dictionary) -> void:
 	ZqfUtils.safe_dict_apply_transform(data, "xform", self)
 	pass
+
+func get_editor_info() -> Dictionary:
+	# visible = true
+	return {
+		prefab = _ent.prefabName,
+		fields = {
+			tagcsv = { "name": "tagcsv", "value": _ent.tagCSV, "type": "tags" },
+		}
+	}
+
+func restore_from_editor(dict:Dictionary) -> void:
+	_ent.restore_state(dict)

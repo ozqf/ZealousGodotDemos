@@ -15,6 +15,9 @@ func _ready() -> void:
 	_hitInfo.attackTeam = Interactions.TEAM_PLAYER
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_EXPLOSIVE
 
+func set_hyper_level(hyperLevel:int) -> void:
+	_hitInfo.hyperLevel = hyperLevel
+
 func _run_hits() -> void:
 	_hitInfo.origin = global_transform.origin
 	if _scanner.total == 0:
@@ -53,6 +56,9 @@ func _run_hits() -> void:
 		
 		var dist:float = _hitInfo.origin.distance_to(result.position)
 		var percent:float = 1.0 - float(dist / explosiveRadius)
+		# up range of damage to a 50% -> 100% range
+		percent = (percent + 1.0) / 2.0
+		# check and cap
 		if percent > 1:
 			percent = 1
 		if percent < 0:
@@ -67,7 +73,6 @@ func _run_hits() -> void:
 		_hitInfo.direction = tarPos - _hitInfo.origin
 		_hitInfo.direction = _hitInfo.direction.normalized()
 		var _inflicted:int = Interactions.hit(_hitInfo, body)
-
 
 func _physics_process(_delta:float):
 	if _dead:

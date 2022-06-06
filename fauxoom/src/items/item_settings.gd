@@ -33,3 +33,6 @@ func restore_from_editor(dict:Dictionary) -> void:
 
 func set_velocity(newVelocity:Vector3) -> void:
 	_item.set_velocity(newVelocity)
+
+func set_time_to_live(seconds:float) -> void:
+	_item.set_time_to_live(seconds)
