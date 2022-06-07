@@ -64,6 +64,16 @@ func has_tag(queryTag:String) -> bool:
 			return true
 	return false
 
+func get_editor_info_base() -> Dictionary:
+	var info = {
+		"prefab": self.prefabName,
+		"fields": {}
+	}
+	ZEEMain.create_field(info.fields, "sn", "Self Name", "text", self.selfName)
+	ZEEMain.create_field(info.fields, "tcsv", "Target CSV", "text", self.triggerTargetName)
+	ZEEMain.create_field(info.fields, "tagcsv", "Self Tags CSV", "tags", tagCSV)
+	return info
+
 func append_global_tags(tagDict:Dictionary) -> void:
 	for tag in _tags:
 		if !tagDict.has(tag):

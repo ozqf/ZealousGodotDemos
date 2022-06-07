@@ -224,6 +224,10 @@ var _prefabs = {
 		prefab = preload("res://prefabs/KingTower.tscn"),
 		label = "King of the Hill Tower"
 	},
+	king_event = {
+		prefab = preload("res://prefabs/static_entities/king_event.tscn"),
+		label = "King of the Hill Event"
+	},
 
 	################################################
 	# barrels
@@ -369,16 +373,21 @@ func find_dynamic_entity_by_name(entName:String) -> Entity:
 			return ent as Entity
 	return null
 
-func find_dynamic_entities_by_prefab(prefabType:String, queryTag:String = ""):
-	if prefabType == null || prefabType == "":
-		return ZqfUtils.EMPTY_ARRAY
+func find_dynamic_entities(queryTag:String = "", prefabType:String = ""):
+	# if prefabType == null || prefabType == "":
+	# 	return ZqfUtils.EMPTY_ARRAY
+	if queryTag == null:
+		queryTag = ""
+	if prefabType == null:
+		prefabType = ""
 	var results = []
 	var ents = get_tree().get_nodes_in_group(Groups.DYNAMIC_ENTS_GROUP_NAME)
 	for ent in ents:
 		if queryTag != "" && !ent.has_tag(queryTag):
 			continue
-		if ent.prefabName == prefabType:
-			results.push_back(ent)
+		if prefabType != "" && ent.prefabName != prefabType:
+			continue
+		results.push_back(ent)
 	return results
 
 #################################################

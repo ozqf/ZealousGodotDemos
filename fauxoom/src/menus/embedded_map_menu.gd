@@ -8,7 +8,6 @@ func _ready() -> void:
 	_f = $VBoxContainer/test_king.connect("pressed", self, "_on_test_king")
 	_f = $VBoxContainer/test_gameplay.connect("pressed", self, "_on_test_gameplay")
 	_f = $VBoxContainer/test_entities.connect("pressed", self, "_on_test_entities")
-	
 
 func _on_test_gameplay() -> void:
 	_on_back()
@@ -24,6 +23,7 @@ func _on_test_gameplay() -> void:
 	pass
 
 func _on_test_king() -> void:
+	_on_back()
 	Main.submit_console_command("play catacombs_01_king")
 
 func _on_test_arenas() -> void:

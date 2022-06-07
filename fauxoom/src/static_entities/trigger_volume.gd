@@ -64,8 +64,6 @@ func get_editor_info() -> Dictionary:
 		prefab = _ent.prefabName,
 		fields = {}
 	}
-	ZEEMain.create_field(info.fields, "sn", "Self Name", "text", _ent.selfName)
-	ZEEMain.create_field(info.fields, "tcsv", "Target CSV", "text", _ent.triggerTargetName)
 	ZEEMain.create_field(info.fields, "active", "Start Active", "bool", active)
 	ZEEMain.create_field(info.fields, "a", "action", "int", action)
 	ZEEMain.create_field(info.fields, "rs", "Reset Seconds", "float", resetSeconds)

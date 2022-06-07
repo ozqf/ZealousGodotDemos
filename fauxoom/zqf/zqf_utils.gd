@@ -292,7 +292,7 @@ static func safe_dict_s(d:Dictionary, field:String, fail:String) -> String:
 
 static func safe_dict_b(d:Dictionary, field:String, fail:bool) -> bool:
 	if d.has(field):
-		return d[field] as bool
+		return parse_bool(d[field])
 	return fail
 
 static func safe_dict_v3(d:Dictionary, field:String, fail:Vector3) -> Vector3:

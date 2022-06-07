@@ -30,12 +30,15 @@ func get_editor_info() -> Dictionary:
 		fields = {}
 	}
 	ZEEMain.create_field(info.fields, "sn", "Self Name", "text", _ent.selfName)
-	ZEEMain.create_field(info.fields, "active", "Active", "bool", active)
+	ZEEMain.create_field(info.fields, "active", "Active", "bool", str(self.active))
 	return info
 
+func restore_from_editor(dict:Dictionary) -> void:
+	_ent.restore_state(dict)
+
 # returns true if field was set successfully
-func set_editor_field(_fieldName:String, _value) -> bool:
-	return true
+# func set_editor_field(_fieldName:String, _value) -> bool:
+# 	return true
 
 func set_active(flag:bool) -> void:
 	active = flag
@@ -53,7 +56,7 @@ func write_state() -> Dictionary:
 	}
 
 func restore_state(data:Dictionary) -> void:
-	set_active(data.active)
+	set_active(ZqfUtils.safe_dict_b(data, "active", self.active))
 	ZqfUtils.safe_dict_apply_transform(data, "xform", self)
 
 # func on_trigger() -> void:

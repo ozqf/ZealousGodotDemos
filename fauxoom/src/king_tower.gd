@@ -23,7 +23,9 @@ var _activeMobIds = []
 var _mobSpawnTick:float = 0.1
 
 var _ammoTick:float = 4.0
-var _ammoCooldown:float = 10.0
+var _ammoCooldown:float = 8.0
+
+var _eventEnts = []
 
 func _ready() -> void:
 	add_to_group(Groups.ENTS_GROUP_NAME)
@@ -31,7 +33,7 @@ func _ready() -> void:
 	var _result = _ent.connect("entity_append_state", self, "append_state")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
 	# _result = _ent.connect("entity_trigger", self, "on_trigger")
-	if Main.get_app_state() == Enums.AppState.Editor:
+	if !Main.is_in_game():
 		_set_state(KingTowerState.InEditor)
 
 func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
@@ -52,8 +54,10 @@ func _set_state(newState) -> void:
 	_state = newState
 
 func ents_post_load() -> void:
-	_pointEnts = Ents.find_dynamic_entities_by_prefab("info_point", "foo")
+	_pointEnts = Ents.find_dynamic_entities("foo", "info_point")
 	print("King Tower found " + str(_pointEnts.size()) + " point ents")
+	_eventEnts = Ents.find_dynamic_entities("", "king_event")
+	print("King tower found " + str(_eventEnts.size()) + " event ents")
 	pass
 
 func _find_nodes(csv) -> void:
@@ -121,7 +125,7 @@ func _spawn_ammo() -> void:
 	vel.x = cos(radians) * speed
 	vel.z = sin(radians) * speed
 	item.set_velocity(vel)
-	item.set_time_to_live(8.0)
+	item.set_time_to_live(16.0)
 
 func _process(_delta:float):
 	if _state == KingTowerState.InEditor:

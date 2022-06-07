@@ -25,13 +25,14 @@ func restore_state(data:Dictionary) -> void:
 	pass
 
 func get_editor_info() -> Dictionary:
-	# visible = true
-	return {
-		prefab = _ent.prefabName,
-		fields = {
-			tagcsv = { "name": "tagcsv", "value": _ent.tagCSV, "type": "tags" },
-		}
-	}
+	# return {
+	# 	prefab = _ent.prefabName,
+	# 	fields = {
+	# 		tagcsv = { "name": "tagcsv", "value": _ent.tagCSV, "type": "tags" },
+	# 	}
+	# }
+	var info = _ent.get_editor_info_base()
+	return info
 
 func restore_from_editor(dict:Dictionary) -> void:
 	_ent.restore_state(dict)

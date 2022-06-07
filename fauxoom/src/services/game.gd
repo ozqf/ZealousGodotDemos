@@ -15,6 +15,7 @@ var _gib_t = preload("res://prefabs/gib.tscn")
 var _head_gib_t = preload("res://prefabs/player_gib.tscn")
 
 var _hitInfo_type = preload("res://src/defs/hit_info.gd")
+var _tagSet_t = preload("res://src/defs/ent_tag_set.gd")
 var _mobHealthInfo_t = preload("res://src/defs/mob_health_info.gd")
 var _corpse_spawn_info_t = preload("res://src/defs/corpse_spawn_info.gd")
 
@@ -148,6 +149,9 @@ func set_pending_load_dict(dict:Dictionary, isSaveGame:bool) -> void:
 
 func new_hit_info() -> HitInfo:
 	return _hitInfo_type.new()
+
+func new_tag_set() -> EntTagSet:
+	return _tagSet_t.new()
 
 func new_mob_health_info() -> MobHealthInfo:
 	return _mobHealthInfo_t.new()

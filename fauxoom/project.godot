@@ -69,6 +69,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/embedded_spawn.gd"
 }, {
+"base": "Reference",
+"class": "EntTagSet",
+"language": "GDScript",
+"path": "res://src/defs/ent_tag_set.gd"
+}, {
 "base": "Spatial",
 "class": "Entities",
 "language": "GDScript",
@@ -422,6 +427,7 @@ _global_script_class_icons={
 "CustomAnimator3D": "",
 "CustomMapLoader": "",
 "EmbeddedSpawn": "",
+"EntTagSet": "",
 "Entities": "",
 "Entity": "",
 "FlatMapEditor": "",
