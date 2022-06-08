@@ -96,7 +96,7 @@ func attach_command_signals(root:Node) -> void:
 func on_trigger_entities(target:String, message:String, dict:Dictionary) -> void:
 	if target == "":
 		return
-	if selfName == target:
+	if selfName == target || self.has_tag(target):
 		# trigger!
 		print(prefabName + " " + selfName + " triggered")
 		emit_signal("entity_trigger", message, dict)

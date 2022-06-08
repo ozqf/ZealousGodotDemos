@@ -26,6 +26,7 @@ var _ammoTick:float = 4.0
 var _ammoCooldown:float = 8.0
 
 var _eventEnts = []
+var _eventIndex = -1
 
 func _ready() -> void:
 	add_to_group(Groups.ENTS_GROUP_NAME)
@@ -54,11 +55,12 @@ func _set_state(newState) -> void:
 	_state = newState
 
 func ents_post_load() -> void:
+	if Main.is_in_editor():
+		return
 	_pointEnts = Ents.find_dynamic_entities("foo", "info_point")
 	print("King Tower found " + str(_pointEnts.size()) + " point ents")
 	_eventEnts = Ents.find_dynamic_entities("", "king_event")
 	print("King tower found " + str(_eventEnts.size()) + " event ents")
-	pass
 
 func _find_nodes(csv) -> void:
 	_nodeNames = csv.split(",")
@@ -127,9 +129,18 @@ func _spawn_ammo() -> void:
 	item.set_velocity(vel)
 	item.set_time_to_live(16.0)
 
+func _start_event() -> void:
+	if _eventEnts.size() > 0:
+		_eventIndex = 0
+		_eventEnts[_eventIndex].get_parent().king_event_start()
+	else:
+		print("King tower - no events to start")
+
 func _process(_delta:float):
 	if _state == KingTowerState.InEditor:
 		return
+	if _eventIndex < 0:
+		_start_event()
 	if _mobSpawnTick <= 0.0:
 		_mobSpawnTick = 0.1
 		if _activeMobIds.size() < 3:

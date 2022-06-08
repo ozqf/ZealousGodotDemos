@@ -54,6 +54,7 @@ func _fire_flare(hyper:bool) -> void:
 	if hyper:
 		prj = Game.flare_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
+		prj.override_damage(80)
 	else:
 		prj = Game.stake_t.instance()
 		Game.get_dynamic_parent().add_child(prj)

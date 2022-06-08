@@ -27,6 +27,7 @@ func ents_post_load() -> void:
 	print("King event found " + str(_spawnPointEnts.size()) + " spawn points")
 
 func king_event_start() -> void:
+	print("King event - start")
 	var tags = _gateTags.get_tags()
 	var tree = get_tree()
 	var grp:String = Groups.ENTS_GROUP_NAME

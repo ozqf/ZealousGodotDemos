@@ -33,6 +33,7 @@ var ownerId:int = 0
 
 func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
+	_hitInfo.damage = 15
 	#visible = false
 	_custom_init()
 
@@ -94,7 +95,7 @@ func _move_as_ray(_delta:float) -> void:
 	var hit = ZqfUtils.quick_hitscan3D(self, speed * _delta, _ignoreBody, _mask)
 	if hit:
 		# do damage
-		_hitInfo.damage = 15
+		# _hitInfo.damage = 15
 		_hitInfo.attackTeam = _team
 		_hitInfo.direction = _velocity.normalized()
 		var response:int = Interactions.hitscan_hit(_hitInfo, hit)
