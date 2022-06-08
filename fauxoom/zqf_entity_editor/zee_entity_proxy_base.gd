@@ -5,6 +5,8 @@
 extends Spatial
 class_name ZEEEntityProxy
 
+const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
+
 const DIRTY_REFRESH_TIME:float = 0.25
 
 var _prefab
@@ -14,6 +16,10 @@ var _data:Dictionary
 
 var _dirty:bool = false
 var _dirtyTick:float = 0.0
+
+func _ready() -> void:
+	add_to_group(EdEnums.GROUP_ENTITY_PROXIES)
+	pass
 
 func _patch_fields(fields:Dictionary) -> void:
 	var keys = fields.keys()
@@ -78,6 +84,26 @@ func get_fields() -> Dictionary:
 	if _data && _data.has("fields"):
 		return _data.fields
 	return ZqfUtils.EMPTY_DICT
+
+func get_tags_field(fieldName:String) -> PoolStringArray:
+	if !_data || !_data.has("fields"):
+		return PoolStringArray()
+	if !_data.fields.has(fieldName):
+		return PoolStringArray()
+	var field = _data.fields[fieldName]
+	if field.type != EdEnums.FIELD_TYPE_TAGS:
+		return PoolStringArray()
+	return field.value.split(",", false, 0)
+
+func get_tag_fields():
+	var result = []
+	if !_data || !_data.has("fields"):
+		return PoolStringArray()
+	for fieldName in _data.fields:
+		var field = _data.fields[fieldName]
+		if field.type == EdEnums.FIELD_TYPE_TAGS:
+			result.push_back(field)
+	return result
 
 func delete_prefab() -> void:
 	_prefab.queue_free()

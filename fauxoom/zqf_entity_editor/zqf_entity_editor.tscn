@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://zqf_entity_editor/zee_camera.gd" type="Script" id=1]
 [ext_resource path="res://zqf/zqf_ui_mouse_over.gd" type="Script" id=2]
@@ -8,9 +8,12 @@
 [ext_resource path="res://zqf_entity_editor/zee_entity_props_panel.tscn" type="PackedScene" id=6]
 [ext_resource path="res://zqf_entity_editor/gizmos/zee_transform_gizmo.tscn" type="PackedScene" id=7]
 [ext_resource path="res://zqf_entity_editor/gizmos/zee_cursor3d.tscn" type="PackedScene" id=8]
+[ext_resource path="res://zqf_entity_editor/display/zee_draw_tag_links.tscn" type="PackedScene" id=9]
 
 [node name="ZqfEntityEditor" type="Spatial"]
 script = ExtResource( 3 )
+
+[node name="zee_draw_tag_links" parent="." instance=ExtResource( 9 )]
 
 [node name="camera" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 6 )
