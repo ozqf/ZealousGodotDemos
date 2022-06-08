@@ -19,7 +19,6 @@ func _ready():
 	_colours.push_back(Color.purple)
 	_colours.push_back(Color.orange)
 	_colours.push_back(Color.cyan)
-	_colours.push_back(Color.white)
 
 func zee_on_new_entity_proxy(newProxy) -> void:
 	_proxy = newProxy
@@ -41,21 +40,49 @@ func _process(_delta:float) -> void:
 		_drawTick -= _delta
 		return
 	_drawTick = 0.2
-	var fields = _proxy.get_tag_fields()
-	# print("Draw tag links found " + str(fields.size()) + " tag fields on subject")
 	clear()
 	begin(Mesh.PRIMITIVE_LINES)
+	_draw_outgoing_links()
+	_draw_incoming_links()
+	end()
+
+func _draw_outgoing_links() -> void:
+	var fields = _proxy.get_tag_fields()
+	# print("Draw tag links found " + str(fields.size()) + " tag fields on subject")
+	
 	var numFields:int = fields.size()
 	var numColours:int = _colours.size()
+	var colourI:int = 0
 	for i in range(0, numFields):
 		var field = fields[i]
 		if field.name == "tagcsv":
 			# don't draw incoming triggers yet
 			continue
-		set_color(_colours[i % numColours])
+		set_color(_colours[colourI % numColours])
+		colourI += 1
 		var subjectTags:PoolStringArray = field.value.split(",", false, 0)
 		draw_tags(_proxy, subjectTags)
-	end()
+
+func _draw_incoming_links() -> void:
+	var origin:Vector3 = _proxy.global_transform.origin
+	var proxies = get_tree().get_nodes_in_group(EdEnums.GROUP_ENTITY_PROXIES)
+	var subjectTags:PoolStringArray = _proxy.get_tags_field("tagcsv")
+	set_color(Color.white)
+	var numProxies:int = proxies.size()
+	for i in range(0, numProxies):
+		var proxy = proxies[i]
+		var dest:Vector3 = proxy.global_transform.origin
+
+		var fields = proxy.get_tag_fields()
+		for field in fields:
+			if field.name == "tagcsv":
+				continue
+			var queryTags:PoolStringArray = field.value.split(",", false, 0)
+			if !_intersects(subjectTags, queryTags):
+				continue
+			add_vertex(origin)
+			add_vertex(dest)
+		
 
 func _intersects(a:PoolStringArray, b:PoolStringArray) -> bool:
 	for txtA in a:

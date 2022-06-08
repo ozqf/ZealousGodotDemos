@@ -299,7 +299,11 @@ func find_closest_navmesh_point(to:Vector3) -> Vector3:
 
 func get_path_to_point(from:Vector3, to:Vector3) -> PoolVector3Array:
 	if _navService == null:
-		return PoolVector3Array()
+		# err... panic I guess
+		var result:PoolVector3Array = PoolVector3Array()
+		result.push_back(from)
+		result.push_back(to)
+		return result
 	return _navService.get_simple_path(from, to)
 
 func get_path_for_agent(agent:NavAgent) -> bool:

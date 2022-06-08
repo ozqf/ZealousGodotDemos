@@ -9,6 +9,11 @@ func spawn(a:Vector3, b:Vector3) -> void:
 	# print("Trail: " + str(a) + " to " + str(b))
 	_origin = a
 	_dest = b
+	begin(Mesh.PRIMITIVE_LINES)
+	set_color(Color(1, 0, 0, 1))
+	add_vertex(_origin)
+	add_vertex(_dest)
+	end()
 
 func _process(_delta) -> void:
 	if (_dead):
@@ -20,8 +25,4 @@ func _process(_delta) -> void:
 		queue_free()
 		return
 	
-	begin(Mesh.PRIMITIVE_LINES)
-	set_color(Color(1, 0, 0, 1))
-	add_vertex(_origin)
-	add_vertex(_dest)
-	end()
+	

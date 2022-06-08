@@ -4,12 +4,16 @@ class_name KingTower
 const Enums = preload("res://src/enums.gd")
 
 onready var _ent:Entity = $Entity
+onready var _outerShellMesh = $display/outer_shell_mesh
 
 export var nodesCSV:String = ""
 
 enum KingTowerState {
 	Idle,
-	InEditor
+	InEditor,
+	MovingToEvent,
+	RunningEvent,
+	WaitingForEvent
 }
 
 var _state = KingTowerState.Idle
@@ -29,7 +33,9 @@ var _eventEnts = []
 var _eventIndex = -1
 
 func _ready() -> void:
+	print("Object A - ready")
 	add_to_group(Groups.ENTS_GROUP_NAME)
+	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	var _result = _ent.connect("entity_append_state", self, "append_state")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
@@ -55,6 +61,7 @@ func _set_state(newState) -> void:
 	_state = newState
 
 func ents_post_load() -> void:
+	print("Object A - group call")
 	if Main.is_in_editor():
 		return
 	_pointEnts = Ents.find_dynamic_entities("foo", "info_point")
@@ -74,6 +81,10 @@ func append_state(_dict:Dictionary) -> void:
 func restore_state(_dict:Dictionary) -> void:
 	ZqfUtils.safe_dict_apply_transform(_dict, "xform", self)
 	nodesCSV = ZqfUtils.safe_dict_s(_dict, "nlist", nodesCSV)
+
+func game_event_complete() -> void:
+	print("King tower - event complete, returning to idle")
+	_state = KingTowerState.Idle
 
 # func ents_mob_awoke_id(id:int) -> void:
 # 	print("King tower saw mob spawn " + str(id))
@@ -129,29 +140,66 @@ func _spawn_ammo() -> void:
 	item.set_velocity(vel)
 	item.set_time_to_live(16.0)
 
-func _start_event() -> void:
+func _pick_event() -> bool:
 	if _eventEnts.size() > 0:
 		_eventIndex = 0
-		_eventEnts[_eventIndex].get_parent().king_event_start()
+		return true
+	return false
+
+func _get_event_ent():
+	if _eventIndex < 0:
+		return null
+	return _eventEnts[_eventIndex]
+
+func _start_event() -> void:
+	_get_event_ent().get_parent().king_event_start()
+	_state = KingTowerState.RunningEvent
+
+func _move_tick(_delta:float) -> void:
+	# can't move if player isn't nearby
+	var origin:Vector3 = self.global_transform.origin
+	var plyr = AI.get_player_target()
+	var distToPlayer:float = origin.distance_to(plyr.position)
+	if distToPlayer > 8:
+		return
+	var dest:Vector3 = _get_event_ent().get_parent().global_transform.origin
+	var toward:Vector3 = (dest - origin).normalized()
+	var step:Vector3 = (toward * _delta)
+	var dist:float = origin.distance_to(dest)
+	if dist <= step.length():
+		_outerShellMesh.visible = false
+		_start_event()
 	else:
-		print("King tower - no events to start")
+		global_transform.origin += step
 
 func _process(_delta:float):
 	if _state == KingTowerState.InEditor:
 		return
-	if _eventIndex < 0:
-		_start_event()
-	if _mobSpawnTick <= 0.0:
-		_mobSpawnTick = 0.1
-		if _activeMobIds.size() < 3:
-			var t:Transform = pick_spawn_point()
-			var mob = Ents.create_mob(Enums.EnemyType.Punk, t, true)
-			mob.force_awake()
-			var childId:int = mob.get_node("Entity").id
-			_activeMobIds.push_back(childId)
+	
+	var origin:Vector3 = self.global_transform.origin
+	if _state == KingTowerState.Idle:
+		if AI.check_los_to_player(origin) && _pick_event():
+			_state = KingTowerState.MovingToEvent
+			_outerShellMesh.visible = true
+		# if _eventIndex < 0:
+		# 	_start_event()
+	elif _state == KingTowerState.RunningEvent:
 		pass
-	else:
-		_mobSpawnTick -= _delta
+	elif _state == KingTowerState.MovingToEvent:
+		_move_tick(_delta)
+	elif _state == KingTowerState.WaitingForEvent:
+		pass
+	#if _mobSpawnTick <= 0.0:
+	#	_mobSpawnTick = 0.1
+	#	if _activeMobIds.size() < 3:
+	#		var t:Transform = pick_spawn_point()
+	#		var mob = Ents.create_mob(Enums.EnemyType.Punk, t, true)
+	#		mob.force_awake()
+	#		var childId:int = mob.get_node("Entity").id
+	#		_activeMobIds.push_back(childId)
+	#	pass
+	#else:
+	#	_mobSpawnTick -= _delta
 	
 	if _ammoTick <= 0.0:
 		_ammoTick = _ammoCooldown

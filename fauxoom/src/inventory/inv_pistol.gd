@@ -4,6 +4,8 @@ export var maxSpreadX:int = 200
 export var maxSpreadY:int = 100
 export var maxLoaded:int = 12
 
+export var secondaryAmmoCost:int = 15
+
 var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
 var _pistolReload:AudioStream = preload("res://assets/sounds/item/weapon_reload_light.wav")
 var _awaitOff:bool = false
@@ -109,7 +111,9 @@ func read_input(_weaponInput:WeaponInput) -> void:
 	# elif _secondaryOn && _loaded < maxLoaded:
 	# 	_start_reload()
 	elif _weaponInput.secondaryOn:
-		_fire_flare(Game.hyperLevel > 0)
+		if _inventory.get_count(ammoType) >= secondaryAmmoCost:
+			_fire_flare(Game.hyperLevel > 0)
+			_inventory.take_item(ammoType, secondaryAmmoCost)
 		# for _i in range(0, _loaded):
 		# 	_custom_shoot(2000, 1200, 1)
 		_loaded = 0
@@ -126,7 +130,6 @@ func read_input(_weaponInput:WeaponInput) -> void:
 
 	if _loaded == 0:
 		_start_reload()
-
 
 func _process(_delta:float) -> void:
 	if tick > 0:

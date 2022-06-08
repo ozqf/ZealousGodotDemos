@@ -98,7 +98,7 @@ func on_trigger_entities(target:String, message:String, dict:Dictionary) -> void
 		return
 	if selfName == target || self.has_tag(target):
 		# trigger!
-		print(prefabName + " " + selfName + " triggered")
+		# print(prefabName + " " + selfName + " triggered")
 		emit_signal("entity_trigger", message, dict)
 
 func trigger() -> void:
@@ -134,7 +134,7 @@ func restore_state(dict:Dictionary) -> void:
 	if !isStatic:
 		selfName = ZqfUtils.safe_dict_s(dict, "sn", "")
 		triggerTargetName = ZqfUtils.safe_dict_s(dict, "tcsv", "")
-		print("Restored trigger target name " + str(triggerTargetName))
+		# print("Restored trigger target name " + str(triggerTargetName))
 	if dict.has("id"):
 		id = dict.id
 	if dict.has("tagcsv"):
