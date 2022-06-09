@@ -31,6 +31,15 @@ var _ammoCooldown:float = 8.0
 
 var _eventEnts = []
 var _eventIndex = -1
+var _eventCount:int = 0
+
+var _weapons = [
+	# "pistol",
+	# "chainsaw",
+	"ssg",
+	"pg",
+	"rocket_launcher"
+]
 
 func _ready() -> void:
 	print("Object A - ready")
@@ -82,10 +91,6 @@ func restore_state(_dict:Dictionary) -> void:
 	ZqfUtils.safe_dict_apply_transform(_dict, "xform", self)
 	nodesCSV = ZqfUtils.safe_dict_s(_dict, "nlist", nodesCSV)
 
-func game_event_complete() -> void:
-	print("King tower - event complete, returning to idle")
-	_state = KingTowerState.Idle
-
 # func ents_mob_awoke_id(id:int) -> void:
 # 	print("King tower saw mob spawn " + str(id))
 # 	var i:int = _activeMobIds.find(id)
@@ -114,6 +119,15 @@ func get_editor_info() -> Dictionary:
 	}
 	return data
 
+func _spawn_next_weapon() -> void:
+	var l:int = _weapons.size()
+	if l == 0:
+		return
+	var i:int = int(rand_range(0, l))
+	var type:String = _weapons[i]
+	_weapons.remove(i)
+	_spawn_item(type)
+
 func pick_spawn_point() -> Transform:
 	var numPoints:int = _pointEnts.size()
 	if numPoints == 0:
@@ -122,12 +136,12 @@ func pick_spawn_point() -> Transform:
 	var ent:Entity = _pointEnts[i]
 	return ent.get_ent_transform()
 
-func _spawn_ammo() -> void:
+func _spawn_item(type:String) -> void:
 	# var bulletDef = Ents.get_prefab_def("bullets_s")
 	# var bullets = Ents.prefab
 	var pos:Vector3 = self.global_transform.origin
 	pos.y += 1.0
-	var item = Ents.create_item("bullet_s", pos)
+	var item = Ents.create_item(type, pos)
 	if item == null:
 		print("King tower - failed to spawn item")
 		return
@@ -141,8 +155,9 @@ func _spawn_ammo() -> void:
 	item.set_time_to_live(16.0)
 
 func _pick_event() -> bool:
-	if _eventEnts.size() > 0:
-		_eventIndex = 0
+	var numEvents:int = _eventEnts.size()
+	if numEvents > 0:
+		_eventIndex = rand_range(0, numEvents)
 		return true
 	return false
 
@@ -152,8 +167,14 @@ func _get_event_ent():
 	return _eventEnts[_eventIndex]
 
 func _start_event() -> void:
-	_get_event_ent().get_parent().king_event_start()
+	_get_event_ent().get_parent().king_event_start(_eventCount)
 	_state = KingTowerState.RunningEvent
+
+func game_event_complete() -> void:
+	print("King tower - event complete, returning to idle")
+	_state = KingTowerState.Idle
+	_eventCount += 1
+	_spawn_next_weapon()
 
 func _move_tick(_delta:float) -> void:
 	# can't move if player isn't nearby
@@ -164,7 +185,8 @@ func _move_tick(_delta:float) -> void:
 		return
 	var dest:Vector3 = _get_event_ent().get_parent().global_transform.origin
 	var toward:Vector3 = (dest - origin).normalized()
-	var step:Vector3 = (toward * _delta)
+	var speed:float = 3.0
+	var step:Vector3 = ((toward * speed) * _delta)
 	var dist:float = origin.distance_to(dest)
 	if dist <= step.length():
 		_outerShellMesh.visible = false
@@ -204,6 +226,9 @@ func _process(_delta:float):
 	if _ammoTick <= 0.0:
 		_ammoTick = _ammoCooldown
 		for _i in range(0, 4):
-			_spawn_ammo()
+			_spawn_item("bullet_s")
+			_spawn_item("shell_s")
+			_spawn_item("cell_s")
+			_spawn_item("rocket_s")
 	else:
 		_ammoTick -= _delta

@@ -16,6 +16,6 @@ frame = 20
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 2 )
-prefabName = "rocket_l"
+prefabName = "rocket_s"
 
 [editable path="item_base"]

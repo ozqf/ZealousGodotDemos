@@ -14,6 +14,8 @@ var _mobSpawnTick:float = 0.1
 var _killCount:int = 0
 var _killTarget:int = 10
 
+var _eventCount:int = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print("Object B - ready")
@@ -25,6 +27,11 @@ func _ready():
 	
 	if Main.is_in_game():
 		visible = false
+
+func _reset() -> void:
+	_killCount = 0
+	_running = false
+	pass
 
 func ents_post_load() -> void:
 	print("Object B Group call")
@@ -46,15 +53,18 @@ func _message_gates(message:String) -> void:
 	for tag in tags:
 		tree.call_group(grp, fn, tag, message, ZqfUtils.EMPTY_DICT)
 
-func king_event_start() -> void:
+func king_event_start(eventCount:int) -> void:
 	print("King event - start")
 	_running = true
+	_eventCount = eventCount
+	_killTarget = 10 + _eventCount
 	_message_gates("on")
 	pass
 
 func king_event_stop() -> void:
 	print("King event - end")
 	_message_gates("off")
+	_reset()
 	var grp:String = Groups.GAME_GROUP_NAME
 	var fn:String = Groups.GAME_FN_EVENT_COMPLETE
 	get_tree().call_group(grp, fn)
@@ -106,12 +116,28 @@ func pick_spawn_point() -> Transform:
 	var ent:Entity = _spawnPointEnts[i]
 	return ent.get_ent_transform()
 
+func _max_mob_count() -> int:
+	return 3 + _eventCount
+
+func _get_next_enemy_type() -> int:
+	var r:float = randf()
+	if r > 0.9:
+		return Enums.EnemyType.Golem
+	elif r > 0.8:
+		return Enums.EnemyType.Spider
+	elif r > 0.6:
+		return Enums.EnemyType.Cyclops
+	elif r > 0.5:
+		return Enums.EnemyType.FleshWorm
+	else:
+		return Enums.EnemyType.Punk
+
 func _tick_spawning(_delta:float) -> void:
 	if _mobSpawnTick <= 0.0 && _killCount < _killTarget:
 		_mobSpawnTick = 0.1
-		if _activeMobIds.size() < 3:
+		if _activeMobIds.size() < _max_mob_count():
 			var t:Transform = pick_spawn_point()
-			var mob = Ents.create_mob(Enums.EnemyType.Punk, t, true)
+			var mob = Ents.create_mob(_get_next_enemy_type(), t, true)
 			mob.force_awake()
 			var childId:int = mob.get_node("Entity").id
 			_activeMobIds.push_back(childId)

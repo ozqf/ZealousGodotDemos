@@ -141,7 +141,7 @@ func _set_active(flag:bool) -> void:
 		if _bRespawns:
 			_selfRespawnTick = _respawnTime 
 		else:
-			print("Culling item " + str(_ent.prefabName))
+			# print("Culling item " + str(_ent.prefabName))
 			get_parent().queue_free()
 
 func set_time_to_live(seconds:float) -> void:
