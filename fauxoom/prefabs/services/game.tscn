@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/services/game.gd" type="Script" id=1]
 [ext_resource path="res://prefabs/attachable_camera.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/defs/skill.gd" type="Script" id=3]
 [ext_resource path="res://assets/fonts/default_dynamic_font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://src/events/map_events.gd" type="Script" id=5]
+[ext_resource path="res://assets/fonts/large_dynamic_font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://src/ui/ui_flashy_message.gd" type="Script" id=7]
 
 [node name="game" type="Spatial"]
 pause_mode = 2
@@ -216,6 +218,48 @@ custom_fonts/font = ExtResource( 4 )
 text = "HUD hint text goes here"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="game_state_overlay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="left" type="Label" parent="game_state_overlay/Control"]
+anchor_left = 0.5
+anchor_top = 0.178
+anchor_right = 0.5
+anchor_bottom = 0.178
+margin_left = -384.0
+margin_top = -64.16
+margin_right = 256.0
+margin_bottom = -0.160004
+custom_fonts/font = ExtResource( 6 )
+text = "WAVE 1"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="right" type="Label" parent="game_state_overlay/Control"]
+anchor_left = 0.5
+anchor_top = 0.178
+anchor_right = 0.5
+anchor_bottom = 0.178
+margin_left = -256.0
+margin_top = -0.160004
+margin_right = 384.0
+margin_bottom = 63.84
+custom_fonts/font = ExtResource( 6 )
+text = "START"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

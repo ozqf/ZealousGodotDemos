@@ -169,6 +169,7 @@ func _get_event_ent():
 func _start_event() -> void:
 	_get_event_ent().get_parent().king_event_start(_eventCount)
 	_state = KingTowerState.RunningEvent
+	Main.submit_console_command("flashy WAVE " + str(_eventCount))
 
 func game_event_complete() -> void:
 	print("King tower - event complete, returning to idle")

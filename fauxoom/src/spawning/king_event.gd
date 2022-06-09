@@ -57,7 +57,7 @@ func king_event_start(eventCount:int) -> void:
 	print("King event - start")
 	_running = true
 	_eventCount = eventCount
-	_killTarget = 10 + _eventCount
+	_killTarget = 6 + (_eventCount * 2)
 	_message_gates("on")
 	pass
 
