@@ -322,11 +322,12 @@ func create_mob(enemyType:int, _transform:Transform, alert:bool):
 		mob.force_awake()
 	return mob
 
-func create_item(prefabName:String, pos:Vector3):
+func create_item(prefabName:String, pos:Vector3, isImportant:bool = false):
 	var def:Dictionary = get_prefab_def(prefabName)
 	if !def:
 		return null
 	var item = def.prefab.instance()
+	item.isImportant = isImportant
 	self.add_child(item)
 	item.global_transform.origin = pos
 	return item

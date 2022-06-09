@@ -119,11 +119,22 @@ func pick_spawn_point() -> Transform:
 func _max_mob_count() -> int:
 	return 3 + _eventCount
 
-func _get_next_enemy_type() -> int:
+func _pick_enemy_hard() -> int:
 	var r:float = randf()
-	if r > 0.9:
+	if r > 0.95:
 		return Enums.EnemyType.Golem
-	elif r > 0.8:
+	elif r > 0.85:
+		return Enums.EnemyType.Spider
+	elif r > 0.7:
+		return Enums.EnemyType.Cyclops
+	elif r > 0.5:
+		return Enums.EnemyType.FleshWorm
+	else:
+		return Enums.EnemyType.Punk
+
+func _pick_enemy_medium() -> int:
+	var r:float = randf()
+	if r > 0.8:
 		return Enums.EnemyType.Spider
 	elif r > 0.6:
 		return Enums.EnemyType.Cyclops
@@ -132,12 +143,26 @@ func _get_next_enemy_type() -> int:
 	else:
 		return Enums.EnemyType.Punk
 
+func _pick_enemy_easy() -> int:
+	var r:float = randf()
+	if r > 0.7:
+		return Enums.EnemyType.FleshWorm
+	else:
+		return Enums.EnemyType.Punk
+
+func _get_next_enemy_type(waveCount) -> int:
+	if waveCount < 3:
+		return _pick_enemy_easy()
+	elif waveCount < 6:
+		return _pick_enemy_medium()
+	return _pick_enemy_hard()
+
 func _tick_spawning(_delta:float) -> void:
 	if _mobSpawnTick <= 0.0 && _killCount < _killTarget:
 		_mobSpawnTick = 0.1
 		if _activeMobIds.size() < _max_mob_count():
 			var t:Transform = pick_spawn_point()
-			var mob = Ents.create_mob(_get_next_enemy_type(), t, true)
+			var mob = Ents.create_mob(_get_next_enemy_type(_eventCount), t, true)
 			mob.force_awake()
 			var childId:int = mob.get_node("Entity").id
 			_activeMobIds.push_back(childId)

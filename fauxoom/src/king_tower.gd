@@ -126,7 +126,7 @@ func _spawn_next_weapon() -> void:
 	var i:int = int(rand_range(0, l))
 	var type:String = _weapons[i]
 	_weapons.remove(i)
-	_spawn_item(type)
+	_spawn_item(type, 99, true)
 
 func pick_spawn_point() -> Transform:
 	var numPoints:int = _pointEnts.size()
@@ -136,12 +136,12 @@ func pick_spawn_point() -> Transform:
 	var ent:Entity = _pointEnts[i]
 	return ent.get_ent_transform()
 
-func _spawn_item(type:String) -> void:
+func _spawn_item(type:String, timeToLive:float = 16.0, isImportant:bool = false) -> void:
 	# var bulletDef = Ents.get_prefab_def("bullets_s")
 	# var bullets = Ents.prefab
 	var pos:Vector3 = self.global_transform.origin
 	pos.y += 1.0
-	var item = Ents.create_item(type, pos)
+	var item = Ents.create_item(type, pos, isImportant)
 	if item == null:
 		print("King tower - failed to spawn item")
 		return
@@ -152,7 +152,7 @@ func _spawn_item(type:String) -> void:
 	vel.x = cos(radians) * speed
 	vel.z = sin(radians) * speed
 	item.set_velocity(vel)
-	item.set_time_to_live(16.0)
+	item.set_time_to_live(timeToLive)
 
 func _pick_event() -> bool:
 	var numEvents:int = _eventEnts.size()
