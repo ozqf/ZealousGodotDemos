@@ -1,6 +1,7 @@
 extends RigidBodyProjectile
 
 var _explosion_t = preload("res://prefabs/aoe/aoe_explosion_generic.tscn")
+var _column_t = preload("res://prefabs/projectiles/prj_lightning.tscn")
 
 enum HyperCoreState {
 	None,
@@ -85,10 +86,25 @@ func spawn_shrapnel_bomb(pos:Vector3) -> void:
 	#spawn_explosion(pos)
 	spawn_stun(pos)
 
+func _spawn_rail_shot(a:Vector3, b:Vector3) -> void:
+	var dist:float = a.distance_to(b)
+	var column = _column_t.instance()
+	var t:Transform = Transform.IDENTITY
+	t.origin = a
+	t = t.looking_at(b, Vector3.UP)
+	column.spawn(t, dist)
+	Game.get_dynamic_parent().add_child(column)
+
 func railshot_links() -> void:
 	var cores = get_tree().get_nodes_in_group(Groups.HYPER_CORES_GROUP)
 	var numCores:int = cores.size()
+	if numCores < 2:
+		spawn_shrapnel_bomb(self.global_transform.origin)
 	print("Railshot detonate sees " + str(numCores) + " cores")
+	for i in range(0, (numCores - 1)):
+		var a = cores[i]
+		var b = cores[i + 1]
+		_spawn_rail_shot(a.global_transform.origin, b.global_transform.origin)
 	pass
 
 func _refresh() -> void:
