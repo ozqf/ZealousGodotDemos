@@ -25,6 +25,16 @@ func player_got_item(itemType:String) -> void:
 	elif itemType == "health":
 		_healthGlowTick = PICKUP_GLOW_TIME
 	pass
+	if itemType == "pistol":
+		Main.submit_console_command("flashy Dual Pistols")
+	elif itemType == "super_shotgun":
+		Main.submit_console_command("flashy Super Shotgun")
+	elif itemType == "plasma_gun":
+		Main.submit_console_command("flashy Plasma Gun")
+	elif itemType == "rocket_launcher":
+		Main.submit_console_command("flashy Rocket Launcher")
+	elif itemType == "chainsaw":
+		Main.submit_console_command("flashy Saw Blade")
 
 func _process(_delta) -> void:
 	_healthGlowTick -= _delta

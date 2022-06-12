@@ -61,4 +61,6 @@ func start_play(_dynamicParentNode:Spatial) -> void:
 func _process(_delta:float) -> void:
 	var inGame:bool = Main.get_app_state() == Enums.AppState.Game
 	if !_hasSpawned && inGame && Input.is_action_just_pressed("ui_select"):
-		start_play(Game.get_dynamic_parent())
+		_hasSpawned = true
+		Game.spawn_player(self.global_transform)
+		#start_play(Game.get_dynamic_parent())

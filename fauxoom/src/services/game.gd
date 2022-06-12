@@ -543,13 +543,22 @@ func _write_save_file(filePath:String, data:Dictionary) -> void:
 ###############
 # game state
 ###############
-func begin_game() -> void:
-	print("Game - begin play")
-	set_game_state(Enums.GameState.Playing)
-	var def = _entRoot.get_prefab_def(Entities.PREFAB_PLAYER)
+#func begin_game() -> void:
+#	print("Game - begin play")
+#	set_game_state(Enums.GameState.Playing)
+#	var def = _entRoot.get_prefab_def(Entities.PREFAB_PLAYER)
+#	var player = def.prefab.instance()
+#	get_dynamic_parent().add_child(player)
+#	player.teleport(_playerOrigin)
+
+func spawn_player(t:Transform) -> void:
+	if _player != null:
+		print(">> Cannot spawn player twice! <<")
+		return
+	var def = Ents.get_prefab_def("player")
 	var player = def.prefab.instance()
 	get_dynamic_parent().add_child(player)
-	player.teleport(_playerOrigin)
+	player.spawn(t)
 
 func _clear_dynamic_entities() -> void:
 	var l:int = get_dynamic_parent().get_child_count()

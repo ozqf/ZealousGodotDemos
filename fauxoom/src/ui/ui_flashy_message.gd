@@ -13,6 +13,9 @@ const pauseTime:float = 1.5
 onready var _left:Label = $left
 onready var _right:Label = $right
 
+var _messageStackLeft:PoolStringArray = PoolStringArray()
+var _messageStackRight:PoolStringArray = PoolStringArray()
+
 enum FlashyMessageState {
 	Idle,
 	FlyOn,
@@ -47,13 +50,17 @@ func _reset() -> void:
 	_left.rect_position.x = farLeft
 	_right.rect_position.x = farRight
 
-func post_message(topText:String, bottomText:String) -> void:
-	print("Flash! " + topText + ", " + bottomText)
+func run_message(topText:String, bottomText:String) -> void:
 	_left.text = topText
 	_right.text = bottomText
 	_reset()
 	_tock = flyTime
 	_state = FlashyMessageState.FlyOn
+
+func post_message(topText:String, bottomText:String) -> void:
+	print("Flash! " + topText + ", " + bottomText)
+	_messageStackLeft.push_back(topText)
+	_messageStackRight.push_back(bottomText)
 
 func game_on_player_spawned() -> void:
 	post_message("KING OF THE HILL...", "...START!")
@@ -67,7 +74,15 @@ func _set_label_x(obj:Control, origin:float, dest:float, step:float) -> void:
 func _process(_delta:float) -> void:
 	_tick += _delta
 	var step:float = _tick / _tock
-	if _state == FlashyMessageState.FlyOn:
+	if _state == FlashyMessageState.Idle:
+		if _messageStackLeft.size() == 0:
+			return
+		var top:String = _messageStackLeft[0]
+		var bottom:String = _messageStackRight[0]
+		_messageStackLeft.remove(0)
+		_messageStackRight.remove(0)
+		run_message(top, bottom)
+	elif _state == FlashyMessageState.FlyOn:
 		if step > 1.0:
 			step = 1.0
 		_set_label_x(_left, farLeft, nearLeft, step)
