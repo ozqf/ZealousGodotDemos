@@ -170,6 +170,12 @@ func has_valid_player() -> bool:
 		return false
 	return true
 
+# ignores notarget bool
+func has_valid_player_debug() -> bool:
+	if !_player || !is_instance_valid(_player):
+		return false
+	return true
+
 ###############
 # Registration
 ###############
@@ -391,6 +397,11 @@ func get_player_target() -> Dictionary:
 		return _emptyTargetInfo
 	return _player.get_targetting_info()
 
+func get_player_target_debug() -> Dictionary:
+	if !has_valid_player_debug():
+		return _emptyTargetInfo
+	return _player.get_targetting_info()
+	
 # mask bits must be on. mask filter bits must be off
 func _find_closest_node(_agent:NavAgent, mask:int, filter:int, closest:bool) -> bool:
 	# print("Find closest node. Mask " + str(mask) + " filter " + str(filter))

@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/ai/mob_motor.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/ground_point_sensor.gd" type="Script" id=2]
+[ext_resource path="res://src/ai/ground_path.gd" type="Script" id=3]
 
 [sub_resource type="SphereMesh" id=1]
 radius = 0.1
@@ -60,3 +61,6 @@ script = ExtResource( 2 )
 [node name="MeshInstance" type="MeshInstance" parent="floor_right"]
 mesh = SubResource( 1 )
 material/0 = SubResource( 4 )
+
+[node name="ground_path" type="Node" parent="."]
+script = ExtResource( 3 )

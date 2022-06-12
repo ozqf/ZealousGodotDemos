@@ -53,6 +53,8 @@ const ENTS_CMD_KILL_ALL_AI:String = "kill_all_ai"
 
 const STATIC_ENTS_GROUP_NAME:String = "static_entities"
 const DYNAMIC_ENTS_GROUP_NAME:String = "dynamic_entities"
+# ONLY hyper core grenades should be in this group!
+const HYPER_CORES_GROUP:String = "hyper_cores"
 
 const PLAYER_GROUP_NAME:String = "player"
 const PLAYER_FN_STATUS:String = "player_status_update"

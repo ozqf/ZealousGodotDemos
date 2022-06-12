@@ -251,6 +251,9 @@ var _prefabs = {
 var _nextDynamicId:int = Interactions.PLAYER_RESERVED_ID + 1
 var _nextStaticId:int = -1
 
+# can be assigned to projectiles to figure out their spawning order
+var _nextProjectileSerial:int = 1
+
 func _ready() -> void:
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
@@ -276,6 +279,11 @@ func build_global_tag_list() -> PoolStringArray:
 			continue
 		ent.append_global_tags(tagsDict)
 	return PoolStringArray(tagsDict.keys())
+
+func get_next_projectile_serial() -> int:
+	var result:int = _nextProjectileSerial
+	_nextProjectileSerial += 1
+	return _nextProjectileSerial
 
 func get_prefabs_copy() -> Dictionary:
 	return _prefabs.duplicate(true)

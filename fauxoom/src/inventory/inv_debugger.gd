@@ -20,15 +20,16 @@ func raycast_for_debug_mob(forward) -> void:
 		print("Found no mob to debug")
 
 func _spawn_enemy(type) -> void:
-	var dict:Dictionary = AI.get_player_target()
+	var dict:Dictionary = AI.get_player_target_debug()
 	if dict.id == 0:
 		return
 	var t:Transform = Transform()
 	t.origin = dict.aimPos
+	print("Spawning mob at " + str(dict.aimPos))
 	var _mob = Ents.create_mob(type, t, true)
 
 func _spawn_prefab(prefab) -> void:
-	var dict:Dictionary = AI.get_player_target()
+	var dict:Dictionary = AI.get_player_target_debug()
 	if dict.id == 0:
 		return
 	var obj = prefab.instance()
@@ -37,7 +38,7 @@ func _spawn_prefab(prefab) -> void:
 
 func _spawn_minor_item(dropType:int) -> void:
 	print("Spawn minor item " + str(dropType))
-	var dict:Dictionary = AI.get_player_target()
+	var dict:Dictionary = AI.get_player_target_debug()
 	if dict.id == 0:
 		return
 	Game.spawn_rage_drops(dict.aimPos, dropType, 1)

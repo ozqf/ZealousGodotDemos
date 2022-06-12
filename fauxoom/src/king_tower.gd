@@ -5,6 +5,7 @@ const Enums = preload("res://src/enums.gd")
 
 onready var _ent:Entity = $Entity
 onready var _outerShellMesh = $display/outer_shell_mesh
+onready var _path:GroundPath = $ground_path
 
 export var nodesCSV:String = ""
 
@@ -42,12 +43,12 @@ var _weapons = [
 ]
 
 func _ready() -> void:
-	print("Object A - ready")
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	var _result = _ent.connect("entity_append_state", self, "append_state")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
+	_path.ground_path_init(AI.create_nav_agent(), self)
 	# _result = _ent.connect("entity_trigger", self, "on_trigger")
 	if !Main.is_in_game():
 		_set_state(KingTowerState.InEditor)
@@ -70,7 +71,6 @@ func _set_state(newState) -> void:
 	_state = newState
 
 func ents_post_load() -> void:
-	print("Object A - group call")
 	if Main.is_in_editor():
 		return
 	_pointEnts = Ents.find_dynamic_entities("foo", "info_point")
@@ -184,12 +184,18 @@ func _move_tick(_delta:float) -> void:
 	var distToPlayer:float = origin.distance_to(plyr.position)
 	if distToPlayer > 8:
 		return
+	
 	var dest:Vector3 = _get_event_ent().get_parent().global_transform.origin
-	var toward:Vector3 = (dest - origin).normalized()
-	var speed:float = 3.0
+	_path.moveTargetPos = dest
+	if !_path.tick(_delta):
+		return
+	var toward:Vector3 = _path.direction
+	# just lerp straight to it
+	# var toward:Vector3 = (dest - origin).normalized()
+	var speed:float = 6.0
 	var step:Vector3 = ((toward * speed) * _delta)
 	var dist:float = origin.distance_to(dest)
-	if dist <= step.length():
+	if dist <= 0.1:
 		_outerShellMesh.visible = false
 		_start_event()
 	else:

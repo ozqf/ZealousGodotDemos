@@ -255,8 +255,8 @@ func _spawn_aoe() -> HyperAoe:
 func _hyper_on() -> void:
 	_hyperLevel = 1
 	_hyperTime = Interactions.HYPER_DURATION
-	var aoe = _spawn_aoe()
-	aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_ON, 0.0)
+	#var aoe = _spawn_aoe()
+	#aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_ON, 0.0)
 
 func _tick_hyper(_delta:float) -> void:
 	if _hyperCooldown > 0:
@@ -275,13 +275,13 @@ func _tick_hyper(_delta:float) -> void:
 	
 	if _hyperLevel <= 0:
 		# frenzy auto regen to given limit
-		# decided against, for now at least. Want to keep better control
-		# of the player's rage access.
-		#if _inventory.get_count("rage") < 20:
-		#	_hyperRegenTick += _delta
-		#	if _hyperRegenTick >= 1.0 / 1.0:
-		#		_hyperRegenTick = 0.0
-		#		_inventory.give_item("rage", 1)
+		# limit is just low enough for a single grenade. Otherwise want to discourage
+		# hiding to regen
+		if _inventory.get_count("rage") < Interactions.HYPER_REGEN_CAP:
+			_hyperRegenTick += _delta
+			if _hyperRegenTick >= 1.0 / 1.0:
+				_hyperRegenTick = 0.0
+				_inventory.give_item("rage", 1)
 		if keyPressed && _inventory.get_count("rage") >= cost && _hyperCooldown <= 0:
 			_hyper_on()
 		pass
@@ -301,9 +301,9 @@ func _tick_hyper(_delta:float) -> void:
 			print("Hyper - manual off")
 			_hyperLevel = 0
 			_hyperTime = 0.0
-			var aoe = _spawn_aoe()
-			var weight:float = _hyperTime / Interactions.HYPER_DURATION
-			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_CANCEL, weight)
+			#var aoe = _spawn_aoe()
+			#var weight:float = _hyperTime / Interactions.HYPER_DURATION
+			#aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_CANCEL, weight)
 			_hyperCooldown = Interactions.HYPER_COOLDOWN_DURATION
 		#elif _hyperTime <= 0:
 		#	# timeout
@@ -521,7 +521,7 @@ func hit(hitInfo:HitInfo) -> int:
 			_hyperLevel = 0
 			_hyperCooldown = 10.0
 			var aoe = _spawn_aoe()
-			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_OFF, 0.0)
+			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_OFF, 0.5)
 		_send_hit_message(dmg, hitInfo.direction, 1)
 		return dmg
 	

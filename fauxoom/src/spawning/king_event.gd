@@ -18,7 +18,6 @@ var _eventCount:int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("Object B - ready")
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	var _result = _ent.connect("entity_append_state", self, "append_state")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
@@ -34,7 +33,6 @@ func _reset() -> void:
 	pass
 
 func ents_post_load() -> void:
-	print("Object B Group call")
 	if Main.is_in_editor():
 		return
 	_spawnPointEnts = []
@@ -98,7 +96,7 @@ func _process(_delta:float) -> void:
 #######################################
 
 func ents_mob_died_id(id:int) -> void:
-	print("King event saw mob die " + str(id))
+	# print("King event saw mob die " + str(id))
 	var i:int = _activeMobIds.find(id)
 	if i == -1:
 		return

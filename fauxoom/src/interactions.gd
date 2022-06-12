@@ -70,9 +70,10 @@ const HYPER_COST_PER_TICK:int = 0 #1
 const HYPER_COST_TICK_TIME:float = 0.0 #0.25 # 0.125
 const HYPER_DURATION:float = 10.0
 const HYPER_COOLDOWN_DURATION:float = 0.0
+const HYPER_REGEN_CAP:int = 10
 
 const HYPER_COST_PISTOL:int = 1
-const HYPER_COST_SHOTGUN:int = 10
+const HYPER_COST_SHOTGUN:int = 15
 const HYPER_COST_ROCKET:int = 5
 const HYPER_COST_PLASMA:int = 20
 const HYPER_COST_SAW:int = 10

@@ -99,6 +99,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://map_gen/src/grid_editor.gd"
 }, {
+"base": "Node",
+"class": "GroundPath",
+"language": "GDScript",
+"path": "res://src/ai/ground_path.gd"
+}, {
 "base": "RayCast",
 "class": "GroundPointSensor",
 "language": "GDScript",
@@ -433,6 +438,7 @@ _global_script_class_icons={
 "FlatMapEditor": "",
 "GameController": "",
 "GridEditor": "",
+"GroundPath": "",
 "GroundPointSensor": "",
 "Groups": "",
 "HitInfo": "",

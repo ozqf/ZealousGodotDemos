@@ -9,7 +9,7 @@ const TYPE_HYPER_CANCEL:int = 2
 const TYPE_SUPER_PUNCH:int = 3
 
 var _aoeType:int = 0
-var _weight:float = 0.0
+var _duration:float = 0.0
 
 func _ready() -> void:
 	self.connect("scan_result", self, "on_scan_result")
@@ -24,17 +24,17 @@ func on_scan_result(bodies) -> void:
 		var mobPos:Vector3 = body.global_transform.origin
 		var toward:Vector3 = (mobPos - pos).normalized()
 		if _aoeType == TYPE_HYPER_CANCEL:
-			body.apply_stun(toward, 6.0 * _weight)
+			body.apply_stun(toward, _duration)
 		elif _aoeType == TYPE_SUPER_PUNCH:
-			body.apply_stun(toward, 4.0)
+			body.apply_stun(toward, _duration)
 			Game.spawn_rage_drops(mobPos, Enums.QuickDropType.Health, 1)
 		else:
-			body.apply_stun(toward, 2.0)
+			body.apply_stun(toward, _duration)
 	queue_free()
 
-func run_hyper_aoe(aoeType:int, weight:float) -> void:
+func run_hyper_aoe(aoeType:int, duration:float) -> void:
 	_aoeType = aoeType
-	_weight = weight
+	_duration = duration
 	var shockwave = Game.prefab_shockwave_t.instance()
 	Game.get_dynamic_parent().add_child(shockwave)
 	shockwave.global_transform.origin = global_transform.origin
