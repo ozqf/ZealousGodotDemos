@@ -11,6 +11,7 @@ onready var _slimeTimeBar:ProgressBar = $slime_time_bar
 onready var _targetHealth:TextureProgress = $target_health
 onready var _walldashIndicator:Control = $walldash_indicator
 onready var _hyperTime:Label = $hyper_time/Label
+onready var _healthText:Label = $health2/Label
 
 var _maxHealthColour:Color = Color(0, 1, 0, 1)
 var _minHealthColour:Color = Color(1, 0, 0, 1)
@@ -41,13 +42,16 @@ func player_status_update(data:PlayerHudStatus) -> void:
 	else:
 		_weaponCharge.visible = false
 	
-	if data.hyperLevel > 0:
-		# meh doesn't give specific decimals when trailing 0000s
-		#_hyperTime.text = str(stepify(data.hyperSecondsRemaining, 0.01))
-		_hyperTime.text = str(floor(data.hyperSecondsRemaining))
-		_hyperTime.visible = true
-	else:
-		_hyperTime.visible = false
+	_healthText.text = str(data.health)
+	_hyperTime.text = str(floor(data.hyperSecondsRemaining))
+	
+	#if data.hyperLevel > 0:
+	#	# meh doesn't give specific decimals when trailing 0000s
+	#	#_hyperTime.text = str(stepify(data.hyperSecondsRemaining, 0.01))
+	#	_hyperTime.text = str(floor(data.hyperSecondsRemaining))
+	#	_hyperTime.visible = true
+	#else:
+	#	_hyperTime.visible = false
 
 	# crosshair
 	var c:Color = Color(1, 1, 1, 1)

@@ -373,11 +373,10 @@ static func los_check(
 # I guess Godot just can't do this as easily as I'd like :(
 # would like a means to just quickly point test vs a collision shape
 # or body...
-# static func point_test(
-# 	_spatial:Spatial,
-# 	_poisition:Vector3) -> bool:
-# 	# var result = _spatial.get_world().direct_space_state.pooint
-# 	return true
+static func quick_point_test(_source:Spatial, point:Vector3, ignoreArray, mask:int) -> Array:
+	var space = _source.get_world().direct_space_state
+	# doesn't exist :(
+	return space.intersect_point(point, 32, ignoreArray, mask, true, true)
 
 
 ###########################################################################
@@ -395,7 +394,7 @@ static func join_strings(stringArr, separator:String) -> String:
 
 # Split a string by spaces and tabs eg "foo bar" becomes
 # ["foo", "bar"]
-# TODO Maybe tidy this up... I'm not very good at writing tokenise functions...
+# TODO add support for quotes.
 static func tokenise(_text:String) -> PoolStringArray:
 	var tokens: PoolStringArray = []
 	var _len:int = _text.length()

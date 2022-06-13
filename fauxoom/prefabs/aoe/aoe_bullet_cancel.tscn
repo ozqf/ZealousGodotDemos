@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/world/animated/laser_grid/mat_laser_grid_yellow.tres" type="Material" id=1]
+[ext_resource path="res://zqf/zqf_volume_scanner.gd" type="Script" id=2]
+[ext_resource path="res://src/aoe/aoe_bullet_cancel.gd" type="Script" id=3]
+
+[sub_resource type="SphereShape" id=1]
+radius = 4.0
+
+[sub_resource type="SphereMesh" id=2]
+radius = 4.0
+height = 8.0
+
+[node name="aoe_bullet_cancel" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="Area" type="Area" parent="."]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Area"]
+mesh = SubResource( 2 )
+material/0 = ExtResource( 1 )

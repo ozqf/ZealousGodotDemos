@@ -2,6 +2,7 @@ extends RigidBodyProjectile
 
 var _explosion_t = preload("res://prefabs/aoe/aoe_explosion_generic.tscn")
 var _column_t = preload("res://prefabs/projectiles/prj_lightning.tscn")
+var _bullet_cancel_t = preload("res://prefabs/aoe/aoe_bullet_cancel.tscn")
 
 enum HyperCoreState {
 	None,
@@ -74,17 +75,17 @@ func spawn_explosion(pos:Vector3) -> void:
 		aoe.explosiveRadius = 6
 	pass
 
-func spawn_stun(pos:Vector3) -> void:
+func spawn_stun(pos:Vector3, duration:float) -> void:
 	var aoe = Game.hyper_aoe_t.instance()
 	Game.get_dynamic_parent().add_child(aoe)
 	aoe.global_transform.origin = pos
-	aoe.run_hyper_aoe(HyperAoe.TYPE_SUPER_PUNCH, 1.0)
+	aoe.run_hyper_aoe(HyperAoe.TYPE_SUPER_PUNCH, duration)
 	if _scaleBoost > 0:
 		spawn_explosion(pos)
 
 func spawn_shrapnel_bomb(pos:Vector3) -> void:
 	#spawn_explosion(pos)
-	spawn_stun(pos)
+	spawn_stun(pos, 2.0)
 
 func _spawn_rail_shot(a:Vector3, b:Vector3) -> void:
 	var dist:float = a.distance_to(b)
@@ -99,13 +100,21 @@ func railshot_links() -> void:
 	var cores = get_tree().get_nodes_in_group(Groups.HYPER_CORES_GROUP)
 	var numCores:int = cores.size()
 	if numCores < 2:
+		print("Not enough cores for railshot links")
 		spawn_shrapnel_bomb(self.global_transform.origin)
 	print("Railshot detonate sees " + str(numCores) + " cores")
-	for i in range(0, (numCores - 1)):
+	for i in range(0, numCores):
 		var a = cores[i]
-		var b = cores[i + 1]
-		_spawn_rail_shot(a.global_transform.origin, b.global_transform.origin)
+		bullet_cancel(a.global_transform)
+		if i < (numCores - 1):
+			var b = cores[i + 1]
+			_spawn_rail_shot(a.global_transform.origin, b.global_transform.origin)
 	pass
+
+func bullet_cancel(t:Transform) -> void:
+	var aoe = _bullet_cancel_t.instance()
+	Game.get_dynamic_parent().add_child(aoe)
+	aoe.global_transform = t
 
 func _refresh() -> void:
 	if _scaleBoost > 0.0:
@@ -143,7 +152,6 @@ func detach():
 
 func _change_to_stake(direction:Vector3) -> int:
 	# if already stuck, explode
-	
 	if _coreState == HyperCoreState.Stuck:
 		print("Detonate staked core")
 		spawn_explosion(self.global_transform.origin)
@@ -151,12 +159,13 @@ func _change_to_stake(direction:Vector3) -> int:
 		return Interactions.HIT_RESPONSE_NONE
 	# turn into a stake projectile
 	_stakeVelocity = direction * 50.0
-	print("Change core to stake")
+	print("Change core to stake at " + str(global_transform.origin))
 	self.gravity_scale = 0.0
 	_bodyShape.disabled = true
 	self.mode = MODE_KINEMATIC
 	self.linear_velocity = _stakeVelocity
 	_coreState = HyperCoreState.Stake
+	print("\tChanged at " + str(global_transform.origin))
 	return Interactions.HIT_RESPONSE_ABSORBED
 
 func _step_as_stake(delta:float) -> void:
@@ -182,8 +191,10 @@ func hit(_hitInfo:HitInfo) -> int:
 	
 	var combo:int = _hitInfo.comboType
 	if combo == Interactions.COMBO_CLASS_RAILGUN:
-		railshot_links()
-		# spawn_stun(self.global_transform.origin)
+		if _hitInfo.hyperLevel > 0:
+			railshot_links()
+		else:
+			bullet_cancel(self.global_transform)
 	elif combo == Interactions.COMBO_CLASS_SHRAPNEL:
 		spawn_shrapnel_bomb(self.global_transform.origin)
 	elif combo == Interactions.COMBO_CLASS_PUNCH:
@@ -191,27 +202,13 @@ func hit(_hitInfo:HitInfo) -> int:
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_STAKE:
 		return _change_to_stake(_hitInfo.direction)
-		## if already stuck, explode
-		#if _coreState == HyperCoreState.Stuck:
-		#	spawn_explosion(self.global_transform.origin)	
-		#	self.queue_free()
-		#	return Interactions.HIT_RESPONSE_NONE
-		## turn into a stake projectile
-		#self.gravity_scale = 0.0
-		#self.linear_velocity = _hitInfo.direction * 50.0
-		#_coreState = HyperCoreState.Stake
-		#return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_ROCKET:
 		_scaleBoost += 1
 		_refresh()
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE:
 		return _change_to_stake(_hitInfo.direction)
-		#if _coreState != HyperCoreState.Stuck:
-		#	self.linear_velocity = _hitInfo.direction * 30.0
-		#return Interactions.HIT_RESPONSE_NONE
 	else:
-		print("Hyper Core popped by dmg type " + str(_hitInfo.damageType))
 		spawn_explosion(self.global_transform.origin)
 	_dead = true
 	self.queue_free()
@@ -219,5 +216,6 @@ func hit(_hitInfo:HitInfo) -> int:
 
 func _physics_process(_delta:float) -> void:
 	if _coreState == HyperCoreState.Stake:
+		#print("Step stake from " + str(global_transform.origin))
 		_step_as_stake(_delta)
 	_lastTransform = global_transform

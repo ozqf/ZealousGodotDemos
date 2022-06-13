@@ -35,6 +35,7 @@ func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
 	_hitInfo.damage = 15
 	#visible = false
+	add_to_group(Groups.PRJ_GROUP_NAME)
 	_custom_init()
 
 func _custom_init() -> void:
@@ -65,6 +66,13 @@ func remove_self() -> void:
 
 func time_out() -> void:
 	remove_self()
+
+func prj_bullet_cancel_at(point:Vector3, radius:float, teamId:int) -> void:
+	if teamId != _team:
+		return
+	var origin:Vector3 = self.global_transform.origin
+	if origin.distance_squared_to(point) < (radius * radius):
+		remove_self()
 
 func die() -> void:
 	_state = ProjectileState.Dying

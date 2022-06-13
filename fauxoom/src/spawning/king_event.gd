@@ -55,18 +55,18 @@ func king_event_start(eventCount:int) -> void:
 	print("King event - start")
 	_running = true
 	_eventCount = eventCount
-	_killTarget = 6 + (_eventCount * 2)
+	_killTarget = 4 + (_eventCount * 2)
 	_message_gates("on")
-	pass
+	Main.submit_console_command("flashy WAVE " + str(_eventCount + 1))
 
 func king_event_stop() -> void:
 	print("King event - end")
+	Main.submit_console_command("flashy COMPLETED " + str(_eventCount + 1))
 	_message_gates("off")
 	_reset()
 	var grp:String = Groups.GAME_GROUP_NAME
 	var fn:String = Groups.GAME_FN_EVENT_COMPLETE
 	get_tree().call_group(grp, fn)
-	pass
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.xform = ZqfUtils.transform_to_dict(global_transform)
@@ -115,7 +115,7 @@ func pick_spawn_point() -> Transform:
 	return ent.get_ent_transform()
 
 func _max_mob_count() -> int:
-	return 3 + _eventCount
+	return 2 + _eventCount
 
 func _pick_enemy_hard() -> int:
 	var r:float = randf()

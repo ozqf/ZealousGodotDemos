@@ -8,6 +8,8 @@ const MAX_MAIN_HEALTH:int = 100
 
 const SLIME_HURT_DELAY:float = 1.0
 
+const ALLOW_HYPER_SAVE:bool = false
+
 onready var _ent:Entity = $Entity
 onready var _head:Spatial = $head
 onready var _cameraMount:Spatial = $camera_mount
@@ -511,26 +513,27 @@ func hit(hitInfo:HitInfo) -> int:
 		if _slimeOverlapTick < SLIME_HURT_DELAY:
 			return 0
 	
-	if _hyperLevel > 0 && hitInfo.damageType != Interactions.DAMAGE_TYPE_VOID:
-		# in hyper, rage absorbs damage
-		var taken:int = _inventory.take_item("rage", dmg)
-		# if we ran out,
-		if _inventory.get_count("rage") == 0:
-			# exit hyper and for this hit we ignore the rest of the damage
-			# because we are nice
-			_hyperLevel = 0
-			_hyperCooldown = 10.0
-			var aoe = _spawn_aoe()
-			aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_OFF, 0.5)
-		_send_hit_message(dmg, hitInfo.direction, 1)
-		return dmg
+	if ALLOW_HYPER_SAVE:
+		if _hyperLevel > 0 && hitInfo.damageType != Interactions.DAMAGE_TYPE_VOID:
+			# in hyper, rage absorbs damage
+			var taken:int = _inventory.take_item("rage", dmg)
+			# if we ran out,
+			if _inventory.get_count("rage") == 0:
+				# exit hyper and for this hit we ignore the rest of the damage
+				# because we are nice
+				_hyperLevel = 0
+				_hyperCooldown = 10.0
+				var aoe = _spawn_aoe()
+				aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_OFF, 0.5)
+			_send_hit_message(dmg, hitInfo.direction, 1)
+			return dmg
 	
 	# taking actual health, deary me
 	_health -= dmg
 
 	if _health <= 0:
 		# check for hyper save
-		if _hyperLevel == 0 && _inventory.get_count("rage") > Interactions.HYPER_SAVE_COST:
+		if ALLOW_HYPER_SAVE && _hyperLevel == 0 && _inventory.get_count("rage") > Interactions.HYPER_SAVE_COST:
 			_health = 1
 			_hyper_on()
 			return dmg

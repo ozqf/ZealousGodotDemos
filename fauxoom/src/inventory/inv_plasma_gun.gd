@@ -23,6 +23,7 @@ func _draw_trail(origin:Vector3, dest:Vector3) -> void:
 	trail.spawn(origin, dest)
 
 func _fire_regular() -> void:
+	_hitInfo.hyperLevel = 0
 	tick = refireTime
 	var hitPos:Vector3 = _fire_single(-_launchNode.global_transform.basis.z, 1000)
 	_draw_trail(_launchNode.global_transform.origin, hitPos)
@@ -31,6 +32,7 @@ func _fire_regular() -> void:
 	_inventory.take_item(ammoType, ammoPerShot)
 
 func _fire_special() -> void:
+	_hitInfo.hyperLevel = 1
 	tick = refireTime
 	var t:Transform = _launchNode.global_transform
 	var origin:Vector3 = t.origin

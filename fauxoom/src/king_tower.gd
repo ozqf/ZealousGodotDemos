@@ -169,13 +169,13 @@ func _get_event_ent():
 func _start_event() -> void:
 	_get_event_ent().get_parent().king_event_start(_eventCount)
 	_state = KingTowerState.RunningEvent
-	Main.submit_console_command("flashy WAVE " + str(_eventCount))
 
 func game_event_complete() -> void:
 	print("King tower - event complete, returning to idle")
 	_state = KingTowerState.Idle
 	_eventCount += 1
-	_spawn_next_weapon()
+	if _eventCount % 2 == 0:
+		_spawn_next_weapon()
 
 func _move_tick(_delta:float) -> void:
 	# can't move if player isn't nearby

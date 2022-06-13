@@ -34,7 +34,15 @@ var ownerId:int = 0
 func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
 	visible = false
+	add_to_group(Groups.PRJ_GROUP_NAME)
 	_custom_init()
+
+func prj_bullet_cancel_at(point:Vector3, radius:float, teamId:int) -> void:
+	if teamId != _team:
+		return
+	var origin:Vector3 = self.global_transform.origin
+	if origin.distance_squared_to(point) < (radius * radius):
+		remove_self()
 
 func _custom_init() -> void:
 	pass

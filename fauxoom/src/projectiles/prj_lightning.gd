@@ -17,6 +17,7 @@ func _ready():
 	_hitInfo = Game.new_hit_info()
 	_hitInfo.damage = 200
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SUPER_RAIL
+	_hitInfo.comboType = Interactions.COMBO_CLASS_RAILGUN
 	_hitInfo.attackTeam = Interactions.TEAM_PLAYER
 	_hitInfo.hyperLevel = 1
 	pass # Replace with function body.

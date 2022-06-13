@@ -56,6 +56,10 @@ const DYNAMIC_ENTS_GROUP_NAME:String = "dynamic_entities"
 # ONLY hyper core grenades should be in this group!
 const HYPER_CORES_GROUP:String = "hyper_cores"
 
+const PRJ_GROUP_NAME:String = "projectiles"
+# signature: Vector3 position, float radius, int cullTeamId
+const PRJ_FN_BULLET_CANCEL_AT:String = "prj_bullet_cancel_at"
+
 const PLAYER_GROUP_NAME:String = "player"
 const PLAYER_FN_STATUS:String = "player_status_update"
 const PLAYER_FN_HIT:String = "player_hit"
