@@ -387,11 +387,10 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="centre/health2"]
-modulate = Color( 0.176471, 0.145098, 0.705882, 1 )
+modulate = Color( 0.423529, 0.392157, 1, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -128.0
-margin_top = 8.0
 margin_right = 128.0
 margin_bottom = 80.0
 custom_fonts/font = ExtResource( 17 )
@@ -417,7 +416,7 @@ anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -104.0
 margin_right = 104.0
-margin_bottom = 72.0
+margin_bottom = 80.0
 custom_fonts/font = ExtResource( 17 )
 text = "10.56"
 align = 1
@@ -495,6 +494,7 @@ text = "Got Super Shotgun"
 align = 2
 
 [node name="player_status" type="Control" parent="."]
+visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -152.0

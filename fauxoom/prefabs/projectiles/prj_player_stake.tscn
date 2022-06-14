@@ -28,6 +28,7 @@ animationSet = "projectiles"
 defaultAnimation = "rocket"
 
 [node name="OmniLight" type="OmniLight" parent="."]
+visible = false
 light_color = Color( 1, 1, 0.407843, 1 )
 omni_range = 8.0
 

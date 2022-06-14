@@ -24,40 +24,56 @@ func _fire_flak(origin:Vector3, forward:Vector3) -> void:
 	prj.launch_prj(origin, forward, 1, Interactions.TEAM_PLAYER, _prjMask)
 	pass
 
+func _fire(hyper:bool) -> void:
+	tick = refireTime
+	var t:Transform = _launchNode.global_transform
+	var randSpreadX:float = 1500
+	var randSpreadY:float = 400
+	if hyper:
+		randSpreadX = 1000
+		randSpreadY = 300
+	for _i in range(0, 14):
+		var spreadX:float = rand_range(-randSpreadX, randSpreadX)
+		var spreadY:float = rand_range(-randSpreadY, randSpreadY)
+		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
+		if hyper:
+			_fire_flak(t.origin, forward)
+		else:
+			_fire_single(forward, 1000)
+	
+	#var brassForward:Vector3 = -t.basis.z + t.basis.y
+	#brassForward = brassForward.normalized()
+	#Game.spawn_ejected_shell(t.origin, brassForward, 1, 3, 2)
+	
+	.play_fire_1(false)
+	_hud.hudAudio.play_stream_weapon_1(_ssgShoot)
+
+	_lastSoundFrame = - 1
+	_inventory.take_item(ammoType, ammoPerShot)
+	self.emit_signal("weapon_action", self, "fire")
+
 func read_input(_weaponInput:WeaponInput) -> void:
-	if tick <= 0 && _weaponInput.primaryOn:
+	# var fireHyper:bool = false
+	# if check_hyper_attack(Interactions.HYPER_COST_SHOTGUN):
+	# 	fireHyper = true
+	
+	if tick > 0:
+		return
+
+	if _weaponInput.primaryOn:
 		var hyper:bool = check_hyper_attack(Interactions.HYPER_COST_SHOTGUN)
+		_fire(hyper)
 		# var hyper:bool = Game.hyperLevel > 0
 		# if _inventory.get_count("rage") < Interactions.HYPER_COST_SHOTGUN:
 		# 	hyper = false
 		# else:
 		# 	_inventory.take_item("rage", Interactions.HYPER_COST_SHOTGUN)
-		tick = refireTime
-		var t:Transform = _launchNode.global_transform
-		var randSpreadX:float = 1500
-		var randSpreadY:float = 400
-		if hyper:
-			randSpreadX = 1000
-			randSpreadY = 300
-		for _i in range(0, 14):
-			var spreadX:float = rand_range(-randSpreadX, randSpreadX)
-			var spreadY:float = rand_range(-randSpreadY, randSpreadY)
-			var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
-			if hyper:
-				_fire_flak(t.origin, forward)
-			else:
-				_fire_single(forward, 1000)
+	elif _weaponInput.secondaryOn:
+		if _inventory.get_count("rage") < Interactions.HYPER_COST_SHOTGUN:
+			return
+		_inventory.take_item("rage", Interactions.HYPER_COST_SHOTGUN)
+		_fire(true)
 		
-		#var brassForward:Vector3 = -t.basis.z + t.basis.y
-		#brassForward = brassForward.normalized()
-		#Game.spawn_ejected_shell(t.origin, brassForward, 1, 3, 2)
-		
-		.play_fire_1(false)
-		_hud.hudAudio.play_stream_weapon_1(_ssgShoot)
-
-		_lastSoundFrame = - 1
-		_inventory.take_item(ammoType, ammoPerShot)
-		self.emit_signal("weapon_action", self, "fire")
 
 func is_cycling() -> bool:
 	if !Game.allowQuickSwitching:

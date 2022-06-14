@@ -27,12 +27,21 @@ var _hitInfo:HitInfo = null
 var _hitTick:float = 0
 
 func _ready() -> void:
+	self.add_to_group(Groups.PRJ_GROUP_NAME)
 	_hitInfo = Game.new_hit_info()
 	_area.connect("body_entered", self, "on_body_entered")
 	_area.connect("body_exited", self, "on_body_exited")
 	_hitInfo.attackTeam = Interactions.TEAM_ENEMY
 	_hitInfo.damage = DAMAGE_PER_TICK
 	_spikeState = STATE_GROWING
+
+func prj_bullet_cancel_at(point:Vector3, radius:float, teamId:int) -> void:
+	if teamId != Interactions.TEAM_ENEMY:
+		return
+	var origin:Vector3 = self.global_transform.origin
+	if origin.distance_squared_to(point) < (radius * radius):
+		_spikeState = STATE_DEAD
+		queue_free()
 
 func wait(seconds:float) -> void:
 	_spawnWait = seconds
