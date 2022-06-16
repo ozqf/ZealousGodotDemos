@@ -9,6 +9,8 @@ onready var _path:GroundPath = $ground_path
 
 export var nodesCSV:String = ""
 
+export var speed:float = 10
+
 enum KingTowerState {
 	Idle,
 	InEditor,
@@ -192,7 +194,6 @@ func _move_tick(_delta:float) -> void:
 	var toward:Vector3 = _path.direction
 	# just lerp straight to it
 	# var toward:Vector3 = (dest - origin).normalized()
-	var speed:float = 6.0
 	var step:Vector3 = ((toward * speed) * _delta)
 	var dist:float = origin.distance_to(dest)
 	if dist <= 0.1:

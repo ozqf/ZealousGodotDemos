@@ -20,6 +20,7 @@ albedo_color = Color( 1, 0, 0, 1 )
 albedo_color = Color( 0, 1, 0, 1 )
 
 [node name="motor" type="Spatial"]
+visible = false
 script = ExtResource( 1 )
 
 [node name="floor_in_front" type="RayCast" parent="."]

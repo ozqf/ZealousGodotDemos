@@ -45,7 +45,7 @@ func _on_area_exited(_area:Area) -> void:
 	_areas.remove(i)
 
 func _run_hits() -> void:
-	_hitInfo.hyperLevel = Game.hyperLevel
+	# _hitInfo.hyperLevel = Game.hyperLevel
 	print("Lightning hitting " + str(_bodies.size()) + " bodies and " + str(_areas.size()) + " areas")
 	for body in _bodies:
 		Interactions.hit(_hitInfo, body)

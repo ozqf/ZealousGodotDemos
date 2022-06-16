@@ -51,6 +51,13 @@ func _fire_special() -> void:
 func read_input(_weaponInput:WeaponInput) -> void:
 	if tick > 0:
 		return
+	var ammo:int = _inventory.get_count(ammoType)
+	var rage:int = _inventory.get_count("rage")
+	if _weaponInput.secondaryOn && ammo >= ammoPerShot && rage >= Interactions.HYPER_COST_PLASMA:
+		_inventory.take_item("rage", Interactions.HYPER_COST_PLASMA)
+		_inventory.take_item(ammoType, ammoPerShot)
+		_fire_special()
+		return
 	if _weaponInput.primaryOn:
 		# print("Fire plasma - dmg " + str(_hitInfo.damage) + " type " + str(_hitInfo.damageType))
 		if check_hyper_attack(Interactions.HYPER_COST_PLASMA):
