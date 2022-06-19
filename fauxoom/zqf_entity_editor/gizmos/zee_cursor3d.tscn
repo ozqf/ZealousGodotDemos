@@ -1,20 +1,14 @@
 [gd_scene load_steps=7 format=2]
 
-[sub_resource type="SpatialMaterial" id=4]
-flags_unshaded = true
-albedo_color = Color( 0, 0.345098, 1, 1 )
+[ext_resource path="res://zqf_entity_editor/shared_assets/zee_mat_widget_blue.tres" type="Material" id=1]
+[ext_resource path="res://zqf_entity_editor/shared_assets/zee_mat_widget_red.tres" type="Material" id=2]
+[ext_resource path="res://zqf_entity_editor/shared_assets/zee_mat_widget_green.tres" type="Material" id=3]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 0.2, 0.2, 1 )
 
-[sub_resource type="SpatialMaterial" id=5]
-albedo_color = Color( 1, 0, 0, 1 )
-
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 1, 0.2, 0.2 )
-
-[sub_resource type="SpatialMaterial" id=6]
-albedo_color = Color( 0.176471, 1, 0.176471, 1 )
 
 [sub_resource type="CubeMesh" id=3]
 size = Vector3( 0.2, 1, 0.2 )
@@ -23,18 +17,18 @@ size = Vector3( 0.2, 1, 0.2 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
-material_override = SubResource( 4 )
+material_override = ExtResource( 1 )
 mesh = SubResource( 1 )
 material/0 = null
 
 [node name="MeshInstance2" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
-material_override = SubResource( 5 )
+material_override = ExtResource( 2 )
 mesh = SubResource( 2 )
 material/0 = null
 
 [node name="MeshInstance3" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-material_override = SubResource( 6 )
+material_override = ExtResource( 3 )
 mesh = SubResource( 3 )
 material/0 = null

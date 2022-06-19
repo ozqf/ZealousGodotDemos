@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://zqf_entity_editor/shared_assets/zee_primitive_sphere.tres" type="SphereMesh" id=1]
 [ext_resource path="res://zqf_entity_editor/shared_assets/zee_mat_red_transparent.tres" type="Material" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://zqf_entity_editor/gizmos/zee_cursor3d.tscn" type="PackedScene" id=4]
 [ext_resource path="res://zqf_entity_editor/gizmos/zee_transform_gizmo.gd" type="Script" id=5]
 [ext_resource path="res://assets/primitives/cube_1x1x1.obj" type="ArrayMesh" id=6]
+[ext_resource path="res://zqf_entity_editor/shared_assets/zee_mat_widget_red.tres" type="Material" id=7]
+[ext_resource path="res://zqf_entity_editor/shared_assets/zee_mat_widget_white.tres" type="Material" id=8]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.5, 0.15, 0.15 )
@@ -32,6 +34,7 @@ collision_layer = 2097152
 collision_mask = 2097152
 
 [node name="mesh" type="MeshInstance" parent="rotate/handle_pivot/handle"]
+material_override = ExtResource( 7 )
 mesh = ExtResource( 1 )
 skeleton = NodePath("../../..")
 material/0 = ExtResource( 2 )
@@ -51,6 +54,7 @@ shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="scale/x"]
 transform = Transform( 1, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 1, 0, 0 )
+material_override = ExtResource( 8 )
 mesh = ExtResource( 6 )
 material/0 = null
 
@@ -65,6 +69,7 @@ shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="scale/y"]
 transform = Transform( 1, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 1, -2.18557e-08, 0 )
+material_override = ExtResource( 8 )
 mesh = ExtResource( 6 )
 material/0 = null
 
@@ -79,5 +84,6 @@ shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="scale/z"]
 transform = Transform( 1, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 1, 0, -2.18557e-08 )
+material_override = ExtResource( 8 )
 mesh = ExtResource( 6 )
 material/0 = null

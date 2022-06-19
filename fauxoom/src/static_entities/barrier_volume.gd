@@ -46,7 +46,10 @@ func restore_from_editor(dict:Dictionary) -> void:
 func set_active(flag:bool) -> void:
 	active = flag
 	_shape.disabled = !active
-	_mesh.visible = active
+	if Main.is_in_editor():
+		visible = true
+	else:
+		_mesh.visible = active
 	_audio.play()
 
 func append_state(_dict:Dictionary) -> void:

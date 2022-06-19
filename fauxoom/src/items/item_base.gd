@@ -58,18 +58,11 @@ func _ready() -> void:
 
 func get_editor_info() -> Dictionary:
 	# visible = true
-	return {
-		prefab = _ent.prefabName,
-		fields = {
-			sn = { "name": "sn", "value":_ent.selfName, "type": "text" },
-			tcsv = { "name": "tcsv", "value":_ent.selfName, "type": "text" },
-			# pos = { "name": "pos", "value": global_transform.origin, "type": "position" },
-			targets = { "name": "targets", "value":_ent.triggerTargetName, "type": "text" },
-			respawnTime = { "name": "respawnTime", "value":_respawnTime, "type": "float" },
-			bRespawns = { "name": "bRespawns", "value":_bRespawns, "type": "flag" },
-			important = { "name": "important", "value":isImportant, "type": "flag" }
-		}
-	}
+	var info = _ent.get_editor_info_base()
+	ZEEMain.create_field(info.fields, "respawnTime", "Respawn Seconds", "float", _respawnTime)
+	ZEEMain.create_field(info.fields, "bRespawns", "Respawns Flag", "bool", _bRespawns)
+	ZEEMain.create_field(info.fields, "important", "Important Flag", "bool", isImportant)
+	return info
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.pos = ZqfUtils.v3_to_dict(get_parent().global_transform.origin)

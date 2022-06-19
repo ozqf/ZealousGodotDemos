@@ -67,6 +67,8 @@ func has_tag(queryTag:String) -> bool:
 func get_editor_info_base() -> Dictionary:
 	var info = {
 		"prefab": self.prefabName,
+		"scalable": false,
+		"rotatable": false,
 		"fields": {}
 	}
 	ZEEMain.create_field(info.fields, "sn", "Self Name", "text", self.selfName)

@@ -11,9 +11,13 @@ enum HyperCoreState {
 }
 
 onready var _bodyShape = $CollisionShape
+onready var _particles = $Particles
 
 var _worldParent:Spatial = null
 var _attachParent:Spatial = null
+
+var _fuseLit:bool = false
+var _fuseTick:float = 4.0
 
 var _coreState = HyperCoreState.None
 var _area:Area
@@ -30,7 +34,7 @@ func _custom_init() -> void:
 	_area.set_subject(self)
 	_area.connect("area_entered", self, "on_area_entered_area")
 	_area.connect("body_entered", self, "on_body_entered_area")
-
+	_time = 999
 	# self.connect("area_entered", self, "on_area_entered_body")
 	# self.connect("body_entered", self, "on_body_entered_body")
 
@@ -157,6 +161,8 @@ func _change_to_stake(direction:Vector3) -> int:
 		spawn_explosion(self.global_transform.origin)
 		self.queue_free()
 		return Interactions.HIT_RESPONSE_NONE
+	if _coreState == HyperCoreState.Stake:
+		return Interactions.HIT_RESPONSE_ABSORBED
 	# turn into a stake projectile
 	_stakeVelocity = direction * 50.0
 	print("Change core to stake at " + str(global_transform.origin))
@@ -207,6 +213,10 @@ func hit(_hitInfo:HitInfo) -> int:
 		_refresh()
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE:
+		_fuseLit = true
+		_particles.emitting = true
+		return Interactions.HIT_RESPONSE_ABSORBED
+	elif combo == Interactions.COMBO_CLASS_SAWBLADE_PROJECTILE:
 		return _change_to_stake(_hitInfo.direction)
 	else:
 		spawn_explosion(self.global_transform.origin)
@@ -219,3 +229,9 @@ func _physics_process(_delta:float) -> void:
 		#print("Step stake from " + str(global_transform.origin))
 		_step_as_stake(_delta)
 	_lastTransform = global_transform
+	if _fuseLit:
+		_fuseTick -= _delta
+		if _fuseTick <= 0.0:
+			spawn_explosion(self.global_transform.origin)
+			_dead = true
+			self.queue_free()

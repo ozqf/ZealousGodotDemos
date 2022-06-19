@@ -1,6 +1,8 @@
 extends Spatial
 class_name KingTower
 
+var _gameOverUI_t = preload("res://prefabs/ui/king_game_over_ui.tscn")
+
 const Enums = preload("res://src/enums.gd")
 
 onready var _ent:Entity = $Entity
@@ -35,6 +37,8 @@ var _ammoCooldown:float = 8.0
 var _eventEnts = []
 var _eventIndex = -1
 var _eventCount:int = 0
+
+var _totalEventSeconds:float = 0.0
 
 var _weapons = [
 	# "pistol",
@@ -112,14 +116,9 @@ func ents_mob_died_id(id:int) -> void:
 
 func get_editor_info() -> Dictionary:
 	visible = true
-	var data = {
-		scalable = false,
-		rotatable = true,
-		fields = {
-			nodesCSV = { name = "nodesCSV", type = "text", "value": nodesCSV }
-		}
-	}
-	return data
+	var info = _ent.get_editor_info_base()
+	ZEEMain.create_field(info.fields, "nodesCSV", "Node CSV", "text", nodesCSV)
+	return info
 
 func _spawn_next_weapon() -> void:
 	var l:int = _weapons.size()
@@ -150,9 +149,9 @@ func _spawn_item(type:String, timeToLive:float = 16.0, isImportant:bool = false)
 	var vel:Vector3 = Vector3()
 	vel.y = 10.0 # rand_range(5.0, 15.0)
 	var radians:float = rand_range(0, PI * 2)
-	var speed = rand_range(2.0, 4.0)
-	vel.x = cos(radians) * speed
-	vel.z = sin(radians) * speed
+	var throwSpeed = rand_range(2.0, 4.0)
+	vel.x = cos(radians) * throwSpeed
+	vel.z = sin(radians) * throwSpeed
 	item.set_velocity(vel)
 	item.set_time_to_live(timeToLive)
 
@@ -179,13 +178,28 @@ func game_event_complete() -> void:
 	if _eventCount % 2 == 0:
 		_spawn_next_weapon()
 
+func game_on_player_died(_info:Dictionary) -> void:
+	var minutes:int = int(_totalEventSeconds / 60.0)
+	var seconds:int = int(_totalEventSeconds) % 60
+	var timeStr:String = str(minutes) + ":" + str(seconds)
+	print("King mode ended: wave completed " + str(_eventCount) + " total time: " + timeStr)
+	var ui = _gameOverUI_t.instance()
+	get_tree().current_scene.add_child(ui)
+	var grp:String = Groups.GAME_GROUP_NAME
+	var fn:String = Groups.GAME_FN_KING_GAME_OVER
+	var info = {
+		"waves": _eventCount,
+		"seconds": _totalEventSeconds
+	}
+	get_tree().call_group(grp, fn, info)
+	self.queue_free()
+
 func _move_tick(_delta:float) -> void:
-	# can't move if player isn't nearby
 	var origin:Vector3 = self.global_transform.origin
 	var plyr = AI.get_player_target()
 	var distToPlayer:float = origin.distance_to(plyr.position)
-	if distToPlayer > 8:
-		return
+	# if distToPlayer > 8:
+	# 	return
 	
 	var dest:Vector3 = _get_event_ent().get_parent().global_transform.origin
 	_path.moveTargetPos = dest
@@ -196,7 +210,7 @@ func _move_tick(_delta:float) -> void:
 	# var toward:Vector3 = (dest - origin).normalized()
 	var step:Vector3 = ((toward * speed) * _delta)
 	var dist:float = origin.distance_to(dest)
-	if dist <= 0.1:
+	if dist <= 0.1 && distToPlayer < 8:
 		_outerShellMesh.visible = false
 		_start_event()
 	else:
@@ -214,6 +228,7 @@ func _process(_delta:float):
 		# if _eventIndex < 0:
 		# 	_start_event()
 	elif _state == KingTowerState.RunningEvent:
+		_totalEventSeconds += _delta
 		pass
 	elif _state == KingTowerState.MovingToEvent:
 		_move_tick(_delta)

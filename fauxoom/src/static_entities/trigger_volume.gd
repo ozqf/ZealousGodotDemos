@@ -59,11 +59,7 @@ func restore_state(data:Dictionary) -> void:
 
 func get_editor_info() -> Dictionary:
 	visible = true
-
-	var info = {
-		prefab = _ent.prefabName,
-		fields = {}
-	}
+	var info = _ent.get_editor_info_base()
 	ZEEMain.create_field(info.fields, "active", "Start Active", "bool", active)
 	ZEEMain.create_field(info.fields, "a", "action", "int", action)
 	ZEEMain.create_field(info.fields, "rs", "Reset Seconds", "float", resetSeconds)

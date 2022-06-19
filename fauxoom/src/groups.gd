@@ -24,6 +24,8 @@ const GAME_FN_EVENT_COMPLETE:String = "game_event_complete"
 # const GAME_FN_RESET:String = "game_on_reset"
 const GAME_FN_PLAYER_SPAWNED:String = "game_on_player_spawned"
 const GAME_FN_PLAYER_DIED:String = "game_on_player_died"
+# single param: dictionary of info
+const GAME_FN_KING_GAME_OVER:String = "game_on_king_game_over"
 const GAME_FN_LEVEL_COMPLETED:String = "game_on_level_completed"
 const GAME_FN_REGISTER_PREVIEW_CAMERA:String = "game_register_preview_camera"
 const GAME_FN_CAMERA_UPDATE:String = "game_camera_update"

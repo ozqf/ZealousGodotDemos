@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/fonts/large_dynamic_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://src/ui/king_game_over_ui.gd" type="Script" id=2]
+
+[node name="king_game_over_ui" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+margin_bottom = 384.0
+custom_fonts/font = ExtResource( 1 )
+text = "GAME OVER
+WAVES - TOTAL: 14. BEST: 15 (90%)
+BEST WAVES: 15
+TIME: 13:24"
+align = 1
+valign = 1

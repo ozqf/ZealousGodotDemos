@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/sprites/frames/64x64_projectile_frames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=2]
@@ -14,6 +14,16 @@ radius = 0.2
 
 [sub_resource type="SphereShape" id=2]
 radius = 0.75
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_unshaded = true
+params_billboard_mode = 1
+
+[sub_resource type="ParticlesMaterial" id=5]
+gravity = Vector3( 0, 4, 0 )
+
+[sub_resource type="QuadMesh" id=6]
+size = Vector2( 0.1, 0.1 )
 
 [node name="prj_hyper_core" type="RigidBody"]
 collision_layer = 2048
@@ -49,3 +59,13 @@ script = ExtResource( 4 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 shape = SubResource( 2 )
+
+[node name="Particles" type="Particles" parent="."]
+material_override = SubResource( 4 )
+emitting = false
+amount = 32
+lifetime = 4.0
+visibility_aabb = AABB( -8, -8, -8, 16, 16, 16 )
+local_coords = false
+process_material = SubResource( 5 )
+draw_pass_1 = SubResource( 6 )

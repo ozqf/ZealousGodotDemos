@@ -395,7 +395,7 @@ static func join_strings(stringArr, separator:String) -> String:
 # Split a string by spaces and tabs eg "foo bar" becomes
 # ["foo", "bar"]
 # TODO add support for quotes.
-static func tokenise(_text:String) -> PoolStringArray:
+static func tokenise(_text:String, quoteChar:String = "\"") -> PoolStringArray:
 	var tokens: PoolStringArray = []
 	var _len:int = _text.length()
 	if _len == 0:

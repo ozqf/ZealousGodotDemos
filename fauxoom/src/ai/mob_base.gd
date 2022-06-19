@@ -251,13 +251,9 @@ func append_state(_dict:Dictionary) -> void:
 	_spawnColumn.append_state(_dict)
 
 func get_editor_info() -> Dictionary:
-	return {
-		prefab = _ent.prefabName,
-		fields = {
-			# xform = { "name": "xform", "type": "xform", "value": global_transform },
-			snipe = { "name": "snipe", "type": "bool", "value": false }
-		}
-	}
+	var info = _ent.get_editor_info_base()
+	ZEEMain.create_field(info.fields, "snipe", "Sniper", "bool", _isSniper)
+	return info
 
 func restore_from_editor(dict:Dictionary) -> void:
 	_ent.restore_state(dict)

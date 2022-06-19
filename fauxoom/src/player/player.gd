@@ -503,10 +503,14 @@ func hit(hitInfo:HitInfo) -> int:
 		return 0
 	if _dead:
 		return 0
-	if _godMode && hitInfo.damageType != Interactions.DAMAGE_TYPE_VOID:
-		# _health -= dmg
-		return 0
+	# if _godMode && hitInfo.damageType != Interactions.DAMAGE_TYPE_VOID:
+	# 	# _health -= dmg
+	# 	return 0
 	var dmg = hitInfo.damage
+
+	# void damage should always be lethal
+	if hitInfo.damageType == Interactions.DAMAGE_TYPE_VOID:
+		dmg = _health * 2
 
 	# check for slime overlap
 	if hitInfo.damageType == Interactions.DAMAGE_TYPE_SLIME:
@@ -530,6 +534,11 @@ func hit(hitInfo:HitInfo) -> int:
 	
 	# taking actual health, deary me
 	_health -= dmg
+
+	# void is for map cleanup and should ignore god mode.
+	# god mode allows damage just not death.
+	if _health <= 0 && _godMode && hitInfo.damageType != Interactions.DAMAGE_TYPE_VOID:
+		_health = 1
 
 	if _health <= 0:
 		# check for hyper save

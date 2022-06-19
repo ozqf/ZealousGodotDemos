@@ -25,7 +25,7 @@ func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
 	_hitInfo.damage = 15
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SAW_PROJECTILE
-	_hitInfo.comboType = Interactions.COMBO_CLASS_STAKE
+	_hitInfo.comboType = Interactions.COMBO_CLASS_SAWBLADE_PROJECTILE
 	_sparks1.emitting = false
 	_sparks2.emitting = false
 
