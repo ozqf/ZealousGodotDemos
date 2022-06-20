@@ -23,6 +23,7 @@ var _rage_drop_t = preload("res://prefabs/dynamic_entities/rage_drop.tscn")
 
 var prefab_impact_debris_t = preload("res://prefabs/gfx/bullet_hit_debris.tscn")
 var prefab_blood_debris_t = preload("res://prefabs/gfx/blood_hit_debris.tscn")
+var prefab_explosion_sprite_t = preload("res://prefabs/dynamic_entities/rocket_explosion.tscn")
 
 var prefab_impact = preload("res://prefabs/bullet_impact.tscn")
 var prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
@@ -771,3 +772,9 @@ func spawn_ground_target(targetPos:Vector3, duration:float) -> Vector3:
 func explosion_shake(_origin:Vector3) -> void:
 	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_EVENT_EXPLOSION, _origin, 1.0)
 	pass
+
+func spawn_explosion_sprite(_origin:Vector3, normal:Vector3) -> void:
+	var obj = prefab_explosion_sprite_t.instance()
+	Game.get_dynamic_parent().add_child(obj)
+	obj.global_transform.origin = _origin
+	ZqfUtils.set_forward(obj, normal)

@@ -12,6 +12,7 @@ radius = 10.0
 script = ExtResource( 3 )
 
 [node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]
+visible = false
 pixel_size = 0.04
 billboard = 1
 frames = ExtResource( 2 )

@@ -77,7 +77,7 @@ func spawn_explosion(pos:Vector3) -> void:
 	if _scaleBoost > 0:
 		aoe.damage = 400
 		aoe.explosiveRadius = 6
-	pass
+	Game.spawn_explosion_sprite(pos, Vector3.UP)
 
 func spawn_stun(pos:Vector3, duration:float) -> void:
 	var aoe = Game.hyper_aoe_t.instance()
@@ -119,6 +119,8 @@ func bullet_cancel(t:Transform) -> void:
 	var aoe = _bullet_cancel_t.instance()
 	Game.get_dynamic_parent().add_child(aoe)
 	aoe.global_transform = t
+	if _scaleBoost > 0:
+		spawn_explosion(t.origin)
 
 func _refresh() -> void:
 	if _scaleBoost > 0.0:
