@@ -12,6 +12,7 @@ enum HyperCoreState {
 
 onready var _bodyShape = $CollisionShape
 onready var _particles = $Particles
+onready var _light:OmniLight = $OmniLight
 
 var _worldParent:Spatial = null
 var _attachParent:Spatial = null
@@ -188,8 +189,10 @@ func _step_as_stake(delta:float) -> void:
 	if result:
 		print("Stake hit node: " + str(result.collider.name))
 		_coreState = HyperCoreState.Stuck
-		global_transform.origin = result.position
-		_try_attach_to_mob(result.collider)	
+		# step out slightly or will be IN geometry
+		var pos:Vector3 = result.position + (result.normal * 0.2)
+		global_transform.origin = pos
+		_try_attach_to_mob(result.collider)
 		return
 	self.global_transform.origin = dest
 
@@ -212,6 +215,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		return _change_to_stake(_hitInfo.direction)
 	elif combo == Interactions.COMBO_CLASS_ROCKET:
 		_scaleBoost += 1
+		_light.omni_range = 6
 		_refresh()
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE:
