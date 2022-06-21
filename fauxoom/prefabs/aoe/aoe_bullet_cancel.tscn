@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/world/animated/laser_grid/mat_laser_grid_yellow.tres" type="Material" id=1]
 [ext_resource path="res://zqf/zqf_volume_scanner.gd" type="Script" id=2]
 [ext_resource path="res://src/aoe/aoe_bullet_cancel.gd" type="Script" id=3]
+[ext_resource path="res://assets/primitives/sphere_inverse.obj" type="ArrayMesh" id=4]
 
 [sub_resource type="SphereShape" id=1]
 radius = 4.0
@@ -24,4 +25,9 @@ shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Area"]
 mesh = SubResource( 2 )
+material/0 = ExtResource( 1 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Area"]
+transform = Transform( 8.9, 0, 0, 0, 7.9, 0, 0, 0, 7.9, 0, 0, 0 )
+mesh = ExtResource( 4 )
 material/0 = ExtResource( 1 )
