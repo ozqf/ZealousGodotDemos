@@ -17,7 +17,8 @@ onready var _light:OmniLight = $OmniLight
 var _worldParent:Spatial = null
 var _attachParent:Spatial = null
 
-var _fuseLit:bool = false
+var _fuseLit:bool = true
+var _fuseTime:float = 4.0
 var _fuseTick:float = 4.0
 
 var _coreState = HyperCoreState.None
@@ -26,8 +27,14 @@ var _scaleBoost:int = 0
 var _dead:bool = false
 var _lastTransform:Transform = Transform.IDENTITY
 var _deadBall:bool = false
+var _originGravityScale:float = 1.0
 
 var _stakeVelocity:Vector3 = Vector3()
+
+func _ready() -> void:
+	light_fuse()
+	_originGravityScale = self.gravity_scale
+	timeToLive = 999
 
 func _custom_init() -> void:
 	add_to_group(Groups.HYPER_CORES_GROUP)
@@ -79,6 +86,19 @@ func spawn_explosion(pos:Vector3) -> void:
 		aoe.damage = 400
 		aoe.explosiveRadius = 6
 	Game.spawn_explosion_sprite(pos, Vector3.UP)
+
+func light_fuse() -> void:
+	_reset_fuse_time()
+	_fuseLit = true
+	_particles.emitting = true
+
+func cancel_fuse() -> void:
+	_reset_fuse_time()
+	_fuseLit = false
+	_particles.emitting = false
+
+func _reset_fuse_time() -> void:
+	_fuseTick = _fuseTime
 
 func spawn_stun(pos:Vector3, duration:float) -> void:
 	var aoe = Game.hyper_aoe_t.instance()
@@ -142,19 +162,25 @@ func _try_attach_to_mob(collider) -> void:
 	global_transform = t
 	_attachParent.connect("tree_exiting", self, "detach")
 
+func drop() -> void:
+	light_fuse()
+	_coreState = HyperCoreState.None
+	self.mode = MODE_RIGID
+	_bodyShape.disabled = false
+	self.gravity_scale = _originGravityScale
+
 func detach():
+	var t:Transform
 	if _attachParent == null:
+		drop()
 		return
-	var t:Transform = _attachParent.global_transform
+	t = _attachParent.global_transform
 	_attachParent.remove_child(self)
 	_attachParent.disconnect("tree_exiting", self, "detach")
 	_attachParent = null
 	_worldParent.add_child(self)
 	# become a rigid body again
-	_coreState = HyperCoreState.None
-	self.mode = MODE_RIGID
-	_bodyShape.disabled = false
-	self.gravity_scale = 1.0
+	drop()
 	global_transform = t
 
 func _change_to_stake(direction:Vector3) -> int:
@@ -167,6 +193,7 @@ func _change_to_stake(direction:Vector3) -> int:
 	if _coreState == HyperCoreState.Stake:
 		return Interactions.HIT_RESPONSE_ABSORBED
 	# turn into a stake projectile
+	cancel_fuse()
 	_stakeVelocity = direction * 50.0
 	print("Change core to stake at " + str(global_transform.origin))
 	self.gravity_scale = 0.0
@@ -199,7 +226,7 @@ func _step_as_stake(delta:float) -> void:
 func hit(_hitInfo:HitInfo) -> int:
 	if _dead:
 		return Interactions.HIT_RESPONSE_NONE
-	
+	_reset_fuse_time()
 	var combo:int = _hitInfo.comboType
 	if combo == Interactions.COMBO_CLASS_RAILGUN:
 		if _hitInfo.hyperLevel > 0:
@@ -209,6 +236,9 @@ func hit(_hitInfo:HitInfo) -> int:
 	elif combo == Interactions.COMBO_CLASS_SHRAPNEL:
 		spawn_shrapnel_bomb(self.global_transform.origin)
 	elif combo == Interactions.COMBO_CLASS_PUNCH:
+		# detach if attached to something
+		detach()
+		_reset_fuse_time()
 		self.linear_velocity = Vector3(0.0, 10.0, 0.0)
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_STAKE:
@@ -219,8 +249,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		_refresh()
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE:
-		_fuseLit = true
-		_particles.emitting = true
+		light_fuse()
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE_PROJECTILE:
 		return _change_to_stake(_hitInfo.direction)

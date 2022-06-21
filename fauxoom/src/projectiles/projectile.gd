@@ -41,6 +41,9 @@ func _ready() -> void:
 func _custom_init() -> void:
 	pass
 
+func _custom_launch() -> void:
+	pass
+
 func override_damage(value:int) -> void:
 	if value > 0.0:
 		_hitInfo.damage = value
@@ -181,3 +184,4 @@ func launch_prj(origin:Vector3, _forward:Vector3, sourceId:int, prjTeam:int, col
 		_spawn_in_wait()
 		#_time = spawnTime
 		#_state = ProjectileState.Spawning
+	_custom_launch()

@@ -47,6 +47,9 @@ func prj_bullet_cancel_at(point:Vector3, radius:float, teamId:int) -> void:
 func _custom_init() -> void:
 	pass
 
+func _custom_launch() -> void:
+	pass
+
 func get_hit_info() -> HitInfo:
 	return _hitInfo
 	
@@ -171,3 +174,4 @@ func launch_prj(origin:Vector3, _forward:Vector3, sourceId:int, prjTeam:int, col
 		_spawn_in_wait()
 		#_time = spawnTime
 		#_state = ProjectileState.Spawning
+	_custom_launch()

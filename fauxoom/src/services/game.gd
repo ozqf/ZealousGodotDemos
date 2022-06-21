@@ -431,6 +431,9 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		print("Game - reset")
 		_cleanup_temp_entities()
 		reset_game()
+	elif _txt == "killai":
+		print("Killing all AI")
+		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_KILL_AI)
 	elif first == "current_map":
 		print("Playing map " + get_tree().get_current_scene().filename)
 	elif first == "play":

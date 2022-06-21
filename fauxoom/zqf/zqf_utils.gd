@@ -61,6 +61,13 @@ static func clamp_int(_value:int, _min:int, _max:int) -> int:
 		return _max
 	return _value
 
+static func play_3d(audio: AudioStreamPlayer3D, stream:AudioStream, pitchAlt:float = 0.0, plusDb:float = 0.0) -> void:
+	audio.pitch_scale = rand_range(1 - pitchAlt, 1 + pitchAlt)
+	audio.unit_db = plusDb
+	audio.set_attenuation_model(AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE)
+	audio.stream = stream
+	audio.play(0)
+
 #####################################
 # geometry stuff
 #####################################

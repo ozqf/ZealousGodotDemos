@@ -56,6 +56,8 @@ func _ready() -> void:
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
 	_path.ground_path_init(AI.create_nav_agent(), self)
 	# _result = _ent.connect("entity_trigger", self, "on_trigger")
+	# skip ahead a little - need a proper option for this!
+	_eventCount = 2
 	if !Main.is_in_game():
 		_set_state(KingTowerState.InEditor)
 

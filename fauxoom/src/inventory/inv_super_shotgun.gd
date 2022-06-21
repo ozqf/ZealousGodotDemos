@@ -7,6 +7,7 @@ var _ssgOpen:AudioStream = preload("res://assets/sounds/ssg/ssg_open.wav")
 var _ssgLoad:AudioStream = preload("res://assets/sounds/ssg/ssg_load.wav")
 var _ssgClose:AudioStream = preload("res://assets/sounds/ssg/ssg_close.wav")
 
+var _currentAnimFrame:int = 0
 var _lastSoundFrame:int = -1
 var _brassNode:Spatial
 var _prjMask:int = -1
@@ -52,6 +53,14 @@ func _fire(hyper:bool) -> void:
 	_inventory.take_item(ammoType, ammoPerShot)
 	self.emit_signal("weapon_action", self, "fire")
 
+func equip() -> void:
+	.equip()
+	# resume reload animation
+	#if tick > 0.0:
+	#	.play_fire_1(false)
+	#	_hud.centreSprite.frame = _currentAnimFrame
+
+
 func read_input(_weaponInput:WeaponInput) -> void:
 	# var fireHyper:bool = false
 	# if check_hyper_attack(Interactions.HYPER_COST_SHOTGUN):
@@ -73,7 +82,6 @@ func read_input(_weaponInput:WeaponInput) -> void:
 			return
 		_inventory.take_item("rage", Interactions.HYPER_COST_SHOTGUN)
 		_fire(true)
-		
 
 func is_cycling() -> bool:
 	if !Game.allowQuickSwitching:
@@ -88,15 +96,15 @@ func is_cycling() -> bool:
 func run_reload_sounds() -> void:
 	if !_equipped:
 		return
-	var frame:int = _hud.centreSprite.frame
-	if frame == 4 && _lastSoundFrame < 4:
+	_currentAnimFrame = _hud.centreSprite.frame
+	if _currentAnimFrame == 4 && _lastSoundFrame < 4:
 		_lastSoundFrame = 4
 		_hud.hudAudio.play_stream_weapon_2(_ssgOpen, 0)
 		Game.spawn_ejected_shell(_brassNode.global_transform.origin, _brassNode.global_transform.basis.y, 1, 3, 2)
-	elif frame == 6 && _lastSoundFrame < 6:
+	elif _currentAnimFrame == 6 && _lastSoundFrame < 6:
 		_lastSoundFrame = 6
 		_hud.hudAudio.play_stream_weapon_2(_ssgLoad, 0)
-	elif frame == 8 && _lastSoundFrame < 8:
+	elif _currentAnimFrame == 8 && _lastSoundFrame < 8:
 		_lastSoundFrame = 8
 		_hud.hudAudio.play_stream_weapon_2(_ssgClose, 0)
 
@@ -107,3 +115,5 @@ func _process(_delta:float) -> void:
 		tick -= _delta
 		if _equipped:
 			run_reload_sounds()
+		elif tick <= 0.0 && !_equipped:
+			_hud.hudAudio.play_stream_weapon_2(_ssgClose, 0)

@@ -1,5 +1,12 @@
 extends KinematicBody
 
+var _death1:AudioStream = preload("res://assets/sounds/mob/punk/punk_death_1.wav")
+var _death2:AudioStream = preload("res://assets/sounds/mob/punk/punk_death_2.wav")
+var _death3:AudioStream = preload("res://assets/sounds/mob/punk/punk_death_3.wav")
+
+var _slop:AudioStream = preload("res://assets/sounds/impact/slop.wav")
+var _headshot:AudioStream = preload("res://assets/sounds/impact/headshot.wav")
+
 enum CorpseState {
 	None,
 	RegularDeath,
@@ -12,6 +19,7 @@ onready var _sprite:CustomAnimator3D = $CustomAnimator3D
 onready var _headshotSpurt:CPUParticles = $headshot_spurt
 onready var _wholebodyBurst:CPUParticles = $wholebody_burst
 onready var _collisionShape:CollisionShape = $CollisionShape
+onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 var _velocity:Vector3 = Vector3()
 var _friction:float = 0.95
@@ -30,6 +38,13 @@ func game_cleanup_temp_ents() -> void:
 
 func damage_hit(direction:Vector3, _hitStrength:float = 1.5) -> void:
 	_velocity += direction * _hitStrength
+
+# func _play_stream(audio: AudioStreamPlayer3D, stream:AudioStream, pitchAlt:float = 0.0, plusDb:float = 0.0) -> void:
+# 	_audio.pitch_scale = rand_range(1 - pitchAlt, 1 + pitchAlt)
+# 	_audio.volume_db = plusDb
+# 	_audio.set_attenuation_model(AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE)
+# 	_audio.stream = stream
+# 	_audio.play(0)
 
 func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
 	var numParticles = 4
@@ -86,7 +101,18 @@ func headshot_death() -> void:
 	pos.y += 1.3
 	_spawn_hit_particles(pos, true)
 	_sprite.play_animation("headshot_stand")
-	pass
+	ZqfUtils.play_3d(_audio, _headshot)
+
+func play_death_sound() -> void:
+	var r = randf()
+	var stream = _death3
+	if r > 0.666:
+		stream = _death1
+	elif r > 0.333:
+		stream = _death2
+	_audio.set_attenuation_model(AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE)
+	_audio.stream = stream
+	_audio.play(0)
 
 func gib_death(_forward:Vector3) -> void:
 	# show doom style gib animation
@@ -103,9 +129,14 @@ func gib_death(_forward:Vector3) -> void:
 	visible = false
 	whole_body_bleed(96, 0.3)
 
+	_audio.set_attenuation_model(AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE)
+	_audio.stream = _slop
+	_audio.play(0)
+
 func regular_death() -> void:
 	_sprite.play_animation("dying")
 	_state = CorpseState.RegularDeath
+	play_death_sound()
 
 func whole_body_bleed(amount:int, duration:float) -> void:
 	_wholebodyBurst.emitting = true

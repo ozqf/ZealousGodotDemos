@@ -112,6 +112,14 @@ func _start_kinematic_move() -> void:
 	# print("rage spawned at speed: " + str(speed))
 	mode = RigidBody.MODE_KINEMATIC
 
+
+func broadcast_pickup() -> void:
+	var grp = Groups.PLAYER_GROUP_NAME
+	var fn = Groups.PLAYER_FN_PICKUP
+	var description = ""
+	get_tree().call_group(grp, fn, description)
+
+
 func _process(_delta:float):
 	_lifeTime += _delta
 	if _state == State.Idle:
@@ -162,6 +170,7 @@ func _process(_delta:float):
 		var selfPos:Vector3 = self.global_transform.origin
 		var dist:float = selfPos.distance_to(targetPos)
 		if dist < 0.2:
+			broadcast_pickup()
 			_remove()
 			return
 		

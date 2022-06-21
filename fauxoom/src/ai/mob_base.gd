@@ -113,6 +113,9 @@ func _ready() -> void:
 	_change_state(MobState.Spawning)
 	_find_shield_orbs()
 
+func game_kill_ai() -> void:
+	void_volume_touch()
+
 func _find_shield_orbs() -> void:
 	var orbParent:Spatial = get_node_or_null("orbs/orbs")
 	if orbParent == null:
