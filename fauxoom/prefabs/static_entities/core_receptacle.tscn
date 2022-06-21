@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/objects/core_receptacle/core_receptacle.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://src/entity.gd" type="Script" id=2]
+[ext_resource path="res://src/static_entities/core_receptacle.gd" type="Script" id=3]
+[ext_resource path="res://assets/sprites/frames/64x64_projectile_frames.tres" type="SpriteFrames" id=4]
+
+[sub_resource type="SphereShape" id=1]
+radius = 0.4
+
+[node name="core_receptacle" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = ExtResource( 1 )
+material/0 = null
+
+[node name="Area" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -2.98023e-08, -1 )
+collision_layer = 2048
+collision_mask = 2048
+
+[node name="core_sprite" type="AnimatedSprite3D" parent="Area"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.3, 7.62936e-08 )
+modulate = Color( 1, 1, 0, 1 )
+pixel_size = 0.03
+billboard = 1
+frames = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 1 )
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 2 )
+prefabName = "core_receptacle"
+
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.1 )
+light_color = Color( 0.0784314, 1, 0, 1 )

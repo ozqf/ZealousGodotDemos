@@ -14,7 +14,7 @@ const PLAYER_BARRIER_LAYER:int = 7
 const DEBRIS_LAYER:int = 8
 const INTERACTIVE_LAYER:int = 9
 const CORPSE_LAYER:int = 10
-const PROJECTILE_RIGIDBODY:int = 11
+const PROJECTILE_RIGIDBODY_LAYER:int = 11
 
 const EXPLOSION_CHECK_LAYER:int = 18
 const EDITOR_GEOMETRY_LAYER:int = 19
@@ -31,6 +31,7 @@ const PLAYER_BARRIER:int = (1 << 7)
 const DEBRIS:int = (1 << 8)
 const INTERACTIVE:int = (1 << 9)
 const CORPSE:int = (1 << 10)
+const PROJECTILE_RIGIDBODY_BIT:int = (1 << 11)
 
 const EXPLOSION_CHECK:int = (1 << 18)
 const EDITOR_GEOMETRY:int = (1 << 19)
@@ -93,6 +94,9 @@ static func get_enemy_prj_mask() -> int:
 
 static func get_player_prj_mask() -> int:
 	return (WORLD | ACTORS)
+
+static func get_hyper_core_mask() -> int:
+	return (WORLD | ACTORS | PROJECTILE_RIGIDBODY_BIT)
 
 static func get_entity_mask() -> int:
 	return (ACTORS | PLAYER)

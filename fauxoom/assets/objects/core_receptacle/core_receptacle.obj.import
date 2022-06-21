@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/core_receptacle.obj-d627d9c3439eb6563917821939a29196.mesh"
+
+[deps]
+
+files=[ "res://.import/core_receptacle.obj-d627d9c3439eb6563917821939a29196.mesh" ]
+
+source_file="res://assets/objects/core_receptacle/core_receptacle.obj"
+dest_files=[ "res://.import/core_receptacle.obj-d627d9c3439eb6563917821939a29196.mesh", "res://.import/core_receptacle.obj-d627d9c3439eb6563917821939a29196.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

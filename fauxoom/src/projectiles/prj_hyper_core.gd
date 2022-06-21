@@ -46,6 +46,10 @@ func _custom_init() -> void:
 	# self.connect("area_entered", self, "on_area_entered_body")
 	# self.connect("body_entered", self, "on_body_entered_body")
 
+func core_collect() -> void:
+	_dead = true
+	self.queue_free()
+
 func on_area_entered_area(area:Area) -> void:
 	if Interactions.is_obj_a_mob(area):
 		Interactions.hit(_hitInfo, area)
@@ -210,10 +214,16 @@ func _step_as_stake(delta:float) -> void:
 	# step back a little
 	var origin:Vector3 = self.global_transform.origin - (dir * 0.1)
 	var dest:Vector3 = origin + step
-	var mask:int = Interactions.get_player_prj_mask()
+	var mask:int = Interactions.get_hyper_core_mask()
 	var arr = [ self, _area ]
 	var result:Dictionary = ZqfUtils.hitscan_by_position_3D(self, origin, dest, arr, mask)
 	if result:
+		# hack to find core receptacles
+		if result.collider.get_parent().has_method("is_core_receptacle"):
+			result.collider.get_parent().set_on(true)
+			_dead = true
+			self.queue_free()
+			return
 		print("Stake hit node: " + str(result.collider.name))
 		_coreState = HyperCoreState.Stuck
 		# step out slightly or will be IN geometry
