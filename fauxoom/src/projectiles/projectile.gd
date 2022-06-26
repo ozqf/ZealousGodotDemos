@@ -119,6 +119,7 @@ func _move_as_ray(_delta:float) -> void:
 			# print("Inflicted - " + str(_inflicted))
 		global_transform.origin = hit.position
 		_deathNormal = hit.normal
+		Sfx.spawn_impact(hit.position)
 		die()
 		return
 	t.origin = origin + (_velocity * _delta)

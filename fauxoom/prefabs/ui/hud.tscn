@@ -774,7 +774,6 @@ custom_fonts/font = ExtResource( 3 )
 text = "50"
 
 [node name="debug_options" type="VBoxContainer" parent="."]
-visible = false
 margin_left = 192.0
 margin_right = 832.0
 margin_bottom = 192.0
@@ -815,10 +814,22 @@ margin_right = 128.0
 margin_bottom = 38.0
 text = "God mode"
 
-[node name="give_all" type="Button" parent="debug_options/HBoxContainer/cheats_container"]
+[node name="endless_rage" type="Button" parent="debug_options/HBoxContainer/cheats_container"]
 margin_top = 42.0
 margin_right = 128.0
 margin_bottom = 62.0
+text = "Endless Rage"
+
+[node name="endless_ammo" type="Button" parent="debug_options/HBoxContainer/cheats_container"]
+margin_top = 66.0
+margin_right = 128.0
+margin_bottom = 86.0
+text = "Endless Ammo"
+
+[node name="give_all" type="Button" parent="debug_options/HBoxContainer/cheats_container"]
+margin_top = 90.0
+margin_right = 128.0
+margin_bottom = 110.0
 text = "Give All"
 
 [node name="laser_container" type="VBoxContainer" parent="debug_options/HBoxContainer"]

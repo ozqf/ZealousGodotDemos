@@ -3,6 +3,8 @@ extends Control
 const Enums = preload("res://src/enums.gd")
 
 onready var _godMode:Button = $HBoxContainer/cheats_container/god_mode
+onready var _endlessRage:Button = $HBoxContainer/cheats_container/endless_rage
+onready var _endlessAmmo:Button = $HBoxContainer/cheats_container/endless_ammo
 onready var _giveAll:Button = $HBoxContainer/cheats_container/give_all
 
 onready var _deathray:Button = $HBoxContainer/laser_container/deathray
@@ -30,6 +32,8 @@ func _ready() -> void:
 	_r = connect("tree_exiting", self, "_on_tree_exiting")
 	
 	_r = _godMode.connect("pressed", self, "_click_god_mode")
+	_r = _endlessRage.connect("pressed", self, "_click_endless_rage")
+	_r = _endlessAmmo.connect("pressed", self, "_click_endless_ammo")
 	_r = _giveAll.connect("pressed", self, "_click_give_all")
 	
 	_r = _deathray.connect("pressed", self, "_click_deathray")
@@ -83,6 +87,12 @@ func _click_god_mode() -> void:
 
 func _click_give_all() -> void:
 	_exec("give all")
+
+func _click_endless_rage() -> void:
+	_exec("endlessrage")
+
+func _click_endless_ammo() -> void:
+	_exec("endlessammo")
 
 func _click_deathray() -> void:
 	Game.debuggerMode = Enums.DebuggerMode.Deathray

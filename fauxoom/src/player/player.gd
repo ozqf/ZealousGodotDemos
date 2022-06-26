@@ -3,7 +3,7 @@ class_name Player
 
 var _player_hud_status_t = preload("res://src/defs/player_hud_status.gd")
 
-const MAX_HEALTH:int = 150
+const MAX_HEALTH:int = 200
 const MAX_MAIN_HEALTH:int = 100
 
 const SLIME_HURT_DELAY:float = 1.0
@@ -35,7 +35,11 @@ var _startTransform:Transform = Transform.IDENTITY
 var _recoverTransform:Transform = Transform.IDENTITY
 
 var _godMode:bool = false
-var _godRestoreTick:float = 0.0
+var _endlessRage:bool = false
+var _endlessAmmo:bool = false
+var _rageRestoreTick:float = 0.0
+var _ammoRestoreTick:float = 0.0
+
 var _dead:bool = false
 var _health:int = MAX_MAIN_HEALTH
 var _healthReductionTick:float = 0.0
@@ -174,9 +178,17 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 	if _txt == "resetplayer":
 		print("Reset player")
 		teleport(_startTransform)
+	
 	if _txt == "god":
 		_godMode = !_godMode
 		print("Godmode: " + str(_godMode))
+	if _txt == "endlessrage":
+		_endlessRage = !_endlessRage
+		print("Endless rage: " + str(_endlessRage))
+	if _txt == "endlessammo":
+		_endlessAmmo = !_endlessAmmo
+		print("Endlessammo: " + str(_endlessAmmo))
+	
 	if _tokens[0] == "give":
 		if _tokens.size() == 2 && _tokens[1] == "all":
 			give_all()
@@ -269,11 +281,19 @@ func _tick_hyper(_delta:float) -> void:
 	var duration:float = Interactions.HYPER_DURATION
 
 	# infinity hyper if god mode is on
-	if _godMode:
-		_godRestoreTick += _delta
-		if _godRestoreTick > (1.0 / 5.0):
-			_godRestoreTick = 0.0
+	if _endlessRage:
+		_rageRestoreTick += _delta
+		if _rageRestoreTick > (1.0 / 5.0):
+			_rageRestoreTick = 0.0
 			self.give_item("rage", 1)
+	if _endlessAmmo:
+		_ammoRestoreTick += _delta
+		if _ammoRestoreTick > 1.0:
+			_ammoRestoreTick = 0.0
+			give_item("bullets", 10)
+			give_item("shells", 4)
+			give_item("rockets", 1)
+			give_item("plasma", 1)
 	
 	if _hyperLevel <= 0:
 		# frenzy auto regen to given limit

@@ -299,6 +299,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/projectiles/projectile.gd"
 }, {
+"base": "AudioStreamPlayer3D",
+"class": "QuickSound3D",
+"language": "GDScript",
+"path": "res://src/sounds/quick_sound_3d.gd"
+}, {
 "base": "RigidBody",
 "class": "RigidBodyProjectile",
 "language": "GDScript",
@@ -313,6 +318,11 @@ _global_script_classes=[ {
 "class": "Skill",
 "language": "GDScript",
 "path": "res://src/defs/skill.gd"
+}, {
+"base": "Spatial",
+"class": "SoundFXManager",
+"language": "GDScript",
+"path": "res://src/services/sfx.gd"
 }, {
 "base": "Area",
 "class": "SpawnPoint",
@@ -478,9 +488,11 @@ _global_script_class_icons={
 "PrjGrenade": "",
 "PrjUtils": "",
 "Projectile": "",
+"QuickSound3D": "",
 "RigidBodyProjectile": "",
 "SawBlade": "",
 "Skill": "",
+"SoundFXManager": "",
 "SpawnPoint": "",
 "SpawnWave": "",
 "SpriteObject": "",
@@ -519,6 +531,7 @@ Game="*res://prefabs/services/game.tscn"
 Ents="*res://prefabs/services/entities.tscn"
 Bgm="*res://prefabs/services/bgm.tscn"
 AI="*res://prefabs/services/ai_manager.tscn"
+Sfx="*res://prefabs/services/sfx.tscn"
 AutoloadFinal="*res://src/services/autoload_final.gd"
 
 [debug]

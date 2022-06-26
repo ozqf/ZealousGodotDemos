@@ -22,7 +22,7 @@ albedo_color = Color( 1, 1, 0, 1 )
 size = Vector2( 0.1, 0.1 )
 
 [sub_resource type="CylinderShape" id=4]
-radius = 0.35
+radius = 0.5
 height = 0.1
 
 [node name="prj_player_saw" type="RigidBody"]

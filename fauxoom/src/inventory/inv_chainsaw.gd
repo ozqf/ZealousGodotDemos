@@ -2,6 +2,7 @@ extends InvWeapon
 
 const REV_UP_TIME:float = 2.0
 const REV_DOWN_TIME:float = 4.0
+const ATTACK_REFIRE_TIME:float = 0.25
 
 export var empty_animation:String = ""
 export var _isAttacking:bool = false
@@ -63,7 +64,7 @@ func _perform_hit(_result:Dictionary, _forward:Vector3) -> int:
 		_revs = 0
 		.play_idle()
 		_state = State.MeleeRecover
-		tick = 1.0
+		tick = ATTACK_REFIRE_TIME
 	return inflicted
 
 func _process(_delta:float) -> void:

@@ -10,7 +10,7 @@ export var ammoType:String = ""
 export var ammoPerShot:int = 1
 export var slot:int = 1
 
-export var refireTime:float = 1.0
+export var refireTime:float = 0.25
 
 export var idle:String = ""
 export var fire_1:String = ""
@@ -158,12 +158,13 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> int:
 
 		var spritePos:Vector3 = result.position - (forward * 0.2)
 		Game.spawn_impact_sprite(spritePos)
-
 		# fire debris
 		Game.spawn_impact_debris(spritePos, result.normal, 2, 12, 3)
 	elif inflicted == -2:
 		# print("Penetration hit")
 		pass
+	elif inflicted > 1:
+		Sfx.spawn_impact(result.position)
 	# else:
 	# 	var pos = result.position
 	# 	for _i in range(0, 4):

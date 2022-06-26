@@ -91,6 +91,10 @@ func spawn_explosion(pos:Vector3) -> void:
 		aoe.explosiveRadius = 6
 	Game.spawn_explosion_sprite(pos, Vector3.UP)
 
+func _apply_kinetic_push(dir:Vector3) -> void:
+	detach()
+	self.linear_velocity = dir * 25.0
+
 func light_fuse() -> void:
 	_reset_fuse_time()
 	_fuseLit = true
@@ -260,6 +264,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE:
 		light_fuse()
+		_apply_kinetic_push(_hitInfo.direction)
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE_PROJECTILE:
 		return _change_to_stake(_hitInfo.direction)

@@ -63,10 +63,10 @@ material/0 = null
 [node name="attack2" type="Node" parent="attacks"]
 script = ExtResource( 4 )
 minUseRange = 10.0
-attackCount = 8
+attackCount = 3
 windUpTime = 1.5
 windDownTime = 1.0
-repeatTime = 0.4
+repeatTime = 0.5
 showOmniCharge = true
 allowMovement = false
 

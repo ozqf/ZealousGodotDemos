@@ -5,7 +5,7 @@ enum State { Idle, Thrown, Stuck, Dropped, Recall }
 
 const GUIDED_SPEED:float = 25.0
 const UNGUIDED_SPEED:float = 50.0
-
+const STEP_BACK_SCALAR:float = 0.3
 const REV_DOWN_TIME:float = 8.0
 
 onready var _display:Spatial = $display
@@ -79,6 +79,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 	origin -= (dir * 0.1)
 	var velocity:Vector3 = (dir * speed) * _delta
 	var dest:Vector3 = origin + velocity
+	var stepBack:Vector3 = dir * STEP_BACK_SCALAR
 
 	var mask:int = -1
 	# interactives are 'areas' so also need to hit these
@@ -92,7 +93,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 		if _inflicted >= 0:
 			print("Sawblade Hit entity - revs: " + str(revs) + " stuntime: " + str(_hitInfo.stunOverrideTime))
 			# start_recall()
-			global_transform.origin = result.position
+			global_transform.origin = result.position - stepBack
 			if revs > 10:
 				set_stuck()
 			else:
@@ -100,7 +101,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 				set_dropped()
 				_apply_dropped_push(result.normal)
 				# apply_central_impulse(result.normal * 5)
-			global_transform.origin = result.position
+			global_transform.origin = result.position - stepBack
 			return
 
 		# check vs interactor
@@ -117,7 +118,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 		elif (body.collision_layer & Interactions.PLAYER_BARRIER) != 0:
 			set_dropped()
 			_apply_dropped_push(result.normal)
-			global_transform.origin = result.position
+			global_transform.origin = result.position - stepBack
 			return
 
 		# check vs world
@@ -133,7 +134,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 				_apply_dropped_push(result.normal)
 			move = false
 			# print("Saw - stuck!")
-			global_transform.origin = result.position
+			global_transform.origin = result.position - stepBack
 			return
 	if move:
 		global_transform.origin = dest
