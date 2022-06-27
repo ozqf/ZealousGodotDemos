@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://zqf_entity_editor/zee_camera.gd" type="Script" id=1]
 [ext_resource path="res://zqf/zqf_ui_mouse_over.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://zqf_entity_editor/gizmos/zee_transform_gizmo.tscn" type="PackedScene" id=7]
 [ext_resource path="res://zqf_entity_editor/gizmos/zee_cursor3d.tscn" type="PackedScene" id=8]
 [ext_resource path="res://zqf_entity_editor/display/zee_draw_tag_links.tscn" type="PackedScene" id=9]
+[ext_resource path="res://zqf_entity_editor/zee_edit_tags_panel.tscn" type="PackedScene" id=10]
 
 [node name="ZqfEntityEditor" type="Spatial"]
 script = ExtResource( 3 )
@@ -170,6 +171,10 @@ margin_top = 24.0
 margin_right = 256.0
 margin_bottom = 44.0
 text = "save"
+
+[node name="zee_edit_tags_panel" parent="CanvasLayer" instance=ExtResource( 10 )]
+margin_left = 1024.0
+margin_right = 1024.0
 
 [node name="zee_entity_props_panel" parent="CanvasLayer" instance=ExtResource( 6 )]
 anchor_top = 0.356
