@@ -82,6 +82,9 @@ transform = Transform( 10, 0, 0, 0, 8, 0, 0, 0, 1, 7, -1, -17 )
 [node name="world_volume_corner17" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 10, 0, 0, 0, 8, 0, 0, 0, 1, 7, -1, 120 )
 
+[node name="world_volume_corner29" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
+transform = Transform( 10, 0, 0, 0, 8, 0, 0, 0, 1, 17, -1, 136 )
+
 [node name="world_volume_corner27" parent="geometry/tunnel_1" instance=ExtResource( 1 )]
 transform = Transform( 10, 0, 0, 0, 8, 0, 0, 0, 1, 17, -1, 55 )
 

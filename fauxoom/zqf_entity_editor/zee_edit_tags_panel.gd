@@ -24,9 +24,19 @@ func _refresh() -> void:
 	# delete current buttons
 	for child in _currentTagsRoot.get_children():
 		child.queue_free()
-	var tags:PoolStringArray = _proxy.get_tags_field(_selectedFieldName)
+	for child in _availableTagsRoot.get_children():
+		child.queue_free()
+	
+	# build new buttons
+	var tagsPool:PoolStringArray = _proxy.get_tags_field(_selectedFieldName)
+	var tags:Array = Array(tagsPool)
 	for tag in tags:
 		_add_button(_currentTagsRoot, tag, tag, "_on_clicked_current_tag")
+	var globalTagsPool = Ents.build_global_tag_list()
+	var globalTags = Array(globalTagsPool)
+	for tag in globalTags:
+		if ZqfUtils.pool_string_find(tags, tag) == -1:
+			_add_button(_availableTagsRoot, tag, tag, "_on_clicked_current_tag")
 
 func _add_button(_parent:Control, name:String, label:String, callbackName) -> void:
 	var obj = _button_t.instance()

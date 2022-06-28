@@ -2,48 +2,61 @@
 
 [ext_resource path="res://zqf_entity_editor/zee_edit_tags_panel.gd" type="Script" id=1]
 
-[node name="zee_edit_tags_panel" type="VBoxContainer"]
+[node name="zee_edit_tags_panel" type="Control"]
 anchor_right = 0.2
+anchor_bottom = 0.989
+margin_bottom = 7.91998
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 256.0
+margin_bottom = 720.0
+color = Color( 0, 0, 0, 0.196078 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="zee_edit_tags_panel" type="VBoxContainer" parent="."]
+anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="zee_edit_tags_panel"]
 margin_right = 256.0
 margin_bottom = 14.0
 text = "Edit Tags"
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label2" type="Label" parent="zee_edit_tags_panel"]
 margin_top = 18.0
 margin_right = 256.0
 margin_bottom = 32.0
 text = "Message"
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="LineEdit" type="LineEdit" parent="zee_edit_tags_panel"]
 margin_top = 36.0
 margin_right = 256.0
 margin_bottom = 60.0
 
-[node name="Label3" type="Label" parent="."]
+[node name="Label3" type="Label" parent="zee_edit_tags_panel"]
 margin_top = 64.0
 margin_right = 256.0
 margin_bottom = 78.0
 text = "Current Tags"
 
-[node name="current_tags" type="VBoxContainer" parent="."]
+[node name="current_tags" type="VBoxContainer" parent="zee_edit_tags_panel"]
 margin_top = 82.0
 margin_right = 256.0
 margin_bottom = 82.0
 
-[node name="Label4" type="Label" parent="."]
+[node name="Label4" type="Label" parent="zee_edit_tags_panel"]
 margin_top = 86.0
 margin_right = 256.0
 margin_bottom = 100.0
 text = "Available Tags"
 
-[node name="available_tags" type="VBoxContainer" parent="."]
+[node name="available_tags" type="VBoxContainer" parent="zee_edit_tags_panel"]
 margin_top = 104.0
 margin_right = 256.0
 margin_bottom = 104.0

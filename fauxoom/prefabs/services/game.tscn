@@ -57,7 +57,7 @@ layer = 2
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 1 )
+color = Color( 0, 0, 0, 0.494118 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

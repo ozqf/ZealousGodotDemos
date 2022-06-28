@@ -185,6 +185,13 @@ static func turn_towards_point(spatial:Spatial, pos:Vector3, weight:float) -> vo
 # misc data
 #####################################
 
+static func pool_string_find(strings:PoolStringArray, query:String) -> int:
+	var l:int = strings.size()
+	for i in range(0, l):
+		if strings[i] == query:
+			return i
+	return -1
+
 static func strNullOrEmpty(txt: String) -> bool:
 	if txt == null:
 		return true
@@ -495,6 +502,17 @@ static func load_dict_json_file(_path:String) -> Dictionary:
 	var data = parse_json(file.get_as_text())
 	file.close()
 	return data
+
+static func write_dict_json_file(_folder:String, _fileName:String, _dict:Dictionary) -> String:
+	make_dir(_folder)
+	var path:String = _folder + _fileName
+	var file = File.new()
+	var err = file.open(path, File.WRITE)
+	if err != 0:
+		return "Write dict json error " + str(err) + " opening " + path
+	file.store_string(to_json(_dict))
+	file.close()
+	return ""
 
 #####################################
 # system
