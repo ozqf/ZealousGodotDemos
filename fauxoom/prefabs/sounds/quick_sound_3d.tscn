@@ -8,5 +8,6 @@ bus = "game"
 script = ExtResource( 1 )
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
+visible = false
 billboard = 1
 texture = ExtResource( 2 )

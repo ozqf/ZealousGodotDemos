@@ -1,0 +1,82 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
+[ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
+[ext_resource path="res://src/entity.gd" type="Script" id=3]
+[ext_resource path="res://src/ai/mob_attack.gd" type="Script" id=4]
+[ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=5]
+[ext_resource path="res://assets/sprites/frames/worm_frames.tres" type="SpriteFrames" id=6]
+[ext_resource path="res://prefabs/mob_components/mob_motor.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/ai/ai_ticker.gd" type="Script" id=8]
+[ext_resource path="res://src/ai/mob_motor_ground.gd" type="Script" id=9]
+[ext_resource path="res://prefabs/mob_components/teleport_column.tscn" type="PackedScene" id=10]
+[ext_resource path="res://prefabs/mob_components/mob_sound_base.tscn" type="PackedScene" id=11]
+[ext_resource path="res://src/ai/mobs/worm_sound.gd" type="Script" id=12]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.25
+height = 0.3
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 0.2, 0.2, 1 )
+
+[node name="mob_flesh_worm" type="KinematicBody"]
+collision_layer = 2
+collision_mask = 70
+script = ExtResource( 2 )
+fleeBoredomSeconds = -1.0
+roleClass = 1
+
+[node name="mob_sound" parent="." instance=ExtResource( 11 )]
+script = ExtResource( 12 )
+
+[node name="teleport_column" parent="." instance=ExtResource( 10 )]
+transform = Transform( 0.5, 0, 0, 0, 0.75, 0, 0, 0, 0.5, 0, 0, 0 )
+
+[node name="sprite" type="AnimatedSprite3D" parent="."]
+offset = Vector2( 0, 32 )
+modulate = Color( 0.898039, 0.317647, 1, 1 )
+billboard = 2
+shaded = true
+frames = ExtResource( 6 )
+script = ExtResource( 5 )
+active = true
+animationSet = "flesh_worm"
+defaultAnimation = "walk"
+
+[node name="body" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.4, 0 )
+shape = SubResource( 1 )
+
+[node name="head" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
+visible = false
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="attacks" type="Node" parent="."]
+
+[node name="MobAttack" type="Node" parent="attacks"]
+script = ExtResource( 4 )
+maxUseRange = 2.0
+allowMovement = false
+
+[node name="motor" parent="." instance=ExtResource( 7 )]
+script = ExtResource( 9 )
+
+[node name="stats" type="Node" parent="."]
+script = ExtResource( 1 )
+entityType = "mob_worm"
+health = 10
+moveSpeed = 7.0
+stunThreshold = 25
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 3 )
+prefabName = "mob_wormling"
+
+[node name="ticker" type="Spatial" parent="."]
+script = ExtResource( 8 )

@@ -43,12 +43,18 @@ func _remove() -> void:
 	_state = State.Dead
 	self.queue_free()
 
-func launch_rage_drop(pos:Vector3, dropType:int, autoGather:bool) -> void:
+func launch_rage_drop(pos:Vector3, dropType:int, throwYawDegrees:float, autoGather:bool) -> void:
 	global_transform.origin = pos
 	var velocity:Vector3 = Vector3()
-	velocity.x += rand_range(-5, 5)
+	if throwYawDegrees < 0.0:
+		velocity.x += rand_range(-5, 5)
+		velocity.z += rand_range(-5, 5)
+	else:
+		#print("Throw rage yaw " + str(throwYawDegrees))
+		throwYawDegrees += rand_range(-45, 45)
+		velocity = ZqfUtils.yaw_to_flat_vector3(throwYawDegrees)
+		velocity *= rand_range(3, 6)
 	velocity.y += rand_range(5, 10)
-	velocity.z += rand_range(-5, 5)
 	linear_velocity = velocity
 	
 	# converts excess health to 'bonus' items.

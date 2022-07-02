@@ -227,12 +227,6 @@ static func array_remove_safe(arr, item) -> void:
 	if i != -1:
 		arr.remove(i)
 
-static func get_window_to_screen_ratio() -> Vector2:
-	var real: Vector2 = OS.get_real_window_size()
-	var scr: Vector2 = OS.get_screen_size()
-	var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
-	return result
-
 static func read_csv_int(csv:String, index:int, failure:int) -> int:
 	if csv == null || csv == "":
 		return failure
@@ -523,6 +517,12 @@ static func is_running_in_editor() -> bool:
 
 static func is_web_build() -> bool:
 	return OS.get_name() == "HTML5"
+
+static func get_window_to_screen_ratio() -> Vector2:
+	var real: Vector2 = OS.get_real_window_size()
+	var scr: Vector2 = OS.get_screen_size()
+	var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
+	return result
 
 #####################################
 # 3D sprite directions

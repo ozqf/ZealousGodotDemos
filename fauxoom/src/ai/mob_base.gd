@@ -542,6 +542,10 @@ func hit(_hitInfo:HitInfo) -> int:
 	if _hitInfo.attackTeam == Interactions.TEAM_ENEMY:
 		return Interactions.HIT_RESPONSE_NONE
 	_health -= _hitInfo.damage
+
+	var hitYaw:float = rad2deg(atan2(_hitInfo.direction.x, -_hitInfo.direction.z))
+	hitYaw += 180.0
+	hitYaw = ZqfUtils.cap_degrees(hitYaw)
 	# if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
 	# 		print("Explosive hit for " + str(_hitInfo.damage))
 	if _health <= 0:
@@ -569,6 +573,7 @@ func hit(_hitInfo:HitInfo) -> int:
 			collisionShape.global_transform.origin,
 			dropType,
 			dropCount,
+			hitYaw,
 			_hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_RAIL)
 		
 		_corpseHitInfo.direction = _hitInfo.direction
@@ -614,6 +619,7 @@ func hit(_hitInfo:HitInfo) -> int:
 				collisionShape.global_transform.origin,
 				dropType,
 				1,
+				hitYaw,
 				_hitInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_RAIL)
 		
 		# if not awake, wake up!

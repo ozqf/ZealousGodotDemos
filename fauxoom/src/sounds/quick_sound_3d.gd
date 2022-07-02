@@ -10,7 +10,7 @@ func quick_play(pos:Vector3, _stream:AudioStream) -> void:
 	self.global_transform.origin = pos
 	self.unit_db = 10.0
 	_tick = _stream.get_length() + 1.0
-	print("Spawn sound at " + str(pos) + " for " + str(_tick))
+	#print("Spawn sound at " + str(pos) + " for " + str(_tick))
 
 func _process(delta:float) -> void:
 	_tick -= delta

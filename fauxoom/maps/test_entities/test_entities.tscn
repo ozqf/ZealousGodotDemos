@@ -475,6 +475,7 @@ defaultAnimation = ""
 
 [node name="3d_sprite_prop16" parent="sprite_gallery/mob_sprites" instance=ExtResource( 35 )]
 transform = Transform( -1, 0, -3.89414e-07, 0, 1, 0, 3.89414e-07, 0, -1, 13, 0, 3 )
+modulate = Color( 0.403922, 0, 0.937255, 1 )
 frames = ExtResource( 11 )
 animationSet = ""
 defaultAnimation = ""

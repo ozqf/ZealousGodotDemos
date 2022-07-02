@@ -30,46 +30,61 @@ var _prefabs = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_punk.tscn"),
 		entNodePath = "Entity",
 		label = "Punk",
-		noEditor = true
+		noEditor = true,
+		category = "mobs"
 	},
 	mob_worm = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_flesh_worm.tscn"),
 		entNodePath = "Entity",
 		label = "Worm",
-		noEditor = true
+		noEditor = true,
+		category = "mobs"
+	},
+	mob_wormling = {
+		prefab = preload("res://prefabs/dynamic_entities/mob_wormling.tscn"),
+		entNodePath = "Entity",
+		label = "Wormling",
+		noEditor = true,
+		category = "mobs"
 	},
 	mob_gunner = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_gunner.tscn"),
 		entNodePath = "Entity",
 		label = "Gunner",
-		noEditor = true
+		noEditor = true,
+		category = "mobs"
 	},
 	mob_cyclops = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_cyclops.tscn"),
 		entNodePath = "Entity",
 		label = "Cyclops",
-		noEditor = true
+		noEditor = true,
+		category = "mobs"
 	},
 	mob_serpent = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_serpent.tscn"),
 		entNodePath = "Entity",
 		label = "Serpent",
-		noEditor = true
+		noEditor = true,
+		category = "mobs"
 	},
 	mob_spider = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_spider.tscn"),
 		entNodePath = "Entity",
-		noEditor = true
+		noEditor = true,
+		category = "mobs"
 	},
 	mob_golem = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_golem.tscn"),
 		entNodePath = "Entity",
-		noEditor = true
+		noEditor = true,
+		category = "mobs"
 	},
 	mob_titan = {
 		prefab = preload("res://prefabs/dynamic_entities/mob_titan.tscn"),
 		entNodePath = "Entity",
-		noEditor = true
+		noEditor = true,
+		category = "mobs"
 	},
 
 	################################################

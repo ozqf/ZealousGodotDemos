@@ -11,7 +11,13 @@ background_mode = 1
 [node name="title" type="Spatial"]
 
 [node name="world_volume_corner" parent="." instance=ExtResource( 1 )]
-transform = Transform( 16, 0, 0, 0, 1, 0, 0, 0, 16, -8, -1, -8 )
+transform = Transform( 40, 0, 0, 0, 1, 0, 0, 0, 64, -20, -1, -35 )
+
+[node name="world_volume_corner2" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 16, 0, 0, 0, 64, -11, 20, -35 )
+
+[node name="world_volume_corner3" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 16, 0, 0, 0, 64, 10, 20, -35 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.92388, 0.382683, 0, -0.382683, 0.92388, 0, 5, 12 )
@@ -19,11 +25,6 @@ current = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )
-
-[node name="OmniLight" type="OmniLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -9 )
-shadow_enabled = true
-omni_range = 50.0
 
 [node name="OmniLight2" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 8 )
@@ -65,11 +66,19 @@ __meta__ = {
 }
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, -9, 0, 0 )
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 1, -9, 0, 0 )
 mesh = ExtResource( 2 )
 material/0 = null
 
 [node name="MeshInstance2" type="MeshInstance" parent="."]
-transform = Transform( 0.965926, -0.258819, -1.13133e-08, 0, -4.37114e-08, 1, -0.258819, -0.965926, -4.2222e-08, -1, 0, 8 )
+transform = Transform( 0.965926, -0.258819, -1.13133e-08, 0, -4.37114e-08, 1, -0.258819, -0.965926, -4.2222e-08, -2, 0, 8 )
 mesh = ExtResource( 3 )
 material/0 = null
+
+[node name="SpotLight" type="SpotLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 5, -21 )
+light_energy = 4.0
+shadow_enabled = true
+shadow_reverse_cull_face = true
+spot_range = 35.0
+spot_angle = 27.3776
