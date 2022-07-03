@@ -10,6 +10,8 @@ onready var _windowed:CheckBox = $VBoxContainer/windowed/CheckBox
 onready var _vsync:CheckBox = $VBoxContainer/vsync/CheckBox
 onready var _fovLabel:Label = $VBoxContainer/fov/Label
 onready var _fov:HSlider = $VBoxContainer/fov/HSlider
+onready var _targetFPSLabel:Label = $VBoxContainer/target_fps/Label
+onready var _targetFPS:HSlider = $VBoxContainer/target_fps/HSlider
 
 onready var _sfx:HSlider = $VBoxContainer/sound_volume/HSlider
 onready var _bgm:HSlider = $VBoxContainer/music_volume/HSlider
@@ -23,6 +25,7 @@ func _ready() -> void:
 	_f = _sensitivity.connect("text_changed", self, "_sensitivity_changed")
 	_f = _sfx.connect("value_changed", self, "_sfx_changed")
 	_f = _bgm.connect("value_changed", self, "_bgm_changed")
+	_f = _targetFPS.connect("value_changed", self, "_target_fps_changed")
 
 func on() -> void:
 	self.visible = true
@@ -34,6 +37,8 @@ func on() -> void:
 	_bgm.value = Config.cfg.s_bgm
 	_fov.value = Config.cfg.r_fov
 	_fovLabel.text = "Field of View (" + str(_fov.value) + ")"
+	_targetFPS.value = Config.cfg.r_fpsTarget
+	_targetFPSLabel.text = "Target framerate: (" + str(_targetFPS.value) + ")"
 
 func off() -> void:
 	self.visible = false
@@ -44,6 +49,12 @@ func _on_back() -> void:
 func _fov_changed(val:float) -> void:
 	Config.cfg.r_fov = val
 	_fovLabel.text = "Field of View (" + str(val) + ")"
+	Config.broadcast_cfg_change()
+
+func _target_fps_changed(val:float) -> void:
+	var target = int(val)
+	Config.cfg.r_fpsTarget = target
+	_targetFPSLabel.text = "Target framerate: (" + str(target) + ")"
 	Config.broadcast_cfg_change()
 
 func _sfx_changed(val:float) -> void:

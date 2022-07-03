@@ -536,6 +536,7 @@ AutoloadFinal="*res://src/services/autoload_final.gd"
 
 [debug]
 
+settings/fps/force_fps=120
 gdscript/warnings/unused_variable=false
 gdscript/warnings/unused_signal=false
 gdscript/warnings/return_value_discarded=false

@@ -345,8 +345,16 @@ func _tick_bonus(_delta:float) -> void:
 			_bonusReductionTick = 2.0
 			_bonus -= 1
 
+func _physics_process(delta:float) -> void:
+	# if _moveMode == 0:
+	# 	_motor.custom_tick(delta)
+	pass
+
 func _process(_delta:float) -> void:
 	_refresh_input_on()
+
+	if _moveMode == 0:
+		_motor.custom_tick(_delta)
 
 	if _slimeOverlapCount > 0:
 		_slimeNoOverlapTick = 0.0
@@ -459,12 +467,6 @@ func _process(_delta:float) -> void:
 	var grp = Groups.PLAYER_GROUP_NAME
 	var fn = Groups.PLAYER_FN_STATUS
 	get_tree().call_group(grp, fn, _hudStatus)
-
-func _physics_process(delta:float) -> void:
-	if _moveMode == 0:
-		_motor.physics_tick(delta)
-	else:
-		pass
 
 func _broadcast_got_item(itemType:String) -> void:
 	get_tree().call_group(

@@ -46,7 +46,20 @@ func shake(_duration:float, _strength:float) -> void:
 	_shakeStrength = _strength
 	_shakeDuration = _duration
 
+func _refresh_pos() -> void:
+	if _attachParent != null:
+		var t:Transform = _attachParent.global_transform
+		self.global_transform = t
+		#print("Cam pos " + str(t.origin))
+
+func _physics_process(delta:float) -> void:
+	_refresh_pos()
+
 func _process(_delta:float) -> void:
+	
+	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_CAMERA_UPDATE, global_transform.basis)
+
+func _tick_gun_kick(_delta:float) -> void:
 	# tick gun kick
 	_kickTick += _delta
 	var weight:float = _kickTick / _kickDuration
@@ -86,19 +99,20 @@ func attach_to(newParent:Spatial) -> void:
 		detach()
 	current = true
 	_attachParent = newParent
+
 	# reset local position
-	_worldParent.remove_child(self)
-	_attachParent.add_child(self)
-	transform = Transform.IDENTITY
-	var _f = _attachParent.connect("tree_exiting", self, "detach")
+	#_worldParent.remove_child(self)
+	#_attachParent.add_child(self)
+	#transform = Transform.IDENTITY
+	#var _f = _attachParent.connect("tree_exiting", self, "detach")
 
 func detach() -> void:
 	if _attachParent == null:
 		return
 	current = false
 	var t:Transform = _attachParent.global_transform
-	_attachParent.remove_child(self)
-	_attachParent.disconnect("tree_exiting", self, "detach")
+	#_attachParent.remove_child(self)
+	#_attachParent.disconnect("tree_exiting", self, "detach")
 	_attachParent = null
-	_worldParent.add_child(self)
-	global_transform = t
+	#_worldParent.add_child(self)
+	#global_transform = t

@@ -163,6 +163,12 @@ func new_corpse_spawn_info() -> CorpseSpawnInfo:
 func config_changed(_cfg:Dictionary) -> void:
 	print("Game - read fov")
 	_camera.fov = _cfg.r_fov
+	var target:int = _cfg.r_fpsTarget
+	if target <= 0:
+		target = 0
+	elif target < 60:
+		target = 60
+	Engine.set_target_fps(target)
 
 func write_save_file(fileName:String) -> void:
 	var path = _build_save_path(fileName, false)

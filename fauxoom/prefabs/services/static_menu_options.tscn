@@ -130,16 +130,37 @@ min_value = 50.0
 max_value = 120.0
 value = 80.0
 
-[node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
+[node name="target_fps" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 168.0
 margin_right = 639.0
-margin_bottom = 200.0
+margin_bottom = 184.0
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/target_fps"]
+margin_left = 135.0
+margin_top = 1.0
+margin_right = 243.0
+margin_bottom = 15.0
+text = "Target Framerate"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/target_fps"]
+margin_left = 247.0
+margin_right = 503.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 256, 0 )
+max_value = 360.0
+value = 120.0
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
+margin_top = 188.0
+margin_right = 639.0
+margin_bottom = 220.0
 rect_min_size = Vector2( 32, 32 )
 
 [node name="sound_volume" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 204.0
+margin_top = 224.0
 margin_right = 639.0
-margin_bottom = 220.0
+margin_bottom = 240.0
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/sound_volume"]
@@ -157,9 +178,9 @@ rect_min_size = Vector2( 256, 0 )
 value = 75.0
 
 [node name="music_volume" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 224.0
+margin_top = 244.0
 margin_right = 639.0
-margin_bottom = 240.0
+margin_bottom = 260.0
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/music_volume"]
@@ -177,13 +198,13 @@ rect_min_size = Vector2( 256, 0 )
 value = 60.0
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
-margin_top = 244.0
+margin_top = 264.0
 margin_right = 639.0
-margin_bottom = 276.0
+margin_bottom = 296.0
 rect_min_size = Vector2( 32, 32 )
 
 [node name="back" type="Button" parent="VBoxContainer"]
-margin_top = 280.0
+margin_top = 300.0
 margin_right = 639.0
-margin_bottom = 300.0
+margin_bottom = 320.0
 text = "BACK"

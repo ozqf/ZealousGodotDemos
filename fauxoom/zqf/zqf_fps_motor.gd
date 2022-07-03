@@ -104,7 +104,7 @@ func _apply_rotations(_delta: float):
 	camRot.x = m_pitch
 	_head.rotation_degrees = camRot
 
-func physics_tick(delta:float) -> void:
+func custom_tick(delta:float) -> void:
 #func _process(delta:float) -> void:
 	if _body == null:
 		return
@@ -263,19 +263,15 @@ func _input(_event: InputEvent):
 
 		# scale inputs by this ratio or mouse sensitivity is based on resolution!
 		var scrSizeRatio: Vector2 = _get_window_to_screen_ratio()
-		# var scrSizeRatio: Vector2 = Vector2(1, 1)
 
 		# Horizontal
 		var moveMul:float = mouseSensitivity * MOUSE_MOVE_SCALE
 		var mMoveX: float = (_event.relative.x * moveMul) * scrSizeRatio.x
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX
-		#var rotY: float = deg2rad(mMoveX)
 		m_yaw += mMoveX
 
 		# vertical
-		# TODO: Uninverted mouse!
-		# DISABLED - until there is a reason to mouse-look and UI to toggle inverted!
 		var mMoveY: float = (_event.relative.y * moveMul * scrSizeRatio.y)
 		if invertedY:
 			m_pitch += mMoveY

@@ -221,6 +221,7 @@ __meta__ = {
 }
 
 [node name="custom_maps" type="Button" parent="static_menus/root_menu/VBoxContainer"]
+visible = false
 margin_top = 194.0
 margin_right = 384.0
 margin_bottom = 214.0
@@ -305,27 +306,30 @@ __meta__ = {
 }
 
 [node name="prologue" type="Button" parent="static_menus/embedded_maps/VBoxContainer"]
+visible = false
 margin_top = 18.0
 margin_right = 384.0
 margin_bottom = 38.0
 text = "Prologue"
 
 [node name="catacombs_campaign" type="Button" parent="static_menus/embedded_maps/VBoxContainer"]
+visible = false
 margin_top = 42.0
 margin_right = 384.0
 margin_bottom = 62.0
 text = "Catacombs - Campaign"
 
 [node name="catacombs_king" type="Button" parent="static_menus/embedded_maps/VBoxContainer"]
-margin_top = 66.0
+margin_top = 18.0
 margin_right = 384.0
-margin_bottom = 86.0
+margin_bottom = 38.0
 text = "Catacombs - King of the Hill"
 
 [node name="back" type="Button" parent="static_menus/embedded_maps/VBoxContainer"]
-margin_top = 90.0
+visible = false
+margin_top = 66.0
 margin_right = 384.0
-margin_bottom = 110.0
+margin_bottom = 86.0
 text = "Back"
 
 [node name="custom_map_menu" type="Control" parent="static_menus"]

@@ -28,6 +28,10 @@ onready var _modalBlocker:Control = $CanvasLayer/modal
 onready var _fileDialog:FileDialog = $CanvasLayer/modal/FileDialog
 onready var _entPropsPanel = $CanvasLayer/zee_entity_props_panel
 
+# grab the tag editor's mouse over detector
+onready var _tagsPanelBg = $CanvasLayer/zee_edit_tags_panel/mouse_entered
+
+
 onready var _ray:RayCast = $camera/RayCast
 onready var _3dCursor:Spatial = $cursor3d
 onready var _entsRoot:Spatial = $ents
@@ -93,6 +97,7 @@ func _ready() -> void:
 	_fileDialog.connect("modal_closed", self, "_file_modal_closed")
 	_fileDialog.connect("popup_hide", self, "_file_modal_closed")
 	_fileDialog.connect("file_selected", self, "_file_selected")
+
 
 	# if working in the editor just use local file system
 	if ZqfUtils.is_running_in_editor():
@@ -296,7 +301,7 @@ func _set_root_mode(newMode) -> void:
 	_modeLabel.text = modeTxt
 	get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_ROOT_MODE_CHANGE, _rootMode)
 
-func _left_click() -> void:
+func _left_click_world() -> void:
 	if _rootMode == EdEnums.RootMode.Add:
 		if !_canPlaceEnt:
 			return
@@ -414,6 +419,11 @@ func _is_mouse_over_left_panel() -> bool:
 	var pos:Vector2 = get_viewport().get_mouse_position()
 	return pos.x < _leftPanelRoot.rect_position.x + _leftPanelRoot.rect_size.x
 
+func _is_mouse_over_right_panel() -> bool:
+	# return _tagsPanelBg.on
+	var pos:Vector2 = get_viewport().get_mouse_position()
+	return pos.x >= 1024
+
 # Process mouse input via raw input events, if mouse is captured
 func _input(_event: InputEvent):
 	if !_enabled || get_modal_blocking():
@@ -422,5 +432,6 @@ func _input(_event: InputEvent):
 		var ev = _event as InputEventMouseButton
 		
 		# print("Mouse ev press index: " + str(ev.get_button_index()))
-		if ev.pressed && ev.get_button_index() == 1 && !_is_mouse_over_left_panel():
-			_left_click()
+		var overUI:bool = _is_mouse_over_left_panel() || _is_mouse_over_right_panel()
+		if ev.pressed && ev.get_button_index() == 1 && !overUI:
+			_left_click_world()

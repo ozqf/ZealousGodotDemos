@@ -3,8 +3,8 @@ extends Control
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 var _button_t = preload("res://zqf_entity_editor/ui/zee_button.tscn")
 
-onready var _currentTagsRoot:Control = $current_tags
-onready var _availableTagsRoot:Control = $available_tags
+onready var _currentTagsRoot:Control = $zee_edit_tags_panel/current_tags
+onready var _availableTagsRoot:Control = $zee_edit_tags_panel/available_tags
 
 var _proxy:ZEEEntityProxy = null
 var _selectedFieldName:String = "tagcsv"
@@ -14,6 +14,7 @@ var _active:bool = false
 func _ready() -> void:
 	add_to_group(EdEnums.GROUP_NAME)
 	set_active(false)
+	$mouse_entered.init($zee_edit_tags_panel, $ColorRect)
 
 func set_active(flag:bool) -> void:
 	_active = flag
@@ -46,7 +47,8 @@ func _add_button(_parent:Control, name:String, label:String, callbackName) -> vo
 	obj.text = label
 
 func _on_clicked_current_tag(button) -> void:
-	print("Clicked " + str(button.name))
+	print("Clicked " + str(button.text))
+	# _proxy.
 
 func zee_on_new_entity_proxy(newProxy) -> void:
 	_proxy = newProxy
@@ -61,4 +63,5 @@ func zee_on_clear_entity_selection() -> void:
 
 func zee_on_select_edit_field(field:Dictionary, proxy:ZEEEntityProxy) -> void:
 	proxy.get_fields()
+	print("Tags edit - saw new field")
 	pass

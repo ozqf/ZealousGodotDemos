@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://prefabs/ui/hud_hit_indicator.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/guns/ssg_frames.tres" type="SpriteFrames" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/ui/green_ring_64.png" type="Texture" id=5]
 [ext_resource path="res://assets/sounds/item/item_powerup_generic.wav" type="AudioStream" id=6]
 [ext_resource path="res://src/ui/hud_pickup_messages.gd" type="Script" id=7]
+[ext_resource path="res://assets/sprites/frames/item_frames.tres" type="SpriteFrames" id=8]
 [ext_resource path="res://src/ui/hud_sound.gd" type="Script" id=9]
 [ext_resource path="res://src/ui/hud.gd" type="Script" id=10]
 [ext_resource path="res://assets/sounds/ssg/ssg_fire.wav" type="AudioStream" id=11]
@@ -386,6 +387,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Sprite" type="AnimatedSprite" parent="centre/health2"]
+position = Vector2( -16, 0 )
+scale = Vector2( 1.875, 1.75 )
+frames = ExtResource( 8 )
+animation = "blue_capsule"
+
 [node name="Label" type="Label" parent="centre/health2"]
 modulate = Color( 0.423529, 0.392157, 1, 1 )
 anchor_left = 0.5
@@ -409,6 +416,12 @@ margin_bottom = 360.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Sprite2" type="AnimatedSprite" parent="centre/hyper_time"]
+position = Vector2( -16, 0 )
+scale = Vector2( 1.875, 1.75 )
+frames = ExtResource( 8 )
+animation = "green_capsule"
 
 [node name="Label" type="Label" parent="centre/hyper_time"]
 modulate = Color( 0.101961, 1, 0, 1 )
@@ -635,7 +648,7 @@ __meta__ = {
 }
 
 [node name="bg" type="ColorRect" parent="bottom_right_panel"]
-margin_left = 64.0
+margin_left = 32.0
 margin_top = 448.0
 margin_right = 192.0
 margin_bottom = 600.0
@@ -670,6 +683,12 @@ margin_right = 192.0
 margin_bottom = 25.0
 alignment = 2
 
+[node name="AnimatedSprite" type="AnimatedSprite" parent="bottom_right_panel/bottom_right_panel/ammo_counts/bullets"]
+position = Vector2( 72, -43 )
+scale = Vector2( 2, 2 )
+frames = ExtResource( 8 )
+frame = 16
+
 [node name="Label" type="Label" parent="bottom_right_panel/bottom_right_panel/ammo_counts/bullets"]
 margin_left = 85.0
 margin_right = 164.0
@@ -689,6 +708,12 @@ margin_top = 29.0
 margin_right = 192.0
 margin_bottom = 54.0
 alignment = 2
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="bottom_right_panel/bottom_right_panel/ammo_counts/shells"]
+position = Vector2( 80, -40 )
+scale = Vector2( 2, 2 )
+frames = ExtResource( 8 )
+frame = 18
 
 [node name="Label" type="Label" parent="bottom_right_panel/bottom_right_panel/ammo_counts/shells"]
 margin_left = 97.0
@@ -710,6 +735,12 @@ margin_right = 192.0
 margin_bottom = 83.0
 alignment = 2
 
+[node name="AnimatedSprite3" type="AnimatedSprite" parent="bottom_right_panel/bottom_right_panel/ammo_counts/plasma"]
+position = Vector2( 64, -37 )
+scale = Vector2( 2, 2 )
+frames = ExtResource( 8 )
+frame = 22
+
 [node name="Label" type="Label" parent="bottom_right_panel/bottom_right_panel/ammo_counts/plasma"]
 margin_left = 87.0
 margin_right = 164.0
@@ -729,6 +760,11 @@ margin_top = 87.0
 margin_right = 192.0
 margin_bottom = 112.0
 alignment = 2
+
+[node name="AnimatedSprite4" type="AnimatedSprite" parent="bottom_right_panel/bottom_right_panel/ammo_counts/rockets"]
+position = Vector2( 64, -2 )
+frames = ExtResource( 8 )
+frame = 20
 
 [node name="Label" type="Label" parent="bottom_right_panel/bottom_right_panel/ammo_counts/rockets"]
 margin_left = 81.0
@@ -772,6 +808,9 @@ margin_top = 15.0
 margin_bottom = 40.0
 custom_fonts/font = ExtResource( 3 )
 text = "50"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="debug_options" type="VBoxContainer" parent="."]
 margin_left = 192.0
