@@ -69,7 +69,7 @@ func zee_on_root_mode_changed(_newMode) -> void:
 		return
 	_disable()
 
-func zee_on_new_entity_proxy(newProxy) -> void:
+func zee_on_new_entity_selection(newProxy) -> void:
 	_proxy = newProxy
 	_refresh_rotation_display()
 	# var yaw:float = _proxy.get_prefab_yaw_degrees()

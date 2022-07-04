@@ -85,7 +85,15 @@ func get_fields() -> Dictionary:
 		return _data.fields
 	return ZqfUtils.EMPTY_DICT
 
-func get_tags_field(fieldName:String) -> PoolStringArray:
+func get_field(fieldName:String) -> Dictionary:
+	if !_data || !_data.has("fields"):
+		return ZqfUtils.EMPTY_DICT
+	if !_data.fields.has(fieldName):
+		return ZqfUtils.EMPTY_DICT
+	var field = _data.fields[fieldName]
+	return field
+
+func get_tags_field_value(fieldName:String) -> PoolStringArray:
 	if !_data || !_data.has("fields"):
 		return PoolStringArray()
 	if !_data.fields.has(fieldName):
@@ -106,8 +114,10 @@ func get_tag_fields():
 	return result
 
 func delete_prefab() -> void:
+	var grp:String = EdEnums.GROUP_NAME
+	var fn:String = EdEnums.FN_REMOVED_ENTITY_PROXY
+	get_tree().call_group(grp, fn, self)
 	_prefab.queue_free()
-	pass
 
 func set_prefab_position(pos:Vector3) -> void:
 	if _prefab.has_method("set_position"):
@@ -133,6 +143,9 @@ func get_prefab_basis() -> Basis:
 func get_prefab_scale() -> Vector3:
 	return _prefab.scale
 
+func get_prefab_type() -> String:
+	return _prefabDef.name
+
 func _refresh_self_scale() -> void:
 	var newScale:Vector3 = _prefab.scale
 	var selfScale:Vector3 = Vector3()
@@ -150,6 +163,10 @@ func get_label() -> String:
 		return _prefabDef.name + ": " + _data.selfName
 	else:
 		return _prefabDef.name
+
+func get_screen_position() -> Vector2:
+	var pos:Vector3 = get_parent().global_transform.origin
+	return get_viewport().get_camera().unproject_position(pos)
 
 func _process(_delta:float) -> void:
 	if _dirty:

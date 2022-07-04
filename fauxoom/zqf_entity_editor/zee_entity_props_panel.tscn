@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://zqf_entity_editor/zee_ui_entity_field.tscn" type="PackedScene" id=1]
+[ext_resource path="res://zqf_entity_editor/ui/zee_ui_entity_field.tscn" type="PackedScene" id=1]
 [ext_resource path="res://zqf_entity_editor/zee_entity_props_panel.gd" type="Script" id=2]
 
 [node name="zee_entity_props_panel" type="Control"]

@@ -1,0 +1,33 @@
+extends Control
+
+const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
+
+onready var _label:Label = $Label
+var _proxy:ZEEEntityProxy = null
+
+func init(proxy) -> void:
+	add_to_group(EdEnums.GROUP_NAME)
+	_proxy = proxy
+	_refresh()
+
+func zee_on_removed_entity_proxy(proxy) -> void:
+	if _proxy == proxy:
+		_proxy = null
+		self.queue_free()
+
+func _refresh() -> void:
+	var field = _proxy.get_field("tagcsv")
+	var type:String = _proxy.get_prefab_type()
+	if !field:
+		_label.text = type
+		return
+	var tagcsv = field.value
+	if tagcsv == "":
+		_label.text = type
+		return
+	_label.text = type + "\n" + tagcsv
+
+func _process(delta) -> void:
+	if !ZqfUtils.is_obj_safe(_proxy):
+		return
+	self.set_position(_proxy.get_screen_position())

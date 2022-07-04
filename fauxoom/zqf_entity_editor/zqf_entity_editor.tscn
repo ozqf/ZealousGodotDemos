@@ -36,6 +36,13 @@ cast_to = Vector3( 0, 0, -1000 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 9
 
+[node name="labels_root" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="left_sidebar_root" type="VBoxContainer" parent="CanvasLayer"]
 margin_right = 256.0
 margin_bottom = 720.0
@@ -173,8 +180,10 @@ margin_bottom = 44.0
 text = "save"
 
 [node name="zee_edit_tags_panel" parent="CanvasLayer" instance=ExtResource( 10 )]
-margin_left = 1024.0
-margin_right = 1024.0
+anchor_left = 0.8
+anchor_top = 0.011
+anchor_right = 1.0
+margin_top = -7.92
 
 [node name="zee_entity_props_panel" parent="CanvasLayer" instance=ExtResource( 6 )]
 anchor_top = 0.356

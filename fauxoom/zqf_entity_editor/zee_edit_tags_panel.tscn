@@ -40,27 +40,51 @@ margin_top = 36.0
 margin_right = 256.0
 margin_bottom = 60.0
 
-[node name="Label3" type="Label" parent="zee_edit_tags_panel"]
+[node name="Label5" type="Label" parent="zee_edit_tags_panel"]
 margin_top = 64.0
 margin_right = 256.0
 margin_bottom = 78.0
+text = "Add new tag"
+
+[node name="add_tag" type="HBoxContainer" parent="zee_edit_tags_panel"]
+margin_top = 82.0
+margin_right = 256.0
+margin_bottom = 106.0
+alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="zee_edit_tags_panel/add_tag"]
+margin_left = 11.0
+margin_right = 203.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 192, 0 )
+
+[node name="Button" type="Button" parent="zee_edit_tags_panel/add_tag"]
+margin_left = 207.0
+margin_right = 244.0
+margin_bottom = 24.0
+text = "Add"
+
+[node name="Label3" type="Label" parent="zee_edit_tags_panel"]
+margin_top = 110.0
+margin_right = 256.0
+margin_bottom = 124.0
 text = "Current Tags"
 
 [node name="current_tags" type="VBoxContainer" parent="zee_edit_tags_panel"]
-margin_top = 82.0
+margin_top = 128.0
 margin_right = 256.0
-margin_bottom = 82.0
+margin_bottom = 128.0
 
 [node name="Label4" type="Label" parent="zee_edit_tags_panel"]
-margin_top = 86.0
+margin_top = 132.0
 margin_right = 256.0
-margin_bottom = 100.0
+margin_bottom = 146.0
 text = "Available Tags"
 
 [node name="available_tags" type="VBoxContainer" parent="zee_edit_tags_panel"]
-margin_top = 104.0
+margin_top = 150.0
 margin_right = 256.0
-margin_bottom = 104.0
+margin_bottom = 150.0
 
 [node name="mouse_entered" type="Node" parent="."]
 script = ExtResource( 2 )

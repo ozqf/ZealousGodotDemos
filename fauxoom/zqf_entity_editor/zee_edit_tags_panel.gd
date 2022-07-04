@@ -6,14 +6,20 @@ var _button_t = preload("res://zqf_entity_editor/ui/zee_button.tscn")
 onready var _currentTagsRoot:Control = $zee_edit_tags_panel/current_tags
 onready var _availableTagsRoot:Control = $zee_edit_tags_panel/available_tags
 
+onready var _addTagButton:Button = $zee_edit_tags_panel/add_tag/Button
+onready var _addTagLine:LineEdit = $zee_edit_tags_panel/add_tag/LineEdit
+
 var _proxy:ZEEEntityProxy = null
 var _selectedFieldName:String = "tagcsv"
 var _dirty:bool = true
 var _active:bool = false
 
+var _editTags = []
+
 func _ready() -> void:
 	add_to_group(EdEnums.GROUP_NAME)
 	set_active(false)
+	_addTagButton.connect("pressed", self, "_on_add_new_tag")
 	$mouse_entered.init($zee_edit_tags_panel, $ColorRect)
 
 func set_active(flag:bool) -> void:
@@ -29,7 +35,7 @@ func _refresh() -> void:
 		child.queue_free()
 	
 	# build new buttons
-	var tagsPool:PoolStringArray = _proxy.get_tags_field(_selectedFieldName)
+	var tagsPool:PoolStringArray = _proxy.get_tags_field_value(_selectedFieldName)
 	var tags:Array = Array(tagsPool)
 	for tag in tags:
 		_add_button(_currentTagsRoot, tag, tag, "_on_clicked_current_tag")
@@ -46,22 +52,38 @@ func _add_button(_parent:Control, name:String, label:String, callbackName) -> vo
 	obj.name = name
 	obj.text = label
 
+func _on_add_new_tag() -> void:
+	var newTag:String = _addTagLine.text
+	_addTagLine.text = ""
+	print("add new tag: " + str(newTag))
+	pass
+
 func _on_clicked_current_tag(button) -> void:
 	print("Clicked " + str(button.text))
 	# _proxy.
 
-func zee_on_new_entity_proxy(newProxy) -> void:
-	_proxy = newProxy
-	_dirty = true
-	print("Tags edit - saw new proxy")
-	set_active(true)
-	_refresh()
+func _on_clicked_global_tag(button) -> void:
+	print("Clicked " + str(button.text))
+
+	# _proxy.
+
+func zee_on_new_entity_selection(newProxy) -> void:
+	#_proxy = newProxy
+	#_dirty = true
+	#print("Tags edit - saw new proxy")
+	#set_active(true)
+	#_refresh()
+	pass
 
 func zee_on_clear_entity_selection() -> void:
 	_proxy = null
 	set_active(false)
 
-func zee_on_select_edit_field(field:Dictionary, proxy:ZEEEntityProxy) -> void:
-	proxy.get_fields()
+func zee_on_edit_tags_field(field:Dictionary, newProxy:ZEEEntityProxy) -> void:
+	_selectedFieldName = field.name
+	_proxy = newProxy
+	_dirty = true
+	set_active(true)
+	_refresh()
 	print("Tags edit - saw new field")
 	pass

@@ -1,12 +1,16 @@
 extends Node
 
+const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
+
 var _ent_t = preload("res://zqf_entity_editor/zee_entity.tscn")
 var _proxy_t = preload("res://zqf_entity_editor/zee_point_entity_proxy.tscn")
 
 var _entsRoot:Spatial
 
 func _ready() -> void:
+	# listening to game group to track new entities!
 	add_to_group(Groups.ENTS_GROUP_NAME)
+	pass
 
 func zee_ent_list_init(entsRoot:Spatial):
 	_entsRoot = entsRoot
@@ -20,6 +24,9 @@ func create_entity_proxy(prefab, prefabDef, _ent) -> ZEEEntityProxy:
 	var proxy = _proxy_t.instance()
 	prefab.add_child(proxy)
 	proxy.set_prefab(prefab, prefabDef)
+	var grp:String = EdEnums.GROUP_NAME
+	var fn:String = EdEnums.FN_ON_CREATED_NEW_ENTITY
+	get_tree().call_group(grp, fn, proxy)
 	return proxy
 
 func refresh_entity_widgets() -> void:
@@ -37,7 +44,7 @@ func create_entity_at(pos:Vector3, prefabDef, prefabName) -> void:
 		return
 	
 	_entsRoot.add_child(prefab)
-	
+
 	# add entity proxy for widgets etc
 	var proxy:ZEEEntityProxy = create_entity_proxy(prefab, prefabDef, ent)
 	proxy.set_prefab_position(pos)

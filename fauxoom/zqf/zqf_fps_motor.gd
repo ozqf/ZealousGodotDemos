@@ -105,7 +105,6 @@ func _apply_rotations(_delta: float):
 	_head.rotation_degrees = camRot
 
 func custom_tick(delta:float) -> void:
-#func _process(delta:float) -> void:
 	if _body == null:
 		return
 	if !_inputOn:
@@ -267,7 +266,8 @@ func _input(_event: InputEvent):
 		# Horizontal
 		var moveMul:float = mouseSensitivity * MOUSE_MOVE_SCALE
 		var mMoveX: float = (_event.relative.x * moveMul) * scrSizeRatio.x
-		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
+		# flip movement as we want moving mouse to the right (positive mouse move) to
+		# DECREASE our yaw and negative to increase it (rotate left)
 		mMoveX = -mMoveX
 		m_yaw += mMoveX
 

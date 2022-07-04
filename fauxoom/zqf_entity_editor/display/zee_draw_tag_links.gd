@@ -20,7 +20,7 @@ func _ready():
 	_colours.push_back(Color.orange)
 	_colours.push_back(Color.cyan)
 
-func zee_on_new_entity_proxy(newProxy) -> void:
+func zee_on_new_entity_selection(newProxy) -> void:
 	_proxy = newProxy
 	_dirty = true
 	_drawTick = 0.0
@@ -66,7 +66,7 @@ func _draw_outgoing_links() -> void:
 func _draw_incoming_links() -> void:
 	var origin:Vector3 = _proxy.global_transform.origin
 	var proxies = get_tree().get_nodes_in_group(EdEnums.GROUP_ENTITY_PROXIES)
-	var subjectTags:PoolStringArray = _proxy.get_tags_field("tagcsv")
+	var subjectTags:PoolStringArray = _proxy.get_tags_field_value("tagcsv")
 	set_color(Color.white)
 	var numProxies:int = proxies.size()
 	for i in range(0, numProxies):
@@ -82,7 +82,6 @@ func _draw_incoming_links() -> void:
 				continue
 			add_vertex(origin)
 			add_vertex(dest)
-		
 
 func _intersects(a:PoolStringArray, b:PoolStringArray) -> bool:
 	for txtA in a:
@@ -96,7 +95,7 @@ func draw_tags(subject:ZEEEntityProxy, targetTags:PoolStringArray) -> void:
 	var proxies = get_tree().get_nodes_in_group(EdEnums.GROUP_ENTITY_PROXIES)
 	for item in proxies:
 		var proxy:ZEEEntityProxy = item as ZEEEntityProxy
-		var tags = proxy.get_tags_field("tagcsv")
+		var tags = proxy.get_tags_field_value("tagcsv")
 		if !_intersects(targetTags, tags):
 			continue
 		# draw connection line

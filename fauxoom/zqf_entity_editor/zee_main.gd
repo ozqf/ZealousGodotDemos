@@ -10,8 +10,11 @@ const ENTITY_MASK:int = (1 << 20)
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 var _ent_t = preload("res://zqf_entity_editor/zee_entity.tscn")
 var _button_t = preload("res://zqf_entity_editor/ui/zee_button.tscn")
+var _name_plate_t = preload("res://zqf_entity_editor/proxy_labels/zee_proxy_label.tscn")
 
 const EXTENSION:String = ".json"
+
+onready var _labelsRoot:Control = $CanvasLayer/labels_root
 
 onready var _leftPanelRoot = $CanvasLayer/left_sidebar_root
 onready var _fileNamesLabel:Label = $CanvasLayer/left_sidebar_root/file_names
@@ -172,6 +175,12 @@ func zee_on_global_disabled() -> void:
 		uiNodes[i].visible = false
 	_modalBlocker.visible = false
 
+func zee_on_created_new_entity(newProxy) -> void:
+	var label = _name_plate_t.instance()
+	_labelsRoot.add_child(label)
+	label.init(newProxy)
+	pass
+
 func set_highlighted_proxy(obj:Object) -> void:
 	var proxy:ZEEEntityProxy = obj as ZEEEntityProxy
 	if _highlightedProxy == proxy:
@@ -193,7 +202,7 @@ func set_selected_proxy(proxy:ZEEEntityProxy) -> void:
 		return
 	_selectedProxy = proxy
 	_selectedLabel.text = _selectedProxy.get_label()
-	get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_NEW_ENTITY_PROXY, _selectedProxy)
+	get_tree().call_group(EdEnums.GROUP_NAME, EdEnums.FN_NEW_ENTITY_SELECTION, _selectedProxy)
 
 func _delete_selection() -> void:
 	if _selectedProxy == null:

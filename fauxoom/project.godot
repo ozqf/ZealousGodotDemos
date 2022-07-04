@@ -387,7 +387,12 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "ZEEUIField",
 "language": "GDScript",
-"path": "res://zqf_entity_editor/zee_ui_entity_field.gd"
+"path": "res://zqf_entity_editor/ui/zee_ui_entity_field.gd"
+}, {
+"base": "Node",
+"class": "ZEEUIFieldSpecial",
+"language": "GDScript",
+"path": "res://zqf_entity_editor/ui/zee_ui_entity_field_special.gd"
 }, {
 "base": "Spatial",
 "class": "ZGUBlock2Mesh",
@@ -506,6 +511,7 @@ _global_script_class_icons={
 "ZEEEntityProxy": "",
 "ZEEMain": "",
 "ZEEUIField": "",
+"ZEEUIFieldSpecial": "",
 "ZGUBlock2Mesh": "",
 "ZGUInvisibleWall": "",
 "ZealousBlock": "",

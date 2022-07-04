@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://zqf_entity_editor/proxy_labels/zee_proxy_label.gd" type="Script" id=1]
+
+[node name="zee_proxy_label" type="Control"]
+anchor_right = 0.2
+anchor_bottom = 0.022
+margin_bottom = 0.159999
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "proxy label proxy label proxy label proxy label"
