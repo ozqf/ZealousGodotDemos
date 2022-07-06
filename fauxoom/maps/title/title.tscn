@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/title/fauxoom_3d_text.obj" type="ArrayMesh" id=2]
@@ -7,6 +7,14 @@
 
 [sub_resource type="Environment" id=1]
 background_mode = 1
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_unshaded = true
+params_billboard_mode = 1
+albedo_color = Color( 0.976471, 1, 0, 1 )
+
+[sub_resource type="QuadMesh" id=3]
+size = Vector2( 0.1, 0.1 )
 
 [node name="title" type="Spatial"]
 
@@ -74,6 +82,23 @@ material/0 = null
 transform = Transform( 0.965926, -0.258819, -1.13133e-08, 0, -4.37114e-08, 1, -0.258819, -0.965926, -4.2222e-08, -2, 0, 8 )
 mesh = ExtResource( 3 )
 material/0 = null
+
+[node name="CPUParticles" type="CPUParticles" parent="."]
+transform = Transform( 0.965925, 0, 0.258819, 0, 0.999999, 0, -0.258819, 0, 0.965926, 1.44451, 0, 6.55941 )
+material_override = SubResource( 2 )
+cast_shadow = 0
+amount = 2
+lifetime = 4.0
+explosiveness = 0.5
+randomness = 1.0
+local_coords = false
+mesh = SubResource( 3 )
+emission_shape = 2
+emission_box_extents = Vector3( 3, 0.5, 0.5 )
+direction = Vector3( 0, 1, 0 )
+spread = 27.07
+gravity = Vector3( 0, -30, 0 )
+initial_velocity = 15.0
 
 [node name="SpotLight" type="SpotLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 5, -21 )

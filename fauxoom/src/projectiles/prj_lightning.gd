@@ -25,28 +25,28 @@ func _ready():
 func _on_body_entered(_body:PhysicsBody) -> void:
 	# if !_isScanning:
 	# 	return
-	print("Lightning found body")
+	#print("Lightning found body")
 	_bodies.push_back(_body)
 
 func _on_body_exited(_body) -> void:
-	print("Lightning lost body")
+	#print("Lightning lost body")
 	var i:int = _bodies.find(_body)
 	_bodies.remove(i)
 
 func _on_area_entered(_area:Area) -> void:
 	# if !_isScanning:
 	# 	return
-	print("Lightning found area")
+	#print("Lightning found area")
 	_areas.push_back(_area)
 
 func _on_area_exited(_area:Area) -> void:
-	print("Lightning lost area")
+	#print("Lightning lost area")
 	var i:int = _areas.find(_area)
 	_areas.remove(i)
 
 func _run_hits() -> void:
 	# _hitInfo.hyperLevel = Game.hyperLevel
-	print("Lightning hitting " + str(_bodies.size()) + " bodies and " + str(_areas.size()) + " areas")
+	#print("Lightning hitting " + str(_bodies.size()) + " bodies and " + str(_areas.size()) + " areas")
 	for body in _bodies:
 		Interactions.hit(_hitInfo, body)
 	for area in _areas:

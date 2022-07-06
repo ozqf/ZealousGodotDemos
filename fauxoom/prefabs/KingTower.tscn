@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/world/animated/laser_grid/mat_laser_grid_green.tres" type="Material" id=1]
 [ext_resource path="res://assets/world/animated/laser_grid/laser_grid_blue.png" type="Texture" id=2]
@@ -34,6 +34,8 @@ flags_unshaded = true
 params_cull_mode = 1
 albedo_texture = ExtResource( 2 )
 uv1_triplanar = true
+
+[sub_resource type="BoxShape" id=6]
 
 [node name="KingTower" type="Spatial"]
 script = ExtResource( 4 )
@@ -71,3 +73,11 @@ prefabName = "king_tower"
 
 [node name="ground_path" type="Node" parent="."]
 script = ExtResource( 5 )
+
+[node name="forcefield_detector" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+collision_layer = 128
+collision_mask = 128
+
+[node name="CollisionShape" type="CollisionShape" parent="forcefield_detector"]
+shape = SubResource( 6 )

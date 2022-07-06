@@ -79,4 +79,6 @@ func on_trigger(_msg:String, _params:Dictionary) -> void:
 func ents_on_global_command(command:String) -> void:
 	if command == Groups.ENTS_CMD_DISABLE_ALL_FORCEFIELDS:
 		set_active(false)
+	elif command == Groups.ENTS_CMD_ENABLE_ALL_FORCEFIELDS:
+		set_active(true)
 	pass

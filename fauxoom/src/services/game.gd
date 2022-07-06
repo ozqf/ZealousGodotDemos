@@ -658,6 +658,14 @@ func game_unpause() -> void:
 	# get_dynamic_parent().pause_mode = PAUSE_MODE_INHERIT
 	# get_tree().get_current_scene().pause_mode = PAUSE_MODE_INHERIT
 
+func set_all_forcefields(on:bool) -> void:
+	var grp = Groups.ENTS_GROUP_NAME
+	var fn = Groups.ENTS_FN_GLOBAL_COMMAND
+	var cmd = Groups.ENTS_CMD_ENABLE_ALL_FORCEFIELDS
+	if !on:
+		cmd = Groups.ENTS_CMD_DISABLE_ALL_FORCEFIELDS
+	get_tree().call_group(grp, fn, cmd)
+
 ###############
 # registers
 ###############

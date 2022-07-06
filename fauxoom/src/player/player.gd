@@ -60,6 +60,9 @@ var _bonusReductionTick:float = 0.0
 var _hyperRegenTick:float = 0.0
 var _moveMode:int = 0
 
+# record a rage count so we can pop up a message when it reaches max
+var _previousRage:int = 0
+
 var _targettingInfo:Dictionary = {
 	id = Interactions.PLAYER_RESERVED_ID,
 	position = Vector3(),
@@ -345,13 +348,19 @@ func _tick_bonus(_delta:float) -> void:
 			_bonusReductionTick = 2.0
 			_bonus -= 1
 
-func _physics_process(delta:float) -> void:
+func _physics_process(_delta:float) -> void:
 	# if _moveMode == 0:
-	# 	_motor.custom_tick(delta)
+	# 	_motor.custom_tick(_delta)
 	pass
 
 func _process(_delta:float) -> void:
 	_refresh_input_on()
+
+	# check full rage message
+	var rage:int = _inventory.get_count("rage")
+	if rage == 100 && _previousRage < 100:
+		Main.submit_console_command("flashy ENERGY MAX")
+	_previousRage = rage
 
 	if _moveMode == 0:
 		_motor.custom_tick(_delta)

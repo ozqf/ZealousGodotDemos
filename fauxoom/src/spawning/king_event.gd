@@ -16,6 +16,9 @@ var _killTarget:int = 10
 
 var _eventCount:int = 0
 
+# used by tower to select next event
+var weight:int = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	add_to_group(Groups.ENTS_GROUP_NAME)

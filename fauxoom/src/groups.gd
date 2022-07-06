@@ -52,6 +52,7 @@ const ENTS_FN_MOB_DIED_ID:String = "ents_mob_died_id"
 const ENTS_FN_POST_LOAD:String = "ents_post_load"
 
 const ENTS_CMD_DISABLE_ALL_FORCEFIELDS:String = "disable_all_forcefields"
+const ENTS_CMD_ENABLE_ALL_FORCEFIELDS:String = "enable_all_forcefields"
 const ENTS_CMD_KILL_ALL_AI:String = "kill_all_ai"
 
 const STATIC_ENTS_GROUP_NAME:String = "static_entities"

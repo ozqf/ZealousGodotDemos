@@ -5,14 +5,6 @@ var _gameOverUI_t = preload("res://prefabs/ui/king_game_over_ui.tscn")
 
 const Enums = preload("res://src/enums.gd")
 
-onready var _ent:Entity = $Entity
-onready var _outerShellMesh = $display/outer_shell_mesh
-onready var _path:GroundPath = $ground_path
-
-export var nodesCSV:String = ""
-
-export var speed:float = 10
-
 enum KingTowerState {
 	Idle,
 	InEditor,
@@ -20,6 +12,15 @@ enum KingTowerState {
 	RunningEvent,
 	WaitingForEvent
 }
+
+onready var _ent:Entity = $Entity
+onready var _outerShellMesh = $display/outer_shell_mesh
+onready var _path:GroundPath = $ground_path
+onready var _forcefieldDetector:Area = $forcefield_detector
+
+export var nodesCSV:String = ""
+
+export var speed:float = 14
 
 var _state = KingTowerState.Idle
 
@@ -55,11 +56,16 @@ func _ready() -> void:
 	var _result = _ent.connect("entity_append_state", self, "append_state")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
 	_path.ground_path_init(AI.create_nav_agent(), self)
+	_forcefieldDetector.connect("body_entered", self, "_on_body_entered_forcefield_detector")
 	# _result = _ent.connect("entity_trigger", self, "on_trigger")
 	# skip ahead a little - need a proper option for this!
-	_eventCount = 2
+	#_eventCount = 2
 	if !Main.is_in_game():
 		_set_state(KingTowerState.InEditor)
+
+func _on_body_entered_forcefield_detector(body) -> void:
+	if body.has_method("set_active"):
+		body.set_active(false)
 
 func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
 	if txt != "king":
@@ -159,6 +165,24 @@ func _spawn_item(type:String, timeToLive:float = 16.0, isImportant:bool = false)
 
 func _pick_event() -> bool:
 	var numEvents:int = _eventEnts.size()
+	var sum:int = 0
+	for i in range(0, numEvents):
+		var eventObj = _eventEnts[i].get_parent()
+		eventObj.weight += 1
+		sum += eventObj.weight
+	var randWeight:int = int(rand_range(0, sum))
+	for i in range(0, numEvents):
+		var eventObj = _eventEnts[i].get_parent()
+		if randWeight < eventObj.weight:
+			# reset weight so repetition is less likely
+			eventObj.weight = 0
+			_eventIndex = i
+			return true
+		randWeight -= eventObj.weight
+	return false
+
+func _pick_event_2() -> bool:
+	var numEvents:int = _eventEnts.size()
 	if numEvents > 0:
 		_eventIndex = rand_range(0, numEvents)
 		return true
@@ -170,12 +194,14 @@ func _get_event_ent():
 	return _eventEnts[_eventIndex]
 
 func _start_event() -> void:
+	Game.set_all_forcefields(false)
 	_get_event_ent().get_parent().king_event_start(_eventCount)
 	_state = KingTowerState.RunningEvent
 
 func game_event_complete() -> void:
 	print("King tower - event complete, returning to idle")
 	_state = KingTowerState.Idle
+	_outerShellMesh.visible = true
 	_eventCount += 1
 	if _eventCount % 2 == 0:
 		_spawn_next_weapon()
@@ -217,6 +243,9 @@ func _move_tick(_delta:float) -> void:
 		_start_event()
 	else:
 		global_transform.origin += step
+	
+func _move_spawn_tick(_delta:float) -> void:
+	pass
 
 func _process(_delta:float):
 	if _state == KingTowerState.InEditor:
@@ -224,11 +253,11 @@ func _process(_delta:float):
 	
 	var origin:Vector3 = self.global_transform.origin
 	if _state == KingTowerState.Idle:
-		if AI.check_los_to_player(origin) && _pick_event():
+		var dist:float = AI.get_distance_to_player(origin)
+		if dist < 8 && AI.check_los_to_player(origin) && _pick_event():
 			_state = KingTowerState.MovingToEvent
 			_outerShellMesh.visible = true
-		# if _eventIndex < 0:
-		# 	_start_event()
+			Game.set_all_forcefields(true)
 	elif _state == KingTowerState.RunningEvent:
 		_totalEventSeconds += _delta
 		pass

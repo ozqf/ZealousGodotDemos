@@ -110,7 +110,7 @@ func detach() -> void:
 	if _attachParent == null:
 		return
 	current = false
-	var t:Transform = _attachParent.global_transform
+	#var t:Transform = _attachParent.global_transform
 	#_attachParent.remove_child(self)
 	#_attachParent.disconnect("tree_exiting", self, "detach")
 	_attachParent = null
