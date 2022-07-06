@@ -12,7 +12,7 @@ func _ready():
 	var _r = _button.connect("pressed", self, "_on_pressed")
 	pass
 
-func init(newFieldName, fieldLabel, defaultValue) -> void:
+func init(newFieldName, fieldLabel, _defaultValue) -> void:
 	fieldName = newFieldName
 	_label.text = fieldLabel
 

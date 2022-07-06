@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://zqf_entity_editor/zee_camera.gd" type="Script" id=1]
 [ext_resource path="res://zqf/zqf_ui_mouse_over.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://zqf_entity_editor/gizmos/zee_cursor3d.tscn" type="PackedScene" id=8]
 [ext_resource path="res://zqf_entity_editor/display/zee_draw_tag_links.tscn" type="PackedScene" id=9]
 [ext_resource path="res://zqf_entity_editor/zee_edit_tags_panel.tscn" type="PackedScene" id=10]
+[ext_resource path="res://zqf_entity_editor/event_panel/zee_event_panel.tscn" type="PackedScene" id=11]
 
 [node name="ZqfEntityEditor" type="Spatial"]
 script = ExtResource( 3 )
@@ -225,6 +226,10 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
+
+[node name="zee_event_panel" parent="CanvasLayer" instance=ExtResource( 11 )]
+margin_left = 768.0
+margin_right = -256.0
 
 [node name="entity_list" type="Node" parent="."]
 script = ExtResource( 5 )

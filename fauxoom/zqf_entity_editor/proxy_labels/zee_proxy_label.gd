@@ -27,7 +27,7 @@ func _refresh() -> void:
 		return
 	_label.text = type + "\n" + tagcsv
 
-func _process(delta) -> void:
+func _process(_delta) -> void:
 	if !ZqfUtils.is_obj_safe(_proxy):
 		return
 	self.set_position(_proxy.get_screen_position())

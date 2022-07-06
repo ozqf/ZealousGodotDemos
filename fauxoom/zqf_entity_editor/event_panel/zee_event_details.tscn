@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://zqf_entity_editor/event_panel/zee_event.gd" type="Script" id=1]
+
+[node name="zee_event" type="VBoxContainer"]
+margin_right = 256.0
+margin_bottom = 304.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="HSeparator" parent="."]
+margin_right = 256.0
+margin_bottom = 16.0
+custom_constants/separation = 16
+
+[node name="Label2" type="Label" parent="."]
+margin_top = 20.0
+margin_right = 256.0
+margin_bottom = 34.0
+text = "Event name:"
+
+[node name="event_name_edit" type="LineEdit" parent="."]
+margin_top = 38.0
+margin_right = 256.0
+margin_bottom = 62.0
+
+[node name="actions" type="Label" parent="."]
+margin_top = 66.0
+margin_right = 256.0
+margin_bottom = 80.0
+text = "Actions"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="add_action" type="Button" parent="."]
+margin_top = 84.0
+margin_right = 256.0
+margin_bottom = 104.0
+text = "Add Action"
+
+[node name="actions_list" type="VBoxContainer" parent="."]
+margin_top = 108.0
+margin_right = 256.0
+margin_bottom = 108.0

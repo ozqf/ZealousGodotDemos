@@ -47,7 +47,7 @@ func shake(_duration:float, _strength:float) -> void:
 	_shakeDuration = _duration
 
 func _refresh_pos() -> void:
-	if _attachParent != null:
+	if ZqfUtils.is_obj_safe(_attachParent):
 		var t:Transform = _attachParent.global_transform
 		self.global_transform = t
 		#print("Cam pos " + str(t.origin))

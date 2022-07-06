@@ -1,5 +1,6 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
+[ext_resource path="res://prefabs/static_entities/ai_tactic_node.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/world_inert/world_volume_corner.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/world/materials/mat_grey_chequer_planar.tres" type="Material" id=3]
 [ext_resource path="res://maps/catacombs_01/geometry/catacombs_01.obj" type="ArrayMesh" id=4]
@@ -256,6 +257,16 @@ transform = Transform( 12, 0, 0, 0, 1, 0, 0, 0, 5, 3, -4.5, -14.5 )
 visible = false
 mesh = SubResource( 4 )
 material/0 = null
+
+[node name="waypoints" type="Spatial" parent="Navigation/NavigationMeshInstance"]
+
+[node name="ai_tactic_node" parent="Navigation/NavigationMeshInstance/waypoints" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 84, -1, -6.1 )
+sniperSpot = true
+
+[node name="ai_tactic_node2" parent="Navigation/NavigationMeshInstance/waypoints" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 84, -1, -14 )
+sniperSpot = true
 
 [node name="ents" type="Spatial" parent="."]
 
