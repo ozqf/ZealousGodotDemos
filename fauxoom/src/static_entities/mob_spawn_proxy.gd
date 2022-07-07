@@ -78,7 +78,7 @@ func on_trigger(_msg:String, _params:Dictionary) -> void:
 	# spawn mob
 	_used = true
 	# print("Proxy spawning mob type " + str(type))
-	var mob = Ents.create_mob(type, global_transform, spawnAlert)
+	var mob = Ents.create_mob_by_enum(type, global_transform, spawnAlert)
 	_childId = mob.get_node("Entity").id
 	# print("Spawned mob Id " + str(_childId))
 	mob.set_source(self, _ent.id)

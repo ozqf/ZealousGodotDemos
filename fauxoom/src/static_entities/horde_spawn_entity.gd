@@ -145,7 +145,7 @@ func pick_spawn_point() -> Transform:
 func _spawn_child() -> void:
 	var t:Transform = pick_spawn_point()
 	# print("Horde spawn - spawn child at " + str(t.origin))
-	var mob = Ents.create_mob(type, t, true)
+	var mob = Ents.create_mob_by_enum(type, t, true)
 	var _childId:int = mob.get_node("Entity").id
 	mob.set_source(self, _ent.id)
 

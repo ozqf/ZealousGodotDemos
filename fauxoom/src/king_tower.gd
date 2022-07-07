@@ -269,7 +269,7 @@ func _process(_delta:float):
 	#	_mobSpawnTick = 0.1
 	#	if _activeMobIds.size() < 3:
 	#		var t:Transform = pick_spawn_point()
-	#		var mob = Ents.create_mob(Enums.EnemyType.Punk, t, true)
+	#		var mob = Ents.create_mob_by_enum(Enums.EnemyType.Punk, t, true)
 	#		mob.force_awake()
 	#		var childId:int = mob.get_node("Entity").id
 	#		_activeMobIds.push_back(childId)

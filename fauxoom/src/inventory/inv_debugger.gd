@@ -26,7 +26,7 @@ func _spawn_enemy(type) -> void:
 	var t:Transform = Transform()
 	t.origin = dict.aimPos
 	print("Spawning mob at " + str(dict.aimPos))
-	var _mob = Ents.create_mob(type, t, true)
+	var _mob = Ents.create_mob_by_enum(type, t, true)
 
 func _spawn_prefab(prefab) -> void:
 	var dict:Dictionary = AI.get_player_target_debug()

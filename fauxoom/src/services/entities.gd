@@ -302,6 +302,15 @@ func build_global_tag_list() -> PoolStringArray:
 		ent.append_global_tags(tagsDict)
 	return PoolStringArray(tagsDict.keys())
 
+func get_mob_prefab_names() -> Array:
+	var names = []
+	for key in _prefabs.keys():
+		var prefab = _prefabs[key]
+		if prefab.has("category") && prefab.category == "mobs":
+			names.push_back(key)
+	return names
+
+
 func get_next_projectile_serial() -> int:
 	var result:int = _nextProjectileSerial
 	_nextProjectileSerial += 1
@@ -323,7 +332,7 @@ func get_prefab_def(_name:String) -> Dictionary:
 		return {}
 	return _prefabs[_name]
 
-func _select_prefab(enemyType:int) -> String:
+func select_prefab(enemyType:int) -> String:
 	if enemyType == Enums.EnemyType.FleshWorm:
 		return PREFAB_MOB_WORM
 	elif enemyType == Enums.EnemyType.Spider:
@@ -342,15 +351,24 @@ func _select_prefab(enemyType:int) -> String:
 		print("Ents - unknown enemy type " + str(enemyType))
 		return PREFAB_MOB_PUNK
 
-func create_mob(enemyType:int, _transform:Transform, alert:bool):
-	var prefabLabel:String = _select_prefab(enemyType)
+func create_mob_by_name(prefabLabel:String, _transform:Transform, alert:bool):
 	var mob = get_prefab_def(prefabLabel).prefab.instance()
-	# Game.get_dynamic_parent().add_child(mob)
 	self.add_child(mob)
 	mob.teleport(_transform)
 	if alert:
 		mob.force_awake()
 	return mob
+
+func create_mob_by_enum(enemyType:int, _transform:Transform, alert:bool):
+	var prefabLabel:String = select_prefab(enemyType)
+	return create_mob_by_name(prefabLabel, _transform, alert)
+	#var mob = get_prefab_def(prefabLabel).prefab.instance()
+	## Game.get_dynamic_parent().add_child(mob)
+	#self.add_child(mob)
+	#mob.teleport(_transform)
+	#if alert:
+	#	mob.force_awake()
+	#return mob
 
 func create_item(prefabName:String, pos:Vector3, isImportant:bool = false):
 	var def:Dictionary = get_prefab_def(prefabName)

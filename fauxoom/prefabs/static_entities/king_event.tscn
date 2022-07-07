@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/spawning/king_event.gd" type="Script" id=1]
+[ext_resource path="res://src/spawning/spawn_queue.gd" type="Script" id=2]
 [ext_resource path="res://src/entity.gd" type="Script" id=3]
 [ext_resource path="res://assets/primitives/cube_1x1x1.obj" type="ArrayMesh" id=4]
 [ext_resource path="res://assets/editor/EntIcon_GameEvent.png" type="Texture" id=5]
@@ -21,3 +22,6 @@ transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.2, -0.3 )
 material_override = SubResource( 1 )
 mesh = ExtResource( 4 )
 material/0 = null
+
+[node name="spawn_queue" type="Node" parent="."]
+script = ExtResource( 2 )
