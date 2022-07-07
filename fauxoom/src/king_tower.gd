@@ -10,7 +10,8 @@ enum KingTowerState {
 	InEditor,
 	MovingToEvent,
 	RunningEvent,
-	WaitingForEvent
+	WaitingForEvent,
+	WaitingForPlayer
 }
 
 onready var _ent:Entity = $Entity
@@ -223,26 +224,42 @@ func game_on_player_died(_info:Dictionary) -> void:
 	self.queue_free()
 
 func _move_tick(_delta:float) -> void:
-	var origin:Vector3 = self.global_transform.origin
-	var plyr = AI.get_player_target()
-	var distToPlayer:float = origin.distance_to(plyr.position)
+	var stepSize:float = speed * _delta
+	var stillMoving:bool = _path.tick(_delta, stepSize)
+	if stillMoving:
+		var toward:Vector3 = _path.direction
+		var step:Vector3 = ((toward * speed) * _delta)
+		global_transform.origin += step
+	else:
+		global_transform.origin = _path.get_target_position()
+		_state = KingTowerState.WaitingForPlayer
+
+	#var origin:Vector3 = self.global_transform.origin
+	#var plyr = AI.get_player_target()
+	#var distToPlayer:float = origin.distance_to(plyr.position)
 	# if distToPlayer > 8:
 	# 	return
 	
-	var dest:Vector3 = _get_event_ent().get_parent().global_transform.origin
-	_path.moveTargetPos = dest
-	if !_path.tick(_delta):
-		return
-	var toward:Vector3 = _path.direction
-	# just lerp straight to it
-	# var toward:Vector3 = (dest - origin).normalized()
-	var step:Vector3 = ((toward * speed) * _delta)
-	var dist:float = origin.distance_to(dest)
-	if dist <= 0.1 && distToPlayer < 8:
-		_outerShellMesh.visible = false
-		_start_event()
-	else:
-		global_transform.origin += step
+	#var dest:Vector3 = _get_event_ent().get_parent().global_transform.origin
+	#var dist:float = origin.distance_to(dest)
+	#var stillMoving:bool = false
+	##_path.set_target_position(dest)
+	#var stepSize:float = speed * _delta
+	## still ground to cover, keep moving
+	#if dist > (stepSize * 2.0):
+	#	stillMoving = _path.tick(_delta, stepSize)
+	#
+	## did we finish this frame?
+	#if stillMoving:
+	#	var toward:Vector3 = _path.direction
+	#	# just lerp straight to it
+	#	# var toward:Vector3 = (dest - origin).normalized()
+	#	var step:Vector3 = ((toward * speed) * _delta)
+	#	global_transform.origin += step
+	#else:
+	#	if distToPlayer < 8:
+	#		_outerShellMesh.visible = false
+	#		_start_event()
 	
 func _move_spawn_tick(_delta:float) -> void:
 	pass
@@ -255,6 +272,8 @@ func _process(_delta:float):
 	if _state == KingTowerState.Idle:
 		var dist:float = AI.get_distance_to_player(origin)
 		if dist < 8 && AI.check_los_to_player(origin) && _pick_event():
+			var dest:Vector3 = _get_event_ent().get_parent().global_transform.origin
+			_path.set_target_position(dest)
 			_state = KingTowerState.MovingToEvent
 			_outerShellMesh.visible = true
 			Game.set_all_forcefields(true)
@@ -263,6 +282,11 @@ func _process(_delta:float):
 		pass
 	elif _state == KingTowerState.MovingToEvent:
 		_move_tick(_delta)
+	elif _state == KingTowerState.WaitingForPlayer:
+		var dist:float = AI.get_distance_to_player(origin)
+		if dist < 8:
+			_outerShellMesh.visible = false
+			_start_event()
 	elif _state == KingTowerState.WaitingForEvent:
 		pass
 	#if _mobSpawnTick <= 0.0:

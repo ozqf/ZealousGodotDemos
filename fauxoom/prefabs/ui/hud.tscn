@@ -41,6 +41,16 @@ __meta__ = {
 }
 
 [node name="weapon_centre" type="AnimatedSprite" parent="view_sprites/gun"]
+visible = false
+position = Vector2( 510.589, 472 )
+scale = Vector2( 2, 2 )
+frames = ExtResource( 2 )
+animation = "ssg_idle"
+playing = true
+script = ExtResource( 18 )
+
+[node name="weapon_ssg" type="AnimatedSprite" parent="view_sprites/gun"]
+visible = false
 position = Vector2( 510.589, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 2 )
@@ -49,6 +59,18 @@ playing = true
 script = ExtResource( 18 )
 
 [node name="weapon_centre_big" type="AnimatedSprite" parent="view_sprites/gun"]
+visible = false
+position = Vector2( 510.589, 344 )
+scale = Vector2( 2, 2 )
+frames = ExtResource( 2 )
+animation = "saw_idle"
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="weapon_saw" type="AnimatedSprite" parent="view_sprites/gun"]
+visible = false
 position = Vector2( 510.589, 344 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 2 )

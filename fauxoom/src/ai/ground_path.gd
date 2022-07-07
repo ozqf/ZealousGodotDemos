@@ -1,6 +1,8 @@
 extends Node
 class_name GroundPath
 
+const PATH_LIFETIME:float = 0.7
+
 var _pathTick:float = 0
 
 var _pathProximityThreshold:float = 0.1
@@ -8,14 +10,26 @@ var _pathProximityThreshold:float = 0.1
 # protected
 var agent:NavAgent = null
 var _hasTarget:bool = true
-var moveTargetPos:Vector3 = Vector3()
+var _moveTargetPos:Vector3 = Vector3()
 
 var direction:Vector3 = Vector3()
 
 var positionSource:Spatial = null
+var verbose:bool = false
 
 # func _ready() -> void:
 # 	agent = AI.create_nav_agent()
+
+func set_target_position(pos:Vector3) -> void:
+	var diff:Vector3 = _moveTargetPos - pos
+	_moveTargetPos = pos
+	if verbose:
+		print("GroundPath updated dest: " + str(_moveTargetPos))
+	if diff.length() >= 1.0:
+		_force_path_update()
+
+func get_target_position() -> Vector3:
+	return _moveTargetPos
 
 func ground_path_init(newAgent:NavAgent, source:Spatial) -> void:
 	agent = newAgent
@@ -25,7 +39,7 @@ func _update_path() -> void:
 	if !_hasTarget || positionSource == null:
 		return
 	agent.position = positionSource.global_transform.origin
-	agent.target = moveTargetPos
+	agent.target = _moveTargetPos
 	AI.get_path_for_agent(agent)
 	if agent.pathNumNodes > 0:
 		agent.pathIndex = 0
@@ -34,11 +48,11 @@ func _update_path() -> void:
 #	print("Ground motor got " + str(agent.pathNumNodes) + " path nodes")
 
 func _force_path_update() -> void:
-	_pathTick = .5
+	_pathTick = PATH_LIFETIME
 	_update_path()
 
 # return true if move is valid
-func tick(_delta:float) -> bool:
+func tick(_delta:float, stepDistance:float = 0) -> bool:
 	if _pathTick <= 0:
 		_force_path_update()
 	else:
@@ -47,21 +61,28 @@ func tick(_delta:float) -> bool:
 		return false
 	if positionSource == null:
 		return false
+	var proximityThreshold:float = _pathProximityThreshold
+	if stepDistance > 0:
+		proximityThreshold = stepDistance * 2.0
 	var nodePos:Vector3 = agent.path[agent.pathIndex]
 	var selfPos:Vector3 = positionSource.global_transform.origin
-	if selfPos.distance_to(nodePos) < _pathProximityThreshold:
+	if selfPos.distance_to(nodePos) < proximityThreshold:
 		# next node
 		agent.pathIndex += 1
 		# arrived?
 		if agent.pathIndex >= agent.pathNumNodes:
+			if verbose:
+				print("GroundPath reached end node " + str(agent.pathIndex))
 			agent.hasPath = false
 			agent.pathIndex = -1
 			# drop out, no movement to perform
 			return false
+		if verbose:
+			print("GroundPath Next node " + str(agent.pathIndex))
 		nodePos = agent.path[agent.pathIndex]
 	var towardPath:Vector3 = nodePos - selfPos
 	towardPath = towardPath.normalized()
-	# direction = moveTargetPos - selfPos
+	# direction = _moveTargetPos - selfPos
 	direction = towardPath
 	return true
 	# _set_yaw_by_vector3(towardPath)

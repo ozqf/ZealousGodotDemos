@@ -1,7 +1,7 @@
 # Mob movement base class
 extends MobMotor
 
-onready var _path = $ground_path
+onready var _path:GroundPath = $ground_path
 
 var _pathTick:float = 0
 
@@ -54,7 +54,7 @@ func move_evade(_delta:float) -> void:
 		_evade_step(_delta)
 
 func move_hunt(_delta:float) -> void:
-	_path.moveTargetPos = moveTargetPos
+	_path.set_target_position(moveTargetPos)
 	var selfPos:Vector3 = _body.global_transform.origin
 	if !_path.tick(_delta):
 		return

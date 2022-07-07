@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/world/animated/laser_grid/mat_laser_grid_green.tres" type="Material" id=1]
 [ext_resource path="res://assets/world/animated/laser_grid/laser_grid_blue.png" type="Texture" id=2]
 [ext_resource path="res://src/entity.gd" type="Script" id=3]
 [ext_resource path="res://src/king_tower.gd" type="Script" id=4]
 [ext_resource path="res://src/ai/ground_path.gd" type="Script" id=5]
+[ext_resource path="res://zqf_entity_editor/shared_assets/zee_mat_widget_red.tres" type="Material" id=6]
 
 [sub_resource type="CylinderMesh" id=1]
 top_radius = 0.0
@@ -34,6 +35,8 @@ flags_unshaded = true
 params_cull_mode = 1
 albedo_texture = ExtResource( 2 )
 uv1_triplanar = true
+
+[sub_resource type="CubeMesh" id=7]
 
 [sub_resource type="BoxShape" id=6]
 
@@ -66,6 +69,12 @@ visible = false
 mesh = SubResource( 4 )
 skeleton = NodePath("../..")
 material/0 = SubResource( 5 )
+
+[node name="debug_wallhack" type="MeshInstance" parent="display"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0 )
+visible = false
+mesh = SubResource( 7 )
+material/0 = ExtResource( 6 )
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )

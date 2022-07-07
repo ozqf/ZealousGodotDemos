@@ -2,6 +2,8 @@ extends InvWeapon
 
 var _prj_flak_t = preload("res://prefabs/projectiles/prj_flak.tscn")
 
+const PELLET_COUNT:int = 18 # 14
+
 var _ssgShoot:AudioStream = preload("res://assets/sounds/ssg/ssg_fire.wav")
 var _ssgOpen:AudioStream = preload("res://assets/sounds/ssg/ssg_open.wav")
 var _ssgLoad:AudioStream = preload("res://assets/sounds/ssg/ssg_load.wav")
@@ -28,12 +30,12 @@ func _fire_flak(origin:Vector3, forward:Vector3) -> void:
 func _fire(hyper:bool) -> void:
 	tick = refireTime
 	var t:Transform = _launchNode.global_transform
-	var randSpreadX:float = 1500
-	var randSpreadY:float = 400
+	var randSpreadX:float = 1700
+	var randSpreadY:float = 600
 	if hyper:
 		randSpreadX = 1000
 		randSpreadY = 300
-	for _i in range(0, 14):
+	for _i in range(0, PELLET_COUNT):
 		var spreadX:float = rand_range(-randSpreadX, randSpreadX)
 		var spreadY:float = rand_range(-randSpreadY, randSpreadY)
 		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
