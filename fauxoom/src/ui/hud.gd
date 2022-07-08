@@ -10,6 +10,8 @@ onready var centreSpriteBig:HudWeaponSprite = $view_sprites/gun/weapon_centre_bi
 onready var rightSprite:HudWeaponSprite = $view_sprites/gun/weapon_right
 onready var leftSprite:HudWeaponSprite = $view_sprites/gun/weapon_left
 
+onready var _ssgSprite:HudWeaponSprite = $view_sprites/gun/weapon_ssg
+
 onready var _handRight:AnimatedSprite = $view_sprites/bottom_right/right_hand
 onready var _handLeft:AnimatedSprite = $view_sprites/bottom_left/left_hand
 
@@ -32,6 +34,12 @@ onready var hudAudio = $audio
 
 var _maxHealthColour:Color = Color(0, 1, 0, 1)
 var _minHealthColour:Color = Color(1, 0, 0, 1)
+
+var _weaponSprites:Array = []
+
+# var _currentCentreSprite:HudWeaponSprite = null
+# var _currentRightSprite:HudWeaponSprite = null
+# var _currentLeftSprite:HudWeaponSprite = null
 
 var _isShooting:bool = false
 var _centreTrans:Transform2D
@@ -62,6 +70,11 @@ func _ready() -> void:
 	leftSprite.visible = false
 	_handRight.visible = false
 	_handLeft.visible = false
+	_weaponSprites.push_back(centreSprite)
+	_weaponSprites.push_back(centreSpriteBig)
+	_weaponSprites.push_back(rightSprite)
+	_weaponSprites.push_back(leftSprite)
+	_weaponSprites.push_back(_ssgSprite)
 	add_to_group(Groups.PLAYER_GROUP_NAME)
 	add_to_group(Groups.HUD_GROUP_NAME)
 	var _f
@@ -75,24 +88,17 @@ func _ready() -> void:
 	_leftTrans = leftSprite.transform
 
 func inventory_weapon_changed(_newWeap:InvWeapon, _prevWeap:InvWeapon) -> void:
-	if _prevWeap != null:
-		print("HUD disconnect from " + _prevWeap.name)
-		_prevWeap.disconnect("weapon_action", self, "weapon_action")
-	if _newWeap != null:
-		print("HUD connect to " + _newWeap.name)
-		var _err = _newWeap.connect("weapon_action", self, "weapon_action")
+	#if _prevWeap != null:
+	#	print("HUD disconnect from " + _prevWeap.name)
+	#	_prevWeap.disconnect("weapon_action", self, "weapon_action")
+	#if _newWeap != null:
+	#	print("HUD connect to " + _newWeap.name)
+	#	var _err = _newWeap.connect("weapon_action", self, "weapon_action")
 	# set_to_idle(_newWeap)
+	pass
 
-func weapon_action(_weap:InvWeapon, _actionName:String) -> void:
-	print("HUD saw weapon action " + _actionName)
-
-func hide_all_sprites() -> void:
-	centreSprite.visible = false
-	rightSprite.visible = false
-	leftSprite.visible = false
-	centreNextAnim = ""
-	rightNextAnim = ""
-	leftNextAnim = ""
+#func weapon_action(_weap:InvWeapon, _actionName:String) -> void:
+#	print("HUD saw weapon action " + _actionName)
 
 func _update_hurt_fade(_delta:float) -> void:
 	var col:Color = Color(1.0, 0.0, 0.0, 0.0)
@@ -130,7 +136,8 @@ func _process(_delta:float) -> void:
 	var x:float = mulX * 16
 	var y:float = mulY * 16
 	
-	centreSprite.update_sway_time(swayTime)
+	for sprite in _weaponSprites:
+		sprite.update_sway_time(swayTime)
 	
 	var t:Transform2D = _centreTrans
 	#t.origin.x += x
@@ -146,6 +153,29 @@ func _process(_delta:float) -> void:
 	t.origin.x += x
 	t.origin.y += y
 	leftSprite.transform = t
+
+func hide_all_sprites() -> void:
+	for sprite in _weaponSprites:
+		sprite.visible = false
+	# centreSprite.visible = false
+	# rightSprite.visible = false
+	# leftSprite.visible = false
+	centreNextAnim = ""
+	rightNextAnim = ""
+	leftNextAnim = ""
+
+func hud_get_weapon_sprite(nodeName:String) -> HudWeaponSprite:
+	var node = gunsContainer.find_node(nodeName) as HudWeaponSprite
+	if node != null:
+		node.visible = true
+	return node
+
+func hud_set_visible_weapon_sprite(nodeName:String) -> HudWeaponSprite:
+	hide_all_sprites()
+	var node = gunsContainer.find_node(nodeName) as HudWeaponSprite
+	if node != null:
+		node.visible = true
+	return node
 
 func hud_play_weapon_idle(idleAnimName:String, akimbo:bool = false) -> void:
 	hide_all_sprites()
