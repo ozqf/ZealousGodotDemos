@@ -7,6 +7,7 @@ func custom_init_b() -> void:
 	_hitInfo.damage = 100
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_PLASMA
 	_hitInfo.comboType = Interactions.COMBO_CLASS_RAILGUN
+	_hudSprite = _hud.hud_get_weapon_sprite("weapon_pg")
 	print("Init plasma - dmg " + str(_hitInfo.damage) + " type " + str(_hitInfo.damageType))
 
 # func is_cycling() -> bool:
@@ -27,9 +28,12 @@ func _fire_regular() -> void:
 	tick = refireTime
 	var hitPos:Vector3 = _fire_single(-_launchNode.global_transform.basis.z, 1000)
 	_draw_trail(_launchNode.global_transform.origin, hitPos)
+	
 	.play_fire_1(false)
+	_hudSprite.nextAnim = "pg_reload"
 	_hud.hudAudio.play_stream_weapon_1(_pistolShoot, 0.1)
 	_inventory.take_item(ammoType, ammoPerShot)
+	_hudSprite.run_shoot_push()
 
 func _fire_special() -> void:
 	_hitInfo.hyperLevel = 1
@@ -43,6 +47,12 @@ func _fire_special() -> void:
 	var column = _column_t.instance()
 	column.spawn(t, scale)
 	Game.get_dynamic_parent().add_child(column)
+	
+	.play_fire_1(false)
+	_hudSprite.nextAnim = "pg_reload"
+	_hud.hudAudio.play_stream_weapon_1(_pistolShoot, 0.1)
+	_inventory.take_item(ammoType, ammoPerShot)
+	_hudSprite.run_shoot_push()
 	# column.global_transform = t
 	# column.scale = Vector3(1.0, 1.0, scale)
 	# Game.get_dynamic_parent().add_child(column)
@@ -70,3 +80,6 @@ func _process(_delta:float) -> void:
 		# if !_equipped:
 		# 	_delta /= 2.0
 		tick -= _delta
+		if tick <= 0:
+			# finished reloading
+			play_idle()

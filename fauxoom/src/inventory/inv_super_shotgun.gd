@@ -14,15 +14,13 @@ var _lastSoundFrame:int = -1
 var _brassNode:Spatial
 var _prjMask:int = -1
 
-var _sprite:HudWeaponSprite
-
 func custom_init_b() -> void:
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SHARPNEL
 	_hitInfo.comboType = Interactions.COMBO_CLASS_SHRAPNEL
 	_hitInfo.stunOverrideDamage = _hitInfo.damage * 2
 	_brassNode = _launchNode.find_node("ejected_brass_spawn")
-	_sprite = _hud.hud_get_weapon_sprite("weapon_ssg")
-	_sprite.play(idle)
+	_hudSprite = _hud.hud_get_weapon_sprite("weapon_ssg")
+	_hudSprite.play(idle)
 
 func _fire_flak(origin:Vector3, forward:Vector3) -> void:
 	var prj = _prj_flak_t.instance()
@@ -52,19 +50,19 @@ func _fire(hyper:bool) -> void:
 	#Game.spawn_ejected_shell(t.origin, brassForward, 1, 3, 2)
 	
 	# .play_fire_1(false)
-	_sprite.play(fire_1)
-	_sprite.nextAnim = idle
-
+	_hudSprite.play(fire_1)
+	_hudSprite.nextAnim = idle
+	_hudSprite.run_shoot_push()
 	_hud.hudAudio.play_stream_weapon_1(_ssgShoot)
 
 	_lastSoundFrame = - 1
 	_inventory.take_item(ammoType, ammoPerShot)
 	self.emit_signal("weapon_action", self, "fire")
 
-func equip() -> void:
-	_equipped = true
-	_hud.hide_all_sprites()
-	_sprite.visible = true
+# func equip() -> void:
+# 	_equipped = true
+# 	_hud.hide_all_sprites()
+# 	_hudSprite.visible = true
 	#.equip()
 	# resume reload animation
 	#if tick > 0.0:
@@ -108,7 +106,7 @@ func run_reload_sounds() -> void:
 	if !_equipped:
 		return
 	# _currentAnimFrame = _hud.centreSprite.frame
-	_currentAnimFrame = _sprite.frame
+	_currentAnimFrame = _hudSprite.frame
 	if _currentAnimFrame == 4 && _lastSoundFrame < 4:
 		_lastSoundFrame = 4
 		_hud.hudAudio.play_stream_weapon_2(_ssgOpen, 0)

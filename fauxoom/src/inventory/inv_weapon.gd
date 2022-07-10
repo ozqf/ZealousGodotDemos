@@ -22,6 +22,9 @@ export var heaviness:int = 0
 
 var chargeUIMode:int = 0
 
+# acquired from HUD at startup
+var _hudSprite:HudWeaponSprite
+
 var _equipped:bool = false
 var _launchNode:Spatial = null
 var _ignoreBody = []
@@ -42,6 +45,8 @@ func custom_init(inventory, launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> 
 	_ignoreBody = [ ignoreBody ]
 	_hitInfo = Game.new_hit_info()
 	_hud = hud
+	# default - should be overridden by weapon implementation
+	_hudSprite = _hud.hud_get_weapon_sprite("weapon_centre")
 	custom_init_b()
 
 # overload this function to add additional custom setup
@@ -67,7 +72,9 @@ func can_equip() -> bool:
 func equip() -> void:
 	# print("Equip " + self.name)
 	_equipped = true
-	play_idle()
+	#play_idle()
+	_hud.hide_all_sprites()
+	_hudSprite.visible = true
 
 func deequip() -> void:
 	_equipped = false
@@ -103,23 +110,26 @@ func check_hyper_attack(cost:int) -> bool:
 func play_idle() -> void:
 	if idle == null || idle == "":
 		return
-	get_tree().call_group(
-		Groups.HUD_GROUP_NAME,
-		Groups.HUD_FN_PLAY_WEAPON_IDLE,
-		idle,
-		akimbo)
+	_hudSprite.play(idle)
+	#get_tree().call_group(
+	#	Groups.HUD_GROUP_NAME,
+	#	Groups.HUD_FN_PLAY_WEAPON_IDLE,
+	#	idle,
+	#	akimbo)
 
 func play_fire_1(loop:bool = true) -> void:
 	if _hud == null || fire_1 == null || fire_1 == "":
 		return
-	get_tree().call_group(
-		Groups.HUD_GROUP_NAME,
-		Groups.HUD_FN_PLAY_WEAPON_SHOOT,
-		fire_1,
-		idle,
-		loop,
-		akimbo,
-		heaviness)
+	_hudSprite.play(fire_1)
+	_hudSprite.nextAnim = idle
+	#get_tree().call_group(
+	#	Groups.HUD_GROUP_NAME,
+	#	Groups.HUD_FN_PLAY_WEAPON_SHOOT,
+	#	fire_1,
+	#	idle,
+	#	loop,
+	#	akimbo,
+	#	heaviness)
 
 func play_empty() -> void:
 	if empty == null || empty == "":

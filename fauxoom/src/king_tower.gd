@@ -303,10 +303,10 @@ func _process(_delta:float):
 	
 	if _ammoTick <= 0.0:
 		_ammoTick = _ammoCooldown
-		for _i in range(0, 4):
-			_spawn_item("bullet_s")
-			_spawn_item("shell_s")
-			_spawn_item("cell_s")
-			_spawn_item("rocket_s")
+		for _i in range(0, 2):
+			_spawn_item("bullet_l")
+			_spawn_item("shell_l")
+			_spawn_item("cell_l")
+			_spawn_item("rocket_l")
 	else:
 		_ammoTick -= _delta

@@ -11,6 +11,7 @@ onready var rightSprite:HudWeaponSprite = $view_sprites/gun/weapon_right
 onready var leftSprite:HudWeaponSprite = $view_sprites/gun/weapon_left
 
 onready var _ssgSprite:HudWeaponSprite = $view_sprites/gun/weapon_ssg
+onready var _pgSprite:HudWeaponSprite = $view_sprites/gun/weapon_pg
 
 onready var _handRight:AnimatedSprite = $view_sprites/bottom_right/right_hand
 onready var _handLeft:AnimatedSprite = $view_sprites/bottom_left/left_hand
@@ -75,6 +76,11 @@ func _ready() -> void:
 	_weaponSprites.push_back(rightSprite)
 	_weaponSprites.push_back(leftSprite)
 	_weaponSprites.push_back(_ssgSprite)
+	_weaponSprites.push_back($view_sprites/gun/weapon_pg)
+	_weaponSprites.push_back($view_sprites/gun/weapon_rl)
+	_weaponSprites.push_back($view_sprites/gun/weapon_saw)
+	_weaponSprites.push_back($view_sprites/gun/weapon_pistol_right)
+	_weaponSprites.push_back($view_sprites/gun/weapon_pistol_left)
 	add_to_group(Groups.PLAYER_GROUP_NAME)
 	add_to_group(Groups.HUD_GROUP_NAME)
 	var _f

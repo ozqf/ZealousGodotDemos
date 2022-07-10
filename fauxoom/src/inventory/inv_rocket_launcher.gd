@@ -8,6 +8,7 @@ var _lastHyperLevel:int = 0
 signal rocket_detonate()
 
 func custom_init_b() -> void:
+	_hudSprite = _hud.hud_get_weapon_sprite("weapon_rl")
 	_prjMask = Interactions.get_player_prj_mask()
 
 func _fire_rocket() -> void:
@@ -65,27 +66,32 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		else:
 			tick = refireTime
 		_fire_rocket()
-		.play_fire_1(false)
+		# .play_fire_1(false)
+		_hudSprite.play(fire_1)
+		_hudSprite.nextAnim = "rl_reload"
+		_hudSprite.run_shoot_push()
 	# elif _weaponInput.secondaryOn:
 	# 	tick = refireTime
 	# 	_fire_stasis_grenade()
 	# 	.play_fire_1(false)
 
 func _process(_delta:float) -> void:
-	var hasRage:bool = _inventory.get_count("rage") >= Interactions.HYPER_COST_ROCKET
-	if !hasRage && akimbo:
-		akimbo = false
-		if _equipped:
-			play_idle()
-	if Game.hyperLevel != _lastHyperLevel:
-		_lastHyperLevel = Game.hyperLevel
-		if Game.hyperLevel > 0 && hasRage:
-			akimbo = true
-		else:
-			akimbo = false
-		if _equipped:
-			play_idle()
+	#var hasRage:bool = _inventory.get_count("rage") >= Interactions.HYPER_COST_ROCKET
+	#if !hasRage && akimbo:
+	#	akimbo = false
+	#	if _equipped:
+	#		play_idle()
+	#if Game.hyperLevel != _lastHyperLevel:
+	#	_lastHyperLevel = Game.hyperLevel
+	#	if Game.hyperLevel > 0 && hasRage:
+	#		akimbo = true
+	#	else:
+	#		akimbo = false
+	#	if _equipped:
+	#		play_idle()
 	if tick > 0:
 		# if !_equipped:
 		# 	_delta /= 2.0
 		tick -= _delta
+		if tick <= 0:
+			play_idle()

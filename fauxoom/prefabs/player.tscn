@@ -129,6 +129,12 @@ script = ExtResource( 25 )
 [node name="ejected_brass_spawn" type="Spatial" parent="head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, -0.5 )
 
+[node name="ejected_brass_right" type="Spatial" parent="head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, -0.2, -0.5 )
+
+[node name="ejected_brass_left" type="Spatial" parent="head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, -0.2, -0.5 )
+
 [node name="camera_mount" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
 visible = false

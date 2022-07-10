@@ -1,0 +1,37 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=2]
+
+[ext_resource path="res://assets/sprites/guns/pg_sheet.png" type="Texture" id=6]
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 128, 256, 128 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 256, 256, 128 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 384, 256, 128 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 256, 128 )
+
+[resource]
+animations = [ {
+"frames": [ SubResource( 28 ) ],
+"loop": true,
+"name": "pg_reload",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 28 ), SubResource( 28 ), SubResource( 28 ), SubResource( 28 ), SubResource( 28 ), SubResource( 28 ) ],
+"loop": true,
+"name": "pg_shoot",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 27 ) ],
+"loop": true,
+"name": "pg_idle",
+"speed": 5.0
+} ]
