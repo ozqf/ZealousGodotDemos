@@ -182,6 +182,13 @@ static func turn_towards_point(spatial:Spatial, pos:Vector3, weight:float) -> vo
 	spatial.set_transform(result)
 
 #####################################
+# spatial nodes
+#####################################
+
+# static func dynamic_attach(child:Spatial, parent:Spatial, exitTreeCallback:String = ""):
+# 	pass
+
+#####################################
 # misc data
 #####################################
 

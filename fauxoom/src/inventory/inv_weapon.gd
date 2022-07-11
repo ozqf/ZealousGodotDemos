@@ -132,13 +132,14 @@ func play_fire_1(loop:bool = true) -> void:
 	#	heaviness)
 
 func play_empty() -> void:
-	if empty == null || empty == "":
+	if empty == null || empty == "" || _hudSprite == null:
 		return
-	get_tree().call_group(
-		Groups.HUD_GROUP_NAME,
-		Groups.HUD_FN_PLAY_WEAPON_IDLE,
-		empty,
-		akimbo)
+	_hudSprite.play(empty)
+	# get_tree().call_group(
+	# 	Groups.HUD_GROUP_NAME,
+	# 	Groups.HUD_FN_PLAY_WEAPON_IDLE,
+	# 	empty,
+	# 	akimbo)
 
 func read_input(_weaponInput:WeaponInput) -> void:
 	pass

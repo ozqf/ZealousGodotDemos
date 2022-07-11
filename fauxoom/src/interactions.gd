@@ -98,6 +98,9 @@ static func get_player_prj_mask() -> int:
 static func get_hyper_core_mask() -> int:
 	return (WORLD | ACTORS | PROJECTILE_RIGIDBODY_BIT)
 
+static func get_saw_projectile_mask() -> int:
+	return (WORLD | ACTORS | ITEMS)
+
 static func get_entity_mask() -> int:
 	return (ACTORS | PLAYER)
 

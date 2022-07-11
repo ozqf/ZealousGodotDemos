@@ -193,6 +193,7 @@ refireTime = 0.15
 idle = "pistol_idle"
 fire_1 = "pistol_shoot"
 akimbo = true
+secondaryAmmoCost = 10
 
 [node name="super_shotgun" type="Node" parent="inventory/weapons"]
 script = ExtResource( 17 )

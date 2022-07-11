@@ -69,7 +69,7 @@ func start_recall() -> void:
 	_state = State.Recall
 	_sparks1.emitting = false
 	_sparks2.emitting = false
-	
+
 func _move_as_ray(_delta:float, speed:float) -> void:
 	var t:Transform = global_transform
 	var space = get_world().direct_space_state
@@ -81,13 +81,17 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 	var dest:Vector3 = origin + velocity
 	var stepBack:Vector3 = dir * STEP_BACK_SCALAR
 
-	var mask:int = -1
+	var mask:int = Interactions.get_saw_projectile_mask()
 	# interactives are 'areas' so also need to hit these
 	var result = space.intersect_ray(origin, dest, _emptyArray, mask, true, true)
 	var move:bool = true
 	if result:
 		_hitInfo.direction = dir
 		var body:CollisionObject = result.collider
+		if body.has_method("item_attach"):
+			body.item_attach(self)
+			global_transform.origin = dest
+			return
 
 		var _inflicted:int = Interactions.hitscan_hit(_hitInfo, result)
 		if _inflicted >= 0:

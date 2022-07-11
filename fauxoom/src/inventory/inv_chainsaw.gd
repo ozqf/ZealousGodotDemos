@@ -22,18 +22,21 @@ func custom_init_b() -> void:
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SAW
 	_hitInfo.comboType = Interactions.COMBO_CLASS_SAWBLADE
 	_hudSprite = _hud.hud_get_weapon_sprite("weapon_saw")
+	_hudSprite.play(idle)
 
 func equip() -> void:
 	.equip()
-	_hud.centreSprite.offset.y = -60
+	#_hudSprite.offset.y = -60
 	if _state == State.Launched || _state == State.Recalling:
 		.play_empty()
+	else:
+		_hudSprite.play(idle)
 
 func deequip() -> void:
 	.deequip()
 	if is_instance_valid(_thrown):
 		_thrown.user_switched_weapon()
-	_hud.centreSprite.offset.y = 0
+	#_hudSprite.offset.y = 0
 	_isAttacking = false
 
 func change_state(newState) -> void:
@@ -41,9 +44,11 @@ func change_state(newState) -> void:
 		return
 	var oldState = _state
 	_state = newState
+	print("Saw state: " + str(_state))
 
 	if _state == State.Sawing:
-		.play_fire_1()
+		#.play_fire_1()
+		_hudSprite.play(fire_1)
 	elif _state == State.Launched:
 		# launch sawblade
 		if _thrown == null:
@@ -54,17 +59,18 @@ func change_state(newState) -> void:
 		_revs = 0
 		.play_empty()
 	elif _state == State.Recalling:
-		pass
+		.play_empty()
 	else:
-		.play_idle()
+		print("Saw play idle")
+		_hudSprite.play(idle)
 
 func _perform_hit(_result:Dictionary, _forward:Vector3) -> int:
 	_hitInfo.damage = int(_revs)
 	var inflicted:int = ._perform_hit(_result, _forward)
 	if inflicted > 0:
 		_revs = 0
-		.play_idle()
-		_state = State.MeleeRecover
+		_hudSprite.play(idle)
+		change_state(State.MeleeRecover)
 		tick = ATTACK_REFIRE_TIME
 	return inflicted
 
@@ -77,7 +83,7 @@ func _process(_delta:float) -> void:
 	if _state == State.MeleeRecover:
 		if tick > 0:
 			return
-		_state = State.Idle
+		change_state(State.Idle)
 	if _state == State.Sawing:
 		# only allow an attack if revs over some amount or 
 		# it just gets stuck at 0 from repeat attacks

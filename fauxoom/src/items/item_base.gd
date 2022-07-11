@@ -101,6 +101,10 @@ func game_on_reset() -> void:
 	#restore_state(_spawnState)
 	pass
 
+func item_attach(_other:Spatial) -> void:
+	print("Item collect")
+	pass
+
 func on_body_entered(body:Node) -> void:
 	if body.has_method("give_item"):
 		_player = body
