@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://src/ai/mobs/spider_sound.gd" type="Script" id=14]
 [ext_resource path="res://src/ai/mob_attack.gd" type="Script" id=15]
 [ext_resource path="res://prefabs/mob_components/omni_attack_charge.tscn" type="PackedScene" id=16]
+[ext_resource path="res://prefabs/mob_components/mob_debuffs.tscn" type="PackedScene" id=17]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -64,6 +65,8 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="mob_fx" parent="." instance=ExtResource( 12 )]
+
+[node name="mob_debuffs" parent="." instance=ExtResource( 17 )]
 
 [node name="attacks" type="Node" parent="."]
 

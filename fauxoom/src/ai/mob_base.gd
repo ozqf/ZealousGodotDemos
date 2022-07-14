@@ -47,6 +47,7 @@ var _registered:bool = false
 # optional component
 var aimLaser = null
 var omniCharge:OmniAttackCharge
+var mobDebuffs = null
 var frameCount:int = 0
 
 # role assigned
@@ -97,6 +98,7 @@ func _ready() -> void:
 	_healthMax = _health
 	aimLaser = self.get_node_or_null("head/mob_aim_laser")
 	omniCharge = self.get_node_or_null("head/omni_attack_charge")
+	mobDebuffs = self.get_node_or_null("mob_debuffs")
 	_aiTickInfo = AI.create_tick_info()
 	_corpseHitInfo = Game.new_corpse_spawn_info()
 	_gather_attacks()
@@ -541,7 +543,19 @@ func hit(_hitInfo:HitInfo) -> int:
 		return Interactions.HIT_RESPONSE_NONE
 	if _hitInfo.attackTeam == Interactions.TEAM_ENEMY:
 		return Interactions.HIT_RESPONSE_NONE
-	_health -= _hitInfo.damage
+	
+	# apply burning if we can
+	if mobDebuffs != null:
+		mobDebuffs.apply_burn(_hitInfo.burnSourceMask)
+	
+	var burnMul:float = 1.0
+	var bonusMul:float = 1.0
+	if mobDebuffs != null:
+		var burnStacks:int = mobDebuffs.get_stack_count()
+		burnMul = 1.0 + (0.1 * burnStacks)
+		bonusMul = 1.0 + (0.2 * burnStacks)
+		print("Burn damage mul: " + str(burnMul) + " from " + str(burnStacks) + " stacks")
+	_health -= int(float(_hitInfo.damage) * burnMul)
 
 	var hitYaw:float = rad2deg(atan2(_hitInfo.direction.x, -_hitInfo.direction.z))
 	hitYaw += 180.0
@@ -612,9 +626,11 @@ func hit(_hitInfo:HitInfo) -> int:
 			dropType = Enums.QuickDropType.Health
 		if _hitInfo.hyperLevel > 0:
 			dropType = Enums.QuickDropType.Health
+
+		var rageLimit:int = int(100.0 / bonusMul)
 		
-		while _rageDropAccumulator >= 100:
-			_rageDropAccumulator -= 100
+		while _rageDropAccumulator >= rageLimit:
+			_rageDropAccumulator -= rageLimit
 			Game.spawn_rage_drops(
 				collisionShape.global_transform.origin,
 				dropType,

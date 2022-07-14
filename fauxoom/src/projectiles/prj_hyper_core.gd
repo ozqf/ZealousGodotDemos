@@ -18,8 +18,8 @@ var _worldParent:Spatial = null
 var _attachParent:Spatial = null
 
 var _fuseLit:bool = true
-var _fuseTime:float = 4.0
-var _fuseTick:float = 4.0
+var _fuseTime:float = 6.0
+var _fuseTick:float = 6.0
 
 var _coreState = HyperCoreState.None
 var _area:Area

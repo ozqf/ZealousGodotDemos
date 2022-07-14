@@ -74,7 +74,8 @@ func _fire_flare(hyper:bool) -> void:
 	if hyper:
 		prj = Game.flare_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
-		prj.override_damage(70)
+		prj.override_damage(35)
+		prj.get_hit_info().burnSourceMask = Interactions.BURN_SOURCE_BIT_FLARE
 	else:
 		prj = Game.stake_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
@@ -106,8 +107,11 @@ func read_input(_weaponInput:WeaponInput) -> void:
 
 	if _weaponInput.secondaryOn && !_awaitOff && ammo >= secondaryAmmoCost:
 		if !rightIsReloading:
+			var isHyper:bool = false
+			if .check_hyper_attack(10):
+				isHyper = true
 			_awaitOff = true
-			_fire_flare(false)
+			_fire_flare(isHyper)
 			_inventory.take_item(ammoType, secondaryAmmoCost)
 			_hud.hudAudio.play_stream_weapon_1(_pistolShoot, 0.1)
 			_spawn_brass(false)
@@ -119,8 +123,11 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		else:
 			#if !leftIsReloading && akimboReady:
 			if !leftIsReloading:
+				var isHyper:bool = false
+				if .check_hyper_attack(10):
+					isHyper = true
 				_awaitOff = true
-				_fire_flare(false)
+				_fire_flare(isHyper)
 				_inventory.take_item(ammoType, secondaryAmmoCost)
 				_hud.hudAudio.play_stream_weapon_1(_pistolShoot, 0.1)
 				_spawn_brass(true)
@@ -136,25 +143,33 @@ func read_input(_weaponInput:WeaponInput) -> void:
 
 	if _weaponInput.primaryOn && ammo >= ammoPerShot:
 		if !rightIsReloading:
+			var hyperMul:float = 1.0
+			if check_hyper_attack(1):
+				#hyperMul = 0.5
+				_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
 			_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
 			_inventory.take_item(ammoType, 1)
 			_hud.hudAudio.play_stream_weapon_1(_pistolShoot, 0.1)
 			_spawn_brass(false)
-			_rightTick = (_repeatFireTime * 2.0)
+			_rightTick = ((_repeatFireTime * 2.0) * hyperMul)
 			_hudSprite.play(fire_1)
 			_hudSprite.nextAnim = idle
-			_akimboTick = _repeatFireTime
+			_akimboTick = _repeatFireTime * hyperMul
 			pass
 		else:
 			if !leftIsReloading && akimboReady:
+				var hyperMul:float = 1.0
+				if check_hyper_attack(1):
+					hyperMul = 1
+					_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
 				_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
 				_inventory.take_item(ammoType, 1)
 				_hud.hudAudio.play_stream_weapon_1(_pistolShoot, 0.1)
 				_spawn_brass(true)
-				_leftTick = (_repeatFireTime * 2.0)
+				_leftTick = ((_repeatFireTime * 2.0) * hyperMul)
 				_offhandSprite.play(fire_1)
 				_offhandSprite.nextAnim = idle
-				_akimboTick = _repeatFireTime
+				_akimboTick = _repeatFireTime * hyperMul
 	pass
 
 func _process(_delta:float) -> void:

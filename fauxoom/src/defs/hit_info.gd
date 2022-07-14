@@ -10,3 +10,4 @@ var sourceId:int = 0
 var origin:Vector3 = Vector3()
 var direction:Vector3 = Vector3()
 var hyperLevel:int = 0
+var burnSourceMask:int = 0

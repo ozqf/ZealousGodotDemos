@@ -68,6 +68,13 @@ static func play_3d(audio: AudioStreamPlayer3D, stream:AudioStream, pitchAlt:flo
 	audio.stream = stream
 	audio.play(0)
 
+static func count_bits_set(i:int) -> int:
+	# https://stackoverflow.com/questions/109023/how-to-count-the-number-of-set-bits-in-a-32-bit-integer
+	i = i - ((i >> 1) & 0x55555555);        # add pairs of bits
+	i = (i & 0x33333333) + ((i >> 2) & 0x33333333);  # quads
+	i = (i + (i >> 4)) & 0x0F0F0F0F;        # groups of 8
+	return (i * 0x01010101) >> 24;          # horizontal sum of bytes
+
 #####################################
 # geometry stuff
 #####################################

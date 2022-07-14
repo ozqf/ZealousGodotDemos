@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://prefabs/mob_components/orb_shield.tscn" type="PackedScene" id=11]
 [ext_resource path="res://src/patterns/pattern_cube_volume.gd" type="Script" id=12]
 [ext_resource path="res://prefabs/mob_components/omni_attack_charge.tscn" type="PackedScene" id=13]
+[ext_resource path="res://prefabs/mob_components/mob_debuffs.tscn" type="PackedScene" id=14]
 [ext_resource path="res://influence_map/influence_agent.tscn" type="PackedScene" id=15]
 [ext_resource path="res://prefabs/mob_components/teleport_column.tscn" type="PackedScene" id=16]
 
@@ -100,6 +101,8 @@ prefabName = "mob_cyclops"
 script = ExtResource( 8 )
 
 [node name="mob_sound" parent="." instance=ExtResource( 9 )]
+
+[node name="mob_debuffs" parent="." instance=ExtResource( 14 )]
 
 [node name="orb" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )

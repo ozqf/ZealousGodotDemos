@@ -26,6 +26,7 @@ func _fire_flak(origin:Vector3, forward:Vector3) -> void:
 	var prj = _prj_flak_t.instance()
 	Game.get_dynamic_parent().add_child(prj)
 	prj.launch_prj(origin, forward, 1, Interactions.TEAM_PLAYER, _prjMask)
+	prj.get_hit_info().burnSourceMask = Interactions.BURN_SOURCE_BIT_FLAK
 	pass
 
 func _fire(hyper:bool) -> void:

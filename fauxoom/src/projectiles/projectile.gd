@@ -5,6 +5,8 @@ export var maxSpeed:float = 15.0
 export var timeToLive:float = 10
 export var spawnTime:float = 0
 
+export var directDamage:int = 15
+
 # all projectiles have an animator
 onready var animator:CustomAnimator3D = $CustomAnimator3D
 
@@ -33,7 +35,7 @@ var ownerId:int = 0
 
 func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
-	_hitInfo.damage = 15
+	_hitInfo.damage = directDamage
 	#visible = false
 	add_to_group(Groups.PRJ_GROUP_NAME)
 	_custom_init()

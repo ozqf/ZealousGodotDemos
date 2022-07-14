@@ -11,6 +11,7 @@ const REV_DOWN_TIME:float = 8.0
 onready var _display:Spatial = $display
 onready var _sparks1:CPUParticles = $display/sparks_1
 onready var _sparks2:CPUParticles = $display/sparks_2
+onready var _shootableArea:Area = $shootable_area
 
 var _state = State.Idle
 var _currentSpeed:float = 25
@@ -28,6 +29,13 @@ func _ready() -> void:
 	_hitInfo.comboType = Interactions.COMBO_CLASS_SAWBLADE_PROJECTILE
 	_sparks1.emitting = false
 	_sparks2.emitting = false
+	_shootableArea.set_subject(self)
+
+func hit(_hitInfo:HitInfo) -> int:
+	revs += 10
+	if revs > 100:
+		revs = 100
+	return Interactions.HIT_RESPONSE_NONE
 
 func launch(originT:Transform, launchRevs:float) -> void:
 	disable_body()

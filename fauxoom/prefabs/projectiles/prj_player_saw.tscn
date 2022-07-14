@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/primitives/cube_1x1x1.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://src/projectiles/prj_player_saw.gd" type="Script" id=2]
 [ext_resource path="res://assets/mat_red_glow.tres" type="Material" id=3]
+[ext_resource path="res://src/hit_redirector.gd" type="Script" id=4]
 
 [sub_resource type="PhysicsMaterial" id=5]
 friction = 0.8
@@ -24,6 +25,9 @@ size = Vector2( 0.1, 0.1 )
 [sub_resource type="CylinderShape" id=4]
 radius = 0.5
 height = 0.1
+
+[sub_resource type="SphereShape" id=6]
+radius = 0.5
 
 [node name="prj_player_saw" type="RigidBody"]
 collision_layer = 256
@@ -69,7 +73,7 @@ initial_velocity = 15.0
 [node name="sparks_2" type="CPUParticles" parent="display"]
 material_override = SubResource( 2 )
 cast_shadow = 0
-amount = 64
+amount = 10
 lifetime = 2.0
 local_coords = false
 mesh = SubResource( 3 )
@@ -81,3 +85,11 @@ initial_velocity = 15.0
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 4 )
+
+[node name="shootable_area" type="Area" parent="."]
+collision_layer = 32768
+collision_mask = 32768
+script = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="shootable_area"]
+shape = SubResource( 6 )

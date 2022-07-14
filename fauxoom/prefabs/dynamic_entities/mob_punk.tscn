@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://prefabs/mob_components/mob_aim_laser.tscn" type="PackedScene" id=16]
 [ext_resource path="res://prefabs/mob_components/mob_burning_particles.tscn" type="PackedScene" id=17]
 [ext_resource path="res://prefabs/mob_components/omni_attack_charge.tscn" type="PackedScene" id=18]
+[ext_resource path="res://prefabs/mob_components/mob_debuffs.tscn" type="PackedScene" id=19]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -128,3 +129,5 @@ animation = "teleport"
 
 [node name="burning" parent="." instance=ExtResource( 17 )]
 emitting = false
+
+[node name="mob_debuffs" parent="." instance=ExtResource( 19 )]

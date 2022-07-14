@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://prefabs/mob_components/teleport_column.tscn" type="PackedScene" id=10]
 [ext_resource path="res://prefabs/mob_components/mob_sound_base.tscn" type="PackedScene" id=11]
 [ext_resource path="res://src/ai/mobs/worm_sound.gd" type="Script" id=12]
+[ext_resource path="res://prefabs/mob_components/mob_debuffs.tscn" type="PackedScene" id=13]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -77,6 +78,8 @@ stunThreshold = 25
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )
 prefabName = "mob_worm"
+
+[node name="mob_debuffs" parent="." instance=ExtResource( 13 )]
 
 [node name="ticker" type="Spatial" parent="."]
 script = ExtResource( 8 )

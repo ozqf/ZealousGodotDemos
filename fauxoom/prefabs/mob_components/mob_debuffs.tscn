@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/mob_components/mob_debuffs.gd" type="Script" id=1]
+
+[node name="mob_debuffs" type="Spatial"]
+script = ExtResource( 1 )

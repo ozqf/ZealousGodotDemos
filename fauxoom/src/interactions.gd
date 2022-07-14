@@ -32,9 +32,17 @@ const DEBRIS:int = (1 << 8)
 const INTERACTIVE:int = (1 << 9)
 const CORPSE:int = (1 << 10)
 const PROJECTILE_RIGIDBODY_BIT:int = (1 << 11)
+const SENSORS_BIT:int = (1 << 12)
+const HAZARDS_BIT:int = (1 << 13)
+const PLAYER_ONLY_SOLID_BIT:int = (1 << 14)
+const PLAYER_PROJECTILE_COMBO_BIT:int = (1 << 15)
 
 const EXPLOSION_CHECK:int = (1 << 18)
 const EDITOR_GEOMETRY:int = (1 << 19)
+
+
+const BURN_SOURCE_BIT_FLARE:int = (1 << 0)
+const BURN_SOURCE_BIT_FLAK:int = (1 << 1)
 
 # teams for when objects of the same layer choose to hurt each other
 const TEAM_NONE:int = 0
@@ -93,7 +101,7 @@ static func get_enemy_prj_mask() -> int:
 	return (WORLD | PLAYER)
 
 static func get_player_prj_mask() -> int:
-	return (WORLD | ACTORS)
+	return (WORLD | ACTORS | PLAYER_PROJECTILE_COMBO_BIT)
 
 static func get_hyper_core_mask() -> int:
 	return (WORLD | ACTORS | PROJECTILE_RIGIDBODY_BIT)
