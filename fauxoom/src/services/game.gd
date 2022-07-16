@@ -171,7 +171,7 @@ func config_changed(_cfg:Dictionary) -> void:
 	Engine.set_target_fps(target)
 
 func write_save_file(fileName:String) -> void:
-	var path = _build_save_path(fileName, false)
+	var path = Main.build_save_path(fileName, false)
 	save_game(path)
 
 func show_hint_text(txt:String) -> void:
@@ -342,33 +342,33 @@ func _refresh_editor_overlay() -> void:
 	_deathUI.visible = false
 	MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
 
-func _build_save_path(fileName, embedded:bool) -> String:
-	var root:String = "user://saves"
-	var extension:String = ".json"
-	if embedded:
-		root = "res://saves"
-	ZqfUtils.make_dir(root)
-	return root + "/" + fileName + extension
-
-func _build_entity_file_path(fileName, embedded:bool) -> String:
-	var root:String = "user://ents"
-	var extension:String = ".json"
-	if embedded:
-		if ZqfUtils.is_running_in_editor():
-			# if running an editor build look in project files
-			root = "./ents"
-		else:
-			# if exported look in packaged resources
-			root = "res://ents"
-	ZqfUtils.make_dir(root)
-	return root + "/" + fileName + extension
+#func _build_save_path(fileName, embedded:bool) -> String:
+#	var root:String = "user://saves"
+#	var extension:String = ".json"
+#	if embedded:
+#		root = "res://saves"
+#	ZqfUtils.make_dir(root)
+#	return root + "/" + fileName + extension
+#
+#func _build_entity_file_path(fileName, embedded:bool) -> String:
+#	var root:String = "user://ents"
+#	var extension:String = ".json"
+#	if embedded:
+#		if ZqfUtils.is_running_in_editor():
+#			# if running an editor build look in project files
+#			root = "./ents"
+#		else:
+#			# if exported look in packaged resources
+#			root = "res://ents"
+#	ZqfUtils.make_dir(root)
+#	return root + "/" + fileName + extension
 
 func _load_entities(_fileName, _fileSource, appState) -> bool:
 	if appState != Enums.AppState.Game && appState != Enums.AppState.Editor:
 		appState = Enums.AppState.Game
 	var path:String = ""
-	var embeddedPath:String = _build_entity_file_path(_fileName, true)
-	var userPath:String = _build_entity_file_path(_fileName, false)
+	var embeddedPath:String = Main.build_entity_file_path(_fileName, true)
+	var userPath:String = Main.build_entity_file_path(_fileName, false)
 	# first try user directory if we're allowed
 	if _fileSource == Enums.FileSource.UserOnly || _fileSource == Enums.FileSource.EmbeddedAndUser:
 		if ZqfUtils.does_file_exist(userPath):
@@ -410,9 +410,9 @@ func _load_entities(_fileName, _fileSource, appState) -> bool:
 func _exec_file_load(fileName, appState, fileIsEmbedded:bool) -> void:
 	var path:String
 	if appState == Enums.AppState.Game:
-		path = _build_save_path(fileName, fileIsEmbedded)
+		path = Main.build_save_path(fileName, fileIsEmbedded)
 	else:
-		path = _build_entity_file_path(fileName, fileIsEmbedded)
+		path = Main.build_entity_file_path(fileName, fileIsEmbedded)
 	var data:Dictionary = ZqfUtils.load_dict_json_file(path)
 	if !data:
 		return

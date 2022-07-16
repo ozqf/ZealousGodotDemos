@@ -163,6 +163,34 @@ func get_menu_keycode() -> int:
 		menuCode = KEY_TAB
 	return menuCode
 
+func get_entities_directory(embedded:bool) -> String:
+	var root:String = "user://ents"
+	if embedded:
+		if ZqfUtils.is_running_in_editor():
+			# if running an editor build look in project files
+			root = "./ents"
+		else:
+			# if exported look in packaged resources
+			root = "res://ents"
+	return root
+
+func get_entities_file_extension() -> String:
+	return ".json"
+
+func build_save_path(fileName, embedded:bool) -> String:
+	var root:String = "user://saves"
+	var extension:String = get_entities_file_extension()
+	if embedded:
+		root = "res://saves"
+	ZqfUtils.make_dir(root)
+	return root + "/" + fileName + extension
+
+func build_entity_file_path(fileName, embedded:bool) -> String:
+	var root:String = get_entities_directory(embedded)
+	ZqfUtils.make_dir(root)
+	var extension:String = get_entities_file_extension()
+	return root + "/" + fileName + extension
+
 func _input(_event: InputEvent) -> void:
 	if isRebinding:
 		return

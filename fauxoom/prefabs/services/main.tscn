@@ -1,15 +1,16 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/services/main.gd" type="Script" id=1]
 [ext_resource path="res://src/menus/static_menus.gd" type="Script" id=2]
-[ext_resource path="res://src/menus/custom_map_menu.gd" type="Script" id=3]
+[ext_resource path="res://src/menus/custom_map_text_menu.gd" type="Script" id=3]
 [ext_resource path="res://src/menus/embedded_map_menu.gd" type="Script" id=4]
 [ext_resource path="res://src/mouse_lock.gd" type="Script" id=5]
-[ext_resource path="res://prefabs/services/static_menu_options.tscn" type="PackedScene" id=6]
+[ext_resource path="res://prefabs/menus/static_menu_options.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/menus/binds_menu.gd" type="Script" id=7]
 [ext_resource path="res://src/ui/mob_debug_ui.gd" type="Script" id=8]
 [ext_resource path="res://src/services/campaign.gd" type="Script" id=9]
 [ext_resource path="res://assets/fonts/large_dynamic_font.tres" type="DynamicFont" id=10]
+[ext_resource path="res://prefabs/menus/custom_map_menu.tscn" type="PackedScene" id=11]
 
 [node name="main" type="Spatial"]
 script = ExtResource( 1 )
@@ -97,6 +98,7 @@ __meta__ = {
 }
 
 [node name="root_menu" type="Control" parent="static_menus"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -221,7 +223,6 @@ __meta__ = {
 }
 
 [node name="custom_maps" type="Button" parent="static_menus/root_menu/VBoxContainer"]
-visible = false
 margin_top = 194.0
 margin_right = 384.0
 margin_bottom = 214.0
@@ -333,7 +334,9 @@ margin_right = 384.0
 margin_bottom = 62.0
 text = "Back"
 
-[node name="custom_map_menu" type="Control" parent="static_menus"]
+[node name="custom_map_menu" parent="static_menus" instance=ExtResource( 11 )]
+
+[node name="custom_map_text_menu" type="Control" parent="static_menus"]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -350,7 +353,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="load_from_text" type="VBoxContainer" parent="static_menus/custom_map_menu"]
+[node name="load_from_text" type="VBoxContainer" parent="static_menus/custom_map_text_menu"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -364,7 +367,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="static_menus/custom_map_menu/load_from_text"]
+[node name="Label" type="Label" parent="static_menus/custom_map_text_menu/load_from_text"]
 margin_right = 431.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 0, 32 )
@@ -373,7 +376,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="paste_box" type="TextEdit" parent="static_menus/custom_map_menu/load_from_text"]
+[node name="paste_box" type="TextEdit" parent="static_menus/custom_map_text_menu/load_from_text"]
 margin_top = 36.0
 margin_right = 431.0
 margin_bottom = 132.0
@@ -385,7 +388,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="copy_button" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+[node name="copy_button" type="Button" parent="static_menus/custom_map_text_menu/load_from_text"]
 margin_top = 136.0
 margin_right = 431.0
 margin_bottom = 160.0
@@ -396,7 +399,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="to_clipboard" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+[node name="to_clipboard" type="Button" parent="static_menus/custom_map_text_menu/load_from_text"]
 margin_top = 164.0
 margin_right = 431.0
 margin_bottom = 188.0
@@ -407,7 +410,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="to_data" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+[node name="to_data" type="Button" parent="static_menus/custom_map_text_menu/load_from_text"]
 margin_top = 192.0
 margin_right = 431.0
 margin_bottom = 216.0
@@ -418,7 +421,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="load_button" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+[node name="load_button" type="Button" parent="static_menus/custom_map_text_menu/load_from_text"]
 margin_top = 220.0
 margin_right = 431.0
 margin_bottom = 244.0
@@ -429,7 +432,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="edit_button" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+[node name="edit_button" type="Button" parent="static_menus/custom_map_text_menu/load_from_text"]
 margin_top = 248.0
 margin_right = 431.0
 margin_bottom = 272.0
@@ -441,7 +444,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="play_button" type="Button" parent="static_menus/custom_map_menu/load_from_text"]
+[node name="play_button" type="Button" parent="static_menus/custom_map_text_menu/load_from_text"]
 margin_top = 276.0
 margin_right = 431.0
 margin_bottom = 300.0
@@ -453,7 +456,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="load_results" type="RichTextLabel" parent="static_menus/custom_map_menu/load_from_text"]
+[node name="load_results" type="RichTextLabel" parent="static_menus/custom_map_text_menu/load_from_text"]
 margin_top = 304.0
 margin_right = 431.0
 margin_bottom = 400.0
@@ -465,7 +468,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="save_to_text" type="VBoxContainer" parent="static_menus/custom_map_menu"]
+[node name="save_to_text" type="VBoxContainer" parent="static_menus/custom_map_text_menu"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -479,7 +482,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="static_menus/custom_map_menu/save_to_text"]
+[node name="Label" type="Label" parent="static_menus/custom_map_text_menu/save_to_text"]
 margin_right = 430.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 0, 32 )
@@ -488,7 +491,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="paste_box" type="TextEdit" parent="static_menus/custom_map_menu/save_to_text"]
+[node name="paste_box" type="TextEdit" parent="static_menus/custom_map_text_menu/save_to_text"]
 margin_top = 36.0
 margin_right = 430.0
 margin_bottom = 132.0
@@ -500,7 +503,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="save_button" type="Button" parent="static_menus/custom_map_menu/save_to_text"]
+[node name="save_button" type="Button" parent="static_menus/custom_map_text_menu/save_to_text"]
 margin_top = 136.0
 margin_right = 430.0
 margin_bottom = 160.0
@@ -511,7 +514,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="save_results" type="RichTextLabel" parent="static_menus/custom_map_menu/save_to_text"]
+[node name="save_results" type="RichTextLabel" parent="static_menus/custom_map_text_menu/save_to_text"]
 margin_top = 164.0
 margin_right = 430.0
 margin_bottom = 196.0
@@ -525,7 +528,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="new_map" type="VBoxContainer" parent="static_menus/custom_map_menu"]
+[node name="new_map" type="VBoxContainer" parent="static_menus/custom_map_text_menu"]
 margin_left = 384.0
 margin_top = 384.0
 margin_right = 640.0
@@ -536,7 +539,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="set_width" type="HBoxContainer" parent="static_menus/custom_map_menu/new_map"]
+[node name="set_width" type="HBoxContainer" parent="static_menus/custom_map_text_menu/new_map"]
 margin_top = 18.0
 margin_right = 256.0
 margin_bottom = 34.0
@@ -545,7 +548,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Label" type="Label" parent="static_menus/custom_map_menu/new_map/set_width"]
+[node name="Label" type="Label" parent="static_menus/custom_map_text_menu/new_map/set_width"]
 margin_left = 7.0
 margin_top = 1.0
 margin_right = 52.0
@@ -555,7 +558,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="width_slider" type="HSlider" parent="static_menus/custom_map_menu/new_map/set_width"]
+[node name="width_slider" type="HSlider" parent="static_menus/custom_map_text_menu/new_map/set_width"]
 margin_left = 56.0
 margin_right = 248.0
 margin_bottom = 16.0
@@ -568,7 +571,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="set_height" type="HBoxContainer" parent="static_menus/custom_map_menu/new_map"]
+[node name="set_height" type="HBoxContainer" parent="static_menus/custom_map_text_menu/new_map"]
 margin_top = 38.0
 margin_right = 256.0
 margin_bottom = 54.0
@@ -577,7 +580,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Label" type="Label" parent="static_menus/custom_map_menu/new_map/set_height"]
+[node name="Label" type="Label" parent="static_menus/custom_map_text_menu/new_map/set_height"]
 margin_left = 5.0
 margin_top = 1.0
 margin_right = 54.0
@@ -587,7 +590,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="height_slider" type="HSlider" parent="static_menus/custom_map_menu/new_map/set_height"]
+[node name="height_slider" type="HSlider" parent="static_menus/custom_map_text_menu/new_map/set_height"]
 margin_left = 58.0
 margin_right = 250.0
 margin_bottom = 16.0
@@ -600,7 +603,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="create_new" type="Button" parent="static_menus/custom_map_menu/new_map"]
+[node name="create_new" type="Button" parent="static_menus/custom_map_text_menu/new_map"]
 margin_top = 58.0
 margin_right = 256.0
 margin_bottom = 82.0
@@ -610,7 +613,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="back" type="Button" parent="static_menus/custom_map_menu/new_map"]
+[node name="back" type="Button" parent="static_menus/custom_map_text_menu/new_map"]
 margin_top = 86.0
 margin_right = 256.0
 margin_bottom = 110.0
@@ -620,7 +623,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="FileDialog" type="FileDialog" parent="static_menus/custom_map_menu"]
+[node name="FileDialog" type="FileDialog" parent="static_menus/custom_map_text_menu"]
 margin_right = 315.0
 margin_bottom = 130.0
 resizable = true

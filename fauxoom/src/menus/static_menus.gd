@@ -8,6 +8,7 @@ onready var _bg:ColorRect = $background
 onready var _rootMenu:Control = $root_menu
 onready var _embeddedMapMenu:Control = $embedded_maps
 onready var _customMapMenu:Control = $custom_map_menu
+onready var _customMapTextMenu:Control = $custom_map_text_menu
 onready var _optionsMenu:Control = $options
 onready var _bindsMenu:Control = $binds
 
@@ -36,9 +37,12 @@ func _ready() -> void:
 	
 	_f = _embeddedMapMenu.connect("menu_navigate", self, "_on_navigate_callback")
 	_f = _customMapMenu.connect("menu_navigate", self, "_on_navigate_callback")
+	_f = _customMapTextMenu.connect("menu_navigate", self, "_on_navigate_callback")
 	_f = _optionsMenu.connect("menu_navigate", self, "_on_navigate_callback")
 	_f = _bindsMenu.connect("menu_navigate", self, "_on_navigate_callback")
 
+	_customMapMenu.visible = false
+	_customMapTextMenu.visible = false
 	_optionsMenu.visible = false
 	_embeddedMapMenu.visible = false
 
@@ -57,8 +61,8 @@ func _on_back_to_game() -> void:
 	Main.set_input_on()
 
 func _on_goto_custom() -> void:
-	Main.submit_console_command("new sandbox")
-	# _change_menu(MenuPage.CustomMaps)
+	#Main.submit_console_command("new sandbox")
+	_change_menu(MenuPage.CustomMaps)
 
 func _on_goto_edit_entities() -> void:
 	Main.submit_console_command("edit catacombs_01")
