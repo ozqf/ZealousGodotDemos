@@ -204,7 +204,7 @@ func game_event_complete() -> void:
 	_state = KingTowerState.Idle
 	_outerShellMesh.visible = true
 	_eventCount += 1
-	if _eventCount % 2 == 0:
+	if _eventCount % 3 == 0:
 		_spawn_next_weapon()
 
 func game_on_player_died(_info:Dictionary) -> void:

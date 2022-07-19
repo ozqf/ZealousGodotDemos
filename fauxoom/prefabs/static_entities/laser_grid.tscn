@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/world/animated/laser_grid/mat_laser_grid_red.tres" type="Material" id=1]
 [ext_resource path="res://src/static_entities/trigger_hurt.gd" type="Script" id=2]
+[ext_resource path="res://src/entity.gd" type="Script" id=3]
 
 [sub_resource type="QuadMesh" id=3]
 
@@ -33,3 +34,7 @@ collision_mask = 8
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5 )
 shape = SubResource( 6 )
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 3 )
+prefabName = "laser_grid"

@@ -57,7 +57,9 @@ func change_state(newState) -> void:
 			Game.get_dynamic_parent().add_child(_thrown)
 		_thrown.launch(_launchNode.global_transform, _revs)
 		_revs = 0
-		.play_empty()
+		#.play_empty()
+		_hudSprite.play("saw_thrown")
+		_hudSprite.run_shoot_push()
 	elif _state == State.Recalling:
 		.play_empty()
 	else:
@@ -94,6 +96,10 @@ func _process(_delta:float) -> void:
 			_fire_single(-_launchNode.global_transform.basis.z, 1.5)
 	elif _state == State.Launched:
 		_revs = _thrown.revs
+		if _thrown.is_in_flight():
+			_hudSprite.play("saw_thrown")
+		else:
+			_hudSprite.play("saw_recall")
 		pass
 	elif _state == State.Recalling:
 		_revs = _thrown.revs

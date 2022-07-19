@@ -32,6 +32,11 @@ func get_csv() -> String:
 func read_csv(csv:String) -> void:
 	_tags = csv.split(",", false, 0)
 
+func read_from_dict_field(dict, fieldName) -> void:
+	var current:String = get_csv()
+	var data:String = ZqfUtils.safe_dict_s(dict, fieldName, current)
+	read_csv(data)
+
 func append_global_tags(tagDict:Dictionary) -> void:
 	for tag in _tags:
 		if !tagDict.has(tag):

@@ -6,16 +6,24 @@ onready var _filesList = $ItemList/VBoxContainer
 onready var _description:Label = $map_description
 
 var _selectedFileName:String = ""
+var _buttons = []
 
 func _ready():
 	$actions_container/play.connect("pressed", self, "_on_click_play")
 	$actions_container/edit.connect("pressed", self, "_on_click_edit")
 	$actions_container/back.connect("pressed", self, "_on_click_back")
 
+func _cull_buttons() -> void:
+	for b in _buttons:
+		b.disconnect("pressed", self, "_on_click_file")
+		_filesList.remove_child(b)
+	_buttons = []
+
 func _refresh() -> void:
 	var userRoot:String = Main.get_entities_directory(true)
 	var userFiles = ZqfUtils.get_files_in_directory(userRoot, ".json")
 	print("-- Custom maps found in " + str(userRoot) + " --")
+	_cull_buttons()
 	for file in userFiles:
 		file = file.split(".")[0]
 		print("\t" + str(file))
@@ -23,6 +31,7 @@ func _refresh() -> void:
 		b.name = file
 		b.text = file
 		_filesList.add_child(b)
+		_buttons.push_back(b)
 		b.connect("pressed", self, "_on_click_file", [b])
 
 func _set_selected_file_name(fileName:String) -> void:
@@ -46,12 +55,13 @@ func _on_click_file(button) -> void:
 func _on_click_play() -> void:
 	if _selectedFileName == "":
 		return
-	
 	off()
 	Main.submit_console_command("play " + _selectedFileName)
 	self.emit_signal("menu_navigate", "back")
 
 func _on_click_edit() -> void:
+	if _selectedFileName == "":
+		return
 	off()
 	Main.submit_console_command("edit " + _selectedFileName)
 	self.emit_signal("menu_navigate", "back")

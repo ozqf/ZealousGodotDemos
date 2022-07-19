@@ -223,6 +223,11 @@ var _prefabs = {
 		prefab = preload("res://prefabs/static_entities/player_barrier_volume.tscn"),
 		label = "Barrier Volume"
 	},
+	laser_grid = {
+		prefab = preload("res://prefabs/static_entities/laser_grid.tscn"),
+		category = "info",
+		label = "Laser Grid"
+	},
 	info_destination = {
 		prefab = preload("res://prefabs/static_entities/teleport_destination.tscn"),
 		label = "Info Destination"

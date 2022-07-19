@@ -45,6 +45,9 @@ func launch(originT:Transform, launchRevs:float) -> void:
 	_state = State.Thrown
 	# print("Saw - launch!")
 
+func is_in_flight() -> bool:
+	return _state == State.Thrown
+
 func off() -> void:
 	disable_body()
 	_state = State.Idle
