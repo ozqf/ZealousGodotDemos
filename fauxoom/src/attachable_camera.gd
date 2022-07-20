@@ -4,6 +4,8 @@ class_name AttachableCamera
 var _worldParent:Spatial = null
 var _attachParent:Spatial = null
 
+var _attachMode:bool = true
+
 var _shaking:bool = false
 var _shakeTick:float = 0.0
 var _shakeDuration:float = 0.25
@@ -47,10 +49,11 @@ func shake(_duration:float, _strength:float) -> void:
 	_shakeDuration = _duration
 
 func _refresh_pos() -> void:
-	if ZqfUtils.is_obj_safe(_attachParent):
+	if _attachMode && ZqfUtils.is_obj_safe(_attachParent):
 		var t:Transform = _attachParent.global_transform
 		self.global_transform = t
 		#print("Cam pos " + str(t.origin))
+	pass
 
 func _physics_process(delta:float) -> void:
 	_refresh_pos()
@@ -101,18 +104,20 @@ func attach_to(newParent:Spatial) -> void:
 	_attachParent = newParent
 
 	# reset local position
-	#_worldParent.remove_child(self)
-	#_attachParent.add_child(self)
-	#transform = Transform.IDENTITY
-	#var _f = _attachParent.connect("tree_exiting", self, "detach")
+	if _attachMode:
+		_worldParent.remove_child(self)
+		_attachParent.add_child(self)
+		transform = Transform.IDENTITY
+		var _f = _attachParent.connect("tree_exiting", self, "detach")
 
 func detach() -> void:
 	if _attachParent == null:
 		return
 	current = false
-	#var t:Transform = _attachParent.global_transform
-	#_attachParent.remove_child(self)
-	#_attachParent.disconnect("tree_exiting", self, "detach")
+	if _attachMode:
+		var t:Transform = _attachParent.global_transform
+		_attachParent.remove_child(self)
+		_attachParent.disconnect("tree_exiting", self, "detach")
+		_worldParent.add_child(self)
+		global_transform = t
 	_attachParent = null
-	#_worldParent.add_child(self)
-	#global_transform = t

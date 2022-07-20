@@ -18,6 +18,17 @@ func _ready() -> void:
 func set_hyper_level(hyperLevel:int) -> void:
 	_hitInfo.hyperLevel = hyperLevel
 
+func apply_boost(_scaleBoost:int) -> void:
+	if _scaleBoost > 3:
+		self.damage = 400
+		self.explosiveRadius = 6
+	elif _scaleBoost > 2:
+		self.damage = 300
+		self.explosiveRadius = 5
+	elif _scaleBoost > 1:
+		self.damage = 200
+		self.explosiveRadius = 4
+
 func _run_hits() -> void:
 	_hitInfo.origin = global_transform.origin
 	if _scanner.total == 0:

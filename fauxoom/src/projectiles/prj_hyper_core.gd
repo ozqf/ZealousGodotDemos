@@ -71,7 +71,7 @@ func on_body_entered_body(_body) -> void:
 		#	_deadBall = true
 		#	linear_velocity = Vector3(0, 3, 0)
 		return
-	print("Hyper core stop")
+	#print("Hyper core stop")
 	self.mode = MODE_KINEMATIC
 	_coreState = HyperCoreState.Stuck
 	global_transform = _lastTransform
@@ -86,9 +86,7 @@ func spawn_explosion(pos:Vector3) -> void:
 	Game.get_dynamic_parent().add_child(aoe)
 	aoe.set_hyper_level(1)
 	aoe.global_transform.origin = pos
-	if _scaleBoost > 0:
-		aoe.damage = 400
-		aoe.explosiveRadius = 6
+	aoe.apply_boost(_scaleBoost)
 	Game.spawn_explosion_sprite(pos, Vector3.UP)
 
 func _apply_kinetic_push(dir:Vector3) -> void:
@@ -152,12 +150,10 @@ func bullet_cancel(t:Transform) -> void:
 		spawn_explosion(t.origin)
 
 func _refresh() -> void:
-	if _scaleBoost > 0.0:
-		animator.scale = Vector3(2, 2, 2)
-		animator.modulate = Color(1, 0, 0)
-	else:
-		animator.scale = Vector3(1, 1, 1)
-		animator.modulate = Color(1, 1, 1)
+	var c:Color
+	var weight:float = float(_scaleBoost) / float(3)
+	animator.scale = Vector3(1, 1, 1).linear_interpolate(Vector3(2, 2, 2), weight)
+	animator.modulate = Color(1, 1, 1).linear_interpolate(Color(1, 0, 0), weight)
 
 func _try_attach_to_mob(collider) -> void:
 	if !Interactions.is_obj_a_mob(collider):
@@ -194,7 +190,7 @@ func detach():
 func _change_to_stake(direction:Vector3) -> int:
 	# if already stuck, explode
 	if _coreState == HyperCoreState.Stuck:
-		print("Detonate staked core")
+		#print("Detonate staked core")
 		spawn_explosion(self.global_transform.origin)
 		self.queue_free()
 		return Interactions.HIT_RESPONSE_NONE
@@ -203,13 +199,13 @@ func _change_to_stake(direction:Vector3) -> int:
 	# turn into a stake projectile
 	cancel_fuse()
 	_stakeVelocity = direction * 50.0
-	print("Change core to stake at " + str(global_transform.origin))
+	#print("Change core to stake at " + str(global_transform.origin))
 	self.gravity_scale = 0.0
 	_bodyShape.disabled = true
 	self.mode = MODE_KINEMATIC
 	self.linear_velocity = _stakeVelocity
 	_coreState = HyperCoreState.Stake
-	print("\tChanged at " + str(global_transform.origin))
+	#print("\tChanged at " + str(global_transform.origin))
 	return Interactions.HIT_RESPONSE_ABSORBED
 
 func _step_as_stake(delta:float) -> void:
@@ -228,7 +224,7 @@ func _step_as_stake(delta:float) -> void:
 			_dead = true
 			self.queue_free()
 			return
-		print("Stake hit node: " + str(result.collider.name))
+		#print("Stake hit node: " + str(result.collider.name))
 		_coreState = HyperCoreState.Stuck
 		# step out slightly or will be IN geometry
 		var pos:Vector3 = result.position + (result.normal * 0.2)
@@ -237,11 +233,19 @@ func _step_as_stake(delta:float) -> void:
 		return
 	self.global_transform.origin = dest
 
+func add_boost(boost:int) -> void:
+	_scaleBoost += boost
+	if _scaleBoost > 3:
+		_scaleBoost = 3
+	_light.omni_range = 3 + _scaleBoost
+	_refresh()
+
 func hit(_hitInfo:HitInfo) -> int:
 	if _dead:
 		return Interactions.HIT_RESPONSE_NONE
 	_reset_fuse_time()
 	var combo:int = _hitInfo.comboType
+	print("Hyper core hit by combo type " + str(combo))
 	if combo == Interactions.COMBO_CLASS_RAILGUN:
 		if _hitInfo.hyperLevel > 0:
 			railshot_links()
@@ -258,8 +262,10 @@ func hit(_hitInfo:HitInfo) -> int:
 	elif combo == Interactions.COMBO_CLASS_STAKE:
 		return _change_to_stake(_hitInfo.direction)
 	elif combo == Interactions.COMBO_CLASS_ROCKET:
-		_scaleBoost += 1
-		_light.omni_range = 6
+		add_boost(3)
+		return Interactions.HIT_RESPONSE_ABSORBED
+	elif combo == Interactions.COMBO_CLASS_FLARE:
+		add_boost(1)
 		_refresh()
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE:

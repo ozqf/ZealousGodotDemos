@@ -85,7 +85,7 @@ func _fire_flare(hyper:bool) -> void:
 	var selfPos:Vector3 = t.origin
 	var forward = -t.basis.z
 	if hyper:
-		prj.get_hit_info().comboType = Interactions.COMBO_CLASS_STAKE
+		prj.get_hit_info().comboType = Interactions.COMBO_CLASS_FLARE
 	else:
 		prj.get_hit_info().comboType = Interactions.COMBO_CLASS_STAKE
 	prj.launch_prj(selfPos, forward, Interactions.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
