@@ -554,7 +554,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		var burnStacks:int = mobDebuffs.get_stack_count()
 		burnMul = 1.0 + (0.1 * burnStacks)
 		bonusMul = 1.0 + (0.2 * burnStacks)
-		print("Burn damage mul: " + str(burnMul) + " from " + str(burnStacks) + " stacks")
+		# print("Burn damage mul: " + str(burnMul) + " from " + str(burnStacks) + " stacks")
 	_health -= int(float(_hitInfo.damage) * burnMul)
 
 	var hitYaw:float = rad2deg(atan2(_hitInfo.direction.x, -_hitInfo.direction.z))

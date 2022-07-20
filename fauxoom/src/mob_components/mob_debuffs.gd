@@ -12,7 +12,7 @@ func get_stack_count() -> int:
 func apply_burn(sourceMask:int = 1) -> void:
 	if sourceMask == 0:
 		return
-	print("Applying burn mask " + str(sourceMask))
+	#print("Applying burn mask " + str(sourceMask))
 	_burningMask |= sourceMask
 	_burningTick = _burnTime
 	_stackCount = ZqfUtils.count_bits_set(_burningMask)
@@ -22,6 +22,6 @@ func _process(_delta:float) -> void:
 		return
 	_burningTick -= _delta
 	if _burningTick <= 0.0:
-		print("Mob - Burn faded")
+		#print("Mob - Burn faded")
 		_burningMask = 0
 		_stackCount = 0

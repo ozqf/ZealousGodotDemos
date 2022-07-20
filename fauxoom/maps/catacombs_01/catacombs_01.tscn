@@ -103,6 +103,56 @@ spot_range = 20.0
 spot_attenuation = 0.366022
 spot_angle = 25.0
 
+[node name="SpotLight13" type="SpotLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 66.7, 7.9, -64.3 )
+light_energy = 1.5
+spot_range = 20.0
+spot_attenuation = 0.366022
+spot_angle = 50.0
+
+[node name="SpotLight14" type="SpotLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 38.7, 7.9, -64.3 )
+light_energy = 1.5
+spot_range = 20.0
+spot_attenuation = 0.366022
+spot_angle = 50.0
+
+[node name="SpotLight15" type="SpotLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 28, 7.9, -40 )
+light_energy = 1.5
+spot_range = 20.0
+spot_attenuation = 0.366022
+spot_angle = 50.0
+
+[node name="SpotLight16" type="SpotLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 3.3, 14.8, -31 )
+light_energy = 1.5
+spot_range = 21.9
+spot_attenuation = 0.366022
+spot_angle = 50.0
+
+[node name="SpotLight17" type="SpotLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -40, 8.3, -31 )
+light_energy = 1.5
+spot_range = 21.9
+spot_attenuation = 0.366022
+spot_angle = 50.0
+
+[node name="SpotLight18" type="SpotLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -65.9, 8.3, -31.9 )
+light_energy = 1.5
+spot_range = 21.9
+spot_attenuation = 0.366022
+spot_angle = 50.0
+
+[node name="SpotLight19" type="SpotLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -24.1, 15, -5 )
+light_energy = 1.5
+shadow_enabled = true
+spot_range = 21.9
+spot_attenuation = 0.366022
+spot_angle = 50.0
+
 [node name="SpotLight10" type="SpotLight" parent="lights"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 57.1, 8.4, -31 )
 light_energy = 1.5
@@ -126,6 +176,16 @@ spot_angle = 25.0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 53.8, -1.8, -9.8 )
 shadow_enabled = true
 omni_range = 10.0
+
+[node name="OmniLight2" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7, 13.8, 5.5 )
+shadow_enabled = true
+omni_range = 50.023
+
+[node name="OmniLight3" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 13.8, 5.5 )
+shadow_enabled = true
+omni_range = 50.023
 
 [node name="Navigation" type="Navigation" parent="."]
 script = ExtResource( 6 )

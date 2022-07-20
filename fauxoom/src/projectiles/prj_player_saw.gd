@@ -31,7 +31,7 @@ func _ready() -> void:
 	_sparks2.emitting = false
 	_shootableArea.set_subject(self)
 
-func hit(_hitInfo:HitInfo) -> int:
+func hit(_incomingHitInfo:HitInfo) -> int:
 	revs += 10
 	if revs > 100:
 		revs = 100
@@ -130,17 +130,19 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 			return
 		
 		# saw blade is only projectile stopped by barriers
-		elif (body.collision_layer & Interactions.PLAYER_BARRIER) != 0:
-			set_dropped()
-			_apply_dropped_push(result.normal)
-			global_transform.origin = result.position - stepBack
-			return
+		# changed my mind on that its annoying and I can't remember why
+		# I wanted that in the first place
+		#elif (body.collision_layer & Interactions.PLAYER_BARRIER) != 0:
+		#	set_dropped()
+		#	_apply_dropped_push(result.normal)
+		#	global_transform.origin = result.position - stepBack
+		#	return
 
 		# check vs world
-		# only stick into world if unguided
-		elif (body.collision_layer & 1) != 0:
-			if _guided == true:
-				return
+		elif (body.collision_layer & Interactions.WORLD) != 0:
+			# only stick into world if unguided
+			#if _guided == true:
+			#	return
 			print("Hit world")
 			if revs > 0:
 				set_stuck()

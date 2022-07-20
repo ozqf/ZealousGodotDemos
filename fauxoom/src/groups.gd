@@ -63,6 +63,8 @@ const HYPER_CORES_GROUP:String = "hyper_cores"
 const PRJ_GROUP_NAME:String = "projectiles"
 # signature: Vector3 position, float radius, int cullTeamId
 const PRJ_FN_BULLET_CANCEL_AT:String = "prj_bullet_cancel_at"
+# signature: Vector3 position, int playerEntityId
+const PRJ_FN_PLAYER_LASER_AIM_AT:String = "prj_laser_laser_aim_at"
 
 const PLAYER_GROUP_NAME:String = "player"
 const PLAYER_FN_STATUS:String = "player_status_update"

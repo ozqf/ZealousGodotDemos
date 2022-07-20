@@ -14,6 +14,7 @@ rings = 2
 [node name="prj_player_stake" type="Spatial"]
 script = ExtResource( 5 )
 maxSpeed = 50.0
+laserGuided = true
 
 [node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )

@@ -44,7 +44,7 @@ func change_state(newState) -> void:
 		return
 	var oldState = _state
 	_state = newState
-	print("Saw state: " + str(_state))
+	# print("Saw state: " + str(_state))
 
 	if _state == State.Sawing:
 		#.play_fire_1()
@@ -63,7 +63,7 @@ func change_state(newState) -> void:
 	elif _state == State.Recalling:
 		.play_empty()
 	else:
-		print("Saw play idle")
+		#print("Saw play idle")
 		_hudSprite.play(idle)
 
 func _perform_hit(_result:Dictionary, _forward:Vector3) -> int:

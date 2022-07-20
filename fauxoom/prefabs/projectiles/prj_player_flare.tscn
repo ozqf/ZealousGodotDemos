@@ -27,6 +27,7 @@ size = Vector2( 0.1, 0.1 )
 [node name="prj_flare_rocket" type="Spatial"]
 script = ExtResource( 5 )
 maxSpeed = 50.0
+laserGuided = true
 deathSpawnPrefab = ExtResource( 2 )
 
 [node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]

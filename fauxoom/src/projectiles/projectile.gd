@@ -7,6 +7,8 @@ export var spawnTime:float = 0
 
 export var directDamage:int = 15
 
+export var laserGuided:bool = false
+
 # all projectiles have an animator
 onready var animator:CustomAnimator3D = $CustomAnimator3D
 
@@ -23,7 +25,8 @@ enum ProjectileState {
 var _state = ProjectileState.Idle
 var _time:float = 10
 
-var _velocity:Vector3 = Vector3()
+#var _velocity:Vector3 = Vector3()
+var _speed:float = 10.0
 var _deathNormal:Vector3 = Vector3()
 var _mask:int = -1
 var _team:int = Interactions.TEAM_NONE
@@ -57,13 +60,27 @@ func triggered_detonate() -> void:
 	if _state != ProjectileState.InFlight:
 		return
 	_hitInfo.attackTeam = _team
-	_hitInfo.direction = _velocity.normalized()
+	_hitInfo.direction = -global_transform.basis.z
 	die()
 
-func _move_as_ray_2(_delta:float) -> void:
+func laser_aim_update(_laserPosition:Vector3) -> void:
 	var t:Transform = global_transform
-	t.origin += (_velocity * _delta)
+	var toward:Transform = t.looking_at(_laserPosition, Vector3.UP)
+	t = t.interpolate_with(toward, 0.2)
 	global_transform = t
+	print("Projectile laser aim")
+
+func prj_laser_laser_aim_at(_laserPosition:Vector3, _plyrId:int) -> void:
+	if _hitInfo.attackTeam != Interactions.TEAM_PLAYER:
+		return
+	if !laserGuided:
+		return
+	laser_aim_update(_laserPosition)
+
+# func _move_as_ray_2(_delta:float) -> void:
+# 	var t:Transform = global_transform
+# 	t.origin += (_velocity * _delta)
+# 	global_transform = t
 
 func remove_self() -> void:
 	_state = ProjectileState.Idle
@@ -85,9 +102,10 @@ func die() -> void:
 	animator.hide()
 	
 	if deathSpawnPrefab != null:
-		var velNormal:Vector3 = _velocity.normalized()
-		var instance = deathSpawnPrefab.instance()
 		var t:Transform = global_transform
+		# var velNormal:Vector3 = _velocity.normalized()
+		var velNormal:Vector3 = -t.basis.z
+		var instance = deathSpawnPrefab.instance()
 		t.origin -= velNormal * 0.3
 		instance.global_transform = t
 		get_parent().add_child(instance)
@@ -97,20 +115,23 @@ func _move_as_ray(_delta:float) -> void:
 
 	var t:Transform = global_transform
 	var origin:Vector3 = t.origin
-	ZqfUtils.look_at_safe(self, origin + _velocity)
+	# ZqfUtils.look_at_safe(self, origin + _velocity)
 	# step backward slightly, or ray can sometimes penetrate walls...
 	var forward = -global_transform.basis.z
 	origin -= (forward * 0.1)
-
-	var speed:float = _velocity.length()
-	if speed == 0:
+	var step:float = _speed * _delta
+	var dest = origin + (forward * step)
+	# var speed:float = _velocity.length()
+	if _speed == 0:
 		return
-	var hit = ZqfUtils.quick_hitscan3D(self, speed * _delta, _ignoreBody, _mask)
+	# var hit = ZqfUtils.quick_hitscan3D(self, _speed * _delta, _ignoreBody, _mask)
+	var hit = ZqfUtils.hitscan_by_position_3D(self, origin, dest, _ignoreBody, _mask)
 	if hit:
 		# do damage
 		# _hitInfo.damage = 15
 		_hitInfo.attackTeam = _team
-		_hitInfo.direction = _velocity.normalized()
+		# _hitInfo.direction = _velocity.normalized()
+		_hitInfo.direction = forward
 		var response:int = Interactions.hitscan_hit(_hitInfo, hit)
 		if response == Interactions.HIT_RESPONSE_ABSORBED:
 			remove_self()
@@ -124,7 +145,8 @@ func _move_as_ray(_delta:float) -> void:
 		Sfx.spawn_impact(hit.position)
 		die()
 		return
-	t.origin = origin + (_velocity * _delta)
+	# t.origin = origin + (_velocity * _delta)
+	t.origin = dest
 	global_transform = t
 
 func move(_delta:float) -> void:
@@ -172,9 +194,11 @@ func launch_prj(origin:Vector3, _forward:Vector3, sourceId:int, prjTeam:int, col
 	var t:Transform = global_transform
 	t.origin = origin
 	global_transform = t
-	_velocity = _forward * maxSpeed
+	# _velocity = _forward * maxSpeed
+	_speed = maxSpeed
 	_deathNormal = _forward
-	ZqfUtils.look_at_safe(self, origin + _velocity)
+	var lookAtTarget:Vector3 = origin + _forward
+	ZqfUtils.look_at_safe(self, lookAtTarget)
 	
 	# start flying immediately
 	if spawnTime <= 0:

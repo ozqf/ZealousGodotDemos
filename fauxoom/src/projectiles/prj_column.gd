@@ -64,7 +64,7 @@ func _body_entered_down(body) -> void:
 func launch_prj(origin:Vector3, _forward:Vector3, sourceId:int, prjTeam:int, collisionMask:int) -> void:
 	.launch_prj(origin, _forward, sourceId, prjTeam, collisionMask)
 
-	var flatVel:Vector3 = _velocity
+	var flatVel:Vector3 = (_forward * _speed)
 
 	flatVel.y = 0
 	ZqfUtils.look_at_safe(self, origin + flatVel)

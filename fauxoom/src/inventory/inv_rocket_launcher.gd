@@ -6,6 +6,7 @@ var _prjMask:int = -1
 var _lastHyperLevel:int = 0
 
 signal rocket_detonate()
+signal laser_aim_update(laserPos)
 
 func custom_init_b() -> void:
 	_hudSprite = _hud.hud_get_weapon_sprite("weapon_rl")
@@ -42,6 +43,7 @@ func _fire_stasis_grenade() -> void:
 	rocket.ownerId = _inventory.get_owner_ent_id()
 	# print("Rockets - connect signal")
 	connect("rocket_detonate", rocket, "triggered_detonate")
+	connect("laser_aim_update", rocket, "laser_aim_update")
 	_hud.hudAudio.play_stream_weapon_1(_rocketShoot)
 	_inventory.take_item(ammoType, ammoPerShot)
 	
@@ -56,8 +58,14 @@ func _fire_stasis_grenade() -> void:
 func read_input(_weaponInput:WeaponInput) -> void:
 	if _weaponInput.secondaryOn:
 		# print("Rockets - detonate")
-		emit_signal("rocket_detonate")
-		return
+		#emit_signal("rocket_detonate")
+		var plyr = AI.get_player_target()
+		if plyr.id != 0:
+			#print("Emit laser aim")
+			#emit_signal("laser_aim_update", plyr.aimPos)
+			var grp = Groups.PRJ_GROUP_NAME
+			var fn = Groups.PRJ_FN_PLAYER_LASER_AIM_AT
+			get_tree().call_group(grp, fn, plyr.aimPos, plyr.id)
 	if tick > 0:
 		return
 	if _weaponInput.primaryOn:
