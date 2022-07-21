@@ -5,6 +5,11 @@
 extends Node
 class_name Entity
 
+static func get_entity(obj) -> Entity:
+	if !ZqfUtils.is_obj_safe(obj) || !obj.has_method("get_entity"):
+		return null
+	return obj.get_entity() as Entity
+
 signal entity_append_state(dict)
 signal entity_restore_state(dict)
 signal entity_trigger(message, dict)

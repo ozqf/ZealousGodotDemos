@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/primitives/cube_1x1x1.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://src/projectiles/prj_player_saw.gd" type="Script" id=2]
 [ext_resource path="res://assets/mat_red_glow.tres" type="Material" id=3]
 [ext_resource path="res://src/hit_redirector.gd" type="Script" id=4]
+[ext_resource path="res://src/temp_child.gd" type="Script" id=5]
 
 [sub_resource type="PhysicsMaterial" id=5]
 friction = 0.8
@@ -103,3 +104,6 @@ collision_mask = 2
 
 [node name="CollisionShape" type="CollisionShape" parent="damage_area"]
 shape = SubResource( 7 )
+
+[node name="attach" type="Spatial" parent="."]
+script = ExtResource( 5 )

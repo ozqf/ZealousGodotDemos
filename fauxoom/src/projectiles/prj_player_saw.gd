@@ -12,6 +12,9 @@ onready var _display:Spatial = $display
 onready var _sparks1:CPUParticles = $display/sparks_1
 onready var _sparks2:CPUParticles = $display/sparks_2
 onready var _shootableArea:Area = $shootable_area
+onready var _shootableShape:CollisionShape = $shootable_area/CollisionShape
+onready var _damageShape:CollisionShape = $damage_area/CollisionShape
+onready var _attach:ZqfTempChild = $attach
 
 var _state = State.Idle
 var _currentSpeed:float = 25
@@ -20,6 +23,9 @@ var _guided:bool = false
 var _hitInfo:HitInfo = null
 var revs:float = 0
 var _rotDegrees:float = 0
+
+var _worldParent:Spatial
+var _attachParent:Spatial
 
 func _ready() -> void:
 	visible = false
@@ -30,8 +36,11 @@ func _ready() -> void:
 	_sparks1.emitting = false
 	_sparks2.emitting = false
 	_shootableArea.set_subject(self)
+	_set_volumes_active(false)
 
 func hit(_incomingHitInfo:HitInfo) -> int:
+	if _state == State.Dropped:
+		_apply_dropped_push(_incomingHitInfo.direction)
 	revs += 10
 	if revs > 100:
 		revs = 100
@@ -43,6 +52,7 @@ func launch(originT:Transform, launchRevs:float) -> void:
 	revs = launchRevs
 	global_transform = originT
 	_state = State.Thrown
+	_set_volumes_active(true)
 	# print("Saw - launch!")
 
 func is_in_flight() -> bool:
@@ -54,8 +64,10 @@ func off() -> void:
 	visible = false
 	_sparks1.emitting = false
 	_sparks2.emitting = false
+	_set_volumes_active(false)
 
-func set_stuck() -> void:
+func set_stuck(collider) -> void:
+	_attach.attach(collider)
 	_state = State.Stuck
 	_sparks1.emitting = true
 	_sparks2.emitting = true
@@ -64,6 +76,7 @@ func disable_body() -> void:
 	mode = RigidBody.MODE_KINEMATIC
 
 func set_dropped() -> void:
+	_attach.detach()
 	_state = State.Dropped
 	mode = RigidBody.MODE_RIGID
 	_sparks1.emitting = false
@@ -77,9 +90,14 @@ func _apply_dropped_push(normal:Vector3) -> void:
 	apply_impulse(pushPos, normal * 5)
 
 func start_recall() -> void:
+	_attach.detach()
 	_state = State.Recall
 	_sparks1.emitting = false
 	_sparks2.emitting = false
+
+func _set_volumes_active(flag:bool) -> void:
+	_shootableShape.disabled = !flag
+	_damageShape.disabled = !flag
 
 func _move_as_ray(_delta:float, speed:float) -> void:
 	var t:Transform = global_transform
@@ -110,7 +128,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 			# start_recall()
 			global_transform.origin = result.position - stepBack
 			if revs > 10:
-				set_stuck()
+				set_stuck(result.collider)
 			else:
 				print("Sawblade drop - no revs for entity hit")
 				set_dropped()
@@ -123,7 +141,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 		elif (body.collision_layer & Interactions.INTERACTIVE) != 0:
 			print("Hit interactive body")
 			# Interactions.use_collider(body)
-			set_stuck()
+			set_stuck(result.collider)
 			move = false
 			# print("Saw - stuck!")
 			global_transform.origin = result.position
@@ -145,7 +163,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 			#	return
 			print("Hit world")
 			if revs > 0:
-				set_stuck()
+				set_stuck(result.collider)
 			else:
 				set_dropped()
 				_apply_dropped_push(result.normal)
@@ -165,8 +183,11 @@ func _state_allows_recall() -> bool:
 	return (_state == State.Thrown || _state == State.Stuck || _state == State.Dropped)
 
 func user_switched_weapon() -> void:
-	if _state == State.Dropped:
-		start_recall()
+	# auto recall the saw blade if it is dropped and the player switches
+	# away from the saw
+	#if _state == State.Dropped:
+	#	start_recall()
+	pass
 
 # returns 1 if parent can reset to idle state
 func read_input(_weaponInput:WeaponInput) -> int:
