@@ -29,6 +29,8 @@ var _lastTransform:Transform = Transform.IDENTITY
 var _deadBall:bool = false
 var _originGravityScale:float = 1.0
 
+var _volatile:bool = false
+
 var _stakeVelocity:Vector3 = Vector3()
 
 func _ready() -> void:
@@ -44,7 +46,7 @@ func _custom_init() -> void:
 	_area.connect("body_entered", self, "on_body_entered_area")
 	_time = 999
 	# self.connect("area_entered", self, "on_area_entered_body")
-	# self.connect("body_entered", self, "on_body_entered_body")
+	self.connect("body_entered", self, "on_body_entered_body")
 
 func core_collect() -> void:
 	_dead = true
@@ -66,15 +68,19 @@ func on_body_entered_area(body) -> void:
 
 func on_body_entered_body(_body) -> void:
 	if _coreState != HyperCoreState.Stake:
+		print("Hypercore - body entered in non-stake mode")
+		if _volatile:
+			spawn_explosion(self.global_transform.origin)
+			_remove_self()
 		# bump
 		#if !_deadBall && Interactions.is_obj_a_mob(_body):
 		#	_deadBall = true
 		#	linear_velocity = Vector3(0, 3, 0)
 		return
 	#print("Hyper core stop")
-	self.mode = MODE_KINEMATIC
-	_coreState = HyperCoreState.Stuck
-	global_transform = _lastTransform
+	#self.mode = MODE_KINEMATIC
+	#_coreState = HyperCoreState.Stuck
+	#global_transform = _lastTransform
 
 func _spawn_now() -> void:
 	._spawn_now()
@@ -225,6 +231,10 @@ func _step_as_stake(delta:float) -> void:
 			self.queue_free()
 			return
 		#print("Stake hit node: " + str(result.collider.name))
+		if _volatile:
+			spawn_explosion(self.global_transform.origin)
+			_remove_self()
+			return
 		_coreState = HyperCoreState.Stuck
 		# step out slightly or will be IN geometry
 		var pos:Vector3 = result.position + (result.normal * 0.2)
@@ -239,6 +249,10 @@ func add_boost(boost:int) -> void:
 		_scaleBoost = 3
 	_light.omni_range = 3 + _scaleBoost
 	_refresh()
+
+func _remove_self() -> void:
+	_dead = true
+	self.queue_free()
 
 func hit(_hitInfo:HitInfo) -> int:
 	if _dead:
@@ -260,6 +274,8 @@ func hit(_hitInfo:HitInfo) -> int:
 		self.linear_velocity = Vector3(0.0, 10.0, 0.0)
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_STAKE:
+		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_SAW_PROJECTILE:
+			_volatile = true
 		return _change_to_stake(_hitInfo.direction)
 	elif combo == Interactions.COMBO_CLASS_ROCKET:
 		add_boost(3)
@@ -270,14 +286,14 @@ func hit(_hitInfo:HitInfo) -> int:
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE:
 		light_fuse()
+		_volatile = true
 		_apply_kinetic_push(_hitInfo.direction)
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE_PROJECTILE:
 		return _change_to_stake(_hitInfo.direction)
 	else:
 		spawn_explosion(self.global_transform.origin)
-	_dead = true
-	self.queue_free()
+	_remove_self()
 	return Interactions.HIT_RESPONSE_ABSORBED
 
 func _physics_process(_delta:float) -> void:

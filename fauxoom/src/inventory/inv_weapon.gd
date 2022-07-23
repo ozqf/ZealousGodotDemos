@@ -32,6 +32,7 @@ var _hud = null
 var _inventory = null
 var _hitInfo:HitInfo = null
 var _leftNext:bool = false
+var _lastFireSingleHit:bool = false
 
 var tick:float = 0
 var hyperLevel:int = 0
@@ -199,6 +200,7 @@ func _fire_single(forward:Vector3, scanRange:float) -> Vector3:
 	if result:
 		_perform_hit(result, forward)
 		hitPoint = result.position
+		_lastFireSingleHit = true
 	# perform second scan for debris that will not interfer with the damage scan
 	result = ZqfUtils.quick_hitscan3D(_launchNode, scanRange, _ignoreBody, Interactions.get_corpse_hit_mask())
 	if result:

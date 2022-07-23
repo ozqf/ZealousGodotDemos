@@ -62,6 +62,8 @@ func change_state(newState) -> void:
 		_hudSprite.run_shoot_push()
 	elif _state == State.Recalling:
 		.play_empty()
+	elif _state == State.MeleeRecover:
+		return
 	else:
 		#print("Saw play idle")
 		_hudSprite.play(idle)
@@ -70,8 +72,9 @@ func _perform_hit(_result:Dictionary, _forward:Vector3) -> int:
 	_hitInfo.damage = int(_revs)
 	var inflicted:int = ._perform_hit(_result, _forward)
 	if inflicted > 0:
+		_hudSprite.run_shoot_push()
 		_revs = 0
-		_hudSprite.play(idle)
+		# _hudSprite.play(idle)
 		change_state(State.MeleeRecover)
 		tick = ATTACK_REFIRE_TIME
 	return inflicted
