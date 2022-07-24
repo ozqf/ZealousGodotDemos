@@ -11,8 +11,11 @@ const REV_DOWN_TIME:float = 8.0
 onready var _display:Spatial = $display
 onready var _sparks1:CPUParticles = $display/sparks_1
 onready var _sparks2:CPUParticles = $display/sparks_2
+onready var _blood1:CPUParticles = $display/blood_1
+onready var _blood2:CPUParticles = $display/blood_2
 onready var _shootableArea:Area = $shootable_area
 onready var _shootableShape:CollisionShape = $shootable_area/CollisionShape
+onready var _damageArea:ZqfVolumeScanner = $damage_area
 onready var _damageShape:CollisionShape = $damage_area/CollisionShape
 onready var _attach:ZqfTempChild = $attach
 
@@ -24,6 +27,11 @@ var _hitInfo:HitInfo = null
 var revs:float = 0
 var _rotDegrees:float = 0
 
+var _emitParticles:bool = false
+var _bloodEmitTick:float = 0.0
+
+var _damageTick:float = 0.0
+
 var _worldParent:Spatial
 var _attachParent:Spatial
 
@@ -33,10 +41,48 @@ func _ready() -> void:
 	_hitInfo.damage = 15
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SAW_PROJECTILE
 	_hitInfo.comboType = Interactions.COMBO_CLASS_SAWBLADE_PROJECTILE
+	_hitInfo.attackTeam = Interactions.TEAM_PLAYER
 	_sparks1.emitting = false
 	_sparks2.emitting = false
+	_blood1.emitting = false
+	_blood2.emitting = false
 	_shootableArea.set_subject(self)
 	_set_volumes_active(false)
+	_attach.connect("detached", self, "_on_detached_from_body")
+
+func _set_particle_emit(flag:bool) -> void:
+	_emitParticles = flag
+	
+
+func _tick_particles(_delta:float) -> void:
+	_bloodEmitTick -= _delta
+	if !_emitParticles:
+		_sparks1.emitting = false
+		_sparks2.emitting = false
+		_blood1.emitting = false
+		_blood2.emitting = false
+		return
+	if _bloodEmitTick > 0.0:
+		_sparks1.emitting = false
+		_sparks2.emitting = false
+		_blood1.emitting = true
+		_blood2.emitting = true
+	else:
+		_sparks1.emitting = true
+		_sparks2.emitting = true
+		_blood1.emitting = false
+		_blood2.emitting = false
+
+func _on_detached_from_body() -> void:
+	# fire downwards
+	if !_state == State.Stuck:
+		return
+	var below:Vector3 = global_transform.origin
+	below.y -= 1.0
+	ZqfUtils.look_at_safe(self, below)
+	var t:Transform = global_transform
+	launch(t, revs)
+	pass
 
 func hit(_incomingHitInfo:HitInfo) -> int:
 	if _state == State.Dropped:
@@ -62,15 +108,13 @@ func off() -> void:
 	disable_body()
 	_state = State.Idle
 	visible = false
-	_sparks1.emitting = false
-	_sparks2.emitting = false
+	_set_particle_emit(false)
 	_set_volumes_active(false)
 
 func set_stuck(collider) -> void:
 	_attach.attach(collider)
 	_state = State.Stuck
-	_sparks1.emitting = true
-	_sparks2.emitting = true
+	_set_particle_emit(true)
 
 func disable_body() -> void:
 	mode = RigidBody.MODE_KINEMATIC
@@ -79,8 +123,7 @@ func set_dropped() -> void:
 	_attach.detach()
 	_state = State.Dropped
 	mode = RigidBody.MODE_RIGID
-	_sparks1.emitting = false
-	_sparks2.emitting = false
+	_set_particle_emit(false)
 
 func _apply_dropped_push(normal:Vector3) -> void:
 	var pushPos:Vector3 = Vector3()
@@ -92,8 +135,7 @@ func _apply_dropped_push(normal:Vector3) -> void:
 func start_recall() -> void:
 	_attach.detach()
 	_state = State.Recall
-	_sparks1.emitting = false
-	_sparks2.emitting = false
+	_set_particle_emit(false)
 
 func _set_volumes_active(flag:bool) -> void:
 	_shootableShape.disabled = !flag
@@ -214,6 +256,19 @@ func _calc_stun_time() -> float:
 		timeFromRevs = 1
 	return timeFromRevs
 
+func _damage_tick() -> void:
+	if revs <= 0:
+		return
+	var selfPos:Vector3 = global_transform.origin
+	for body in _damageArea.bodies:
+		var tarPos:Vector3 = body.global_transform.origin
+		var toward:Vector3 = (tarPos - selfPos).normalized()
+		_hitInfo.direction = toward
+		_hitInfo.damage = 5
+		if Interactions.hit(_hitInfo, body) > 0.0:
+			_bloodEmitTick = 0.2
+	pass
+
 func _physics_process(_delta):
 	# if we have no player to belong to just switch off
 	var targetDict:Dictionary = AI.get_player_target()
@@ -221,6 +276,12 @@ func _physics_process(_delta):
 		off()
 		return
 	
+	if _damageTick <= 0.0:
+		_damageTick = 0.1
+		_damage_tick()
+	else:
+		_damageTick -= _delta
+	_tick_particles(_delta)
 	_hitInfo.stunOverrideTime = _calc_stun_time()
 	_hitInfo.stunOverrideDamage = int(revs)
 	# tick
@@ -244,8 +305,8 @@ func _physics_process(_delta):
 			# print("Particle count " + str(particleCount))
 			# _sparks1.amount = particleCount
 			# _sparks2.amount = particleCount
-			_sparks1.amount = 16
-			_sparks2.amount = 16
+			#_sparks1.amount = 16
+			#_sparks2.amount = 16
 		else:
 			print("Sawblade drop - ran out of revs")
 			set_dropped()

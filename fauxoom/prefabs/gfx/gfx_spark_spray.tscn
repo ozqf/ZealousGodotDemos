@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_unshaded = true
+params_billboard_mode = 1
+albedo_color = Color( 1, 1, 0, 1 )
+
+[sub_resource type="QuadMesh" id=3]
+size = Vector2( 0.1, 0.1 )
+
+[node name="gfx_spark_spray" type="CPUParticles"]
+material_override = SubResource( 2 )
+cast_shadow = 0
+emitting = false
+amount = 96
+lifetime = 2.0
+local_coords = false
+mesh = SubResource( 3 )
+direction = Vector3( 0, 1, 0 )
+spread = 10.0
+gravity = Vector3( 0, -20, 0 )
+initial_velocity = 9.0

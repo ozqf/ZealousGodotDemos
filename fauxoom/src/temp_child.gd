@@ -1,6 +1,8 @@
 extends Spatial
 class_name ZqfTempChild
 
+signal detached()
+
 onready var m_subject: Spatial
 
 var m_worldParent: Spatial = null
@@ -34,13 +36,17 @@ func _on_attach_parent_removed():
 		return
 	# return to previous parent
 	# var globalT = m_recallGlobalT
-	var globalT = m_subject.global_transform
+	# var globalT = m_subject.global_transform
 	m_attachParent.remove_child(m_subject)
 	m_worldParent.add_child(m_subject)
-	m_subject.global_transform = globalT
+	# m_subject.global_transform = globalT
+	m_subject.global_transform = m_recallGlobalT
 	m_attachParent.disconnect("tree_exiting", self, "_on_attach_parent_removed")
 	m_attachParent = null
+	self.emit_signal("detached")
 
-#func custom_physics_process(_delta:float) -> void:
-#	# record global transform for recall if attach parent dies
-#	m_recallGlobalT = m_worldBody.get_global_transform()
+func _physics_process(_delta:float) -> void:
+	# record global transform for recall if attach parent dies
+	# as on_exiting has already cleared transforms by the time we
+	# hear about it
+	m_recallGlobalT = m_subject.global_transform
