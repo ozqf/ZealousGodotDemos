@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/RAILING.png-08a5663a0ee0de5e83097b705244c4ae.stex"
+path="res://.import/doortrak.png-ea5a4c1b43a3c041ae1dd206af851404.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/world/raw/RAILING.png"
-dest_files=[ "res://.import/RAILING.png-08a5663a0ee0de5e83097b705244c4ae.stex" ]
+source_file="res://assets/world/raw_freedoom/doortrak.png"
+dest_files=[ "res://.import/doortrak.png-ea5a4c1b43a3c041ae1dd206af851404.stex" ]
 
 [params]
 
@@ -19,16 +19,17 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=0
+flags/repeat=true
 flags/filter=false
-flags/mipmaps=false
+flags/mipmaps=true
 flags/anisotropic=false
-flags/srgb=2
+flags/srgb=1
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

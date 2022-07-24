@@ -2,19 +2,21 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/doortrak.png-626f566a96c8175815a40ec2e8b60991.stex"
+path.s3tc="res://.import/aqsupp05.png-4162a9846f83ffa7adf9b78b1a1fcf69.s3tc.stex"
+path.etc2="res://.import/aqsupp05.png-4162a9846f83ffa7adf9b78b1a1fcf69.etc2.stex"
 metadata={
-"vram_texture": false
+"imported_formats": [ "s3tc", "etc2" ],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://assets/world/raw/doortrak.png"
-dest_files=[ "res://.import/doortrak.png-626f566a96c8175815a40ec2e8b60991.stex" ]
+source_file="res://assets/world/raw_freedoom/aqsupp05.png"
+dest_files=[ "res://.import/aqsupp05.png-4162a9846f83ffa7adf9b78b1a1fcf69.s3tc.stex", "res://.import/aqsupp05.png-4162a9846f83ffa7adf9b78b1a1fcf69.etc2.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

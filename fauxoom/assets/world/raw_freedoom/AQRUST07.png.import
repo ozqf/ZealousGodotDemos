@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/fwater1.png-9d464fff7090c7f7b00d46bb9024d648.s3tc.stex"
-path.etc2="res://.import/fwater1.png-9d464fff7090c7f7b00d46bb9024d648.etc2.stex"
+path.s3tc="res://.import/AQRUST07.png-422915a636ef2dd2f41d58f49b17a13b.s3tc.stex"
+path.etc2="res://.import/AQRUST07.png-422915a636ef2dd2f41d58f49b17a13b.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/world/raw/fwater1.png"
-dest_files=[ "res://.import/fwater1.png-9d464fff7090c7f7b00d46bb9024d648.s3tc.stex", "res://.import/fwater1.png-9d464fff7090c7f7b00d46bb9024d648.etc2.stex" ]
+source_file="res://assets/world/raw_freedoom/AQRUST07.png"
+dest_files=[ "res://.import/AQRUST07.png-422915a636ef2dd2f41d58f49b17a13b.s3tc.stex", "res://.import/AQRUST07.png-422915a636ef2dd2f41d58f49b17a13b.etc2.stex" ]
 
 [params]
 
@@ -30,6 +30,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=false

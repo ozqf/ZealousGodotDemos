@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/aqf049.png-3c3b2444e015fa16ff33ff507ba907fa.s3tc.stex"
-path.etc2="res://.import/aqf049.png-3c3b2444e015fa16ff33ff507ba907fa.etc2.stex"
+path.s3tc="res://.import/aqsect04.png-caf989a5c12a38e2d787924c332efbde.s3tc.stex"
+path.etc2="res://.import/aqsect04.png-caf989a5c12a38e2d787924c332efbde.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/world/raw/aqf049.png"
-dest_files=[ "res://.import/aqf049.png-3c3b2444e015fa16ff33ff507ba907fa.s3tc.stex", "res://.import/aqf049.png-3c3b2444e015fa16ff33ff507ba907fa.etc2.stex" ]
+source_file="res://assets/world/raw_freedoom/aqsect04.png"
+dest_files=[ "res://.import/aqsect04.png-caf989a5c12a38e2d787924c332efbde.s3tc.stex", "res://.import/aqsect04.png-caf989a5c12a38e2d787924c332efbde.etc2.stex" ]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=1
+flags/repeat=true
 flags/filter=false
 flags/mipmaps=true
 flags/anisotropic=false
@@ -30,6 +30,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=false
