@@ -90,8 +90,9 @@ func _process(_delta:float) -> void:
 	# record previous input state
 	_weaponInput.primaryOnPrev = _weaponInput.primaryOn
 	_weaponInput.secondaryOnPrev = _weaponInput.secondaryOn
+	_weaponInput.tieraryOnPrev = _weaponInput.tieraryOn
 	
-	if _weaponInput.primaryOn || _weaponInput.secondaryOn:
+	if _weaponInput.primaryOn || _weaponInput.secondaryOn || _weaponInput.tieraryOn:
 		noAttackTime = 0.0
 	else:
 		noAttackTime += _delta
@@ -99,14 +100,17 @@ func _process(_delta:float) -> void:
 	# apply new input state
 	_weaponInput.primaryOn = Input.is_action_pressed("attack_1")
 	_weaponInput.secondaryOn = Input.is_action_pressed("attack_2")
+	_weaponInput.tieraryOn = Input.is_action_pressed("attack_3")
 	if !_active:
 		_weaponInput.primaryOn = false
 		_weaponInput.secondaryOn = false
+		_weaponInput.tieraryOn = false
 		_charging = false
 	
 	if _meleeTick > 0:
 		_weaponInput.primaryOn = false
 		_weaponInput.secondaryOn = false
+		_weaponInput.tieraryOn = false
 		_meleeTick -= _delta
 	else:
 		###############################################################

@@ -1,15 +1,14 @@
 extends AnimatedSprite
 class_name HudWeaponSprite
 
-# public
+export var pushBoostDistance:int = 48
+export var pushDuration:float = 0.15
 var nextAnim:String = ""
 
-# private
 var _screenOrigin:Vector2
 var _pushOrigin:Vector2
 var _pushOffset:Vector2 = Vector2()
 var _pushTime:float = 0.0
-var _duration:float = 0.15
 
 var _a:Vector2 = Vector2()
 var _b:Vector2 = Vector2()
@@ -20,7 +19,7 @@ var _swayOffset:Vector2 = Vector2()
 func _ready():
 	_screenOrigin = position
 	_pushOrigin = _screenOrigin
-	_pushOrigin.y += 48
+	_pushOrigin.y += pushBoostDistance
 	_a = _screenOrigin
 	_b = _screenOrigin
 	var _r = connect("animation_finished", self, "on_animation_finished")
@@ -48,7 +47,7 @@ func run_shoot_push() -> void:
 
 func _process(_delta:float):
 	_pushTime += _delta
-	var weight:float = _pushTime / _duration
+	var weight:float = _pushTime / pushDuration
 	if weight > 1.0:
 		weight = 1.0
 	position = _a.linear_interpolate(_b, weight) + _swayOffset

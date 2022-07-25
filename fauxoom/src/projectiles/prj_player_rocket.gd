@@ -33,7 +33,7 @@ func _run_explosion_hits(bodies) -> void:
 			tarPos = body.get_mass_centre()
 		else:
 			tarPos = body.global_transform.origin
-		Game.draw_trail(_hitInfo.origin, tarPos)
+		#Game.draw_trail(_hitInfo.origin, tarPos)
 		
 		body.set_collision_layer_bit(Interactions.EXPLOSION_CHECK_LAYER, true)
 		var result = ZqfUtils.hitscan_by_position_3D(

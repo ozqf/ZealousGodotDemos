@@ -1,6 +1,7 @@
 extends InvWeapon
 
 var _prj_flak_t = preload("res://prefabs/projectiles/prj_flak.tscn")
+var _prj_grenade_t = preload("res://prefabs/projectiles/prj_player_flak_grenade.tscn")
 
 const PELLET_COUNT:int = 18 # 14
 
@@ -21,12 +22,25 @@ func custom_init_b() -> void:
 	_brassNode = _launchNode.find_node("ejected_brass_spawn")
 	_hudSprite = _hud.hud_get_weapon_sprite("weapon_ssg")
 	_hudSprite.play(idle)
+	_prjMask = Interactions.get_player_prj_mask()
 
 func _fire_flak(origin:Vector3, forward:Vector3) -> void:
 	var prj = _prj_flak_t.instance()
 	Game.get_dynamic_parent().add_child(prj)
 	prj.launch_prj(origin, forward, 1, Interactions.TEAM_PLAYER, _prjMask)
 	prj.get_hit_info().burnSourceMask = Interactions.BURN_SOURCE_BIT_FLAK
+	pass
+
+func _fire_grenade() -> void:
+	tick = refireTime
+	var origin:Vector3 = _launchNode.global_transform.origin
+	var forward:Vector3 = -_launchNode.global_transform.basis.z
+	var grenade = _prj_grenade_t.instance()
+	Game.get_dynamic_parent().add_child(grenade)
+	grenade.maxSpeed = 20.0
+	grenade.gravity = -0.1
+	grenade.launch_prj(origin, forward, 1, Interactions.PLAYER, _prjMask)
+	grenade.ownerId = _inventory.get_owner_ent_id()
 	pass
 
 func _fire(hyper:bool) -> void:
@@ -88,10 +102,17 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		# else:
 		# 	_inventory.take_item("rage", Interactions.HYPER_COST_SHOTGUN)
 	elif _weaponInput.secondaryOn:
+		_fire_grenade()
+		# if _inventory.get_count("rage") < Interactions.HYPER_COST_SHOTGUN:
+		# 	return
+		# _inventory.take_item("rage", Interactions.HYPER_COST_SHOTGUN)
+		# _fire(true)
+	elif _weaponInput.tieraryOn:
 		if _inventory.get_count("rage") < Interactions.HYPER_COST_SHOTGUN:
 			return
 		_inventory.take_item("rage", Interactions.HYPER_COST_SHOTGUN)
 		_fire(true)
+
 
 func is_cycling() -> bool:
 	if !Game.allowQuickSwitching:

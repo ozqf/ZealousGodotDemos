@@ -12,6 +12,7 @@ export var laserGuided:bool = false
 # all projectiles have an animator
 onready var animator:CustomAnimator3D = $CustomAnimator3D
 
+export var gravity:float = 0.0
 # these are optional - setup in _ready
 export var deathSpawnPrefab:Resource = null
 
@@ -121,6 +122,11 @@ func _move_as_ray(_delta:float) -> void:
 	origin -= (forward * 0.1)
 	var step:float = _speed * _delta
 	var dest = origin + (forward * step)
+	# horrible hacky gravity
+	if gravity != 0.0:
+		dest.y += (gravity * _delta)
+		# dest = dest.normalized() * _speed
+		ZqfUtils.look_at_safe(self, dest)
 	# var speed:float = _velocity.length()
 	if _speed == 0:
 		return

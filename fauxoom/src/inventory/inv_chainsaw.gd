@@ -69,9 +69,10 @@ func change_state(newState) -> void:
 		_hudSprite.play(idle)
 
 func _perform_hit(_result:Dictionary, _forward:Vector3) -> int:
-	_hitInfo.damage = int(_revs)
+	_hitInfo.damage = int(_revs) * 2
 	var inflicted:int = ._perform_hit(_result, _forward)
 	if inflicted > 0:
+		Game.spawn_blood_spurt(_result.position)
 		_hudSprite.run_shoot_push()
 		_revs = 0
 		# _hudSprite.play(idle)

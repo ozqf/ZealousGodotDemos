@@ -28,6 +28,8 @@ var prefab_explosion_sprite_t = preload("res://prefabs/dynamic_entities/rocket_e
 var prefab_impact = preload("res://prefabs/bullet_impact.tscn")
 var prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
 
+var _prefab_blood_spurt = preload("res://prefabs/gfx/gfx_blood_spurt.tscn")
+
 var _trail_t = preload("res://prefabs/gfx/gfx_rail_trail.tscn")
 var _prefab_ground_target_t = preload("res://prefabs/gfx/ground_target_marker.tscn")
 var prefab_shockwave_t = preload("res://prefabs/gfx/gfx_shockwave.tscn")
@@ -785,6 +787,12 @@ func spawn_ground_target(targetPos:Vector3, duration:float) -> Vector3:
 	var obj = _prefab_ground_target_t.instance()
 	Game.get_dynamic_parent().add_child(obj)
 	return obj.run(targetPos, duration)
+
+func spawn_blood_spurt(pos:Vector3) -> void:
+	var obj = _prefab_blood_spurt.instance()
+	self.get_dynamic_parent().add_child(obj)
+	obj.global_transform.origin = pos
+	obj.emitting = true
 
 func explosion_shake(_origin:Vector3) -> void:
 	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_EVENT_EXPLOSION, _origin, 1.0)

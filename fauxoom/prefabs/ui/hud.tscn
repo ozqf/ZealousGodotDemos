@@ -100,6 +100,8 @@ script = ExtResource( 18 )
 __meta__ = {
 "_edit_lock_": true
 }
+pushBoostDistance = 128
+pushDuration = 0.4
 
 [node name="weapon_left" type="AnimatedSprite" parent="view_sprites/gun"]
 visible = false
@@ -125,8 +127,7 @@ __meta__ = {
 }
 
 [node name="weapon_pistol_left" type="AnimatedSprite" parent="view_sprites/gun"]
-visible = false
-position = Vector2( 388.406, 472 )
+position = Vector2( 256, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 22 )
 animation = "pistol_idle"
@@ -137,8 +138,7 @@ __meta__ = {
 }
 
 [node name="weapon_pistol_right" type="AnimatedSprite" parent="view_sprites/gun"]
-visible = false
-position = Vector2( 634.247, 472 )
+position = Vector2( 768, 472 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 22 )
 animation = "pistol_idle"
