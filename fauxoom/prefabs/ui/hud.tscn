@@ -54,26 +54,29 @@ script = ExtResource( 18 )
 
 [node name="weapon_ssg" type="AnimatedSprite" parent="view_sprites/gun"]
 visible = false
-position = Vector2( 510.589, 472 )
-scale = Vector2( 2, 2 )
+position = Vector2( 510.589, 409 )
+scale = Vector2( 3, 3 )
 frames = ExtResource( 2 )
 animation = "ssg_idle"
 playing = true
 script = ExtResource( 18 )
+pushBoostDistance = 72
+pushDuration = 0.2
 
 [node name="weapon_pg" type="AnimatedSprite" parent="view_sprites/gun"]
 visible = false
-position = Vector2( 510.589, 472 )
-scale = Vector2( 2, 2 )
+position = Vector2( 510.589, 408 )
+scale = Vector2( 3, 3 )
 frames = ExtResource( 19 )
 animation = "pg_idle"
 playing = true
 script = ExtResource( 18 )
+pushBoostDistance = 72
 
 [node name="weapon_rl" type="AnimatedSprite" parent="view_sprites/gun"]
 visible = false
-position = Vector2( 510.589, 472 )
-scale = Vector2( 2, 2 )
+position = Vector2( 510.589, 408 )
+scale = Vector2( 3, 3 )
 frames = ExtResource( 21 )
 animation = "rl_idle"
 playing = true
@@ -92,14 +95,11 @@ __meta__ = {
 
 [node name="weapon_saw" type="AnimatedSprite" parent="view_sprites/gun"]
 visible = false
-position = Vector2( 510.589, 344 )
-scale = Vector2( 2, 2 )
+position = Vector2( 510.589, 216 )
+scale = Vector2( 3, 3 )
 frames = ExtResource( 20 )
 animation = "saw_idle"
 script = ExtResource( 18 )
-__meta__ = {
-"_edit_lock_": true
-}
 pushBoostDistance = 128
 pushDuration = 0.4
 
@@ -127,25 +127,21 @@ __meta__ = {
 }
 
 [node name="weapon_pistol_left" type="AnimatedSprite" parent="view_sprites/gun"]
-position = Vector2( 256, 472 )
-scale = Vector2( 2, 2 )
+visible = false
+position = Vector2( 318, 408 )
+scale = Vector2( 3, 3 )
 frames = ExtResource( 22 )
 animation = "pistol_idle"
 flip_h = true
 script = ExtResource( 18 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="weapon_pistol_right" type="AnimatedSprite" parent="view_sprites/gun"]
-position = Vector2( 768, 472 )
-scale = Vector2( 2, 2 )
+visible = false
+position = Vector2( 704, 408 )
+scale = Vector2( 3, 3 )
 frames = ExtResource( 22 )
 animation = "pistol_idle"
 script = ExtResource( 18 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="bottom_right" type="Control" parent="view_sprites"]
 anchor_left = 1.0

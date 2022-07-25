@@ -24,6 +24,16 @@ func custom_init_b() -> void:
 	_hudSprite.play(idle)
 	_prjMask = Interactions.get_player_prj_mask()
 
+func _run_fire_animation() -> void:
+	_hudSprite.play(fire_1)
+	_hudSprite.nextAnim = idle
+	_hudSprite.run_shoot_push()
+	_hud.hudAudio.play_stream_weapon_1(_ssgShoot)
+
+	_lastSoundFrame = - 1
+	_inventory.take_item(ammoType, ammoPerShot)
+	self.emit_signal("weapon_action", self, "fire")
+
 func _fire_flak(origin:Vector3, forward:Vector3) -> void:
 	var prj = _prj_flak_t.instance()
 	Game.get_dynamic_parent().add_child(prj)
@@ -41,7 +51,7 @@ func _fire_grenade() -> void:
 	grenade.gravity = -0.1
 	grenade.launch_prj(origin, forward, 1, Interactions.PLAYER, _prjMask)
 	grenade.ownerId = _inventory.get_owner_ent_id()
-	pass
+	_run_fire_animation()
 
 func _fire(hyper:bool) -> void:
 	tick = refireTime
@@ -65,14 +75,7 @@ func _fire(hyper:bool) -> void:
 	#Game.spawn_ejected_shell(t.origin, brassForward, 1, 3, 2)
 	
 	# .play_fire_1(false)
-	_hudSprite.play(fire_1)
-	_hudSprite.nextAnim = idle
-	_hudSprite.run_shoot_push()
-	_hud.hudAudio.play_stream_weapon_1(_ssgShoot)
-
-	_lastSoundFrame = - 1
-	_inventory.take_item(ammoType, ammoPerShot)
-	self.emit_signal("weapon_action", self, "fire")
+	_run_fire_animation()
 
 # func equip() -> void:
 # 	_equipped = true
@@ -90,7 +93,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 	# if check_hyper_attack(Interactions.HYPER_COST_SHOTGUN):
 	# 	fireHyper = true
 	
-	if tick > 0:
+	if tick > 0 || _inventory.get_count(ammoType) < ammoPerShot:
 		return
 
 	if _weaponInput.primaryOn:

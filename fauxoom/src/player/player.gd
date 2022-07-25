@@ -283,7 +283,7 @@ func _tick_hyper(_delta:float) -> void:
 	var cost:int = Interactions.HYPER_ACTIVATE_MINIMUM
 	var duration:float = Interactions.HYPER_DURATION
 
-	# infinity hyper if god mode is on
+	# cheats
 	if _endlessRage:
 		_rageRestoreTick += _delta
 		if _rageRestoreTick > (1.0 / 5.0):
@@ -358,7 +358,7 @@ func _process(_delta:float) -> void:
 
 	# check full rage message
 	var rage:int = _inventory.get_count("rage")
-	if rage == 100 && _previousRage < 100:
+	if rage == 100 && _previousRage < 100 && !_endlessRage:
 		Main.submit_console_command("flashy ENERGY MAX")
 	_previousRage = rage
 

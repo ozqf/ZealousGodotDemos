@@ -42,6 +42,8 @@ var _eventCount:int = 0
 
 var _totalEventSeconds:float = 0.0
 
+var _hudStatus:PlayerHudStatus = null
+
 var _weapons = [
 	# "pistol",
 	# "chainsaw",
@@ -53,6 +55,7 @@ var _weapons = [
 func _ready() -> void:
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
+	add_to_group(Groups.PLAYER_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	var _result = _ent.connect("entity_append_state", self, "append_state")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
@@ -63,6 +66,9 @@ func _ready() -> void:
 	#_eventCount = 2
 	if !Main.is_in_game():
 		_set_state(KingTowerState.InEditor)
+
+func player_status_update(data:PlayerHudStatus) -> void:
+	_hudStatus = data
 
 func _on_body_entered_forcefield_detector(body) -> void:
 	if body.has_method("set_active"):
@@ -136,7 +142,7 @@ func _spawn_next_weapon() -> void:
 	var i:int = int(rand_range(0, l))
 	var type:String = _weapons[i]
 	_weapons.remove(i)
-	_spawn_item(type, 99, true)
+	_spawn_item(type, 999, true)
 
 func pick_spawn_point() -> Transform:
 	var numPoints:int = _pointEnts.size()
@@ -301,12 +307,16 @@ func _process(_delta:float):
 	#else:
 	#	_mobSpawnTick -= _delta
 	
-	if _ammoTick <= 0.0:
+	if _ammoTick <= 0.0 && _hudStatus != null:
 		_ammoTick = _ammoCooldown
 		for _i in range(0, 2):
-			_spawn_item("bullet_l")
-			_spawn_item("shell_l")
-			_spawn_item("cell_l")
-			_spawn_item("rocket_l")
+			if _hudStatus.hasPistol:
+				_spawn_item("bullet_l")
+			if _hudStatus.hasSuperShotgun:
+				_spawn_item("shell_l")
+			if _hudStatus.hasRailgun:
+				_spawn_item("cell_l")
+			if _hudStatus.hasRocketLauncher:
+				_spawn_item("rocket_l")
 	else:
 		_ammoTick -= _delta

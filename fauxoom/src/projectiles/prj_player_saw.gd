@@ -251,10 +251,13 @@ func spin_display(_delta:float) -> void:
 	_display.rotation_degrees = Vector3(_rotDegrees, 0, 0)
 
 func _calc_stun_time() -> float:
-	var timeFromRevs:float = REV_DOWN_TIME * (revs / 100.0)
-	if  timeFromRevs < 1:
-		timeFromRevs = 1
-	return timeFromRevs
+	# stuns are delivered during damage over time when stuck,
+	# so don't apply a huge stun immediately anymore
+	#var timeFromRevs:float = REV_DOWN_TIME * (revs / 100.0)
+	#if  timeFromRevs < 1:
+	#	timeFromRevs = 1
+	#return timeFromRevs
+	return 1.0
 
 func _damage_tick() -> void:
 	if revs <= 0:
