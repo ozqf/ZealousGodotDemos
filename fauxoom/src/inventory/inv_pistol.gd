@@ -58,9 +58,11 @@ func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> voi
 	if check_hyper_attack(Interactions.HYPER_COST_PISTOL):
 		_hitInfo.stunOverrideTime = 1
 		_hitInfo.stunOverrideDamage = 200
+		_hitInfo.hyperLevel = 1
 	else:
 		_hitInfo.stunOverrideTime = -1
 		_hitInfo.stunOverrideDamage = -1
+		_hitInfo.hyperLevel = 0
 	var t:Transform = self._launchNode.global_transform
 	var forward:Vector3 = -_launchNode.global_transform.basis.z
 	var spreadX:float = rand_range(-_spreadX, _spreadX) * shotSpreadScale
@@ -76,6 +78,7 @@ func _fire_flare(hyper:bool) -> void:
 		Game.get_dynamic_parent().add_child(prj)
 		prj.override_damage(35)
 		prj.get_hit_info().burnSourceMask = Interactions.BURN_SOURCE_BIT_FLARE
+		prj.get_hit_info().hyperLevel = 1
 	else:
 		prj = Game.stake_t.instance()
 		Game.get_dynamic_parent().add_child(prj)

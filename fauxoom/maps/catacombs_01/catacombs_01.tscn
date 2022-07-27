@@ -215,15 +215,29 @@ omni_range = 10.0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 10.8, 8.6 )
 light_energy = 0.8
 shadow_enabled = true
-omni_range = 25.0
-omni_attenuation = 0.210224
+omni_range = 22.0
+omni_attenuation = 0.392292
 
 [node name="OmniLight3" type="OmniLight" parent="lights"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1, 10.8, 8.6 )
 light_energy = 0.8
 shadow_enabled = true
-omni_range = 25.0
-omni_attenuation = 0.210224
+omni_range = 22.546
+omni_attenuation = 0.435275
+
+[node name="OmniLight6" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 14.4, -17.2 )
+light_energy = 0.8
+shadow_enabled = true
+omni_range = 15.0
+omni_attenuation = 0.435275
+
+[node name="OmniLight7" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 7.4, -14 )
+light_energy = 0.8
+shadow_enabled = true
+omni_range = 15.0
+omni_attenuation = 0.435275
 
 [node name="Navigation" type="Navigation" parent="."]
 script = ExtResource( 6 )

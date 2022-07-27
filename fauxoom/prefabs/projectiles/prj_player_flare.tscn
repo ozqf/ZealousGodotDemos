@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/sprites/frames/64x64_projectile_frames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://prefabs/dynamic_entities/rocket_explosion.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/instant_area_scan.gd" type="Script" id=3]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=4]
 [ext_resource path="res://src/projectiles/projectile.gd" type="Script" id=5]
+[ext_resource path="res://assets/objects/projectile_spike.tres" type="CylinderMesh" id=6]
 
 [sub_resource type="SphereShape" id=1]
 radius = 3.0
@@ -30,8 +31,14 @@ maxSpeed = 50.0
 laserGuided = true
 deathSpawnPrefab = ExtResource( 2 )
 
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+mesh = ExtResource( 6 )
+material/0 = null
+
 [node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
+visible = false
 billboard = 1
 frames = ExtResource( 1 )
 frame = 23
@@ -56,6 +63,7 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="particles" type="CPUParticles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
 material_override = SubResource( 3 )
 cast_shadow = 0
 amount = 12
