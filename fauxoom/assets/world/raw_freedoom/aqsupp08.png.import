@@ -2,21 +2,19 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/aqsupp08.png-ecf312c86d26e6ea5f0bcac653c30d9a.s3tc.stex"
-path.etc2="res://.import/aqsupp08.png-ecf312c86d26e6ea5f0bcac653c30d9a.etc2.stex"
+path="res://.import/aqsupp08.png-ecf312c86d26e6ea5f0bcac653c30d9a.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/world/raw_freedoom/aqsupp08.png"
-dest_files=[ "res://.import/aqsupp08.png-ecf312c86d26e6ea5f0bcac653c30d9a.s3tc.stex", "res://.import/aqsupp08.png-ecf312c86d26e6ea5f0bcac653c30d9a.etc2.stex" ]
+dest_files=[ "res://.import/aqsupp08.png-ecf312c86d26e6ea5f0bcac653c30d9a.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

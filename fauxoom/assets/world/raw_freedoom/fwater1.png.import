@@ -2,21 +2,19 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/fwater1.png-6e1430c45f670da11b53f902e4d53af7.s3tc.stex"
-path.etc2="res://.import/fwater1.png-6e1430c45f670da11b53f902e4d53af7.etc2.stex"
+path="res://.import/fwater1.png-6e1430c45f670da11b53f902e4d53af7.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/world/raw_freedoom/fwater1.png"
-dest_files=[ "res://.import/fwater1.png-6e1430c45f670da11b53f902e4d53af7.s3tc.stex", "res://.import/fwater1.png-6e1430c45f670da11b53f902e4d53af7.etc2.stex" ]
+dest_files=[ "res://.import/fwater1.png-6e1430c45f670da11b53f902e4d53af7.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

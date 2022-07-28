@@ -2,21 +2,19 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/aqrust02.png-a49a29dc69b06c9c756d58cf4e11ea36.s3tc.stex"
-path.etc2="res://.import/aqrust02.png-a49a29dc69b06c9c756d58cf4e11ea36.etc2.stex"
+path="res://.import/aqrust02.png-a49a29dc69b06c9c756d58cf4e11ea36.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/world/raw_freedoom/aqrust02.png"
-dest_files=[ "res://.import/aqrust02.png-a49a29dc69b06c9c756d58cf4e11ea36.s3tc.stex", "res://.import/aqrust02.png-a49a29dc69b06c9c756d58cf4e11ea36.etc2.stex" ]
+dest_files=[ "res://.import/aqrust02.png-a49a29dc69b06c9c756d58cf4e11ea36.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
