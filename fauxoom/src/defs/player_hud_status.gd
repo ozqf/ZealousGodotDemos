@@ -38,6 +38,7 @@ var fuelPercentage:float = 0.0
 # resources
 var rage:int = 0
 var bonus:int = 0
+var chainsawRevs:float = 0.0
 
 var hasPistol:bool = false
 var hasSuperShotgun:bool = false

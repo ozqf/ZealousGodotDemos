@@ -1,0 +1,96 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://src/entity.gd" type="Script" id=1]
+[ext_resource path="res://src/static_entities/threshold_switch.gd" type="Script" id=2]
+[ext_resource path="res://src/hit_redirector.gd" type="Script" id=3]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 1, 1, 0.2 )
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 2, 2, 0.4 )
+
+[sub_resource type="CylinderMesh" id=3]
+top_radius = 0.25
+bottom_radius = 0.25
+height = 1.8
+radial_segments = 8
+rings = 2
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_transparent = true
+vertex_color_use_as_albedo = true
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+emission_enabled = true
+emission = Color( 1, 0.937255, 0, 1 )
+emission_energy = 1.81
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="Gradient" id=9]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=10]
+gradient = SubResource( 9 )
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+emission_shape = 5
+emission_ring_radius = 2.0
+emission_ring_inner_radius = 0.0
+emission_ring_height = 1.0
+direction = Vector3( 0, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, -30, 0 )
+initial_velocity = 15.0
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 10 )
+anim_speed = 1.0
+
+[sub_resource type="QuadMesh" id=8]
+size = Vector2( 0.2, 0.2 )
+
+[node name="Spatial" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="hitbox" type="KinematicBody" parent="."]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="hitbox"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.8 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="hitbox"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.8 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="MeshInstance2" type="MeshInstance" parent="hitbox"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1, -0.1 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="Entity" type="Node" parent="."]
+script = ExtResource( 1 )
+prefabName = "threshold_switch"
+
+[node name="Particles" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1 )
+material_override = SubResource( 4 )
+emitting = false
+amount = 256
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB( -79, -67, -60, 158, 134, 120 )
+process_material = SubResource( 7 )
+draw_pass_1 = SubResource( 8 )

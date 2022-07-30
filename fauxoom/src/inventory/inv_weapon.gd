@@ -97,7 +97,14 @@ func is_cycling() -> bool:
 	else:
 		return tick > 0
 
-func check_hyper_attack(cost:int) -> bool:
+func check_can_hyper_attack(cost:int) -> bool:
+	if Game.hyperLevel == 0:
+		return false
+	if _inventory.get_count("rage") < cost:
+		return false
+	return true
+
+func check_and_use_hyper_attack(cost:int) -> bool:
 	if Game.hyperLevel == 0:
 		return false
 	if _inventory.get_count("rage") < cost:
@@ -151,23 +158,10 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> int:
 	_hitInfo.direction = forward
 	_hitInfo.origin = result.position
 	var interactionResult:int = Interactions.hitscan_hit(_hitInfo, result)
-
-	# mask upper and lower range
-	# var resultCode:int = interactionResult & (0xFFFF)
-	# var inflicted:int = interactionResult & (0xFFFF0000)
-	# print("Result code: " + str(resultCode) + " inflicted: " + str(inflicted))
 	var inflicted:int = interactionResult
 
 	var root:Node = get_tree().get_current_scene()
 	if inflicted == -1:
-		# var impact:Spatial = _prefab_impact.instance()
-		# root.add_child(impact)
-		# var t = impact.global_transform
-		# move the sprite back along the line of travel a little or
-		# the impact sprite will clip into the wall
-		# t.origin = result.position - (forward * 0.2)
-		# impact.global_transform = t
-
 		var spritePos:Vector3 = result.position - (forward * 0.2)
 		Game.spawn_impact_sprite(spritePos)
 		# fire debris
@@ -177,23 +171,10 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> int:
 		pass
 	elif inflicted > 1:
 		Sfx.spawn_impact(result.position)
-	# else:
-	# 	var pos = result.position
-	# 	for _i in range(0, 4):
-	# 		var blood = _prefab_blood_hit.instance()
-	# 		root.add_child(blood)
-	# 		var _range:float = 0.1
-	# 		var offset:Vector3 = Vector3(
-	# 			rand_range(-_range, _range),
-	# 			rand_range(-_range, _range),
-	# 			rand_range(-_range, _range))
-	# 		blood.global_transform.origin = (pos + offset)
 	return inflicted
 
 func _fire_single(forward:Vector3, scanRange:float) -> Vector3:
 	var mask:int = Interactions.get_player_prj_mask()
-	#var mask:int = -1
-	# var result = ZqfUtils.quick_hitscan3D(_launchNode, 1000, _ignoreBody, mask)
 	var origin:Vector3 = _launchNode.global_transform.origin
 	var result:Dictionary = ZqfUtils.hitscan_by_direction_3D(_launchNode, origin, forward, scanRange, _ignoreBody, mask)
 	var hitPoint:Vector3 = origin + (forward * scanRange)

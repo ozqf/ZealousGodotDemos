@@ -26,6 +26,7 @@ var _guided:bool = false
 var _hitInfo:HitInfo = null
 var revs:float = 0
 var _rotDegrees:float = 0
+var _lastStuckNormal:Vector3 = Vector3()
 
 var _emitParticles:bool = false
 var _bloodEmitTick:float = 0.0
@@ -84,12 +85,34 @@ func _on_detached_from_body() -> void:
 	launch(t, revs)
 	pass
 
-func hit(_incomingHitInfo:HitInfo) -> int:
-	if _state == State.Dropped:
-		_apply_dropped_push(_incomingHitInfo.direction)
-	revs += 10
+func _add_revs(amount:int) -> void:
+	revs += amount
 	if revs > 100:
 		revs = 100
+
+func hit(_incomingHitInfo:HitInfo) -> int:
+	if _state == State.Dropped:
+		if _incomingHitInfo.comboType == Interactions.COMBO_CLASS_BULLET:
+			self.apply_impulse(Vector3.ZERO, Vector3.UP * 5)
+		elif _incomingHitInfo.comboType == Interactions.COMBO_CLASS_STAKE:
+			var dir:Vector3 = _incomingHitInfo.direction
+			var selfPos:Vector3 = self.global_transform.origin
+			ZqfUtils.look_at_safe(self, selfPos + dir)
+			if revs < 25:
+				revs = 25
+			else:
+				_add_revs(5)
+			launch(self.global_transform, revs)
+		else:
+			_apply_dropped_push(_incomingHitInfo.direction)
+			return Interactions.HIT_RESPONSE_NONE
+	elif _state == State.Stuck:
+		if _incomingHitInfo.comboType == Interactions.COMBO_CLASS_STAKE:
+			pass
+		else:
+			_add_revs(5)	
+	else:
+		_add_revs(5)
 	return Interactions.HIT_RESPONSE_NONE
 
 func launch(originT:Transform, launchRevs:float) -> void:
@@ -170,6 +193,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 			# start_recall()
 			global_transform.origin = result.position - stepBack
 			if revs > 10:
+				_lastStuckNormal = result.normal
 				set_stuck(result.collider)
 			else:
 				print("Sawblade drop - no revs for entity hit")
@@ -183,6 +207,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 		elif (body.collision_layer & Interactions.INTERACTIVE) != 0:
 			print("Hit interactive body")
 			# Interactions.use_collider(body)
+			_lastStuckNormal = result.normal
 			set_stuck(result.collider)
 			move = false
 			# print("Saw - stuck!")
@@ -205,6 +230,7 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 			#	return
 			print("Hit world")
 			if revs > 0:
+				_lastStuckNormal = result.normal
 				set_stuck(result.collider)
 			else:
 				set_dropped()

@@ -15,6 +15,11 @@ var _b:Vector2 = Vector2()
 
 var _swayOffset:Vector2 = Vector2()
 
+var baseColour:Color = Color.white
+var hyperColour:Color = Color.green
+
+var _colourTick:float = 0.0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_screenOrigin = position
@@ -51,4 +56,8 @@ func _process(_delta:float):
 	if weight > 1.0:
 		weight = 1.0
 	position = _a.linear_interpolate(_b, weight) + _swayOffset
-	pass
+	
+	# colour
+	_colourTick += (_delta * 4.0)
+	var colourWeight:float = (cos(_colourTick) + 1.0) * 0.5
+	self.modulate = baseColour.linear_interpolate(hyperColour, colourWeight)

@@ -222,6 +222,8 @@ func write_hud_status(_hudStatus:PlayerHudStatus) -> void:
 	_hudStatus.hasRailgun = get_count("plasma_gun") > 0
 	_hudStatus.hasFlameThrower = get_count("flame_thrower") > 0
 	
+	#var chainsaw:InvWeapon = 
+
 	var weap:InvWeapon = get_current_weapon()
 	if weap != null:
 		# print("Inventory - write weapon status")

@@ -14,7 +14,7 @@ func custom_init_b() -> void:
 
 func _fire_rocket() -> void:
 	# consume rage if needed since attack is the same whether in hyper or not
-	var isHyper:bool = check_hyper_attack(Interactions.HYPER_COST_ROCKET)
+	var isHyper:bool = check_and_use_hyper_attack(Interactions.HYPER_COST_ROCKET)
 	
 	var rocket = Game.rocket_t.instance()
 	Game.get_dynamic_parent().add_child(rocket)

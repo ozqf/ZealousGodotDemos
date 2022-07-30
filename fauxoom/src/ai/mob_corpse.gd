@@ -156,6 +156,10 @@ func spawn(_spawnInfo:CorpseSpawnInfo, _trans:Transform) -> void:
 	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_PUNCH:
 		regular_death()
 		return
+	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_SAW:
+		regular_death()
+		damage_hit(_spawnInfo.direction, 5.0)
+		return
 	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
 		gib_death(_spawnInfo.direction)
 		return

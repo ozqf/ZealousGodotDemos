@@ -275,6 +275,16 @@ func _hyper_on() -> void:
 	#var aoe = _spawn_aoe()
 	#aoe.run_hyper_aoe(HyperAoe.TYPE_HYPER_ON, 0.0)
 
+func _tick_hyper_regen(_delta:float) -> void:
+	# frenzy auto regen to given limit
+	# limit is just low enough for a single grenade. Otherwise want to discourage
+	# hiding to regen
+	if _inventory.get_count("rage") < Interactions.HYPER_REGEN_CAP:
+		_hyperRegenTick += _delta
+		if _hyperRegenTick >= 1.0 / 1.0:
+			_hyperRegenTick = 0.0
+			_inventory.give_item("rage", 1)
+
 func _tick_hyper(_delta:float) -> void:
 	if _hyperCooldown > 0:
 		_hyperCooldown -= _delta
@@ -298,15 +308,8 @@ func _tick_hyper(_delta:float) -> void:
 			give_item("rockets", 1)
 			give_item("plasma", 1)
 	
+	_tick_hyper_regen(_delta)
 	if _hyperLevel <= 0:
-		# frenzy auto regen to given limit
-		# limit is just low enough for a single grenade. Otherwise want to discourage
-		# hiding to regen
-		if _inventory.get_count("rage") < Interactions.HYPER_REGEN_CAP:
-			_hyperRegenTick += _delta
-			if _hyperRegenTick >= 1.0 / 1.0:
-				_hyperRegenTick = 0.0
-				_inventory.give_item("rage", 1)
 		if keyPressed && _inventory.get_count("rage") >= cost && _hyperCooldown <= 0:
 			_hyper_on()
 		pass

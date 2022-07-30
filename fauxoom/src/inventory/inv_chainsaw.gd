@@ -70,8 +70,15 @@ func change_state(newState) -> void:
 
 func _perform_hit(_result:Dictionary, _forward:Vector3) -> int:
 	_hitInfo.damage = int(_revs) * 2
+	var canHyper:bool = check_can_hyper_attack(10)
+	if canHyper:
+		_hitInfo.hyperLevel = 1
+	else:
+		_hitInfo.hyperLevel = 0
 	var inflicted:int = ._perform_hit(_result, _forward)
 	if inflicted > 0:
+		if canHyper:
+			_inventory.take_item("rage", 10)
 		Game.spawn_blood_spurt(_result.position)
 		_hudSprite.run_shoot_push()
 		_revs = 0

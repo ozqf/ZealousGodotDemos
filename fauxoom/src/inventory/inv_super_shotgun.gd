@@ -90,14 +90,14 @@ func _fire(hyper:bool) -> void:
 
 func read_input(_weaponInput:WeaponInput) -> void:
 	# var fireHyper:bool = false
-	# if check_hyper_attack(Interactions.HYPER_COST_SHOTGUN):
+	# if check_and_use_hyper_attack(Interactions.HYPER_COST_SHOTGUN):
 	# 	fireHyper = true
 	
 	if tick > 0 || _inventory.get_count(ammoType) < ammoPerShot:
 		return
 
 	if _weaponInput.primaryOn:
-		var hyper:bool = check_hyper_attack(Interactions.HYPER_COST_SHOTGUN)
+		var hyper:bool = check_and_use_hyper_attack(Interactions.HYPER_COST_SHOTGUN)
 		_fire(hyper)
 		# var hyper:bool = Game.hyperLevel > 0
 		# if _inventory.get_count("rage") < Interactions.HYPER_COST_SHOTGUN:
@@ -115,7 +115,6 @@ func read_input(_weaponInput:WeaponInput) -> void:
 			return
 		_inventory.take_item("rage", Interactions.HYPER_COST_SHOTGUN)
 		_fire(true)
-
 
 func is_cycling() -> bool:
 	if !Game.allowQuickSwitching:

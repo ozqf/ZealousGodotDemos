@@ -36,6 +36,7 @@ func custom_init_b() -> void:
 	_brassLeft = _launchNode.find_node("ejected_brass_left")
 	_hudSprite = _hud.hud_get_weapon_sprite("weapon_pistol_right")
 	_offhandSprite = _hud.hud_get_weapon_sprite("weapon_pistol_left")
+	_hitInfo.comboType = Interactions.COMBO_CLASS_BULLET
 
 # quick-switch awaaaaaaay
 func is_cycling() -> bool:
@@ -55,7 +56,7 @@ func write_hud_status(statusDict:PlayerHudStatus) -> void:
 	statusDict.currentAmmo = self._inventory.get_count(self.ammoType)
 
 func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> void:
-	if check_hyper_attack(Interactions.HYPER_COST_PISTOL):
+	if check_and_use_hyper_attack(Interactions.HYPER_COST_PISTOL):
 		_hitInfo.stunOverrideTime = 1
 		_hitInfo.stunOverrideDamage = 200
 		_hitInfo.hyperLevel = 1
@@ -111,7 +112,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 	if _weaponInput.secondaryOn && !_awaitOff && ammo >= secondaryAmmoCost:
 		if !rightIsReloading:
 			var isHyper:bool = false
-			if .check_hyper_attack(10):
+			if .check_and_use_hyper_attack(10):
 				isHyper = true
 			_awaitOff = true
 			_fire_flare(isHyper)
@@ -127,7 +128,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 			#if !leftIsReloading && akimboReady:
 			if !leftIsReloading:
 				var isHyper:bool = false
-				if .check_hyper_attack(10):
+				if .check_and_use_hyper_attack(10):
 					isHyper = true
 				_awaitOff = true
 				_fire_flare(isHyper)
@@ -147,7 +148,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 	if _weaponInput.primaryOn && ammo >= ammoPerShot:
 		if !rightIsReloading:
 			var hyperMul:float = 1.0
-			if check_hyper_attack(1):
+			if check_and_use_hyper_attack(1):
 				#hyperMul = 0.5
 				_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
 			_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
@@ -162,7 +163,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		else:
 			if !leftIsReloading && akimboReady:
 				var hyperMul:float = 1.0
-				if check_hyper_attack(1):
+				if check_and_use_hyper_attack(1):
 					hyperMul = 1
 					_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
 				_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)

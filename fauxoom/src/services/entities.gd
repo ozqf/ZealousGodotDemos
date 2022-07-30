@@ -259,10 +259,14 @@ var _prefabs = {
 	},
 
 	################################################
-	# health
+	# switches
 	################################################
 	core_receptacle = {
 		prefab = preload("res://prefabs/static_entities/core_receptacle.tscn")
+	},
+
+	threshold_switch = {
+		prefab = preload("res://prefabs/static_entities/threshold_switch.tscn")
 	},
 
 	################################################

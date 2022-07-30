@@ -70,7 +70,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		return
 	if _weaponInput.primaryOn:
 		# print("Fire plasma - dmg " + str(_hitInfo.damage) + " type " + str(_hitInfo.damageType))
-		if check_hyper_attack(Interactions.HYPER_COST_PLASMA):
+		if check_and_use_hyper_attack(Interactions.HYPER_COST_PLASMA):
 			_fire_special()
 		else:
 			_fire_regular()
