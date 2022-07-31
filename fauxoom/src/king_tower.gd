@@ -45,7 +45,7 @@ var _totalEventSeconds:float = 0.0
 var _hudStatus:PlayerHudStatus = null
 
 var _weapons = [
-	# "pistol",
+	"pistol",
 	# "chainsaw",
 	"ssg",
 	"pg",

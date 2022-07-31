@@ -53,6 +53,7 @@ var statis_grenade_t = preload("res://prefabs/projectiles/prj_stasis_grenade.tsc
 var point_t = preload("res://prefabs/point_gizmo.tscn")
 
 var punk_corpse_t = preload("res://prefabs/corpses/punk_corpse.tscn")
+var _generic_corpse_t = preload("res://prefabs/corpses/generic_corpse.tscn")
 
 # when saw blade is launched, input handling is passed onto the projectile
 # the projectile is recycled, if we don't have one, create one and reuse it
@@ -713,6 +714,43 @@ func register_environment(env:Environment, name:String) -> void:
 ###############
 # spawns
 ###############
+
+func spawn_corpse(spawnerPrefabType:String, info:CorpseSpawnInfo, t:Transform) -> void:
+	var prefab = null
+	var offsetY:int = 32
+	var pixelSize:float = 0.03
+	if spawnerPrefabType == "mob_punk":
+		prefab = Game.punk_corpse_t.instance()
+		get_dynamic_parent().add_child(prefab)
+		prefab.spawn(info, t)
+		return
+	elif spawnerPrefabType == "mob_worm":
+		prefab = _generic_corpse_t.instance()
+	elif spawnerPrefabType == "mob_cyclops":
+		prefab = _generic_corpse_t.instance()
+		prefab.animationSet = "cyclops"
+	elif spawnerPrefabType == "mob_spider":
+		prefab = _generic_corpse_t.instance()
+		prefab.animationSet = "mob_spider"
+	elif spawnerPrefabType == "mob_golem":
+		prefab = _generic_corpse_t.instance()
+		prefab.animationSet = "mob_golem"
+		offsetY = 48
+		pixelSize = 0.04
+	elif spawnerPrefabType == "mob_serpent":
+		prefab = _generic_corpse_t.instance()
+		prefab.animationSet = "serpent"
+	elif spawnerPrefabType == "mob_titan":
+		prefab = _generic_corpse_t.instance()
+		prefab.animationSet = "mob_titan"
+		pixelSize = 0.04
+		offsetY = 64
+	if prefab == null:
+		return
+	get_dynamic_parent().add_child(prefab)
+	prefab.set_sprite_offset(0, offsetY)
+	prefab.set_sprite_pixel_size(pixelSize)
+	prefab.spawn(info, t)
 
 func spawn_rage_drops(pos:Vector3, dropType:int, dropCount:int, throwYawDegrees:float = -1.0,  autoGather:bool = false) -> void:
 	var prefab = _rage_drop_t

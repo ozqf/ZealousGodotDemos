@@ -415,12 +415,14 @@ func _process(_delta:float) -> void:
 		_tick_stunned(_delta)
 		return
 	elif _state == MobState.Dying:
-		if corpsePrefab == "mob_punk":
-			var corpse = Game.punk_corpse_t.instance()
-			get_tree().get_current_scene().add_child(corpse)
-			corpse.spawn(_corpseHitInfo, global_transform)
-			corpse.global_transform = global_transform
-			#print("Spawned corpse at " + str(corpse.global_transform.origin))
+		Game.spawn_corpse(_ent.prefabName, _corpseHitInfo, self.global_transform)
+		#if _ent.prefabName == "mob_punk":
+		##if corpsePrefab == "mob_punk":
+		#	var corpse = Game.punk_corpse_t.instance()
+		#	Game.get_dynamic_parent().add_child(corpse)
+		#	corpse.spawn(_corpseHitInfo, global_transform)
+		#	# corpse.global_transform = global_transform
+		#	#print("Spawned corpse at " + str(corpse.global_transform.origin))
 		_change_state(MobState.Dying)
 		queue_free()
 		# ticks for one frame to spawn corpse and pass on

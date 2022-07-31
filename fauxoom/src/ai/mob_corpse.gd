@@ -36,7 +36,7 @@ func _ready() -> void:
 func game_cleanup_temp_ents() -> void:
 	queue_free()
 
-func damage_hit(direction:Vector3, _hitStrength:float = 1.5) -> void:
+func _damage_hit(direction:Vector3, _hitStrength:float = 1.5) -> void:
 	_velocity += direction * _hitStrength
 
 # func _play_stream(audio: AudioStreamPlayer3D, stream:AudioStream, pitchAlt:float = 0.0, plusDb:float = 0.0) -> void:
@@ -69,7 +69,7 @@ func hit(_spawnInfo:HitInfo) -> int:
 	
 	# gib - remove self
 	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
-		gib_death(_spawnInfo.direction)
+		_gib_death(_spawnInfo.direction)
 		return Interactions.HIT_RESPONSE_PENETRATE
 	
 	if _sprite.get_frame_number() > 1:
@@ -81,19 +81,19 @@ func hit(_spawnInfo:HitInfo) -> int:
 		var hitHeight:float = _spawnInfo.origin.y - selfPos.y
 		
 		if _damageTaken > 100 && hitHeight > 1.2:
-			headshot_death()
+			_headshot_death()
 		else:
 			var pushStrength = 1.5
 			if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_SHARPNEL:
 				pushStrength = 3
-			damage_hit(_spawnInfo.direction, pushStrength)
+			_damage_hit(_spawnInfo.direction, pushStrength)
 			if _sprite.get_frame_number() == 1:
 				_sprite.set_frame_number(0)
 			_spawn_hit_particles(_spawnInfo.origin, false)
 			
 	return Interactions.HIT_RESPONSE_PENETRATE
 
-func headshot_death() -> void:
+func _headshot_death() -> void:
 	_headshotSpurt.emitting = true
 	_state = CorpseState.HeadshotSpurt
 	_tick = 2
@@ -103,7 +103,7 @@ func headshot_death() -> void:
 	_sprite.play_animation("headshot_stand")
 	ZqfUtils.play_3d(_audio, _headshot)
 
-func play_death_sound() -> void:
+func _play_death_sound() -> void:
 	var r = randf()
 	var stream = _death3
 	if r > 0.666:
@@ -114,7 +114,7 @@ func play_death_sound() -> void:
 	_audio.stream = stream
 	_audio.play(0)
 
-func gib_death(_forward:Vector3) -> void:
+func _gib_death(_forward:Vector3) -> void:
 	# show doom style gib animation
 	# _sprite.play_animation("dying_gib")
 	# _state = CorpseState.Unresponsive
@@ -127,18 +127,18 @@ func gib_death(_forward:Vector3) -> void:
 	# self.queue_free()
 	_collisionShape.disabled = true
 	visible = false
-	whole_body_bleed(96, 0.3)
+	_whole_body_bleed(96, 0.3)
 
 	_audio.set_attenuation_model(AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE)
 	_audio.stream = _slop
 	_audio.play(0)
 
-func regular_death() -> void:
+func _regular_death() -> void:
 	_sprite.play_animation("dying")
 	_state = CorpseState.RegularDeath
-	play_death_sound()
+	_play_death_sound()
 
-func whole_body_bleed(amount:int, duration:float) -> void:
+func _whole_body_bleed(amount:int, duration:float) -> void:
 	_wholebodyBurst.emitting = true
 	_wholebodyBurst.amount = amount
 	_wholeBodyBleedTick = duration
@@ -147,44 +147,44 @@ func spawn(_spawnInfo:CorpseSpawnInfo, _trans:Transform) -> void:
 	global_transform = _trans
 	var selfPos:Vector3 = global_transform.origin
 	if _spawnInfo == null:
-		regular_death()
+		_regular_death()
 		return
 	var hitHeight:float = _spawnInfo.origin.y - selfPos.y
 	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
-		gib_death(_spawnInfo.direction)
+		_gib_death(_spawnInfo.direction)
 		return
 	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_PUNCH:
-		regular_death()
+		_regular_death()
 		return
 	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_SAW:
-		regular_death()
-		damage_hit(_spawnInfo.direction, 5.0)
+		_regular_death()
+		_damage_hit(_spawnInfo.direction, 5.0)
 		return
 	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_SUPER_PUNCH:
-		gib_death(_spawnInfo.direction)
+		_gib_death(_spawnInfo.direction)
 		return
 	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_SHARPNEL:
-		regular_death()
-		whole_body_bleed(48, 0.3)
+		_regular_death()
+		_whole_body_bleed(48, 0.3)
 		
-		damage_hit(_spawnInfo.direction, 3.0 * _spawnInfo.hitCount)
+		_damage_hit(_spawnInfo.direction, 3.0 * _spawnInfo.hitCount)
 		return
 	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_NONE:
 		if hitHeight >= 1.3 && randf() > 0.9:
-			headshot_death()
+			_headshot_death()
 			return
 	if _spawnInfo.damageType == Interactions.DAMAGE_TYPE_PLASMA:
-		headshot_death()
-		whole_body_bleed(48, 0.3)
+		_headshot_death()
+		_whole_body_bleed(48, 0.3)
 		return
-	regular_death()
-	whole_body_bleed(16, 0.3)
+	_regular_death()
+	_whole_body_bleed(16, 0.3)
 	# if hitHeight > 1.2:
-	# 	headshot_death()
+	# 	_headshot_death()
 	# elif _spawnInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:
-	# 	gib_death(_spawnInfo.direction)
+	# 	__gib_Death(_spawnInfo.direction)
 	# else:
-	# 	regular_death()
+	# 	_regular_death()
 
 func _process(_delta:float) -> void:
 	_tick -= _delta

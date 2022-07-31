@@ -22,7 +22,7 @@ var _loopIndex:int = 0
 var yawDegrees:float = 0
 
 func _ready() -> void:
-	_change_set_and_animation(animationSet, defaultAnimation)
+	change_set_and_animation(animationSet, defaultAnimation)
 
 func set_yaw_override(yawSourceOverride:Spatial) -> void:
 	_yawOverride = yawSourceOverride
@@ -46,7 +46,7 @@ func play_animation(animName:String, followUpAnimName:String = "") -> bool:
 	# print("Custom animator playing " + animName)
 	return true
 
-func _change_set_and_animation(setName:String, animName:String) -> void:
+func change_set_and_animation(setName:String, animName:String) -> void:
 	if setName == "" || !Animations.data.has(setName):
 		# print("No animation set '" + setName + "' found")
 		active = false
