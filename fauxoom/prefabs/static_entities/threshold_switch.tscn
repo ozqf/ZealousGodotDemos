@@ -1,8 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://src/entity.gd" type="Script" id=1]
 [ext_resource path="res://src/static_entities/threshold_switch.gd" type="Script" id=2]
 [ext_resource path="res://src/hit_redirector.gd" type="Script" id=3]
+[ext_resource path="res://assets/primitives/corridor_outer.obj" type="ArrayMesh" id=4]
+[ext_resource path="res://assets/primitives/corridor_1x1x1.obj" type="ArrayMesh" id=5]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 1, 1, 0.2 )
@@ -58,6 +60,8 @@ anim_speed = 1.0
 [sub_resource type="QuadMesh" id=8]
 size = Vector2( 0.2, 0.2 )
 
+[sub_resource type="BoxShape" id=11]
+
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 2 )
 
@@ -94,3 +98,25 @@ explosiveness = 1.0
 visibility_aabb = AABB( -79, -67, -60, 158, 134, 120 )
 process_material = SubResource( 7 )
 draw_pass_1 = SubResource( 8 )
+
+[node name="player_blocker" type="KinematicBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+collision_layer = 128
+collision_mask = 128
+
+[node name="CollisionShape" type="CollisionShape" parent="player_blocker"]
+shape = SubResource( 11 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 1, -1, 0, -2 )
+mesh = ExtResource( 5 )
+material/0 = null
+material/1 = null
+material/2 = null
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 2.1, 0, 0, 0, 2.1, 0, 0, 0, 1, -1.05, -0.05, -2 )
+mesh = ExtResource( 4 )
+material/0 = null
+material/1 = null
+material/2 = null

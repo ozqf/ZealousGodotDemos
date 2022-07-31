@@ -69,7 +69,6 @@ func laser_aim_update(_laserPosition:Vector3) -> void:
 	var toward:Transform = t.looking_at(_laserPosition, Vector3.UP)
 	t = t.interpolate_with(toward, 0.2)
 	global_transform = t
-	print("Projectile laser aim")
 
 func prj_laser_laser_aim_at(_laserPosition:Vector3, _plyrId:int) -> void:
 	if _hitInfo.attackTeam != Interactions.TEAM_PLAYER:

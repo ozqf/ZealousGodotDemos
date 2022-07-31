@@ -120,7 +120,7 @@ func restore_state(_dict:Dictionary) -> void:
 # 	pass
 
 func ents_mob_died_id(id:int) -> void:
-	print("King tower saw mob die " + str(id))
+	#print("King tower saw mob die " + str(id))
 	var i:int = _activeMobIds.find(id)
 	if i == -1:
 		return

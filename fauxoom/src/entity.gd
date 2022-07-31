@@ -117,6 +117,9 @@ func trigger() -> void:
 #	for tag in _tags:
 #		Interactions.triggerTargetsWithParams(get_tree(), _tags, message, ZqfUtils.EMPTY_DICT)
 
+func trigger_tag_set(tags:PoolStringArray, message:String) -> void:
+	Interactions.triggerTargetsWithParams(get_tree(), tags, message, ZqfUtils.EMPTY_DICT)
+
 func _on_exiting_tree() -> void:
 	# deregister entity...?
 	pass

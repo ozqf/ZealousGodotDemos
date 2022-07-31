@@ -164,6 +164,15 @@ func get_label() -> String:
 	else:
 		return _prefabDef.name
 
+func is_on_screen() -> bool:
+	var pos:Vector3 = get_parent().global_transform.origin
+	var cam:Transform = get_viewport().get_camera().global_transform
+	var toCamera:Vector3 = cam.origin - pos
+	if (cam.basis.z).dot(toCamera) > 0:
+		return true
+	else:
+		return false
+
 func get_screen_position() -> Vector2:
 	var pos:Vector3 = get_parent().global_transform.origin
 	return get_viewport().get_camera().unproject_position(pos)

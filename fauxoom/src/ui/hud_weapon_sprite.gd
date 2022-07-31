@@ -58,6 +58,9 @@ func _process(_delta:float):
 	position = _a.linear_interpolate(_b, weight) + _swayOffset
 	
 	# colour
-	_colourTick += (_delta * 4.0)
-	var colourWeight:float = (cos(_colourTick) + 1.0) * 0.5
-	self.modulate = baseColour.linear_interpolate(hyperColour, colourWeight)
+	if Game.hyperLevel > 0:
+		_colourTick += (_delta * 4.0)
+		var colourWeight:float = (cos(_colourTick) + 1.0) * 0.5
+		self.modulate = baseColour.linear_interpolate(hyperColour, colourWeight)
+	else:
+		self.modulate = baseColour

@@ -8,7 +8,11 @@ var _proxy:ZEEEntityProxy = null
 func init(proxy) -> void:
 	add_to_group(EdEnums.GROUP_NAME)
 	_proxy = proxy
+	_proxy.connect("tree_exiting", self, "_on_subject_tree_exiting")
 	_refresh()
+
+func _on_subject_tree_exiting() -> void:
+	zee_on_removed_entity_proxy(_proxy)
 
 func zee_on_removed_entity_proxy(proxy) -> void:
 	if _proxy == proxy:
@@ -30,4 +34,8 @@ func _refresh() -> void:
 func _process(_delta) -> void:
 	if !ZqfUtils.is_obj_safe(_proxy):
 		return
-	self.set_position(_proxy.get_screen_position())
+	if _proxy.is_on_screen():
+		self.visible = true
+		self.set_position(_proxy.get_screen_position())
+	else:
+		self.visible = false
