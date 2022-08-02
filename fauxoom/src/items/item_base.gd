@@ -101,7 +101,7 @@ func game_on_reset() -> void:
 	#restore_state(_spawnState)
 	pass
 
-func item_attach(_other:Spatial) -> void:
+func item_projectile_gather(_other:Spatial) -> void:
 	print("Item collect")
 	pass
 

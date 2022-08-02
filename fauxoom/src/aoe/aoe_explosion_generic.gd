@@ -29,6 +29,27 @@ func apply_boost(_scaleBoost:int) -> void:
 		self.damage = 200
 		self.explosiveRadius = 4
 
+func _hit_object(body, tarPos:Vector3, dist:float) -> void:
+	
+	var percent:float = 1.0 - float(dist / explosiveRadius)
+	# up range of damage to a 50% -> 100% range
+	percent = (percent + 1.0) / 2.0
+	# check and cap
+	if percent > 1:
+		percent = 1
+	if percent < 0:
+		percent = 0
+	
+	# scanning volume may be larger than our allowed range
+	if percent == 0:
+		return
+	# print("Explosion percentage: " + str(percent))
+
+	_hitInfo.damage = int(damage * percent)
+	_hitInfo.direction = tarPos - _hitInfo.origin
+	_hitInfo.direction = _hitInfo.direction.normalized()
+	var _inflicted:int = Interactions.hit(_hitInfo, body)
+
 func _run_hits() -> void:
 	_hitInfo.origin = global_transform.origin
 	if _scanner.total == 0:
@@ -58,32 +79,37 @@ func _run_hits() -> void:
 			# other than stepping backward via forward vector not sure what
 			# more can be done with this.
 			# worst on fast moving enemies, that can 'tunnel' forward into the projectile
-			print("Explosion raycast has no result??")
+			# for now we will just assume the object is 'inside' and is at distance 0
+			# and pass the iterated body directly
+			#print("Explosion raycast has no result??")
+			_hit_object(iterator, tarPos, 0.0)
 			continue
 		var hitLayer:int = result.collider.get_collision_layer()
 		if (hitLayer & Interactions.WORLD) != 0:
-			print("Explosion blocked by world")
+			#print("Explosion blocked by world")
 			continue
 		
 		var dist:float = _hitInfo.origin.distance_to(result.position)
-		var percent:float = 1.0 - float(dist / explosiveRadius)
-		# up range of damage to a 50% -> 100% range
-		percent = (percent + 1.0) / 2.0
-		# check and cap
-		if percent > 1:
-			percent = 1
-		if percent < 0:
-			percent = 0
-		
-		# scanning volume may be larger than our allowed range
-		if percent == 0:
-			continue
-		# print("Explosion percentage: " + str(percent))
+		_hit_object(body, tarPos, dist)
 
-		_hitInfo.damage = int(damage * percent)
-		_hitInfo.direction = tarPos - _hitInfo.origin
-		_hitInfo.direction = _hitInfo.direction.normalized()
-		var _inflicted:int = Interactions.hit(_hitInfo, body)
+		#var percent:float = 1.0 - float(dist / explosiveRadius)
+		## up range of damage to a 50% -> 100% range
+		#percent = (percent + 1.0) / 2.0
+		## check and cap
+		#if percent > 1:
+		#	percent = 1
+		#if percent < 0:
+		#	percent = 0
+		#
+		## scanning volume may be larger than our allowed range
+		#if percent == 0:
+		#	continue
+		## print("Explosion percentage: " + str(percent))
+		
+		#_hitInfo.damage = int(damage * percent)
+		#_hitInfo.direction = tarPos - _hitInfo.origin
+		#_hitInfo.direction = _hitInfo.direction.normalized()
+		#var _inflicted:int = Interactions.hit(_hitInfo, body)
 
 func _physics_process(_delta:float):
 	if _dead:

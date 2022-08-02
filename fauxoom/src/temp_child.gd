@@ -33,7 +33,9 @@ func detach() -> void:
 
 func _on_attach_parent_removed():
 	if m_attachParent == null:
+		print("Temp child - has no parent to remove")
 		return
+	print("Temp child - parent removed")
 	# return to previous parent
 	# var globalT = m_recallGlobalT
 	# var globalT = m_subject.global_transform

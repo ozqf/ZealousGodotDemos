@@ -1,6 +1,8 @@
 extends RigidBody
 class_name SawBlade
 
+signal item_projectile_drop(sawBlade)
+
 enum State { Idle, Thrown, Stuck, Dropped, Recall }
 
 const GUIDED_SPEED:float = 25.0
@@ -35,6 +37,8 @@ var _damageTick:float = 0.0
 
 var _worldParent:Spatial
 var _attachParent:Spatial
+
+var _gatheredItems = []
 
 func _ready() -> void:
 	visible = false
@@ -101,7 +105,7 @@ func hit(_incomingHitInfo:HitInfo) -> int:
 			if revs < 25:
 				revs = 25
 			else:
-				_add_revs(5)
+				_add_revs(15)
 			launch(self.global_transform, revs)
 		else:
 			_apply_dropped_push(_incomingHitInfo.direction)
@@ -110,9 +114,9 @@ func hit(_incomingHitInfo:HitInfo) -> int:
 		if _incomingHitInfo.comboType == Interactions.COMBO_CLASS_STAKE:
 			pass
 		else:
-			_add_revs(5)	
+			_add_revs(15)	
 	else:
-		_add_revs(5)
+		_add_revs(10)
 	return Interactions.HIT_RESPONSE_NONE
 
 func launch(originT:Transform, launchRevs:float) -> void:
@@ -156,6 +160,9 @@ func _apply_dropped_push(normal:Vector3) -> void:
 	apply_impulse(pushPos, normal * 5)
 
 func start_recall() -> void:
+	print("Sawblade - start recall")
+	self.emit_signal("item_projectile_drop", self)
+	_gatheredItems = []
 	_attach.detach()
 	_state = State.Recall
 	_set_particle_emit(false)
@@ -182,8 +189,9 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 	if result:
 		_hitInfo.direction = dir
 		var body:CollisionObject = result.collider
-		if body.has_method("item_attach"):
-			body.item_attach(self)
+		if body.has_method("item_projectile_gather"):
+			print("Saw blade - gather item")
+			body.item_projectile_gather(self)
 			global_transform.origin = dest
 			return
 

@@ -1,4 +1,5 @@
 extends RigidBodyProjectile
+class_name PrjHyperCore
 
 var _explosion_t = preload("res://prefabs/aoe/aoe_explosion_generic.tscn")
 var _column_t = preload("res://prefabs/projectiles/prj_lightning.tscn")
@@ -7,22 +8,26 @@ var _bullet_cancel_t = preload("res://prefabs/aoe/aoe_bullet_cancel.tscn")
 enum HyperCoreState {
 	None,
 	Stake,
-	Stuck
+	Stuck,
+	Gathered
 }
 
 onready var _bodyShape = $CollisionShape
 onready var _particles = $Particles
 onready var _light:OmniLight = $OmniLight
+onready var _area:Area = $Area
+onready var _areaShape = $Area/CollisionShape
 
 var _worldParent:Spatial = null
 var _attachParent:Spatial = null
+# gather object can be a rigidbody which we can't just attach to...?
+var _gatherParent:Spatial = null
 
 var _fuseLit:bool = true
 var _fuseTime:float = 6.0
 var _fuseTick:float = 6.0
 
 var _coreState = HyperCoreState.None
-var _area:Area
 var _scaleBoost:int = 0
 var _dead:bool = false
 var _lastTransform:Transform = Transform.IDENTITY
@@ -37,16 +42,16 @@ func _ready() -> void:
 	light_fuse()
 	_originGravityScale = self.gravity_scale
 	timeToLive = 999
-
-func _custom_init() -> void:
 	add_to_group(Groups.HYPER_CORES_GROUP)
-	_area = $Area
 	_area.set_subject(self)
 	_area.connect("area_entered", self, "on_area_entered_area")
 	_area.connect("body_entered", self, "on_body_entered_area")
 	_time = 999
 	# self.connect("area_entered", self, "on_area_entered_body")
 	self.connect("body_entered", self, "on_body_entered_body")
+
+func _custom_init() -> void:
+	pass
 
 func core_collect() -> void:
 	_dead = true
@@ -80,7 +85,7 @@ func on_body_entered_body(_body) -> void:
 	#print("Hyper core stop")
 	#self.mode = MODE_KINEMATIC
 	#_coreState = HyperCoreState.Stuck
-	#global_transform = _lastTransform
+	#global_transform = _lastTransform]
 
 func _spawn_now() -> void:
 	._spawn_now()
@@ -161,32 +166,68 @@ func _refresh() -> void:
 	animator.scale = Vector3(1, 1, 1).linear_interpolate(Vector3(2, 2, 2), weight)
 	animator.modulate = Color(1, 1, 1).linear_interpolate(Color(1, 0, 0), weight)
 
-func _try_attach_to_mob(collider) -> void:
-	if !Interactions.is_obj_a_mob(collider):
-		return
-	_attachParent = collider
+func _attach(newParent) -> void:
+	print("Hyper core - attach")
+	_coreState = HyperCoreState.Stuck
+	_attachParent = newParent
 	var t:Transform = global_transform
 	_worldParent = get_parent()
 	_worldParent.remove_child(self)
 	_attachParent.add_child(self)
 	global_transform = t
-	_attachParent.connect("tree_exiting", self, "detach")
+	_attachParent.connect("tree_exiting", self, "on_attach_parent_exiting_tree")
+
+func item_projectile_gather(newParent) -> void:
+	
+	if _gatherParent != null:
+		return
+	if _gatherParent == newParent:
+		return
+	#print("Hyper core projectile gather")
+	# we don't actually attach. physics bodies
+	# can't move with each other
+	# _attach(newParent)
+	# self.transform.origin = Vector3()
+	_coreState = HyperCoreState.Gathered
+	_bodyShape.disabled = true
+	_areaShape.disabled = true
+	self.mode = RigidBody.MODE_KINEMATIC
+	_gatherParent = newParent
+	newParent.connect("item_projectile_drop", self, "projectile_detach")
+	cancel_fuse()
+	pass
+
+func projectile_detach(prj) -> void:
+	prj.disconnect("item_projectile_drop", self, "projectile_detach")
+	# detach()
+	spawn_explosion(self.global_transform.origin)
+	_remove_self()
+
+func _try_attach_to_mob(collider) -> void:
+	if !Interactions.is_obj_a_mob(collider):
+		return
+	_attach(collider)
 
 func drop() -> void:
 	light_fuse()
 	_coreState = HyperCoreState.None
 	self.mode = MODE_RIGID
 	_bodyShape.disabled = false
+	_areaShape.disabled = false
 	self.gravity_scale = _originGravityScale
 
+func on_attach_parent_exiting_tree() -> void:
+	detach()
+
 func detach():
+	print("Core - detach")
 	var t:Transform
 	if _attachParent == null:
 		drop()
 		return
 	t = _attachParent.global_transform
 	_attachParent.remove_child(self)
-	_attachParent.disconnect("tree_exiting", self, "detach")
+	_attachParent.disconnect("tree_exiting", self, "on_attach_parent_exiting_tree")
 	_attachParent = null
 	_worldParent.add_child(self)
 	# become a rigid body again
@@ -290,13 +331,27 @@ func hit(_hitInfo:HitInfo) -> int:
 		_apply_kinetic_push(_hitInfo.direction)
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE_PROJECTILE:
-		return _change_to_stake(_hitInfo.direction)
+		#return _change_to_stake(_hitInfo.direction)
+		return Interactions.HIT_RESPONSE_ABSORBED
 	else:
 		spawn_explosion(self.global_transform.origin)
 	_remove_self()
 	return Interactions.HIT_RESPONSE_ABSORBED
 
+func _process(_delta:float) -> void:
+	if _coreState == HyperCoreState.Gathered:
+		if ZqfUtils.is_obj_safe(_gatherParent):
+			var followPos:Vector3 = _gatherParent.global_transform.origin
+			# print("Follow pos " + str(followPos))
+			self.global_transform.origin = followPos
+		else:
+			spawn_explosion(global_transform.origin)
+			queue_free()
+
 func _physics_process(_delta:float) -> void:
+	if _coreState == HyperCoreState.Gathered:
+		# physics body mode should disable this anyway
+		return
 	if _coreState == HyperCoreState.Stake:
 		#print("Step stake from " + str(global_transform.origin))
 		_step_as_stake(_delta)

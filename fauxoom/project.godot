@@ -289,6 +289,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/projectiles/prj_stasis_grenade.gd"
 }, {
+"base": "RigidBodyProjectile",
+"class": "PrjHyperCore",
+"language": "GDScript",
+"path": "res://src/projectiles/prj_hyper_core.gd"
+}, {
 "base": "Reference",
 "class": "PrjUtils",
 "language": "GDScript",
@@ -506,6 +511,7 @@ _global_script_class_icons={
 "PlayerObjectInteractor": "",
 "PrjFlak": "",
 "PrjGrenade": "",
+"PrjHyperCore": "",
 "PrjUtils": "",
 "Projectile": "",
 "QuickSound3D": "",
