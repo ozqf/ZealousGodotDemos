@@ -396,7 +396,7 @@ sniperSpot = true
 [node name="misc" type="Spatial" parent="ents"]
 
 [node name="toggle_mover" parent="ents/misc" instance=ExtResource( 15 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 18, -1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -4, -1 )
 seconds = 5.0
 offset = Vector3( 0, -20, 0 )
 

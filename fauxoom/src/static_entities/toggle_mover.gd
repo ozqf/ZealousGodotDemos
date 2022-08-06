@@ -4,6 +4,7 @@ onready var _ent:Entity = $Entity
 onready var _marker:Spatial = $MeshInstance
 onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
 
+export var startOn:bool = true
 export var active:bool = false
 export var loop:bool = false
 export var seconds:float = 2
@@ -34,28 +35,46 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.dir = _dir
 	_dict.active = active
 	_dict.loop = loop
+	_dict.startOn = startOn
 
 func restore_state(_dict:Dictionary) -> void:
-	global_transform = ZqfUtils.transform_from_dict(_dict.xform)
-	_time = _dict.time
-	_dir = _dict.dir
-	active = _dict.active
-	loop = _dict.loop
+	ZqfUtils.safe_dict_apply_transform(_dict, "xform", self)
+	_time = ZqfUtils.safe_dict_f(_dict, "time", _time)
+	_dir = ZqfUtils.safe_dict_f(_dict, "dir", _dir)
+	active = ZqfUtils.safe_dict_b(_dict, "active", active)
+	loop = ZqfUtils.safe_dict_b(_dict, "loop", loop)
+	startOn = ZqfUtils.safe_dict_b(_dict, "startOn", startOn)
+
+func get_editor_info() -> Dictionary:
+	var info:Dictionary = _ent.get_editor_info_just_tags()
+	info.presets = ["on", "off"]
+	#ZEEMain.create_field(info.fields, "time", "Time", "float", _time)
+	return info
+
+func apply_preset(presetName:String) -> void:
+	if presetName == "off":
+		_time = 1
+		_dir = 1
+	else:
+		_time = 0
+		_dir = -1
+	_refresh_position()
+
+func restore_from_editor(dict:Dictionary) -> void:
+	_ent.restore_state(dict)
+
+func _refresh_position() -> void:
+	global_transform = _xformA.interpolate_with(_xformB, _time)
 
 func on_trigger(_msg:String, _params:Dictionary) -> void:
 	if _msg == "on":
-		if _dir == 1:
-			active = true
-			_audio.play()
-			_dir = -1
-		# else:
-		# 	active = true
-		# 	_audio.play()
-		# 	_dir = 1
-		return
+		_dir = -1
+		active = true
+		_audio.play()
 	if _msg == "off":
-		if _dir == -1:
-			active = true
+		_dir = 1
+		active = true
+		_audio.play()
 	if !active:
 		active = true
 		_audio.play()
@@ -78,4 +97,4 @@ func _process(delta) -> void:
 		_dir = 1
 		if !loop:
 			active = false
-	global_transform = _xformA.interpolate_with(_xformB, _time)
+	_refresh_position()

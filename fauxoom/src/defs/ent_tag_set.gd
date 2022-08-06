@@ -5,6 +5,11 @@ var _tags:PoolStringArray = PoolStringArray()
 func tag_count() -> int:
 	return _tags.size()
 
+func get_tag_by_index(index:int) -> String:
+	if index < 0 || index >= _tags.size():
+		return ""
+	return _tags[index]
+
 func has_tag(queryTag:String) -> bool:
 	for tag in _tags:
 		if tag == queryTag:
@@ -36,6 +41,9 @@ func read_from_dict_field(dict, fieldName) -> void:
 	var current:String = get_csv()
 	var data:String = ZqfUtils.safe_dict_s(dict, fieldName, current)
 	read_csv(data)
+
+func write_to_dict_field(dict, fieldName) -> void:
+	dict[fieldName] = get_csv()
 
 func append_global_tags(tagDict:Dictionary) -> void:
 	for tag in _tags:

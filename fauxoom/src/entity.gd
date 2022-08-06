@@ -84,6 +84,16 @@ func get_editor_info_base() -> Dictionary:
 	ZEEMain.create_field(info.fields, "tagcsv", "Self Tags CSV", "tags", tagCSV)
 	return info
 
+func get_editor_info_just_tags() -> Dictionary:
+	var info = {
+		"prefab": self.prefabName,
+		"scalable": false,
+		"rotatable": false,
+		"fields": {}
+	}
+	ZEEMain.create_field(info.fields, "tagcsv", "Self Tags CSV", "tags", tagCSV)
+	return info
+
 func append_global_tags(tagDict:Dictionary) -> void:
 	for tag in _tags:
 		if !tagDict.has(tag):

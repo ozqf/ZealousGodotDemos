@@ -9,6 +9,7 @@ onready var _nameInput:ZEEUIField = $bg/props_scroll_area/props_container/global
 onready var _targetsInput:ZEEUIField = $bg/props_scroll_area/props_container/global_props/targets
 
 onready var _dynamicProps:Control = $bg/props_scroll_area/props_container/dynamic_props
+onready var _presetButtons:Control = $bg/props_scroll_area/props_container/presets
 
 var _proxy:ZEEEntityProxy = null
 var _on:bool = false
@@ -27,11 +28,25 @@ func _refresh() -> void:
 		return
 	# we have stuff to show and setup to do
 	self.visible = true
+	
+	# add buttons for presets - if they are provided
+	var presets = _proxy.get_presets()
+	if presets.size() > 0:
+		for preset in presets:
+			# create a button to apply each preset
+			var b = Button.new()
+			b.name = preset
+			b.text = preset
+			_presetButtons.add_child(b)
+			b.connect("pressed", self, "zee_on_apply_preset", [b.name])
+	
 	var fieldDefs:Dictionary = _proxy.get_fields()
 	var keys = fieldDefs.keys()
 	if keys.size() == 0:
 		# ...nevermind then!
-		self.visible = false
+		if presets.size() == 0:
+			# nothing to show at all
+			self.visible = false
 		return
 	for key in keys:
 		var def = fieldDefs[key]
@@ -49,7 +64,11 @@ func _refresh() -> void:
 func _delete_all_fields() -> void:
 	for child in _dynamicProps.get_children():
 		child.queue_free()
-	pass
+	for child in _presetButtons.get_children():
+		child.queue_free()
+
+func zee_on_apply_preset(presetName:String) -> void:
+	_proxy.apply_preset(presetName)
 
 func zee_on_root_mode_changed(newMode) -> void:
 	_on = newMode == EdEnums.RootMode.Select

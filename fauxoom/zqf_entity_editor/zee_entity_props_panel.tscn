@@ -29,7 +29,7 @@ __meta__ = {
 
 [node name="props_container" type="VBoxContainer" parent="bg/props_scroll_area"]
 margin_right = 256.0
-margin_bottom = 92.0
+margin_bottom = 116.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -50,10 +50,23 @@ margin_top = 46.0
 margin_bottom = 88.0
 fieldName = "targets"
 
-[node name="dynamic_props" type="VBoxContainer" parent="bg/props_scroll_area/props_container"]
+[node name="presets" type="VBoxContainer" parent="bg/props_scroll_area/props_container"]
 margin_top = 92.0
 margin_right = 256.0
-margin_bottom = 92.0
+margin_bottom = 112.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="bg/props_scroll_area/props_container/presets"]
+margin_right = 256.0
+margin_bottom = 20.0
+text = "b"
+
+[node name="dynamic_props" type="VBoxContainer" parent="bg/props_scroll_area/props_container"]
+margin_top = 116.0
+margin_right = 256.0
+margin_bottom = 116.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

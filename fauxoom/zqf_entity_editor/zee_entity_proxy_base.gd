@@ -87,6 +87,20 @@ func get_fields() -> Dictionary:
 		return _data.fields
 	return ZqfUtils.EMPTY_DICT
 
+func get_presets() -> Array:
+	if _data.has("presets"):
+		print("Providing " + str(_data.presets.size()) + " presets")
+		return _data.presets
+	else:
+		print("Prefab has not presets")
+		return ZqfUtils.EMPTY_ARRAY
+
+func apply_preset(presetName:String) -> void:
+	if !_prefab.has_method("apply_preset"):
+		print("Prefab has no apply preset function")
+		return
+	_prefab.apply_preset(presetName)
+
 func get_field(fieldName:String) -> Dictionary:
 	if !_data || !_data.has("fields"):
 		return ZqfUtils.EMPTY_DICT
