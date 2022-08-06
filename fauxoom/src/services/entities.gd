@@ -513,11 +513,12 @@ func load_save_dict(data:Dictionary) -> void:
 	# call post load now dict has been run
 	print("Ents dict loaded - run linkup")
 	var entsGroup = get_tree().get_nodes_in_group(Groups.ENTS_GROUP_NAME)
+	# we don't want this called deferred so we will iterate and call manually
 	for ent in entsGroup:
 		if ent.has_method("ents_post_load"):
 			ent.ents_post_load()
 	print("Entity group size: " + str(entsGroup.size()))
-	# get_tree().call_group(Groups.ENTS_GROUP_NAME, Groups.ENTS_FN_POST_LOAD)
+	get_tree().call_group(Groups.ENTS_GROUP_NAME, Groups.ENTS_FN_RESTORED_ENTITIES)
 	print(">>> Ents dict load complete <<<")
 
 func load_entities_file(_entFilePath:String) -> void:

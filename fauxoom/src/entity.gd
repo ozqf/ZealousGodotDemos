@@ -63,6 +63,9 @@ func get_ent_transform() -> Transform:
 func _refresh_tag_list() -> void:
 	_tags = tagCSV.split(",", false, 0)
 
+# func add_runtime_tag(tag:String) -> void:
+# 	_tags.push_back(tag)
+
 func has_tag(queryTag:String) -> bool:
 	for tag in _tags:
 		if tag == queryTag:

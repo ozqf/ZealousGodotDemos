@@ -134,6 +134,7 @@ func _move_as_ray(_delta:float) -> void:
 	if hit:
 		# do damage
 		# _hitInfo.damage = 15
+		_hitInfo.origin = hit.position
 		_hitInfo.attackTeam = _team
 		# _hitInfo.direction = _velocity.normalized()
 		_hitInfo.direction = forward

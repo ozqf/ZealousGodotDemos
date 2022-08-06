@@ -9,6 +9,8 @@ const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 
 const DIRTY_REFRESH_TIME:float = 0.25
 
+var isStatic:bool = false
+
 var _prefab
 var _prefabDef
 var selfName:String = ""
@@ -144,6 +146,12 @@ func get_prefab_scale() -> Vector3:
 	return _prefab.scale
 
 func get_prefab_type() -> String:
+	return _get_prefab_name()
+	#return _prefabDef.name
+
+func _get_prefab_name() -> String:
+	if !_prefabDef:
+		return "<static>"
 	return _prefabDef.name
 
 func _refresh_self_scale() -> void:
@@ -159,10 +167,11 @@ func set_prefab_scale(newScale:Vector3) -> void:
 	_refresh_self_scale()
 
 func get_label() -> String:
+	
 	if _data.has("selfName"):
-		return _prefabDef.name + ": " + _data.selfName
+		return _get_prefab_name() + ": " + _data.selfName
 	else:
-		return _prefabDef.name
+		return _get_prefab_name()
 
 func is_on_screen() -> bool:
 	var pos:Vector3 = get_parent().global_transform.origin

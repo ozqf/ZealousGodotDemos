@@ -64,10 +64,16 @@ func king_event_start(eventCount:int) -> void:
 	_message_gates("on")
 
 	var difficulty:int = 2
-	if _eventCount < 3:
+	if _eventCount < 2:
 		difficulty = 0
-	elif _eventCount < 6:
+	elif _eventCount < 4:
 		difficulty = 1
+	elif _eventCount < 8:
+		difficulty = 2
+	elif _eventCount < 10:
+		difficulty = 3
+	else:
+		difficulty = 4
 	_queue.build(_killTarget, difficulty, _spawnPointEnts)
 
 	Main.submit_console_command("flashy WAVE " + str(_eventCount + 1))

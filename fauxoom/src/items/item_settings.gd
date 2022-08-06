@@ -18,9 +18,12 @@ func _ready() -> void:
 	_refresh_settings()
 
 func _refresh_settings() -> void:
-	_item.set_settings(respawns, selfRespawnTime, isImportant)
+	_item.item_set_settings(respawns, selfRespawnTime, isImportant, _ent.id)
 	_ent.selfName = selfName
 	_ent.triggerTargetName = triggerTargetName
+
+func get_ent_id() -> int:
+	return _ent.id
 
 func set_enable(_flag:bool) -> void:
 	pass

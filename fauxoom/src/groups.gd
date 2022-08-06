@@ -24,8 +24,12 @@ const GAME_FN_EVENT_COMPLETE:String = "game_event_complete"
 # const GAME_FN_RESET:String = "game_on_reset"
 const GAME_FN_PLAYER_SPAWNED:String = "game_on_player_spawned"
 const GAME_FN_PLAYER_DIED:String = "game_on_player_died"
+
 # single param: dictionary of info
 const GAME_FN_KING_GAME_OVER:String = "game_on_king_game_over"
+# single param, a KingStatus object
+const GAME_FN_KING_STATUS_UPDATE:String = "game_on_king_status_update"
+
 const GAME_FN_LEVEL_COMPLETED:String = "game_on_level_completed"
 const GAME_FN_REGISTER_PREVIEW_CAMERA:String = "game_register_preview_camera"
 const GAME_FN_CAMERA_UPDATE:String = "game_camera_update"
@@ -40,21 +44,23 @@ const GAME_FN_WROTE_MAP_TEXT:String = "game_on_wrote_map_text"
 # single param - the new environment to apply
 const GAME_FN_SET_ENVIRONMENT:String = "game_set_environment"
 
-# generic entity events group
+# generic entity related events group
 const ENTS_GROUP_NAME:String = "entities"
 const ENTS_FN_TRIGGER_ENTITIES:String = "on_trigger_entities"
 const ENTS_FN_SET_DEBUG_MOB:String = "on_set_debug_mob"
 const ENTS_FN_RESTORED_ENTITY:String = "on_restored_entity"
+const ENTS_FN_RESTORED_ENTITIES:String = "ents_on_restored_entities"
 const ENTS_FN_GLOBAL_COMMAND:String = "ents_on_global_command"
 const ENTS_FN_MOB_AWOKE_ID:String = "ents_mob_awoke_id"
 const ENTS_FN_MOB_DIED_ID:String = "ents_mob_died_id"
+const ENTS_FN_ITEM_COLLECTED_ID:String = "ents_item_collected_id"
 # called after an entity file has been loaded
-const ENTS_FN_POST_LOAD:String = "ents_post_load"
 
 const ENTS_CMD_DISABLE_ALL_FORCEFIELDS:String = "disable_all_forcefields"
 const ENTS_CMD_ENABLE_ALL_FORCEFIELDS:String = "enable_all_forcefields"
 const ENTS_CMD_KILL_ALL_AI:String = "kill_all_ai"
 
+# groups ONLY for actual Entity instances.
 const STATIC_ENTS_GROUP_NAME:String = "static_entities"
 const DYNAMIC_ENTS_GROUP_NAME:String = "dynamic_entities"
 # ONLY hyper core grenades should be in this group!

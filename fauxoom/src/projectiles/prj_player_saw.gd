@@ -28,7 +28,9 @@ var _guided:bool = false
 var _hitInfo:HitInfo = null
 var revs:float = 0
 var _rotDegrees:float = 0
+
 var _lastStuckNormal:Vector3 = Vector3()
+var _relaunchPlane:Plane = Plane.PLANE_XZ
 
 var _emitParticles:bool = false
 var _bloodEmitTick:float = 0.0
@@ -112,12 +114,43 @@ func hit(_incomingHitInfo:HitInfo) -> int:
 			return Interactions.HIT_RESPONSE_NONE
 	elif _state == State.Stuck:
 		if _incomingHitInfo.comboType == Interactions.COMBO_CLASS_STAKE:
+			_relaunch_from_hit(_incomingHitInfo)
 			pass
 		else:
 			_add_revs(15)	
 	else:
 		_add_revs(10)
 	return Interactions.HIT_RESPONSE_NONE
+
+func _relaunch_from_hit(hit:HitInfo) -> void:
+	# need to calculate this properly, assuming plane is always UP here:
+	#_relaunchPlane.d = self.global_transform.origin.length()
+	_relaunchPlane.d = self.global_transform.origin.y
+	_relaunchPlane.normal = _lastStuckNormal
+	_attach.detach()
+	var dp:float = _lastStuckNormal.dot(hit.direction)
+	print("Relaunch dp " + str(dp))
+
+	var rayOrigin:Vector3 = hit.origin
+	var rayDest:Vector3 = rayOrigin + hit.direction * 1000.0
+	var rayPlaneForwardHit = _relaunchPlane.intersects_ray(rayOrigin, rayDest)
+	if rayPlaneForwardHit == null:
+		print("No ray forward hit")
+		return
+	# recast straight down from source
+	rayDest = rayOrigin - (_lastStuckNormal * 1000.0)
+	var rayPlaneGroundHit = _relaunchPlane.intersects_ray(rayOrigin, rayDest)
+	if rayPlaneGroundHit == null:
+		print("No ray ground hit")
+		return
+	var newDir:Vector3 = (rayPlaneForwardHit - rayPlaneGroundHit).normalized()
+	var t:Transform = self.global_transform
+	# t = t.looking_at(t.origin + newDir, _lastStuckNormal)
+	t = t.looking_at(t.origin + newDir, Vector3.UP)
+	t.origin += (_lastStuckNormal * 0.2)
+	print("Launch forward: " + str(-t.basis.z))
+	launch(t, 50)
+	pass
 
 func launch(originT:Transform, launchRevs:float) -> void:
 	disable_body()

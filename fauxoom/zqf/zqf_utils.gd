@@ -250,6 +250,16 @@ static func read_csv_int(csv:String, index:int, failure:int) -> int:
 		index = last
 	return int(split[index])
 
+static func time_string_from_seconds(totalSeconds:float) -> String:
+	var minutes:int = int(totalSeconds / 60.0)
+	var seconds:int = int(totalSeconds) % 60
+	var timeStr:String
+	if seconds < 10:
+		timeStr = str(minutes) + ":0" + str(seconds)
+	else:
+		timeStr = str(minutes) + ":" + str(seconds)
+	return timeStr
+
 #####################################
 # Serialisation
 #####################################

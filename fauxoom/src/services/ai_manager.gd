@@ -294,6 +294,11 @@ func give_to_player(item:String, amount:int) -> int:
 		return 0
 	return _player.give_item(item, amount)
 
+func get_player_item_count(itemType:String) -> int:
+	if !has_valid_player():
+		return -1
+	return _player.get_item_count(itemType)
+
 ###############
 # Navigation Queries
 ###############

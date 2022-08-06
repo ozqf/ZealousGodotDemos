@@ -8,7 +8,6 @@ const WORLD_MASK:int = 1
 const ENTITY_MASK:int = (1 << 20)
 
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
-var _ent_t = preload("res://zqf_entity_editor/zee_entity.tscn")
 var _button_t = preload("res://zqf_entity_editor/ui/zee_button.tscn")
 var _name_plate_t = preload("res://zqf_entity_editor/proxy_labels/zee_proxy_label.tscn")
 
@@ -179,7 +178,9 @@ func zee_on_created_new_entity(newProxy) -> void:
 	var label = _name_plate_t.instance()
 	_labelsRoot.add_child(label)
 	label.init(newProxy)
-	pass
+
+func zee_on_restored_entities() -> void:
+	_entList.scan_for_static_entities()
 
 func set_highlighted_proxy(obj:Object) -> void:
 	var proxy:ZEEEntityProxy = obj as ZEEEntityProxy
@@ -206,6 +207,9 @@ func set_selected_proxy(proxy:ZEEEntityProxy) -> void:
 
 func _delete_selection() -> void:
 	if _selectedProxy == null:
+		return
+	if _selectedProxy.isStatic:
+		print("Cannot delete static entities!")
 		return
 	print("Deleting selection...")
 	var target = _selectedProxy

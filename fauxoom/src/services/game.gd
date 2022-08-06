@@ -530,6 +530,8 @@ func load_save_dict(dict:Dictionary) -> void:
 		_events.restore(dict.events)
 	else:
 		_events.clear()
+	if Main.is_in_editor():
+		EntityEditor.zee_on_restored_entities()
 
 func save_game(filePath:String) -> void:
 	print("Writing save " + filePath)

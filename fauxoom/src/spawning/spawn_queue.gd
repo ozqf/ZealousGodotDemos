@@ -29,7 +29,7 @@ func _pick_spawn_point() -> Transform:
 	var ent:Entity = _spawnPointEnts[i]
 	return ent.get_ent_transform()
 
-func _pick_enemy_hard() -> int:
+func _pick_enemy_4() -> int:
 	var r:float = randf()
 	if r > 0.95:
 		return Enums.EnemyType.Golem
@@ -42,30 +42,47 @@ func _pick_enemy_hard() -> int:
 	else:
 		return Enums.EnemyType.Punk
 
-func _pick_enemy_medium() -> int:
+func _pick_enemy_3() -> int:
 	var r:float = randf()
 	if r > 0.8:
 		return Enums.EnemyType.Spider
-	elif r > 0.6:
+	elif r > 0.7:
 		return Enums.EnemyType.Cyclops
 	elif r > 0.5:
 		return Enums.EnemyType.FleshWorm
 	else:
 		return Enums.EnemyType.Punk
 
-func _pick_enemy_easy() -> int:
+func _pick_enemy_2() -> int:
+	var r:float = randf()
+	if r > 0.9:
+		return Enums.EnemyType.Cyclops
+	elif r > 0.5:
+		return Enums.EnemyType.FleshWorm
+	else:
+		return Enums.EnemyType.Punk
+
+func _pick_enemy_1() -> int:
 	var r:float = randf()
 	if r > 0.7:
 		return Enums.EnemyType.FleshWorm
 	else:
 		return Enums.EnemyType.Punk
 
+func _pick_enemy_0() -> int:
+	return Enums.EnemyType.Punk
+
 func _get_next_enemy_type(difficulty:int) -> int:
-	if difficulty < 1:
-		return _pick_enemy_easy()
-	elif difficulty < 2:
-		return _pick_enemy_medium()
-	return _pick_enemy_hard()
+	if difficulty == 0:
+		return _pick_enemy_0()
+	elif difficulty == 1:
+		return _pick_enemy_1()
+	elif difficulty == 2:
+		return _pick_enemy_2()
+	elif difficulty == 3:
+		return _pick_enemy_3()
+	else:
+		return _pick_enemy_4()
 
 func get_next() -> SpawnDef:
 	var spawn = _def_t.new()

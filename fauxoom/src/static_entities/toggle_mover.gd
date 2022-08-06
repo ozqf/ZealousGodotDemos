@@ -10,6 +10,10 @@ export var seconds:float = 2
 export(Vector3) var offset:Vector3 = Vector3()
 
 var _time:float = 0
+# dir 1 == moving from a to b
+# dir -1 == moving from b to a
+# a a == closed or 'on'
+# at b == open or 'off'
 var _dir:float = 1
 var _xformA:Transform
 var _xformB:Transform
@@ -39,6 +43,19 @@ func restore_state(_dict:Dictionary) -> void:
 	loop = _dict.loop
 
 func on_trigger(_msg:String, _params:Dictionary) -> void:
+	if _msg == "on":
+		if _dir == 1:
+			active = true
+			_audio.play()
+			_dir = -1
+		# else:
+		# 	active = true
+		# 	_audio.play()
+		# 	_dir = 1
+		return
+	if _msg == "off":
+		if _dir == -1:
+			active = true
 	if !active:
 		active = true
 		_audio.play()

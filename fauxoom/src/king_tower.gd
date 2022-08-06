@@ -2,6 +2,7 @@ extends Spatial
 class_name KingTower
 
 var _gameOverUI_t = preload("res://prefabs/ui/king_game_over_ui.tscn")
+var _king_status_t = preload("res://src/king_status.gd")
 
 const Enums = preload("res://src/enums.gd")
 
@@ -43,6 +44,10 @@ var _eventCount:int = 0
 var _totalEventSeconds:float = 0.0
 
 var _hudStatus:PlayerHudStatus = null
+var _kingStatus:KingStatus = null
+
+var _lastWeaponId:int = 0
+var _awaitingWeaponPickup:bool = false
 
 var _weapons = [
 	"pistol",
@@ -57,6 +62,7 @@ func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.PLAYER_GROUP_NAME)
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
+	_kingStatus = _king_status_t.new()
 	var _result = _ent.connect("entity_append_state", self, "append_state")
 	_result = _ent.connect("entity_restore_state", self, "restore_state")
 	_path.ground_path_init(AI.create_nav_agent(), self)
@@ -129,20 +135,52 @@ func ents_mob_died_id(id:int) -> void:
 		print("King tower - All mobs dead!")
 	pass
 
+func ents_item_collected_id(id:int) -> void:
+	if id == _lastWeaponId:
+		print("King tower - saw awaiting item " + str(id) + " collected")
+		_lastWeaponId = 0
+		_awaitingWeaponPickup = false
+	else:
+		print("King tower - saw unknown item " + str(id) + " collected")
+
 func get_editor_info() -> Dictionary:
 	visible = true
 	var info = _ent.get_editor_info_base()
 	ZEEMain.create_field(info.fields, "nodesCSV", "Node CSV", "text", nodesCSV)
 	return info
 
+func _weapon_prefab_to_item_type(prefabType:String) -> String:
+	if prefabType == "pistol":
+		return "pistol"
+	if prefabType == "chainsaw":
+		return "chainsaw"
+	if prefabType == "ssg":
+		return "super_shotgun"
+	if prefabType == "pg":
+		return "plasma_gun"
+	if prefabType == "rocket_launcher":
+		return "rocket_launcher"
+	return ""
+
+func _refresh_weapons_list() -> void:
+	for i in range(_weapons.size() - 1, -1, -1):
+		var itemType:String = _weapon_prefab_to_item_type(_weapons[i])
+		if itemType == "":
+			continue
+		var has:bool = AI.get_player_item_count(itemType) > 0
+		if has:
+			_weapons.remove(i)
+
 func _spawn_next_weapon() -> void:
+	_refresh_weapons_list()
 	var l:int = _weapons.size()
 	if l == 0:
 		return
 	var i:int = int(rand_range(0, l))
 	var type:String = _weapons[i]
-	_weapons.remove(i)
-	_spawn_item(type, 999, true)
+	# _weapons.remove(i)
+	_lastWeaponId = _spawn_item(type, 99999, true, false)
+	_awaitingWeaponPickup = true
 
 func pick_spawn_point() -> Transform:
 	var numPoints:int = _pointEnts.size()
@@ -152,7 +190,11 @@ func pick_spawn_point() -> Transform:
 	var ent:Entity = _pointEnts[i]
 	return ent.get_ent_transform()
 
-func _spawn_item(type:String, timeToLive:float = 16.0, isImportant:bool = false) -> void:
+func _spawn_item(
+	type:String,
+	timeToLive:float = 16.0,
+	isImportant:bool = false,
+	horizontalKick:bool = true) -> int:
 	# var bulletDef = Ents.get_prefab_def("bullets_s")
 	# var bullets = Ents.prefab
 	var pos:Vector3 = self.global_transform.origin
@@ -160,15 +202,17 @@ func _spawn_item(type:String, timeToLive:float = 16.0, isImportant:bool = false)
 	var item = Ents.create_item(type, pos, isImportant)
 	if item == null:
 		print("King tower - failed to spawn item")
-		return
+		return 0
 	var vel:Vector3 = Vector3()
 	vel.y = 10.0 # rand_range(5.0, 15.0)
-	var radians:float = rand_range(0, PI * 2)
-	var throwSpeed = rand_range(2.0, 4.0)
-	vel.x = cos(radians) * throwSpeed
-	vel.z = sin(radians) * throwSpeed
+	if horizontalKick:
+		var radians:float = rand_range(0, PI * 2)
+		var throwSpeed = rand_range(2.0, 4.0)
+		vel.x = cos(radians) * throwSpeed
+		vel.z = sin(radians) * throwSpeed
 	item.set_velocity(vel)
 	item.set_time_to_live(timeToLive)
+	return item.get_ent_id()
 
 func _pick_event() -> bool:
 	var numEvents:int = _eventEnts.size()
@@ -270,26 +314,41 @@ func _move_tick(_delta:float) -> void:
 func _move_spawn_tick(_delta:float) -> void:
 	pass
 
+func _broadcast_status() -> void:
+	_kingStatus.waveCount = _eventCount
+	_kingStatus.totalEventSeconds = _totalEventSeconds
+	var grp:String = Groups.GAME_GROUP_NAME
+	var fn:String = Groups.GAME_FN_KING_STATUS_UPDATE
+	get_tree().call_group(grp, fn, _kingStatus)
+
+func _tick_idle(_delta) -> void:
+	var origin:Vector3 = self.global_transform.origin
+	var losCheckOrigin:Vector3 = origin + Vector3(0, 1.0, 0)
+	var dist:float = AI.get_distance_to_player(losCheckOrigin)
+	if _awaitingWeaponPickup == true:
+		return
+	if dist < 8 && AI.check_los_to_player(losCheckOrigin) && _pick_event():
+		var dest:Vector3 = _get_event_ent().get_parent().global_transform.origin
+		_path.set_target_position(dest)
+		_state = KingTowerState.MovingToEvent
+		_outerShellMesh.visible = true
+		Game.set_all_forcefields(true)
+
 func _process(_delta:float):
 	if _state == KingTowerState.InEditor:
 		return
 	
 	var origin:Vector3 = self.global_transform.origin
+	var losCheckOrigin:Vector3 = origin + Vector3(0, 1.0, 0)
 	if _state == KingTowerState.Idle:
-		var dist:float = AI.get_distance_to_player(origin)
-		if dist < 8 && AI.check_los_to_player(origin) && _pick_event():
-			var dest:Vector3 = _get_event_ent().get_parent().global_transform.origin
-			_path.set_target_position(dest)
-			_state = KingTowerState.MovingToEvent
-			_outerShellMesh.visible = true
-			Game.set_all_forcefields(true)
+		_tick_idle(_delta)
 	elif _state == KingTowerState.RunningEvent:
 		_totalEventSeconds += _delta
 		pass
 	elif _state == KingTowerState.MovingToEvent:
 		_move_tick(_delta)
 	elif _state == KingTowerState.WaitingForPlayer:
-		var dist:float = AI.get_distance_to_player(origin)
+		var dist:float = AI.get_distance_to_player(losCheckOrigin)
 		if dist < 8:
 			_outerShellMesh.visible = false
 			_start_event()
@@ -320,3 +379,5 @@ func _process(_delta:float):
 				_spawn_item("rocket_l")
 	else:
 		_ammoTick -= _delta
+	
+	_broadcast_status()

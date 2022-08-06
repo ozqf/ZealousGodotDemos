@@ -2,7 +2,7 @@ extends Node
 
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 
-var _ent_t = preload("res://zqf_entity_editor/zee_entity.tscn")
+# var _ent_t = preload("res://zqf_entity_editor/zee_entity.tscn")
 var _proxy_t = preload("res://zqf_entity_editor/zee_point_entity_proxy.tscn")
 
 var _entsRoot:Spatial
@@ -18,7 +18,14 @@ func zee_ent_list_init(entsRoot:Spatial):
 func on_restored_entity(prefab, prefabDef) -> void:
 	var ent = prefab.get_node(prefabDef.entNodePath)
 	create_entity_proxy(prefab, prefabDef, ent)
-	pass
+
+func scan_for_static_entities() -> void:
+	var staticEnts = get_tree().get_nodes_in_group(Groups.STATIC_ENTS_GROUP_NAME)
+	var numStatic:int = staticEnts.size()
+	print("ZEE - restore finished - found " + str(numStatic) + " static ents")
+	for ent in staticEnts:
+		var proxy = create_entity_proxy(ent.get_parent(), {}, ent)
+		proxy.isStatic = true
 
 func create_entity_proxy(prefab, prefabDef, _ent) -> ZEEEntityProxy:
 	var proxy = _proxy_t.instance()

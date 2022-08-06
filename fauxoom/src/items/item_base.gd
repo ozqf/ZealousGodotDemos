@@ -35,6 +35,8 @@ var _player = null
 var _bRespawns:bool = false
 var _respawnTime:float = 20
 
+var _entId:int = 0
+
 var _ttlTick:float = 0.0
 var _ttlTime:float = 0.0
 
@@ -82,7 +84,8 @@ func restore_state(_dict:Dictionary) -> void:
 	_set_active(ZqfUtils.safe_dict_b(_dict, "active", _active))
 	check_important_display_flag(isImportant)
 
-func set_settings(bRespawns, respawnTime:float, important:bool) -> void:
+func item_set_settings(bRespawns, respawnTime:float, important:bool, entId:int) -> void:
+	_entId = entId
 	_bRespawns = bRespawns
 	_respawnTime = respawnTime
 	isImportant = important
@@ -204,6 +207,9 @@ func _process(_delta:float) -> void:
 	if triggerTargets && !_hasTriggeredTargets:
 		_hasTriggeredTargets = true
 		_ent.trigger()
+		var grp = Groups.ENTS_GROUP_NAME
+		var fn = Groups.ENTS_FN_ITEM_COLLECTED_ID
+		get_tree().call_group(grp, fn, _entId)
 	
 	if despawn:
 		_set_active(false)

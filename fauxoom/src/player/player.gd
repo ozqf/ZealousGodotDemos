@@ -514,6 +514,9 @@ func give_item(itemType:String, amount:int) -> int:
 	var took:int = _inventory.give_item(itemType, amount)
 	return took
 
+func get_item_count(itemType:String) -> int:
+	return _inventory.get_count(itemType)
+
 func _send_hit_message(dmg, direction, healthType) -> void:
 	var grp:String = Groups.PLAYER_GROUP_NAME
 	var fn:String = Groups.PLAYER_FN_HIT
