@@ -201,12 +201,21 @@ func _start_drag(pos:Vector3, newMode) -> void:
 	_set_current_mode(newMode)
 	print("Start drag " + str(newMode))
 
+func _next_Transform_is_scaling() -> bool:
+	if _nextTransformMode == TransformMode.ScaleX:
+		return true
+	if _nextTransformMode == TransformMode.ScaleY:
+		return true
+	if _nextTransformMode == TransformMode.ScaleZ:
+		return true
+	return false
+
 func _tick_drag(_delta:float) -> void:
 	var result = _cast_ray_to_horizontal()
 	if result == null:
 		return
 	var pos:Vector3 = result as Vector3
-	
+
 	if Input.is_action_just_pressed("attack_1"):
 		if _nextTransformMode == TransformMode.RotateYaw:
 			_pivot.rotation_degrees = Vector3()
@@ -251,7 +260,10 @@ func _process(_delta:float) -> void:
 	
 	var t:Transform = _proxy.get_prefab_transform()
 	global_transform.origin = t.origin
-	# _3dCursor.rotation_degrees = _proxy.rotation_degrees
+
+	# prevent manipulation of static entities
+	if _proxy.isStatic == true:
+		return
 	
 	_find_next_drag_handle()
 	_tick_drag(_delta)

@@ -2,9 +2,10 @@ extends Spatial
 
 onready var _ent:Entity = $Entity
 onready var _marker:Spatial = $MeshInstance
+onready var _marker2:Spatial = $MeshInstance2
 onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
 
-export var startOn:bool = true
+export var selfTagsCSV:String = ""
 export var active:bool = false
 export var loop:bool = false
 export var seconds:float = 2
@@ -21,10 +22,14 @@ var _xformB:Transform
 
 func _ready():
 	_marker.visible = false
+	_marker2.visible = false
 	var _r = _ent.connect("entity_append_state", self, "append_state")
 	_r = _ent.connect("entity_restore_state", self, "restore_state")
 	_r = _ent.connect("entity_trigger", self, "on_trigger")
 	_ent.selfName = name
+	_ent.tagCSV = selfTagsCSV
+	_ent._refresh_tag_list()
+	
 	_xformA = global_transform
 	_xformB = global_transform
 	_xformB.origin += offset
@@ -35,7 +40,6 @@ func append_state(_dict:Dictionary) -> void:
 	_dict.dir = _dir
 	_dict.active = active
 	_dict.loop = loop
-	_dict.startOn = startOn
 
 func restore_state(_dict:Dictionary) -> void:
 	ZqfUtils.safe_dict_apply_transform(_dict, "xform", self)
@@ -43,10 +47,9 @@ func restore_state(_dict:Dictionary) -> void:
 	_dir = ZqfUtils.safe_dict_f(_dict, "dir", _dir)
 	active = ZqfUtils.safe_dict_b(_dict, "active", active)
 	loop = ZqfUtils.safe_dict_b(_dict, "loop", loop)
-	startOn = ZqfUtils.safe_dict_b(_dict, "startOn", startOn)
 
 func get_editor_info() -> Dictionary:
-	var info:Dictionary = _ent.get_editor_info_just_tags()
+	var info:Dictionary = _ent.get_editor_info_empty()
 	info.presets = ["on", "off"]
 	#ZEEMain.create_field(info.fields, "time", "Time", "float", _time)
 	return info

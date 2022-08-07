@@ -8,6 +8,9 @@ anchor_right = 0.2
 anchor_bottom = 0.989
 margin_bottom = 7.91998
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 256.0
@@ -64,27 +67,35 @@ margin_right = 244.0
 margin_bottom = 24.0
 text = "Add"
 
-[node name="Label3" type="Label" parent="zee_edit_tags_panel"]
+[node name="current_tags_label" type="Label" parent="zee_edit_tags_panel"]
 margin_top = 110.0
 margin_right = 256.0
 margin_bottom = 124.0
 text = "Current Tags"
 
-[node name="current_tags" type="VBoxContainer" parent="zee_edit_tags_panel"]
+[node name="current_tags_scroll" type="ScrollContainer" parent="zee_edit_tags_panel"]
 margin_top = 128.0
 margin_right = 256.0
-margin_bottom = 128.0
+margin_bottom = 256.0
+rect_min_size = Vector2( 0, 128 )
+scroll_horizontal_enabled = false
 
-[node name="Label4" type="Label" parent="zee_edit_tags_panel"]
-margin_top = 132.0
+[node name="current_tags" type="VBoxContainer" parent="zee_edit_tags_panel/current_tags_scroll"]
+
+[node name="available_tags_label" type="Label" parent="zee_edit_tags_panel"]
+margin_top = 260.0
 margin_right = 256.0
-margin_bottom = 146.0
+margin_bottom = 274.0
 text = "Available Tags"
 
-[node name="available_tags" type="VBoxContainer" parent="zee_edit_tags_panel"]
-margin_top = 150.0
+[node name="available_tags_scroll" type="ScrollContainer" parent="zee_edit_tags_panel"]
+margin_top = 278.0
 margin_right = 256.0
-margin_bottom = 150.0
+margin_bottom = 714.0
+rect_min_size = Vector2( 0, 436 )
+scroll_horizontal_enabled = false
+
+[node name="available_tags" type="VBoxContainer" parent="zee_edit_tags_panel/available_tags_scroll"]
 
 [node name="mouse_entered" type="Node" parent="."]
 script = ExtResource( 2 )

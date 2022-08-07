@@ -3,8 +3,8 @@ extends Control
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 var _button_t = preload("res://zqf_entity_editor/ui/zee_button.tscn")
 
-onready var _currentTagsRoot:Control = $zee_edit_tags_panel/current_tags
-onready var _availableTagsRoot:Control = $zee_edit_tags_panel/available_tags
+onready var _currentTagsRoot:Control = $zee_edit_tags_panel/current_tags_scroll/current_tags
+onready var _availableTagsRoot:Control = $zee_edit_tags_panel/available_tags_scroll/available_tags
 
 onready var _addTagButton:Button = $zee_edit_tags_panel/add_tag/Button
 onready var _addTagLine:LineEdit = $zee_edit_tags_panel/add_tag/LineEdit

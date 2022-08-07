@@ -84,7 +84,7 @@ func get_editor_info_base() -> Dictionary:
 	ZEEMain.create_field(info.fields, "tagcsv", "Self Tags CSV", "tags", tagCSV)
 	return info
 
-func get_editor_info_just_tags() -> Dictionary:
+func get_editor_info_empty() -> Dictionary:
 	var info = {
 		"prefab": self.prefabName,
 		"scalable": false,
@@ -144,15 +144,14 @@ func write_state() -> Dictionary:
 		assert(prefabName != "")
 	var dict = {
 		prefab = prefabName,
-		id = id,
-		sn = selfName,
-		tcsv = triggerTargetName,
-		tagcsv = _tags.join(",")
+		id = id
 	}
+	
 	var tagTxt:String
 	if !isStatic:
 		dict.sn = selfName
 		dict.tcsv = triggerTargetName
+		dict.tagcsv = _tags.join(",")
 	emit_signal("entity_append_state", dict)
 	return dict
 
@@ -161,10 +160,11 @@ func restore_state(dict:Dictionary) -> void:
 	if !isStatic:
 		selfName = ZqfUtils.safe_dict_s(dict, "sn", "")
 		triggerTargetName = ZqfUtils.safe_dict_s(dict, "tcsv", "")
+		if dict.has("tagcsv"):
+			tagCSV = dict.tagcsv
+			_refresh_tag_list()
 		# print("Restored trigger target name " + str(triggerTargetName))
 	if dict.has("id"):
 		id = dict.id
-	if dict.has("tagcsv"):
-		tagCSV = dict.tagcsv
-		_refresh_tag_list()
+	
 	emit_signal("entity_restore_state", dict)

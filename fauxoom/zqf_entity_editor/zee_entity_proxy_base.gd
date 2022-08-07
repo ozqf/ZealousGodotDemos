@@ -142,6 +142,9 @@ func set_prefab_position(pos:Vector3) -> void:
 		_prefab.global_transform.origin = pos
 
 func set_prefab_yaw(degrees:float) -> void:
+	if _data.rotatable == false:
+		return
+	
 	if _prefab.has_method("zee_set_yaw_degrees"):
 		_prefab.zee_set_yaw_degrees(degrees)
 		return
@@ -177,6 +180,8 @@ func _refresh_self_scale() -> void:
 	self.scale = selfScale
 
 func set_prefab_scale(newScale:Vector3) -> void:
+	if _data.scalable == false:
+		return
 	_prefab.scale = newScale
 	_refresh_self_scale()
 
