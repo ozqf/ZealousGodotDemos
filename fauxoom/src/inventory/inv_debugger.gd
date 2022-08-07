@@ -25,6 +25,11 @@ func _spawn_enemy(type) -> void:
 		return
 	var t:Transform = Transform()
 	t.origin = dict.aimPos
+	var n:Vector3 = dict.aimHitNormal
+	var dp:float = n.dot(Vector3.UP)
+	if dp < 0.5:
+		t.origin += (n * 1.0)
+
 	print("Spawning mob at " + str(dict.aimPos))
 	var _mob = Ents.create_mob_by_enum(type, t, true)
 

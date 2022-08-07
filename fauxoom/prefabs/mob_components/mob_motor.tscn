@@ -65,3 +65,8 @@ material/0 = SubResource( 4 )
 
 [node name="ground_path" type="Node" parent="."]
 script = ExtResource( 3 )
+
+[node name="ground_ray" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
+enabled = true
+cast_to = Vector3( 0, -0.5, 0 )

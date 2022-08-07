@@ -13,6 +13,7 @@ onready var _floorFront:GroundPointSensor = $floor_in_front
 onready var _floorBack:GroundPointSensor = $floor_behind
 onready var _floorLeft:GroundPointSensor = $floor_left
 onready var _floorRight:GroundPointSensor = $floor_right
+onready var _groundRay:RayCast = $ground_ray
 
 enum MobMoveType {
 	Ground,
@@ -100,7 +101,13 @@ func move_hunt(_delta:float) -> void:
 func move_evade(_delta:float) -> void:
 	pass
 
+func move_fall(_delta:float) -> void:
+	pass
 
+func on_ground() -> bool:
+	if !_groundRay.enabled:
+		return true
+	return _groundRay.is_colliding()
 
 
 func mob_died() -> void:

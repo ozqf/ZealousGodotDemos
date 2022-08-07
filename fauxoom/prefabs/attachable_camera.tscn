@@ -3,4 +3,5 @@
 [ext_resource path="res://src/attachable_camera.gd" type="Script" id=1]
 
 [node name="attachable_camera" type="Camera"]
+far = 1000.0
 script = ExtResource( 1 )

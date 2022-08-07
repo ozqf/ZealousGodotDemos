@@ -238,7 +238,8 @@ var _prefabs = {
 	},
 	door_tech_01 = {
 		prefab = preload("res://prefabs/doors/tech_door_01.tscn"),
-		label = "Door - Tech 01"
+		label = "Door - Tech 01",
+		noEditor = true
 	},
 	king_tower = {
 		prefab = preload("res://prefabs/KingTower.tscn"),

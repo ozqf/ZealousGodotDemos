@@ -66,6 +66,8 @@ func spawn(t:Transform, beamLength:float) -> void:
 	global_transform = t
 	$MeshInstance.scale = Vector3(0.25, beamLength, 0.25)
 	$MeshInstance.transform.origin = Vector3(0.0, 0.0, -(beamLength / 2))
+	$MeshInstance2.scale = Vector3(0.25, beamLength, 0.25)
+	$MeshInstance2.transform.origin = Vector3(0.0, 0.0, -(beamLength / 2))
 	var box:BoxShape = BoxShape.new()
 	box.extents = Vector3(1.0, beamLength, 1.0)
 	$Area/CollisionShape.shape = box

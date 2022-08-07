@@ -392,6 +392,10 @@ func _process(_delta:float) -> void:
 			_ticker.custom_tick(_delta, _aiTickInfo)
 		# sprite.yawDegrees = rad2deg(motor.moveYaw)
 	elif _state == MobState.Idle:
+		# check for spawning off the ground
+		if !motor.on_ground():
+			motor.move_fall(_delta)
+			return
 		if _forceAwake:
 			_attempt_force_awake()
 		elif _thinkTick <= 0:

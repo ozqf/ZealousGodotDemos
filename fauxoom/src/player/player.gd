@@ -71,6 +71,7 @@ var _targettingInfo:Dictionary = {
 	flatForward = Vector3(),
 	yawDegrees = 0,
 	aimPos = Vector3(),
+	aimHitNormal = Vector3.UP,
 	noAttackTime = 0.0,
 	health = 100,
 	grounded = false,
@@ -403,9 +404,11 @@ func _process(_delta:float) -> void:
 	
 	# laser dot
 	var aimPos:Vector3
+	var aimHitNormal:Vector3
 	_hudStatus.targetHealth = -1
 	if _aimRay.is_colliding():
 		aimPos = _aimRay.get_collision_point()
+		aimHitNormal = _aimRay.get_collision_normal()
 		var obj = _aimRay.get_collider()
 		# had an invalid instance here whilst testing
 		# during a hectic fight, so check for that :/
@@ -417,6 +420,7 @@ func _process(_delta:float) -> void:
 	else:
 		var headForward:Vector3 = -_head.global_transform.basis.z
 		aimPos = _head.global_transform.origin + (headForward * 1000)
+		aimHitNormal = Vector3.UP
 	_laserDot.global_transform.origin = aimPos
 
 	# write targetting information
@@ -426,6 +430,7 @@ func _process(_delta:float) -> void:
 	_targettingInfo.flatForward = ZqfUtils.yaw_to_flat_vector3(_motor.m_yaw)
 	_targettingInfo.velocity = _motor.get_velocity()
 	_targettingInfo.aimPos = aimPos
+	_targettingInfo.aimHitNormal = aimHitNormal
 	_targettingInfo.flatVelocity = _motor.get_flat_velocity()
 	_targettingInfo.noAttackTime = _attack.noAttackTime
 	_targettingInfo.health = _health

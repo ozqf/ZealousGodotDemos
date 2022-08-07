@@ -91,7 +91,7 @@ func get_editor_info_empty() -> Dictionary:
 		"rotatable": false,
 		"fields": {}
 	}
-	ZEEMain.create_field(info.fields, "tagcsv", "Self Tags CSV", "tags", tagCSV)
+	# ZEEMain.create_field(info.fields, "tagcsv", "Self Tags CSV", "tags", tagCSV)
 	return info
 
 func append_global_tags(tagDict:Dictionary) -> void:

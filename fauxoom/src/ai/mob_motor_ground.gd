@@ -53,6 +53,10 @@ func move_evade(_delta:float) -> void:
 	if _tick_evade_status(_delta):
 		_evade_step(_delta)
 
+func move_fall(_delta:float) -> void:
+	var move:Vector3 = Vector3(0, -20.0, 0)# * _delta
+	_body.move_and_slide(move, Vector3.UP)
+
 func move_hunt(_delta:float) -> void:
 	_path.set_target_position(moveTargetPos)
 	var selfPos:Vector3 = _body.global_transform.origin
