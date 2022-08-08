@@ -1,4 +1,4 @@
-extends Node
+ extends Node
 class_name InvWeapon
 
 signal weapon_action(weapon, actionName)
@@ -29,6 +29,7 @@ var _equipped:bool = false
 var _launchNode:Spatial = null
 var _ignoreBody = []
 var _hud = null
+# want to strongly type but can't
 var _inventory = null
 var _hitInfo:HitInfo = null
 var _leftNext:bool = false

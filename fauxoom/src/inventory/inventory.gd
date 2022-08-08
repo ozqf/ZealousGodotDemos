@@ -31,6 +31,7 @@ var _currentWeaponIndex:int = -1
 var offhand:InvWeapon = null
 var empty:InvWeapon = null
 var ownerId:int = 0
+var chainsawRevs:int = 0
 # var _currentWeapon:InvWeapon = null
 
 func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
@@ -222,7 +223,7 @@ func write_hud_status(_hudStatus:PlayerHudStatus) -> void:
 	_hudStatus.hasRailgun = get_count("plasma_gun") > 0
 	_hudStatus.hasFlameThrower = get_count("flame_thrower") > 0
 	
-	#var chainsaw:InvWeapon = 
+	_hudStatus.chainsawRevs = chainsawRevs
 
 	var weap:InvWeapon = get_current_weapon()
 	if weap != null:

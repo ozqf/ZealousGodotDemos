@@ -36,9 +36,14 @@ func player_status_update(data:PlayerHudStatus) -> void:
 	_walldashIndicator.visible = data.isNearWall
 	
 	# weapon charge metre
-	if data.weaponChargeMode == 1:
+	#if data.weaponChargeMode == 1:
+	#	_weaponCharge.visible = true
+	#	_weaponCharge.value = data.currentAmmo
+	#else:
+	#	_weaponCharge.visible = false
+	if data.chainsawRevs > 0:
 		_weaponCharge.visible = true
-		_weaponCharge.value = data.currentAmmo
+		_weaponCharge.value = data.chainsawRevs
 	else:
 		_weaponCharge.visible = false
 	

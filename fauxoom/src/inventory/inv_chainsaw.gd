@@ -88,6 +88,8 @@ func _perform_hit(_result:Dictionary, _forward:Vector3) -> int:
 	return inflicted
 
 func _process(_delta:float) -> void:
+	_inventory.chainsawRevs = int(_revs)
+	
 	if _revs > 0:
 		chargeUIMode = 1
 	else:
