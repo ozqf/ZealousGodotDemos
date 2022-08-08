@@ -200,7 +200,8 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 			var count = int(_tokens[2])
 			_inventory.give_item(_tokens[1], count)
 	if _txt == "devroom":
-		var ent:Entity = Ents.find_static_entity_by_name("devroom")
+		var entObj = Ents.find_static_entity_by_name("devroom")
+		var ent:Entity = entObj as Entity
 		if ent != null:
 			teleport(ent.get_parent().global_transform)
 	if _txt == "inventory":
@@ -584,7 +585,7 @@ func hit(hitInfo:HitInfo) -> int:
 
 	if _health <= 0:
 		# check for hyper save
-		if ALLOW_HYPER_SAVE && _hyperLevel == 0 && _inventory.get_count("rage") > Interactions.HYPER_SAVE_COST:
+		if hitInfo.damageType != Interactions.DAMAGE_TYPE_VOID && ALLOW_HYPER_SAVE && _hyperLevel == 0 && _inventory.get_count("rage") > Interactions.HYPER_SAVE_COST:
 			_health = 1
 			_hyper_on()
 			return dmg

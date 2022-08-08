@@ -55,11 +55,13 @@ func _run_hits() -> void:
 	for body in _bodies:
 		var dest:Vector3 = body.global_transform.origin
 		# Game.draw_trail(origin, dest)
+		Game.spawn_blood_spurt(dest)
 		if Interactions.hit(_hitInfo, body) > 0:
 			positions.push_back(dest + heightOffset)
 	for area in _areas:
 		var dest:Vector3 = area.global_transform.origin
 		# Game.draw_trail(origin, dest)
+		Game.spawn_blood_spurt(dest)
 		if Interactions.hit(_hitInfo, area) > 0:
 			positions.push_back(dest + heightOffset)
 	pass
