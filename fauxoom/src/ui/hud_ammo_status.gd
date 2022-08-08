@@ -23,7 +23,7 @@ func _update_label(label:Label, count:int, percentage:float) -> void:
 
 func player_status_update(data:PlayerHudStatus) -> void:
 	if data.hyperLevel > 0:
-		_bg.color = Color(1, 1, 0, 0.25)
+		_bg.color = Color(0, 1, 0, 0.25)
 	else:
 		_bg.color = Color(0, 0, 0, 0.25)
 	

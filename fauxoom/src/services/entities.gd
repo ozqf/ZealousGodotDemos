@@ -103,7 +103,7 @@ var _prefabs = {
 		noEditor = true
 	},
 	################################################
-	# health
+	# health / rage
 	################################################
 	hp_s = {
 		prefab = preload("res://prefabs/items/item_health_small.tscn"),
@@ -121,6 +121,11 @@ var _prefabs = {
 	},
 	frage = {
 		prefab = preload("res://prefabs/items/item_full_rage.tscn"),
+		entNodePath = "Entity",
+		category = "items"
+	},
+	rage_small = {
+		prefab = preload("res://prefabs/items/item_rage_small.tscn"),
 		entNodePath = "Entity",
 		category = "items"
 	},
@@ -472,7 +477,7 @@ func write_save_dict() -> Dictionary:
 
 func restore_dynamic_entity(dict:Dictionary) -> void:
 	var def = get_prefab_def(dict.prefab)
-	assert(def != null)
+	assert(def)
 	# print("Restoring prefab " + dict.prefab)
 	var prefab = def.prefab.instance()
 	add_child(prefab)
