@@ -19,6 +19,9 @@ onready var _ent:Entity = $Entity
 onready var _outerShellMesh = $display/outer_shell_mesh
 onready var _path:GroundPath = $ground_path
 onready var _forcefieldDetector:Area = $forcefield_detector
+onready var _prismTop:MeshInstance = $display/prism_top
+onready var _coreReceptacle = $core_receptacle
+onready var _coreCollisionShape = $core_receptacle/CollisionShape
 
 export var nodesCSV:String = ""
 
@@ -48,6 +51,7 @@ var _kingStatus:KingStatus = null
 
 var _lastWeaponId:int = 0
 var _awaitingWeaponPickup:bool = false
+var _awaitingCore:bool = true
 
 var _weapons = [
 	"pistol",
@@ -56,6 +60,9 @@ var _weapons = [
 	"pg",
 	"rocket_launcher"
 ]
+
+var _hintTick:float = 2.0
+var _hintMessage:String = "foo"
 
 func _ready() -> void:
 	add_to_group(Groups.ENTS_GROUP_NAME)
@@ -70,8 +77,36 @@ func _ready() -> void:
 	# _result = _ent.connect("entity_trigger", self, "on_trigger")
 	# skip ahead a little - need a proper option for this!
 	#_eventCount = 2
+	var _err = _coreReceptacle.connect("body_entered", self, "on_body_entered_core_receptacle")
 	if !Main.is_in_game():
 		_set_state(KingTowerState.InEditor)
+	open_for_core()
+
+func open_for_core() -> void:
+	_awaitingCore = true
+	_prismTop.transform.origin = Vector3(0, 1.5, 0)
+	_coreCollisionShape.disabled = false
+	if _eventCount < 3:
+		_hintMessage = "Awaiting Power Core\n(press R by default to throw)\nCosts 10 Energy"
+
+func close_from_core() -> void:
+	_awaitingCore = false
+	_prismTop.transform.origin = Vector3(0, 0.5, 0)
+	_coreCollisionShape.disabled = true
+	_hintMessage = ""
+
+func is_core_receptacle() -> bool:
+	return true
+
+func give_core() -> void:
+	close_from_core()
+
+func on_body_entered_core_receptacle(body) -> void:
+	# print("Body touched core receptacle: " + str(body))
+	if body.has_method("core_collect"):
+		body.core_collect()
+		close_from_core()
+	pass
 
 func player_status_update(data:PlayerHudStatus) -> void:
 	_hudStatus = data
@@ -252,6 +287,7 @@ func _start_event() -> void:
 func game_event_complete() -> void:
 	print("King tower - event complete, returning to idle")
 	_state = KingTowerState.Idle
+	open_for_core()
 	_outerShellMesh.visible = true
 	_eventCount += 1
 	if _eventCount % 3 == 0:
@@ -327,6 +363,8 @@ func _tick_idle(_delta) -> void:
 	var dist:float = AI.get_distance_to_player(losCheckOrigin)
 	if _awaitingWeaponPickup == true:
 		return
+	if _awaitingCore == true:
+		return
 	if dist < 8 && AI.check_los_to_player(losCheckOrigin) && _pick_event():
 		var dest:Vector3 = _get_event_ent().get_parent().global_transform.origin
 		_path.set_target_position(dest)
@@ -334,9 +372,24 @@ func _tick_idle(_delta) -> void:
 		_outerShellMesh.visible = true
 		Game.set_all_forcefields(true)
 
+func _tick_hint_message(_delta:float) -> void:
+	if _hintMessage == "":
+		_hintTick = 0
+		return
+	_hintTick -= _delta
+	var dict = AI.get_player_target()
+	if dict.id == 0:
+		return
+	if _hintTick <= 0:
+		_hintTick = 2.0
+		Game.show_hint_text(_hintMessage)
+	
+
 func _process(_delta:float):
 	if _state == KingTowerState.InEditor:
 		return
+	
+	_tick_hint_message(_delta)
 	
 	var origin:Vector3 = self.global_transform.origin
 	var losCheckOrigin:Vector3 = origin + Vector3(0, 1.0, 0)

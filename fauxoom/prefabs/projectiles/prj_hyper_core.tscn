@@ -44,6 +44,7 @@ shape = SubResource( 1 )
 pixel_size = 0.04
 billboard = 1
 frames = ExtResource( 1 )
+frame = 52
 script = ExtResource( 2 )
 
 [node name="OmniLight" type="OmniLight" parent="."]

@@ -266,8 +266,9 @@ func _step_as_stake(delta:float) -> void:
 	var result:Dictionary = ZqfUtils.hitscan_by_position_3D(self, origin, dest, arr, mask)
 	if result:
 		# hack to find core receptacles
-		if result.collider.get_parent().has_method("is_core_receptacle"):
-			result.collider.get_parent().set_on(true)
+		var parent = result.collider.get_parent()
+		if parent.has_method("give_core"):
+			result.collider.get_parent().give_core()
 			_dead = true
 			self.queue_free()
 			return

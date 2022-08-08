@@ -64,6 +64,9 @@ func on_body_entered(body) -> void:
 func is_core_receptacle() -> bool:
 	return true
 
+func give_core() -> void:
+	set_on(true)
+
 func set_on(flag:bool) -> void:
 	on = flag
 	_coreSprite.visible = flag

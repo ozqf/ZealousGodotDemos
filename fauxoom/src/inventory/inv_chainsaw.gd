@@ -11,7 +11,7 @@ enum State { Idle, Sawing, Launched, Recalling, MeleeRecover }
 
 var _state = State.Idle
 var _thrown = null
-var _revs:float = 50.0
+var _revs:float = 0.0
 
 func write_hud_status(statusDict:PlayerHudStatus) -> void:
 	statusDict.currentLoaded = 0
