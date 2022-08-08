@@ -563,15 +563,15 @@ transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107,
 skeleton = NodePath("../..")
 
 [node name="point_gizmo5" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( -1, 0, -5.96046e-08, -2.0386e-08, 0.939693, 0.34202, 5.601e-08, 0.34202, -0.939693, 3.4, 2.4, -21.4 )
+transform = Transform( -1, 0, -5.96046e-08, -2.0386e-08, 0.939693, 0.34202, 5.601e-08, 0.34202, -0.939693, 3.4, 2.4, -21.3 )
 skeleton = NodePath("../..")
 
 [node name="point_gizmo20" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( -0.173648, 0, -0.984807, 0, 0.999999, 0, 0.984807, 0, -0.173648, -10.1, 2.6, 1.6 )
+transform = Transform( -0.173648, 0, -0.984807, 0, 0.999999, 0, 0.984807, 0, -0.173648, -9.37, 2.6, 1.6 )
 skeleton = NodePath("../..")
 
 [node name="point_gizmo2" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( 0.819152, 0.196175, -0.538985, 0, 0.939692, 0.34202, 0.573576, -0.280166, 0.769751, -22.1, 6.1, 16.8 )
+transform = Transform( 0.906307, 0.144544, -0.397131, 0, 0.939692, 0.34202, 0.422618, -0.309975, 0.85165, -22.1, 6.1, 16.8 )
 skeleton = NodePath("../..")
 
 [node name="point_gizmo3" parent="flythrough/track" instance=ExtResource( 34 )]
@@ -579,31 +579,43 @@ transform = Transform( 0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.70710
 skeleton = NodePath("../..")
 
 [node name="point_gizmo6" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( 0.707107, 0, 0.707106, 0, 0.999999, 0, -0.707107, 0, 0.707106, 33.4, 4, 11.3 )
+transform = Transform( 0.173648, 0, 0.984807, 0, 0.999999, 0, -0.984808, 0, 0.173648, 33.4, 4, 11.3 )
 skeleton = NodePath("../..")
 
 [node name="point_gizmo7" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( -0.906308, 0, 0.422618, 0, 0.999999, 0, -0.422618, 0, -0.906307, 46, 4, 11.3 )
+transform = Transform( 0.996195, 0, 0.0871557, 0, 0.999999, 0, -0.0871558, 0, 0.996194, 46, 4, 11.3 )
 skeleton = NodePath("../..")
 
 [node name="point_gizmo8" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( -0.819152, 0, -0.573576, 0, 0.999999, 0, 0.573576, 0, -0.819152, 59.6, 4, 11.3 )
+transform = Transform( 0.906308, 0, -0.422618, 0, 0.999999, 0, 0.422619, 0, 0.906307, 59.6, 4, 11.4 )
 skeleton = NodePath("../..")
 
 [node name="point_gizmo9" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( 0.642788, 0.198267, -0.739942, 0, 0.965925, 0.258819, 0.766045, -0.166366, 0.620885, 67, 0.4, 9.3 )
+transform = Transform( 0.642788, 0.198267, -0.739942, 0, 0.965925, 0.258819, 0.766045, -0.166366, 0.620885, 67, 1.3, 9.3 )
 skeleton = NodePath("../..")
 
 [node name="point_gizmo10" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( 0.996195, 0.00759612, 0.086824, 0, 0.996194, -0.0871557, -0.0871558, 0.086824, 0.992403, 88.4, -3.2, 7.09999 )
+transform = Transform( 0.766045, 0.0560226, 0.640341, 0, 0.996194, -0.0871557, -0.642788, 0.0667651, 0.763129, 87.3, -3.2, 7.79999 )
+skeleton = NodePath("../..")
+
+[node name="point_gizmo21" parent="flythrough/track" instance=ExtResource( 34 )]
+transform = Transform( 0.939693, 0.029809, 0.340718, 0, 0.996194, -0.0871557, -0.34202, 0.0818995, 0.936116, 88.7, -3.2, 6.09999 )
 skeleton = NodePath("../..")
 
 [node name="point_gizmo11" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( 0.0871558, 0.498097, 0.862729, 0, 0.866025, -0.5, -0.996195, 0.0435779, 0.0754791, 90.2, -6.6, -11.5 )
+transform = Transform( -0.258819, 0.482963, 0.836516, 0, 0.866025, -0.5, -0.965926, -0.129409, -0.224144, 90.2, -6.6, -10.4 )
+skeleton = NodePath("../..")
+
+[node name="point_gizmo22" parent="flythrough/track" instance=ExtResource( 34 )]
+transform = Transform( -0.5, 0.433012, 0.749999, 0, 0.866025, -0.5, -0.866026, -0.25, -0.433012, 89.2, -6.6, -11.5 )
 skeleton = NodePath("../..")
 
 [node name="point_gizmo12" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( -4.37114e-08, 0, 0.999999, 0, 0.999999, 0, -1, 0, -4.37114e-08, 67.8, -4, -9.90001 )
+transform = Transform( -4.10753e-08, 0.34202, 0.939692, 1.49502e-08, 0.939692, -0.34202, -1, 0, -4.37114e-08, 70, -4, -9.90001 )
+skeleton = NodePath("../..")
+
+[node name="point_gizmo25" parent="flythrough/track" instance=ExtResource( 34 )]
+transform = Transform( 0.642788, 0.262002, 0.719846, 1.49502e-08, 0.939692, -0.34202, -0.766045, 0.219846, 0.604022, 65, -3.6, -8.60001 )
 skeleton = NodePath("../..")
 
 [node name="point_gizmo18" parent="flythrough/track" instance=ExtResource( 34 )]
@@ -618,12 +630,20 @@ skeleton = NodePath("../..")
 transform = Transform( -0.707107, -0.183013, -0.683012, 0, 0.965925, -0.258819, 0.707107, -0.183013, -0.683012, 57.7, -3.7, -15.4 )
 skeleton = NodePath("../..")
 
+[node name="point_gizmo24" parent="flythrough/track" instance=ExtResource( 34 )]
+transform = Transform( -0.34202, -0.24321, -0.907673, 0, 0.965925, -0.258819, 0.939693, -0.0885213, -0.330366, 60.8, -2, -16.8 )
+skeleton = NodePath("../..")
+
 [node name="point_gizmo14" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( 0.996195, 0, 0.0871556, 0, 0.999999, 0, -0.0871557, 0, 0.996194, 71.6, 1.7, -20.6 )
+transform = Transform( 0.996195, 0, 0.0871556, 0, 0.999999, 0, -0.0871557, 0, 0.996194, 69.9, 0.4, -19.5 )
+skeleton = NodePath("../..")
+
+[node name="point_gizmo26" parent="flythrough/track" instance=ExtResource( 34 )]
+transform = Transform( 0.906308, 0, 0.422618, 0, 0.999999, 0, -0.422618, 0, 0.906307, 72.9, 1.7, -24.7 )
 skeleton = NodePath("../..")
 
 [node name="point_gizmo15" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( 0.939693, 0, 0.34202, 0, 0.999999, 0, -0.34202, 0, 0.939692, 73.7, 0.7, -54 )
+transform = Transform( 0.939693, 0, 0.34202, 0, 0.999999, 0, -0.34202, 0, 0.939692, 74.3, 0.7, -56.4 )
 skeleton = NodePath("../..")
 
 [node name="point_gizmo16" parent="flythrough/track" instance=ExtResource( 34 )]
@@ -631,7 +651,11 @@ transform = Transform( 0.5, 0, 0.866025, 0, 0.999999, 0, -0.866025, 0, 0.5, 64.4
 skeleton = NodePath("../..")
 
 [node name="point_gizmo17" parent="flythrough/track" instance=ExtResource( 34 )]
-transform = Transform( -0.34202, 0, 0.939692, 0, 0.999999, 0, -0.939693, 0, -0.34202, 38.9, 5.4, -65.4 )
+transform = Transform( -0.0871559, 0.257834, 0.962249, 0, 0.965925, -0.258819, -0.996195, -0.0225576, -0.0841861, 41.2, 5.4, -66.9 )
+skeleton = NodePath("../..")
+
+[node name="point_gizmo23" parent="flythrough/track" instance=ExtResource( 34 )]
+transform = Transform( -0.5, -0.224144, 0.836516, 0, 0.965925, 0.258819, -0.866026, 0.129409, -0.482963, 34.3, 6.3, -58 )
 skeleton = NodePath("../..")
 
 [node name="track2" type="Spatial" parent="flythrough"]

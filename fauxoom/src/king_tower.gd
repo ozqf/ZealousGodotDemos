@@ -20,6 +20,7 @@ onready var _outerShellMesh = $display/outer_shell_mesh
 onready var _path:GroundPath = $ground_path
 onready var _forcefieldDetector:Area = $forcefield_detector
 onready var _prismTop:MeshInstance = $display/prism_top
+onready var _prismBottom:MeshInstance = $display/prism_bottom
 onready var _coreReceptacle = $core_receptacle
 onready var _coreCollisionShape = $core_receptacle/CollisionShape
 
@@ -85,13 +86,16 @@ func _ready() -> void:
 func open_for_core() -> void:
 	_awaitingCore = true
 	_prismTop.transform.origin = Vector3(0, 1.5, 0)
+	_prismBottom.transform.origin = Vector3(0, -0.5, 0)
 	_coreCollisionShape.disabled = false
 	if _eventCount < 3:
 		_hintMessage = "Awaiting Power Core\n(press R by default to throw)\nCosts 10 Energy"
 
 func close_from_core() -> void:
+	_spawn_next_weapon()
 	_awaitingCore = false
-	_prismTop.transform.origin = Vector3(0, 0.5, 0)
+	_prismTop.transform.origin = Vector3(0, 1.0, 0)
+	_prismBottom.transform.origin = Vector3(0, 0, 0)
 	_coreCollisionShape.disabled = true
 	_hintMessage = ""
 
@@ -207,12 +211,19 @@ func _refresh_weapons_list() -> void:
 			_weapons.remove(i)
 
 func _spawn_next_weapon() -> void:
-	_refresh_weapons_list()
-	var l:int = _weapons.size()
-	if l == 0:
+	if _eventCount % 3 != 0:
 		return
-	var i:int = int(rand_range(0, l))
-	var type:String = _weapons[i]
+	_refresh_weapons_list()
+	var type:String
+	# always spawn pistol first
+	if _weapons.find("pistol") != -1:
+		type = "pistol"
+	else:
+		var l:int = _weapons.size()
+		if l == 0:
+			return
+		var i:int = int(rand_range(0, l))
+		type = _weapons[i]
 	# _weapons.remove(i)
 	_lastWeaponId = _spawn_item(type, 99999, true, false)
 	_awaitingWeaponPickup = true
@@ -290,8 +301,6 @@ func game_event_complete() -> void:
 	open_for_core()
 	_outerShellMesh.visible = true
 	_eventCount += 1
-	if _eventCount % 3 == 0:
-		_spawn_next_weapon()
 
 func game_on_player_died(_info:Dictionary) -> void:
 	var minutes:int = int(_totalEventSeconds / 60.0)
