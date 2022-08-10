@@ -53,7 +53,7 @@ func change_state(newState) -> void:
 		# launch sawblade
 		if _thrown == null:
 			# created a new sawblade
-			_thrown = Game.prj_player_saw_t.instance()
+			_thrown = Game.get_factory().prj_player_saw_t.instance()
 			Game.get_dynamic_parent().add_child(_thrown)
 		_thrown.launch(_launchNode.global_transform, _revs)
 		_revs = 0
@@ -79,7 +79,7 @@ func _perform_hit(_result:Dictionary, _forward:Vector3) -> int:
 	if inflicted > 0:
 		if canHyper:
 			_inventory.take_item("rage", 10)
-		Game.spawn_blood_spurt(_result.position)
+		Game.get_factory().spawn_blood_spurt(_result.position)
 		_hudSprite.run_shoot_push()
 		_revs = 0
 		# _hudSprite.play(idle)

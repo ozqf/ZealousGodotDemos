@@ -27,7 +27,7 @@ func on_scan_result(bodies) -> void:
 			body.apply_stun(toward, _duration)
 		elif _aoeType == TYPE_SUPER_PUNCH:
 			body.apply_stun(toward, _duration)
-			Game.spawn_rage_drops(mobPos, Enums.QuickDropType.Health, 1)
+			Game.get_factory().spawn_rage_drops(mobPos, Enums.QuickDropType.Health, 1)
 		else:
 			body.apply_stun(toward, _duration)
 	queue_free()
@@ -35,7 +35,7 @@ func on_scan_result(bodies) -> void:
 func run_hyper_aoe(aoeType:int, duration:float) -> void:
 	_aoeType = aoeType
 	_duration = duration
-	var shockwave = Game.prefab_shockwave_t.instance()
+	var shockwave = Game.get_factory().prefab_shockwave_t.instance()
 	Game.get_dynamic_parent().add_child(shockwave)
 	shockwave.global_transform.origin = global_transform.origin
 	shockwave.run(15)

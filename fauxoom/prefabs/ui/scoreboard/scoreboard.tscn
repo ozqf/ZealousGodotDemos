@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/ui/scoreboard/scoreboard.gd" type="Script" id=1]
+[ext_resource path="res://prefabs/ui/scoreboard/scoreboard_item.tscn" type="PackedScene" id=2]
+
+[node name="scoreboard" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="headings" parent="." instance=ExtResource( 2 )]
+margin_left = 640.0
+margin_top = 192.08
+margin_right = 640.0
+margin_bottom = 191.92
+
+[node name="player_name" parent="headings" index="0"]
+text = "PLAYER"
+
+[node name="wave_count" parent="headings" index="1"]
+text = "WAVES"
+
+[node name="time" parent="headings" index="2"]
+text = "TIME"
+
+[node name="test" parent="." instance=ExtResource( 2 )]
+margin_left = 640.0
+margin_top = 320.08
+margin_right = 640.0
+margin_bottom = 319.92
+
+[editable path="headings"]

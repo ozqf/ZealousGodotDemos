@@ -16,7 +16,7 @@ func _fire_rocket() -> void:
 	# consume rage if needed since attack is the same whether in hyper or not
 	var isHyper:bool = check_and_use_hyper_attack(Interactions.HYPER_COST_ROCKET)
 	
-	var rocket = Game.rocket_t.instance()
+	var rocket = Game.get_factory().rocket_t.instance()
 	Game.get_dynamic_parent().add_child(rocket)
 	# make sure rocket is in tree before calling any functions
 	if isHyper:
@@ -34,7 +34,7 @@ func _fire_rocket() -> void:
 	_inventory.take_item(ammoType, ammoPerShot)
 
 func _fire_stasis_grenade() -> void:
-	var rocket = Game.statis_grenade_t.instance()
+	var rocket = Game.get_factory().statis_grenade_t.instance()
 	Game.get_dynamic_parent().add_child(rocket)
 	var t:Transform = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin

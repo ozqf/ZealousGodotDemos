@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/ui/default_ui_theme.tres" type="Theme" id=1]
+[ext_resource path="res://src/ui/scoreboard/scoreboard_item.gd" type="Script" id=2]
+
+[node name="scoreboard_item" type="ColorRect"]
+anchor_left = -0.3
+anchor_top = -0.089
+anchor_right = 0.3
+anchor_bottom = 0.089
+margin_top = 0.0800018
+margin_bottom = -0.0800018
+theme = ExtResource( 1 )
+color = Color( 0, 0, 0, 0.247059 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="player_name" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -368.0
+margin_top = -48.0
+margin_bottom = 48.0
+theme = ExtResource( 1 )
+text = "UnnamedPlayer"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="wave_count" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_top = -48.0
+margin_right = 192.0
+margin_bottom = 48.0
+theme = ExtResource( 1 )
+text = "UnnamedPlayer"
+align = 1
+valign = 1
+
+[node name="time" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 192.0
+margin_top = -48.0
+margin_right = 376.0
+margin_bottom = 48.0
+theme = ExtResource( 1 )
+text = "UnnamedPlayer"
+align = 2
+valign = 1

@@ -75,13 +75,13 @@ func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> voi
 func _fire_flare(hyper:bool) -> void:
 	var prj
 	if hyper:
-		prj = Game.flare_t.instance()
+		prj = Game.get_factory().flare_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
 		prj.override_damage(35)
 		prj.get_hit_info().burnSourceMask = Interactions.BURN_SOURCE_BIT_FLARE
 		prj.get_hit_info().hyperLevel = 1
 	else:
-		prj = Game.stake_t.instance()
+		prj = Game.get_factory().stake_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
 		prj.override_damage(70)
 	
@@ -98,7 +98,7 @@ func _spawn_brass(left:bool = false) -> void:
 	var brass:Spatial = _brassRight
 	if left:
 		brass = _brassLeft
-	Game.spawn_ejected_bullet(brass.global_transform.origin, brass.global_transform.basis.y, 1, 3, 1)
+	Game.get_factory().spawn_ejected_bullet(brass.global_transform.origin, brass.global_transform.basis.y, 1, 3, 1)
 
 func read_input(_weaponInput:WeaponInput) -> void:
 	var rightIsReloading:bool = _rightTick > 0
@@ -210,7 +210,7 @@ func _process(_delta:float) -> void:
 # 		tick = refireTime
 # 		_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
 # 		#.play_fire_1(false)
-# 		Game.spawn_ejected_bullet(_brassNode.global_transform.origin, _brassNode.global_transform.basis.y, 1, 3, 1)
+# 		Game.get_factory().spawn_ejected_bullet(_brassNode.global_transform.origin, _brassNode.global_transform.basis.y, 1, 3, 1)
 # 		# apply some inaccuracy for next shot
 # 		_spreadScale += 0.35
 

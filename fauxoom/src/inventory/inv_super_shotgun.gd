@@ -72,7 +72,7 @@ func _fire(hyper:bool) -> void:
 	
 	#var brassForward:Vector3 = -t.basis.z + t.basis.y
 	#brassForward = brassForward.normalized()
-	#Game.spawn_ejected_shell(t.origin, brassForward, 1, 3, 2)
+	#Game.get_factory().spawn_ejected_shell(t.origin, brassForward, 1, 3, 2)
 	
 	# .play_fire_1(false)
 	_run_fire_animation()
@@ -134,7 +134,7 @@ func run_reload_sounds() -> void:
 	if _currentAnimFrame == 4 && _lastSoundFrame < 4:
 		_lastSoundFrame = 4
 		_hud.hudAudio.play_stream_weapon_2(_ssgOpen, 0)
-		Game.spawn_ejected_shell(_brassNode.global_transform.origin, _brassNode.global_transform.basis.y, 1, 3, 2)
+		Game.get_factory().spawn_ejected_shell(_brassNode.global_transform.origin, _brassNode.global_transform.basis.y, 1, 3, 2)
 	elif _currentAnimFrame == 6 && _lastSoundFrame < 6:
 		_lastSoundFrame = 6
 		_hud.hudAudio.play_stream_weapon_2(_ssgLoad, 0)

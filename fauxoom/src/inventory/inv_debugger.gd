@@ -46,11 +46,11 @@ func _spawn_minor_item(dropType:int) -> void:
 	var dict:Dictionary = AI.get_player_target_debug()
 	if dict.id == 0:
 		return
-	Game.spawn_rage_drops(dict.aimPos, dropType, 1)
+	Game.get_factory().spawn_rage_drops(dict.aimPos, dropType, 1)
 	pass
 
 func _fire_column_projectile() -> void:
-	var prj = Game.prj_column_t.instance()
+	var prj = Game.get_factory().prj_column_t.instance()
 	Game.get_dynamic_parent().add_child(prj)
 	var mask = Interactions.get_player_prj_mask()
 	var selfPos:Vector3 = _launchNode.global_transform.origin
@@ -65,7 +65,7 @@ func _fire_column_projectile() -> void:
 func _fire_test_projectile() -> void:
 	var t:Transform = _launchNode.global_transform
 	var pos:Vector3 = t.origin + (-t.basis.z)
-	PrjUtils.fire_from(pos, _launchNode, null, Game.prj_column_t)
+	PrjUtils.fire_from(pos, _launchNode, null, Game.get_factory().prj_column_t)
 
 func _fire_spike_line() -> void:
 	var t:Transform = _launchNode.global_transform
@@ -80,7 +80,7 @@ func _fire_spike_line() -> void:
 	print("Got " + str(numPoints) + " points")
 	for i in range(0, numPoints):
 		var p:Vector3 = points[i]
-		var prj = Game.prj_spike_t.instance()
+		var prj = Game.get_factory().prj_spike_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
 		prj.global_transform.origin = p
 		# prj.launch_prj(p, -t.basis.z, 0, Interactions.TEAM_PLAYER, Interactions.get_player_prj_mask())

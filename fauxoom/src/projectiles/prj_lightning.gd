@@ -54,14 +54,14 @@ func _run_hits() -> void:
 	positions.push_back(origin)
 	for body in _bodies:
 		var dest:Vector3 = body.global_transform.origin
-		# Game.draw_trail(origin, dest)
-		Game.spawn_blood_spurt(dest)
+		# Game.get_factory().draw_trail(origin, dest)
+		Game.get_factory().spawn_blood_spurt(dest)
 		if Interactions.hit(_hitInfo, body) > 0:
 			positions.push_back(dest + heightOffset)
 	for area in _areas:
 		var dest:Vector3 = area.global_transform.origin
-		# Game.draw_trail(origin, dest)
-		Game.spawn_blood_spurt(dest)
+		# Game.get_factory().draw_trail(origin, dest)
+		Game.get_factory().spawn_blood_spurt(dest)
 		if Interactions.hit(_hitInfo, area) > 0:
 			positions.push_back(dest + heightOffset)
 	pass
@@ -70,7 +70,7 @@ func _run_hits() -> void:
 	for i in range(0, numPositions - 1):
 		var a:Vector3 = positions[i]
 		var b:Vector3 = positions[i + 1]
-		Game.draw_trail(a, b)
+		Game.get_factory().draw_trail(a, b)
 
 func _process(_delta):
 	_tick += _delta

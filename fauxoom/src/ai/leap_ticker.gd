@@ -56,7 +56,7 @@ func custom_tick(_delta:float, _aiInfo:AITickInfo) -> void:
 			losOrigin.y += 1.0
 			var hasLoS:bool = ZqfUtils.los_check(self, losOrigin, losDest, Interactions.WORLD)
 			if hasLoS:
-				Game.spawn_ground_target(leapTarget, 1)
+				Game.get_factory().spawn_ground_target(leapTarget, 1)
 				_leapStart = pos
 				_leapEnd = leapTarget
 				_mob.sprite.play_animation("leap")
@@ -65,7 +65,7 @@ func custom_tick(_delta:float, _aiInfo:AITickInfo) -> void:
 				# print("Start leap from " + str(_leapStart) + " to " + str(_leapEnd))
 				change_state(LEAP_STATE)
 			else:
-				# Game.spawn_impact_debris(leapTarget, Vector3.UP, 5, 10, 5)
+				# Game.get_factory().spawn_impact_debris(leapTarget, Vector3.UP, 5, 10, 5)
 				# _mob.motor.move_idle(_delta)
 				# _mob.motor.set_move_target(_aiInfo.targetPos)
 				# _mob.motor.set_move_target_forward(_aiInfo.flatForward)

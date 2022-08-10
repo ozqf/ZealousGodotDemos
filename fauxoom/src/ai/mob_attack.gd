@@ -83,7 +83,7 @@ func fire_from(_target:Vector3, launch:Spatial, _spinDegrees:float = 0.0) -> voi
 	if _pattern == null:
 		var prj = null
 		if prjPrefabOverride == null:
-			prj = Game.prj_point_t.instance()
+			prj = Game.get_factory().prj_point_t.instance()
 		else:
 			prj = prjPrefabOverride.instance()
 		Game.get_dynamic_parent().add_child(prj)
@@ -100,7 +100,7 @@ func fire_from(_target:Vector3, launch:Spatial, _spinDegrees:float = 0.0) -> voi
 		var item:Dictionary = _patternBuffer[_i]
 		var prj = null
 		if prjPrefabOverride == null:
-			prj = Game.prj_point_t.instance()
+			prj = Game.get_factory().prj_point_t.instance()
 		else:
 			prj = prjPrefabOverride.instance()
 		Game.get_dynamic_parent().add_child(prj)

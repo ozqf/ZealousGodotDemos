@@ -19,7 +19,7 @@ func custom_init_b() -> void:
 # 	return true
 
 func _draw_trail(origin:Vector3, dest:Vector3) -> void:
-	var trail = Game.trail_t.instance()
+	var trail = Game.get_factory().trail_t.instance()
 	Game.get_dynamic_parent().add_child(trail)
 	trail.spawn(origin, dest)
 

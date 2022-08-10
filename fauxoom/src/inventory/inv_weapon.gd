@@ -164,9 +164,9 @@ func _perform_hit(result:Dictionary, forward:Vector3) -> int:
 	var root:Node = get_tree().get_current_scene()
 	if inflicted == -1:
 		var spritePos:Vector3 = result.position - (forward * 0.2)
-		Game.spawn_impact_sprite(spritePos)
+		Game.get_factory().spawn_impact_sprite(spritePos)
 		# fire debris
-		Game.spawn_impact_debris(spritePos, result.normal, 2, 12, 3)
+		Game.get_factory().spawn_impact_debris(spritePos, result.normal, 2, 12, 3)
 	elif inflicted == -2:
 		# print("Penetration hit")
 		pass

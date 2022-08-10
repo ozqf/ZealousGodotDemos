@@ -27,7 +27,6 @@ pixel_size = 0.04
 billboard = 1
 frames = ExtResource( 1 )
 animation = "barrel_a"
-frame = 1
 playing = true
 
 [node name="Entity" type="Node" parent="."]

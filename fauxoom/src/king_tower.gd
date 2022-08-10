@@ -64,6 +64,8 @@ var _weapons = [
 
 var _hintTick:float = 2.0
 var _hintMessage:String = "foo"
+var _throwCoreObjective:String = "Press R to throw a Power Core into the ammo dispenser. Costs 10 Energy."
+var _takeGunObjective:String = "Pickup the weapon."
 
 func _ready() -> void:
 	add_to_group(Groups.ENTS_GROUP_NAME)
@@ -88,8 +90,9 @@ func open_for_core() -> void:
 	_prismTop.transform.origin = Vector3(0, 1.5, 0)
 	_prismBottom.transform.origin = Vector3(0, -0.5, 0)
 	_coreCollisionShape.disabled = false
-	if _eventCount < 3:
-		_hintMessage = "Awaiting Power Core\n(press R by default to throw)\nCosts 10 Energy"
+	get_tree().call_group(HudObjectives.GROUP_NAME, HudObjectives.FN_ADD_OBJECTIVE, _throwCoreObjective)
+	#if _eventCount < 3:
+	#	_hintMessage = "Awaiting Power Core\n(press R by default to throw)\nCosts 10 Energy"
 
 func close_from_core() -> void:
 	_spawn_next_weapon()
@@ -98,6 +101,7 @@ func close_from_core() -> void:
 	_prismBottom.transform.origin = Vector3(0, 0, 0)
 	_coreCollisionShape.disabled = true
 	_hintMessage = ""
+	get_tree().call_group(HudObjectives.GROUP_NAME, HudObjectives.FN_REMOVE_OBJECTIVE, _throwCoreObjective)
 
 func is_core_receptacle() -> bool:
 	return true
@@ -178,6 +182,9 @@ func ents_item_collected_id(id:int) -> void:
 	if id == _lastWeaponId:
 		print("King tower - saw awaiting item " + str(id) + " collected")
 		_lastWeaponId = 0
+		var grp = HudObjectives.GROUP_NAME
+		var fn = HudObjectives.FN_REMOVE_OBJECTIVE
+		get_tree().call_group(grp, fn, _takeGunObjective)
 		_awaitingWeaponPickup = false
 	else:
 		print("King tower - saw unknown item " + str(id) + " collected")
@@ -227,6 +234,9 @@ func _spawn_next_weapon() -> void:
 	# _weapons.remove(i)
 	_lastWeaponId = _spawn_item(type, 99999, true, false)
 	_awaitingWeaponPickup = true
+	var grp = HudObjectives.GROUP_NAME
+	var fn = HudObjectives.FN_ADD_OBJECTIVE
+	get_tree().call_group(grp, fn, _takeGunObjective)
 
 func pick_spawn_point() -> Transform:
 	var numPoints:int = _pointEnts.size()
@@ -391,7 +401,7 @@ func _tick_hint_message(_delta:float) -> void:
 		return
 	if _hintTick <= 0:
 		_hintTick = 2.0
-		Game.show_hint_text(_hintMessage)
+		# Game.show_hint_text(_hintMessage)
 	
 
 func _process(_delta:float):

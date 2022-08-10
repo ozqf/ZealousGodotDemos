@@ -13,7 +13,7 @@ func fire(_target:Vector3) -> void:
 	# print("Line atk got " + str(numPoints) + " points")
 	for i in range(0, numPoints):
 		var p:Vector3 = points[i]
-		var prj = Game.prj_spike_t.instance()
+		var prj = Game.get_factory().prj_spike_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
 		prj.global_transform.origin = p
 		prj.wait(0.02 * i)

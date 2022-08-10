@@ -35,8 +35,8 @@ script = ExtResource( 12 )
 transform = Transform( 1.2, 0, 0, 0, 2, 0, 0, 0, 1.2, 0, 0, 0 )
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
 offset = Vector2( 0, 32 )
+pixel_size = 0.03
 billboard = 2
 shaded = true
 frames = ExtResource( 6 )

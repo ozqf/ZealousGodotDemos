@@ -17,9 +17,9 @@ func die() -> void:
 	_particles.emitting = false
 	_run_explosion_hits(_scanner.bodies)
 	var origin:Vector3 = global_transform.origin
-	Game.spawn_impact_debris(origin, _deathNormal, 2, 12, 12)
+	Game.get_factory().spawn_impact_debris(origin, _deathNormal, 2, 12, 12)
 
-	Game.explosion_shake(origin)
+	Game.get_factory().explosion_shake(origin)
 	.die()
 
 func _run_explosion_hits(bodies) -> void:
@@ -37,7 +37,7 @@ func _run_explosion_hits(bodies) -> void:
 			tarPos = body.get_mass_centre()
 		else:
 			tarPos = body.global_transform.origin
-		#Game.draw_trail(_hitInfo.origin, tarPos)
+		#Game.get_factory().draw_trail(_hitInfo.origin, tarPos)
 		
 		body.set_collision_layer_bit(Interactions.EXPLOSION_CHECK_LAYER, true)
 		var result = ZqfUtils.hitscan_by_position_3D(

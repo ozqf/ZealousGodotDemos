@@ -54,7 +54,7 @@ func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
 		_range =- 0.35
 	var root:Node = get_tree().get_current_scene()
 	for _i in range(0, numParticles):
-		var blood = Game.prefab_blood_hit.instance()
+		var blood = Game.get_factory().prefab_blood_hit.instance()
 		root.add_child(blood)
 		var offset:Vector3 = Vector3(
 			rand_range(-_range, _range),
@@ -120,7 +120,7 @@ func _gib_death(_forward:Vector3) -> void:
 	# _state = CorpseState.Unresponsive
 	
 	# build style explode into gibs
-	Game.spawn_gibs(global_transform.origin, Vector3.UP, 8)
+	Game.get_factory().spawn_gibs(global_transform.origin, Vector3.UP, 8)
 	_state = CorpseState.Unresponsive
 	# disappear in 10 seconds
 	_tick = 10

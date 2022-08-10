@@ -86,7 +86,7 @@ func _ready() -> void:
 # 	return results
 
 func _fire_spread_prj(origin:Vector3, forward:Vector3) -> void:
-	var prj = Game.prj_point_t.instance()
+	var prj = Game.get_factory().prj_point_t.instance()
 	Game.get_dynamic_parent().add_child(prj)
 	prj.maxSpeed = _prjSpeed
 	prj.launch_prj(origin, forward, 0, Interactions.TEAM_ENEMY, Interactions.get_enemy_prj_mask())

@@ -30,7 +30,7 @@ func _fire_shotgun() -> void:
 		_fire_single(forward, 1000)
 
 func _fire_stasis_grenade() -> void:
-	var rocket = Game.statis_grenade_t.instance()
+	var rocket = Game.get_factory().statis_grenade_t.instance()
 	Game.get_dynamic_parent().add_child(rocket)
 	var t:Transform = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin

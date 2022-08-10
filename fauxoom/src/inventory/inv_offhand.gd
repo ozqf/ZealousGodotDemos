@@ -26,7 +26,7 @@ func player_ground_slam_finished() -> void:
 	print("Offhand finish slam")
 	if _hud != null:
 		_hud.play_offhand_punch()
-	Game.spawn_impact_sprite(_slamPos)
+	Game.get_factory().spawn_impact_sprite(_slamPos)
 	_spawn_aoe(_slamPos)
 
 func _punch(forward:Vector3, scanRange:float) -> Vector3:

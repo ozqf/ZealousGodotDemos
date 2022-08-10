@@ -98,7 +98,7 @@ func spawn_explosion(pos:Vector3) -> void:
 	aoe.set_hyper_level(1)
 	aoe.global_transform.origin = pos
 	aoe.apply_boost(_scaleBoost)
-	Game.spawn_explosion_sprite(pos, Vector3.UP)
+	Game.get_factory().spawn_explosion_sprite(pos, Vector3.UP)
 
 func _apply_kinetic_push(dir:Vector3) -> void:
 	detach()
@@ -118,7 +118,7 @@ func _reset_fuse_time() -> void:
 	_fuseTick = _fuseTime
 
 func spawn_stun(pos:Vector3, duration:float) -> void:
-	var aoe = Game.hyper_aoe_t.instance()
+	var aoe = Game.get_factory().hyper_aoe_t.instance()
 	Game.get_dynamic_parent().add_child(aoe)
 	aoe.global_transform.origin = pos
 	aoe.run_hyper_aoe(HyperAoe.TYPE_SUPER_PUNCH, duration)

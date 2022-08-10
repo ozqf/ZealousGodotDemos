@@ -344,7 +344,7 @@ func debug_path(path:PoolVector3Array) -> void:
 	var previous = null
 	for i in range(0, path.size()):
 		print(str(path[i]))
-		var pointObj = Game.point_t.instance()
+		var pointObj = Game.get_factory().point_t.instance()
 		add_child(pointObj)
 		pointObj.global_transform.origin = path[i]
 		_debugPathPoints.push_back(pointObj)

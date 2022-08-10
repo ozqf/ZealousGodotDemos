@@ -12,13 +12,13 @@ func _ready() -> void:
 func on_area_entered(area:Area) -> void:
 	if Interactions.is_obj_a_mob(area):
 		if Interactions.hit(_hitInfo, area) > 0:
-			# Game.spawn_blood_spurt(area.global_transform.origin)
+			# Game.get_factory().spawn_blood_spurt(area.global_transform.origin)
 			pass
 
 func on_body_entered(body) -> void:
 	if Interactions.is_obj_a_mob(body):
 		if Interactions.hit(_hitInfo, body) > 0:
-			# Game.spawn_blood_spurt(body.global_transform.origin)
+			# Game.get_factory().spawn_blood_spurt(body.global_transform.origin)
 			pass
 
 func _spawn_now() -> void:

@@ -129,6 +129,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/ui/hud.gd"
 }, {
+"base": "Control",
+"class": "HudObjectives",
+"language": "GDScript",
+"path": "res://src/ui/objectives/hud_objectives.gd"
+}, {
 "base": "AnimatedSprite",
 "class": "HudWeaponSprite",
 "language": "GDScript",
@@ -283,6 +288,11 @@ _global_script_classes=[ {
 "class": "PlayerObjectInteractor",
 "language": "GDScript",
 "path": "res://src/player/player_object_interactor.gd"
+}, {
+"base": "Node",
+"class": "PrefabFactory",
+"language": "GDScript",
+"path": "res://prefabs/services/game/prefab_factory.gd"
 }, {
 "base": "RigidBodyProjectile",
 "class": "PrjFlak",
@@ -484,6 +494,7 @@ _global_script_class_icons={
 "HitInfo": "",
 "HitResponse": "",
 "Hud": "",
+"HudObjectives": "",
 "HudWeaponSprite": "",
 "HyperAoe": "",
 "InstantAreaScan": "",
@@ -515,6 +526,7 @@ _global_script_class_icons={
 "PlayerAttack": "",
 "PlayerHudStatus": "",
 "PlayerObjectInteractor": "",
+"PrefabFactory": "",
 "PrjFlak": "",
 "PrjGrenade": "",
 "PrjHyperCore": "",
