@@ -10,16 +10,18 @@ func _ready() -> void:
 	_hitInfo.hyperLevel = 1
 
 func on_area_entered(area:Area) -> void:
-	if Interactions.is_obj_a_mob(area):
-		if Interactions.hit(_hitInfo, area) > 0:
-			# Game.get_factory().spawn_blood_spurt(area.global_transform.origin)
-			pass
+	if area.get_collision_mask_bit(Interactions.ACTORS):
+	# if Interactions.is_obj_a_mob(area):
+		var response = Interactions.hit(_hitInfo, area)
+		if response == Interactions.HIT_RESPONSE_ABSORBED:
+			remove_self()
 
 func on_body_entered(body) -> void:
-	if Interactions.is_obj_a_mob(body):
-		if Interactions.hit(_hitInfo, body) > 0:
-			# Game.get_factory().spawn_blood_spurt(body.global_transform.origin)
-			pass
+	if body.get_collision_mask_bit(Interactions.ACTORS):
+	# if Interactions.is_obj_a_mob(body):
+		var response = Interactions.hit(_hitInfo, body)
+		if response == Interactions.HIT_RESPONSE_ABSORBED:
+			remove_self()
 
 func _spawn_now() -> void:
 	._spawn_now()

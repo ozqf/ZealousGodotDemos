@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/services/game.gd" type="Script" id=1]
 [ext_resource path="res://prefabs/attachable_camera.tscn" type="PackedScene" id=2]
@@ -9,7 +9,8 @@
 [ext_resource path="res://src/ui/ui_flashy_message.gd" type="Script" id=7]
 [ext_resource path="res://prefabs/ui/objectives/hud_objectives.tscn" type="PackedScene" id=8]
 [ext_resource path="res://prefabs/ui/scoreboard/scoreboard.tscn" type="PackedScene" id=9]
-[ext_resource path="res://prefabs/services/game/prefab_factory.gd" type="Script" id=10]
+[ext_resource path="res://src/services/game/prefab_factory.gd" type="Script" id=10]
+[ext_resource path="res://assets/ui/default_ui_theme.tres" type="Theme" id=11]
 
 [node name="game" type="Spatial"]
 pause_mode = 2
@@ -56,6 +57,12 @@ script = ExtResource( 3 )
 label = "Very Hard"
 spawnBit = 4
 
+[node name="rules" type="Node" parent="."]
+
+[node name="rules_campaign" type="Node" parent="rules"]
+
+[node name="rules_king" type="Node" parent="rules"]
+
 [node name="game_state_overlay" type="CanvasLayer" parent="."]
 layer = 2
 
@@ -63,6 +70,7 @@ layer = 2
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 11 )
 color = Color( 0, 0, 0, 0.494118 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -72,6 +80,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+theme = ExtResource( 11 )
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -86,6 +95,7 @@ margin_left = -384.0
 margin_top = -64.16
 margin_right = 256.0
 margin_bottom = -0.160004
+theme = ExtResource( 11 )
 custom_fonts/font = ExtResource( 6 )
 text = "WAVE 1"
 align = 1
@@ -103,6 +113,7 @@ margin_left = -256.0
 margin_top = -0.160004
 margin_right = 384.0
 margin_bottom = 63.84
+theme = ExtResource( 11 )
 custom_fonts/font = ExtResource( 6 )
 text = "START"
 align = 1
@@ -116,9 +127,11 @@ anchor_top = 0.1
 anchor_right = 1.0
 anchor_bottom = 0.189
 margin_left = -6.10352e-05
+theme = ExtResource( 11 )
 
 [node name="scoreboard" parent="game_state_overlay" instance=ExtResource( 9 )]
 visible = false
+theme = ExtResource( 11 )
 
 [node name="pregame" type="Control" parent="game_state_overlay"]
 visible = false
@@ -131,6 +144,7 @@ margin_top = -300.0
 margin_right = 512.0
 margin_bottom = 300.0
 mouse_filter = 2
+theme = ExtResource( 11 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -145,11 +159,13 @@ margin_left = -72.0
 margin_top = 188.0
 margin_right = 72.0
 margin_bottom = 202.0
+theme = ExtResource( 11 )
 text = "PRESS SPACE TO START"
 align = 1
 valign = 1
 
 [node name="death" type="Control" parent="game_state_overlay"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -159,6 +175,7 @@ margin_top = -300.0
 margin_right = 512.0
 margin_bottom = 300.0
 mouse_filter = 2
+theme = ExtResource( 11 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -173,27 +190,45 @@ margin_left = -128.0
 margin_top = 148.0
 margin_right = 128.0
 margin_bottom = 276.0
+theme = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="game_state_overlay/death/menu"]
-visible = false
 margin_right = 256.0
-margin_bottom = 14.0
+margin_bottom = 25.0
+theme = ExtResource( 11 )
 text = "YOU ARE DEAD"
 align = 1
 valign = 1
 
-[node name="checkpoint" type="Button" parent="game_state_overlay/death/menu"]
+[node name="spacer" type="Control" parent="game_state_overlay/death/menu"]
+margin_top = 29.0
 margin_right = 256.0
-margin_bottom = 20.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 0, 16 )
+theme = ExtResource( 11 )
+
+[node name="checkpoint" type="Button" parent="game_state_overlay/death/menu"]
+margin_top = 49.0
+margin_right = 256.0
+margin_bottom = 69.0
+theme = ExtResource( 11 )
 text = "LOAD CHECKPOINT"
 
-[node name="reset" type="Button" parent="game_state_overlay/death/menu"]
-margin_top = 24.0
+[node name="spacer2" type="Control" parent="game_state_overlay/death/menu"]
+margin_top = 73.0
 margin_right = 256.0
-margin_bottom = 44.0
+margin_bottom = 89.0
+rect_min_size = Vector2( 0, 16 )
+theme = ExtResource( 11 )
+
+[node name="reset" type="Button" parent="game_state_overlay/death/menu"]
+margin_top = 93.0
+margin_right = 256.0
+margin_bottom = 113.0
+theme = ExtResource( 11 )
 text = "RESTART LEVEL"
 
 [node name="complete" type="Control" parent="game_state_overlay"]
@@ -207,6 +242,7 @@ margin_top = -300.0
 margin_right = 512.0
 margin_bottom = 300.0
 mouse_filter = 2
+theme = ExtResource( 11 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -217,6 +253,7 @@ margin_left = 384.0
 margin_top = 128.0
 margin_right = 640.0
 margin_bottom = 142.0
+theme = ExtResource( 11 )
 text = "LEVEL COMPLETE"
 align = 1
 valign = 1
@@ -233,6 +270,7 @@ margin_left = -128.0
 margin_top = 148.0
 margin_right = 128.0
 margin_bottom = 276.0
+theme = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -240,6 +278,7 @@ __meta__ = {
 [node name="reset" type="Button" parent="game_state_overlay/complete/menu"]
 margin_right = 256.0
 margin_bottom = 20.0
+theme = ExtResource( 11 )
 text = "RESTART"
 
 [node name="hint_text" type="Control" parent="game_state_overlay"]
@@ -253,6 +292,7 @@ margin_top = -300.0
 margin_right = 256.0
 margin_bottom = 300.0
 mouse_filter = 2
+theme = ExtResource( 11 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -264,6 +304,7 @@ anchor_right = 0.5
 margin_left = -192.0
 margin_right = 192.0
 margin_bottom = 128.0
+theme = ExtResource( 11 )
 color = Color( 0, 0, 0, 0.505882 )
 
 [node name="hint_label_top" type="Label" parent="game_state_overlay/hint_text"]
@@ -272,6 +313,7 @@ anchor_right = 0.5
 margin_left = -192.0
 margin_right = 192.0
 margin_bottom = 128.0
+theme = ExtResource( 11 )
 custom_fonts/font = ExtResource( 4 )
 text = "HUD hint text goes here"
 align = 1

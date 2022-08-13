@@ -24,7 +24,7 @@ var _time:float = 30
 var _velocity:Vector3 = Vector3()
 var _deathNormal:Vector3 = Vector3()
 var _mask:int = -1
-var _team:int = Interactions.TEAM_NONE
+# var _team:int = Interactions.TEAM_NONE
 var _ignoreBody = []
 var _hitInfo:HitInfo = null
 
@@ -38,7 +38,7 @@ func _ready() -> void:
 	_custom_init()
 
 func prj_bullet_cancel_at(point:Vector3, radius:float, teamId:int) -> void:
-	if teamId != _team:
+	if teamId != _hitInfo.attackTeam:
 		return
 	var origin:Vector3 = self.global_transform.origin
 	if origin.distance_squared_to(point) < (radius * radius):
@@ -56,7 +56,7 @@ func get_hit_info() -> HitInfo:
 func triggered_detonate() -> void:
 	if _state != ProjectileState.InFlight:
 		return
-	_hitInfo.attackTeam = _team
+	# _hitInfo.attackTeam = _team
 	_hitInfo.direction = _velocity.normalized()
 	die()
 
@@ -153,8 +153,9 @@ func _spawn_now() -> void:
 
 func launch_prj(origin:Vector3, _forward:Vector3, sourceId:int, prjTeam:int, collisionMask:int) -> void:
 	_mask = collisionMask
-	_team = prjTeam
+	# _team = prjTeam
 	_hitInfo.sourceId = sourceId
+	_hitInfo.attackTeam = prjTeam
 	_hitInfo.damageType = 0
 	var t:Transform = global_transform
 	t.origin = origin

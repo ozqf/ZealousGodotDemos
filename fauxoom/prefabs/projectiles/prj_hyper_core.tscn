@@ -50,6 +50,7 @@ script = ExtResource( 2 )
 [node name="OmniLight" type="OmniLight" parent="."]
 light_color = Color( 1, 0.486275, 0.145098, 1 )
 light_energy = 2.0
+shadow_enabled = true
 omni_range = 3.0
 omni_attenuation = 0.267944
 

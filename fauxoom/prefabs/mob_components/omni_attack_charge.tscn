@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/gfx/omni_attack_charge.gd" type="Script" id=1]
 
@@ -7,6 +7,9 @@ radius = 0.5
 height = 1.0
 
 [sub_resource type="SpatialMaterial" id=2]
+flags_unshaded = true
+
+[sub_resource type="SpatialMaterial" id=4]
 flags_unshaded = true
 
 [sub_resource type="SphereMesh" id=3]
@@ -24,6 +27,8 @@ mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
 
 [node name="CPUParticles" type="CPUParticles" parent="."]
+material_override = SubResource( 4 )
+cast_shadow = 0
 lifetime = 0.33
 mesh = SubResource( 3 )
 emission_shape = 1

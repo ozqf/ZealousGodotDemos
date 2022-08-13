@@ -292,7 +292,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "PrefabFactory",
 "language": "GDScript",
-"path": "res://prefabs/services/game/prefab_factory.gd"
+"path": "res://src/services/game/prefab_factory.gd"
 }, {
 "base": "RigidBodyProjectile",
 "class": "PrjFlak",

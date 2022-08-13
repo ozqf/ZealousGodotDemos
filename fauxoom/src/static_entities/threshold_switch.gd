@@ -93,6 +93,8 @@ func _process(_delta:float) -> void:
 func hit(_hitInfo:HitInfo) -> int:
 	if _state == ThresholdSwitchState.Complete:
 		return Interactions.HIT_RESPONSE_NONE
+	if _hitInfo.hyperLevel > 0:
+		return Interactions.HIT_RESPONSE_ABSORBED
 	_damageTally += float(_hitInfo.damage)
 	if _damageTally > _threshold:
 		_set_complete()

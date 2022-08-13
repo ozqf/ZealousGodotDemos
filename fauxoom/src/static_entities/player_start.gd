@@ -25,7 +25,9 @@ func _ready() -> void:
 
 func get_editor_info() -> Dictionary:
 	visible = true
-	return _ent.get_editor_info_base()
+	var info = _ent.get_editor_info_base()
+	info.rotatable = true
+	return info
 
 func append_state(_dict:Dictionary) -> void:
 	_dict.xform = ZqfUtils.transform_to_dict(global_transform)

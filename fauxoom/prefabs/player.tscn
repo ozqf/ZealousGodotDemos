@@ -247,6 +247,7 @@ slot = -1
 script = ExtResource( 22 )
 hudName = "Debugger"
 inventoryType = "debugger"
+slot = 9
 refireTime = 0.1
 idle = "dev_tool_idle"
 fire_1 = "dev_tool_idle"

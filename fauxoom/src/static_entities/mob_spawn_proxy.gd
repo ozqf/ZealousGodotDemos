@@ -52,7 +52,7 @@ func restore_state(_dict:Dictionary) -> void:
 
 func get_editor_info() -> Dictionary:
 	visible = true
-	var info = { prefab = _ent.prefabName, fields = {}}
+	var info = { prefab = _ent.prefabName, fields = {}, rotatable = true }
 	ZEEMain.create_field(info.fields, "sn", "Self Name", "text", _ent.selfName)
 	ZEEMain.create_field(info.fields, "tcsv", "Target CSV", "text", _ent.triggerTargetName)
 	ZEEMain.create_field(info.fields, "type", "Mob Type", "int", type)

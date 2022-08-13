@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/mat_white_unlit.tres" type="Material" id=1]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 0.25
+height = 0.5
+radial_segments = 8
+rings = 4
+
+[node name="generic_omnilight" type="OmniLight"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+light_energy = 1.5
+shadow_enabled = true
+shadow_reverse_cull_face = true
+omni_range = 15.0
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+cast_shadow = 0
+mesh = SubResource( 1 )
+material/0 = ExtResource( 1 )

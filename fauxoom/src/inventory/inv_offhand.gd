@@ -16,7 +16,7 @@ func custom_init_b() -> void:
 	add_to_group(Groups.PLAYER_GROUP_NAME)
 
 func _spawn_aoe(pos:Vector3) -> HyperAoe:
-	var aoe = Game.hyper_aoe_t.instance()
+	var aoe = Game.get_factory().hyper_aoe_t.instance()
 	Game.get_dynamic_parent().add_child(aoe)
 	aoe.global_transform.origin = pos
 	aoe.run_hyper_aoe(HyperAoe.TYPE_SUPER_PUNCH, 1.0)

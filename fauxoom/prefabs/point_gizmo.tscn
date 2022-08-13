@@ -12,10 +12,14 @@ rings = 8
 size = Vector3( 0.1, 0.25, 0.5 )
 
 [node name="point_gizmo" type="MeshInstance"]
+cast_shadow = 0
+generate_lightmap = false
 mesh = SubResource( 1 )
 material/0 = ExtResource( 1 )
 
 [node name="direction" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, -0.25 )
+cast_shadow = 0
+generate_lightmap = false
 mesh = SubResource( 2 )
 material/0 = null

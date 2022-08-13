@@ -101,7 +101,6 @@ material/0 = null
 light_color = Color( 1, 0.423529, 0, 1 )
 light_energy = 3.0
 omni_range = 2.0
-omni_attenuation = 0.241484
 
 [node name="Area" type="Area" parent="."]
 collision_layer = 4

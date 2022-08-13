@@ -26,7 +26,7 @@ func _run_explosion_hits(bodies) -> void:
 	if bodies.size() == 0:
 		return
 	# print("Projectile read " + str(bodies.size()) + " bodies hit")
-	_hitInfo.attackTeam = _team
+	# _hitInfo.attackTeam = _team
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_EXPLOSIVE
 	_hitInfo.origin = global_transform.origin
 	_hitInfo.origin -= -global_transform.basis.z * 0.2
