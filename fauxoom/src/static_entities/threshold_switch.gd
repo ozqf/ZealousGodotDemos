@@ -60,7 +60,7 @@ func _refresh_position() -> void:
 		weight = 1
 	if weight < 0:
 		weight = 0
-	var pos:Vector3 = Vector3().linear_interpolate(Vector3(0, 0, -2), weight)
+	var pos:Vector3 = Vector3(0, 0, 2).linear_interpolate(Vector3(0, 0, 0), weight)
 	_hitBox.transform.origin = pos
 
 func _set_complete() -> void:

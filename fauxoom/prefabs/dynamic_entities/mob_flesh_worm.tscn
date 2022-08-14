@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://src/ai/mob_stats.gd" type="Script" id=1]
 [ext_resource path="res://src/ai/mob_base.gd" type="Script" id=2]
@@ -13,6 +13,18 @@
 [ext_resource path="res://prefabs/mob_components/mob_sound_base.tscn" type="PackedScene" id=11]
 [ext_resource path="res://src/ai/mobs/worm_sound.gd" type="Script" id=12]
 [ext_resource path="res://prefabs/mob_components/mob_debuffs.tscn" type="PackedScene" id=13]
+[ext_resource path="res://assets/sprites/sheets/worm_sheet.png" type="Texture" id=14]
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
+params_billboard_mode = 2
+albedo_texture = ExtResource( 14 )
+emission_enabled = true
+emission = Color( 0, 0, 0, 1 )
+emission_energy = 0.2
+emission_operator = 0
+emission_on_uv2 = false
+emission_texture = ExtResource( 14 )
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
@@ -33,8 +45,10 @@ script = ExtResource( 12 )
 
 [node name="teleport_column" parent="." instance=ExtResource( 10 )]
 transform = Transform( 1.2, 0, 0, 0, 2, 0, 0, 0, 1.2, 0, 0, 0 )
+visible = false
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
+material_override = SubResource( 3 )
 offset = Vector2( 0, 32 )
 pixel_size = 0.03
 billboard = 2
