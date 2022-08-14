@@ -61,9 +61,9 @@ func custom_tick(_delta:float, _aiInfo:AITickInfo) -> void:
 				_leapEnd = leapTarget
 				_mob.sprite.play_animation("leap")
 				_leapTick = 0.0
-				_tick = 0
 				# print("Start leap from " + str(_leapStart) + " to " + str(_leapEnd))
-				change_state(LEAP_STATE)
+				change_state(STATE_WINDUP)
+				_tick = 0.75
 			else:
 				# Game.get_factory().spawn_impact_debris(leapTarget, Vector3.UP, 5, 10, 5)
 				# _mob.motor.move_idle(_delta)
@@ -93,6 +93,9 @@ func custom_tick(_delta:float, _aiInfo:AITickInfo) -> void:
 		# 	lastTarPos = _aiInfo.position
 		# 	_mob.face_target_flat(lastTarPos)
 		# 	change_state(STATE_WINDUP)
+	elif _state == STATE_WINDUP:
+		if _tick <= 0:
+			change_state(LEAP_STATE)
 	elif _state == LEAP_STATE:
 		_leapTick += _delta
 		var weight:float = _leapTick / _leapTime

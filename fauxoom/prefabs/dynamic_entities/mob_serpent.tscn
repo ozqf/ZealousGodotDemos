@@ -26,6 +26,7 @@ script = ExtResource( 2 )
 
 [node name="teleport_column" parent="." instance=ExtResource( 10 )]
 transform = Transform( 2, 0, 0, 0, 2.6, 0, 0, 0, 2, 0, 0, 0 )
+visible = false
 
 [node name="sprite" type="AnimatedSprite3D" parent="."]
 offset = Vector2( 0, 48 )
@@ -64,6 +65,8 @@ cooldown = 4.0
 script = ExtResource( 1 )
 health = 400
 moveSpeed = 8.0
+stunThreshold = 100
+sizeClass = 1
 
 [node name="Entity" type="Node" parent="."]
 script = ExtResource( 3 )
