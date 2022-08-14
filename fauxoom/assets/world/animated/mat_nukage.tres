@@ -1,0 +1,18 @@
+[gd_resource type="SpatialMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://assets/world/raw_freedoom/liquid/nukage1.png" type="Texture" id=1]
+[ext_resource path="res://assets/world/raw_freedoom/liquid/nukage1_emissive.png" type="Texture" id=2]
+
+[resource]
+flags_transparent = true
+flags_world_triplanar = true
+albedo_color = Color( 1, 1, 1, 0.286275 )
+albedo_texture = ExtResource( 1 )
+emission_enabled = true
+emission = Color( 0, 0.0470588, 0, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+emission_texture = ExtResource( 2 )
+uv1_scale = Vector3( 0.25, 0.25, 0.25 )
+uv1_triplanar = true

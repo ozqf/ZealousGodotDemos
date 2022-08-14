@@ -3,7 +3,7 @@
 [ext_resource path="res://src/ui/objectives/hud_objectives.gd" type="Script" id=1]
 
 [node name="hud_objectives" type="ColorRect"]
-self_modulate = Color( 0.231373, 0.231373, 0.231373, 0.160784 )
+self_modulate = Color( 0.231373, 0.231373, 0.231373, 0 )
 anchor_right = 0.25
 anchor_bottom = 0.089
 margin_bottom = -0.0800018

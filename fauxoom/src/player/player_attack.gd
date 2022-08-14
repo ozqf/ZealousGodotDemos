@@ -76,6 +76,12 @@ func _process(_delta:float) -> void:
 			_pendingSlot = 6
 		if check_action_press_or_release("slot_7"):
 			_pendingSlot = 7
+		if check_action_press_or_release("slot_8"):
+			_pendingSlot = 8
+		if check_action_press_or_release("slot_9"):
+			_pendingSlot = 9
+		if check_action_press_or_release("slot_0"):
+			_pendingSlot = 0
 		
 		if _pendingSlot != -1:
 			var result:int = _inventory.change_weapon_by_slot(_pendingSlot)
