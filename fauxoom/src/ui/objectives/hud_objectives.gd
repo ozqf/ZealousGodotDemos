@@ -13,6 +13,8 @@ var _objectiveStrings = []
 func _ready():
 	self.add_to_group(GROUP_NAME)
 	objectives_clear()
+	# just hide for now until properly implemented
+	self.visible = false
 
 func _refresh_strings() -> void:
 	var output:String = ""

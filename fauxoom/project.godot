@@ -819,6 +819,5 @@ slot_0={
 
 [rendering]
 
-limits/rendering/max_lights_per_object=64
 environment/default_environment="res://default_env.tres"
 quality/dynamic_fonts/use_oversampling=false

@@ -17,20 +17,28 @@ script = ExtResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="rotator/Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0 )
+cast_shadow = 0
+generate_lightmap = false
 mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="rotator/Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0 )
+cast_shadow = 0
+generate_lightmap = false
 mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
 
 [node name="MeshInstance3" type="MeshInstance" parent="rotator/Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, 0 )
+cast_shadow = 0
+generate_lightmap = false
 mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="rotator/Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0, 0 )
+cast_shadow = 0
+generate_lightmap = false
 mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )

@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/catacombs_01_entity9.obj-059724ab6336c8b8a4f1f6bf80fcf661.mesh"
+
+[deps]
+
+files=[ "res://.import/catacombs_01_entity9.obj-059724ab6336c8b8a4f1f6bf80fcf661.mesh" ]
+
+source_file="res://maps/catacombs_01/geometry/catacombs_01_entity9.obj"
+dest_files=[ "res://.import/catacombs_01_entity9.obj-059724ab6336c8b8a4f1f6bf80fcf661.mesh", "res://.import/catacombs_01_entity9.obj-059724ab6336c8b8a4f1f6bf80fcf661.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

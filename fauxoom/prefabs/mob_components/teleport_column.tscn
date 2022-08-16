@@ -12,6 +12,7 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.5 )
 material_override = ExtResource( 2 )
 cast_shadow = 0
+generate_lightmap = false
 mesh = SubResource( 1 )
 material/0 = null
 
@@ -19,6 +20,7 @@ material/0 = null
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.5, -0.5 )
 material_override = ExtResource( 2 )
 cast_shadow = 0
+generate_lightmap = false
 mesh = SubResource( 1 )
 material/0 = null
 
@@ -26,6 +28,7 @@ material/0 = null
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.5, 0.5, 0 )
 material_override = ExtResource( 2 )
 cast_shadow = 0
+generate_lightmap = false
 mesh = SubResource( 1 )
 material/0 = null
 
@@ -33,5 +36,6 @@ material/0 = null
 transform = Transform( 1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -0.5, 0.5, 0 )
 material_override = ExtResource( 2 )
 cast_shadow = 0
+generate_lightmap = false
 mesh = SubResource( 1 )
 material/0 = null
