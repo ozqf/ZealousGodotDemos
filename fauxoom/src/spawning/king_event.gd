@@ -78,6 +78,10 @@ func king_event_start(eventCount:int) -> void:
 
 	Main.submit_console_command("flashy WAVE " + str(_eventCount + 1))
 
+func king_event_append_status(status:KingStatus) -> void:
+	status.waveMobsKilled = _killCount
+	status.waveMobsTotal = _killTarget
+
 func king_event_stop() -> void:
 	print("King event - end")
 	Main.submit_console_command("flashy COMPLETED " + str(_eventCount + 1))
@@ -130,12 +134,12 @@ func _max_active_mob_count() -> int:
 
 func _tick_spawning(_delta:float) -> void:
 	if _mobSpawnTick <= 0.0 && _killCount < _killTarget:
-		_mobSpawnTick = 0.1
+		_mobSpawnTick = 0.25
 		if _activeMobIds.size() < _max_active_mob_count():
 			var def:SpawnDef = _queue.get_next()
 			var mob = Ents.create_mob_by_name(def.type, def.t, true)
 			mob.force_awake()
-			var childId:int = mob.get_node("Entity").id
+			var childId:int = mob.get_entity_id()
 			_activeMobIds.push_back(childId)
 		pass
 	else:

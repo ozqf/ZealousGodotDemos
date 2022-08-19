@@ -55,8 +55,8 @@ func write_hud_status(statusDict:PlayerHudStatus) -> void:
 	statusDict.currentLoadedMax = maxLoaded
 	statusDict.currentAmmo = self._inventory.get_count(self.ammoType)
 
-func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> void:
-	if check_and_use_hyper_attack(Interactions.HYPER_COST_PISTOL):
+func _custom_shoot(isHyper:bool, _spreadX:float, _spreadY:float, shotSpreadScale:float) -> void:
+	if isHyper:
 		_hitInfo.stunOverrideTime = 1
 		_hitInfo.stunOverrideDamage = 200
 		_hitInfo.hyperLevel = 1
@@ -77,7 +77,7 @@ func _fire_flare(hyper:bool) -> void:
 	if hyper:
 		prj = Game.get_factory().flare_t.instance()
 		Game.get_dynamic_parent().add_child(prj)
-		prj.override_damage(35)
+		prj.override_damage(70)
 		prj.get_hit_info().burnSourceMask = Interactions.BURN_SOURCE_BIT_FLARE
 		prj.get_hit_info().hyperLevel = 1
 	else:
@@ -147,14 +147,20 @@ func read_input(_weaponInput:WeaponInput) -> void:
 
 	if _weaponInput.primaryOn && ammo >= ammoPerShot:
 		if !rightIsReloading:
+			var isHyper:bool = false
 			var hyperMul:float = 1.0
-			if check_and_use_hyper_attack(1):
-				#hyperMul = 0.5
-				_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
-			_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
-			_inventory.take_item(ammoType, 1)
+			var shots:int = 1
+			if check_and_use_hyper_attack(Interactions.HYPER_COST_PISTOL):
+				isHyper = true
+				shots = 3
+			# if check_can_hyper_attack(Interactions.HYPER_COST_PISTOL):
+			# 	#hyperMul = 0.5
+			# 	_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
+			for i in range(0, shots):
+				_custom_shoot(isHyper, maxSpreadX, maxSpreadY, _spreadScale)
+				_inventory.take_item(ammoType, 1)
+				_spawn_brass(false)
 			_hud.hudAudio.play_stream_weapon_1(_pistolShoot, 0.1)
-			_spawn_brass(false)
 			_rightTick = ((_repeatFireTime * 2.0) * hyperMul)
 			_hudSprite.play(fire_1)
 			_hudSprite.nextAnim = idle
@@ -162,14 +168,19 @@ func read_input(_weaponInput:WeaponInput) -> void:
 			pass
 		else:
 			if !leftIsReloading && akimboReady:
+				var isHyper:bool = false
 				var hyperMul:float = 1.0
-				if check_and_use_hyper_attack(1):
-					hyperMul = 1
-					_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
-				_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
-				_inventory.take_item(ammoType, 1)
+				var shots:int = 1
+				if check_and_use_hyper_attack(Interactions.HYPER_COST_PISTOL):
+					shots = 3
+				# if check_can_hyper_attack(Interactions.HYPER_COST_PISTOL):
+				# 	hyperMul = 1
+				# 	_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)
+				for i in range(0, shots):
+					_custom_shoot(isHyper, maxSpreadX, maxSpreadY, _spreadScale)
+					_inventory.take_item(ammoType, 1)
+					_spawn_brass(true)
 				_hud.hudAudio.play_stream_weapon_1(_pistolShoot, 0.1)
-				_spawn_brass(true)
 				_leftTick = ((_repeatFireTime * 2.0) * hyperMul)
 				_offhandSprite.play(fire_1)
 				_offhandSprite.nextAnim = idle

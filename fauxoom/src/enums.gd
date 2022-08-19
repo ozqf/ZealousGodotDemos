@@ -85,7 +85,7 @@ enum AppState { Game, Editor }
 
 enum GameState { Pregame, Playing, Won, Lost }
 
-enum GameMode { Classic, EntityEditor, Survival }
+enum GameMode { Classic, King }
 
 enum DebuggerMode {
 	Deathray,

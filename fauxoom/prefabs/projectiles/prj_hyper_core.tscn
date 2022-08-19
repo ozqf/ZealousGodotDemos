@@ -41,6 +41,7 @@ script = ExtResource( 3 )
 shape = SubResource( 1 )
 
 [node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]
+cast_shadow = 0
 pixel_size = 0.04
 billboard = 1
 frames = ExtResource( 1 )
@@ -64,6 +65,7 @@ shape = SubResource( 2 )
 
 [node name="Particles" type="Particles" parent="."]
 material_override = SubResource( 4 )
+cast_shadow = 0
 emitting = false
 amount = 32
 lifetime = 4.0

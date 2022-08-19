@@ -1159,11 +1159,20 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="time_label" type="Label" parent="king_mode_ui"]
+[node name="mob_stats_label" type="Label" parent="king_mode_ui"]
 margin_top = 18.0
 margin_right = 256.0
 margin_bottom = 32.0
-text = "WAVE: 1"
+text = "KILLS: 0 / 20"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="time_label" type="Label" parent="king_mode_ui"]
+margin_top = 36.0
+margin_right = 256.0
+margin_bottom = 50.0
+text = "999:99"
 __meta__ = {
 "_edit_lock_": true
 }

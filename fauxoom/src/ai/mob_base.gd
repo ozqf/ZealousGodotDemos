@@ -140,6 +140,9 @@ func orb_shield_restored(_index:int) -> void:
 func get_orb_count() -> int:
 	return _shieldOrbCount
 
+func get_entity_id() -> int:
+	return _ent.id
+
 func get_debug_text() -> String:
 	var txt:String = "prefab: " + _ent.prefabName + "\n"
 	txt += "Roles: Class: " + str(roleClass) + " assigned: " + str(roleId) + "\n"

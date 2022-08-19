@@ -53,6 +53,8 @@ var _pendingSkill:int = 2
 var _skills = []
 
 var _state = Enums.GameState.Pregame
+var _gameMode = Enums.GameMode.King
+var _pendingGameMode = Enums.GameMode.King
 
 var allowQuickSwitching:bool = true
 var quickSwitchTime:float = 0.5
@@ -318,6 +320,9 @@ func _refresh_editor_overlay() -> void:
 	_deathUI.visible = false
 	MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
 
+func _apply_pending_mode() -> void:
+	_gameMode = _pendingGameMode
+
 #func _build_save_path(fileName, embedded:bool) -> String:
 #	var root:String = "user://saves"
 #	var extension:String = ".json"
@@ -413,6 +418,16 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		print("Game - reset")
 		_cleanup_temp_entities()
 		reset_game()
+	elif first == "gamemode":
+		if numTokens < 2:
+			print("Set gamemode - need second param")
+			return
+		var newModeName = _tokens[1]
+		if newModeName == "king":
+			_pendingGameMode = Enums.GameMode.King
+		else:
+			_pendingGameMode = Enums.GameMode.Classic
+		print("Set Game Mode " + str(newModeName) + ": " + str(_pendingGameMode))
 	elif _txt == "killai":
 		print("Killing all AI")
 		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_KILL_AI)
@@ -423,6 +438,7 @@ func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
 		var fileName = "catacombs_entity_test"
 		if numTokens > 1:
 			fileName = _tokens[1]
+		_apply_pending_mode()
 		if !_load_entities(fileName, Enums.FileSource.EmbeddedAndUser, Enums.AppState.Game):
 			print("Play from file failed")
 		else:
@@ -488,6 +504,9 @@ func load_save_dict(dict:Dictionary) -> void:
 		set_game_state(dict.state)
 	else:
 		set_game_state(Enums.GameState.Pregame)
+	
+	_pendingGameMode = ZqfUtils.safe_dict_i(dict, "mode", _pendingGameMode)
+	_apply_pending_mode()
 	# restore environment
 	if dict.has("env"):
 		game_set_environment(dict.env)
@@ -516,6 +535,7 @@ func save_game(filePath:String) -> void:
 		# we need to know what the former entity file was if we need to reset
 		# the level
 		entsFileName = Main.get_current_entities_file(),
+		mode = _gameMode,
 		state = _state,
 		env = _environment
 	}

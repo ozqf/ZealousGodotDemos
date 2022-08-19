@@ -23,9 +23,9 @@ var _attachParent:Spatial = null
 # gather object can be a rigidbody which we can't just attach to...?
 var _gatherParent:Spatial = null
 
-var _fuseLit:bool = true
-var _fuseTime:float = 6.0
-var _fuseTick:float = 6.0
+var _fuseLit:bool = false
+var _fuseTime:float = 4.0
+var _fuseTick:float = 4.0
 
 var _coreState = HyperCoreState.None
 var _scaleBoost:int = 0
@@ -39,7 +39,7 @@ var _volatile:bool = false
 var _stakeVelocity:Vector3 = Vector3()
 
 func _ready() -> void:
-	light_fuse()
+	# light_fuse()
 	_originGravityScale = self.gravity_scale
 	timeToLive = 999
 	add_to_group(Groups.HYPER_CORES_GROUP)
@@ -58,11 +58,20 @@ func core_collect() -> void:
 	self.queue_free()
 
 func on_area_entered_area(area:Area) -> void:
-	if Interactions.is_obj_a_mob(area):
-		Interactions.hit(_hitInfo, area)
+	Interactions.hit(_hitInfo, area)
+	# if Interactions.is_obj_a_mob(area):
+		# # 
+		# Interactions.hit(_hitInfo, area)
 
 func on_body_entered_area(body) -> void:
 	if Interactions.is_obj_a_mob(body):
+		# if thrown and not a stake kick upward if we fly horizontally
+		# into an enemy
+		if _coreState == HyperCoreState.None:
+			var vel:Vector3 = self.linear_velocity
+			vel.y = 0.0
+			if vel.length() > 0.2:
+				_kick_up()
 		Interactions.hit(_hitInfo, body)
 
 # func on_area_entered_body(area:Area) -> void:
@@ -296,6 +305,11 @@ func _remove_self() -> void:
 	_dead = true
 	self.queue_free()
 
+func _kick_up() -> void:
+	detach()
+	_reset_fuse_time()
+	self.linear_velocity = Vector3(0.0, 10.0, 0.0)
+
 func hit(_hitInfo:HitInfo) -> int:
 	if _dead:
 		return Interactions.HIT_RESPONSE_NONE
@@ -311,9 +325,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		spawn_shrapnel_bomb(self.global_transform.origin)
 	elif combo == Interactions.COMBO_CLASS_PUNCH:
 		# detach if attached to something
-		detach()
-		_reset_fuse_time()
-		self.linear_velocity = Vector3(0.0, 10.0, 0.0)
+		_kick_up()
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_STAKE:
 		if _hitInfo.damageType == Interactions.DAMAGE_TYPE_SAW_PROJECTILE:
@@ -328,7 +340,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE:
 		light_fuse()
-		_volatile = true
+		# _volatile = true
 		_apply_kinetic_push(_hitInfo.direction)
 		return Interactions.HIT_RESPONSE_ABSORBED
 	elif combo == Interactions.COMBO_CLASS_SAWBLADE_PROJECTILE:

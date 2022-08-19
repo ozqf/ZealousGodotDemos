@@ -18,4 +18,9 @@ frame = 37
 script = ExtResource( 1 )
 prefabName = "rage_small"
 
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+light_color = Color( 0.12549, 1, 0, 1 )
+omni_range = 1.0
+
 [editable path="item_base"]

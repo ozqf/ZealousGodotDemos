@@ -43,7 +43,7 @@ var _ammoCooldown:float = 8.0
 
 var _eventEnts = []
 var _eventIndex = -1
-var _eventCount:int = 0
+var _eventCount:int = 9 #0
 
 var _totalEventSeconds:float = 0.0
 
@@ -218,7 +218,7 @@ func _refresh_weapons_list() -> void:
 			_weapons.remove(i)
 
 func _spawn_next_weapon() -> void:
-	if _eventCount % 3 != 0:
+	if _eventCount < 9 && _eventCount % 3 != 0:
 		return
 	_refresh_weapons_list()
 	var type:String
@@ -372,6 +372,9 @@ func _move_spawn_tick(_delta:float) -> void:
 func _broadcast_status() -> void:
 	_kingStatus.waveCount = _eventCount
 	_kingStatus.totalEventSeconds = _totalEventSeconds
+	var ev = _get_event_ent()
+	if ev != null:
+		ev.get_parent().king_event_append_status(_kingStatus)
 	var grp:String = Groups.GAME_GROUP_NAME
 	var fn:String = Groups.GAME_FN_KING_STATUS_UPDATE
 	get_tree().call_group(grp, fn, _kingStatus)
