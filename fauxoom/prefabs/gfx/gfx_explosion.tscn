@@ -2,14 +2,14 @@
 
 [ext_resource path="res://assets/sprites/frames/explosion_frames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://zqf/zgu_animated_sprite_3d_controller.gd" type="Script" id=2]
-[ext_resource path="res://src/gfx/rocket_explosion.gd" type="Script" id=3]
+[ext_resource path="res://src/gfx/gfx_explosion.gd" type="Script" id=3]
 [ext_resource path="res://assets/sounds/impact/explode.wav" type="AudioStream" id=4]
 [ext_resource path="res://assets/primitives/hoop_1.obj" type="ArrayMesh" id=5]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_unshaded = true
 
-[node name="explosion" type="Spatial"]
+[node name="gfx_explosion" type="Spatial"]
 script = ExtResource( 3 )
 time = 1.0
 

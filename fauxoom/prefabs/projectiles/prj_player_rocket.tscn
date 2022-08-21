@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/sprites/frames/64x64_projectile_frames.tres" type="SpriteFrames" id=1]
-[ext_resource path="res://prefabs/dynamic_entities/rocket_explosion.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=3]
 [ext_resource path="res://src/projectiles/prj_player_rocket.gd" type="Script" id=4]
 [ext_resource path="res://zqf/zqf_volume_scanner.gd" type="Script" id=5]
@@ -27,7 +26,6 @@ size = Vector2( 0.1, 0.1 )
 [node name="prj_player_rocket" type="Spatial"]
 script = ExtResource( 4 )
 laserGuided = true
-deathSpawnPrefab = ExtResource( 2 )
 
 [node name="CustomAnimator3D" type="AnimatedSprite3D" parent="."]
 pixel_size = 0.03

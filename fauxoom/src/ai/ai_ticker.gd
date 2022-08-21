@@ -169,7 +169,7 @@ func _check_attack_cooldown(att:MobAttack) -> bool:
 # all necessary criteria
 func _select_attack(_tickInfo:AITickInfo) -> int:
 	var time:float = _mob.time
-	var dist:float = _tickInfo.trueDistance
+	var dist:float = _tickInfo.trueDistanceSqr
 	var numAttacks:int = _mob.attacks.size()
 	for _i in range (0, numAttacks):
 		var att:MobAttack = _mob.attacks[_i]
@@ -183,9 +183,9 @@ func _select_attack(_tickInfo:AITickInfo) -> int:
 		# 		continue
 		if att.requiresLos && !_tickInfo.canSeeTarget:
 			continue
-		if dist < att.minUseRange:
+		if dist < (att.minUseRange * att.minUseRange):
 			continue
-		elif dist > att.maxUseRange:
+		elif dist > (att.maxUseRange * att.maxUseRange):
 			continue
 		att.lastSelectTime = time
 		return _i
@@ -255,7 +255,7 @@ func validate_move_target(_delta:float, _tickInfo:AITickInfo) -> void:
 	pass
 
 func _check_for_attack_start(_tickInfo:AITickInfo) -> bool:
-	if _tick <= 0 && _tickInfo.trueDistance <= 999 && _tickInfo.canSeeTarget:
+	if _tick <= 0 && _tickInfo.trueDistanceSqr <= (999 * 999) && _tickInfo.canSeeTarget:
 		return true
 	return false
 
@@ -282,7 +282,7 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 		# 	if AI.find_flee_position(_mob.motor.get_agent()):
 		# 		_mob.motor.set_move_target(_mob.motor.get_agent().target)
 		# 	pass
-		if _tickInfo.trueDistance > 3:
+		if _tickInfo.trueDistanceSqr > (3 * 3):
 			_mob.motor.move_hunt(_delta)
 			set_rotation_to_movement()
 		# if _check_for_attack_start(_tickInfo):

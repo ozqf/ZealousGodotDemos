@@ -1,8 +1,12 @@
 extends Node
 class_name PrefabFactory
 
+##############################
+# def objects
+var _def_t = preload("res://src/defs/spawn_def.gd")
 
 ###########################
+# scene objects
 var _player_t = preload("res://prefabs/player.tscn")
 var _gib_t = preload("res://prefabs/gib.tscn")
 var _head_gib_t = preload("res://prefabs/player_gib.tscn")
@@ -16,7 +20,7 @@ var _rage_drop_t = preload("res://prefabs/dynamic_entities/rage_drop.tscn")
 
 var prefab_impact_debris_t = preload("res://prefabs/gfx/bullet_hit_debris.tscn")
 var prefab_blood_debris_t = preload("res://prefabs/gfx/blood_hit_debris.tscn")
-var prefab_explosion_sprite_t = preload("res://prefabs/dynamic_entities/rocket_explosion.tscn")
+var prefab_explosion_sprite_t = preload("res://prefabs/gfx/gfx_explosion.tscn")
 
 var prefab_impact = preload("res://prefabs/bullet_impact.tscn")
 var prefab_blood_hit = preload("res://prefabs/blood_hit_sprite.tscn")
@@ -66,9 +70,20 @@ func get_dynamic_parent():
 		return _dynamicRoot
 	return _entRoot
 
-###############
-# spawns
-###############
+##############################
+# new def objects
+##############################
+
+func new_spawn_def() -> SpawnDef:
+	return _def_t.new()
+
+##############################
+# spawn entities/scene objects
+##############################
+
+func spawn_mob(def:SpawnDef) -> Object:
+	var mob = Ents.create_mob_by_name(def.type, def.t, def.forceAwake)
+	return mob
 
 func spawn_corpse(spawnerPrefabType:String, info:CorpseSpawnInfo, t:Transform) -> void:
 	var prefab = null

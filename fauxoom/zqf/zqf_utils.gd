@@ -144,6 +144,10 @@ static func flat_distance_between(origin:Vector3, target:Vector3) -> float:
 	var dx = target.x - origin.x
 	return sqrt((dx * dx) + (dz * dz))
 
+static func flat_distance_sqr(origin:Vector3, target:Vector3) -> float:
+	target.y = origin.y
+	return origin.distance_squared_to(target)
+
 static func cap_degrees(degrees:float) -> float:
 	while degrees >= 360:
 		degrees -= 360

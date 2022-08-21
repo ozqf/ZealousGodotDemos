@@ -43,7 +43,7 @@ var _ammoCooldown:float = 8.0
 
 var _eventEnts = []
 var _eventIndex = -1
-var _eventCount:int = 9 #0
+var _eventCount:int = 0
 
 var _totalEventSeconds:float = 0.0
 
@@ -56,7 +56,7 @@ var _awaitingCore:bool = true
 
 var _weapons = [
 	"pistol",
-	# "chainsaw",
+	"chainsaw",
 	"ssg",
 	"pg",
 	"rocket_launcher"
@@ -68,6 +68,7 @@ var _throwCoreObjective:String = "Press R to throw a Power Core into the ammo di
 var _takeGunObjective:String = "Pickup the weapon."
 
 func _ready() -> void:
+	_eventCount = 20
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.PLAYER_GROUP_NAME)
@@ -91,8 +92,6 @@ func open_for_core() -> void:
 	_prismBottom.transform.origin = Vector3(0, -0.5, 0)
 	_coreCollisionShape.disabled = false
 	get_tree().call_group(HudObjectives.GROUP_NAME, HudObjectives.FN_ADD_OBJECTIVE, _throwCoreObjective)
-	#if _eventCount < 3:
-	#	_hintMessage = "Awaiting Power Core\n(press R by default to throw)\nCosts 10 Energy"
 
 func close_from_core() -> void:
 	_spawn_next_weapon()
@@ -218,12 +217,14 @@ func _refresh_weapons_list() -> void:
 			_weapons.remove(i)
 
 func _spawn_next_weapon() -> void:
-	if _eventCount < 9 && _eventCount % 3 != 0:
-		return
 	_refresh_weapons_list()
+	var hasPistol:bool = _weapons.find("pistol") == -1
+	if hasPistol:
+		if _eventCount < 9 && _eventCount % 3 != 0:
+			return
 	var type:String
 	# always spawn pistol first
-	if _weapons.find("pistol") != -1:
+	if !hasPistol:
 		type = "pistol"
 	else:
 		var l:int = _weapons.size()
@@ -379,6 +380,31 @@ func _broadcast_status() -> void:
 	var fn:String = Groups.GAME_FN_KING_STATUS_UPDATE
 	get_tree().call_group(grp, fn, _kingStatus)
 
+func _spawn_transition_mobs() -> void:
+	var numNodes:int = _path.get_node_count()
+	print("Spawning transition mobs - path has " + str(numNodes))
+	var accumulator:float = 0.0
+	var lastPos:Vector3 = _path.get_node_pos_by_index(0)
+	var mobStep:float = 4.0
+	var escape:int = 0
+	var def:SpawnDef = Game.get_factory().new_spawn_def()
+	for i in range(1, numNodes):
+		var nextPos:Vector3 = _path.get_node_pos_by_index(i)
+		accumulator = lastPos.distance_to(nextPos)
+		while accumulator > mobStep:
+			print("Transition spawn at " + str(nextPos))
+			def.t = Transform.IDENTITY
+			def.t.origin = nextPos
+			def.type = Ents.PREFAB_MOB_PUNK
+			def.forceAwake = false
+			var mob = Game.get_factory().spawn_mob(def)
+			accumulator -= mobStep
+			escape += 1
+			if escape > 1000:
+				print("Transitions - ran away!")
+				return
+		lastPos = nextPos
+
 func _tick_idle(_delta) -> void:
 	var origin:Vector3 = self.global_transform.origin
 	var losCheckOrigin:Vector3 = origin + Vector3(0, 1.0, 0)
@@ -393,6 +419,7 @@ func _tick_idle(_delta) -> void:
 		_state = KingTowerState.MovingToEvent
 		_outerShellMesh.visible = true
 		Game.set_all_forcefields(true)
+		_spawn_transition_mobs()
 
 func _tick_hint_message(_delta:float) -> void:
 	if _hintMessage == "":
@@ -405,7 +432,6 @@ func _tick_hint_message(_delta:float) -> void:
 	if _hintTick <= 0:
 		_hintTick = 2.0
 		# Game.show_hint_text(_hintMessage)
-	
 
 func _process(_delta:float):
 	if _state == KingTowerState.InEditor:

@@ -1,9 +1,8 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/sprites/frames/64x64_projectile_frames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://src/projectiles/prj_stasis_grenade.gd" type="Script" id=2]
 [ext_resource path="res://src/custom_animator_3d.gd" type="Script" id=3]
-[ext_resource path="res://prefabs/dynamic_entities/rocket_explosion.tscn" type="PackedScene" id=4]
 [ext_resource path="res://zqf/zqf_volume_scanner.gd" type="Script" id=5]
 
 [sub_resource type="PhysicsMaterial" id=7]
@@ -41,7 +40,6 @@ axis_lock_angular_y = true
 axis_lock_angular_z = true
 script = ExtResource( 2 )
 maxSpeed = 20.0
-deathSpawnPrefab = ExtResource( 4 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 6 )

@@ -14,7 +14,7 @@ func die() -> void:
 	_run_explosion_hits(_scanner.bodies)
 	var origin:Vector3 = global_transform.origin
 	Game.get_factory().spawn_impact_debris(origin, _deathNormal, 2, 12, 12)
-
+	Game.get_factory().spawn_explosion_sprite(origin, _deathNormal)
 	Game.get_factory().explosion_shake(origin)
 	.die()
 

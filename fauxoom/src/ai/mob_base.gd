@@ -74,9 +74,11 @@ var _prevState = MobState.Idle
 var _aiTickInfo:AITickInfo = null
 
 var _thinkTick:float = 0.0
+var _tickAccumulator:float = 0.0
 
 var _stunAccumulator:int = 0
 var _pushAccumulator:Vector3 = Vector3()
+var _losAccumulator:float = 0.0
 
 var _health:int = 50
 var _healthMax:int = 50
@@ -216,6 +218,7 @@ func force_awake() -> void:
 func _attempt_force_awake() -> void:
 	#if _state == MobState.Hunting:
 	#	return
+	print(self.name + " force awake")
 	if _state != MobState.Idle:
 		return
 	
@@ -363,10 +366,21 @@ func _build_tick_info(targetInfo:Dictionary, _delta:float) -> void:
 	_aiTickInfo.targetGrounded = targetInfo.grounded
 
 	# fill in further details
-	_aiTickInfo.trueDistance = ZqfUtils.distance_between(selfPos, tarPos)
-	_aiTickInfo.flatDistance = ZqfUtils.flat_distance_between(selfPos, tarPos)
-	# LoS checked from firing point, not body origin which is in the floor!
-	_aiTickInfo.canSeeTarget = AI.check_los_to_player(head.global_transform.origin)
+	_aiTickInfo.trueDistanceSqr = selfPos.distance_squared_to(tarPos)
+	_aiTickInfo.flatDistanceSqr = ZqfUtils.flat_distance_sqr(selfPos, tarPos)
+
+	_losAccumulator += _delta
+	var maxDistSqr:float = 100 * 100
+	var weight:float = 1.0 - (_aiTickInfo.trueDistanceSqr / maxDistSqr)
+	if weight > 1.0:
+		weight = 1.0
+	elif weight < 0.0:
+		weight = 0.0
+	var losCheckTime:float = lerp(1.0 / 15.0, 1.0 / 5, weight)
+	if _losAccumulator > losCheckTime:
+		# LoS checked from firing point, not body origin which is in the floor!
+		_aiTickInfo.canSeeTarget = AI.check_los_to_player(head.global_transform.origin)
+		_losAccumulator = 0.0
 	
 	# record time since a sighting of the player
 	if _aiTickInfo.canSeeTarget:
@@ -378,8 +392,19 @@ func _build_tick_info(targetInfo:Dictionary, _delta:float) -> void:
 	# mob status
 	_aiTickInfo.healthPercentage = (float(_health) / float(_healthMax)) * 100.0
 
-func _process(_delta:float) -> void:
+func _physics_process(_delta:float) -> void:
+	# _tickAccumulator += _delta
+	# var tickStep:float = (1.0 / 30.0)
+	# if _tickAccumulator < tickStep:
+	# 	return
+	# # overwrite delta
+	# _delta = _tickAccumulator
+	# _tickAccumulator -= tickStep
+	_mob_tick(_delta)
+
+func _mob_tick(_delta:float) -> void:
 	time += _delta
+	
 	frameCount += 1
 	_stunAccumulator = 0
 	# head.rotation.y = motor.moveYaw

@@ -13,8 +13,8 @@ var targetGrounded:bool = true
 
 var canSeeTarget:bool = false
 var timeSinceLastSight:float = 0
-var trueDistance:float = 0
-var flatDistance:float = 0
+var trueDistanceSqr:float = 0
+var flatDistanceSqr:float = 0
 
 var moveThinkTick:float = 0
 

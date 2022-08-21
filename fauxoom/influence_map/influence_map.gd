@@ -26,8 +26,8 @@ var _worldMax:Vector2 = Vector2()
 
 var _tickInfo:Dictionary = {
 	id = 0,
-	trueDistance = 0,
-	flatDistance = 0
+	trueDistanceSqr = 0,
+	flatDistanceSqr = 0
 }
 
 

@@ -107,7 +107,7 @@ func spawn_explosion(pos:Vector3) -> void:
 	aoe.set_hyper_level(1)
 	aoe.global_transform.origin = pos
 	aoe.apply_boost(_scaleBoost)
-	Game.get_factory().spawn_explosion_sprite(pos, Vector3.UP)
+	# Game.get_factory().spawn_explosion_sprite(pos, Vector3.UP)
 
 func _apply_kinetic_push(dir:Vector3) -> void:
 	detach()

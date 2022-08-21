@@ -28,6 +28,16 @@ func set_target_position(pos:Vector3) -> void:
 	if diff.length() >= 1.0:
 		_force_path_update()
 
+func get_node_count() -> int:
+	return agent.path.size()
+
+func get_node_pos_by_index(i:int) -> Vector3:
+	if i >= agent.path.size():
+		return Vector3()
+	if i < 0:
+		return Vector3()
+	return agent.path[i]
+
 func get_target_position() -> Vector3:
 	return _moveTargetPos
 
