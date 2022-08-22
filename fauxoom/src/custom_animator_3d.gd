@@ -77,7 +77,7 @@ func _calc_dir_index() -> int:
 	var i:int = ZqfUtils.sprite_index(cam, self.global_transform, yawDegrees, _currentFrames.size())
 	return i
 
-func _process(_delta:float) -> void:
+func _physics_process(_delta:float) -> void:
 	if !active:
 		return
 	_tick += _delta
