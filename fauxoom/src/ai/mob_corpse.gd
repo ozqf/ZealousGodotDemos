@@ -186,7 +186,7 @@ func spawn(_spawnInfo:CorpseSpawnInfo, _trans:Transform) -> void:
 	# else:
 	# 	_regular_death()
 
-func _process(_delta:float) -> void:
+func _physics_process(_delta:float) -> void:
 	_tick -= _delta
 	if _state == CorpseState.HeadshotSpurt && _tick <= 0:
 		_tick = 99999

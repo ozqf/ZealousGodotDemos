@@ -68,7 +68,7 @@ var _throwCoreObjective:String = "Press R to throw a Power Core into the ammo di
 var _takeGunObjective:String = "Pickup the weapon."
 
 func _ready() -> void:
-	_eventCount = 20
+	_eventCount = 5
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.PLAYER_GROUP_NAME)
@@ -408,12 +408,12 @@ func _spawn_transition_mobs() -> void:
 func _tick_idle(_delta) -> void:
 	var origin:Vector3 = self.global_transform.origin
 	var losCheckOrigin:Vector3 = origin + Vector3(0, 1.0, 0)
-	var dist:float = AI.get_distance_to_player(losCheckOrigin)
+	var dist:float = AI.get_distance_to_player_sqr(losCheckOrigin)
 	if _awaitingWeaponPickup == true:
 		return
 	if _awaitingCore == true:
 		return
-	if dist < 8 && AI.check_los_to_player(losCheckOrigin) && _pick_event():
+	if dist < (8 * 8) && AI.check_los_to_player(losCheckOrigin) && _pick_event():
 		var dest:Vector3 = _get_event_ent().get_parent().global_transform.origin
 		_path.set_target_position(dest)
 		_state = KingTowerState.MovingToEvent
@@ -449,8 +449,8 @@ func _process(_delta:float):
 	elif _state == KingTowerState.MovingToEvent:
 		_move_tick(_delta)
 	elif _state == KingTowerState.WaitingForPlayer:
-		var dist:float = AI.get_distance_to_player(losCheckOrigin)
-		if dist < 8:
+		var dist:float = AI.get_distance_to_player_sqr(losCheckOrigin)
+		if dist < (8 * 8):
 			_outerShellMesh.visible = false
 			_start_event()
 	elif _state == KingTowerState.WaitingForEvent:

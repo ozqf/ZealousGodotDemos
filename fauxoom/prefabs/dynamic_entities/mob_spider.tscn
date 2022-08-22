@@ -89,9 +89,8 @@ material/0 = null
 [node name="spike_wall" type="Node" parent="attacks"]
 script = ExtResource( 4 )
 minUseRange = 5.0
-windUpTime = 1.5
-windDownTime = 2.0
-showAimLaser = true
+windUpTime = 0.0
+windDownTime = 3.5
 allowMovement = false
 cooldown = 3.0
 faceTargetDuringWindup = false

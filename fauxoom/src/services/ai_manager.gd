@@ -324,6 +324,8 @@ func get_path_for_agent(agent:NavAgent) -> bool:
 		return false
 	agent.path = _navService.get_simple_path(agent.position, agent.target)
 	agent.pathNumNodes = agent.path.size()
+	if agent.pathNumNodes == 0:
+		return false
 	# if agent.pathNumNodes == 0:
 	# 	print("Agent path has zero nodes from " + str(agent.position) + " to " + str(agent.target))
 	# else:
@@ -367,10 +369,10 @@ func check_los_to_player(origin:Vector3) -> bool:
 	origin = origin + playerOffset
 	return ZqfUtils.los_check(_entRoot, origin, dest, 1)
 
-func get_distance_to_player(origin:Vector3) -> float:
+func get_distance_to_player_sqr(origin:Vector3) -> float:
 	if !has_valid_player():
 		return 999999.0
-	return ZqfUtils.distance_between(origin, _player.global_transform.origin)
+	return origin.distance_squared_to(_player.global_transform.origin)
 
 func check_player_in_front(origin:Vector3, yawDegrees:float) -> bool:
 	if !has_valid_player():
@@ -424,7 +426,7 @@ func _find_closest_node(_agent:NavAgent, mask:int, filter:int, closest:bool) -> 
 #			print("node filter flags mismatch. Flags: " + str(n.flags) + " filter: " + str(filter))
 			continue
 		var candidatePos:Vector3 = n.global_transform.origin
-		var candidateDistSqr:float = ZqfUtils.distance_between_sqr(from, candidatePos)
+		var candidateDistSqr:float = from.distance_squared_to(candidatePos)
 		if resultNodeIndex == -1:
 			# first valid node
 			resultNodeIndex = _i

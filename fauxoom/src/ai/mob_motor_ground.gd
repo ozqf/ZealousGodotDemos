@@ -11,16 +11,19 @@ func custom_init(body:KinematicBody) -> void:
 	.custom_init(body)
 	_path.ground_path_init(_agent, body)
 
-func _update_path() -> void:
+func _update_path() -> bool:
 	if !_hasTarget:
-		return
+		return false
 	_agent.position = _body.global_transform.origin
 	_agent.target = moveTargetPos
 	AI.get_path_for_agent(_agent)
 	if _agent.pathNumNodes > 0:
 		_agent.pathIndex = 0
+		return true
 	else:
 		_agent.pathIndex = -1
+		print("Ground motor got no path!")
+		return false
 #	print("Ground motor got " + str(_agent.pathNumNodes) + " path nodes")
 
 func _force_path_update() -> void:
@@ -49,19 +52,22 @@ func _pick_evade_point(_verbose:bool) -> Spatial:
 		return p
 	return null
 
-func move_evade(_delta:float) -> void:
+func move_evade(_delta:float) -> bool:
 	if _tick_evade_status(_delta):
 		_evade_step(_delta)
+	return true
 
-func move_fall(_delta:float) -> void:
+func move_fall(_delta:float) -> bool:
 	var move:Vector3 = Vector3(0, -20.0, 0)# * _delta
 	_body.move_and_slide(move, Vector3.UP)
+	return true
 
-func move_hunt(_delta:float) -> void:
+# returns true if successfully moved
+func move_hunt(_delta:float) -> bool:
 	_path.set_target_position(moveTargetPos)
 	var selfPos:Vector3 = _body.global_transform.origin
 	if !_path.tick(_delta):
-		return
+		return false
 	var towardPath:Vector3 = _path.direction
 	# if _pathTick <= 0:
 	# 	_force_path_update()
@@ -87,3 +93,4 @@ func move_hunt(_delta:float) -> void:
 	_set_yaw_by_vector3(towardPath)
 	towardPath *= speed
 	_body.move_and_slide(towardPath, Vector3.UP)
+	return true

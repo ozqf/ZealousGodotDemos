@@ -20,11 +20,12 @@ func _evade_step(_delta:float) -> void:
 	from.y = moveTargetPos.y
 	_set_yaw_by_vector3(towardTarget.normalized())
 
-func move_evade(_delta:float) -> void:
+func move_evade(_delta:float) -> bool:
 	if _tick_evade_status(_delta):
 		_evade_step(_delta)
+	return true
 
-func move_hunt(_delta:float) -> void:
+func move_hunt(_delta:float) -> bool:
 	var turnMul:float = _delta * 2.0
 	var tarPos:Vector3 = moveTargetPos
 	var pos:Vector3 = global_transform.origin
@@ -33,3 +34,4 @@ func move_hunt(_delta:float) -> void:
 	var newDir:Vector3 = (dir + (toward * turnMul)).normalized()
 	_velocity = newDir * speed
 	_velocity = _body.move_and_slide(_velocity)
+	return true

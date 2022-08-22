@@ -9,7 +9,7 @@ const STATE_GROWN:int = 1
 const STATE_SHRINKING:int = 2
 const STATE_DEAD:int = 3
 
-const GROW_TIME:float = 0.4
+const GROW_TIME:float = 2.0 # 0.4
 const GROWN_TIME:float = 1.5
 
 export var harmlessMaterial:SpatialMaterial = null

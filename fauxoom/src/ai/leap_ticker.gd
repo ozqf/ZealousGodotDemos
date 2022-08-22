@@ -45,9 +45,10 @@ func custom_tick(_delta:float, _aiInfo:AITickInfo) -> void:
 		# lead forward of target
 		tar += _aiInfo.flatVelocity
 		
-		var dist:float = ZqfUtils.flat_distance_between(pos, tar)
+		var distSqr:float = ZqfUtils.flat_distance_sqr(pos, tar)
+		var leapRangeSqr:float = _leapRange * _leapRange
 		self.set_rotation_to_movement()
-		if _tick <= 0 && dist < _leapRange && _aiInfo.targetGrounded:
+		if _tick <= 0 && distSqr < leapRangeSqr && _aiInfo.targetGrounded:
 			# new - select a spot and leap to it
 			var leapTarget:Vector3 = AI.find_closest_navmesh_point(tar)
 			var losOrigin:Vector3 = pos

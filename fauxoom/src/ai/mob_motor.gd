@@ -83,26 +83,26 @@ func motor_change_state(state:int) -> void:
 func set_stunned(flag:bool) -> void:
 	_stunned = flag
 
-func leap() -> void:
-	pass
+func leap() -> bool:
+	return false
 
-func start_leap(_delta:float, _speed:float) -> void:
-	pass
+func start_leap(_delta:float, _speed:float) -> bool:
+	return false
 
-func move_idle(_delta:float, _friction:float = 0.95) -> void:
-	pass
+func move_idle(_delta:float, _friction:float = 0.95) -> bool:
+	return false
 
-func move_leap(_delta:float, _speed:float) -> void:
-	pass
+func move_leap(_delta:float, _speed:float) -> bool:
+	return false
 
-func move_hunt(_delta:float) -> void:
-	pass
+func move_hunt(_delta:float) -> bool:
+	return false
 
-func move_evade(_delta:float) -> void:
-	pass
+func move_evade(_delta:float) -> bool:
+	return false
 
-func move_fall(_delta:float) -> void:
-	pass
+func move_fall(_delta:float) -> bool:
+	return false
 
 func on_ground() -> bool:
 	if !_groundRay.enabled:

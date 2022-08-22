@@ -127,26 +127,16 @@ static func yaw_between(origin:Vector3, target:Vector3) -> float:
 	var dz = origin.z - target.z
 	return atan2(dx, dz)
 
-static func distance_between_sqr(origin:Vector3, target:Vector3) -> float:
-	var dx = target.x - origin.x
-	var dy = target.y - origin.y
-	var dz = target.z - origin.z
-	return (dx * dx) + (dy * dy) + (dz * dz)
-
-static func distance_between(origin:Vector3, target:Vector3) -> float:
-	var dx = target.x - origin.x
-	var dy = target.y - origin.y
-	var dz = target.z - origin.z
-	return sqrt((dx * dx) + (dy * dy) + (dz * dz))
-
-static func flat_distance_between(origin:Vector3, target:Vector3) -> float:
-	var dz = target.z - origin.z
-	var dx = target.x - origin.x
-	return sqrt((dx * dx) + (dz * dz))
-
 static func flat_distance_sqr(origin:Vector3, target:Vector3) -> float:
 	target.y = origin.y
 	return origin.distance_squared_to(target)
+
+static func cap_degrees_2(degrees:float) -> float:
+	while degrees >= 360:
+		degrees -= 360
+	while degrees < 0:
+		degrees += 360
+	return degrees
 
 static func cap_degrees(degrees:float) -> float:
 	while degrees >= 360:
@@ -574,7 +564,7 @@ static func positions_to_sprite_degrees(camPos:Vector3, selfPos:Vector3, yawDegr
 	toDegrees = rad2deg(toDegrees)
 	toDegrees += 90
 	toDegrees += yawDegrees
-	toDegrees = cap_degrees(toDegrees)
+	# toDegrees = cap_degrees(toDegrees)
 	return toDegrees
 
 static func sprite_index(cam:Transform, obj:Transform, yawDegrees:float, numIndices:int) -> int:

@@ -8,9 +8,9 @@ var _thinkTime:float = 0.25
 var _tick:float = 0.0
 var _yawOffset:float = 0.0
 
-func leap() -> void:
+func leap() -> bool:
 	if !_hasTarget:
-		return
+		return false
 	motor_change_state(STATE_LEAP)
 	var selfPos:Vector3 = _body.global_transform.origin
 	_set_move_yaw(ZqfUtils.yaw_between(selfPos, moveTargetPos))
@@ -20,10 +20,11 @@ func leap() -> void:
 	move.y = 6.5
 	move.z = -cos(moveYaw)
 	move *= 20.0
+	return true
 
 func _calc_move_yaw() -> float:
 	var selfPos:Vector3 = _body.global_transform.origin
-	var _dist:float = ZqfUtils.flat_distance_between(selfPos, moveTargetPos)
+	var distSqr:float = ZqfUtils.flat_distance_sqr(selfPos, moveTargetPos)
 	var directYaw:float = ZqfUtils.yaw_between(selfPos, moveTargetPos)
 	if moveStyle == MobMoveStyle.CloseEvasive:
 		if _tick <= 0:
@@ -33,7 +34,7 @@ func _calc_move_yaw() -> float:
 			var tarAimIsToLeft:bool = ZqfUtils.is_point_left_of_line3D_flat(moveTargetPos, _targetForward, selfPos)
 			# print("Tar aim is to left: " + str(tarAimIsToLeft))
 			var offset:float = 0
-			if _mob.get_health_percentage() < 50 && _dist < 30:
+			if _mob.get_health_percentage() < 50 && distSqr < (30 * 30):
 				# panic move
 				offset = deg2rad(rand_range(panicEvadeDegreesMin, panicEvadeDegreesMax))
 			else:
@@ -47,19 +48,21 @@ func _calc_move_yaw() -> float:
 				_yawOffset = 0
 	return directYaw + _yawOffset
 
-func move_idle(_delta:float, friction:float = 0.95) -> void:
+func move_idle(_delta:float, friction:float = 0.95) -> bool:
 	if moveType == MobMoveType.Ground:
 		_velocity.y -= 20 * _delta
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
 	_velocity.x *= friction
 	_velocity.z *= friction
+	return true
 
-func move_leap(_delta:float, _speed:float) -> void:
+func move_leap(_delta:float, _speed:float) -> bool:
 	var dir = _velocity.normalized()
 	_velocity = dir * _speed
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+	return true
 
-func start_leap(_delta:float, _speed:float) -> void:
+func start_leap(_delta:float, _speed:float) -> bool:
 	var selfPos:Vector3 = _body.global_transform.origin
 	moveYaw = ZqfUtils.yaw_between(selfPos, moveTargetPos)
 	# _body.rotation.y = moveYaw
@@ -67,23 +70,23 @@ func start_leap(_delta:float, _speed:float) -> void:
 	dir.x = -sin(moveYaw)
 	dir.z = -cos(moveYaw)
 	dir *= _speed
-
 	_velocity = dir
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+	return true
 
-func _hunt_ground(_delta:float) -> void:
+func _hunt_ground(_delta:float) -> bool:
 	if moveType == MobMoveType.Ground:
 		_velocity.y -= 20 * _delta
 		if !_body.is_on_floor():
 			_velocity = _body.move_and_slide(_velocity, Vector3.UP)
-			return
+			return true
 	_tick -= _delta
 	# var speed:float = 4.5
 	_set_move_yaw(_calc_move_yaw())
 	if _floorFront != null && !_floorFront.is_colliding():
 		# print("No floor!")
 		move_idle(_delta, 0.5)
-		return
+		return true
 	# _body.rotation.y = moveYaw
 	var move:Vector3 = Vector3()
 	move.x = -sin(moveYaw)
@@ -94,8 +97,9 @@ func _hunt_ground(_delta:float) -> void:
 		_velocity = _velocity.normalized()
 		_velocity *= speed
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+	return true
 
-func _hunt_flying(_delta:float) -> void:
+func _hunt_flying(_delta:float) -> bool:
 	# print("Hunt flying")
 	_tick -= _delta
 	_set_move_yaw(_calc_move_yaw())
@@ -115,12 +119,13 @@ func _hunt_flying(_delta:float) -> void:
 		_velocity = _velocity.normalized()
 		_velocity *= speed
 	_velocity = _body.move_and_slide(_velocity, Vector3.UP)
+	return true
 
-func move_hunt(_delta:float) -> void:
+func move_hunt(_delta:float) -> bool:
 	if moveType == MobMoveType.Flying:
-		_hunt_flying(_delta)
+		return _hunt_flying(_delta)
 	else:
-		_hunt_ground(_delta)
+		return _hunt_ground(_delta)
 
 # func __process_not_run(_delta:float) -> void:
 # 	_velocity.y -= 20 * _delta

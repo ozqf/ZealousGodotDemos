@@ -11,7 +11,7 @@ export var sniperSpot:bool = false
 var index:int = -1
 
 var canSeePlayer:bool = false
-var distToPlayer:float = 999999.0
+var distToPlayerSqr:float = 999999.0
 
 var mobs = []
 var mobProximityWeight:float = 0
@@ -62,7 +62,7 @@ func get_debug_string() -> String:
 func custom_update(_delta:float) -> void:
 	var pos:Vector3 = global_transform.origin
 	canSeePlayer = AI.check_los_to_player(pos)
-	distToPlayer = AI.get_distance_to_player(pos)
+	distToPlayerSqr = AI.get_distance_to_player_sqr(pos)
 	
 	var newFlags:int = 0
 	if canSeePlayer:

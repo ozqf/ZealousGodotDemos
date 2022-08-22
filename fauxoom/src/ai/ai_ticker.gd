@@ -271,7 +271,8 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 		if isSniper:
 			# try and attack. if we can't, hunt.
 			if !_start_attack(_delta, _tickInfo):
-				_mob.motor.move_hunt(_delta)
+				if !_mob.motor.move_hunt(_delta):
+					print("AITicker - failed to hunt move")
 				set_rotation_to_movement()
 			return
 		# if _tickInfo.healthPercentage > 50:
@@ -283,7 +284,8 @@ func custom_tick_state(_delta:float, _tickInfo:AITickInfo) -> void:
 		# 		_mob.motor.set_move_target(_mob.motor.get_agent().target)
 		# 	pass
 		if _tickInfo.trueDistanceSqr > (3 * 3):
-			_mob.motor.move_hunt(_delta)
+			if !_mob.motor.move_hunt(_delta):
+				print("AITicker - failed to hunt move")
 			set_rotation_to_movement()
 		# if _check_for_attack_start(_tickInfo):
 			# print("AI ticker - attack")

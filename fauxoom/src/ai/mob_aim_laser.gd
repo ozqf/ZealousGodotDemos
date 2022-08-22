@@ -62,7 +62,7 @@ func _process(delta) -> void:
 	if _ignoreRaycast || is_colliding():
 		var origin:Vector3 = global_transform.origin
 		var dest:Vector3 = get_collision_point()
-		var dist:float = ZqfUtils.distance_between(origin, dest)
+		var dist:float = origin.distance_to(dest)
 		_rotator.scale = Vector3(1, 1, dist)
 		_rotator.transform.origin.z = -dist / 2.0
 		# print("mob laser hit dist: " + str(dist))

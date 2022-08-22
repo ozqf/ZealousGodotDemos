@@ -19,6 +19,8 @@ var _currentFrames:Array
 var _pendingAnimation:String = ""
 var _loopIndex:int = 0
 
+var _updateAccumulator:float = 0.0
+
 var yawDegrees:float = 0
 
 func _ready() -> void:
@@ -86,6 +88,12 @@ func _process(_delta:float) -> void:
 		# check for finish
 		if _frame >= _maxFrames:
 			_frame = _loopIndex
+	_updateAccumulator += _delta
+	# with only eight angles and very short animations
+	# for sprites this really doesn't need to updated frequently
+	if _updateAccumulator < (1.0 / 15.0):
+		return
+	_updateAccumulator = 0.0
 	# refresh frame
 	var dirIndex:int = _calc_dir_index()
 	var animatorFrame:int = _currentFrames[dirIndex][_frame]
