@@ -3,6 +3,7 @@ extends KinematicBody
 onready var _mouse:MouseLook = $mouse
 onready var _debugLabel:Label = $ui/debug
 onready var _altitudeRay:RayCast = $altitude_ray
+onready var _floorNormalRay:RayCast = $head/floor_normal_ray
 onready var _head:Spatial = $head
 onready var _body:Spatial = $body
 onready var _camera:Camera = $head/Camera
@@ -203,7 +204,7 @@ func _update_camera() -> void:
 		camFraction = 1
 	
 	var camT:Transform = _cameraRay.transform
-	camT.origin = fullDiff * camFraction
+	camT.origin = camT.origin + (fullDiff * camFraction)
 	_cameraDebug = "Frac: " + str(camFraction) + " pos: " + str(camT.origin)
 	_camera.transform = camT
 	# _camera.transform = _thirdPersonMount.transform
@@ -364,7 +365,7 @@ func _calc_gravity(inputNormal:Vector3, _delta:float) -> Vector3:
 	else:
 		return (Vector3.DOWN * gravityStr * dot) * _delta
 
-func _apply_move_2(inputDir:Vector3, _delta:float, _isPressingBoost:bool) -> String:
+func _apply_move_2(inputDir:Vector3, _delta:float, _isPressingBoost:bool, isCruising:bool) -> String:
 	var velocity:Vector3 = _vars.velocity
 
 	if _isPressingBoost:
@@ -389,7 +390,7 @@ func _apply_move_2(inputDir:Vector3, _delta:float, _isPressingBoost:bool) -> Str
 	inputDir = inputDir.normalized()
 	_vars.pushNormal = inputDir
 	# no input? apply drag
-	if inputDir.length() == 0:
+	if inputDir.length() == 0 && !isCruising:
 		# increase drag as speed falls
 		var mul:float = range_lerp(curSpeed, 20, 40, 0.9, 0.999999)
 		if mul > 0.99:
@@ -482,14 +483,29 @@ func _calc_projected_push(vel:Vector3, wishDir:Vector3, wishSpeed:float, accelSt
 func _update_body_rotation(_delta:float) -> void:
 	var forward:Vector3 = _vars.velocity.normalized()
 	if forward.length_squared() == 0:
-		forward = _body.global_transform.basis.z
-	var up:Vector3 = _head.global_transform.basis.y
+		forward = -_body.global_transform.basis.z
+#	var up:Vector3 = _head.global_transform.basis.y
+	var up:Vector3 = _get_up()
 	var origin:Vector3 = _body.global_transform.origin
 	var dest:Vector3 = origin + forward
+	
+#	ZqfUtils.look_at_safe(_body, dest)
 	_body.look_at(dest, up)
 
 func _is_near_geometry() -> bool:
 	return _nearWorld.total_overlaps() > 0
+
+func _get_up() -> Vector3:
+	var bodies = _nearWorld.get_bodies()
+	var numBodies:int = bodies.size()
+	if numBodies == 0:
+		return Vector3.UP
+	if _floorNormalRay.is_colliding():
+		return _floorNormalRay.get_collision_normal()
+	elif _altitudeRay.is_colliding():
+		return _altitudeRay.get_collision_normal()
+	else:
+		return Vector3.UP
 
 func _physics_process(_delta:float) -> void:
 	# if Input.is_action_just_pressed("reset"):
@@ -506,11 +522,12 @@ func _physics_process(_delta:float) -> void:
 	_update_body_rotation(_delta)
 	
 	var isBoosting:bool = Input.is_action_pressed("boost")
+	var isCruising:bool = Input.is_action_pressed("cruise")
 	var inputPush:Vector3 = _calc_input_push(_read_move_input())
 	var txt = ""
 	var moveTxt = ""
 	if _vars.moveMode == 2:
-		moveTxt = _apply_move_2(inputPush, _delta, isBoosting)
+		moveTxt = _apply_move_2(inputPush, _delta, isBoosting, isCruising)
 	else:
 		_speedTrail.emitting = false
 		moveTxt = _apply_debug_move(inputPush, _delta)

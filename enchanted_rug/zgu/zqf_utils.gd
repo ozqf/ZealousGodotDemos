@@ -29,6 +29,8 @@ static func local_translate(spatial:Spatial, offset:Vector3) -> void:
 static func look_at_safe(spatial:Spatial, target:Vector3) -> void:
 	var t:Transform = spatial.global_transform
 	var origin:Vector3 = t.origin
+	if origin == target:
+		return
 	var up:Vector3 = t.basis.y
 	var lookDir:Vector3 = (target - origin).normalized()
 	var dot:float = lookDir.dot(up)

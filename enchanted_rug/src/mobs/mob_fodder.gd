@@ -6,11 +6,11 @@ onready var _head:Spatial = $head
 onready var _torso:Spatial = $torso
 onready var _turret = $head/turret
 
-export var fodderType:int = 0
+export var fodderType:int = 1
 export var inactive:bool = false
 
 var _tick:float = 0
-var _refireTime:float = 1 # 0.25
+var _refireTime:float = 3 # 0.25
 var _prjInfo:PrjLaunchInfo = null
 
 func _ready() -> void:
@@ -28,14 +28,18 @@ func _shoot(_launchInfo:PrjLaunchInfo, _targetOffset:Vector3) -> bool:
 		_launchInfo.target = originalTar
 		return false
 	_prjInfo.forward = (_prjInfo.origin - _prjInfo.target).normalized()
+	_prjInfo.forward = Vector3.UP
 	_turret.immediate_fire(_prjInfo)
 	# restore
 	_launchInfo.target = originalTar
 	return true
 
-func _process(_delta:float):
-	if inactive:
-		return
+func _shoot_test() -> void:
+	print("Shoot missile test")
+	_prjInfo.target = _turret.global_transform.origin + Vector3.UP
+	_shoot(_prjInfo, Vector3.ZERO)
+
+func _tick_as_turret(_delta:float) -> void:
 	var tar:Dictionary = Main.get_target()
 	if tar.valid == false:
 		return
@@ -43,7 +47,6 @@ func _process(_delta:float):
 	var aimPos:Vector3 = tar.position + (tar.velocity * 1.0)
 	_head.look_at(aimPos, Vector3.UP)
 	_torso.rotation_degrees.y = _head.rotation_degrees.y
-
 	_tick -= _delta
 	if _tick <= 0:
 		_prjInfo.target = aimPos
@@ -53,19 +56,29 @@ func _process(_delta:float):
 		if fodderType == 1:
 			pass
 		else:
-			_tick = _refireTime
+			
+#			_tick = _refireTime
 			var count:int = 0
-			if _shoot(_prjInfo, Vector3.ZERO):
-				count += 1
-			for _i in range(0, 3):
-				var offset:Vector3 = Vector3(
-					rand_range(-tarSpeed, tarSpeed),
-					rand_range(-tarSpeed, tarSpeed),
-					rand_range(-tarSpeed, tarSpeed))
-				if _shoot(_prjInfo, offset):
-					count += 1
+			_shoot_test()
+			count += 1
+#			if _shoot(_prjInfo, Vector3.ZERO):
+#				count += 1
+#			for _i in range(0, 1):
+#				var offset:Vector3 = Vector3(
+#					rand_range(-tarSpeed, tarSpeed),
+#					rand_range(-tarSpeed, tarSpeed),
+#					rand_range(-tarSpeed, tarSpeed))
+#				if _shoot(_prjInfo, offset):
+#					count += 1
 			
 			# reset firing time if something launched
 			if count > 0:
 				_tick = _refireTime
 			#_turret.immediate_fire(_prjInfo)
+
+func _process(_delta:float):
+	if inactive:
+		return
+	_tick_as_turret(_delta)
+	if Input.is_action_just_pressed("debug_1"):
+		_shoot_test()

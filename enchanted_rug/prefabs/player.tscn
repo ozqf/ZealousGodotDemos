@@ -51,6 +51,9 @@ script = ExtResource( 3 )
 
 [node name="head" type="Spatial" parent="."]
 
+[node name="floor_normal_ray" type="RayCast" parent="head"]
+enabled = true
+
 [node name="draw_push_normal" type="ImmediateGeometry" parent="head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -2 )
 material_override = ExtResource( 6 )
@@ -87,13 +90,12 @@ material_override = ExtResource( 6 )
 script = ExtResource( 5 )
 
 [node name="Camera" type="Camera" parent="head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 8 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 10 )
 far = 2048.0
 
 [node name="MeshInstance" type="MeshInstance" parent="head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
 mesh = SubResource( 2 )
-material/0 = null
 
 [node name="camera_ray" type="RayCast" parent="head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0 )
@@ -121,7 +123,6 @@ cast_to = Vector3( 0, -100, 0 )
 [node name="rug" type="MeshInstance" parent="body"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
 mesh = SubResource( 3 )
-material/0 = null
 
 [node name="speed_trail" parent="body/rug" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0, 0.5 )
@@ -143,7 +144,6 @@ material/0 = SubResource( 8 )
 [node name="torso" type="MeshInstance" parent="body"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0 )
 mesh = SubResource( 2 )
-material/0 = null
 
 [node name="near_world_area" type="Area" parent="."]
 collision_layer = 32
@@ -187,6 +187,7 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="ui"]
+visible = false
 margin_right = 256.0
 margin_bottom = 192.0
 color = Color( 0, 0, 0, 0.207843 )
@@ -211,12 +212,10 @@ __meta__ = {
 }
 
 [node name="debug" type="Label" parent="ui"]
+visible = false
 margin_right = 256.0
 margin_bottom = 192.0
 text = "debug"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="settings" type="VBoxContainer" parent="ui"]
 anchor_left = 1.0

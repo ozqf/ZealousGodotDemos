@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3ppkbpsh6g8g"]
+
+[ext_resource type="Material" uid="uid://bmgf6p7613sjr" path="res://shared/world_materials/world_default_planar.tres" id="1_vpk4i"]
+[ext_resource type="PackedScene" uid="uid://c2koyfxvn1txw" path="res://proxies/info/player_start.tscn" id="2_u0r20"]
+
+[node name="sandbox" type="Node3D"]
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(80, 1, 80)
+material = ExtResource("1_vpk4i")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 8, -8)
+use_collision = true
+size = Vector3(2, 16, 2)
+material = ExtResource("1_vpk4i")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 8, -8)
+use_collision = true
+size = Vector3(2, 16, 2)
+material = ExtResource("1_vpk4i")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 8, 8)
+use_collision = true
+size = Vector3(2, 16, 2)
+material = ExtResource("1_vpk4i")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 8, 8)
+use_collision = true
+size = Vector3(2, 16, 2)
+material = ExtResource("1_vpk4i")
+
+[node name="player_start" parent="." instance=ExtResource("2_u0r20")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, -1, 13, 11)
+light_color = Color(1, 1, 0.701961, 1)
+shadow_enabled = true
