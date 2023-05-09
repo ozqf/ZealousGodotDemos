@@ -17,8 +17,11 @@ shape = SubResource("SphereShape3D_bbnwn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("BoxMesh_gam5r")
 
-[node name="camera_mount" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 0, 12, 8)
+[node name="head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="Camera3D" type="Camera3D" parent="camera_mount"]
+[node name="camera_mount" type="Node3D" parent="head"]
+transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 0, 11.5, 8)
+
+[node name="Camera3D" type="Camera3D" parent="head/camera_mount"]
 metadata/_edit_lock_ = true
