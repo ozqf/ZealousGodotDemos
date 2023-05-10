@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://bc6xyb5urqfaa"]
+
+[ext_resource type="Script" path="res://actors/mobs/bouncer/mob_bouncer.gd" id="1_xywwn"]
+[ext_resource type="CylinderMesh" uid="uid://c8s4cb0ipld20" path="res://actors/mobs/bouncer/bouncer_cylinder.tres" id="2_ln2xc"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_crmci"]
+radius = 0.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ukm4q"]
+top_radius = 0.3
+bottom_radius = 0.3
+height = 0.6
+radial_segments = 8
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a3ior"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_03ldq"]
+frequency = 0.05
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_160om"]
+width = 64
+height = 64
+noise = SubResource("FastNoiseLite_03ldq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y44h8"]
+albedo_color = Color(0, 0, 0.686275, 1)
+metallic = 0.6
+roughness_texture = SubResource("NoiseTexture2D_160om")
+texture_filter = 2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jp6p5"]
+
+[node name="mob_bouncer" type="CharacterBody3D"]
+collision_layer = 8
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+script = ExtResource("1_xywwn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("SphereShape3D_crmci")
+
+[node name="display" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="display"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_ukm4q")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_a3ior")
+
+[node name="bottom_mesh" type="MeshInstance3D" parent="display"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = ExtResource("2_ln2xc")
+surface_material_override/0 = SubResource("StandardMaterial3D_y44h8")
+
+[node name="bottom_mesh2" type="MeshInstance3D" parent="display"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0.7, 0)
+mesh = ExtResource("2_ln2xc")
+surface_material_override/0 = SubResource("StandardMaterial3D_y44h8")
+
+[node name="hitbox" type="Node3D" parent="."]
+
+[node name="Area3D" type="Area3D" parent="hitbox"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("SphereShape3D_jp6p5")
+
+[node name="bounce_ray" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+target_position = Vector3(0, 0, -1)

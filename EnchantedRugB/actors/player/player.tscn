@@ -7,6 +7,7 @@
 [sub_resource type="BoxMesh" id="BoxMesh_gam5r"]
 
 [node name="player" type="CharacterBody3D"]
+collision_layer = 8
 script = ExtResource("1_ffxbo")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
