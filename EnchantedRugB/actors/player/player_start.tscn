@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2koyfxvn1txw"]
+
+[ext_resource type="Script" path="res://actors/player/info_player_start.gd" id="1_krwgl"]
+[ext_resource type="PackedScene" uid="uid://dkojta82kdfs7" path="res://shared/gizmos/actor_proxy_gizmo.tscn" id="2_mx0w0"]
+
+[node name="player_start" type="Node3D"]
+script = ExtResource("1_krwgl")
+
+[node name="actor_proxy_gizmo" parent="." instance=ExtResource("2_mx0w0")]

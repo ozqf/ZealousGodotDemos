@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://bhc5ovhxjirtp"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_w3mf7"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_josq8"]
+size = Vector3(1, 0.023, 0.3)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_njgdn"]
+top_radius = 0.2
+bottom_radius = 0.6
+height = 1.0
+radial_segments = 4
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f84aj"]
+albedo_color = Color(1, 0.301961, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0d44"]
+albedo_color = Color(0, 1, 1, 1)
+emission_enabled = true
+emission = Color(0, 1, 1, 1)
+
+[sub_resource type="Curve" id="Curve_87fqq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6viou"]
+curve = SubResource("Curve_87fqq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_n0veq"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.25
+emission_ring_radius = 0.25
+emission_ring_inner_radius = 0.25
+direction = Vector3(0, 0, 1)
+spread = 0.0
+gravity = Vector3(0, 1, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+scale_curve = SubResource("CurveTexture_6viou")
+
+[sub_resource type="SphereMesh" id="SphereMesh_qh64e"]
+radius = 0.1
+height = 0.2
+radial_segments = 8
+rings = 4
+
+[node name="mob_fodder" type="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("SphereShape3D_w3mf7")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.642788, 0, -0.766044, 0, 1, 0, 0.766044, 0, 0.642788, -0.5, 0.5, 0)
+mesh = SubResource("BoxMesh_josq8")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.642788, 0, 0.766045, 0, 1, 0, -0.766045, 0, 0.642788, 0.5, 0.5, 0)
+mesh = SubResource("BoxMesh_josq8")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_njgdn")
+surface_material_override/0 = SubResource("StandardMaterial3D_f84aj")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)
+omni_range = 3.0
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.6)
+material_override = SubResource("StandardMaterial3D_f0d44")
+process_material = SubResource("ParticleProcessMaterial_n0veq")
+draw_pass_1 = SubResource("SphereMesh_qh64e")

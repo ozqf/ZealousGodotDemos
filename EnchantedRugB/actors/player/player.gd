@@ -8,6 +8,9 @@ const JUMP_VELOCITY = 4.5
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+# attack
+var _prjBasicType = preload("res://projectiles/basic/prj_basic.tscn")
+@onready var _attackTimer:Timer = $attack_timer
 
 func _physics_process_default(delta):
 	# Add the gravity.
@@ -31,8 +34,11 @@ func _physics_process_default(delta):
 
 	move_and_slide()
 
-
 func _physics_process(_delta:float) -> void:
+	_tick_movement(_delta)
+	_tick_attack(_delta)
+
+func _tick_movement(_delta:float) -> void:
 	var input_dir:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	
 	if Zqf.has_mouse_claims():
@@ -58,3 +64,23 @@ func _input(event) -> void:
 	var degrees:Vector3 = _head.rotation_degrees
 	degrees.y += (-motion.relative.x) * 0.1
 	_head.rotation_degrees = degrees
+
+######################################################
+# Attack
+######################################################
+
+func _fire_projectile(node:Node3D, typeObj) -> void:
+	var prj = typeObj.instantiate()
+	Zqf.get_actor_root().add_child(prj)
+	prj.launch(node.global_position, -node.global_transform.basis.z)
+
+func _tick_attack(_delta:float) -> void:
+	if Zqf.has_mouse_claims():
+		return
+	if !_attackTimer.is_stopped():
+		return
+	if Input.is_action_pressed("attack_1"):
+		_attackTimer.one_shot = true
+		_attackTimer.wait_time = 0.1
+		_attackTimer.start()
+		_fire_projectile(_head, _prjBasicType)

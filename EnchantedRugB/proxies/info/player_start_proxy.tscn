@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cohingb36327v"]
+
+[ext_resource type="Script" path="res://proxies/info/player_start_proxy.gd" id="1_mvn4l"]
+[ext_resource type="PackedScene" uid="uid://dkojta82kdfs7" path="res://shared/gizmos/actor_proxy_gizmo.tscn" id="2_w84c2"]
+
+[node name="player_start_proxy" type="Node3D"]
+script = ExtResource("1_mvn4l")
+
+[node name="actor_proxy_gizmo" parent="." instance=ExtResource("2_w84c2")]

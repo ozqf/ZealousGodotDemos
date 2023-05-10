@@ -1,19 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://c2koyfxvn1txw"]
-
-[ext_resource type="Script" path="res://proxies/info/info_player_start.gd" id="1_krwgl"]
+[gd_scene load_steps=3 format=3 uid="uid://dkojta82kdfs7"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_8l8ei"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_biy1q"]
 size = Vector3(0.2, 1, 0.5)
 
-[node name="player_start" type="Node3D"]
-script = ExtResource("1_krwgl")
+[node name="actor_proxy_gizmo" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_8l8ei")
+skeleton = NodePath("../..")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.3)
 mesh = SubResource("BoxMesh_biy1q")
+skeleton = NodePath("../..")

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjl8jbv1xhbdk"]
+
+[ext_resource type="Script" path="res://game/game_controller.gd" id="1_175p3"]
+
+[node name="game_controller" type="Node3D"]
+script = ExtResource("1_175p3")
+
+[node name="load_timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true

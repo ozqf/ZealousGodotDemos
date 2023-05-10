@@ -4,3 +4,7 @@
 
 [node name="zqf_main" type="Node3D"]
 script = ExtResource("1_wvkm4")
+
+[node name="dynamic_root" type="Node3D" parent="."]
+
+[node name="world_root" type="Node3D" parent="."]

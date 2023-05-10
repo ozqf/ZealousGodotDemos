@@ -7,5 +7,5 @@ func _ready():
 
 func _spawn_player() -> void:
 	var plyr = _playerType.instantiate()
-	get_parent().add_child(plyr)
+	Zqf.get_actor_root().add_child(plyr)
 	plyr.teleport(self.global_transform)
