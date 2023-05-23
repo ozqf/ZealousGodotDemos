@@ -2,10 +2,21 @@ extends CharacterBody3D
 
 const SPEED:float = 5.0
 
+var _popGfx = preload("res://gfx/mob_pop/mob_pop.tscn")
+
+@onready var _hitBox:HitBox = $hitbox
 @onready var _ray:RayCast3D = $bounce_ray
 
 func _ready():
-	pass
+	_hitBox.connect("health_depleted", _on_health_depleted)
+	_hitBox.teamId = Game.TEAM_ID_ENEMY
+
+func _on_health_depleted() -> void:
+	var gfx = _popGfx.instantiate()
+	Zqf.get_actor_root().add_child(gfx)
+	gfx.global_transform = self.global_transform
+	Zqf.get_actor_root()
+	self.queue_free()
 
 func launch() -> void:
 	var radians:float = randf_range(0, 360) * ZqfUtils.DEG2RAD

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://byai1cwb5g33m"]
+
+[ext_resource type="Material" uid="uid://t433efhpxiqt" path="res://worlds/sandbox/default_world_mat.tres" id="1_tkqrs"]
+[ext_resource type="PackedScene" uid="uid://hqg2wobu6a3p" path="res://godot_vehicle/godot_vehicle.tscn" id="1_vr70d"]
+
+[node name="sandbox" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+use_collision = true
+size = Vector3(96, 6, 96)
+material = ExtResource("1_tkqrs")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+operation = 2
+size = Vector3(94, 6, 94)
+material = ExtResource("1_tkqrs")
+
+[node name="godot_vehicle" parent="." instance=ExtResource("1_vr70d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.5, 0.496732, -0.709407, 0, 0.819152, 0.573576, 0.866025, -0.286788, 0.409576, 0, 7, 0)
+shadow_enabled = true

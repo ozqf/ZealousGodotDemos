@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://6yps37ulkkjo"]
+
+[ext_resource type="Script" path="res://zqf/zqf_emit_on_ready.gd" id="1_no4ix"]
+[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="2_17j80"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_050aq"]
+roughness = 0.0
+emission_enabled = true
+emission = Color(1, 1, 0, 1)
+emission_energy_multiplier = 2.0
+disable_receive_shadows = true
+
+[sub_resource type="Curve" id="Curve_hsne4"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rlmd2"]
+curve = SubResource("Curve_hsne4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dkxf2"]
+emission_shape = 2
+emission_sphere_radius = 0.25
+particle_flag_align_y = true
+direction = Vector3(0, 1, 0)
+spread = 90.0
+gravity = Vector3(0, -15, 0)
+initial_velocity_min = 4.0
+initial_velocity_max = 12.0
+angular_velocity_max = 6.0
+scale_curve = SubResource("CurveTexture_rlmd2")
+
+[sub_resource type="BoxMesh" id="BoxMesh_ld2uf"]
+size = Vector3(0.02, 0.25, 0.02)
+
+[node name="mob_pop" type="GPUParticles3D"]
+material_override = SubResource("StandardMaterial3D_050aq")
+cast_shadow = 0
+amount = 128
+lifetime = 2.0
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_dkxf2")
+draw_pass_1 = SubResource("BoxMesh_ld2uf")
+script = ExtResource("1_no4ix")
+
+[node name="cull" type="Node" parent="."]
+script = ExtResource("2_17j80")
+tick = 4.0
+cullParent = true

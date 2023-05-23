@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://dh3ntqobfyh6i"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ktrgg"]
+albedo_color = Color(0, 0, 0, 1)
+metallic = 0.6
+
+[sub_resource type="Curve" id="Curve_t12lg"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_vyyq4"]
+curve = SubResource("Curve_t12lg")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1s0ep"]
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_vyyq4")
+
+[sub_resource type="SphereMesh" id="SphereMesh_jq76e"]
+radius = 0.1
+height = 0.2
+
+[node name="tire_particles" type="GPUParticles3D"]
+material_override = SubResource("StandardMaterial3D_ktrgg")
+cast_shadow = 0
+process_material = SubResource("ParticleProcessMaterial_1s0ep")
+draw_pass_1 = SubResource("SphereMesh_jq76e")

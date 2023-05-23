@@ -1,7 +1,16 @@
 extends Node
 
+const TEAM_ID_ENEMY:int = 0
+const TEAM_ID_PLAYER:int = 1
+
+# hit response > 0 is the damage caused
+const HIT_RESPONSE_ABSORBED:int = 0
+const HIT_RESPOSNE_IGNORED:int = -1
+
 #@onready var _loadTimer:Timer = $load_timer
 var _sandboxWorld = preload("res://worlds/sandbox/sandbox.tscn")
+
+var _hitInfoType = preload("res://shared/structs/hit_info.gd")
 
 func _ready():
 #	_loadTimer.connect("timeout", _on_load_timeout)
@@ -23,6 +32,9 @@ func _app_init() -> void:
 		if proxy.has_method("spawn"):
 			proxy.spawn()
 	pass
+
+func new_hit_info() -> HitInfo:
+	return _hitInfoType.new()
 
 func add_actor_scene(actorType:PackedScene, t:Transform3D) -> Node3D:
 	var obj:Node3D = actorType.instantiate() as Node3D

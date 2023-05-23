@@ -1,0 +1,61 @@
+[gd_scene load_steps=5 format=3 uid="uid://hqg2wobu6a3p"]
+
+[ext_resource type="Script" path="res://godot_vehicle/godot_vehicle.gd" id="1_oop2s"]
+[ext_resource type="PackedScene" uid="uid://d0xa8vgqpi50n" path="res://godot_vehicle/godot_vehicle_wheel_model.tscn" id="2_giuuq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0mdjn"]
+size = Vector3(2, 0.6, 3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yxv0d"]
+size = Vector3(2, 0.6, 3)
+
+[node name="godot_vehicle" type="VehicleBody3D"]
+mass = 1000.0
+script = ExtResource("1_oop2s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("BoxShape3D_0mdjn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_yxv0d")
+
+[node name="fr" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.2, 1)
+use_as_traction = true
+use_as_steering = true
+wheel_roll_influence = 0.05
+wheel_friction_slip = 5.0
+
+[node name="godot_vehicle_wheel_model" parent="fr" instance=ExtResource("2_giuuq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, 0)
+
+[node name="fl" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.2, 1)
+use_as_traction = true
+use_as_steering = true
+wheel_roll_influence = 0.05
+wheel_friction_slip = 5.0
+
+[node name="godot_vehicle_wheel_model" parent="fl" instance=ExtResource("2_giuuq")]
+
+[node name="rr" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.2, -1)
+use_as_traction = true
+wheel_roll_influence = 0.05
+wheel_friction_slip = 5.0
+
+[node name="godot_vehicle_wheel_model" parent="rr" instance=ExtResource("2_giuuq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, 0)
+
+[node name="rl" type="VehicleWheel3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.2, -1)
+use_as_traction = true
+wheel_roll_influence = 0.05
+wheel_friction_slip = 5.0
+
+[node name="godot_vehicle_wheel_model" parent="rl" instance=ExtResource("2_giuuq")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, -5.15143e-14, -8.74228e-08, -5.01437e-08, 0.819152, 0.573576, 7.16125e-08, 0.573576, -0.819152, 0, 10, -7)

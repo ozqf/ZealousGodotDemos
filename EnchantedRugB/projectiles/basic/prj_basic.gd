@@ -5,6 +5,14 @@ extends Area3D
 
 var speed:float = 50.0
 var _velocity:Vector3 = Vector3()
+var _hitInfo:HitInfo
+
+func _ready() -> void:
+	_hitInfo = Game.new_hit_info()
+	self.connect("area_entered", _on_touch_hitbox)
+
+func get_hit_info() -> HitInfo:
+	return _hitInfo
 
 func launch(origin:Vector3, forward:Vector3) -> void:
 	_timeout.wait_time = 2.0
@@ -19,7 +27,12 @@ func _on_timeout() -> void:
 	self.queue_free()
 
 func _on_touch_hitbox(area:Area3D) -> void:
-	pass
+	if !area.has_method("hit"):
+		print("Hit box has no hit method")
+		return
+	var response:int = area.hit(_hitInfo)
+	if response > 0:
+		self.queue_free()
 
 func _physics_process(_delta:float) -> void:
 	if _worldRay.is_colliding():

@@ -72,6 +72,7 @@ func _input(event) -> void:
 func _fire_projectile(node:Node3D, typeObj) -> void:
 	var prj = typeObj.instantiate()
 	Zqf.get_actor_root().add_child(prj)
+	prj.get_hit_info().teamId = Game.TEAM_ID_PLAYER
 	prj.launch(node.global_position, -node.global_transform.basis.z)
 
 func _tick_attack(_delta:float) -> void:

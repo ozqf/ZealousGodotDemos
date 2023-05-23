@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bc6xyb5urqfaa"]
+[gd_scene load_steps=11 format=3 uid="uid://bc6xyb5urqfaa"]
 
 [ext_resource type="Script" path="res://actors/mobs/bouncer/mob_bouncer.gd" id="1_xywwn"]
 [ext_resource type="CylinderMesh" uid="uid://c8s4cb0ipld20" path="res://actors/mobs/bouncer/bouncer_cylinder.tres" id="2_ln2xc"]
+[ext_resource type="Script" path="res://actors/components/hitbox.gd" id="3_stcw1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_crmci"]
 radius = 0.4
@@ -63,13 +64,12 @@ transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0.7
 mesh = ExtResource("2_ln2xc")
 surface_material_override/0 = SubResource("StandardMaterial3D_y44h8")
 
-[node name="hitbox" type="Node3D" parent="."]
-
-[node name="Area3D" type="Area3D" parent="hitbox"]
+[node name="hitbox" type="Area3D" parent="."]
 collision_layer = 2
 collision_mask = 2
+script = ExtResource("3_stcw1")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 shape = SubResource("SphereShape3D_jp6p5")
 

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0xa8vgqpi50n"]
+
+[ext_resource type="PackedScene" uid="uid://dh3ntqobfyh6i" path="res://godot_vehicle/tire_particles.tscn" id="1_fbtsk"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_y507e"]
+height = 0.2
+
+[node name="godot_vehicle_wheel_model" type="Node3D"]
+
+[node name="tire_particles" parent="." instance=ExtResource("1_fbtsk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_y507e")
