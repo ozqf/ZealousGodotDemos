@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bw5apxb11yqvu"]
+
+[ext_resource type="Material" uid="uid://ddl4vubqv4nht" path="res://lib/post_process_outline/post_process_outline.tres" id="1_gdks6"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_euqet"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="post_process_outline" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("QuadMesh_euqet")
+surface_material_override/0 = ExtResource("1_gdks6")
