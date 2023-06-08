@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcyuyhg1xs5ud"]
+[gd_scene load_steps=7 format=3 uid="uid://bcyuyhg1xs5ud"]
 
 [ext_resource type="Script" path="res://actors/player/player.gd" id="1_jci2p"]
 [ext_resource type="Script" path="res://actors/player/player_attack_input.gd" id="2_tuqhj"]
 [ext_resource type="PackedScene" uid="uid://b2ucsiap1wvgw" path="res://actors/player/weapon_model.tscn" id="2_ygoxh"]
+[ext_resource type="Texture2D" uid="uid://bgrqw6h5qbxos" path="res://actors/player/hud_icons/up_arrow.png" id="4_2csj7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nrxwx"]
 radius = 0.4
@@ -26,7 +27,6 @@ script = ExtResource("2_tuqhj")
 fov = 85.0
 
 [node name="weapon_model" parent="head" instance=ExtResource("2_ygoxh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="right" type="Node3D" parent="head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.2, -0.2)
@@ -44,17 +44,15 @@ transform = Transform3D(0.642788, -0.383022, 0.663414, 0, 0.866025, 0.5, -0.7660
 transform = Transform3D(0.737255, 0.654074, 0.169242, 0.155017, -0.407585, 0.899914, 0.65759, -0.63723, -0.401886, 0.4, -0.3, -0.2)
 
 [node name="thrust_start" type="Node3D" parent="head/right"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.1, 0, 0.6)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.1, -0.1, 0.6)
 
 [node name="weapon_model3" parent="head/right/thrust_start" instance=ExtResource("2_ygoxh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 visible = false
 
 [node name="thrust_end" type="Node3D" parent="head/right"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.1, 0, -1.49012e-08)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.1, -0.1, -1.49012e-08)
 
 [node name="weapon_model2" parent="head/right/thrust_end" instance=ExtResource("2_ygoxh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 visible = false
 
 [node name="left" type="Node3D" parent="head"]
@@ -63,3 +61,53 @@ transform = Transform3D(-0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, -0.258819
 [node name="MeshInstance3D" type="MeshInstance3D" parent="head/left"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2)
 mesh = SubResource("BoxMesh_h4wpu")
+
+[node name="hud" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="crosshair" type="Control" parent="hud"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -63.68
+offset_top = -64.0
+offset_right = 64.32
+offset_bottom = 64.0
+metadata/_edit_lock_ = true
+
+[node name="move_direction" type="TextureRect" parent="hud/crosshair"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.497
+anchor_top = 0.5
+anchor_right = 0.497
+anchor_bottom = 0.5
+offset_left = -19.936
+offset_top = -20.0
+offset_right = 20.064
+offset_bottom = 20.0
+pivot_offset = Vector2(20, 20)
+texture = ExtResource("4_2csj7")
+metadata/_edit_lock_ = true
+
+[node name="look_direction" type="TextureRect" parent="hud/crosshair"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.32
+offset_top = 11.0
+offset_right = 19.68
+offset_bottom = 51.0
+pivot_offset = Vector2(20, 20)
+texture = ExtResource("4_2csj7")

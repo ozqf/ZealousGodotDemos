@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2ucsiap1wvgw"]
+[gd_scene load_steps=5 format=3 uid="uid://b2ucsiap1wvgw"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_gliyp"]
 top_radius = 0.0
@@ -7,9 +7,31 @@ height = 1.0
 radial_segments = 4
 rings = 1
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_gjr7c"]
+size = Vector3(0.2, 1, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7pfdp"]
+size = Vector3(0.2, 1, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8jrot"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 0.211765)
+
 [node name="weapon_model" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -5.96046e-08)
 mesh = SubResource("CylinderMesh_gliyp")
 metadata/_edit_lock_ = true
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_gjr7c")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("BoxMesh_7pfdp")
+surface_material_override/0 = SubResource("StandardMaterial3D_8jrot")

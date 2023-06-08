@@ -7,5 +7,5 @@ func _ready():
 
 func _spawn_player() -> void:
 	var plyr:Node3D = _playerType.instantiate() as Node3D
-	get_parent().add_child(plyr)
+	Zqf.get_actor_root().add_child(plyr)
 	plyr.global_transform = self.global_transform
