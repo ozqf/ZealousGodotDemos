@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=3 uid="uid://bcyuyhg1xs5ud"]
+
+[ext_resource type="Script" path="res://actors/player/player.gd" id="1_jci2p"]
+[ext_resource type="Script" path="res://actors/player/player_attack_input.gd" id="2_tuqhj"]
+[ext_resource type="PackedScene" uid="uid://b2ucsiap1wvgw" path="res://actors/player/weapon_model.tscn" id="2_ygoxh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nrxwx"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_h4wpu"]
+size = Vector3(0.5, 0.5, 0.05)
+
+[node name="player" type="CharacterBody3D"]
+script = ExtResource("1_jci2p")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_nrxwx")
+
+[node name="head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+script = ExtResource("2_tuqhj")
+
+[node name="Camera3D" type="Camera3D" parent="head"]
+fov = 85.0
+
+[node name="weapon_model" parent="head" instance=ExtResource("2_ygoxh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="right" type="Node3D" parent="head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.2, -0.2)
+
+[node name="right_high_start" type="Node3D" parent="head/right"]
+transform = Transform3D(0.642788, 0.383022, -0.663414, 0, 0.866025, 0.5, 0.766044, -0.321394, 0.55667, 0.3, -0.2, -0.2)
+
+[node name="right_high_end" type="Node3D" parent="head/right"]
+transform = Transform3D(0.613775, -0.54372, -0.572406, 0.282375, -0.525886, 0.802314, -0.737255, -0.654074, -0.169242, -0.6, -0.5, -0.2)
+
+[node name="left_high_start" type="Node3D" parent="head/right"]
+transform = Transform3D(0.642788, -0.383022, 0.663414, 0, 0.866025, 0.5, -0.766044, -0.321394, 0.55667, -0.6, -0.2, -0.2)
+
+[node name="left_high_end" type="Node3D" parent="head/right"]
+transform = Transform3D(0.737255, 0.654074, 0.169242, 0.155017, -0.407585, 0.899914, 0.65759, -0.63723, -0.401886, 0.4, -0.3, -0.2)
+
+[node name="thrust_start" type="Node3D" parent="head/right"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.1, 0, 0.6)
+
+[node name="weapon_model3" parent="head/right/thrust_start" instance=ExtResource("2_ygoxh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visible = false
+
+[node name="thrust_end" type="Node3D" parent="head/right"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.1, 0, -1.49012e-08)
+
+[node name="weapon_model2" parent="head/right/thrust_end" instance=ExtResource("2_ygoxh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visible = false
+
+[node name="left" type="Node3D" parent="head"]
+transform = Transform3D(-0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, -0.258819, -0.2, -0.2, -0.2)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="head/left"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2)
+mesh = SubResource("BoxMesh_h4wpu")

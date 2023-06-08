@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2ucsiap1wvgw"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gliyp"]
+top_radius = 0.0
+bottom_radius = 0.1
+height = 1.0
+radial_segments = 4
+rings = 1
+
+[node name="weapon_model" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -5.96046e-08)
+mesh = SubResource("CylinderMesh_gliyp")
+metadata/_edit_lock_ = true
