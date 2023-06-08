@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq2pk0xcl4ktu"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pq376"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_e7ni5"]
+radial_segments = 12
+rings = 1
+
+[node name="target_dummy" type="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_pq376")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_e7ni5")

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo8t5t610vttb"]
+
+[ext_resource type="BoxMesh" uid="uid://crtessa5cbs85" path="res://shared/primitives/cube.tres" id="1_yfhnr"]
+
+[node name="actor_proxy_widget_box" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = ExtResource("1_yfhnr")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 1, -0.5)
+mesh = ExtResource("1_yfhnr")
+skeleton = NodePath("../..")

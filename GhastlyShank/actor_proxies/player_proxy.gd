@@ -3,6 +3,7 @@ extends Node3D
 var _playerType:PackedScene = preload("res://actors/player/player.tscn")
 
 func _ready():
+	self.visible = false
 	call_deferred("_spawn_player")
 
 func _spawn_player() -> void:

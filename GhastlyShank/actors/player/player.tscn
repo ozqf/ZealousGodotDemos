@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bcyuyhg1xs5ud"]
+[gd_scene load_steps=6 format=3 uid="uid://bcyuyhg1xs5ud"]
 
 [ext_resource type="Script" path="res://actors/player/player.gd" id="1_jci2p"]
-[ext_resource type="Script" path="res://actors/player/player_attack_input.gd" id="2_tuqhj"]
 [ext_resource type="PackedScene" uid="uid://b2ucsiap1wvgw" path="res://actors/player/weapon_model.tscn" id="2_ygoxh"]
-[ext_resource type="Texture2D" uid="uid://bgrqw6h5qbxos" path="res://actors/player/hud_icons/up_arrow.png" id="4_2csj7"]
+[ext_resource type="Texture2D" uid="uid://dl7uh25m15qyr" path="res://actors/player/hud_icons/arrow.png" id="3_3e5no"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nrxwx"]
 radius = 0.4
@@ -21,7 +20,6 @@ shape = SubResource("CapsuleShape3D_nrxwx")
 
 [node name="head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
-script = ExtResource("2_tuqhj")
 
 [node name="Camera3D" type="Camera3D" parent="head"]
 fov = 85.0
@@ -37,11 +35,50 @@ transform = Transform3D(0.642788, 0.383022, -0.663414, 0, 0.866025, 0.5, 0.76604
 [node name="right_high_end" type="Node3D" parent="head/right"]
 transform = Transform3D(0.613775, -0.54372, -0.572406, 0.282375, -0.525886, 0.802314, -0.737255, -0.654074, -0.169242, -0.6, -0.5, -0.2)
 
+[node name="right_mid_start" type="Node3D" parent="head/right"]
+transform = Transform3D(0.321394, 0.941511, 0.101306, -0.556671, 0.101306, 0.824533, 0.766044, -0.321394, 0.55667, 0.3, -0.4, -0.2)
+
+[node name="weapon_model4" parent="head/right/right_mid_start" instance=ExtResource("2_ygoxh")]
+
+[node name="right_mid_end" type="Node3D" parent="head/right"]
+transform = Transform3D(0.831717, -0.394893, -0.390265, 0.410341, -0.0362783, 0.91121, -0.373989, -0.918011, 0.131868, -0.6, -0.4, -0.2)
+
+[node name="weapon_model5" parent="head/right/right_mid_end" instance=ExtResource("2_ygoxh")]
+transform = Transform3D(0.971663, -0.236346, 0.00335111, 0.235331, 0.96597, -0.107331, 0.0221301, 0.105078, 0.994218, 0, 0, 0)
+
 [node name="left_high_start" type="Node3D" parent="head/right"]
 transform = Transform3D(0.642788, -0.383022, 0.663414, 0, 0.866025, 0.5, -0.766044, -0.321394, 0.55667, -0.6, -0.2, -0.2)
 
 [node name="left_high_end" type="Node3D" parent="head/right"]
 transform = Transform3D(0.737255, 0.654074, 0.169242, 0.155017, -0.407585, 0.899914, 0.65759, -0.63723, -0.401886, 0.4, -0.3, -0.2)
+
+[node name="left_mid_start" type="Node3D" parent="head/right"]
+transform = Transform3D(0.358964, -0.820585, -0.44473, 0.620886, -0.145827, 0.770218, -0.696883, -0.552607, 0.457142, -0.6, -0.2, -0.2)
+
+[node name="weapon_model6" parent="head/right/left_mid_start" instance=ExtResource("2_ygoxh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="left_mid_end" type="Node3D" parent="head/right"]
+transform = Transform3D(0.391822, 0.893767, -0.218303, 0.405217, 0.0453783, 0.913094, 0.825999, -0.44623, -0.344389, 0.4, -0.3, -0.2)
+
+[node name="weapon_model7" parent="head/right/left_mid_end" instance=ExtResource("2_ygoxh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="centre_chop_start" type="Node3D" parent="head/right"]
+transform = Transform3D(0.884561, 0.133493, -0.446914, -0.344816, 0.832393, -0.433849, 0.314093, 0.537869, 0.782332, 0.1, 0.4, -0.2)
+
+[node name="weapon_mode8" parent="head/right/centre_chop_start" instance=ExtResource("2_ygoxh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="centre_chop_end" type="Node3D" parent="head/right"]
+transform = Transform3D(0.898673, -0.0202285, -0.438152, 0.398386, -0.380283, 0.83467, -0.183506, -0.924649, -0.333691, -0.2, -0.5, -0.5)
+
+[node name="weapon_mode9" parent="head/right/centre_chop_end" instance=ExtResource("2_ygoxh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, 0, 0)
+metadata/_edit_lock_ = true
 
 [node name="thrust_start" type="Node3D" parent="head/right"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.1, -0.1, 0.6)
@@ -67,6 +104,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="crosshair" type="Control" parent="hud"]
 layout_mode = 1
@@ -79,6 +118,8 @@ offset_left = -63.68
 offset_top = -64.0
 offset_right = 64.32
 offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
 metadata/_edit_lock_ = true
 
 [node name="move_direction" type="TextureRect" parent="hud/crosshair"]
@@ -94,7 +135,7 @@ offset_top = -20.0
 offset_right = 20.064
 offset_bottom = 20.0
 pivot_offset = Vector2(20, 20)
-texture = ExtResource("4_2csj7")
+texture = ExtResource("3_3e5no")
 metadata/_edit_lock_ = true
 
 [node name="look_direction" type="TextureRect" parent="hud/crosshair"]
@@ -110,4 +151,4 @@ offset_top = 11.0
 offset_right = 19.68
 offset_bottom = 51.0
 pivot_offset = Vector2(20, 20)
-texture = ExtResource("4_2csj7")
+texture = ExtResource("3_3e5no")
