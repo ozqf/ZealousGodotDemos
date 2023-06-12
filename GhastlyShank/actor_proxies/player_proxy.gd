@@ -1,4 +1,4 @@
-extends Node3D
+extends ActorProxyBase
 
 var _playerType:PackedScene = preload("res://actors/player/player.tscn")
 

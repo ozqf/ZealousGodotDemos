@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3ppkbpsh6g8g"]
+[gd_scene load_steps=6 format=3 uid="uid://b3ppkbpsh6g8g"]
 
 [ext_resource type="Material" uid="uid://bmgf6p7613sjr" path="res://shared/world_materials/world_default_planar.tres" id="1_vpk4i"]
 [ext_resource type="PackedScene" uid="uid://cohingb36327v" path="res://proxies/info/player_start_proxy.tscn" id="2_65xnq"]
 [ext_resource type="Material" uid="uid://dpplqlsyuxbja" path="res://shared/world_materials/world_default_2_planar.tres" id="2_hwcmi"]
 [ext_resource type="PackedScene" uid="uid://bb7wecx6ubm6b" path="res://proxies/spawners/spawner_proxy.tscn" id="3_oq0t7"]
+[ext_resource type="ArrayMesh" uid="uid://cl1kdoaof35or" path="res://worlds/sandbox/geometry/material_test.obj" id="5_hgb60"]
 
 [node name="sandbox" type="Node3D"]
 
@@ -59,3 +60,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, -1, 13, 11)
 shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -83, 12, 0)
+mesh = ExtResource("5_hgb60")

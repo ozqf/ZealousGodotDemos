@@ -29,14 +29,21 @@ func get_player_input_on() -> bool:
 func get_actor_root() -> Node3D:
 	return _dynamicRoot
 
-#func get_world_root() -> Node3D:
-#	return _worldRoot
+func clear_all_actors() -> void:
+	for actor in _dynamicRoot.get_children():
+		actor.queue_free()
 
-func create_new_world(worldScene:PackedScene) -> void:
+func create_actor(type:PackedScene) -> Node3D:
+	var actor:Node3D = type.instantiate() as Node3D
+	_dynamicRoot.add_child(actor)
+	return actor
+
+func create_new_world(worldScene:PackedScene) -> Node3D:
 	for child in _worldRoot.get_children():
 		child.queue_free()
 	var world:Node3D = worldScene.instantiate() as Node3D
 	_worldRoot.add_child(world)
+	return world
 
 ###################################################################
 # Mouse claims

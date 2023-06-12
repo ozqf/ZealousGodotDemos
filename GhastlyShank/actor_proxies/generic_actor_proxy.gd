@@ -1,4 +1,4 @@
-extends Node3D
+extends ActorProxyBase
 
 enum ActorType
 {
@@ -29,3 +29,8 @@ func _spawn() -> void:
 	Zqf.get_actor_root().add_child(obj)
 	obj.global_transform = self.global_transform
 	pass
+
+func get_spawn_data() -> Dictionary:
+	var info = super.get_spawn_data()
+	info.meta.prefab = "target_dummy"
+	return info

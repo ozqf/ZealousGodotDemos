@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 Zqf="*res://zqf/zqf_main.tscn"
 Game="*res://game/game_controller.tscn"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/ZqfMaterialFiller/plugin.cfg")
+
 [input]
 
 move_forward={

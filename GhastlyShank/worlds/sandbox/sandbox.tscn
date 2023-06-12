@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b74gc3asjkkh0"]
+[gd_scene load_steps=4 format=3 uid="uid://b74gc3asjkkh0"]
 
 [ext_resource type="Material" uid="uid://dw3gssqjk355i" path="res://shared/world_materials/noise_grass.tres" id="1_hkk0c"]
 [ext_resource type="Material" uid="uid://ckvyd5s7dehok" path="res://shared/world_materials/noise_dirt.tres" id="2_23mqu"]
-[ext_resource type="PackedScene" uid="uid://cb1gshgpl027a" path="res://actor_proxies/player_proxy.tscn" id="3_vrsmb"]
-[ext_resource type="PackedScene" uid="uid://bthg8rgdfc3b" path="res://actor_proxies/generic_actor_proxy.tscn" id="4_mt3nd"]
+[ext_resource type="PackedScene" uid="uid://dn26esbqk10ah" path="res://actor_proxies/player_start_proxy.tscn" id="6_no8gy"]
 
 [node name="sandbox" type="Node3D"]
 
@@ -50,9 +49,5 @@ shadow_enabled = true
 
 [node name="actors" type="Node3D" parent="."]
 
-[node name="player_proxy" parent="actors" instance=ExtResource("3_vrsmb")]
+[node name="player_start_proxy" parent="actors" instance=ExtResource("6_no8gy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
-
-[node name="generic_actor_proxy" parent="actors" instance=ExtResource("4_mt3nd")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -10)
-actorType = 2

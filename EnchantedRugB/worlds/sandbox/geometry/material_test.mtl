@@ -1,0 +1,9 @@
+newmtl zqf/concrete/noise_concrete_base_black
+map_Kd textures\zqf\concrete\noise_concrete_base_black
+
+newmtl zqf/concrete/noise_concrete_base_blue
+map_Kd textures\zqf\concrete\noise_concrete_base_blue
+
+newmtl zqf/concrete/noise_concrete_base_yellow
+map_Kd textures\zqf\concrete\noise_concrete_base_yellow
+

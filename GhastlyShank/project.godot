@@ -26,6 +26,10 @@ window/size/viewport_width=960
 window/size/viewport_height=540
 window/stretch/mode="viewport"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/zqf_actor_proxy_editor/plugin.cfg")
+
 [input]
 
 move_forward={

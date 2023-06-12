@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://b4yw6s3672mv5"]
+
+[node name="button" type="Button"]
+anchors_preset = -1
+anchor_right = 0.097
+anchor_bottom = 0.048
+offset_right = 0.255997
+offset_bottom = -0.104
+grow_horizontal = 2
+grow_vertical = 2
+text = "Fill Materials"
