@@ -1,8 +1,43 @@
 @tool
 extends EditorPlugin
+class_name ZqfActorProxyEditor
 
+##########################################################
+# static
+##########################################################
+
+static func _find_actor_proxies(root:Node, results:Array) -> void:
+	if !ZqfUtils.is_obj_safe(root):
+		return
+	if root.has_method("get_actor_proxy_info"):
+		results.push_back(root)
+	for node in root.get_children():
+		_find_actor_proxies(node, results)
+
+static func _find_all_tags(root:Node) -> PackedStringArray:
+	var tags:Dictionary = {}
+	var proxies:Array = []
+	_find_actor_proxies(root, proxies)
+	for proxy in proxies:
+		for child in proxy.get_children():
+			if child is TagsField:
+				var csv:String = child.csv
+				var childTags = csv.split(",")
+				for tag in childTags:
+					if tag != "":
+						tags[tag] = tag
+	return tags.keys()
+
+##########################################################
+# Instance
+##########################################################
+
+var _buttonType = preload("res://addons/zqf_actor_proxy_editor/custom_button.tscn")
 var _settingsDockType = preload("res://addons/zqf_actor_proxy_editor/proxy_settings_dock.tscn")
 var _settingsDock
+var _dockFieldsRoot:VBoxContainer
+
+var _tagsNode:TagsField = null
 
 func _enter_tree():
 	print("Init actor proxy settings")
@@ -22,6 +57,7 @@ func _exit_tree():
 
 ##########################################################
 # Dock controls
+##########################################################
 
 var _disabledRoot:Control
 var _enabledRoot:Control
@@ -29,10 +65,13 @@ var _enabledRoot:Control
 func _link_to_dock(dock) -> void:
 	_disabledRoot = dock.get_node_or_null("disabled")
 	_enabledRoot = dock.get_node_or_null("enabled")
+	_dockFieldsRoot = dock.get_node_or_null("fields")
 
 func set_enabled(flag:bool) -> void:
 	_enabledRoot.visible = flag
 	_disabledRoot.visible = !flag
+	if !flag:
+		_remove_fields()
 
 func _get_proxy():
 	var selection:EditorSelection = get_editor_interface().get_selection()
@@ -53,13 +92,53 @@ func _selection_changed() -> void:
 		return
 	print("Got an actor proxy")
 	set_enabled(true)
+	# reset fields
+	_remove_fields()
 	edit_node(proxy)
 
 ##########################################################
 # Edit node
+##########################################################
+
+func _remove_fields() -> void:
+	for child in _dockFieldsRoot.get_children():
+		child.free()
+
+func _on_edit_field(fieldNode) -> void:
+	print("clicked edit field: " + fieldNode.name)
+	var tags:PackedStringArray = _find_all_tags(get_editor_interface().get_edited_scene_root())
+	print("Found " + str(tags.size()) + " tags")
+	var txt:String = ZqfUtils.join_strings(tags, ",")
+	print(txt)
+
+func _inspect_script_properties(node:Node) -> void:
+#	var props = node.get_script().get_script_property_list()
+	var allProps = node.get_property_list()
+	print("Found " + str(allProps.size()))
+	
+	var props = []
+	for prop in allProps:
+		if (prop.name as String).begins_with(("ent_")):
+			props.push_back(prop.name)
+	print(str(props))
+	pass
 
 func edit_node(node) -> void:
-	if node.has_method("get_actor_proxy_info"):
-		var info:Dictionary = node.get_actor_proxy_info()
-		print("Editing type: " + str(info.meta.prefab))
+	if !node.has_method("get_actor_proxy_info"):
+		print("Node has no get_actor_proxy_info method")
+		return
+	var info:Dictionary = node.get_actor_proxy_info()
+	print("Editing type: " + str(info.meta.prefab))
+	
+	_inspect_script_properties(node)
+	
+	for child in node.get_children():
+		if child is TagsField:
+			print("Found tag field " + child.name)
+			var button = _buttonType.instantiate()
+			_dockFieldsRoot.add_child(button)
+			button.name = "Edit Tags: '" + child.name + "'"
+			button.text = button.name
+			button.connect("custom_pressed", _on_edit_field)
+			
 	pass

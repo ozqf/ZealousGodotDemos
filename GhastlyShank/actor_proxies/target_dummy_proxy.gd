@@ -1,6 +1,9 @@
 @tool
 extends Node3D
 
+@onready var ent_tags:String = ""
+@onready var ent_deathTags:String = ""
+
 func get_actor_proxy_info() -> Dictionary:
 	return {
 		"meta": {
