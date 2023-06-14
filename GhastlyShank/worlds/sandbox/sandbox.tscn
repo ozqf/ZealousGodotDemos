@@ -53,14 +53,5 @@ shadow_enabled = true
 [node name="player_start_proxy" parent="actors" instance=ExtResource("6_no8gy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 
-[node name="tags" parent="actors/player_start_proxy" index="1"]
-csv = "a,b"
-
 [node name="target_dummy_proxy" parent="actors" instance=ExtResource("4_1lynf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 6)
-
-[node name="tags" parent="actors/target_dummy_proxy" index="1"]
-csv = "c,d"
-
-[editable path="actors/player_start_proxy"]
-[editable path="actors/target_dummy_proxy"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, -0.0367645, 8)

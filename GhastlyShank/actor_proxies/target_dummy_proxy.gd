@@ -1,8 +1,12 @@
 @tool
 extends Node3D
 
-@onready var ent_tags:String = ""
-@onready var ent_deathTags:String = ""
+@export var ent_flags:int = 0
+@export var ent_tags:String = ""
+@export var ent_deathTags:String = ""
+
+func _ready() -> void:
+	add_to_group(ZqfActorProxyEditor.GroupName)
 
 func get_actor_proxy_info() -> Dictionary:
 	return {

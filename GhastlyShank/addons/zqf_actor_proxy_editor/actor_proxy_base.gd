@@ -6,6 +6,9 @@ class_name ActorProxyBase
 @export var tags:String = ""
 @export var flags:int = 0
 
+func _ready() -> void:
+	add_to_group(ZqfActorProxyEditor.GroupName)
+
 func get_actor_proxy_info() -> Dictionary:
 	return {
 		"meta": {

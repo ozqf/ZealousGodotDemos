@@ -2,6 +2,8 @@
 extends EditorPlugin
 class_name ZqfActorProxyEditor
 
+const GroupName:String = "actor_proxies"
+
 ##########################################################
 # static
 ##########################################################
@@ -28,12 +30,19 @@ static func _find_all_tags(root:Node) -> PackedStringArray:
 						tags[tag] = tag
 	return tags.keys()
 
+static func find_trigger_target_positions(originNode) -> Array:
+	return originNode.get_tree().get_nodes_in_group(GroupName)
+#	return [ Vector3(0, 2, 0) ]
+
 ##########################################################
 # Instance
 ##########################################################
 
 var _buttonType = preload("res://addons/zqf_actor_proxy_editor/custom_button.tscn")
 var _settingsDockType = preload("res://addons/zqf_actor_proxy_editor/proxy_settings_dock.tscn")
+var _triggerLineGizmoType = preload("res://addons/zqf_actor_proxy_editor/gizmos/trigger_line_gizmo_plugin.gd")
+
+var _triggerLineGizmo
 var _settingsDock
 var _dockFieldsRoot:VBoxContainer
 
@@ -49,11 +58,15 @@ func _enter_tree():
 	# connect to selection
 	var selection:EditorSelection = get_editor_interface().get_selection()
 	selection.connect("selection_changed", _selection_changed)
+	
+	_triggerLineGizmo = _triggerLineGizmoType.new()
+	add_node_3d_gizmo_plugin(_triggerLineGizmo)
 
 func _exit_tree():
 	remove_control_from_docks(_settingsDock)
 	_settingsDock.free()
-	pass
+	
+	remove_node_3d_gizmo_plugin(_triggerLineGizmo)
 
 ##########################################################
 # Dock controls
@@ -100,6 +113,10 @@ func _selection_changed() -> void:
 # Edit node
 ##########################################################
 
+# https://docs.godotengine.org/en/latest/classes/class_object.html#id2
+# https://docs.godotengine.org/en/latest/classes/class_%40globalscope.html#class-globalscope-constant-type-object
+const PROP_TYPE_STRING:int = 4
+
 func _remove_fields() -> void:
 	for child in _dockFieldsRoot.get_children():
 		child.free()
@@ -118,7 +135,9 @@ func _inspect_script_properties(node:Node) -> void:
 	
 	var props = []
 	for prop in allProps:
-		if (prop.name as String).begins_with(("ent_")):
+		var propName:String = prop.name
+		if prop.type == PROP_TYPE_STRING && propName.begins_with(("ent_")) && propName.to_lower().contains("tags"):
+#			print(str(prop.name) + " type: " + str(prop.type))
 			props.push_back(prop.name)
 	print(str(props))
 	pass
@@ -129,6 +148,9 @@ func edit_node(node) -> void:
 		return
 	var info:Dictionary = node.get_actor_proxy_info()
 	print("Editing type: " + str(info.meta.prefab))
+	
+	var proxies = get_tree().get_nodes_in_group(ZqfActorProxyEditor.GroupName)
+	print("Found " + str(proxies.size()) + " proxies")
 	
 	_inspect_script_properties(node)
 	
