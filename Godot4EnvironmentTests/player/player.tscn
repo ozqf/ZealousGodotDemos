@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwk6hao3cvf17"]
+
+[ext_resource type="PackedScene" uid="uid://dk8wu6gtvrknd" path="res://player/weapons/Gun.glb" id="1_s8g6l"]
+[ext_resource type="Material" uid="uid://dx414bpkptgv1" path="res://player/weapons/gun_mat.tres" id="2_trhgy"]
+
+[node name="player" type="Node3D"]
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+
+[node name="Gun" parent="Node3D" instance=ExtResource("1_s8g6l")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Node3D/Gun/Armature" index="0"]
+bones/0/position = Vector3(-6.34347e-08, -0.781999, 1.48634)
+bones/0/rotation = Quaternion(-0.282688, 1.1916e-07, -1.73679e-08, 0.959212)
+bones/1/position = Vector3(-1.02036e-07, 1.65669, 0.42797)
+
+[node name="Gun2" parent="Node3D/Gun/Armature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("2_trhgy")
+
+[editable path="Node3D/Gun"]

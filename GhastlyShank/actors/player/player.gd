@@ -3,6 +3,8 @@ extends CharacterBody3D
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
+var _rageType:PackedScene = preload("res://actors/rage_drop/rage_drop.tscn")
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -38,6 +40,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _tick:float = 0.0
 var _tickMax:float = 0.25
 var _swinging:bool = false
+
+var _spellTick:float = 0.0
 
 var _nextSwingType:int = -1
 var _lastSwingType:int = -1
@@ -118,8 +122,16 @@ func _physics_process_attack(_delta:float) -> void:
 		_nextSwingType = _get_move_based_swing_type(_movePushDelta)
 		#_nextSwingType = _get_move_based_swing_type(_mouseDelta.normalized())
 		_auto_swing()
-	elif Input.is_action_pressed("attack_3"):
-		_run_swing(0.2, _thrustStart.transform, _thrustEnd.transform)
+	elif Input.is_action_pressed("attack_3") && _spellTick <= 0.0:
+		var drop = _rageType.instantiate()
+		get_parent().add_child(drop)
+		var t:Transform3D = _head.global_transform
+		var origin:Vector3 = t.origin
+		var forward:Vector3 = -t.basis.z
+		drop.launch(origin, forward)
+		_spellTick = 0.1
+		pass
+#		_run_swing(0.2, _thrustStart.transform, _thrustEnd.transform)
 		
 
 func _process(delta:float):
@@ -196,6 +208,8 @@ func _input(event) -> void:
 	degrees.x = clampf(degrees.x, -89, 89)
 	_head.rotation_degrees = degrees
 
-func _physics_process(delta):
+func _physics_process(delta:float):
+	if _spellTick > 0:
+		_spellTick -= delta
 	_physics_process_move(delta)
 	_physics_process_attack(delta)

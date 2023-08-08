@@ -9,8 +9,10 @@ func _has_gizmo(node):
 	return false
 
 func _init():
-	create_material("main", Color(1, 0, 1))
+	create_material("main", Color(1, 0, 1), false, true)
 	#create_handle_material("handles")
+	var mat:StandardMaterial3D = get_material("main")
+	
 
 func _redraw(gizmo:EditorNode3DGizmo):
 	print("Draw trigger lines")
@@ -21,6 +23,7 @@ func _redraw(gizmo:EditorNode3DGizmo):
 	var lines = PackedVector3Array()
 	
 	var globalPos:Vector3 = node.global_position
+	var scale:Vector3 = node.scale
 	
 	for other in others:
 		if other == node:
@@ -29,6 +32,11 @@ func _redraw(gizmo:EditorNode3DGizmo):
 		var b = other.global_position - globalPos
 		a += Vector3(0, 0.5, 0)
 		b += Vector3(0, 0.5, 0)
+		
+		# gizmos scales to the node, so we need to counteract that 
+		a *= (Vector3.ONE / node.scale)
+		b *= (Vector3.ONE / node.scale)
+		
 		lines.push_back(a)
 		lines.push_back(b)
 	

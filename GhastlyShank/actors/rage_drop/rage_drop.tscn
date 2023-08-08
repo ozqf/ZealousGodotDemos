@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://cnd4bggxi4moa"]
+
+[ext_resource type="Script" path="res://actors/rage_drop/rage_drop.gd" id="1_vlq4b"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rw0cq"]
+size = Vector3(0.15, 0.15, 0.15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ma1h4"]
+albedo_color = Color(0.733333, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_v6dih"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="Gradient" id="Gradient_0p73q"]
+colors = PackedColorArray(1, 0, 0, 1, 0.282353, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_q0lq2"]
+frequency = 0.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lrrs6"]
+width = 32
+height = 32
+color_ramp = SubResource("Gradient_0p73q")
+noise = SubResource("FastNoiseLite_q0lq2")
+
+[node name="rage_drop" type="Area3D"]
+collision_layer = 4
+script = ExtResource("1_vlq4b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_rw0cq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_ma1h4")
+mesh = SubResource("BoxMesh_v6dih")
+
+[node name="Decal" type="Decal" parent="."]
+visible = false
+size = Vector3(0.5, 0.5, 0.5)
+texture_albedo = SubResource("NoiseTexture2D_lrrs6")
+cull_mask = 1

@@ -11,3 +11,9 @@ script = ExtResource("1_tw2wp")
 
 [node name="tags" type="Node" parent="."]
 script = ExtResource("3_iyld6")
+
+[node name="actor_label" type="Label3D" parent="."]
+billboard = 1
+shaded = true
+no_depth_test = true
+text = "my entity name"

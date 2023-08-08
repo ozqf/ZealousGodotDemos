@@ -12,6 +12,7 @@ height = 1.8
 size = Vector3(0.5, 0.5, 0.05)
 
 [node name="player" type="CharacterBody3D"]
+collision_layer = 2
 script = ExtResource("1_jci2p")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -56,7 +57,6 @@ transform = Transform3D(0.737255, 0.654074, 0.169242, 0.155017, -0.407585, 0.899
 transform = Transform3D(0.358964, -0.820585, -0.44473, 0.620886, -0.145827, 0.770218, -0.696883, -0.552607, 0.457142, -0.6, -0.2, -0.2)
 
 [node name="weapon_model6" parent="head/right/left_mid_start" instance=ExtResource("2_ygoxh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 metadata/_edit_lock_ = true
 
 [node name="left_mid_end" type="Node3D" parent="head/right"]

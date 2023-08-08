@@ -1,5 +1,5 @@
 @tool
-extends Node3D
+extends ActorProxyBase
 
 @export var ent_flags:int = 0
 @export var ent_tags:String = ""

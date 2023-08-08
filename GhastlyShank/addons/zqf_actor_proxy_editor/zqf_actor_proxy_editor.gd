@@ -59,7 +59,14 @@ func _enter_tree():
 	var selection:EditorSelection = get_editor_interface().get_selection()
 	selection.connect("selection_changed", _selection_changed)
 	
-	_triggerLineGizmo = _triggerLineGizmoType.new()
+	# casting the gizmo type to a variant to tricker the compiler and avoid this error
+	# "Parser Error: Class "trigger_line_gizmo_plugin.gd" cannot
+	# be constructed as it is based on abstract native class EditorNode3DGizmoPlugin"
+	# is apparently a bug bug:
+	# https://github.com/godotengine/godot/issues/73525
+	
+	_triggerLineGizmo = (_triggerLineGizmoType as Variant).new()
+	#_triggerLineGizmo = _triggerLineGizmoType.new()
 	add_node_3d_gizmo_plugin(_triggerLineGizmo)
 
 func _exit_tree():
@@ -148,6 +155,13 @@ func edit_node(node) -> void:
 		return
 	var info:Dictionary = node.get_actor_proxy_info()
 	print("Editing type: " + str(info.meta.prefab))
+	
+	# set a uuid if blank
+	if !"uuid" in node:
+		print("Node has no uuid property!")
+		return
+	if node == null || node.uuid == "":
+		node.uuid = UUID.v4()
 	
 	var proxies = get_tree().get_nodes_in_group(ZqfActorProxyEditor.GroupName)
 	print("Found " + str(proxies.size()) + " proxies")
