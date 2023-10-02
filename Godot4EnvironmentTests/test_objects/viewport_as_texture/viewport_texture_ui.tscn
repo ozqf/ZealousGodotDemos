@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bdoods81usv32"]
+
+[node name="ViewportTextureUi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0.235294, 0.243137, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 520.0
+offset_bottom = 184.0
+text = "The quick brown fox jumped over the lazy dogs."

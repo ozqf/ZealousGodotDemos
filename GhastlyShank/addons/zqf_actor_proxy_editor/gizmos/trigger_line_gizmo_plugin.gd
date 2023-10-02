@@ -33,7 +33,7 @@ func _redraw(gizmo:EditorNode3DGizmo):
 		a += Vector3(0, 0.5, 0)
 		b += Vector3(0, 0.5, 0)
 		
-		# gizmos scales to the node, so we need to counteract that 
+		# gizmos scalefs to the node, so we need to counteract that 
 		a *= (Vector3.ONE / node.scale)
 		b *= (Vector3.ONE / node.scale)
 		

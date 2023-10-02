@@ -1,12 +1,73 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcyuyhg1xs5ud"]
+[gd_scene load_steps=12 format=3 uid="uid://bcyuyhg1xs5ud"]
 
 [ext_resource type="Script" path="res://actors/player/player.gd" id="1_jci2p"]
 [ext_resource type="PackedScene" uid="uid://b2ucsiap1wvgw" path="res://actors/player/weapon_model.tscn" id="2_ygoxh"]
 [ext_resource type="Texture2D" uid="uid://dl7uh25m15qyr" path="res://actors/player/hud_icons/arrow.png" id="3_3e5no"]
+[ext_resource type="Script" path="res://actors/player/player_attack_animator.gd" id="3_7v1sr"]
+[ext_resource type="PackedScene" uid="uid://cp6de8ejlhckg" path="res://actors/player/weapon_model_2.tscn" id="3_cpgh1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nrxwx"]
 radius = 0.4
 height = 1.8
+
+[sub_resource type="Animation" id="Animation_ndamx"]
+resource_name = "idle"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("root")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.7, -0.6, 0, 0.0001, 1, 0.2, -0.9, -0.3)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("root")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, -0.130526, 0.991445, 0.0001, 1, 0.00569347, -0.0432462, -0.130402, 0.990501)
+
+[sub_resource type="Animation" id="Animation_q5cs4"]
+resource_name = "zero"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("root")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array()
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("root")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array()
+
+[sub_resource type="Animation" id="Animation_3nmtw"]
+resource_name = "swing_right_to_left"
+length = 1.2
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("root")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.218583, -0.345807, -0.159583, 0.1, 1, -0.0814175, -0.345807, -0.259583, 0.2, 1, -0.370455, -0.545784, 0.0195302, 0.4, 1, -0.359493, -0.745761, 0.198643, 0.8, 1, -0.0814175, -0.345807, -0.259583, 1.2, 1, 0.218583, -0.345807, -0.159583)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("root")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.279968, -0.292313, -0.564951, 0.719028, 0.1, 1, -0.0356173, 0.0349964, -0.621929, 0.78148, 0.2, 1, 0.610489, -0.599764, 0.365417, -0.366138, 0.4, 1, 0.692333, -0.681888, 0.168152, -0.165615, 0.8, 1, -0.0356173, 0.0349964, -0.621928, 0.78148, 1.2, 1, 0.279968, -0.292313, -0.564951, 0.719028)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a0r4c"]
+_data = {
+"idle": SubResource("Animation_ndamx"),
+"swing_right_to_left": SubResource("Animation_3nmtw"),
+"zero": SubResource("Animation_q5cs4")
+}
 
 [sub_resource type="BoxMesh" id="BoxMesh_h4wpu"]
 size = Vector3(0.5, 0.5, 0.05)
@@ -26,71 +87,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 fov = 85.0
 
 [node name="weapon_model" parent="head" instance=ExtResource("2_ygoxh")]
-
-[node name="right" type="Node3D" parent="head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.2, -0.2)
-
-[node name="right_high_start" type="Node3D" parent="head/right"]
-transform = Transform3D(0.642788, 0.383022, -0.663414, 0, 0.866025, 0.5, 0.766044, -0.321394, 0.55667, 0.3, -0.2, -0.2)
-
-[node name="right_high_end" type="Node3D" parent="head/right"]
-transform = Transform3D(0.613775, -0.54372, -0.572406, 0.282375, -0.525886, 0.802314, -0.737255, -0.654074, -0.169242, -0.6, -0.5, -0.2)
-
-[node name="right_mid_start" type="Node3D" parent="head/right"]
-transform = Transform3D(0.321394, 0.941511, 0.101306, -0.556671, 0.101306, 0.824533, 0.766044, -0.321394, 0.55667, 0.3, -0.4, -0.2)
-
-[node name="weapon_model4" parent="head/right/right_mid_start" instance=ExtResource("2_ygoxh")]
-
-[node name="right_mid_end" type="Node3D" parent="head/right"]
-transform = Transform3D(0.831717, -0.394893, -0.390265, 0.410341, -0.0362783, 0.91121, -0.373989, -0.918011, 0.131868, -0.6, -0.4, -0.2)
-
-[node name="weapon_model5" parent="head/right/right_mid_end" instance=ExtResource("2_ygoxh")]
-transform = Transform3D(0.971663, -0.236346, 0.00335111, 0.235331, 0.96597, -0.107331, 0.0221301, 0.105078, 0.994218, 0, 0, 0)
-
-[node name="left_high_start" type="Node3D" parent="head/right"]
-transform = Transform3D(0.642788, -0.383022, 0.663414, 0, 0.866025, 0.5, -0.766044, -0.321394, 0.55667, -0.6, -0.2, -0.2)
-
-[node name="left_high_end" type="Node3D" parent="head/right"]
-transform = Transform3D(0.737255, 0.654074, 0.169242, 0.155017, -0.407585, 0.899914, 0.65759, -0.63723, -0.401886, 0.4, -0.3, -0.2)
-
-[node name="left_mid_start" type="Node3D" parent="head/right"]
-transform = Transform3D(0.358964, -0.820585, -0.44473, 0.620886, -0.145827, 0.770218, -0.696883, -0.552607, 0.457142, -0.6, -0.2, -0.2)
-
-[node name="weapon_model6" parent="head/right/left_mid_start" instance=ExtResource("2_ygoxh")]
-metadata/_edit_lock_ = true
-
-[node name="left_mid_end" type="Node3D" parent="head/right"]
-transform = Transform3D(0.391822, 0.893767, -0.218303, 0.405217, 0.0453783, 0.913094, 0.825999, -0.44623, -0.344389, 0.4, -0.3, -0.2)
-
-[node name="weapon_model7" parent="head/right/left_mid_end" instance=ExtResource("2_ygoxh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, 0, 0)
-metadata/_edit_lock_ = true
-
-[node name="centre_chop_start" type="Node3D" parent="head/right"]
-transform = Transform3D(0.884561, 0.133493, -0.446914, -0.344816, 0.832393, -0.433849, 0.314093, 0.537869, 0.782332, 0.1, 0.4, -0.2)
-
-[node name="weapon_mode8" parent="head/right/centre_chop_start" instance=ExtResource("2_ygoxh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, 0, 0)
-metadata/_edit_lock_ = true
-
-[node name="centre_chop_end" type="Node3D" parent="head/right"]
-transform = Transform3D(0.898673, -0.0202285, -0.438152, 0.398386, -0.380283, 0.83467, -0.183506, -0.924649, -0.333691, -0.2, -0.5, -0.5)
-
-[node name="weapon_mode9" parent="head/right/centre_chop_end" instance=ExtResource("2_ygoxh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, 0, 0)
-metadata/_edit_lock_ = true
-
-[node name="thrust_start" type="Node3D" parent="head/right"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.1, -0.1, 0.6)
-
-[node name="weapon_model3" parent="head/right/thrust_start" instance=ExtResource("2_ygoxh")]
 visible = false
 
-[node name="thrust_end" type="Node3D" parent="head/right"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.1, -0.1, -1.49012e-08)
+[node name="right_new" type="Node3D" parent="head"]
 
-[node name="weapon_model2" parent="head/right/thrust_end" instance=ExtResource("2_ygoxh")]
-visible = false
+[node name="AnimationPlayer" type="AnimationPlayer" parent="head/right_new"]
+libraries = {
+"": SubResource("AnimationLibrary_a0r4c")
+}
+script = ExtResource("3_7v1sr")
+
+[node name="root" type="Node3D" parent="head/right_new"]
+transform = Transform3D(0.190767, 0.648754, -0.736699, -0.976107, 0.204896, -0.0723253, 0.104026, 0.732895, 0.672341, 0.218583, -0.345807, -0.159583)
+
+[node name="WeaponModel2" parent="head/right_new/root" instance=ExtResource("3_cpgh1")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+metadata/_edit_lock_ = true
 
 [node name="left" type="Node3D" parent="head"]
 transform = Transform3D(-0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, -0.258819, -0.2, -0.2, -0.2)

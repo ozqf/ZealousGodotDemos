@@ -10,32 +10,12 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var _head:Node3D = $head
 
-@onready var _weaponModel:Node3D = $head/weapon_model
-
-@onready var _rightHighStart:Node3D = $head/right/right_high_start
-@onready var _rightHighEnd:Node3D = $head/right/right_high_end
-
-@onready var _rightMidStart:Node3D = $head/right/right_mid_start
-@onready var _rightMidEnd:Node3D = $head/right/right_mid_end
-
-@onready var _leftHighStart:Node3D = $head/right/left_high_start
-@onready var _leftHighEnd:Node3D = $head/right/left_high_end
-
-@onready var _leftMidStart:Node3D = $head/right/left_mid_start
-@onready var _leftMidEnd:Node3D = $head/right/left_mid_end
-
-@onready var _centreChopStart:Node3D = $head/right/centre_chop_start
-@onready var _centreChopEnd:Node3D = $head/right/centre_chop_end
-
-@onready var _thrustStart:Node3D = $head/right/thrust_start
-@onready var _thrustEnd:Node3D = $head/right/thrust_end
-
-
-@onready var _rightHand:Node3D = $head/right
-@onready var _leftHand:Node3D = $head/left
+@onready var _rightAnimator:PlayerAttackAnimator = $head/right_new/AnimationPlayer
 
 @onready var _moveDirIcon:Control = $hud/crosshair/move_direction
 @onready var _lookDirIcon:Control = $hud/crosshair/look_direction
+
+@onready var _leftHand:Node3D = $head/left
 
 var _tick:float = 0.0
 var _tickMax:float = 0.25
@@ -54,7 +34,8 @@ var _mouseDelta:Vector2 = Vector2()
 var _movePushDelta:Vector2 = Vector2()
 
 func _ready() -> void:
-	_rightHand.visible = false
+	#_rightAnimator.play("swing_right_to_left")
+	pass
 
 ###################################################
 # Attack
@@ -73,20 +54,24 @@ func _auto_swing() -> void:
 		0:
 			_nextSwingType = 1
 #			_swing_right_high()
-			_run_swing(0.3, _rightMidStart.transform, _rightMidEnd.transform)
+			#_run_swing(0.3, _rightMidStart.transform, _rightMidEnd.transform)
+			pass
 #			_run_swing(0.4, _rightHighStart.transform, _rightHighEnd.transform)
 		1:
 			_nextSwingType = 0
 #			_swing_left_high()
 #			_run_swing(0.3, _leftHighStart.transform, _leftHighEnd.transform)
-			_run_swing(0.3, _leftMidStart.transform, _leftMidEnd.transform)
+			#_run_swing(0.3, _leftMidStart.transform, _leftMidEnd.transform)
+			pass
 		2:
 			_nextSwingType = 0
 			#_run_swing(0.2, _thrustStart.transform, _thrustEnd.transform)
-			_run_swing(0.2, _centreChopEnd.transform, _centreChopStart.transform)
+			#_run_swing(0.2, _centreChopEnd.transform, _centreChopStart.transform)
+			pass
 		3:
 			_nextSwingType = 3
-			_run_swing(0.2, _centreChopStart.transform, _centreChopEnd.transform)
+			#_run_swing(0.2, _centreChopStart.transform, _centreChopEnd.transform)
+			pass
 
 func _get_move_based_swing_type(move:Vector2) -> int:
 	if move.is_zero_approx():
@@ -121,7 +106,8 @@ func _physics_process_attack(_delta:float) -> void:
 		
 		_nextSwingType = _get_move_based_swing_type(_movePushDelta)
 		#_nextSwingType = _get_move_based_swing_type(_mouseDelta.normalized())
-		_auto_swing()
+		#_auto_swing()
+		_rightAnimator.play_attack()
 	elif Input.is_action_pressed("attack_3") && _spellTick <= 0.0:
 		var drop = _rageType.instantiate()
 		get_parent().add_child(drop)
@@ -136,13 +122,13 @@ func _physics_process_attack(_delta:float) -> void:
 
 func _process(delta:float):
 	_timeSinceLastMouseDelta += delta
-	if _swinging:
-		_tick += delta
-		if _tick > _tickMax:
-			_tick = 0.0
-			_swinging = false
-		var weight:float = _tick / _tickMax
-		_weaponModel.transform = _a.interpolate_with(_b, weight)
+	#if _swinging:
+		#_tick += delta
+		#if _tick > _tickMax:
+			#_tick = 0.0
+			#_swinging = false
+		#var weight:float = _tick / _tickMax
+		#_weaponModel.transform = _a.interpolate_with(_b, weight)
 	
 	if _timeSinceLastMouseDelta < 0.05:
 		var lookMoveDegrees:float = rad_to_deg(atan2(_mouseDelta.y, _mouseDelta.x))

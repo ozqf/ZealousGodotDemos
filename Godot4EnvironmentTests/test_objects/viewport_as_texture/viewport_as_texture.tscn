@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://d4ndr1vypfgxf"]
+
+[ext_resource type="PackedScene" uid="uid://bdoods81usv32" path="res://test_objects/viewport_as_texture/viewport_texture_ui.tscn" id="1_x3a6m"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_u7bor"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bt8bf"]
+resource_local_to_scene = true
+metallic = 1.0
+metallic_texture = SubResource("ViewportTexture_u7bor")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1olyu"]
+orientation = 2
+
+[node name="ViewportAsTexture" type="Node3D"]
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="ViewportTextureUi" parent="SubViewport" instance=ExtResource("1_x3a6m")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_bt8bf")
+mesh = SubResource("PlaneMesh_1olyu")
