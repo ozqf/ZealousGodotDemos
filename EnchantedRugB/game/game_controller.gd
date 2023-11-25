@@ -36,6 +36,11 @@ func _app_init() -> void:
 func new_hit_info() -> HitInfo:
 	return _hitInfoType.new()
 
+func try_hit(attackInfo:HitInfo, victimHitbox) -> int:
+	if !victimHitbox.has_method("hit"):
+		return 0
+	return victimHitbox.hit(attackInfo)
+
 func add_actor_scene(actorType:PackedScene, t:Transform3D) -> Node3D:
 	var obj:Node3D = actorType.instantiate() as Node3D
 	Zqf.get_actor_root().add_child(obj)

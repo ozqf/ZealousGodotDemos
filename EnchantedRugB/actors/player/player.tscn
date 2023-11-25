@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cmunwmqdfegan"]
+[gd_scene load_steps=6 format=3 uid="uid://cmunwmqdfegan"]
 
 [ext_resource type="Script" path="res://actors/player/player.gd" id="1_ffxbo"]
 [ext_resource type="PackedScene" uid="uid://bw5apxb11yqvu" path="res://lib/post_process_outline/post_process_outline.tscn" id="2_4nm2g"]
+[ext_resource type="PackedScene" uid="uid://wpe0kxoncqou" path="res://actors/player/model/player_model.tscn" id="2_opdec"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_bbnwn"]
 
@@ -11,19 +12,22 @@
 collision_layer = 8
 script = ExtResource("1_ffxbo")
 
+[node name="player_model" parent="." instance=ExtResource("2_opdec")]
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("SphereShape3D_bbnwn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
 mesh = SubResource("BoxMesh_gam5r")
 
 [node name="head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="camera_mount" type="Node3D" parent="head"]
-transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 0, 11.5, 8)
+transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 0, 6.5, 4)
 
 [node name="Camera3D" type="Camera3D" parent="head/camera_mount"]
 metadata/_edit_lock_ = true

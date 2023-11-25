@@ -4,6 +4,7 @@ const SPEED = 10.0
 const JUMP_VELOCITY = 4.5
 
 @onready var _head:Node3D = $head
+@onready var _model:PlayerModel = $player_model
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -37,6 +38,10 @@ func _physics_process_default(delta):
 func _physics_process(_delta:float) -> void:
 	_tick_movement(_delta)
 	_tick_attack(_delta)
+	var yaw:float = atan2(velocity.x, velocity.z) * ZqfUtils.RAD2DEG
+	_model.update_base_yaw(yaw)
+	
+	_model.update_top_yaw(_head.rotation_degrees.y)
 
 func _tick_movement(_delta:float) -> void:
 	var input_dir:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
@@ -81,7 +86,9 @@ func _tick_attack(_delta:float) -> void:
 	if !_attackTimer.is_stopped():
 		return
 	if Input.is_action_pressed("attack_1"):
-		_attackTimer.one_shot = true
-		_attackTimer.wait_time = 0.1
-		_attackTimer.start()
-		_fire_projectile(_head, _prjBasicType)
+		#_model.swing_loop()
+		#_attackTimer.one_shot = true
+		#_attackTimer.wait_time = 0.1
+		#_attackTimer.start()
+		#_fire_projectile(_head, _prjBasicType)
+		pass

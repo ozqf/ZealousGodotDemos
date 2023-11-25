@@ -1,10 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://b3ppkbpsh6g8g"]
+[gd_scene load_steps=9 format=3 uid="uid://b3ppkbpsh6g8g"]
 
 [ext_resource type="Material" uid="uid://bmgf6p7613sjr" path="res://shared/world_materials/world_default_planar.tres" id="1_vpk4i"]
 [ext_resource type="PackedScene" uid="uid://cohingb36327v" path="res://proxies/info/player_start_proxy.tscn" id="2_65xnq"]
 [ext_resource type="Material" uid="uid://dpplqlsyuxbja" path="res://shared/world_materials/world_default_2_planar.tres" id="2_hwcmi"]
 [ext_resource type="PackedScene" uid="uid://bb7wecx6ubm6b" path="res://proxies/spawners/spawner_proxy.tscn" id="3_oq0t7"]
 [ext_resource type="ArrayMesh" uid="uid://cl1kdoaof35or" path="res://worlds/sandbox/geometry/material_test.obj" id="5_hgb60"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1w25x"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ha2te"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_thkat"]
+size = Vector3(86.4089, 1, 82.5177)
 
 [node name="sandbox" type="Node3D"]
 
@@ -13,16 +20,40 @@
 [node name="world" type="Node3D" parent="arena"]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="arena/world"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 use_collision = true
-size = Vector3(80, 10, 80)
+size = Vector3(80, 4, 80)
 material = ExtResource("1_vpk4i")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="arena/world/CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 operation = 2
 use_collision = true
-size = Vector3(40, 9, 40)
+size = Vector3(40, 3, 40)
+material = ExtResource("1_vpk4i")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="arena/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, -43)
+use_collision = true
+size = Vector3(80, 16, 6)
+material = ExtResource("1_vpk4i")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="arena/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 43)
+use_collision = true
+size = Vector3(80, 16, 6)
+material = ExtResource("1_vpk4i")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="arena/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43, 11, 0)
+use_collision = true
+size = Vector3(6, 16, 80)
+material = ExtResource("1_vpk4i")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="arena/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 11, 0)
+use_collision = true
+size = Vector3(6, 16, 80)
 material = ExtResource("1_vpk4i")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="arena/world"]
@@ -48,6 +79,30 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, 8)
 use_collision = true
 size = Vector3(2, 4, 2)
 material = ExtResource("2_hwcmi")
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="arena/world"]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -20, 2.1, 8)
+use_collision = true
+size = Vector3(2, 8, 2)
+material = ExtResource("2_hwcmi")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="arena/world"]
+transform = Transform3D(14.52, 0, 0, 0, 1, 0, 0, 0, 15.34, 0, -0.4, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="arena/world/StaticBody3D"]
+mesh = SubResource("BoxMesh_1w25x")
+skeleton = NodePath("../..")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="arena/world/StaticBody3D"]
+shape = SubResource("BoxShape3D_ha2te")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="arena/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="arena/world/StaticBody3D2"]
+shape = SubResource("BoxShape3D_thkat")
 
 [node name="proxies" type="Node3D" parent="arena"]
 

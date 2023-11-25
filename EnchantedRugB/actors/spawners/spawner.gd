@@ -13,6 +13,7 @@ func _ready():
 	_timer.connect("timeout", _on_timeout)
 	_timer.one_shot = true
 	_timer.start()
+	self.visible = false
 
 func _on_timeout() -> void:
 	_timer.start()
