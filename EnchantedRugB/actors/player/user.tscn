@@ -1,0 +1,20 @@
+[gd_scene load_steps=6 format=3 uid="uid://kylp6d4pl47f"]
+
+[ext_resource type="Script" path="res://actors/player/user.gd" id="1_u38cb"]
+[ext_resource type="PackedScene" uid="uid://bimvs0t1lqby0" path="res://actors/player/player_camera_mount.tscn" id="2_6ttqo"]
+[ext_resource type="PackedScene" uid="uid://cyxprucy4dwyt" path="res://actors/player/player_avatar_melee.tscn" id="3_mq6k5"]
+[ext_resource type="PackedScene" uid="uid://ccrcfkwq6eyp" path="res://actors/player/roller/player_ball.tscn" id="4_kckdf"]
+[ext_resource type="Script" path="res://actors/player/player_input.gd" id="5_tcs82"]
+
+[node name="user" type="Node3D"]
+script = ExtResource("1_u38cb")
+
+[node name="player_camera_mount" parent="." instance=ExtResource("2_6ttqo")]
+
+[node name="player_avatar_melee" parent="." instance=ExtResource("3_mq6k5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="player_ball" parent="." instance=ExtResource("4_kckdf")]
+
+[node name="input" type="Node" parent="."]
+script = ExtResource("5_tcs82")

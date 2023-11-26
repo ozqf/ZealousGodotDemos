@@ -9,8 +9,10 @@ const HIT_RESPOSNE_IGNORED:int = -1
 
 #@onready var _loadTimer:Timer = $load_timer
 var _sandboxWorld = preload("res://worlds/sandbox/sandbox.tscn")
-
 var _hitInfoType = preload("res://shared/structs/hit_info.gd")
+var _userType = preload("res://actors/player/user.tscn")
+
+@onready var _users:Node3D = $users
 
 func _ready():
 #	_loadTimer.connect("timeout", _on_load_timeout)
@@ -49,3 +51,12 @@ func add_actor_scene(actorType:PackedScene, t:Transform3D) -> Node3D:
 	else:
 		obj.global_transform = t
 	return obj
+
+func spawn_player(_pos:Vector3, _yawDegrees:float = 0) -> void:
+	if _users.get_child_count() > 0:
+		print("Already have a player")
+		return
+	var user = _userType.instantiate()
+	_users.add_child(user)
+	user.spawn(_pos, _yawDegrees)
+	pass

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ccrcfkwq6eyp"]
+[gd_scene load_steps=10 format=3 uid="uid://ccrcfkwq6eyp"]
 
 [ext_resource type="Script" path="res://actors/player/roller/player_ball.gd" id="1_prko3"]
 
@@ -22,18 +22,6 @@ albedo_color = Color(1, 0, 0, 1)
 emission_enabled = true
 emission = Color(1, 0, 0, 1)
 emission_energy_multiplier = 2.0
-
-[sub_resource type="SphereMesh" id="SphereMesh_37etc"]
-radius = 0.1
-height = 0.2
-radial_segments = 8
-rings = 4
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6u862"]
-shading_mode = 2
-albedo_color = Color(1, 0, 0, 1)
-emission_enabled = true
-emission = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a3l64"]
 size = Vector3(1, 0.2, 1)
@@ -59,27 +47,6 @@ mesh = SubResource("SphereMesh_k1qli")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.2)
 mesh = SubResource("BoxMesh_fciik")
 surface_material_override/0 = SubResource("StandardMaterial3D_sqval")
-
-[node name="tracker" type="Node3D" parent="."]
-top_level = true
-
-[node name="head" type="Node3D" parent="tracker"]
-
-[node name="camera_mount" type="Node3D" parent="tracker/head"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 4, 6)
-
-[node name="Camera3D" type="Camera3D" parent="tracker/head/camera_mount"]
-metadata/_edit_lock_ = true
-
-[node name="RayCast3D" type="RayCast3D" parent="tracker/head/camera_mount"]
-target_position = Vector3(0, 0, -1000)
-collision_mask = 3
-
-[node name="aim_dot" type="Node3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="aim_dot"]
-mesh = SubResource("SphereMesh_37etc")
-surface_material_override/0 = SubResource("StandardMaterial3D_6u862")
 
 [node name="ground_detector" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)

@@ -9,6 +9,7 @@ func _ready():
 
 func _spawn_player() -> void:
 	#var plyr = _playerType.instantiate()
-	var plyr = _playerBallType.instantiate()
-	Zqf.get_actor_root().add_child(plyr)
-	plyr.teleport(self.global_transform)
+	#var plyr = _playerBallType.instantiate()
+	#Zqf.get_actor_root().add_child(plyr)
+	#plyr.teleport(self.global_transform)
+	Game.spawn_player(self.global_position, self.rotation_degrees.y)
