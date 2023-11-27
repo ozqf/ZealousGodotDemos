@@ -22,10 +22,10 @@ script = ExtResource("1_vec3f")
 target_position = Vector3(0, 4, 6)
 
 [node name="mount_max" type="Node3D" parent="head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 7)
 
 [node name="camera_mount" type="Node3D" parent="head"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 4, 6)
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 5, 7)
 
 [node name="Camera3D" type="Camera3D" parent="head/camera_mount"]
 metadata/_edit_lock_ = true
@@ -33,7 +33,10 @@ metadata/_edit_lock_ = true
 [node name="RayCast3D" type="RayCast3D" parent="head/camera_mount"]
 target_position = Vector3(0, 0, -1000)
 collision_mask = 3
+metadata/_edit_lock_ = true
 
 [node name="aim_dot" type="MeshInstance3D" parent="."]
+top_level = true
 material_override = SubResource("StandardMaterial3D_6oyec")
+cast_shadow = 0
 mesh = SubResource("SphereMesh_vhfg3")

@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cyxprucy4dwyt"]
+[gd_scene load_steps=6 format=3 uid="uid://cyxprucy4dwyt"]
 
 [ext_resource type="SphereMesh" uid="uid://dsctmkhiihua6" path="res://actors/player/model/player_hemisphere.tres" id="1_2ptqk"]
 [ext_resource type="Script" path="res://actors/player/player_avatar_melee.gd" id="1_i421o"]
+[ext_resource type="PackedScene" uid="uid://b1cgsmb1vstoc" path="res://actors/player/model/melee_pods.tscn" id="3_7cnfh"]
+[ext_resource type="PackedScene" uid="uid://drxstfbj1ovw8" path="res://actors/player/model/gun_pods.tscn" id="4_038b1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5r5ga"]
 
@@ -12,9 +14,17 @@ script = ExtResource("1_i421o")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_5r5ga")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = ExtResource("1_2ptqk")
+[node name="model" type="Node3D" parent="."]
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="model"]
+mesh = ExtResource("1_2ptqk")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="model"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
 mesh = ExtResource("1_2ptqk")
+skeleton = NodePath("../..")
+
+[node name="melee_pods" parent="." instance=ExtResource("3_7cnfh")]
+
+[node name="gun_pods" parent="." instance=ExtResource("4_038b1")]

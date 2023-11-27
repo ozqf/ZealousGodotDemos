@@ -17,6 +17,14 @@ func get_push_direction() -> Vector3:
 func get_head_transform() -> Transform3D:
 	return _head.global_transform
 
+func get_aim_point() -> Vector3:
+	return _aimDot.global_position
+
+func get_aim_collider():
+	if _aimRay.is_colliding():
+		return _aimRay.get_collider()
+	return null
+
 func _process(_delta:float) -> void:
 	
 	if _obstructionRay.is_colliding():

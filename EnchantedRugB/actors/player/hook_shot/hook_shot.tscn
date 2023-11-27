@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://fqsn2x6j5uhi"]
+
+[ext_resource type="Script" path="res://actors/player/hook_shot/hook_shot.gd" id="1_e285v"]
+[ext_resource type="CylinderMesh" uid="uid://doo173limjd1o" path="res://actors/player/hook_shot/hook_shot_mesh.tres" id="2_r47xo"]
+
+[node name="hook_shot" type="Node3D"]
+top_level = true
+script = ExtResource("1_e285v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+cast_shadow = 0
+mesh = ExtResource("2_r47xo")

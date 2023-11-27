@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://rworqhwqrtmt"]
+
+[ext_resource type="Script" path="res://actors/mobs/brute/brute.gd" id="1_msyx4"]
+[ext_resource type="Shape3D" uid="uid://cmcsjju7idrh4" path="res://actors/mobs/brute/brute_cylinder.tres" id="2_uprmj"]
+[ext_resource type="Script" path="res://actors/components/hit_delegate.gd" id="3_rfg76"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qhyc6"]
+top_radius = 2.0
+bottom_radius = 2.0
+height = 4.0
+radial_segments = 16
+rings = 1
+
+[node name="brute" type="CharacterBody3D"]
+collision_layer = 8
+script = ExtResource("1_msyx4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = ExtResource("2_uprmj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("CylinderMesh_qhyc6")
+
+[node name="hitbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("3_rfg76")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = ExtResource("2_uprmj")

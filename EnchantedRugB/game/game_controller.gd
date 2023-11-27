@@ -3,6 +3,10 @@ extends Node
 const TEAM_ID_ENEMY:int = 0
 const TEAM_ID_PLAYER:int = 1
 
+const GROUP_PLAYER_INTERNAL:String = "group_plyr_int"
+# params; data:dictionary
+const PLAYER_INTERNAL_FN_MELEE_ATTACK_STARTED:String = "plyr_int_melee_attack_started"
+
 # hit response > 0 is the damage caused
 const HIT_RESPONSE_ABSORBED:int = 0
 const HIT_RESPOSNE_IGNORED:int = -1

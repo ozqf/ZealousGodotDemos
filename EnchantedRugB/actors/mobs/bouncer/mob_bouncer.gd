@@ -15,7 +15,6 @@ func _on_health_depleted() -> void:
 	var gfx = _popGfx.instantiate()
 	Zqf.get_actor_root().add_child(gfx)
 	gfx.global_transform = self.global_transform
-	Zqf.get_actor_root()
 	self.queue_free()
 
 func launch() -> void:
@@ -25,7 +24,7 @@ func launch() -> void:
 	self.velocity = vel
 #	_ray.target_position = self.velocity.normalized()
 
-func _process(delta):
+func _process(_delta):
 	if _ray.is_colliding():
 		var dir:Vector3 = -self.global_transform.basis.z
 		var newDir:Vector3 = dir.bounce(_ray.get_collision_normal())
@@ -35,7 +34,7 @@ func _process(delta):
 	self.move_and_slide()
 
 func _bad_bounce_code() -> void:
-	var forward:Vector3 = -self.global_transform.basis.z
+	#var forward:Vector3 = -self.global_transform.basis.z
 	var prevDirection:Vector3 = self.velocity.normalized()
 	
 	var slides:int = self.get_slide_collision_count()

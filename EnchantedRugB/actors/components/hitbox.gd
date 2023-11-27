@@ -1,7 +1,10 @@
 extends Area3D
 class_name HitBox
 
+
+
 signal health_depleted
+signal hitbox_event
 
 #@onready var _area:Area3D = $Area3D
 
@@ -23,6 +26,7 @@ func hit(hitInfo:HitInfo) -> int:
 	if (hitInfo.teamId == teamId):
 		return -1
 	_health -= hitInfo.damage
+	print("hit for " + str(hitInfo.damage) + " hp " + str(_health))
 	if _health <= 0:
 		_die()
 		return hitInfo.damage

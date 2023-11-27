@@ -29,10 +29,14 @@ func _ready():
 func is_grounded() -> bool:
 	return _groundSensor.has_overlapping_bodies() || _groundSensor.has_overlapping_areas()
 
-func activate() -> void:
+func get_velocity() -> Vector3:
+	return self.linear_velocity
+
+func activate(resumeVelocity:Vector3) -> void:
 	self.freeze = false
 	_bodyShape.disabled = false
 	self.visible = true
+	linear_velocity = resumeVelocity
 	pass
 
 func deactivate() -> void:
@@ -69,7 +73,9 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 	#var towardHead:Vector3 = (head - pos).normalized()
 	#towardHead.y = 1.0
 	var dir:Vector3 = _input.pushDir
-	var offset:Vector3 = -dir
+	var pos:Vector3 = self.global_position
+	# var offset:Vector3 = -dir
+	var offset:Vector3 = (_input.camera.basis.z + _input.camera.basis.y)
 	var speed:float = self.linear_velocity.length()
 	var pushStr:float = MAX_PUSH_STR
 	if speed > MAX_NO_DRAG_SPEED:
