@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvpvtwxl318vl"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gs7uj"]
+radius = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_a1475"]
+radius = 2.0
+height = 4.0
+
+[node name="grapple_point" type="Area3D"]
+collision_layer = 32
+collision_mask = 32
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_gs7uj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_a1475")

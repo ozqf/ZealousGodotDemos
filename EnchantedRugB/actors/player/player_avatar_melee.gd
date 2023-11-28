@@ -10,15 +10,19 @@ var _meleeMode:bool = true
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+var _dashDir:Vector3 = Vector3()
+var _dashTick:float = 0.0
+var _dashJuice:float = 99.0
+
 func activate(resumeVelocity:Vector3, meleeMode:bool = true) -> void:
 	_meleeMode = meleeMode
 	_bodyShape.disabled = false
-	_display.visible = true
+	#_display.visible = true
 	self.velocity = resumeVelocity
 
 func deactivate() -> void:
 	_bodyShape.disabled = true
-	_display.visible = false
+	#_display.visible = false
 
 func get_right_fist() -> Node3D:
 	return _meleePods.get_right_fist()
@@ -32,45 +36,75 @@ func get_right_gun() -> Node3D:
 func get_left_gun() -> Node3D:
 	return _gunPods.get_left()
 
+func _process(_delta:float) -> void:
+	if _dashJuice < 99.0:
+		_dashJuice += (99.0 / 3) * _delta
+		if _dashJuice > 99.0:
+			_dashJuice = 99.0
+
 func input_process(_input:PlayerInput, _delta:float) -> void:
 	_meleePods.update_yaw(_input.yaw)
 	_gunPods.update_yaw(_input.yaw)
 	_gunPods.update_aim_point(_input.aimPoint) 
 
 func input_physics_process(_input:PlayerInput, _delta:float) -> void:
+	var isOnFloor:bool = self.is_on_floor()
 	var pushDir:Vector3 = _input.pushDir
+	if _dashTick > 0.0:
+		_dashTick -= _delta
+		velocity = _dashDir * 20.0
+		self.move_and_slide()
+		return
+	else:
+		if _input.dash && isOnFloor && _dashJuice > 33 && !pushDir.is_zero_approx():
+			_dashJuice -= 33
+			_dashTick = 0.2
+			_dashDir = pushDir.normalized()
+			velocity = _dashDir * 20.0
+			self.move_and_slide()
+			return
 	#if _meleePods.is_attacking():
 	#	pushDir = Vector3()
 	var curVelocity:Vector3 = self.velocity
 	var curSpeed:float = self.velocity.length()
 
-	if self.is_on_floor():
-		if curSpeed > 8 || pushDir.is_zero_approx():
+	if isOnFloor:
+		if curSpeed > 7 || pushDir.is_zero_approx():
 			curSpeed *= 0.85
 			curVelocity = curVelocity.limit_length(curSpeed)
 		#elif _meleePods.is_attacking():
 		#	curSpeed *= 0.7
 	
 	var pushStr:float = 80.0
-	if !self.is_on_floor():
+	if !isOnFloor:
 		pushStr = 10.0
 	elif _meleePods.is_attacking():
 		pushStr = 5.0
 	curVelocity += pushDir * pushStr * _delta
 
 	curVelocity += Vector3(0, -gravity, 0) * _delta
+
+	if _input.hooked:
+		var toward:Vector3 = _input.hookPosition - self.global_position
+		var dist:float = toward.length()
+		toward = toward.normalized()
+		var weight:float = dist / 30.0
+		var strength:float = lerp(0, 70, clampf(weight, 0, 1))
+		curVelocity += toward * strength * _delta
 	
-	if self.is_on_floor():
+	if isOnFloor:
 		if Input.is_action_just_pressed("move_up"):
 			curVelocity.y = 10.0
 	
 	# moves cancel vertical movement!
 	if _meleeMode:
-		if _input.attack1:
-			if _meleePods.jab() && !self.is_on_floor():
-				curVelocity.y = 4.0
-
-
+		if _meleePods.read_input(_input) && !isOnFloor:
+			curVelocity.y = 3.0
+		# if _input.attack1:
+		# 	if _meleePods.jab() && !isOnFloor:
+		# 		curVelocity.y = 4.0
+	else:
+		_gunPods.read_input(_input)
 	
 	self.velocity = curVelocity
 

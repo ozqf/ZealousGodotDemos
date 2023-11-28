@@ -57,24 +57,31 @@ func _process(_delta:float) -> void:
 				_change_mode(UserPlayMode.Ball) 
 	pass
 
-func _fire_hook_shot() -> void:
-	if !_hookShot.is_attached():
+func _hookshot_input(input:PlayerInput) -> void:
+	if input.grab && !_hookShot.is_attached():
 		_hookShot.attach(_cam.get_aim_point())
-	else:
+		_rightPod.set_hook_target(_hookShot)
+	elif !input.grab && _hookShot.is_attached():
 		_hookShot.release()
-	pass
+		_rightPod.set_hook_target(null)
+	
 
 func _physics_process(_delta:float) -> void:
 	var dir:Vector3 = _cam.get_push_direction()
+	_input.inputDir = _cam.inputDir
 	_input.pushDir = dir
 	_input.camera = _cam.get_head_transform()
 	_input.yaw = _cam.rotation_degrees.y
 	_input.attack1 = Input.is_action_pressed("attack_1")
-	_input.attack2 = Input.is_action_just_pressed("attack_2")
+	_input.attack2 = Input.is_action_pressed("attack_2")
+	_input.dash = Input.is_action_pressed("move_down")
+	_input.style = Input.is_action_pressed("style")
+	_input.grab = Input.is_action_pressed("grab")
 	_input.aimPoint = _cam.get_aim_point()
 
-	if _input.attack2:
-		_fire_hook_shot()
+	_hookShot.update_input(_input)
+
+	_hookshot_input(_input)
 
 	match _mode:
 		UserPlayMode.Ball:
@@ -85,7 +92,7 @@ func _physics_process(_delta:float) -> void:
 			_melee.input_physics_process(_input, _delta)
 
 func _change_mode(_newMode:UserPlayMode) -> void:
-	print("Change mode" + str(_newMode))
+	#print("Change mode" + str(_newMode))
 	var _prevMode = _mode
 	_mode =_newMode
 	match _newMode:
@@ -98,25 +105,29 @@ func _change_mode(_newMode:UserPlayMode) -> void:
 			_ball.deactivate()
 			_melee.activate(v, true)
 
-			_rightPod.get_parent().remove_child(_rightPod)
-			var hand:Node3D = _melee.get_right_fist()
-			hand.add_child(_rightPod)
+			_rightPod.set_track_target(_melee.get_right_fist())
+			#_rightPod.get_parent().remove_child(_rightPod)
+			#var hand:Node3D = _melee.get_right_fist()
+			#hand.add_child(_rightPod)
 			
-			_leftPod.get_parent().remove_child(_leftPod)
-			hand = _melee.get_left_fist()
-			hand.add_child(_leftPod)
+			_leftPod.set_track_target(_melee.get_left_fist())
+			#_leftPod.get_parent().remove_child(_leftPod)
+			#hand = _melee.get_left_fist()
+			#hand.add_child(_leftPod)
 		UserPlayMode.Ranged:
 			var v:Vector3 = _ball.get_velocity()
 			_ball.deactivate()
 			_melee.activate(v, false)
 
-			_rightPod.get_parent().remove_child(_rightPod)
-			var hand:Node3D = _melee.get_right_gun()
-			hand.add_child(_rightPod)
+			_rightPod.set_track_target(_melee.get_right_gun())
+			#_rightPod.get_parent().remove_child(_rightPod)
+			#var hand:Node3D = _melee.get_right_gun()
+			#hand.add_child(_rightPod)
 			
-			_leftPod.get_parent().remove_child(_leftPod)
-			hand = _melee.get_left_gun()
-			hand.add_child(_leftPod)
+			_leftPod.set_track_target(_melee.get_left_gun())
+			#_leftPod.get_parent().remove_child(_leftPod)
+			#hand = _melee.get_left_gun()
+			#hand.add_child(_leftPod)
 	pass
 
 func spawn(_pos:Vector3, _yaw:float = 0) -> void:

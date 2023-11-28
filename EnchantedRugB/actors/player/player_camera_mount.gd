@@ -2,12 +2,14 @@ extends Node3D
 class_name PlayerCameraMount
 
 @onready var _head:Node3D = $head
-@onready var _aimRay:RayCast3D = $head/camera_mount/RayCast3D
+@onready var _aimRay:RayCast3D = $head/RayCast3D
 @onready var _aimDot:Node3D = $aim_dot
 @onready var _obstructionRay:RayCast3D = $head/obstruction_ray
 
 @onready var _camTarget:Node3D = $head/mount_max
 @onready var _camMount:Node3D = $head/camera_mount
+
+var inputDir:Vector3 = Vector3()
 
 var _pushDirection:Vector3 = Vector3()
 
@@ -46,7 +48,9 @@ func _process(_delta:float) -> void:
 		return
 
 	var input_dir:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	
+	inputDir.x = input_dir.x
+	inputDir.y = 0
+	inputDir.z = input_dir.y
 	_pushDirection = (self.global_transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 func _input(event) -> void:

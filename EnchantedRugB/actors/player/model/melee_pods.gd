@@ -21,6 +21,7 @@ const AnimJabLeft:String = "jab_l"
 var _currentMoveName:String = ""
 var _lastMoveName:String = ""
 var _lastReceivedYaw:float = 0.0
+var _lastStyleAnim:String = ""
 
 var _moves:Dictionary = {}
 
@@ -45,6 +46,7 @@ func _on_anim_started(_animName:String) -> void:
 	pass
 
 func _on_anim_finished(_animName:String) -> void:
+	_lastStyleAnim = ""
 	if _currentMoveName == _animName:
 		_currentMoveName = ""
 	pass
@@ -73,12 +75,15 @@ func update_yaw(_degrees:float) -> void:
 	self.rotation_degrees = Vector3(0, _degrees, 0)
 	pass
 
-func jab() -> bool:
+func jab(forcedAnim:String = "") -> bool:
 	if is_attacking():
 		return false
 	var newMove:String = AnimJabRight
 	if _lastMoveName == newMove:
 		newMove = AnimJabLeft
+	
+	if forcedAnim != "":
+		newMove = forcedAnim
 	
 	self.rotation_degrees = Vector3(0, _lastReceivedYaw, 0)
 	_currentMoveName = newMove
@@ -88,3 +93,32 @@ func jab() -> bool:
 	var fn:String = Game.PLAYER_INTERNAL_FN_MELEE_ATTACK_STARTED
 	get_tree().call_group(grp, fn, get_move_data(_currentMoveName))
 	return true
+
+func _try_style(_input:PlayerInput) -> bool:
+	if _currentMoveName == "":
+		if _lastStyleAnim == "":
+			if _input.inputDir.z < 0:
+				_lastStyleAnim = "style"
+				_animator.play(_lastStyleAnim)
+				print("input z " + str(_input.inputDir.z))
+			elif _input.inputDir.z > 0:
+				_lastStyleAnim = "style_line_in_the_sand"
+				_animator.play(_lastStyleAnim)
+				print("input z " + str(_input.inputDir.z))
+			#if randf() > 0.5:
+			#	_lastStyleAnim = "style"
+			#	_animator.play(_lastStyleAnim)
+			#else:
+			#	_lastStyleAnim = "style_line_in_the_sand"
+			#	_animator.play(_lastStyleAnim)
+		return true
+	return false
+
+func read_input(_input:PlayerInput) -> bool:
+	if _input.attack1:
+		return self.jab(AnimJabLeft)
+	if _input.attack2:
+		return self.jab(AnimJabRight)
+	if _input.style:
+		return _try_style(_input)
+	return false

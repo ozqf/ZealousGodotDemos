@@ -1,6 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://bimvs0t1lqby0"]
+[gd_scene load_steps=6 format=3 uid="uid://bimvs0t1lqby0"]
 
 [ext_resource type="Script" path="res://actors/player/player_camera_mount.gd" id="1_vec3f"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bj1hu"]
+size = Vector3(0.1, 0.1, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r0trc"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.380392)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6oyec"]
 shading_mode = 0
@@ -18,6 +25,17 @@ script = ExtResource("1_vec3f")
 
 [node name="head" type="Node3D" parent="."]
 
+[node name="RayCast3D" type="RayCast3D" parent="head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+target_position = Vector3(0, 0, -1000)
+collision_mask = 35
+collide_with_areas = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="head/RayCast3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50)
+mesh = SubResource("BoxMesh_bj1hu")
+surface_material_override/0 = SubResource("StandardMaterial3D_r0trc")
+
 [node name="obstruction_ray" type="RayCast3D" parent="head"]
 target_position = Vector3(0, 4, 6)
 
@@ -28,11 +46,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 7)
 transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 5, 7)
 
 [node name="Camera3D" type="Camera3D" parent="head/camera_mount"]
-metadata/_edit_lock_ = true
-
-[node name="RayCast3D" type="RayCast3D" parent="head/camera_mount"]
-target_position = Vector3(0, 0, -1000)
-collision_mask = 3
 metadata/_edit_lock_ = true
 
 [node name="aim_dot" type="MeshInstance3D" parent="."]

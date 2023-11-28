@@ -14,3 +14,8 @@ func attach(pos:Vector3) -> void:
 func release() -> void:
 	_isAttached = false
 	self.visible = false
+
+func update_input(_input:PlayerInput) -> void:
+	_input.hooked = _isAttached
+	_input.hookPosition = self.global_position
+	pass

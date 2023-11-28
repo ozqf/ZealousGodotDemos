@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ccrcfkwq6eyp"]
+[gd_scene load_steps=13 format=3 uid="uid://ccrcfkwq6eyp"]
 
 [ext_resource type="Script" path="res://actors/player/roller/player_ball.gd" id="1_prko3"]
 
@@ -6,10 +6,30 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_yx24l"]
 
+[sub_resource type="Gradient" id="Gradient_b5sj2"]
+colors = PackedColorArray(1, 1, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_r0558"]
+frequency = 0.1167
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lm0bg"]
+width = 256
+height = 256
+seamless = true
+color_ramp = SubResource("Gradient_b5sj2")
+noise = SubResource("FastNoiseLite_r0558")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8k3bn"]
-albedo_color = Color(0.458824, 0.458824, 0.458824, 1)
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.458824, 0.458824, 0.458824, 0.866667)
+albedo_texture = SubResource("NoiseTexture2D_lm0bg")
+texture_filter = 2
+disable_receive_shadows = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_k1qli"]
+radius = 0.6
+height = 1.2
 radial_segments = 12
 rings = 6
 
