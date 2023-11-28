@@ -23,6 +23,7 @@ func _ready():
 
 func _on_area_entered_fist(_area:Area3D) -> void:
 	if _area.has_method("hit"):
+		_hitInfo.hitPosition = self.global_position
 		_area.hit(_hitInfo)
 
 func damage_off() -> void:

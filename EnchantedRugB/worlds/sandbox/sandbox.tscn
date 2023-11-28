@@ -115,7 +115,16 @@ transform = Transform3D(0.998754, 0, -0.0499131, 0, 1, 0, 0.0499131, 0, 0.998754
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
 
 [node name="grapple_point" parent="arena/proxies" instance=ExtResource("5_2uflt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 17, -16)
+
+[node name="grapple_point2" parent="arena/proxies" instance=ExtResource("5_2uflt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 17, -16)
+
+[node name="grapple_point3" parent="arena/proxies" instance=ExtResource("5_2uflt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 17, 16)
+
+[node name="grapple_point4" parent="arena/proxies" instance=ExtResource("5_2uflt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 17, 16)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, -1, 13, 11)

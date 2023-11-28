@@ -93,42 +93,40 @@ func _physics_process(_delta:float) -> void:
 
 func _change_mode(_newMode:UserPlayMode) -> void:
 	#print("Change mode" + str(_newMode))
+	var showAimRay:bool = false
+	var showRightPod:bool = true
+	var showLeftPod:bool = true
 	var _prevMode = _mode
 	_mode =_newMode
 	match _newMode:
 		UserPlayMode.Ball:
+			showRightPod = false
+			showLeftPod = false
+
 			var v:Vector3 = _melee.get_velocity()
 			_melee.deactivate()
 			_ball.activate(v)
+			_cam.set_aim_ray_visible(false)
 		UserPlayMode.Melee:
 			var v:Vector3 = _ball.get_velocity()
 			_ball.deactivate()
 			_melee.activate(v, true)
 
 			_rightPod.set_track_target(_melee.get_right_fist())
-			#_rightPod.get_parent().remove_child(_rightPod)
-			#var hand:Node3D = _melee.get_right_fist()
-			#hand.add_child(_rightPod)
-			
 			_leftPod.set_track_target(_melee.get_left_fist())
-			#_leftPod.get_parent().remove_child(_leftPod)
-			#hand = _melee.get_left_fist()
-			#hand.add_child(_leftPod)
 		UserPlayMode.Ranged:
+			showAimRay = true
+
 			var v:Vector3 = _ball.get_velocity()
 			_ball.deactivate()
 			_melee.activate(v, false)
 
 			_rightPod.set_track_target(_melee.get_right_gun())
-			#_rightPod.get_parent().remove_child(_rightPod)
-			#var hand:Node3D = _melee.get_right_gun()
-			#hand.add_child(_rightPod)
-			
 			_leftPod.set_track_target(_melee.get_left_gun())
-			#_leftPod.get_parent().remove_child(_leftPod)
-			#hand = _melee.get_left_gun()
-			#hand.add_child(_leftPod)
-	pass
+
+	_cam.set_aim_ray_visible(showAimRay)
+	_rightPod.visible = showRightPod
+	_leftPod.visible = showLeftPod
 
 func spawn(_pos:Vector3, _yaw:float = 0) -> void:
 	print("User spawning player at " + str(_pos))

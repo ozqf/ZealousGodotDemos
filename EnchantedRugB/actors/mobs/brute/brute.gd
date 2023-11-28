@@ -16,4 +16,5 @@ func _on_health_depleted() -> void:
 
 func hit(_hitInfo:HitInfo) -> int:
 	print("Brute - took hit")
+	Game.gfx_spawn_impact_sparks(_hitInfo.hitPosition)
 	return 1

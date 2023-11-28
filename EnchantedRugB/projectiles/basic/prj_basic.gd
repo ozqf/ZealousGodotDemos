@@ -30,6 +30,7 @@ func _on_touch_hitbox(area:Area3D) -> void:
 	if !area.has_method("hit"):
 		print("Hit box has no hit method")
 		return
+	_hitInfo.hitPosition = self.global_position
 	var response:int = area.hit(_hitInfo)
 	if response > 0:
 		self.queue_free()

@@ -1,6 +1,8 @@
 extends Node3D
 class_name ZqfMain
 
+const GROUP_NAME_ZQF_GLOBAL:String = "zqf_global"
+
 const GROUP_NAME_ACTOR_PROXIES:String = "actor_proxies"
 
 @onready var _dynamicRoot:Node3D = $dynamic_root
@@ -11,9 +13,15 @@ var _playerInputOn:bool = false
 func _ready():
 	set_player_input_on(false)
 
-func _process(_delta):
-	if Input.is_action_just_pressed("toggle_console"):
-		set_player_input_on(!_playerInputOn)
+###################################################################
+# Actor/World node controls
+###################################################################
+
+func pause_world() -> void:
+	#_dynamicRoot.
+	pass
+
+func resume_world() -> void:
 	pass
 
 func set_player_input_on(flag:bool) -> void:
@@ -31,6 +39,9 @@ func get_actor_root() -> Node3D:
 
 func get_world_root() -> Node3D:
 	return _worldRoot
+
+
+
 
 ###################################################################
 # Mouse claims

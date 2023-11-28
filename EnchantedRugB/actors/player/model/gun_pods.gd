@@ -15,6 +15,10 @@ func get_right() -> Node3D:
 func get_left() -> Node3D:
 	return _left
 
+func set_show_lasers(flag:bool) -> void:
+	_right.visible = flag
+	_left.visible = flag
+
 func update_yaw(_degrees:float) -> void:
 	# _lastReceivedYaw = _degrees
 	# if is_attacking():

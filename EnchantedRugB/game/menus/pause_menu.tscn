@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8ufhima0afrv"]
+
+[ext_resource type="Script" path="res://game/menus/pause_menu.gd" id="1_ko2cb"]
+[ext_resource type="Script" path="res://zqf/custom_button.gd" id="2_q105r"]
+
+[node name="pause_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ko2cb")
+
+[node name="restart" type="Button" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 192.0
+offset_bottom = 96.0
+text = "RESTART"
+script = ExtResource("2_q105r")

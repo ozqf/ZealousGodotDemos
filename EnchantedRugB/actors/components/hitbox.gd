@@ -30,4 +30,6 @@ func hit(hitInfo:HitInfo) -> int:
 	if _health <= 0:
 		_die()
 		return hitInfo.damage
+	else:
+		Game.gfx_spawn_impact_sparks(hitInfo.hitPosition)
 	return hitInfo.damage

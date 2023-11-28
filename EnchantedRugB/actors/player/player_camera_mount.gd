@@ -2,19 +2,29 @@ extends Node3D
 class_name PlayerCameraMount
 
 @onready var _head:Node3D = $head
-@onready var _aimRay:RayCast3D = $head/RayCast3D
+#@onready var _aimRay:RayCast3D = $head/RayCast3D
+@onready var _aimRay:RayCast3D = $head/camera_mount/RayCast3D
 @onready var _aimDot:Node3D = $aim_dot
 @onready var _obstructionRay:RayCast3D = $head/obstruction_ray
 
 @onready var _camTarget:Node3D = $head/mount_max
 @onready var _camMount:Node3D = $head/camera_mount
 
+@onready var _cameraPositionOne:Node3D = $head/mount_pos_1
+
 var inputDir:Vector3 = Vector3()
 
 var _pushDirection:Vector3 = Vector3()
 
+func _ready() -> void:
+	_camTarget.position = _cameraPositionOne.position
+
 func get_push_direction() -> Vector3:
 	return _pushDirection
+
+func set_aim_ray_visible(flag:bool) -> void:
+	#_aimRay.visible = flag
+	pass
 
 func get_head_transform() -> Transform3D:
 	return _head.global_transform
@@ -60,9 +70,9 @@ func _input(event) -> void:
 	if motion == null:
 		return
 	var degrees:Vector3 = self.rotation_degrees
-	degrees.y += (-motion.relative.x) * 0.1
+	degrees.y += (-motion.relative.x) * 0.2
 	self.rotation_degrees = degrees
 	
 	degrees = _head.rotation_degrees
-	degrees.x += (motion.relative.y) * 0.1
+	degrees.x += (motion.relative.y) * 0.2
 	_head.rotation_degrees = degrees

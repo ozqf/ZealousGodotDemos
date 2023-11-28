@@ -19,9 +19,11 @@ func activate(resumeVelocity:Vector3, meleeMode:bool = true) -> void:
 	_bodyShape.disabled = false
 	#_display.visible = true
 	self.velocity = resumeVelocity
+	_gunPods.set_show_lasers(!meleeMode)
 
 func deactivate() -> void:
 	_bodyShape.disabled = true
+	_gunPods.set_show_lasers(false)
 	#_display.visible = false
 
 func get_right_fist() -> Node3D:
@@ -38,7 +40,7 @@ func get_left_gun() -> Node3D:
 
 func _process(_delta:float) -> void:
 	if _dashJuice < 99.0:
-		_dashJuice += (99.0 / 3) * _delta
+		_dashJuice += (99.0 / 4) * _delta
 		if _dashJuice > 99.0:
 			_dashJuice = 99.0
 
@@ -58,7 +60,7 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 	else:
 		if _input.dash && isOnFloor && _dashJuice > 33 && !pushDir.is_zero_approx():
 			_dashJuice -= 33
-			_dashTick = 0.2
+			_dashTick = 0.3
 			_dashDir = pushDir.normalized()
 			velocity = _dashDir * 20.0
 			self.move_and_slide()
@@ -88,8 +90,8 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 		var toward:Vector3 = _input.hookPosition - self.global_position
 		var dist:float = toward.length()
 		toward = toward.normalized()
-		var weight:float = dist / 30.0
-		var strength:float = lerp(0, 70, clampf(weight, 0, 1))
+		var weight:float = dist / 20.0
+		var strength:float = lerp(0, 60, clampf(weight, 0, 1))
 		curVelocity += toward * strength * _delta
 	
 	if isOnFloor:

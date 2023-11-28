@@ -15,7 +15,7 @@ emission = Color(1, 1, 0, 1)
 emission_energy_multiplier = 2.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_3qnkk"]
-radius = 0.2
+radius = 0.3
 
 [node name="prj_basic" type="Area3D"]
 collision_layer = 4
