@@ -59,8 +59,19 @@ func _process(_delta:float) -> void:
 
 func _hookshot_input(input:PlayerInput) -> void:
 	if input.grab && !_hookShot.is_attached():
-		_hookShot.attach(_cam.get_aim_point())
-		_rightPod.set_hook_target(_hookShot)
+		# check for current target
+		var collider:CollisionObject3D = _cam.get_aim_collider() as CollisionObject3D
+		if collider == null:
+			return
+		var layer:int = collider.collision_layer
+		if layer & Game.HIT_MASK_GRAPPLE_POINT != 0:
+			_hookShot.attach_to_grapple(_cam.get_aim_point())
+			_rightPod.set_hook_target(_hookShot)
+		elif layer & Game.HIT_MASK_GRABBABLE != 0:
+			if collider.has_method("receive_grab"):
+				var grabbed = collider.receive_grab(_hookShot)
+				if grabbed != null:
+					print("Grab!")
 	elif !input.grab && _hookShot.is_attached():
 		_hookShot.release()
 		_rightPod.set_hook_target(null)

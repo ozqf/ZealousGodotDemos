@@ -134,6 +134,7 @@ grab={
 3d_physics/layer_4="actor_bodies"
 3d_physics/layer_5="scanner"
 3d_physics/layer_6="grapple_point"
+3d_physics/layer_7="grabbable"
 
 [physics]
 

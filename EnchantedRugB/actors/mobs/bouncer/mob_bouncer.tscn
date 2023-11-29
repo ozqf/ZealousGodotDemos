@@ -65,7 +65,7 @@ mesh = ExtResource("2_ln2xc")
 surface_material_override/0 = SubResource("StandardMaterial3D_y44h8")
 
 [node name="hitbox" type="Area3D" parent="."]
-collision_layer = 2
+collision_layer = 66
 collision_mask = 2
 script = ExtResource("3_stcw1")
 

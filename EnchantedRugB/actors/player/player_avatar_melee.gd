@@ -86,7 +86,7 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 
 	curVelocity += Vector3(0, -gravity, 0) * _delta
 
-	if _input.hooked:
+	if _input.hookState == HookShot.STATE_GRAPPLE_POINT:
 		var toward:Vector3 = _input.hookPosition - self.global_position
 		var dist:float = toward.length()
 		toward = toward.normalized()

@@ -12,5 +12,5 @@ var grab:bool = false
 var dash:bool = false
 var style:bool = false
 
-var hooked:bool = false
+var hookState:int = 0
 var hookPosition:Vector3 = Vector3()

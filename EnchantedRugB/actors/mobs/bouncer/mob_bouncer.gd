@@ -7,6 +7,8 @@ const SPEED:float = 5.0
 @onready var _hitBox:HitBox = $hitbox
 @onready var _ray:RayCast3D = $bounce_ray
 
+var _grabberNode:Node3D = null
+
 func _ready():
 	_hitBox.connect("health_depleted", _on_health_depleted)
 	_hitBox.teamId = Game.TEAM_ID_ENEMY
@@ -17,6 +19,10 @@ func _on_health_depleted() -> void:
 	# gfx.global_transform = self.global_transform
 	Game.gfx_spawn_pop_sparks(self.global_position)
 	self.queue_free()
+
+func receive_grab(_grabber) -> Node3D:
+	_grabberNode = _grabber
+	return self
 
 func launch() -> void:
 	var radians:float = randf_range(0, 360) * ZqfUtils.DEG2RAD

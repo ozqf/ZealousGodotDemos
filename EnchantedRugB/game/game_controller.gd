@@ -3,6 +3,14 @@ extends Node
 const TEAM_ID_ENEMY:int = 0
 const TEAM_ID_PLAYER:int = 1
 
+const HIT_MASK_WORLD:int = (1 << 0)
+const HIT_MASK_HITBOX:int = (1 << 1)
+const HIT_MASK_PROJECTILE:int = (1 << 2)
+const HIT_MASK_ACTOR_BODIES:int = (1 << 3)
+const HIT_MASK_SCANNER:int = (1 << 4)
+const HIT_MASK_GRAPPLE_POINT:int = (1 << 5)
+const HIT_MASK_GRABBABLE:int = (1 << 6)
+
 const GROUP_PLAYER_INTERNAL:String = "group_plyr_int"
 # params; data:dictionary
 const PLAYER_INTERNAL_FN_MELEE_ATTACK_STARTED:String = "plyr_int_melee_attack_started"

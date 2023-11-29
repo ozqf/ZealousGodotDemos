@@ -6,10 +6,11 @@ class_name HitBox
 signal health_depleted
 signal hitbox_event
 
-#@onready var _area:Area3D = $Area3D
-
 @export var teamId:int = 0 
 @export var initialHealth:int = 50
+
+
+
 var _health:int = 50
 var _dead:bool = false;
 
@@ -19,6 +20,12 @@ func _ready() -> void:
 func _die() -> void:
 	_dead = true
 	self.emit_signal("health_depleted")
+
+func receive_grab(grabber) -> Node3D:
+	var p:Node = get_parent()
+	if p.has_method("receive_grab"):
+		return p.receive_grab(grabber)
+	return null
 
 func hit(hitInfo:HitInfo) -> int:
 	if _dead:
