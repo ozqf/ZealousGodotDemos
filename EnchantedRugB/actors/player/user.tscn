@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://kylp6d4pl47f"]
+[gd_scene load_steps=11 format=3 uid="uid://kylp6d4pl47f"]
 
 [ext_resource type="Script" path="res://actors/player/user.gd" id="1_u38cb"]
 [ext_resource type="PackedScene" uid="uid://bimvs0t1lqby0" path="res://actors/player/player_camera_mount.tscn" id="2_6ttqo"]
@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://dfc2mlaacvbjh" path="res://actors/player/model/melee_pod.tscn" id="5_jbb4y"]
 [ext_resource type="Script" path="res://actors/player/player_input.gd" id="5_tcs82"]
 [ext_resource type="PackedScene" uid="uid://fqsn2x6j5uhi" path="res://actors/player/hook_shot/hook_shot.tscn" id="6_gtlv7"]
+[ext_resource type="Script" path="res://actors/components/actor_target_info.gd" id="8_7ykvq"]
+[ext_resource type="Script" path="res://ui/hud_info.gd" id="9_yt7jh"]
+[ext_resource type="PackedScene" uid="uid://chfq2b1737oq4" path="res://ui/hud.tscn" id="10_r2jlr"]
 
 [node name="user" type="Node3D"]
 script = ExtResource("1_u38cb")
@@ -26,3 +29,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="input" type="Node" parent="."]
 script = ExtResource("5_tcs82")
+
+[node name="actor_target_info" type="Node" parent="."]
+script = ExtResource("8_7ykvq")
+
+[node name="hud_info" type="Node" parent="."]
+script = ExtResource("9_yt7jh")
+
+[node name="hud" parent="." instance=ExtResource("10_r2jlr")]

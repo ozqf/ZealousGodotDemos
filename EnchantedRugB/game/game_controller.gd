@@ -1,4 +1,5 @@
 extends Node
+class_name GameCtrl
 
 const TEAM_ID_ENEMY:int = 0
 const TEAM_ID_PLAYER:int = 1
@@ -26,6 +27,8 @@ var _userType = preload("res://actors/player/user.tscn")
 
 # gfx
 var _popGfx = preload("res://gfx/mob_pop/mob_pop.tscn")
+var _gfxRedSparksPop = preload("res://gfx/mob_pop/red_sparks_pop.tscn")
+var _scorePlum = preload("res://gfx/score_plum/score_plum.tscn")
 var _sparksHitGfx = preload("res://gfx/projectile_impact/projectile_impact_sparks.tscn")
 
 @onready var _users:Node3D = $users
@@ -127,6 +130,16 @@ func spawn_player(_pos:Vector3, _yawDegrees:float = 0) -> void:
 	user.spawn(_pos, _yawDegrees)
 	pass
 
+func validate_target(tarInfo:ActorTargetInfo) -> bool:
+	if _users.get_child_count() == 0:
+		tarInfo.isValid = false
+		return false
+	return _users.get_child(0).write_target_info(tarInfo)
+
+##############################################################
+# GFX
+##############################################################
+
 func gfx_spawn_pop_sparks(pos:Vector3) -> void:
 	var gfx = _popGfx.instantiate()
 	Zqf.get_actor_root().add_child(gfx)
@@ -135,4 +148,15 @@ func gfx_spawn_pop_sparks(pos:Vector3) -> void:
 func gfx_spawn_impact_sparks(pos:Vector3) -> void:
 	var gfx = _sparksHitGfx.instantiate()
 	Zqf.get_actor_root().add_child(gfx)
+	gfx.global_position = pos
+
+func gfx_spawn_red_sparks_pop(pos:Vector3) -> void:
+	var gfx = _gfxRedSparksPop.instantiate()
+	Zqf.get_actor_root().add_child(gfx)
+	gfx.global_position = pos
+
+func gfx_spawn_score_plug(pos:Vector3, msg:String) -> void:
+	var gfx = _scorePlum.instantiate()
+	Zqf.get_actor_root().add_child(gfx)
+	gfx.get_node("Label3D").text = msg
 	gfx.global_position = pos

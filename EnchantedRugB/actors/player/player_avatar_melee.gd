@@ -4,6 +4,7 @@ extends CharacterBody3D
 @onready var _display:Node3D = $model
 @onready var _meleePods = $melee_pods
 @onready var _gunPods = $gun_pods
+@onready var _hitbox:HitBox = $hitbox
 
 var _meleeMode:bool = true
 
@@ -13,6 +14,9 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _dashDir:Vector3 = Vector3()
 var _dashTick:float = 0.0
 var _dashJuice:float = 99.0
+
+func _ready() -> void:
+	_hitbox.teamId = Game.TEAM_ID_PLAYER
 
 func activate(resumeVelocity:Vector3, meleeMode:bool = true) -> void:
 	_meleeMode = meleeMode
@@ -47,7 +51,11 @@ func _process(_delta:float) -> void:
 func input_process(_input:PlayerInput, _delta:float) -> void:
 	_meleePods.update_yaw(_input.yaw)
 	_gunPods.update_yaw(_input.yaw)
-	_gunPods.update_aim_point(_input.aimPoint) 
+	_gunPods.update_aim_point(_input.aimPoint)
+
+func write_hud_info(hudInfo:HudInfo) -> void:
+	hudInfo.healthPercentage = _hitbox.get_health_percentage()
+	hudInfo.staminaPercentage = _dashJuice
 
 func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 	var isOnFloor:bool = self.is_on_floor()
@@ -60,7 +68,8 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 	else:
 		if _input.dash && isOnFloor && _dashJuice > 33 && !pushDir.is_zero_approx():
 			_dashJuice -= 33
-			_dashTick = 0.3
+			_dashTick = 0.2
+			_hitbox.evadeTick = 0.15
 			_dashDir = pushDir.normalized()
 			velocity = _dashDir * 20.0
 			self.move_and_slide()
@@ -81,7 +90,8 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 	if !isOnFloor:
 		pushStr = 10.0
 	elif _meleePods.is_attacking():
-		pushStr = 5.0
+		pushStr = 1.0
+		curVelocity *= 0.9
 	curVelocity += pushDir * pushStr * _delta
 
 	curVelocity += Vector3(0, -gravity, 0) * _delta

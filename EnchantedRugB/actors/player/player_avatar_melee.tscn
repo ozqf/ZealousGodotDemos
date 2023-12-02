@@ -1,11 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://cyxprucy4dwyt"]
+[gd_scene load_steps=8 format=3 uid="uid://cyxprucy4dwyt"]
 
 [ext_resource type="SphereMesh" uid="uid://dsctmkhiihua6" path="res://actors/player/model/player_hemisphere.tres" id="1_2ptqk"]
 [ext_resource type="Script" path="res://actors/player/player_avatar_melee.gd" id="1_i421o"]
 [ext_resource type="PackedScene" uid="uid://b1cgsmb1vstoc" path="res://actors/player/model/melee_pods.tscn" id="3_7cnfh"]
 [ext_resource type="PackedScene" uid="uid://drxstfbj1ovw8" path="res://actors/player/model/gun_pods.tscn" id="4_038b1"]
+[ext_resource type="Script" path="res://actors/components/hitbox.gd" id="5_clrd2"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5r5ga"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0iiwk"]
 
 [node name="player_avatar_melee" type="CharacterBody3D"]
 collision_layer = 8
@@ -28,3 +31,13 @@ skeleton = NodePath("../..")
 [node name="melee_pods" parent="." instance=ExtResource("3_7cnfh")]
 
 [node name="gun_pods" parent="." instance=ExtResource("4_038b1")]
+
+[node name="hitbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("5_clrd2")
+initialHealth = 1000
+gfxType = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
+shape = SubResource("SphereShape3D_0iiwk")

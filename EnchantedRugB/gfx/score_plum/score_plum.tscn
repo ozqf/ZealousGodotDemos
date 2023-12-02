@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://6syeannjsveg"]
+
+[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="1_jkclc"]
+
+[node name="score_plum" type="Node3D"]
+script = ExtResource("1_jkclc")
+
+[node name="Label3D" type="Label3D" parent="."]
+billboard = 1
+text = "EVADE!"
+font_size = 64

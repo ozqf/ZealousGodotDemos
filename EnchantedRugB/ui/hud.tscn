@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://chfq2b1737oq4"]
+
+[ext_resource type="Script" path="res://ui/hud.gd" id="1_npfjr"]
+
+[node name="hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_npfjr")
+metadata/_edit_lock_ = true
+
+[node name="health" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 176.0
+offset_bottom = 35.0
+value = 50.0
+
+[node name="stamina" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 56.0
+offset_right = 176.0
+offset_bottom = 83.0
+value = 50.0

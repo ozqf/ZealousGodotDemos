@@ -5,6 +5,7 @@ const JUMP_VELOCITY = 4.5
 
 @onready var _head:Node3D = $head
 @onready var _model:PlayerModel = $player_model
+@onready var _hitbox:HitBox = $hitbox
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -12,6 +13,9 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 # attack
 var _prjBasicType = preload("res://projectiles/basic/prj_basic.tscn")
 @onready var _attackTimer:Timer = $attack_timer
+
+func _ready() -> void:
+	_hitbox.teamId = Game.TEAM_ID_PLAYER
 
 func _physics_process_default(delta):
 	# Add the gravity.

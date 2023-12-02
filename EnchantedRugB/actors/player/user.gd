@@ -7,6 +7,8 @@ extends Node3D
 @onready var _rightPod:MeleePod = $right_pod
 @onready var _leftPod:MeleePod = $left_pod
 @onready var _hookShot:HookShot = $hook_shot
+@onready var _hudInfo:HudInfo = $hud_info
+@onready var _selfTarInfo:ActorTargetInfo = $actor_target_info
 
 enum UserPlayMode { Ball, Melee, Ranged }
 var _mode:UserPlayMode = UserPlayMode.Ball
@@ -75,7 +77,6 @@ func _hookshot_input(input:PlayerInput) -> void:
 	elif !input.grab && _hookShot.is_attached():
 		_hookShot.release()
 		_rightPod.set_hook_target(null)
-	
 
 func _physics_process(_delta:float) -> void:
 	var dir:Vector3 = _cam.get_push_direction()
@@ -101,6 +102,17 @@ func _physics_process(_delta:float) -> void:
 			_melee.input_physics_process(_input, _delta)
 		UserPlayMode.Ranged:
 			_melee.input_physics_process(_input, _delta)
+	
+	# update targetting info
+	_selfTarInfo.position = _melee.global_position
+	_selfTarInfo.position = _melee.global_position + Vector3(0, 1, 0)
+
+	# write hud info
+	#_hudInfo.healthPercentage = _health.get_health_percentage()
+	_melee.write_hud_info(_hudInfo)
+	var grp:String = HUD.GROUP_NAME
+	var fn:String = HUD.FN_HUD_BROADCAST_INFO
+	get_tree().call_group(grp, fn, _hudInfo)
 
 func _change_mode(_newMode:UserPlayMode) -> void:
 	#print("Change mode" + str(_newMode))
@@ -139,6 +151,15 @@ func _change_mode(_newMode:UserPlayMode) -> void:
 	_rightPod.visible = showRightPod
 	_leftPod.visible = showLeftPod
 
+func write_target_info(_tarInfo:ActorTargetInfo) -> bool:
+	_tarInfo.isValid = true
+	_tarInfo.position = _selfTarInfo.position
+	return true
+
 func spawn(_pos:Vector3, _yaw:float = 0) -> void:
+	_pos += Vector3(0, 1, 0)
 	print("User spawning player at " + str(_pos))
+	_cam.global_position = _pos
+	_ball.global_position = _pos
+	_melee.global_position = _pos
 	pass
