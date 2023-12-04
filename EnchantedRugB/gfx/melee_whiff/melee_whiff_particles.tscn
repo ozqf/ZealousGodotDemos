@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://sie4bmbfh4yx"]
+
+[ext_resource type="Script" path="res://zqf/zqf_emit_on_ready.gd" id="1_ql1yc"]
+[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="2_umaa4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2yswl"]
+albedo_color = Color(0.466667, 0.466667, 0.466667, 1)
+
+[sub_resource type="Curve" id="Curve_hsne4"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.154185, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_rlmd2"]
+curve = SubResource("Curve_hsne4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dvpte"]
+emission_shape = 2
+emission_sphere_radius = 0.25
+particle_flag_align_y = true
+direction = Vector3(0, 1, 0)
+spread = 90.0
+gravity = Vector3(0, 5, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 4.0
+angular_velocity_max = 6.0
+scale_curve = SubResource("CurveTexture_rlmd2")
+
+[sub_resource type="SphereMesh" id="SphereMesh_gekum"]
+radius = 0.2
+height = 0.4
+
+[node name="melee_whiff_particles" type="GPUParticles3D"]
+material_override = SubResource("StandardMaterial3D_2yswl")
+cast_shadow = 0
+amount = 16
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_dvpte")
+draw_pass_1 = SubResource("SphereMesh_gekum")
+script = ExtResource("1_ql1yc")
+
+[node name="ZqfTimedCull" type="Node" parent="."]
+script = ExtResource("2_umaa4")
+tick = 4.0

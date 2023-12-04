@@ -142,4 +142,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -83, 12, 0)
 mesh = ExtResource("5_hgb60")
 
 [node name="brute" parent="." instance=ExtResource("6_fjbow")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 30)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3, 23)

@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://6syeannjsveg"]
 
-[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="1_jkclc"]
+[ext_resource type="Script" path="res://gfx/score_plum/score_plum.gd" id="1_rumdm"]
 
 [node name="score_plum" type="Node3D"]
-script = ExtResource("1_jkclc")
+script = ExtResource("1_rumdm")
 
 [node name="Label3D" type="Label3D" parent="."]
 billboard = 1

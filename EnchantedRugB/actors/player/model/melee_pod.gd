@@ -57,7 +57,7 @@ func plyr_int_melee_attack_started(_move:Dictionary) -> void:
 	if _move.is_empty():
 		print("Pod " + self.name + " saw empty melee move")
 		return
-	print("Pod " + self.name + " saw melee move " + str(_move.name))
+	#print("Pod " + self.name + " saw melee move " + str(_move.name))
 	_hitInfo.damage = _move.damage
 	_tick = _move.duration
 	_fistCollider.disabled = false

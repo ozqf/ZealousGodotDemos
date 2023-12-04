@@ -12,6 +12,7 @@
 
 [node name="player_avatar_melee" type="CharacterBody3D"]
 collision_layer = 8
+collision_mask = 9
 script = ExtResource("1_i421o")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

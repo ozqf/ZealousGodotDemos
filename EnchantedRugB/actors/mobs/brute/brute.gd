@@ -3,11 +3,16 @@ class_name Brute
 
 var _popGfx = preload("res://gfx/mob_pop/mob_pop.tscn")
 
+var _matBladeOffMat = preload("res://shared/object_materials/laser_sword_off.tres")
+var _matBladeOrange = preload("res://shared/object_materials/laser_sword_orange.tres")
+var _matBladeRed = preload("res://shared/object_materials/laser_sword_red.tres")
+
 const ANIM_STOWED:String = "stowed"
 const ANIM_IDLE:String = "idle"
 const ANIM_BLOCK:String = "block"
 const ANIM_SWING_1:String = "swing_1"
 const ANIM_CHOP_1:String = "chop"
+const ANIM_STAGGERED:String = "staggered"
 
 @onready var _swordArea:Area3D = $pods/right/sword_area
 @onready var _swordShape:CollisionShape3D = $pods/right/sword_area/CollisionShape3D
@@ -15,32 +20,77 @@ const ANIM_CHOP_1:String = "chop"
 @onready var _thinkTimer:Timer = $think_timer
 @onready var _tarInfo:ActorTargetInfo = $actor_target_info
 
+@onready var _bladeMesh:MeshInstance3D = $pods/right/blade
 @onready var _agent:NavigationAgent3D = $NavigationAgent3D
+@onready var _hitBox:HitBox = $hitbox
 
-#@onready var _hitBox:HitBox = $hitbox
 var _swordHit:HitInfo
 
-enum State { Idle, Charging, Approaching, Swinging, Dazed, Stunned }
+enum State { Approaching, Swinging, StaticGuard, Staggered }
 var _state:State = State.Approaching
+
+enum BladeState { Idle, Damaging, Blocking, Off }
+var _bladeState:BladeState = BladeState.Idle
 
 func _ready():
 	_swordHit = Game.new_hit_info()
 	_swordHit.teamId = Game.TEAM_ID_ENEMY
 	#_hitBox.connect("health_depleted", _on_health_depleted)
-	#_hitBox.teamId = Game.TEAM_ID_ENEMY
+	_hitBox.teamId = Game.TEAM_ID_ENEMY
 	_swordArea.connect("area_entered", _sword_touched_area)
 	_thinkTimer.connect("timeout", _think_timeout)
-	
-	pass
+	_swordShape.disabled = true
+	_podsAnimator.connect("animation_started", _animation_started)
+	_podsAnimator.connect("animation_changed", _animation_changed)
+	_podsAnimator.connect("animation_finished", _animation_finished)
+	_hitBox.connect("hitbox_event", _on_hitbox_event)
+
+func _on_hitbox_event(_eventType, __hitbox) -> void:
+	match _eventType:
+		HitBox.HITBOX_EVENT_DAMAGED:
+			_begin_stagger(_tarInfo)
+		HitBox.HITBOX_EVENT_GUARD_DAMAGED:
+			_begin_static_guard(_tarInfo)
 
 func _animation_started(_animName:String) -> void:
-	pass
+	print("Brute anim start " + _animName)
+	match _animName:
+		ANIM_SWING_1:
+			set_blade_state(BladeState.Damaging)
+		ANIM_CHOP_1:
+			set_blade_state(BladeState.Damaging)
+		ANIM_STAGGERED:
+			set_blade_state(BladeState.Off)
+		ANIM_BLOCK:
+			set_blade_state(BladeState.Blocking)
 
 func _animation_changed(_oldName:String, _newName:String) -> void:
-	pass
+	
+	print("Brute anim changed from " + _oldName + " to " + _newName)
 
 func _animation_finished(_animName:String) -> void:
-	pass
+	print("Brute anim finished " + _animName)
+	match _animName:
+		ANIM_SWING_1:
+			set_blade_state(BladeState.Idle)
+		ANIM_CHOP_1:
+			set_blade_state(BladeState.Idle)
+
+func set_blade_state(newBladeState:BladeState) -> void:
+	_bladeState = newBladeState
+	match _bladeState:
+		BladeState.Idle:
+			_bladeMesh.material_override = _matBladeOrange
+			_swordShape.disabled = true
+		BladeState.Damaging:
+			_bladeMesh.material_override = _matBladeRed
+			_swordShape.disabled = false
+		BladeState.Off:
+			_bladeMesh.material_override = _matBladeOffMat
+			_swordShape.disabled = true
+		BladeState.Blocking:
+			_bladeMesh.material_override = _matBladeOrange
+			_swordShape.disabled = true
 
 func _sword_touched_area(_area:Area3D) -> void:
 	if _area.has_method("hit"):
@@ -62,12 +112,39 @@ func hit(_hitInfo:HitInfo) -> int:
 	Game.gfx_spawn_impact_sparks(_hitInfo.hitPosition)
 	return 1
 
-func _begin_approach(tarInfo:ActorTargetInfo) -> void:
+func _begin_approach(__tarInfo:ActorTargetInfo) -> void:
 	_state = State.Approaching
 	_podsAnimator.play(ANIM_BLOCK)
-	_agent.set_target_position(_tarInfo.position)
+	_agent.set_target_position(__tarInfo.position)
 	_thinkTimer.wait_time = 0.25
 	_thinkTimer.start()
+	_hitBox.isGuarding = true
+
+func _begin_static_guard(__tarInfo:ActorTargetInfo) -> void:
+	print("Begin static guard")
+	_podsAnimator.play(ANIM_BLOCK)
+	_state = State.StaticGuard
+	_thinkTimer.wait_time = 0.5
+	_thinkTimer.start()
+	_hitBox.isGuarding = true
+
+func _begin_random_swing(__tarInfo:ActorTargetInfo) -> void:
+	_hitBox.isGuarding = false
+	_state = State.Swinging
+	_thinkTimer.wait_time = 1.5
+	_thinkTimer.start()
+	if randf() > 0.5:
+		_podsAnimator.play(ANIM_SWING_1)
+	else:
+		_podsAnimator.play(ANIM_CHOP_1)
+
+func _begin_stagger(__tarInfo:ActorTargetInfo) -> void:
+	_hitBox.isGuarding = false
+	_state = State.Staggered
+	_thinkTimer.wait_time = 0.5
+	_thinkTimer.start()
+	_podsAnimator.play(ANIM_STAGGERED)
+	pass
 
 func _think_timeout() -> void:
 	if !Game.validate_target(_tarInfo):
@@ -75,28 +152,26 @@ func _think_timeout() -> void:
 	var distSqr:float = global_position.distance_squared_to(_tarInfo.position)
 	match _state:
 		State.Approaching:
-			_state = State.Swinging
 			if distSqr > 6 * 6:
 				_begin_approach(_tarInfo)
-				#_podsAnimator.play(ANIM_BLOCK)
-				#_agent.set_target_position(_tarInfo.position)
-				#_thinkTimer.wait_time = 0.25
-				#_thinkTimer.start()
 				return
-			_thinkTimer.wait_time = 1.5
-			_thinkTimer.start()
 			if randf() > 0.5:
-				_podsAnimator.play(ANIM_SWING_1)
+				_begin_random_swing(_tarInfo)
 			else:
-				_podsAnimator.play(ANIM_CHOP_1)
+				_begin_static_guard(_tarInfo)
 			pass
+		State.StaticGuard:
+			print("Static guard timeout")
+			if distSqr > 6 * 6:
+				_begin_approach(_tarInfo)
+			elif randf() < 0.25:
+				_begin_static_guard(_tarInfo)
+			else:
+				_begin_random_swing(_tarInfo)
 		State.Swinging:
 			_begin_approach(_tarInfo)
-			#_podsAnimator.play(ANIM_BLOCK)
-			#_agent.set_target_position(_tarInfo.position)
-			#_state = State.Approaching
-			#_thinkTimer.wait_time = 0.25
-			#_thinkTimer.start()
+		State.Staggered:
+			_begin_static_guard(_tarInfo)
 
 	look_at_flat(_tarInfo.position)
 
@@ -111,3 +186,5 @@ func _physics_process(_delta:float) -> void:
 			if _agent.physics_tick(_delta):
 				self.velocity = _agent.velocity
 				move_and_slide()
+		State.StaticGuard:
+			look_at_flat(_tarInfo.position)

@@ -30,6 +30,7 @@ var _popGfx = preload("res://gfx/mob_pop/mob_pop.tscn")
 var _gfxRedSparksPop = preload("res://gfx/mob_pop/red_sparks_pop.tscn")
 var _scorePlum = preload("res://gfx/score_plum/score_plum.tscn")
 var _sparksHitGfx = preload("res://gfx/projectile_impact/projectile_impact_sparks.tscn")
+var _gfxMeleeWhiffParticles = preload("res://gfx/melee_whiff/melee_whiff_particles.tscn")
 
 @onready var _users:Node3D = $users
 @onready var _pauseMenu:Control = $pause_menu
@@ -152,6 +153,11 @@ func gfx_spawn_impact_sparks(pos:Vector3) -> void:
 
 func gfx_spawn_red_sparks_pop(pos:Vector3) -> void:
 	var gfx = _gfxRedSparksPop.instantiate()
+	Zqf.get_actor_root().add_child(gfx)
+	gfx.global_position = pos
+
+func gfx_spawn_melee_whiff_particles(pos:Vector3) -> void:
+	var gfx = _gfxMeleeWhiffParticles.instantiate()
 	Zqf.get_actor_root().add_child(gfx)
 	gfx.global_position = pos
 

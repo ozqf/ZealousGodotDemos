@@ -1,6 +1,8 @@
 extends Area3D
 class_name HitBox
 
+const HITBOX_EVENT_DAMAGED:String = "damaged"
+const HITBOX_EVENT_GUARD_DAMAGED:String = "guard_damaged"
 const HITBOX_EVENT_EVADED:String = "evade"
 
 signal health_depleted
@@ -9,10 +11,14 @@ signal hitbox_event(eventType, hitbox)
 enum HitboxGFXType { Enemy, Player }
 
 @export var teamId:int = 0 
-@export var initialHealth:int = 50
+@export var initialHealth:int = 500
 @export var gfxType:HitboxGFXType = HitboxGFXType.Enemy
 
 var evadeTick:float = 0.0
+var guardStrength:float = 30
+var isGuarding:bool = false
+
+var lastHit:HitInfo
 
 var _health:float = 50
 var _dead:bool = false;
@@ -46,9 +52,19 @@ func hit(hitInfo:HitInfo) -> int:
 		print("Evaded!")
 		Game.gfx_spawn_score_plug(self.global_position, "EVADE!")
 		self.emit_signal("hitbox_event", HITBOX_EVENT_EVADED, self)
-		return -1
+		return -1	
+	if isGuarding:
+		if hitInfo.teamId == Game.TEAM_ID_ENEMY:
+			print("Guard whiff")
+		self.emit_signal("hitbox_event", HITBOX_EVENT_GUARD_DAMAGED, self)
+		Game.gfx_spawn_melee_whiff_particles(hitInfo.hitPosition)
+		return 0
+	
 	_health -= hitInfo.damage
-	print("hit for " + str(hitInfo.damage) + " hp " + str(_health))
+	lastHit = hitInfo
+
+	if hitInfo.teamId == Game.TEAM_ID_ENEMY:
+		print("hit for " + str(hitInfo.damage) + " hp " + str(_health))
 	if _health <= 0:
 		_die()
 		return hitInfo.damage
@@ -58,4 +74,5 @@ func hit(hitInfo:HitInfo) -> int:
 				Game.gfx_spawn_impact_sparks(hitInfo.hitPosition)
 			HitboxGFXType.Player:
 				Game.gfx_spawn_red_sparks_pop(self.global_position)
+		self.emit_signal("hitbox_event", HITBOX_EVENT_DAMAGED, self)
 	return hitInfo.damage
