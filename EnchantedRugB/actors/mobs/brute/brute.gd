@@ -11,6 +11,7 @@ const ANIM_STOWED:String = "stowed"
 const ANIM_IDLE:String = "idle"
 const ANIM_BLOCK:String = "block"
 const ANIM_SWING_1:String = "swing_1"
+const ANIM_SWING_2:String = "swing_2"
 const ANIM_CHOP_1:String = "chop"
 const ANIM_STAGGERED:String = "staggered"
 
@@ -57,6 +58,8 @@ func _animation_started(_animName:String) -> void:
 	match _animName:
 		ANIM_SWING_1:
 			set_blade_state(BladeState.Damaging)
+		ANIM_SWING_2:
+			set_blade_state(BladeState.Damaging)
 		ANIM_CHOP_1:
 			set_blade_state(BladeState.Damaging)
 		ANIM_STAGGERED:
@@ -73,8 +76,13 @@ func _animation_finished(_animName:String) -> void:
 	match _animName:
 		ANIM_SWING_1:
 			set_blade_state(BladeState.Idle)
+			_end_swing()
+		ANIM_SWING_2:
+			set_blade_state(BladeState.Idle)
+			_end_swing()
 		ANIM_CHOP_1:
 			set_blade_state(BladeState.Idle)
+			_end_swing()
 
 func set_blade_state(newBladeState:BladeState) -> void:
 	_bladeState = newBladeState
@@ -124,19 +132,24 @@ func _begin_static_guard(__tarInfo:ActorTargetInfo) -> void:
 	print("Begin static guard")
 	_podsAnimator.play(ANIM_BLOCK)
 	_state = State.StaticGuard
-	_thinkTimer.wait_time = 0.5
+	_thinkTimer.wait_time = 1.0
 	_thinkTimer.start()
 	_hitBox.isGuarding = true
 
 func _begin_random_swing(__tarInfo:ActorTargetInfo) -> void:
 	_hitBox.isGuarding = false
 	_state = State.Swinging
-	_thinkTimer.wait_time = 1.5
+	_thinkTimer.wait_time = 3
 	_thinkTimer.start()
-	if randf() > 0.5:
+	if randf() > 0.66:
 		_podsAnimator.play(ANIM_SWING_1)
+	elif randf() > 0.33:
+		_podsAnimator.play(ANIM_SWING_2)
 	else:
 		_podsAnimator.play(ANIM_CHOP_1)
+
+func _end_swing() -> void:
+	_begin_approach(_tarInfo)
 
 func _begin_stagger(__tarInfo:ActorTargetInfo) -> void:
 	_hitBox.isGuarding = false
@@ -155,7 +168,7 @@ func _think_timeout() -> void:
 			if distSqr > 6 * 6:
 				_begin_approach(_tarInfo)
 				return
-			if randf() > 0.5:
+			if randf() > 0.75:
 				_begin_random_swing(_tarInfo)
 			else:
 				_begin_static_guard(_tarInfo)
@@ -164,7 +177,7 @@ func _think_timeout() -> void:
 			print("Static guard timeout")
 			if distSqr > 6 * 6:
 				_begin_approach(_tarInfo)
-			elif randf() < 0.25:
+			elif randf() < 0.5:
 				_begin_static_guard(_tarInfo)
 			else:
 				_begin_random_swing(_tarInfo)
