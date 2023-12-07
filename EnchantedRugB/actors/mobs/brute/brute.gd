@@ -17,7 +17,7 @@ const ANIM_STAGGERED:String = "staggered"
 
 @onready var _swordArea:Area3D = $pods/right/sword_area
 @onready var _swordShape:CollisionShape3D = $pods/right/sword_area/CollisionShape3D
-@onready var _podsAnimator:AnimationPlayer = $pods/AnimationPlayer
+@onready var _podsAnimator:ZqfAnimationKeyEmitter = $pods/AnimationPlayer
 @onready var _thinkTimer:Timer = $think_timer
 @onready var _tarInfo:ActorTargetInfo = $actor_target_info
 
@@ -44,24 +44,21 @@ func _ready():
 	_podsAnimator.connect("animation_started", _animation_started)
 	_podsAnimator.connect("animation_changed", _animation_changed)
 	_podsAnimator.connect("animation_finished", _animation_finished)
+	_podsAnimator.connect("anim_key_event", _on_anim_key_event)
 	_hitBox.connect("hitbox_event", _on_hitbox_event)
 
-func _on_hitbox_event(_eventType, __hitbox) -> void:
-	match _eventType:
-		HitBox.HITBOX_EVENT_DAMAGED:
-			_begin_stagger(_tarInfo)
-		HitBox.HITBOX_EVENT_GUARD_DAMAGED:
-			_begin_static_guard(_tarInfo)
-
+#######################################################
+# animation callbacks
+#######################################################
 func _animation_started(_animName:String) -> void:
 	print("Brute anim start " + _animName)
 	match _animName:
 		ANIM_SWING_1:
-			set_blade_state(BladeState.Damaging)
+			set_blade_state(BladeState.Idle)
 		ANIM_SWING_2:
-			set_blade_state(BladeState.Damaging)
+			set_blade_state(BladeState.Idle)
 		ANIM_CHOP_1:
-			set_blade_state(BladeState.Damaging)
+			set_blade_state(BladeState.Idle)
 		ANIM_STAGGERED:
 			set_blade_state(BladeState.Off)
 		ANIM_BLOCK:
@@ -84,6 +81,18 @@ func _animation_finished(_animName:String) -> void:
 			set_blade_state(BladeState.Idle)
 			_end_swing()
 
+func _on_anim_key_event(keyIndex:int) -> void:
+	match keyIndex:
+		0:
+			_hitBox.isGuarding = false
+			set_blade_state(BladeState.Damaging)
+		1:
+			_hitBox.isGuarding = true
+			set_blade_state(BladeState.Idle)
+
+#######################################################
+# sword control
+#######################################################
 func set_blade_state(newBladeState:BladeState) -> void:
 	_bladeState = newBladeState
 	match _bladeState:
@@ -113,6 +122,13 @@ func _on_health_depleted() -> void:
 	Zqf.get_actor_root().add_child(gfx)
 	gfx.global_transform = self.global_transform
 
+func _on_hitbox_event(_eventType, __hitbox) -> void:
+	match _eventType:
+		HitBox.HITBOX_EVENT_DAMAGED:
+			_begin_stagger(_tarInfo)
+		HitBox.HITBOX_EVENT_GUARD_DAMAGED:
+			_begin_static_guard(_tarInfo)
+
 func hit(_hitInfo:HitInfo) -> int:
 	if _hitInfo.teamId == Game.TEAM_ID_ENEMY:
 		return -1
@@ -137,7 +153,6 @@ func _begin_static_guard(__tarInfo:ActorTargetInfo) -> void:
 	_hitBox.isGuarding = true
 
 func _begin_random_swing(__tarInfo:ActorTargetInfo) -> void:
-	_hitBox.isGuarding = false
 	_state = State.Swinging
 	_thinkTimer.wait_time = 3
 	_thinkTimer.start()

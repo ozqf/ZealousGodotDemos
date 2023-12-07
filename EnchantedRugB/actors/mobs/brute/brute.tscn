@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://rworqhwqrtmt"]
+[gd_scene load_steps=23 format=3 uid="uid://rworqhwqrtmt"]
 
 [ext_resource type="Script" path="res://actors/mobs/brute/brute.gd" id="1_msyx4"]
 [ext_resource type="Shape3D" uid="uid://cmcsjju7idrh4" path="res://actors/mobs/brute/brute_cylinder.tres" id="2_uprmj"]
@@ -7,6 +7,7 @@
 [ext_resource type="Material" uid="uid://bj8myurnk2us4" path="res://shared/object_materials/laser_sword_red.tres" id="5_sryw1"]
 [ext_resource type="Script" path="res://actors/components/actor_target_info.gd" id="5_urw3r"]
 [ext_resource type="Script" path="res://zqf/zqf_nav_agent.gd" id="6_f3odt"]
+[ext_resource type="Script" path="res://zqf/zqf_animation_key_emitter.gd" id="6_u2oi0"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_qhyc6"]
 top_radius = 2.0
@@ -123,6 +124,23 @@ tracks/5/path = NodePath("left")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.35, 0.55),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"animation_key_0"
+}, {
+"args": [],
+"method": &"animation_key_1"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_f5xj0"]
 resource_name = "idle"
@@ -305,6 +323,23 @@ tracks/5/path = NodePath("left")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1.2, 1, 1, 1, 1)
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.325, 0.55),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"animation_key_0"
+}, {
+"args": [],
+"method": &"animation_key_1"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_p1itd"]
 resource_name = "swing_2"
@@ -352,6 +387,29 @@ tracks/5/path = NodePath("left")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.6, 0.85, 1.15, 1.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"animation_key_0"
+}, {
+"args": [],
+"method": &"animation_key_1"
+}, {
+"args": [],
+"method": &"animation_key_0"
+}, {
+"args": [],
+"method": &"animation_key_1"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hwjd5"]
 _data = {
@@ -403,7 +461,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 [node name="pods" type="Node3D" parent="."]
 
 [node name="right" type="Node3D" parent="pods"]
-transform = Transform3D(0.866025, 5.85623e-09, 0.5, 0.5, -2.18557e-08, -0.866025, 5.85623e-09, 1, -2.18557e-08, 1.8, 2, -3)
+transform = Transform3D(-0.707107, -0.183013, 0.683013, 0.707107, -0.183013, 0.683013, 5.36442e-07, 0.965926, 0.258819, 1.08972, 3.39785, -2.36868)
 
 [node name="sword_area" type="Area3D" parent="pods/right"]
 collision_layer = 16
@@ -436,6 +494,7 @@ autoplay = "swing_1"
 libraries = {
 "": SubResource("AnimationLibrary_hwjd5")
 }
+script = ExtResource("6_u2oi0")
 
 [node name="think_timer" type="Timer" parent="."]
 wait_time = 2.0
