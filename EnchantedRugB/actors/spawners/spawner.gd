@@ -1,8 +1,9 @@
 extends Node3D
 
-const MAX_LIVE_MOBS:int = 20
+const MAX_LIVE_MOBS:int = 1
 
 var _bouncerType = preload("res://actors/mobs/bouncer/mob_bouncer.tscn")
+var _bruteType = preload("res://actors/mobs/brute/brute.tscn")
 
 @onready var _timer:Timer = $spawn_timer
 
@@ -22,12 +23,13 @@ func _on_timeout() -> void:
 #	print("Spawn!")
 	for _i in range(0, 1):
 		_liveMobs += 1
-		var mob:Node3D = Game.add_actor_scene(_bouncerType, self.global_transform)
+		#var mob:Node3D = Game.add_actor_scene(_bouncerType, self.global_transform)
+		var mob:Node3D = Game.add_actor_scene(_bruteType, self.global_transform)
 		mob.connect("tree_exited", _on_mob_exited_tree)
 		mob.launch()
 
 func _on_mob_exited_tree() -> void:
 	_liveMobs -= 1
 
-func _process(delta):
+func _process(_delta):
 	pass

@@ -1,32 +1,15 @@
-[gd_scene load_steps=23 format=3 uid="uid://rworqhwqrtmt"]
+[gd_scene load_steps=22 format=3 uid="uid://rworqhwqrtmt"]
 
 [ext_resource type="Script" path="res://actors/mobs/brute/brute.gd" id="1_msyx4"]
 [ext_resource type="Shape3D" uid="uid://cmcsjju7idrh4" path="res://actors/mobs/brute/brute_cylinder.tres" id="2_uprmj"]
+[ext_resource type="PackedScene" uid="uid://brg4v5wuuaaag" path="res://actors/mobs/brute/brute_model.tscn" id="3_307wd"]
 [ext_resource type="Script" path="res://actors/components/hitbox.gd" id="3_fav4l"]
 [ext_resource type="CylinderMesh" uid="uid://doo173limjd1o" path="res://actors/player/hook_shot/hook_shot_mesh.tres" id="4_0k0rj"]
 [ext_resource type="Material" uid="uid://bj8myurnk2us4" path="res://shared/object_materials/laser_sword_red.tres" id="5_sryw1"]
+[ext_resource type="Script" path="res://actors/components/mob_melee_weapon.gd" id="5_tglei"]
 [ext_resource type="Script" path="res://actors/components/actor_target_info.gd" id="5_urw3r"]
 [ext_resource type="Script" path="res://zqf/zqf_nav_agent.gd" id="6_f3odt"]
 [ext_resource type="Script" path="res://zqf/zqf_animation_key_emitter.gd" id="6_u2oi0"]
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_qhyc6"]
-top_radius = 2.0
-bottom_radius = 2.0
-height = 4.0
-radial_segments = 16
-rings = 1
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_obyom"]
-albedo_color = Color(0.227451, 0.337255, 0.321569, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_jywhf"]
-size = Vector3(0.2, 1, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mx3rv"]
-albedo_color = Color(1, 0, 0, 1)
-emission_enabled = true
-emission = Color(1, 0, 0, 1)
-emission_energy_multiplier = 2.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_26tli"]
 size = Vector3(1, 1, 4)
@@ -81,6 +64,7 @@ tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_dqyvo"]
 resource_name = "chop"
+length = 1.2
 step = 0.025
 tracks/0/type = "position_3d"
 tracks/0/imported = false
@@ -88,42 +72,42 @@ tracks/0/enabled = true
 tracks/0/path = NodePath("right")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 1.8, 2, -3, 0.3, 1, -0.165262, 6.01549, 0.471893, 0.4, 1, -0.127243, 3.94218, -3.59818, 0.45, 1, -0.0660225, -0.0573403, -2.59814, 0.7, 1, -0.0660225, -0.0573403, -2.59814, 1, 1, 1.8, 2, -3)
+tracks/0/keys = PackedFloat32Array(0, 1, 1.8, 2, -3, 0.15, 1, 0.817369, 4.50774, -2.06405, 0.25, 1, -0.165262, 6.01549, 0.471893, 0.45, 1, -0.165262, 5.61549, 1.07189, 0.55, 1, -0.127243, 3.94218, -3.59818, 0.6, 1, -0.0660225, -0.0573403, -2.59814, 0.85, 1, -0.0660225, -0.0573403, -2.59814, 1.2, 1, 1.8, 2, -3)
 tracks/1/type = "rotation_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath("right")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0.683013, 0.183013, 0.183013, 0.683013, 0.3, 1, 0.688461, -0.677522, -0.183971, -0.182043, 0.4, 1, 0.503554, -0.496415, 0.504239, 0.49573, 0.45, 1, -0.000484143, -0.000484101, 0.712617, 0.701553, 0.7, 1, -0.000484143, -0.000484101, 0.712617, 0.701553, 1, 1, 0.683013, 0.183013, 0.183013, 0.683013)
+tracks/1/keys = PackedFloat32Array(0, 1, 0.683013, 0.183013, 0.183013, 0.683013, 0.25, 1, 0.688461, -0.677522, -0.183971, -0.182043, 0.45, 1, 0.64639, -0.635283, -0.298827, -0.298827, 0.55, 1, 0.503554, -0.496415, 0.504239, 0.49573, 0.6, 1, -0.000484143, -0.000484101, 0.712617, 0.701553, 0.85, 1, -0.000484143, -0.000484101, 0.712617, 0.701553, 1.2, 1, 0.683013, 0.183013, 0.183013, 0.683013)
 tracks/2/type = "scale_3d"
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/path = NodePath("right")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
-tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1.2, 1, 1, 1, 1)
 tracks/3/type = "position_3d"
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/path = NodePath("left")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
-tracks/3/keys = PackedFloat32Array(0, 1, 0.2, 1, 0, 1, 1, 0.2, 1, 0)
+tracks/3/keys = PackedFloat32Array(0, 1, 0.2, 1, 0, 1.2, 1, 0.2, 1, 0)
 tracks/4/type = "rotation_3d"
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/path = NodePath("left")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
-tracks/4/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1)
+tracks/4/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1.2, 1, 0, 0, 0, 1)
 tracks/5/type = "scale_3d"
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/path = NodePath("left")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
-tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1.2, 1, 1, 1, 1)
 tracks/6/type = "method"
 tracks/6/imported = false
 tracks/6/enabled = true
@@ -131,7 +115,7 @@ tracks/6/path = NodePath("AnimationPlayer")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.35, 0.55),
+"times": PackedFloat32Array(0.4, 0.7),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -195,14 +179,14 @@ tracks/0/enabled = true
 tracks/0/path = NodePath("right")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 1.8, 0.1, -2.4)
+tracks/0/keys = PackedFloat32Array(0, 1, 1.78938, 0.901637, -2.4)
 tracks/1/type = "rotation_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath("right")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, -0.0123407, 0.706999, 0.0123407, 0.706999)
+tracks/1/keys = PackedFloat32Array(0, 1, -0.0954332, 0.566157, 0.110425, 0.811274)
 tracks/2/type = "scale_3d"
 tracks/2/imported = false
 tracks/2/enabled = true
@@ -279,7 +263,7 @@ tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_rbfjd"]
 resource_name = "swing_1"
-length = 1.2
+length = 1.5
 step = 0.025
 tracks/0/type = "position_3d"
 tracks/0/imported = false
@@ -287,42 +271,42 @@ tracks/0/enabled = true
 tracks/0/path = NodePath("right")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 1.8, 2, -3, 0.2, 1, 3.8, 2, 1, 0.375, 1, 3.08879, 0.947282, 0.202528, 0.425, 1, 0.0887883, 0.947282, -2.79747, 0.525, 1, -2.5903, 0.984259, -0.366193, 0.65, 1, -3.41826, 3.02813, 0.651061, 0.85, 1, -1.41826, 2.02813, -2.34894, 1.2, 1, 1.8, 2, -3)
+tracks/0/keys = PackedFloat32Array(0, 1, 1.8, 2, -3, 0.2, 1, 3.8, 2, 1, 0.4, 1, 3.13035, 2.29751, 1.19845, 0.475, 1, 3.08879, 0.947282, 0.202528, 0.525, 1, 0.0887883, 0.947282, -2.79747, 0.625, 1, -2.5903, 0.984259, -0.366193, 0.75, 1, -3.41826, 3.02813, 0.651061, 1, 1, -1.41826, 2.02813, -2.34894, 1.125, 1, -0.768739, 0.924379, -2.70316, 1.3, 1, 1.7913, 0.779817, -2.61951, 1.5, 1, 1.8, 2, -3)
 tracks/1/type = "rotation_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath("right")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0.683013, 0.183013, 0.183013, 0.683013, 0.2, 1, 0.768283, -0.388873, -0.294139, 0.41473, 0.375, 1, -0.617505, 0.0374042, 0.755949, -0.214079, 0.425, 1, 0.0728353, 0.0596559, 0.99548, 0.0125194, 0.525, 1, 0.755413, 0.0333306, 0.652408, 0.0510357, 0.65, 1, 0.699233, -0.349865, 0.494631, 0.379485, 0.85, 1, 0.638094, -0.180281, 0.640755, 0.386998, 0.975, 1, 0.714497, -0.0236239, 0.0976469, 0.692388, 1.2, 1, 0.683013, 0.183013, 0.183013, 0.683013)
+tracks/1/keys = PackedFloat32Array(0, 1, 0.683013, 0.183013, 0.183013, 0.683013, 0.2, 1, 0.822363, -0.200562, 0.0222602, 0.531976, 0.4, 1, 0.851545, -0.110209, 0.502814, 0.0995135, 0.475, 1, -0.617505, 0.0374042, 0.755949, -0.214079, 0.525, 1, 0.0728353, 0.0596559, 0.99548, 0.0125194, 0.625, 1, 0.755413, 0.0333306, 0.652408, 0.0510357, 0.75, 1, 0.699233, -0.349865, 0.494631, 0.379485, 1, 1, 0.638094, -0.180281, 0.640755, 0.386998, 1.125, 1, 0.0906056, 0.662681, 0.715424, 0.202022, 1.3, 1, -0.352003, 0.648795, 0.599248, -0.309936, 1.5, 1, 0.683013, 0.183013, 0.183013, 0.683013)
 tracks/2/type = "scale_3d"
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/path = NodePath("right")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
-tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1.2, 1, 1, 1, 1)
+tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1.5, 1, 1, 1, 1)
 tracks/3/type = "position_3d"
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/path = NodePath("left")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
-tracks/3/keys = PackedFloat32Array(0, 1, 0.2, 1, 0, 1.2, 1, 0.2, 1, 0)
+tracks/3/keys = PackedFloat32Array(0, 1, 0.2, 1, 0, 1.5, 1, 0.2, 1, 0)
 tracks/4/type = "rotation_3d"
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/path = NodePath("left")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
-tracks/4/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1.2, 1, 0, 0, 0, 1)
+tracks/4/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1.5, 1, 0, 0, 0, 1)
 tracks/5/type = "scale_3d"
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/path = NodePath("left")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
-tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1.2, 1, 1, 1, 1)
+tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1.5, 1, 1, 1, 1)
 tracks/6/type = "method"
 tracks/6/imported = false
 tracks/6/enabled = true
@@ -330,7 +314,7 @@ tracks/6/path = NodePath("AnimationPlayer")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.325, 0.55),
+"times": PackedFloat32Array(0.3, 0.7),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -411,11 +395,58 @@ tracks/6/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_unrfr"]
+resource_name = "parried"
+step = 0.025
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("right")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1.8, 2, -3, 0.1, 1, 3.2, 3, -1, 0.2, 1, 3.2, 3, -1, 0.4, 1, 3.5785, 2.33197, -0.7541, 0.6, 1, 2.57658, 2.08233, -2.22375, 1, 1, 1.8, 2, -3)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("right")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.683013, 0.183013, 0.183013, 0.683013, 0.1, 1, 0.897768, 0.15219, -0.362647, 0.198338, 0.2, 1, 0.90533, 0.00182659, -0.393283, -0.16032, 0.4, 1, 0.849171, -0.0833387, -0.384356, -0.352469, 0.6, 1, -0.580654, 0.378966, 0.670433, 0.264092, 0.8, 1, -0.146531, 0.321949, 0.934936, -0.0277807, 1, 1, 0.683013, 0.183013, 0.183013, 0.683013)
+tracks/2/type = "scale_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("right")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+tracks/3/type = "position_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("left")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0.2, 1, 0, 1, 1, 0.2, 1, 0)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("left")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+tracks/5/type = "scale_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("left")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hwjd5"]
 _data = {
 "block": SubResource("Animation_mjv3v"),
 "chop": SubResource("Animation_dqyvo"),
 "idle": SubResource("Animation_f5xj0"),
+"parried": SubResource("Animation_unrfr"),
 "staggered": SubResource("Animation_q66h3"),
 "stowed": SubResource("Animation_5hetv"),
 "swing_1": SubResource("Animation_rbfjd"),
@@ -431,25 +462,12 @@ script = ExtResource("1_msyx4")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 shape = ExtResource("2_uprmj")
 
-[node name="display" type="Node3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="display"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-mesh = SubResource("CylinderMesh_qhyc6")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_obyom")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="display"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, -1.6)
-mesh = SubResource("BoxMesh_jywhf")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_mx3rv")
+[node name="display" parent="." instance=ExtResource("3_307wd")]
 
 [node name="hitbox" type="Area3D" parent="."]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("3_fav4l")
-initialHealth = 50000
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
@@ -461,25 +479,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 [node name="pods" type="Node3D" parent="."]
 
 [node name="right" type="Node3D" parent="pods"]
-transform = Transform3D(-0.707107, -0.183013, 0.683013, 0.707107, -0.183013, 0.683013, 5.36442e-07, 0.965926, 0.258819, 1.08972, 3.39785, -2.36868)
+transform = Transform3D(0.334546, -0.28723, 0.89754, 0.07111, 0.957398, 0.279881, -0.939693, -0.029809, 0.340719, 1.78938, 0.901637, -2.4)
 
 [node name="sword_area" type="Area3D" parent="pods/right"]
 collision_layer = 16
 collision_mask = 2
+script = ExtResource("5_tglei")
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="pods/right/sword_area"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 shape = SubResource("BoxShape3D_26tli")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="pods/right"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.2)
-mesh = ExtResource("4_0k0rj")
 metadata/_edit_lock_ = true
 
-[node name="blade" type="MeshInstance3D" parent="pods/right"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="pods/right/sword_area"]
+transform = Transform3D(1, 0, 5.58794e-09, 5.58794e-09, -3.1665e-08, -1, 2.98023e-08, 1, -4.65661e-09, 0, 5.96046e-08, 0.2)
+mesh = ExtResource("4_0k0rj")
+skeleton = NodePath("../..")
+metadata/_edit_lock_ = true
+
+[node name="blade" type="MeshInstance3D" parent="pods/right/sword_area"]
+transform = Transform3D(1, 0, 0, 5.58794e-09, 1, -1.86265e-09, 2.98023e-08, -3.07336e-08, 1, 2.38419e-07, 5.96046e-08, -2)
 mesh = SubResource("BoxMesh_3ksk7")
+skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("5_sryw1")
+metadata/_edit_lock_ = true
 
 [node name="left" type="Node3D" parent="pods"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1, 0)
@@ -490,7 +514,7 @@ mesh = ExtResource("4_0k0rj")
 metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="pods"]
-autoplay = "swing_1"
+autoplay = "idle"
 libraries = {
 "": SubResource("AnimationLibrary_hwjd5")
 }

@@ -8,6 +8,7 @@ class_name MeleePod
 @onready var _bladeCollider:CollisionShape3D = $blade_area/CollisionShape3D
 
 var _tick:float = 0.0
+# damage set when a move is activated
 var _hitInfo:HitInfo
 
 var _trackTarget:Node3D = null

@@ -69,7 +69,7 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 		if _input.dash && isOnFloor && _dashJuice > 33 && !pushDir.is_zero_approx():
 			_dashJuice -= 33
 			_dashTick = 0.2
-			_hitbox.evadeTick = 0.15
+			_hitbox.evadeTick = 0.2
 			_dashDir = pushDir.normalized()
 			velocity = _dashDir * 20.0
 			self.move_and_slide()

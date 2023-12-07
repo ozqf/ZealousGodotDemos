@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://6goo3jpjc7bb"]
+
+[ext_resource type="Shape3D" uid="uid://cmcsjju7idrh4" path="res://actors/mobs/brute/brute_cylinder.tres" id="1_begnk"]
+[ext_resource type="PackedScene" uid="uid://brg4v5wuuaaag" path="res://actors/mobs/brute/brute_model.tscn" id="2_jrpoi"]
+[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="3_hqx51"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j0ox4"]
+friction = 0.5
+bounce = 0.2
+
+[node name="brute_corpse" type="RigidBody3D"]
+collision_layer = 129
+collision_mask = 129
+mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_j0ox4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = ExtResource("1_begnk")
+
+[node name="display" parent="." instance=ExtResource("2_jrpoi")]
+
+[node name="ZqfTimedCull" type="Node" parent="."]
+script = ExtResource("3_hqx51")
+tick = 10.0
+cullParent = true
