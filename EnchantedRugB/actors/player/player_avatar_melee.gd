@@ -109,15 +109,19 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 			curVelocity.y = 10.0
 	
 	# moves cancel vertical movement!
+	#if _meleeMode:
+	#	if _meleePods.read_input(_input) && !isOnFloor:
+	#		curVelocity.y = 3.0
+	#	# if _input.attack1:
+	#	# 	if _meleePods.jab() && !isOnFloor:
+	#	# 		curVelocity.y = 4.0
+	#else:
+	#	_gunPods.read_input(_input)
 	if _meleeMode:
-		if _meleePods.read_input(_input) && !isOnFloor:
-			curVelocity.y = 3.0
-		# if _input.attack1:
-		# 	if _meleePods.jab() && !isOnFloor:
-		# 		curVelocity.y = 4.0
+		_meleePods.read_input(_input)
 	else:
 		_gunPods.read_input(_input)
-	
+
 	self.velocity = curVelocity
 
 	self.move_and_slide()
