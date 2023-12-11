@@ -1,4 +1,7 @@
 extends CharacterBody3D
+class_name PlayerAvatarMelee
+
+signal avatar_event(sourceNode, evType)
 
 @onready var _bodyShape:CollisionShape3D = $CollisionShape3D
 @onready var _display:Node3D = $model
@@ -17,6 +20,10 @@ var _dashJuice:float = 99.0
 
 func _ready() -> void:
 	_hitbox.teamId = Game.TEAM_ID_PLAYER
+	_hitbox.connect("health_depleted", _on_health_depleted)
+
+func _on_health_depleted() -> void:
+	self.emit_signal("avatar_event", self, Game.AVATAR_EVENT_TYPE_DIED)
 
 func activate(resumeVelocity:Vector3, meleeMode:bool = true) -> void:
 	_meleeMode = meleeMode

@@ -21,13 +21,19 @@ script = ExtResource("1_vec3f")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="obstruction_ray" type="RayCast3D" parent="head"]
-target_position = Vector3(0, 5, 7)
+target_position = Vector3(0, 3, 7)
 
 [node name="mount_max" type="Node3D" parent="head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 7)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="head/mount_max"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = ExtResource("2_xweog")
+skeleton = NodePath("../../mount_pos_1")
+metadata/_edit_lock_ = true
 
 [node name="mount_pos_1" type="Node3D" parent="head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 7)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="head/mount_pos_1"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
@@ -35,15 +41,16 @@ mesh = ExtResource("2_xweog")
 metadata/_edit_lock_ = true
 
 [node name="camera_mount" type="Node3D" parent="head"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 5, 7)
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 3, 7)
 
 [node name="RayCast3D" type="RayCast3D" parent="head/camera_mount"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 target_position = Vector3(0, 0, -1000)
 collision_mask = 99
 collide_with_areas = true
 
 [node name="Camera3D" type="Camera3D" parent="head/camera_mount"]
+current = true
+fov = 80.0
 metadata/_edit_lock_ = true
 
 [node name="aim_dot" type="MeshInstance3D" parent="."]

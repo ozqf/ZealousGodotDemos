@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://coiof3oocjsbt"]
+[gd_scene load_steps=6 format=3 uid="uid://coiof3oocjsbt"]
 
 [ext_resource type="Script" path="res://projectiles/basic/prj_basic.gd" id="1_dwti2"]
+[ext_resource type="Script" path="res://shared/nodes/launch_info.gd" id="2_d7ksa"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_273o5"]
 top_radius = 0.0
@@ -39,3 +40,6 @@ shape = SubResource("SphereShape3D_3qnkk")
 [node name="world_ray" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.3)
 target_position = Vector3(0, 0, -0.6)
+
+[node name="LaunchInfo" type="Node" parent="."]
+script = ExtResource("2_d7ksa")

@@ -48,7 +48,7 @@ func _ready():
 # animation callbacks
 #######################################################
 func _animation_started(_animName:String) -> void:
-	print("Brute anim start " + _animName)
+	#print("Brute anim start " + _animName)
 	match _animName:
 		ANIM_SWING_1:
 			_swordArea.set_blade_state(MobMeleeWeapon.BladeState.Idle)
@@ -64,10 +64,11 @@ func _animation_started(_animName:String) -> void:
 			_swordArea.set_blade_state(MobMeleeWeapon.BladeState.Blocking)
 
 func _animation_changed(_oldName:String, _newName:String) -> void:
-	print("Brute anim changed from " + _oldName + " to " + _newName)
+	#print("Brute anim changed from " + _oldName + " to " + _newName)
+	pass
 
 func _animation_finished(_animName:String) -> void:
-	print("Brute anim finished " + _animName)
+	#print("Brute anim finished " + _animName)
 	match _animName:
 		ANIM_SWING_1:
 			_swordArea.set_blade_state(MobMeleeWeapon.BladeState.Idle)
@@ -241,6 +242,8 @@ func _think_timeout() -> void:
 	look_at_flat(_tarInfo.position)
 
 func launch() -> void:
+	$CollisionShape3D.disabled = false
+	$hitbox/CollisionShape3D.disabled = false
 	pass
 
 func look_at_flat(targetPos:Vector3) -> void:
@@ -256,6 +259,10 @@ func _physics_process(_delta:float) -> void:
 	if !Game.validate_target(_tarInfo) && _state != State.StaticGuard:
 		_begin_static_guard(_tarInfo)
 	match _state:
+		State.Swinging:
+			if _podsAnimator.current_animation == ANIM_CHOP_1:
+				if _podsAnimator.current_animation_position < 0.4:
+					look_at_flat(_tarInfo.position)
 		State.Approaching:
 			look_at_flat(_tarInfo.position)
 			if _agent.physics_tick(_delta):

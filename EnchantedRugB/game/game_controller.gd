@@ -13,12 +13,18 @@ const HIT_MASK_GRAPPLE_POINT:int = (1 << 5)
 const HIT_MASK_GRABBABLE:int = (1 << 6)
 
 const GROUP_PLAYER_INTERNAL:String = "group_plyr_int"
+const GROUP_PLAYER_STARTS:String = "group_plyr_start"
+
+const AVATAR_EVENT_TYPE_DIED:String = "avatar_died"
+
 # params; data:dictionary
 const PLAYER_INTERNAL_FN_MELEE_ATTACK_STARTED:String = "plyr_int_melee_attack_started"
 
 # hit response > 0 is the damage caused
 const HIT_RESPONSE_ABSORBED:int = 0
 const HIT_RESPOSNE_IGNORED:int = -1
+
+enum GameState { PreGame, Playing, PostGame, Dead }
 
 #@onready var _loadTimer:Timer = $load_timer
 var _sandboxWorld = preload("res://worlds/sandbox/sandbox.tscn")
@@ -34,6 +40,8 @@ var _gfxMeleeWhiffParticles = preload("res://gfx/melee_whiff/melee_whiff_particl
 
 @onready var _users:Node3D = $users
 @onready var _pauseMenu:Control = $pause_menu
+
+var _gameState:GameState = GameState.PreGame
 
 func _ready():
 #	_loadTimer.connect("timeout", _on_load_timeout)
@@ -73,6 +81,9 @@ func start_world(worldName:String) -> void:
 	_clear_world()
 	_clear_users()
 	
+	# create a new user
+	spawn_user()
+
 	var worldType
 	match worldName:
 		"sandbox":
@@ -89,6 +100,7 @@ func start_world(worldName:String) -> void:
 		print("Found actor proxy: " + proxy.name)
 		if proxy.has_method("spawn"):
 			proxy.spawn()
+	_gameState = GameState.PreGame
 
 func _app_init() -> void:
 	start_world("sandbox")
@@ -103,7 +115,15 @@ func _process(_delta):
 		else:
 			Zqf.set_player_input_on(true)
 			_pauseMenu.visible = false
-	pass
+	
+	match _gameState:
+		GameState.PreGame:
+			if Input.is_action_just_pressed("attack_1"):
+				var starts = get_tree().get_nodes_in_group(GROUP_PLAYER_STARTS)
+				if starts.size() > 0:
+					var n:Node3D = starts[0] as Node3D
+					spawn_player(n.global_position, n.rotation_degrees.y)
+					_gameState = GameState.Playing
 
 func new_hit_info() -> HitInfo:
 	return _hitInfoType.new()
@@ -122,12 +142,15 @@ func add_actor_scene(actorType:PackedScene, t:Transform3D) -> Node3D:
 		obj.global_transform = t
 	return obj
 
-func spawn_player(_pos:Vector3, _yawDegrees:float = 0) -> void:
-	if _users.get_child_count() > 0:
-		print("Already have a player")
-		return
+func spawn_user() -> void:
 	var user = _userType.instantiate()
 	_users.add_child(user)
+
+func spawn_player(_pos:Vector3, _yawDegrees:float = 0) -> void:
+	if _users.get_child_count() == 0:
+		print("No user to spawn avatars")
+		return
+	var user = _users.get_child(0)
 	user.spawn(_pos, _yawDegrees)
 	pass
 
@@ -136,6 +159,9 @@ func validate_target(tarInfo:ActorTargetInfo) -> bool:
 		tarInfo.isValid = false
 		return false
 	return _users.get_child(0).write_target_info(tarInfo)
+
+func user_died() -> void:
+	pass
 
 ##############################################################
 # GFX

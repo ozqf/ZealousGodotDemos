@@ -1,12 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://chfq2b1737oq4"]
+[gd_scene load_steps=5 format=3 uid="uid://chfq2b1737oq4"]
 
 [ext_resource type="Script" path="res://ui/hud.gd" id="1_npfjr"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_443qb"]
+bg_color = Color(0.137255, 0.137255, 0.137255, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jtjwm"]
-bg_color = Color(0, 0.658824, 0, 1)
+bg_color = Color(0, 1, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2jsdk"]
-bg_color = Color(0.952941, 0.721569, 0, 1)
+bg_color = Color(1, 1, 0, 1)
 
 [node name="hud" type="Control"]
 layout_mode = 3
@@ -24,25 +27,30 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -176.0
+offset_left = -792.0
 offset_top = 8.0
-offset_right = -8.0
-offset_bottom = 35.0
+offset_right = -624.0
+offset_bottom = 24.0
 grow_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_443qb")
 theme_override_styles/fill = SubResource("StyleBoxFlat_jtjwm")
 value = 50.0
 rounded = true
+show_percentage = false
 
 [node name="stamina" type="ProgressBar" parent="."]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -176.0
-offset_top = 48.0
-offset_right = -8.0
-offset_bottom = 75.0
+offset_left = -792.0
+offset_top = 32.0
+offset_right = -624.0
+offset_bottom = 48.0
 grow_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_443qb")
 theme_override_styles/fill = SubResource("StyleBoxFlat_2jsdk")
+max_value = 99.0
 value = 50.0
 rounded = true
+show_percentage = false

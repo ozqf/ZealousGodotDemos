@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://rworqhwqrtmt"]
+[gd_scene load_steps=24 format=3 uid="uid://rworqhwqrtmt"]
 
 [ext_resource type="Script" path="res://actors/mobs/brute/brute.gd" id="1_msyx4"]
 [ext_resource type="Shape3D" uid="uid://cmcsjju7idrh4" path="res://actors/mobs/brute/brute_cylinder.tres" id="2_uprmj"]
@@ -10,9 +10,17 @@
 [ext_resource type="Script" path="res://actors/components/actor_target_info.gd" id="5_urw3r"]
 [ext_resource type="Script" path="res://zqf/zqf_nav_agent.gd" id="6_f3odt"]
 [ext_resource type="Script" path="res://zqf/zqf_animation_key_emitter.gd" id="6_u2oi0"]
+[ext_resource type="Script" path="res://shared/nodes/launch_info.gd" id="11_uo3uo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_26tli"]
-size = Vector3(1, 1, 4)
+size = Vector3(1, 1, 4.5)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7g7mu"]
+top_radius = 0.1
+bottom_radius = 0.3
+height = 1.0
+radial_segments = 4
+rings = 1
 
 [sub_resource type="BoxMesh" id="BoxMesh_3ksk7"]
 size = Vector3(0.4, 0.025, 4)
@@ -459,8 +467,9 @@ collision_mask = 9
 script = ExtResource("1_msyx4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = ExtResource("2_uprmj")
+disabled = true
 
 [node name="display" parent="." instance=ExtResource("3_307wd")]
 
@@ -470,16 +479,18 @@ collision_mask = 2
 script = ExtResource("3_fav4l")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = ExtResource("2_uprmj")
+disabled = true
 
 [node name="head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 
 [node name="pods" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 
 [node name="right" type="Node3D" parent="pods"]
-transform = Transform3D(-0.707107, -0.183013, 0.683013, 0.707107, -0.183013, 0.683013, 5.36442e-07, 0.965926, 0.258819, 1.08972, 3.39785, -2.36868)
+transform = Transform3D(0.866025, 5.85623e-09, 0.5, 0.5, -2.18557e-08, -0.866025, 5.85623e-09, 1, -2.18557e-08, 1.8, 2, -3)
 
 [node name="sword_area" type="Area3D" parent="pods/right"]
 collision_layer = 16
@@ -488,13 +499,14 @@ script = ExtResource("5_tglei")
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="pods/right/sword_area"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+transform = Transform3D(1, 0, -1.27992e-16, -2.66454e-15, 1, 1.06581e-14, -1.27992e-16, 0, 1, -2.38419e-07, 0, -1.4)
 shape = SubResource("BoxShape3D_26tli")
+disabled = true
 metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="pods/right/sword_area"]
-transform = Transform3D(1, 0, 5.58794e-09, 5.58794e-09, -3.1665e-08, -1, 2.98023e-08, 1, -4.65661e-09, 0, 5.96046e-08, 0.2)
-mesh = ExtResource("4_0k0rj")
+transform = Transform3D(1, 1.96322e-08, 3.37775e-09, 1.84936e-08, -2.98023e-08, -1, -1.31505e-07, 1, 0, 2.38419e-07, 0, 0.4)
+mesh = SubResource("CylinderMesh_7g7mu")
 skeleton = NodePath("../..")
 metadata/_edit_lock_ = true
 
@@ -530,3 +542,6 @@ script = ExtResource("5_urw3r")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 script = ExtResource("6_f3odt")
+
+[node name="LaunchInfo" type="Node" parent="."]
+script = ExtResource("11_uo3uo")

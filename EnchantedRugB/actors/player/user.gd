@@ -1,17 +1,26 @@
 extends Node3D
 
-@onready var _cam:PlayerCameraMount = $player_camera_mount
-@onready var _ball:PlayerAvatarBall = $player_ball
-@onready var _melee = $player_avatar_melee
+var _camMountType = preload("res://actors/player/player_camera_mount.tscn")
+var _meleeAvatarType = preload("res://actors/player/player_avatar_melee.tscn")
+var _ballAvatarType = preload("res://actors/player/roller/player_ball.tscn")
+var _meleePodType = preload("res://actors/player/model/melee_pod.tscn")
+var _hookshotType = preload("res://actors/player/hook_shot/hook_shot.tscn")
+
+var _corpseSlicedType = preload("res://actors/player/corpse/player_corpse_sliced.tscn")
+
+var _cam:PlayerCameraMount
+var _ball:PlayerAvatarBall
+var _melee:PlayerAvatarMelee
+var _rightPod:MeleePod
+var _leftPod:MeleePod
+var _hookShot:HookShot
+
 @onready var _input:PlayerInput = $input
-@onready var _rightPod:MeleePod = $right_pod
-@onready var _leftPod:MeleePod = $left_pod
-@onready var _hookShot:HookShot = $hook_shot
 @onready var _hudInfo:HudInfo = $hud_info
 @onready var _selfTarInfo:ActorTargetInfo = $actor_target_info
 
-enum UserPlayMode { Ball, Melee, Ranged }
-var _mode:UserPlayMode = UserPlayMode.Ball
+enum UserPlayMode { Unspawned, Ball, Melee, Ranged }
+var _mode:UserPlayMode = UserPlayMode.Unspawned
 
 func _ready() -> void:
 	pass
@@ -28,6 +37,8 @@ func _move_trackers(target:Node3D, _cameraNode:Node3D, other:Node3D) -> void:
 		other.global_position = dest
 
 func _process(_delta:float) -> void:
+	if _mode == UserPlayMode.Unspawned:
+		return
 	_input.aimPoint = _cam.get_aim_point()
 	var origin:Vector3 = _cam.global_position
 	var target:Vector3 = _ball.global_position
@@ -79,6 +90,9 @@ func _hookshot_input(input:PlayerInput) -> void:
 		_rightPod.set_hook_target(null)
 
 func _physics_process(_delta:float) -> void:
+	if _mode == UserPlayMode.Unspawned:
+		return
+	
 	var dir:Vector3 = _cam.get_push_direction()
 	_input.inputDir = _cam.inputDir
 	_input.pushDir = dir
@@ -90,6 +104,7 @@ func _physics_process(_delta:float) -> void:
 	_input.style = Input.is_action_pressed("style")
 	_input.grab = Input.is_action_pressed("grab")
 	_input.aimPoint = _cam.get_aim_point()
+	_input.isGrounded = _melee.is_on_floor()
 
 	_hookShot.update_input(_input)
 
@@ -146,6 +161,15 @@ func _change_mode(_newMode:UserPlayMode) -> void:
 
 			_rightPod.set_track_target(_melee.get_right_gun())
 			_leftPod.set_track_target(_melee.get_left_gun())
+		UserPlayMode.Unspawned:
+			_cam.queue_free()
+			_ball.queue_free()
+			_melee.queue_free()
+			_rightPod.queue_free()
+			_leftPod.queue_free()
+			_hookShot.queue_free()
+			_mode = UserPlayMode.Unspawned
+			return
 
 	_cam.set_aim_ray_visible(showAimRay)
 	_rightPod.visible = showRightPod
@@ -156,10 +180,46 @@ func write_target_info(_tarInfo:ActorTargetInfo) -> bool:
 	_tarInfo.position = _selfTarInfo.position
 	return true
 
+func die() -> void:
+	if _mode == UserPlayMode.Unspawned:
+		return
+	_change_mode(UserPlayMode.Unspawned)
+	var corpse = _corpseSlicedType.instantiate()
+	Zqf.get_actor_root().add_child(corpse)
+	corpse.spawn(_melee.global_transform, _cam.get_camera_transform())
+
 func spawn(_pos:Vector3, _yaw:float = 0) -> void:
 	_pos += Vector3(0, 1, 0)
 	print("User spawning player at " + str(_pos))
+
+	_cam = _camMountType.instantiate()
+	add_child(_cam)
+	
+	_ball =  _ballAvatarType.instantiate()
+	add_child(_ball)
+	
+	_melee = _meleeAvatarType.instantiate()
+	add_child(_melee)
+	_melee.connect("avatar_event", _on_avatar_event)
+
+	_rightPod = _meleePodType.instantiate()
+	_rightPod.name = "right_pod"
+	add_child(_rightPod)
+	
+	_leftPod = _meleePodType.instantiate()
+	_leftPod.name = "left_pod"
+	add_child(_leftPod)
+	
+	_hookShot = _hookshotType.instantiate()
+	add_child(_hookShot)
+
 	_cam.global_position = _pos
 	_ball.global_position = _pos
 	_melee.global_position = _pos
-	pass
+	_change_mode(UserPlayMode.Melee)
+
+func _on_avatar_event(__sourceNode, __evType) -> void:
+	match __evType:
+		Game.AVATAR_EVENT_TYPE_DIED:
+			die()
+

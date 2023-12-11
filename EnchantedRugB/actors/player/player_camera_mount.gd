@@ -32,6 +32,9 @@ func get_head_transform() -> Transform3D:
 func get_aim_point() -> Vector3:
 	return _aimDot.global_position
 
+func get_camera_transform() -> Transform3D:
+	return _camMount.global_transform
+
 func get_aim_collider():
 	if _aimRay.is_colliding():
 		return _aimRay.get_collider()

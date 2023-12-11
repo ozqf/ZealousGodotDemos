@@ -1,17 +1,22 @@
 [gd_scene load_steps=5 format=3 uid="uid://brg4v5wuuaaag"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_qhyc6"]
-top_radius = 2.0
-bottom_radius = 2.0
-height = 4.0
-radial_segments = 16
-rings = 1
+[sub_resource type="CylinderMesh" id="CylinderMesh_v56th"]
+top_radius = 1.6
+bottom_radius = 1.6
+height = 3.0
+radial_segments = 8
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_obyom"]
+diffuse_mode = 3
+specular_mode = 1
 albedo_color = Color(0.227451, 0.337255, 0.321569, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_jywhf"]
-size = Vector3(0.2, 1, 1)
+[sub_resource type="CylinderMesh" id="CylinderMesh_8542c"]
+top_radius = 1.5
+bottom_radius = 1.5
+height = 0.2
+radial_segments = 8
+rings = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mx3rv"]
 albedo_color = Color(1, 0, 0, 1)
@@ -22,13 +27,13 @@ emission_energy_multiplier = 2.0
 [node name="display" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-mesh = SubResource("CylinderMesh_qhyc6")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("CylinderMesh_v56th")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_obyom")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6, -1.6)
-mesh = SubResource("BoxMesh_jywhf")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -0.2)
+mesh = SubResource("CylinderMesh_8542c")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_mx3rv")

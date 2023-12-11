@@ -9,6 +9,9 @@ const AnimJabLeft:String = "jab_l_2"
 const AnimChargePunchRight:String = "charge_punch_r"
 const AnimChargePunchRightRelease:String = "charge_punch_r_release"
 
+const AnimHorizontalSmash:String = "horizontal_smash"
+const AnimCartwheel:String = "cartwheel"
+
 ####################################
 # Animates melee moves.
 # the 'pods' in this scene are just position targets
@@ -40,17 +43,27 @@ func _ready():
 	_moves[AnimJabRight] = {
 		name = AnimJabRight,
 		duration = 0.15,
-		damage = 50.0
+		damage = 20.0,
 	}
 	_moves[AnimJabLeft] = {
 		name = AnimJabLeft,
 		duration = 0.15,
-		damage = 50.0
+		damage = 20.0
 	}
 	_moves[AnimChargePunchRightRelease] = {
 		name = AnimChargePunchRightRelease,
 		duration = 0.1,
 		damage = 200
+	}
+	_moves[AnimCartwheel] = {
+		name = AnimCartwheel,
+		duration = 1.0,
+		damage = 20
+	}
+	_moves[AnimHorizontalSmash] = {
+		name = AnimHorizontalSmash,
+		duration = 1.5,
+		damage = 50
 	}
 
 func get_right_fist() -> Node3D:
@@ -71,6 +84,7 @@ func get_move_data(moveName:String) -> Dictionary:
 func update_yaw(_degrees:float) -> void:
 	_lastReceivedYaw = _degrees
 	if is_attacking():
+
 		return
 	self.rotation_degrees = Vector3(0, _degrees, 0)
 	pass
@@ -86,10 +100,12 @@ func _on_anim_finished(_animName:String) -> void:
 	if _currentMoveName == _animName:
 		_currentMoveName = ""
 	match _state:
-		MeleeState.Swinging:
-			_begin_idle()
 		MeleeState.EnterCharge:
 			_state = MeleeState.Charging
+		MeleeState.Charging:
+			pass
+		_:
+			_begin_idle()
 
 func _on_anim_changed(_oldName:String, _newName:String) -> void:
 	pass
@@ -99,8 +115,9 @@ func _on_anim_changed(_oldName:String, _newName:String) -> void:
 ############################################################
 func _begin_idle() -> void:
 	_state = MeleeState.Idle
+	_animator.play(AnimIdle)
 
-func jab(forcedAnim:String = "") -> bool:
+func _begin_swing(forcedAnim:String = "", applyNewYaw:bool = true) -> bool:
 	if is_attacking():
 		return false
 	var newMove:String = AnimJabRight
@@ -115,7 +132,8 @@ func jab(forcedAnim:String = "") -> bool:
 		print("Could not find melee move " + newMove)
 		return false
 	_state = MeleeState.Swinging
-	self.rotation_degrees = Vector3(0, _lastReceivedYaw, 0)
+	if applyNewYaw:
+		self.rotation_degrees = Vector3(0, _lastReceivedYaw, 0)
 	_currentMoveName = newMove
 	_lastMoveName = _currentMoveName
 	_animator.play(_currentMoveName)
@@ -148,13 +166,22 @@ func read_input(_input:PlayerInput) -> void:
 	match _state:
 		MeleeState.Idle:
 			if _input.attack1:
-				self.jab(AnimJabLeft)
+				self._begin_swing(AnimJabLeft)
 			if _input.attack2:
-				self._begin_charging_attack(AnimChargePunchRight)
-			if _input.style:
+				if _input.isGrounded:
+					if _input.inputDir.z < 0:
+						self._begin_swing(AnimCartwheel)
+					elif _input.inputDir.z > 0:
+						self._begin_swing(AnimHorizontalSmash)
+					else:
+						self._begin_charging_attack(AnimChargePunchRight)
+				else:
+
+					pass
+			if _input.style && _input.isGrounded:
 				return _try_style(_input)
 		MeleeState.Charging:
 			if !_input.attack2:
 				# release!
 				_state = MeleeState.Idle
-				self.jab(AnimChargePunchRightRelease)
+				self._begin_swing(AnimChargePunchRightRelease, false)

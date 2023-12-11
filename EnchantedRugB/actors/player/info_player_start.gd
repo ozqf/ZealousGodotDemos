@@ -1,15 +1,9 @@
 extends Node3D
 
-var _playerType = preload("res://actors/player/player.tscn")
-var _playerBallType = preload("res://actors/player/roller/player_ball.tscn")
-
 func _ready():
 	self.visible = false
-	call_deferred("_spawn_player")
+	add_to_group(Game.GROUP_PLAYER_STARTS)
+	#call_deferred("spawn_player")
 
-func _spawn_player() -> void:
-	#var plyr = _playerType.instantiate()
-	#var plyr = _playerBallType.instantiate()
-	#Zqf.get_actor_root().add_child(plyr)
-	#plyr.teleport(self.global_transform)
+func spawn_player() -> void:
 	Game.spawn_player(self.global_position, self.rotation_degrees.y)
