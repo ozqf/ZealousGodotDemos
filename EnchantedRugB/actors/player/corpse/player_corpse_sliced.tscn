@@ -1,6 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bklw5344y84s7"]
+[gd_scene load_steps=9 format=3 uid="uid://bklw5344y84s7"]
 
 [ext_resource type="Script" path="res://actors/player/corpse/player_corpse.gd" id="1_g7xni"]
+[ext_resource type="Material" uid="uid://nv8is4sghu58" path="res://gfx/mob_pop/red_spark_mat.tres" id="2_iuio0"]
+[ext_resource type="Material" uid="uid://gq1fv4bc432m" path="res://gfx/mob_pop/sparks_particle_process.tres" id="3_cnhh1"]
+[ext_resource type="BoxMesh" uid="uid://vcpcfeomksp7" path="res://gfx/mob_pop/spark_cube.tres" id="4_goqom"]
+[ext_resource type="Script" path="res://zqf/zqf_emit_on_ready.gd" id="5_o0bhe"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ut6ja"]
 size = Vector3(1, 0.5, 1)
@@ -10,6 +14,10 @@ height = 0.5
 radial_segments = 8
 rings = 8
 is_hemisphere = true
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_657h8"]
+friction = 0.5
+bounce = 0.5
 
 [node name="player_corpse_sliced" type="Node3D"]
 script = ExtResource("1_g7xni")
@@ -28,6 +36,27 @@ metadata/_edit_lock_ = true
 
 [node name="doll_bottom" type="RigidBody3D" parent="."]
 mass = 5.0
+physics_material_override = SubResource("PhysicsMaterial_657h8")
+
+[node name="corpse_sparks" type="GPUParticles3D" parent="doll_bottom"]
+material_override = ExtResource("2_iuio0")
+amount = 16
+visibility_aabb = AABB(-6, -7, -10, 12, 14, 20)
+process_material = ExtResource("3_cnhh1")
+draw_pass_1 = ExtResource("4_goqom")
+script = ExtResource("5_o0bhe")
+oneShot = false
+
+[node name="death_sparks" type="GPUParticles3D" parent="doll_bottom"]
+material_override = ExtResource("2_iuio0")
+emitting = false
+amount = 128
+lifetime = 2.0
+explosiveness = 1.0
+visibility_aabb = AABB(-6, -7, -10, 12, 14, 20)
+process_material = ExtResource("3_cnhh1")
+draw_pass_1 = ExtResource("4_goqom")
+script = ExtResource("5_o0bhe")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="doll_bottom"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)

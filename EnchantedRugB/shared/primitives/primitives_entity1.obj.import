@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cx8r20jk1jhpf"
+path="res://.godot/imported/primitives_entity1.obj-967226f0942f9d55ca27a5439d99e516.mesh"
+
+[deps]
+
+files=["res://.godot/imported/primitives_entity1.obj-967226f0942f9d55ca27a5439d99e516.mesh"]
+
+source_file="res://shared/primitives/primitives_entity1.obj"
+dest_files=["res://.godot/imported/primitives_entity1.obj-967226f0942f9d55ca27a5439d99e516.mesh", "res://.godot/imported/primitives_entity1.obj-967226f0942f9d55ca27a5439d99e516.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

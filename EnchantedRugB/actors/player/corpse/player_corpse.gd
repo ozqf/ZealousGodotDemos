@@ -10,4 +10,4 @@ func spawn(_origin:Transform3D, _cameraT:Transform3D) -> void:
 	_dollBottom.global_position = _origin.origin
 	
 	_dollTop.linear_velocity.y = 15
-	_dollTop.angular_velocity = Vector3(randf_range(-30, 30), 0, 0)
+	_dollTop.angular_velocity = Vector3(randf_range(20, 50), 0, 0)

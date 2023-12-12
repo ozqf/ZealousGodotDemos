@@ -78,7 +78,7 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 	var offset:Vector3 = (_input.camera.basis.z + _input.camera.basis.y)
 	var speed:float = self.linear_velocity.length()
 	var pushStr:float = MAX_PUSH_STR
-	if speed > MAX_NO_DRAG_SPEED:
+	if speed > 999999: #MAX_NO_DRAG_SPEED:
 		var maxSpeedWeight:float = clampf(speed - MAX_NO_DRAG_SPEED / MAX_SPEED - MAX_NO_DRAG_SPEED, 0, 1)
 		# flip it, so the further from max we are the higher the scaler
 		maxSpeedWeight = 1 - maxSpeedWeight
