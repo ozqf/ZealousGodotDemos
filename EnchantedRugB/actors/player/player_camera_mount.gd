@@ -49,11 +49,14 @@ func _process(_delta:float) -> void:
 		_camMount.global_position = _camTarget.global_position
 		pass
 	
+	var rayLength:float = 100
 	if _aimRay.is_colliding():
 		_aimDot.global_position = _aimRay.get_collision_point()
+		_aimDot.scale = Vector3.ONE
 	else:
 		var t:Transform3D = _aimRay.global_transform
-		_aimDot.global_position = t.origin + (-t.basis.z * 1000)
+		_aimDot.global_position = t.origin + (-t.basis.z * rayLength)
+		_aimDot.scale = Vector3(3, 3, 3)
 	pass
 
 	if Zqf.has_mouse_claims():

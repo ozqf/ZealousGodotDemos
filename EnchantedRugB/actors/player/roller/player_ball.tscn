@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://actors/player/roller/player_ball.gd" id="1_prko3"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nh5ca"]
+friction = 0.75
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_yx24l"]
 
@@ -44,13 +45,14 @@ emission = Color(1, 0, 0, 1)
 emission_energy_multiplier = 2.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a3l64"]
-size = Vector3(1, 0.2, 1)
+size = Vector3(0.9, 0.4, 0.9)
 
 [sub_resource type="BoxMesh" id="BoxMesh_qee5h"]
-size = Vector3(1, 0.2, 1)
+size = Vector3(0.9, 0.4, 0.9)
 
 [node name="player_ball" type="RigidBody3D"]
 collision_layer = 8
+collision_mask = 257
 physics_material_override = SubResource("PhysicsMaterial_nh5ca")
 continuous_cd = true
 freeze_mode = 1
@@ -64,7 +66,17 @@ material_override = SubResource("StandardMaterial3D_8k3bn")
 mesh = SubResource("SphereMesh_k1qli")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.2)
+transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1.92, 0, 0, 0)
+mesh = SubResource("BoxMesh_fciik")
+surface_material_override/0 = SubResource("StandardMaterial3D_sqval")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -2, 0, 1, -8.74228e-08, 0, 0, 0, 1.92, 0, 0, 0)
+mesh = SubResource("BoxMesh_fciik")
+surface_material_override/0 = SubResource("StandardMaterial3D_sqval")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -2, 0, -4.37114e-08, 3.82137e-15, 1.92, -1, 8.74228e-08, -8.39259e-08, 0, 0, 0)
 mesh = SubResource("BoxMesh_fciik")
 surface_material_override/0 = SubResource("StandardMaterial3D_sqval")
 

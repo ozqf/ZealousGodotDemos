@@ -188,6 +188,11 @@ func die() -> void:
 	Zqf.get_actor_root().add_child(corpse)
 	corpse.spawn(_melee.global_transform, _cam.get_camera_transform())
 
+func teleport(transform:Transform3D) -> void:
+	transform.origin.y += 0.5
+	_melee.global_transform = transform
+	_ball.global_transform = transform
+
 func spawn(_pos:Vector3, _yaw:float = 0) -> void:
 	_pos += Vector3(0, 1, 0)
 	print("User spawning player at " + str(_pos))
@@ -197,6 +202,7 @@ func spawn(_pos:Vector3, _yaw:float = 0) -> void:
 	
 	_ball =  _ballAvatarType.instantiate()
 	add_child(_ball)
+	_ball.connect("avatar_event", _on_avatar_event)
 	
 	_melee = _meleeAvatarType.instantiate()
 	add_child(_melee)
@@ -218,8 +224,11 @@ func spawn(_pos:Vector3, _yaw:float = 0) -> void:
 	_melee.global_position = _pos
 	_change_mode(UserPlayMode.Melee)
 
-func _on_avatar_event(__sourceNode, __evType) -> void:
+func _on_avatar_event(__sourceNode, __evType, __dataObj) -> void:
 	match __evType:
 		Game.AVATAR_EVENT_TYPE_DIED:
 			die()
+		Game.AVATAR_EVENT_TYPE_TELEPORT:
+			if __dataObj is Transform3D:
+				teleport(__dataObj)
 

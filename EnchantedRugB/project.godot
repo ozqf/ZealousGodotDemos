@@ -136,6 +136,7 @@ grab={
 3d_physics/layer_6="grapple_point"
 3d_physics/layer_7="grabbable"
 3d_physics/layer_8="debris"
+3d_physics/layer_9="volumes"
 
 [physics]
 

@@ -44,7 +44,8 @@ metadata/_edit_lock_ = true
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 3, 7)
 
 [node name="RayCast3D" type="RayCast3D" parent="head/camera_mount"]
-target_position = Vector3(0, 0, -1000)
+transform = Transform3D(1, 0, 0, 0, 1, -1.49012e-08, 0, 1.49012e-08, 1, 0, 0, -0.199999)
+target_position = Vector3(0, 0, -100)
 collision_mask = 99
 collide_with_areas = true
 

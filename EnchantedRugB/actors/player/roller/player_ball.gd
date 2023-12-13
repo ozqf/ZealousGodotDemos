@@ -1,8 +1,10 @@
 extends RigidBody3D
 class_name PlayerAvatarBall
 
+signal avatar_event(sourceNode, evType, dataObj)
+
 const SPEED:float = 5.0
-const MAX_PUSH_STR:float = 10.0
+const MAX_PUSH_STR:float = 25.0
 const MAX_NO_DRAG_SPEED:float = 20.0
 const MAX_SPEED:float = 30.0
 
@@ -25,6 +27,9 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
+
+func teleport(_transform:Transform3D) -> void:
+	self.emit_signal("avatar_event", self, Game.AVATAR_EVENT_TYPE_TELEPORT, _transform)
 
 func is_grounded() -> bool:
 	return _groundSensor.has_overlapping_bodies() || _groundSensor.has_overlapping_areas()
@@ -53,7 +58,7 @@ func _change_stance(newStance:Stance) -> void:
 		_meleeVelocity = self.linear_velocity
 		self.freeze = true
 
-func _process(delta):
+func _process(_delta):
 	# var origin:Vector3 = _bodyTracker.global_position
 	var target:Vector3 = self.global_position
 	# var dest:Vector3 = origin.lerp(target, 0.9)
@@ -73,9 +78,13 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 	#var towardHead:Vector3 = (head - pos).normalized()
 	#towardHead.y = 1.0
 	var dir:Vector3 = _input.pushDir
-	var pos:Vector3 = self.global_position
+	#var pos:Vector3 = self.global_position
 	# var offset:Vector3 = -dir
-	var offset:Vector3 = (_input.camera.basis.z + _input.camera.basis.y)
+	
+	#var offset:Vector3 = (_input.camera.basis.z + _input.camera.basis.y)
+	#var offset:Vector3 = (-_input.camera.basis.z)
+	var offset:Vector3 = Vector3.ZERO
+	
 	var speed:float = self.linear_velocity.length()
 	var pushStr:float = MAX_PUSH_STR
 	if speed > 999999: #MAX_NO_DRAG_SPEED:
@@ -93,6 +102,17 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 		#print("Speed " + str(speed) + " Against dp " + str(againstCurrentDotP) + " Max speed weight " + str(maxSpeedWeight) + " push str " + str(pushStr))
 	dir *= pushStr
 	self.apply_force(dir, offset)
+
+	if _input.hookState == HookShot.STATE_GRAPPLE_POINT:
+		var toward:Vector3 = _input.hookPosition - self.global_position
+		var dist:float = toward.length()
+		toward = toward.normalized()
+		var weight:float = dist / 20.0
+		var strength:float = lerp(0, 60, clampf(weight, 0, 1))
+		self.linear_velocity += toward * strength * _delta
+
+	if is_grounded() && Input.is_action_just_pressed("move_up"):
+		self.linear_velocity.y = 10.0
 	pass
 
 func physics_process_ball(_delta:float) -> void:
@@ -146,9 +166,9 @@ func physics_process_ball(_delta:float) -> void:
 # 		Stance.Melee:
 # 			_physics_process_melee(delta)
 
-func teleport(_t:Transform3D) -> void:
-	_t.origin.y += 0.5
-	self.global_transform = _t
+# func teleport(_t:Transform3D) -> void:
+# 	_t.origin.y += 0.5
+# 	self.global_transform = _t
 
 # func _input(event) -> void:
 # 	if Zqf.has_mouse_claims():

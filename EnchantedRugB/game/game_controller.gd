@@ -16,6 +16,7 @@ const GROUP_PLAYER_INTERNAL:String = "group_plyr_int"
 const GROUP_PLAYER_STARTS:String = "group_plyr_start"
 
 const AVATAR_EVENT_TYPE_DIED:String = "avatar_died"
+const AVATAR_EVENT_TYPE_TELEPORT:String = "avatar_teleport"
 
 # params; data:dictionary
 const PLAYER_INTERNAL_FN_MELEE_ATTACK_STARTED:String = "plyr_int_melee_attack_started"

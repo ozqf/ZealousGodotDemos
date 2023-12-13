@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bvpvtwxl318vl"]
+[gd_scene load_steps=4 format=3 uid="uid://bvpvtwxl318vl"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_gs7uj"]
 radius = 2.0
@@ -6,6 +6,12 @@ radius = 2.0
 [sub_resource type="SphereMesh" id="SphereMesh_a1475"]
 radius = 2.0
 height = 4.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_quhwj"]
+albedo_color = Color(0, 0.619608, 0, 1)
+emission_enabled = true
+emission = Color(0, 0.705882, 0, 1)
+emission_energy_multiplier = 2.0
 
 [node name="grapple_point" type="Area3D"]
 collision_layer = 32
@@ -16,3 +22,4 @@ shape = SubResource("SphereShape3D_gs7uj")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_a1475")
+surface_material_override/0 = SubResource("StandardMaterial3D_quhwj")
