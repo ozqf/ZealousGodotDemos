@@ -68,7 +68,10 @@ func _process(_delta:float) -> void:
 				_change_mode(UserPlayMode.Melee)
 			UserPlayMode.Melee:
 				_change_mode(UserPlayMode.Ball) 
-	pass
+	
+	if _hookShot.is_attached():
+		_hookShot.refresh_tether(_melee.global_transform)
+
 
 func _hookshot_input(input:PlayerInput) -> void:
 	if input.grab && !_hookShot.is_attached():
@@ -78,6 +81,9 @@ func _hookshot_input(input:PlayerInput) -> void:
 			return
 		var layer:int = collider.collision_layer
 		if layer & Game.HIT_MASK_GRAPPLE_POINT != 0:
+			var dist:float = _melee.global_position.distance_to(_cam.get_aim_point())
+			if dist > Game.PLAYER_GRAPPLE_RANGE:
+				return
 			_hookShot.attach_to_grapple(_cam.get_aim_point())
 			_rightPod.set_hook_target(_hookShot)
 		elif layer & Game.HIT_MASK_GRABBABLE != 0:
@@ -138,8 +144,8 @@ func _change_mode(_newMode:UserPlayMode) -> void:
 	_mode =_newMode
 	match _newMode:
 		UserPlayMode.Ball:
-			showRightPod = false
-			showLeftPod = false
+			showRightPod = true
+			showLeftPod = true
 
 			var v:Vector3 = _melee.get_velocity()
 			_melee.deactivate()

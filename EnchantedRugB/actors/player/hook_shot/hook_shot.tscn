@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://fqsn2x6j5uhi"]
+[gd_scene load_steps=6 format=3 uid="uid://fqsn2x6j5uhi"]
 
 [ext_resource type="Script" path="res://actors/player/hook_shot/hook_shot.gd" id="1_e285v"]
 [ext_resource type="CylinderMesh" uid="uid://doo173limjd1o" path="res://actors/player/hook_shot/hook_shot_mesh.tres" id="2_r47xo"]
@@ -6,6 +6,14 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k7xu5"]
 shading_mode = 0
 albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4svgi"]
+size = Vector3(0.1, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ixefn"]
+albedo_color = Color(0, 1, 1, 1)
+emission_enabled = true
+emission = Color(0, 1, 1, 1)
 
 [node name="hook_shot" type="Node3D"]
 top_level = true
@@ -16,3 +24,11 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 
 cast_shadow = 0
 mesh = ExtResource("2_r47xo")
 surface_material_override/0 = SubResource("StandardMaterial3D_k7xu5")
+
+[node name="tether_display" type="Node3D" parent="."]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="tether_display"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+mesh = SubResource("BoxMesh_4svgi")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_ixefn")

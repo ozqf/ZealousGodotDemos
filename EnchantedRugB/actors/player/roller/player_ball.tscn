@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://actors/player/roller/player_ball.gd" id="1_prko3"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nh5ca"]
-friction = 0.75
+friction = 0.2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_yx24l"]
 

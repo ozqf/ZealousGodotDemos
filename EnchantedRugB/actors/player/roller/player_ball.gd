@@ -30,6 +30,8 @@ func _ready():
 
 func teleport(_transform:Transform3D) -> void:
 	self.emit_signal("avatar_event", self, Game.AVATAR_EVENT_TYPE_TELEPORT, _transform)
+	self.linear_velocity = Vector3()
+	self.angular_velocity = Vector3()
 
 func is_grounded() -> bool:
 	return _groundSensor.has_overlapping_bodies() || _groundSensor.has_overlapping_areas()
@@ -107,8 +109,16 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 		var toward:Vector3 = _input.hookPosition - self.global_position
 		var dist:float = toward.length()
 		toward = toward.normalized()
-		var weight:float = dist / 20.0
-		var strength:float = lerp(0, 60, clampf(weight, 0, 1))
+		var weight:float = dist / 40.0
+		var strength:float = lerp(0, 100, clampf(weight, 0, 1))
+		# constrain movement to length of rope
+		#var currentForward:Vector3 = self.linear_velocity.normalized()
+		#var towardForwardDot:float = toward.normalized().dot(currentForward)
+		#print("Toward dot " + str(towardForwardDot))
+		#if towardForwardDot < 0.0:
+		#	var limited:Vector3 = self.linear_velocity * towardForwardDot
+		#	var v:Vector3 = self.linear_velocity - limited
+		#	self.linear_velocity = v
 		self.linear_velocity += toward * strength * _delta
 
 	if is_grounded() && Input.is_action_just_pressed("move_up"):

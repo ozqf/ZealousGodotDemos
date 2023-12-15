@@ -110,8 +110,8 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 		var toward:Vector3 = _input.hookPosition - self.global_position
 		var dist:float = toward.length()
 		toward = toward.normalized()
-		var weight:float = dist / 20.0
-		var strength:float = lerp(0, 60, clampf(weight, 0, 1))
+		var weight:float = dist / 40.0
+		var strength:float = lerp(0, 100, clampf(weight, 0, 1))
 		curVelocity += toward * strength * _delta
 	
 	if isOnFloor:

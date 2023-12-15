@@ -25,6 +25,8 @@ const PLAYER_INTERNAL_FN_MELEE_ATTACK_STARTED:String = "plyr_int_melee_attack_st
 const HIT_RESPONSE_ABSORBED:int = 0
 const HIT_RESPOSNE_IGNORED:int = -1
 
+const PLAYER_GRAPPLE_RANGE:float = 30.0
+
 enum GameState { PreGame, Playing, PostGame, Dead }
 
 #@onready var _loadTimer:Timer = $load_timer
