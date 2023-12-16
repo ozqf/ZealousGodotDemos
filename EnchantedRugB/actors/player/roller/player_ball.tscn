@@ -1,6 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://ccrcfkwq6eyp"]
+[gd_scene load_steps=15 format=3 uid="uid://ccrcfkwq6eyp"]
 
 [ext_resource type="Script" path="res://actors/player/roller/player_ball.gd" id="1_prko3"]
+[ext_resource type="Script" path="res://actors/player/roller/push_model_tracker.gd" id="2_8y86y"]
+[ext_resource type="CylinderMesh" uid="uid://doo173limjd1o" path="res://actors/player/hook_shot/hook_shot_mesh.tres" id="3_acmx2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nh5ca"]
 friction = 0.2
@@ -89,3 +91,10 @@ shape = SubResource("BoxShape3D_a3l64")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ground_detector"]
 mesh = SubResource("BoxMesh_qee5h")
+
+[node name="push_model_tracker" type="Node3D" parent="."]
+top_level = true
+script = ExtResource("2_8y86y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="push_model_tracker"]
+mesh = ExtResource("3_acmx2")

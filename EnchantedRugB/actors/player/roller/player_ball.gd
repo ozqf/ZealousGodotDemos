@@ -14,6 +14,7 @@ const MAX_SPEED:float = 30.0
 #@onready var _aimDot:Node3D = $aim_dot
 @onready var _groundSensor:Area3D = $ground_detector
 @onready var _bodyShape:CollisionShape3D = $CollisionShape3D
+@onready var _modelTracker = $push_model_tracker
 
 enum Stance { Spawning, Ball, Melee }
 
@@ -38,6 +39,9 @@ func is_grounded() -> bool:
 
 func get_velocity() -> Vector3:
 	return self.linear_velocity
+
+func get_push_melee_pod_tracker() -> Node3D:
+	return _modelTracker as Node3D
 
 func activate(resumeVelocity:Vector3) -> void:
 	self.freeze = false
@@ -75,6 +79,8 @@ func _process(_delta):
 	_groundSensor.visible = is_grounded()
 
 func input_physics_process(_input:PlayerInput, _delta:float) -> void:
+	
+	_modelTracker.refresh(_input)
 	#var head:Vector3 = _bodyTracker.global_position
 	#var pos:Vector3 = self.global_position
 	#var towardHead:Vector3 = (head - pos).normalized()

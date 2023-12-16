@@ -86,6 +86,8 @@ func _hookshot_input(input:PlayerInput) -> void:
 				return
 			_hookShot.attach_to_grapple(_cam.get_aim_point())
 			_rightPod.set_hook_target(_hookShot)
+			if _mode == UserPlayMode.Ball:
+				_rightPod.visible = true
 		elif layer & Game.HIT_MASK_GRABBABLE != 0:
 			if collider.has_method("receive_grab"):
 				var grabbed = collider.receive_grab(_hookShot)
@@ -94,6 +96,8 @@ func _hookshot_input(input:PlayerInput) -> void:
 	elif !input.grab && _hookShot.is_attached():
 		_hookShot.release()
 		_rightPod.set_hook_target(null)
+		if _mode == UserPlayMode.Ball:
+			_rightPod.visible = false
 
 func _physics_process(_delta:float) -> void:
 	if _mode == UserPlayMode.Unspawned:
@@ -144,13 +148,15 @@ func _change_mode(_newMode:UserPlayMode) -> void:
 	_mode =_newMode
 	match _newMode:
 		UserPlayMode.Ball:
-			showRightPod = true
+			showRightPod = _hookShot.is_attached()
 			showLeftPod = true
 
 			var v:Vector3 = _melee.get_velocity()
 			_melee.deactivate()
 			_ball.activate(v)
 			_cam.set_aim_ray_visible(false)
+
+			_leftPod.set_track_target(_ball.get_push_melee_pod_tracker())
 		UserPlayMode.Melee:
 			var v:Vector3 = _ball.get_velocity()
 			_ball.deactivate()

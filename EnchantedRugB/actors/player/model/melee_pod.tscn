@@ -1,35 +1,16 @@
-[gd_scene load_steps=14 format=3 uid="uid://dfc2mlaacvbjh"]
+[gd_scene load_steps=12 format=3 uid="uid://dfc2mlaacvbjh"]
 
 [ext_resource type="Script" path="res://actors/player/model/melee_pod.gd" id="1_6nf4i"]
+[ext_resource type="ArrayMesh" uid="uid://y0pj8etj3pt0" path="res://actors/player/model/player_melee_pod.obj" id="2_w6jj1"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_jgfye"]
-top_radius = 0.0
-height = 1.0
-radial_segments = 4
-rings = 1
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mn6k5"]
+albedo_color = Color(0.431373, 0.431373, 0.431373, 1)
 
-[sub_resource type="Gradient" id="Gradient_mmfjh"]
-colors = PackedColorArray(0.299547, 0.299547, 0.299547, 1, 0.687215, 0.687215, 0.687215, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_jgwiq"]
-noise_type = 4
-frequency = 0.2
-fractal_type = 3
-fractal_gain = 0.1
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jschs"]
-width = 64
-height = 64
-seamless = true
-color_ramp = SubResource("Gradient_mmfjh")
-noise = SubResource("FastNoiseLite_jgwiq")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_unspr"]
-diffuse_mode = 3
-specular_mode = 1
-albedo_color = Color(0.498039, 0.498039, 0.498039, 1)
-albedo_texture = SubResource("NoiseTexture2D_jschs")
-texture_filter = 2
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0unde"]
+albedo_color = Color(0, 1, 1, 1)
+emission_enabled = true
+emission = Color(0, 1, 1, 1)
+emission_energy_multiplier = 3.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_gnfwu"]
 radius = 1.0
@@ -38,6 +19,10 @@ radius = 1.0
 size = Vector3(1, 1, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kncev"]
+albedo_color = Color(0, 1, 1, 1)
+emission_enabled = true
+emission = Color(0, 1, 1, 1)
+emission_energy_multiplier = 2.0
 texture_filter = 2
 disable_receive_shadows = true
 billboard_mode = 3
@@ -55,15 +40,15 @@ curve = SubResource("Curve_m1au5")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_d8vri"]
 emission_shape = 6
-emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 0.6
 emission_ring_radius = 0.3
 emission_ring_inner_radius = 0.3
 direction = Vector3(0, 0, 1)
 spread = 5.0
 gravity = Vector3(0, 1, 0)
-initial_velocity_min = 2.0
-initial_velocity_max = 4.0
+initial_velocity_min = 0.1
+initial_velocity_max = 2.0
 scale_curve = SubResource("CurveTexture_gxd2m")
 
 [sub_resource type="QuadMesh" id="QuadMesh_xrr1f"]
@@ -73,10 +58,10 @@ size = Vector2(0.1, 0.1)
 script = ExtResource("1_6nf4i")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.5)
-mesh = SubResource("CylinderMesh_jgfye")
+mesh = ExtResource("2_w6jj1")
 skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_unspr")
+surface_material_override/0 = SubResource("StandardMaterial3D_mn6k5")
+surface_material_override/1 = SubResource("StandardMaterial3D_0unde")
 metadata/_edit_lock_ = true
 
 [node name="fist_area" type="Area3D" parent="."]
@@ -99,6 +84,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 material_override = SubResource("StandardMaterial3D_kncev")
 cast_shadow = 0
 amount = 16
-lifetime = 0.4
 process_material = SubResource("ParticleProcessMaterial_d8vri")
 draw_pass_1 = SubResource("QuadMesh_xrr1f")
