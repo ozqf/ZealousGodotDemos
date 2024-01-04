@@ -44,26 +44,31 @@ func _ready():
 		name = AnimJabRight,
 		duration = 0.15,
 		damage = 20.0,
+		flags = 0
 	}
 	_moves[AnimJabLeft] = {
 		name = AnimJabLeft,
 		duration = 0.15,
-		damage = 20.0
+		damage = 20.0,
+		flags = 0
 	}
 	_moves[AnimChargePunchRightRelease] = {
 		name = AnimChargePunchRightRelease,
 		duration = 0.1,
-		damage = 200
+		damage = 200,
+		flags = 0
 	}
 	_moves[AnimCartwheel] = {
 		name = AnimCartwheel,
 		duration = 1.0,
-		damage = 20
+		damage = 20,
+		flags = 0
 	}
 	_moves[AnimHorizontalSmash] = {
 		name = AnimHorizontalSmash,
 		duration = 1.5,
-		damage = 50
+		damage = 20,
+		flags = HitInfo.FLAG_VERTICAL_LAUNCHER
 	}
 
 func get_right_fist() -> Node3D:

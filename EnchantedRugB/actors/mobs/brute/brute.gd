@@ -24,11 +24,13 @@ const ANIM_PARRIED:String = "parried"
 
 var _swordHit:HitInfo
 
-enum State { Approaching, Swinging, StaticGuard, Parried, Staggered }
-var _state:State = State.Approaching
+#enum Game.MobState { Approaching, Swinging, StaticGuard, Parried, Staggered, Launched }
+var _state:GameCtrl.MobState = GameCtrl.MobState.Approaching
 
 var _parryDamage:float = 0.0
 var _parryRecoverRate:float = 5.0
+
+var debugHits:bool = true
 
 func _ready():
 	_swordHit = Game.new_hit_info()
@@ -110,11 +112,24 @@ func _sword_touched_area(_area:Area3D) -> void:
 func _on_health_depleted() -> void:
 	die()
 
-func _on_hitbox_event(_eventType, __hitbox) -> void:
+func _on_hitbox_event(_eventType, __hitBox) -> void:
+	
+	#if debugHits && _eventType == HitBox.HITBOX_EVENT_GUARD_DAMAGED:
+	#	_begin_launched(_tarInfo)
+	#	return
+	
 	match _eventType:
 		HitBox.HITBOX_EVENT_DAMAGED:
-			print("hp " + str(__hitbox.get_health_percentage()) + "%")
-			if _state == State.Staggered || _state == State.Parried:
+			print("hp " + str(__hitBox.get_health_percentage()) + "%")
+			if _state == GameCtrl.MobState.Launched:
+				self.velocity = Vector3(0, 2, 0)
+				return
+			if _state == GameCtrl.MobState.Staggered:
+				if _hitBox.lastHit != null && __hitBox.lastHit.flags & HitInfo.FLAG_VERTICAL_LAUNCHER != 0:
+					print("Brute - LAUNCHED!")
+					_begin_launched(_tarInfo)
+				return
+			if _state == GameCtrl.MobState.Staggered || _state == GameCtrl.MobState.Parried:
 				return
 			#_begin_stagger(_tarInfo)
 			_parryDamage += 50
@@ -125,10 +140,10 @@ func _on_hitbox_event(_eventType, __hitbox) -> void:
 				_parryDamage = 0.0
 				_begin_stagger(_tarInfo)
 		HitBox.HITBOX_EVENT_GUARD_DAMAGED:
-			if _state == State.Swinging:
+			if _state == GameCtrl.MobState.Swinging:
 				print("Hit whilst swinging ignored")
 				return
-			if _state != State.Parried:
+			if _state != GameCtrl.MobState.Parried:
 				if randf() > 0.5:
 					_begin_static_guard(_tarInfo)
 				else:
@@ -169,7 +184,7 @@ func die() -> void:
 # state
 #######################################################
 func _begin_approach(__tarInfo:ActorTargetInfo) -> void:
-	_state = State.Approaching
+	_state = GameCtrl.MobState.Approaching
 	_podsAnimator.play(ANIM_BLOCK)
 	_agent.set_target_position(__tarInfo.position)
 	_thinkTimer.wait_time = 0.25
@@ -178,14 +193,14 @@ func _begin_approach(__tarInfo:ActorTargetInfo) -> void:
 
 func _begin_static_guard(__tarInfo:ActorTargetInfo) -> void:
 	_podsAnimator.play(ANIM_BLOCK)
-	_state = State.StaticGuard
+	_state = GameCtrl.MobState.StaticGuard
 	_thinkTimer.wait_time = 1.0
 	_thinkTimer.start()
 	_hitBox.isGuarding = true
 
 func _begin_random_swing(__tarInfo:ActorTargetInfo) -> void:
 	look_at_flat(_tarInfo.position)
-	_state = State.Swinging
+	_state = GameCtrl.MobState.Swinging
 	_thinkTimer.wait_time = 3
 	_thinkTimer.start()
 	if randf() > 0.66:
@@ -200,7 +215,7 @@ func _end_swing() -> void:
 
 func _begin_stagger(__tarInfo:ActorTargetInfo) -> void:
 	_hitBox.isGuarding = false
-	_state = State.Staggered
+	_state = GameCtrl.MobState.Staggered
 	_thinkTimer.wait_time = 4
 	_thinkTimer.start()
 	_podsAnimator.play(ANIM_STAGGERED)
@@ -208,17 +223,26 @@ func _begin_stagger(__tarInfo:ActorTargetInfo) -> void:
 
 func _begin_parried(__tarInfo:ActorTargetInfo) -> void:
 	_hitBox.isGuarding = true
-	_state = State.Parried
+	_state = GameCtrl.MobState.Parried
 	_thinkTimer.wait_time = 1.5
 	_thinkTimer.start()
 	_podsAnimator.play(ANIM_PARRIED)
+
+func _begin_launched(__tarInfo:ActorTargetInfo) -> void:
+	_hitBox.isGuarding = false
+	_state = GameCtrl.MobState.Launched
+	_thinkTimer.stop()
+	#_thinkTimer.wait_time = 1.5
+	#_thinkTimer.start()
+	_podsAnimator.play(ANIM_STAGGERED)
+	self.velocity = Vector3(0, 10, 0)
 
 func _think_timeout() -> void:
 	if !Game.validate_target(_tarInfo):
 		return
 	var distSqr:float = global_position.distance_squared_to(_tarInfo.position)
 	match _state:
-		State.Approaching:
+		GameCtrl.MobState.Approaching:
 			if distSqr > 6 * 6:
 				_begin_approach(_tarInfo)
 				return
@@ -227,16 +251,16 @@ func _think_timeout() -> void:
 			else:
 				_begin_static_guard(_tarInfo)
 			pass
-		State.StaticGuard:
+		GameCtrl.MobState.StaticGuard:
 			if distSqr > 6 * 6:
 				_begin_approach(_tarInfo)
 			elif randf() > 0.75:
 				_begin_static_guard(_tarInfo)
 			else:
 				_begin_random_swing(_tarInfo)
-		State.Swinging:
+		GameCtrl.MobState.Swinging:
 			_begin_approach(_tarInfo)
-		State.Staggered:
+		GameCtrl.MobState.Staggered:
 			_begin_static_guard(_tarInfo)
 
 	look_at_flat(_tarInfo.position)
@@ -255,18 +279,25 @@ func _physics_process(_delta:float) -> void:
 	if _parryDamage > 0.0:
 		_parryDamage -= _parryRecoverRate * _delta
 	
+	if _state == GameCtrl.MobState.Launched:
+		self.velocity += Vector3(0, -10, 0) * _delta
+		self.move_and_slide()
+		if self.is_on_floor() && !self.velocity.y > 0.0:
+			_begin_stagger(_tarInfo)
+		return
+	
 	# validate target here just to get up-to-date info
-	if !Game.validate_target(_tarInfo) && _state != State.StaticGuard:
+	if !Game.validate_target(_tarInfo) && _state != GameCtrl.MobState.StaticGuard:
 		_begin_static_guard(_tarInfo)
 	match _state:
-		State.Swinging:
+		GameCtrl.MobState.Swinging:
 			if _podsAnimator.current_animation == ANIM_CHOP_1:
 				if _podsAnimator.current_animation_position < 0.4:
 					look_at_flat(_tarInfo.position)
-		State.Approaching:
+		GameCtrl.MobState.Approaching:
 			look_at_flat(_tarInfo.position)
 			if _agent.physics_tick(_delta):
 				self.velocity = _agent.velocity
 				move_and_slide()
-		State.StaticGuard:
+		GameCtrl.MobState.StaticGuard:
 			look_at_flat(_tarInfo.position)

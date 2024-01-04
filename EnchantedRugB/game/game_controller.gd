@@ -29,6 +29,9 @@ const PLAYER_GRAPPLE_RANGE:float = 30.0
 
 enum GameState { PreGame, Playing, PostGame, Dead }
 
+enum MobState { Approaching, Swinging, StaticGuard, Parried, Staggered, Launched }
+enum MoodAura { Idle, AttackWindup, AttackActive, Parried, Staggered }
+
 #@onready var _loadTimer:Timer = $load_timer
 var _sandboxWorld = preload("res://worlds/sandbox/sandbox.tscn")
 var _hitInfoType = preload("res://shared/structs/hit_info.gd")

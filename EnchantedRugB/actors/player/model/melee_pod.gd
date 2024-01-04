@@ -60,6 +60,7 @@ func plyr_int_melee_attack_started(_move:Dictionary) -> void:
 		return
 	#print("Pod " + self.name + " saw melee move " + str(_move.name))
 	_hitInfo.damage = _move.damage
+	_hitInfo.flags = _move.flags
 	_tick = _move.duration
 	_fistCollider.disabled = false
 	set_physics_process(true)

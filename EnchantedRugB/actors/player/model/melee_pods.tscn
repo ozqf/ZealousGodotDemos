@@ -1,7 +1,54 @@
-[gd_scene load_steps=16 format=3 uid="uid://b1cgsmb1vstoc"]
+[gd_scene load_steps=17 format=3 uid="uid://b1cgsmb1vstoc"]
 
 [ext_resource type="Script" path="res://actors/player/model/melee_pods.gd" id="1_q5e6k"]
 [ext_resource type="CylinderMesh" uid="uid://dtbmimi43b88r" path="res://actors/player/model/melee_pod_placeholder_mesh.tres" id="2_24tmj"]
+
+[sub_resource type="Animation" id="Animation_bc8vj"]
+resource_name = "cartwheel"
+length = 0.8
+step = 0.05
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("right")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 2, 0, 0.05, 1, 0, 1.41421, -1.41421, 0.1, 1, 0, -8.74228e-08, -2, 0.15, 1, 0, -1.41421, -1.41421, 0.2, 1, 0, -2, 1.19209e-07, 0.25, 1, 0, -1.41421, 1.41421, 0.3, 1, 0, 1.19209e-07, 2, 0.35, 1, 0, 1.41421, 1.41421, 0.4, 1, 0, 2, 0, 0.45, 1, 0, 1.41421, -1.41421, 0.5, 1, 0, -8.74228e-08, -2, 0.55, 1, 0, -1.41421, -1.41421, 0.6, 1, 0, -2, 1.19209e-07, 0.65, 1, 0, -1.41421, 1.41421, 0.7, 1, 0, 1.19209e-07, 2, 0.75, 1, 0, 1.41421, 1.41421)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("right")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.05, 1, -0.382683, 0, 0, 0.92388, 0.1, 1, -0.707107, 0, 0, 0.707107, 0.15, 1, 0.92388, 0, 0, -0.382683, 0.2, 1, 1, 0, 0, 1.3411e-07, 0.25, 1, 0.92388, 0, 0, 0.382683, 0.3, 1, 0.707107, 0, 0, 0.707107, 0.35, 1, 0.382683, 0, 0, 0.92388, 0.4, 1, 0, 0, 0, 1, 0.45, 1, -0.382683, 0, 0, 0.92388, 0.5, 1, -0.707107, 0, 0, 0.707107, 0.55, 1, 0.92388, 0, 0, -0.382683, 0.6, 1, 1, 0, 0, 1.3411e-07, 0.65, 1, 0.92388, 0, 0, 0.382683, 0.7, 1, 0.707107, 0, 0, 0.707107, 0.75, 1, 0.382683, 0, 0, 0.92388)
+tracks/2/type = "scale_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("right")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array()
+tracks/3/type = "position_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("left")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0, -2, 0, 0.05, 1, 0, -1.41421, 1.41421, 0.1, 1, 0, 8.74228e-08, 2, 0.15, 1, 0, 1.41421, 1.41421, 0.2, 1, 0, 2, -1.19209e-07, 0.25, 1, 0, 1.41421, -1.41421, 0.3, 1, 0, -1.19209e-07, -2, 0.35, 1, 0, -1.41421, -1.41421, 0.4, 1, 0, -2, 0, 0.45, 1, 0, -1.41421, 1.41421, 0.5, 1, 0, 8.74228e-08, 2, 0.55, 1, 0, 1.41421, 1.41421, 0.6, 1, 0, 2, -1.19209e-07, 0.65, 1, 0, 1.41421, -1.41421, 0.7, 1, 0, -1.19209e-07, -2, 0.75, 1, 0, -1.41421, -1.41421)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("left")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 1, 0, 0, -4.37114e-08, 0.05, 1, 0.92388, 0, 0, 0.382683, 0.1, 1, 0.707107, 0, 0, 0.707107, 0.15, 1, 0.382683, 0, 0, 0.92388, 0.2, 1, 2.98023e-08, 0, 0, 1, 0.25, 1, -0.382683, 0, 0, 0.92388, 0.3, 1, -0.707107, 0, 0, 0.707107, 0.35, 1, 0.92388, 0, 0, -0.382683, 0.4, 1, 1, 0, 0, -4.37114e-08, 0.45, 1, 0.92388, 0, 0, 0.382683, 0.5, 1, 0.707107, 0, 0, 0.707107, 0.55, 1, 0.382683, 0, 0, 0.92388, 0.6, 1, 2.98023e-08, 0, 0, 1, 0.65, 1, -0.382683, 0, 0, 0.92388, 0.7, 1, -0.707107, 0, 0, 0.707107, 0.75, 1, 0.92388, 0, 0, -0.382683)
+tracks/5/type = "scale_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("left")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array()
 
 [sub_resource type="Animation" id="Animation_vefi2"]
 resource_name = "charge_punch_r"
@@ -95,6 +142,52 @@ tracks/5/path = NodePath("left")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = PackedFloat32Array(0.75, 1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_f85h0"]
+resource_name = "guard"
+step = 0.05
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("right")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1.5, 0, 0, 0.05, 1, 0.4, 0, -0.6)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("right")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.05, 1, 0.5, 0, 0, 0.866025)
+tracks/2/type = "scale_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("right")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+tracks/3/type = "position_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("left")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, -1.5, 0, 0, 0.05, 1, -0.3, 0, -1.2)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("left")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.05, 1, 0.5, 0, 0, 0.866025)
+tracks/5/type = "scale_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("left")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_iufkd"]
 resource_name = "horizontal_smash"
@@ -513,58 +606,12 @@ tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 2.5, 1, 1, 1, 1)
 
-[sub_resource type="Animation" id="Animation_bc8vj"]
-resource_name = "cartwheel"
-length = 0.8
-step = 0.05
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("right")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 2, 0, 0.05, 1, 0, 1.41421, -1.41421, 0.1, 1, 0, -8.74228e-08, -2, 0.15, 1, 0, -1.41421, -1.41421, 0.2, 1, 0, -2, 1.19209e-07, 0.25, 1, 0, -1.41421, 1.41421, 0.3, 1, 0, 1.19209e-07, 2, 0.35, 1, 0, 1.41421, 1.41421, 0.4, 1, 0, 2, 0, 0.45, 1, 0, 1.41421, -1.41421, 0.5, 1, 0, -8.74228e-08, -2, 0.55, 1, 0, -1.41421, -1.41421, 0.6, 1, 0, -2, 1.19209e-07, 0.65, 1, 0, -1.41421, 1.41421, 0.7, 1, 0, 1.19209e-07, 2, 0.75, 1, 0, 1.41421, 1.41421)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("right")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.05, 1, -0.382683, 0, 0, 0.92388, 0.1, 1, -0.707107, 0, 0, 0.707107, 0.15, 1, 0.92388, 0, 0, -0.382683, 0.2, 1, 1, 0, 0, 1.3411e-07, 0.25, 1, 0.92388, 0, 0, 0.382683, 0.3, 1, 0.707107, 0, 0, 0.707107, 0.35, 1, 0.382683, 0, 0, 0.92388, 0.4, 1, 0, 0, 0, 1, 0.45, 1, -0.382683, 0, 0, 0.92388, 0.5, 1, -0.707107, 0, 0, 0.707107, 0.55, 1, 0.92388, 0, 0, -0.382683, 0.6, 1, 1, 0, 0, 1.3411e-07, 0.65, 1, 0.92388, 0, 0, 0.382683, 0.7, 1, 0.707107, 0, 0, 0.707107, 0.75, 1, 0.382683, 0, 0, 0.92388)
-tracks/2/type = "scale_3d"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("right")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = PackedFloat32Array()
-tracks/3/type = "position_3d"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("left")
-tracks/3/interp = 2
-tracks/3/loop_wrap = true
-tracks/3/keys = PackedFloat32Array(0, 1, 0, -2, 0, 0.05, 1, 0, -1.41421, 1.41421, 0.1, 1, 0, 8.74228e-08, 2, 0.15, 1, 0, 1.41421, 1.41421, 0.2, 1, 0, 2, -1.19209e-07, 0.25, 1, 0, 1.41421, -1.41421, 0.3, 1, 0, -1.19209e-07, -2, 0.35, 1, 0, -1.41421, -1.41421, 0.4, 1, 0, -2, 0, 0.45, 1, 0, -1.41421, 1.41421, 0.5, 1, 0, 8.74228e-08, 2, 0.55, 1, 0, 1.41421, 1.41421, 0.6, 1, 0, 2, -1.19209e-07, 0.65, 1, 0, 1.41421, -1.41421, 0.7, 1, 0, -1.19209e-07, -2, 0.75, 1, 0, -1.41421, -1.41421)
-tracks/4/type = "rotation_3d"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("left")
-tracks/4/interp = 2
-tracks/4/loop_wrap = true
-tracks/4/keys = PackedFloat32Array(0, 1, 1, 0, 0, -4.37114e-08, 0.05, 1, 0.92388, 0, 0, 0.382683, 0.1, 1, 0.707107, 0, 0, 0.707107, 0.15, 1, 0.382683, 0, 0, 0.92388, 0.2, 1, 2.98023e-08, 0, 0, 1, 0.25, 1, -0.382683, 0, 0, 0.92388, 0.3, 1, -0.707107, 0, 0, 0.707107, 0.35, 1, 0.92388, 0, 0, -0.382683, 0.4, 1, 1, 0, 0, -4.37114e-08, 0.45, 1, 0.92388, 0, 0, 0.382683, 0.5, 1, 0.707107, 0, 0, 0.707107, 0.55, 1, 0.382683, 0, 0, 0.92388, 0.6, 1, 2.98023e-08, 0, 0, 1, 0.65, 1, -0.382683, 0, 0, 0.92388, 0.7, 1, -0.707107, 0, 0, 0.707107, 0.75, 1, 0.92388, 0, 0, -0.382683)
-tracks/5/type = "scale_3d"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("left")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = PackedFloat32Array()
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_30yfv"]
 _data = {
 "cartwheel": SubResource("Animation_bc8vj"),
 "charge_punch_r": SubResource("Animation_vefi2"),
 "charge_punch_r_release": SubResource("Animation_re2se"),
+"guard": SubResource("Animation_f85h0"),
 "horizontal_smash": SubResource("Animation_iufkd"),
 "idle": SubResource("Animation_5d2gu"),
 "jab_both": SubResource("Animation_mfy0r"),

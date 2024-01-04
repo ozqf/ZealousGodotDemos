@@ -18,7 +18,7 @@ var evadeTick:float = 0.0
 var guardStrength:float = 30
 var isGuarding:bool = false
 
-var lastHit:HitInfo
+var lastHit:HitInfo = null
 
 var _health:float = 50
 var _dead:bool = false;
