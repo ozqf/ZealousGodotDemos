@@ -1,8 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://dl2wkymsw1yyo"]
+[gd_scene load_steps=10 format=3 uid="uid://dl2wkymsw1yyo"]
 
 [ext_resource type="Script" path="res://npc/ball_creeper/ball_creeper.gd" id="1_2xy5f"]
 [ext_resource type="PackedScene" uid="uid://cjm82c0wjsufw" path="res://npc/limbs/beam_limb.tscn" id="2_c47d5"]
 [ext_resource type="Script" path="res://npc/limbs/point_scanner.gd" id="3_8fhs6"]
+
+[sub_resource type="Environment" id="Environment_21aor"]
+background_mode = 1
+background_color = Color(0.482353, 0.552941, 0.894118, 1)
+ssr_enabled = true
+glow_enabled = true
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_b4c7i"]
 radius = 6.0
@@ -12,36 +18,54 @@ radius = 6.0
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8cs7p"]
 albedo_color = Color(0.247059, 0.247059, 0.247059, 1)
 
-[sub_resource type="Environment" id="Environment_21aor"]
-background_mode = 1
-background_color = Color(0.482353, 0.552941, 0.894118, 1)
-ssr_enabled = true
-glow_enabled = true
+[sub_resource type="SphereMesh" id="SphereMesh_cdbyg"]
+radius = 0.1
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50kl1"]
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 2.0
 
 [node name="Test03" type="Node3D"]
 
-[node name="ball_creeper" type="Node3D" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_21aor")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 3, 9, 3)
+shadow_enabled = true
+
+[node name="dynamic" type="Node3D" parent="."]
+
+[node name="ball_creeper" type="Node3D" parent="dynamic"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("1_2xy5f")
 
-[node name="Area3D" type="Area3D" parent="ball_creeper"]
+[node name="Camera3D" type="Camera3D" parent="dynamic/ball_creeper"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 4, 3)
+fov = 85.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ball_creeper/Area3D"]
+[node name="Area3D" type="Area3D" parent="dynamic/ball_creeper"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="dynamic/ball_creeper/Area3D"]
 shape = SubResource("SphereShape3D_b4c7i")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ball_creeper"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="dynamic/ball_creeper"]
 mesh = SubResource("SphereMesh_af7d7")
 surface_material_override/0 = SubResource("StandardMaterial3D_8cs7p")
 
-[node name="BeamLimb1" parent="ball_creeper" instance=ExtResource("2_c47d5")]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="dynamic/ball_creeper"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.4)
+mesh = SubResource("SphereMesh_cdbyg")
+surface_material_override/0 = SubResource("StandardMaterial3D_50kl1")
 
-[node name="BeamLimb2" parent="ball_creeper" instance=ExtResource("2_c47d5")]
+[node name="BeamLimb1" parent="dynamic/ball_creeper" instance=ExtResource("2_c47d5")]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="ball_creeper"]
-transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 3, 7, 3)
-shadow_enabled = true
+[node name="BeamLimb2" parent="dynamic/ball_creeper" instance=ExtResource("2_c47d5")]
 
-[node name="Label3D" type="Label3D" parent="ball_creeper"]
+[node name="Label3D" type="Label3D" parent="dynamic/ball_creeper"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 billboard = 1
 text = "ABCDEFGHIJKLM
@@ -50,28 +74,21 @@ text = "ABCDEFGHIJKLM
 123"
 vertical_alignment = 2
 
-[node name="ray_left_root" type="Node3D" parent="ball_creeper"]
-transform = Transform3D(0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 0, 0, 0)
+[node name="ray_left_root" type="Node3D" parent="dynamic/ball_creeper"]
+transform = Transform3D(0.573577, 0, 0.819152, 0, 1, 0, -0.819152, 0, 0.573577, 0, 0, 0)
 
-[node name="ray_left" type="RayCast3D" parent="ball_creeper/ray_left_root"]
+[node name="ray_left" type="RayCast3D" parent="dynamic/ball_creeper/ray_left_root"]
 target_position = Vector3(0, 0, -10)
 script = ExtResource("3_8fhs6")
 metadata/_edit_lock_ = true
 
-[node name="ray_right_root" type="Node3D" parent="ball_creeper"]
-transform = Transform3D(0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, 0, 0, 0)
+[node name="ray_right_root" type="Node3D" parent="dynamic/ball_creeper"]
+transform = Transform3D(0.573577, 0, -0.819152, 0, 1, 0, 0.819152, 0, 0.573577, 0, 0, 0)
 
-[node name="ray_right" type="RayCast3D" parent="ball_creeper/ray_right_root"]
+[node name="ray_right" type="RayCast3D" parent="dynamic/ball_creeper/ray_right_root"]
 target_position = Vector3(0, 0, -10)
 script = ExtResource("3_8fhs6")
 metadata/_edit_lock_ = true
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.258819, -0.683013, 0.683013, 1.0334e-09, 0.707107, 0.707107, -0.965926, -0.183013, 0.183013, 5, 9, 2)
-fov = 85.0
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_21aor")
 
 [node name="world" type="Node3D" parent="."]
 metadata/_edit_lock_ = true

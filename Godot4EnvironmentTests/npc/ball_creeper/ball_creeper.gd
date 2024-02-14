@@ -14,11 +14,19 @@ func _ready():
 
 func _quick_move(delta) -> void:
 	var inputDir:Vector3 = Vector3.ZERO
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("ui_up"):
 		inputDir.z += 1
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("ui_down"):
 		inputDir.z -= 1
-	self.global_position += (inputDir * 5) * delta
+	if Input.is_action_pressed("ui_left"):
+		self.rotation_degrees.y += 180.0 * delta
+		#inputDir.x -= 1
+	if Input.is_action_pressed("ui_right"):
+		self.rotation_degrees.y -= 180.0 * delta
+		#inputDir.x += 1
+	var forward:Vector3 = -self.global_transform.basis.z
+	forward = (forward * inputDir.z).normalized()
+	self.global_position += (forward * 5) * delta
 
 func _process(delta):
 	_quick_move(delta)
@@ -32,7 +40,7 @@ func _process(delta):
 	if _beamLimb1.is_active():
 		var distSqr:float = _beamLimb1.get_dist_sqr()
 		txt += "Limb 1 dist: " + str(distSqr) + "\n"
-		if distSqr > 16.0:
+		if distSqr > 10.0:
 			if _rayLeft.is_colliding():
 				_beamLimb1.set_target(_rayLeft.best)
 	elif _rayLeft.is_colliding():

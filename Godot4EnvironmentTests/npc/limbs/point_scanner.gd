@@ -16,6 +16,8 @@ func _physics_process(delta) -> void:
 			best = candidate
 	
 	var secondsSinceLaunch:float = (float(Time.get_ticks_msec()) / 1000.0)
-	var scanRate:float = 32
-	var s:float = sin(secondsSinceLaunch * scanRate)
-	self.rotation_degrees = Vector3(25.0 * s, 0.0, 0.0)
+	var scanRateX:float = 16
+	var scanRateY:float = 8
+	var sx:float = sin(secondsSinceLaunch * scanRateX)
+	var sy:float = sin(secondsSinceLaunch * scanRateY)
+	self.rotation_degrees = Vector3(40.0 * sx, 40 * sy, 0.0)
