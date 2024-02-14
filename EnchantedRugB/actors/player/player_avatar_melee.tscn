@@ -12,7 +12,7 @@
 
 [node name="player_avatar_melee" type="CharacterBody3D"]
 collision_layer = 8
-collision_mask = 9
+collision_mask = 521
 script = ExtResource("1_i421o")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -34,11 +34,14 @@ skeleton = NodePath("../..")
 [node name="gun_pods" parent="." instance=ExtResource("4_038b1")]
 
 [node name="hitbox" type="Area3D" parent="."]
-collision_layer = 2
+collision_layer = 1026
 collision_mask = 2
 script = ExtResource("5_clrd2")
-initialHealth = 100
+initialHealth = 10000
 gfxType = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
 shape = SubResource("SphereShape3D_0iiwk")
+
+[node name="ground_ray_1" type="RayCast3D" parent="."]
+target_position = Vector3(0, -0.55, 0)

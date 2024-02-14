@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://i7sd37ts27xx"]
+
+[ext_resource type="Script" path="res://actors/arena/arena.gd" id="1_uqfgd"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_tqs6n"]
+size = Vector3(1, 2, 1)
+
+[node name="Arena" type="Node3D"]
+script = ExtResource("1_uqfgd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_tqs6n")

@@ -41,6 +41,15 @@ func get_aim_collider():
 	return null
 
 func _process(_delta:float) -> void:
+	var rotDegreesPerSecond:float = 135.0
+	if Input.is_action_pressed("turn_left"):
+		var degrees:Vector3 = self.rotation_degrees
+		degrees.y += rotDegreesPerSecond * _delta
+		self.rotation_degrees = degrees
+	if Input.is_action_pressed("turn_right"):
+		var degrees:Vector3 = self.rotation_degrees
+		degrees.y -= rotDegreesPerSecond * _delta
+		self.rotation_degrees = degrees
 	
 	if _obstructionRay.is_colliding():
 		_camMount.global_position = _obstructionRay.get_collision_point()

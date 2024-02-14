@@ -2,15 +2,10 @@
 
 [ext_resource type="Script" path="res://actors/player/model/melee_pod.gd" id="1_6nf4i"]
 [ext_resource type="ArrayMesh" uid="uid://y0pj8etj3pt0" path="res://actors/player/model/player_melee_pod.obj" id="2_w6jj1"]
+[ext_resource type="Material" uid="uid://ciwwmrjq8cpci" path="res://shared/object_materials/cyan_glow.tres" id="3_imwje"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mn6k5"]
 albedo_color = Color(0.431373, 0.431373, 0.431373, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0unde"]
-albedo_color = Color(0, 1, 1, 1)
-emission_enabled = true
-emission = Color(0, 1, 1, 1)
-emission_energy_multiplier = 3.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_gnfwu"]
 radius = 1.0
@@ -46,9 +41,9 @@ emission_ring_radius = 0.3
 emission_ring_inner_radius = 0.3
 direction = Vector3(0, 0, 1)
 spread = 5.0
-gravity = Vector3(0, 1, 0)
 initial_velocity_min = 0.1
 initial_velocity_max = 2.0
+gravity = Vector3(0, 1, 0)
 scale_curve = SubResource("CurveTexture_gxd2m")
 
 [sub_resource type="QuadMesh" id="QuadMesh_xrr1f"]
@@ -61,7 +56,7 @@ script = ExtResource("1_6nf4i")
 mesh = ExtResource("2_w6jj1")
 skeleton = NodePath("../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_mn6k5")
-surface_material_override/1 = SubResource("StandardMaterial3D_0unde")
+surface_material_override/1 = ExtResource("3_imwje")
 metadata/_edit_lock_ = true
 
 [node name="fist_area" type="Area3D" parent="."]

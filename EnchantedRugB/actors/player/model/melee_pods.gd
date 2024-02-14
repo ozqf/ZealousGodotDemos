@@ -12,6 +12,10 @@ const AnimChargePunchRightRelease:String = "charge_punch_r_release"
 const AnimHorizontalSmash:String = "horizontal_smash"
 const AnimCartwheel:String = "cartwheel"
 
+const AnimDoublePunchLaunch:String = "double_punch_launch"
+
+const AnimParried:String = "parried"
+
 ####################################
 # Animates melee moves.
 # the 'pods' in this scene are just position targets
@@ -34,12 +38,15 @@ var _lastStyleAnim:String = ""
 
 var _moves:Dictionary = {}
 
+var _sequenceCount:int = 0
+
 func _ready():
 	_rightGizmo.visible = false
 	_leftGizmo.visible = false
 	_animator.connect("animation_started", _on_anim_started)
 	_animator.connect("animation_finished", _on_anim_finished)
 	_animator.connect("animation_changed", _on_anim_changed)
+	
 	_moves[AnimJabRight] = {
 		name = AnimJabRight,
 		duration = 0.15,
@@ -70,6 +77,22 @@ func _ready():
 		damage = 20,
 		flags = HitInfo.FLAG_VERTICAL_LAUNCHER
 	}
+	_moves[AnimParried] = {
+		name = AnimCartwheel,
+		duration = 2.0,
+		damage = 0,
+		flags = 0
+	}
+	_moves[AnimDoublePunchLaunch] = {
+		name = AnimDoublePunchLaunch,
+		duration = 2.0,
+		damage = 50,
+		flags = HitInfo.FLAG_HORIZONTAL_LAUNCHER
+	}
+
+func attach_animation_key_callback(callable:Callable) -> void:
+	_animator.connect("anim_key_event", callable)
+	pass
 
 func get_right_fist() -> Node3D:
 	return _rightPod
@@ -86,12 +109,15 @@ func get_move_data(moveName:String) -> Dictionary:
 		return _moves[moveName]
 	return {}
 
-func update_yaw(_degrees:float) -> void:
-	_lastReceivedYaw = _degrees
+func update_rotation(_input:PlayerInput) -> void:
+	#_input.yaw
+	var degrees:float = _input.yaw
+	_lastReceivedYaw = degrees
 	if is_attacking():
-
 		return
-	self.rotation_degrees = Vector3(0, _degrees, 0)
+	ZqfUtils.look_at_safe(self, _input.aimPoint)
+	self.look_at(_input.aimPoint, Vector3.UP)
+	#self.rotation_degrees = Vector3(0, degrees, 0)
 	pass
 
 ############################################################
@@ -118,12 +144,15 @@ func _on_anim_changed(_oldName:String, _newName:String) -> void:
 ############################################################
 # state
 ############################################################
+func begin_parry() -> void:
+	self._begin_swing(AnimParried, false, true)
+
 func _begin_idle() -> void:
 	_state = MeleeState.Idle
 	_animator.play(AnimIdle)
 
-func _begin_swing(forcedAnim:String = "", applyNewYaw:bool = true) -> bool:
-	if is_attacking():
+func _begin_swing(forcedAnim:String = "", applyNewYaw:bool = true, forceStart:bool = false) -> bool:
+	if !forceStart && is_attacking():
 		return false
 	var newMove:String = AnimJabRight
 	if _lastMoveName == newMove:
@@ -136,15 +165,16 @@ func _begin_swing(forcedAnim:String = "", applyNewYaw:bool = true) -> bool:
 	if moveData.is_empty():
 		print("Could not find melee move " + newMove)
 		return false
+	_sequenceCount += 1
 	_state = MeleeState.Swinging
-	if applyNewYaw:
-		self.rotation_degrees = Vector3(0, _lastReceivedYaw, 0)
+	#if applyNewYaw:
+	#	self.rotation_degrees = Vector3(0, _lastReceivedYaw, 0)
 	_currentMoveName = newMove
 	_lastMoveName = _currentMoveName
 	_animator.play(_currentMoveName)
 	var grp:String = Game.GROUP_PLAYER_INTERNAL
 	var fn:String = Game.PLAYER_INTERNAL_FN_MELEE_ATTACK_STARTED
-	get_tree().call_group(grp, fn, moveData)
+	get_tree().call_group(grp, fn, moveData, _sequenceCount)
 	return true
 
 func _begin_charging_attack(_animName:String) -> bool:
@@ -172,10 +202,16 @@ func read_input(_input:PlayerInput) -> void:
 		MeleeState.Idle:
 			if _input.attack1:
 				self._begin_swing(AnimJabLeft)
+				#if _input.inputDir.z < 0:
+				#	self._begin_swing(AnimCartwheel)
+				#else:
+				#	self._begin_swing(AnimJabLeft)
 			if _input.attack2:
 				if _input.isGrounded:
+					# forward
 					if _input.inputDir.z < 0:
-						self._begin_swing(AnimCartwheel)
+						self._begin_swing(AnimDoublePunchLaunch)
+					# backward
 					elif _input.inputDir.z > 0:
 						self._begin_swing(AnimHorizontalSmash)
 					else:

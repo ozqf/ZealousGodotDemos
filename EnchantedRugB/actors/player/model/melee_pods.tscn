@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://b1cgsmb1vstoc"]
+[gd_scene load_steps=20 format=3 uid="uid://b1cgsmb1vstoc"]
 
 [ext_resource type="Script" path="res://actors/player/model/melee_pods.gd" id="1_q5e6k"]
 [ext_resource type="CylinderMesh" uid="uid://dtbmimi43b88r" path="res://actors/player/model/melee_pod_placeholder_mesh.tres" id="2_24tmj"]
+[ext_resource type="Script" path="res://zqf/zqf_animation_key_emitter.gd" id="3_je3sm"]
 
 [sub_resource type="Animation" id="Animation_bc8vj"]
 resource_name = "cartwheel"
@@ -49,6 +50,29 @@ tracks/5/path = NodePath("left")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = PackedFloat32Array()
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.05, 0.1, 0.7, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"animation_key_0"
+}, {
+"args": [],
+"method": &"animation_key_2"
+}, {
+"args": [],
+"method": &"animation_key_1"
+}, {
+"args": [],
+"method": &"animation_key_3"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_vefi2"]
 resource_name = "charge_punch_r"
@@ -142,6 +166,104 @@ tracks/5/path = NodePath("left")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = PackedFloat32Array(0.75, 1, 1, 1, 1)
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.05, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"animation_key_0"
+}, {
+"args": [],
+"method": &"animation_key_1"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_euawf"]
+resource_name = "double_punch_launch"
+length = 0.8
+step = 0.025
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("right")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1.5, 0, 0, 0.15, 1, 1.85882, -1.9081e-07, 1.16593, 0.2, 1, 0.682246, -0.0311945, -3.72231, 0.25, 1, 0.614393, -0.0335342, -4.01453, 0.8, 1, 1.5, 0, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("right")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.15, 1, -0.0337827, 0.126079, -0.256605, 0.957662, 0.2, 1, 0.0805374, 0.0805374, 0.726296, 0.67788, 0.25, 1, 0.0986378, 0.0569485, 0.876997, 0.466803, 0.8, 1, 0, 0, 0, 1)
+tracks/2/type = "scale_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("right")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.8, 1, 1, 1, 1)
+tracks/3/type = "position_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("left")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, -1.5, 0, 0, 0.15, 1, -1.67365, 9.42829e-08, 1.18481, 0.2, 1, -0.583073, -0.0122915, -3.66906, 0.25, 1, -0.461521, -0.0158024, -3.99296, 0.8, 1, -1.5, 0, 0)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("left")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.15, 1, -0.018864, -0.0850898, 0.215616, 0.972581, 0.2, 1, 0.0585098, -0.0536143, -0.748221, 0.658686, 0.25, 1, -0.0663069, 0.0309194, 0.874462, -0.479545, 0.8, 1, 0, 0, 0, 1)
+tracks/5/type = "scale_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("left")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.8, 1, 1, 1, 1)
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.15, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"animation_key_0"
+}, {
+"args": [],
+"method": &"animation_key_1"
+}]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("AnimationPlayer")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.15, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"animation_key_2"
+}, {
+"args": [],
+"method": &"animation_key_3"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_f85h0"]
 resource_name = "guard"
@@ -235,6 +357,40 @@ tracks/5/path = NodePath("left")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.85, 1, 1, 1, 1)
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.25, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"animation_key_0"
+}, {
+"args": [],
+"method": &"animation_key_1"
+}]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("AnimationPlayer")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.25, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"animation_key_2"
+}, {
+"args": [],
+"method": &"animation_key_3"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_5d2gu"]
 resource_name = "idle"
@@ -421,6 +577,23 @@ tracks/5/path = NodePath("left")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.3, 1, 1, 1, 1)
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AnimationPlayer")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.025, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"animation_key_2"
+}, {
+"args": [],
+"method": &"animation_key_3"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_pk4pi"]
 resource_name = "jab_r"
@@ -468,6 +641,53 @@ tracks/5/path = NodePath("left")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.3, 1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_odyad"]
+resource_name = "parried"
+length = 0.5
+step = 0.05
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("right")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 1.5, 0, 0, 0.05, 1, 2.9, 0, 0.9, 0.25, 1, 3.3, 0, 1.4, 0.5, 1, 1.5, 0, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("right")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.05, 1, 0.469846, -0.17101, 0.296198, 0.813798, 0.25, 1, 0.719846, -0.0593911, 0.336824, 0.604023, 0.5, 1, 0, 0, 0, 1)
+tracks/2/type = "scale_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("right")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.5, 1, 1, 1, 1)
+tracks/3/type = "position_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("left")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, -1.5, 0, 0, 0.05, 1, -2.3, 0, 1.4, 0.25, 1, -2.6, 0, 1.8, 0.5, 1, -1.5, 0, 0)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("left")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.05, 1, 0.46194, 0.331414, -0.191342, 0.800103, 0.25, 1, 0.701058, 0.43046, -0.0922962, 0.560985, 0.5, 1, 0, 0, 0, 1)
+tracks/5/type = "scale_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("left")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.5, 1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_fqxyq"]
 resource_name = "stowed"
@@ -611,6 +831,7 @@ _data = {
 "cartwheel": SubResource("Animation_bc8vj"),
 "charge_punch_r": SubResource("Animation_vefi2"),
 "charge_punch_r_release": SubResource("Animation_re2se"),
+"double_punch_launch": SubResource("Animation_euawf"),
 "guard": SubResource("Animation_f85h0"),
 "horizontal_smash": SubResource("Animation_iufkd"),
 "idle": SubResource("Animation_5d2gu"),
@@ -618,6 +839,7 @@ _data = {
 "jab_l": SubResource("Animation_mnmj7"),
 "jab_l_2": SubResource("Animation_uja81"),
 "jab_r": SubResource("Animation_pk4pi"),
+"parried": SubResource("Animation_odyad"),
 "stowed": SubResource("Animation_fqxyq"),
 "style": SubResource("Animation_d0yti"),
 "style_line_in_the_sand": SubResource("Animation_88nus")
@@ -643,7 +865,8 @@ mesh = ExtResource("2_24tmj")
 metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "stowed"
 libraries = {
 "": SubResource("AnimationLibrary_30yfv")
 }
+autoplay = "stowed"
+script = ExtResource("3_je3sm")

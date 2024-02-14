@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://0vi2ymu124fk"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_josq8"]
+size = Vector3(1, 0.023, 0.3)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_njgdn"]
+top_radius = 0.2
+bottom_radius = 0.6
+height = 1.0
+radial_segments = 4
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f84aj"]
+albedo_color = Color(1, 0.301961, 0, 1)
+
+[node name="missile_body" type="Node3D"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.642788, 0, -0.766044, 0, 1, 0, 0.766044, 0, 0.642788, -0.5, 0.5, 0)
+mesh = SubResource("BoxMesh_josq8")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.642788, 0, 0.766045, 0, 1, 0, -0.766045, 0, 0.642788, 0.5, 0.5, 0)
+mesh = SubResource("BoxMesh_josq8")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_njgdn")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_f84aj")

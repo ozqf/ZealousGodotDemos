@@ -13,6 +13,7 @@ const MAX_SPEED:float = 30.0
 # @onready var _aimRay:RayCast3D = $tracker/head/camera_mount/RayCast3D
 #@onready var _aimDot:Node3D = $aim_dot
 @onready var _groundSensor:Area3D = $ground_detector
+@onready var _groundRay:RayCast3D = $ground_ray
 @onready var _bodyShape:CollisionShape3D = $CollisionShape3D
 @onready var _modelTracker = $push_model_tracker
 
@@ -35,7 +36,7 @@ func teleport(_transform:Transform3D) -> void:
 	self.angular_velocity = Vector3()
 
 func is_grounded() -> bool:
-	return _groundSensor.has_overlapping_bodies() || _groundSensor.has_overlapping_areas()
+	return _groundRay.is_colliding() || _groundSensor.has_overlapping_bodies() || _groundSensor.has_overlapping_areas()
 
 func get_velocity() -> Vector3:
 	return self.linear_velocity
@@ -75,8 +76,8 @@ func _process(_delta):
 	
 	var footPos:Vector3 = target + Vector3(0, -0.5, 0)
 	_groundSensor.global_position = footPos
-	
 	_groundSensor.visible = is_grounded()
+	_groundRay.global_position = self.global_position
 
 func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 	

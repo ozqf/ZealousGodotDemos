@@ -1,4 +1,4 @@
-extends CharacterBody3D
+extends MobBase
 class_name Brute
 
 var _popGfx = preload("res://gfx/mob_pop/mob_pop.tscn")
@@ -14,32 +14,10 @@ const ANIM_STAGGERED:String = "staggered"
 const ANIM_PARRIED:String = "parried"
 
 @onready var _swordArea:MobMeleeWeapon = $pods/right/sword_area
-
 @onready var _podsAnimator:ZqfAnimationKeyEmitter = $pods/AnimationPlayer
-@onready var _thinkTimer:Timer = $think_timer
-@onready var _tarInfo:ActorTargetInfo = $actor_target_info
 
-@onready var _agent:NavigationAgent3D = $NavigationAgent3D
-@onready var _hitBox:HitBox = $hitbox
-
-var _swordHit:HitInfo
-
-#enum Game.MobState { Approaching, Swinging, StaticGuard, Parried, Staggered, Launched }
-var _state:GameCtrl.MobState = GameCtrl.MobState.Approaching
-
-var _parryDamage:float = 0.0
-var _parryRecoverRate:float = 5.0
-
-var debugHits:bool = true
-
-func _ready():
-	_swordHit = Game.new_hit_info()
-	_swordHit.teamId = Game.TEAM_ID_ENEMY
-	_hitBox.connect("health_depleted", _on_health_depleted)
-	_hitBox.connect("hitbox_event", _on_hitbox_event)
-	_hitBox.teamId = Game.TEAM_ID_ENEMY
+func ready_components() -> void:
 	_swordArea.connect("area_entered", _sword_touched_area)
-	_thinkTimer.connect("timeout", _think_timeout)
 	_swordArea.set_blade_state(MobMeleeWeapon.BladeState.Idle)
 	_podsAnimator.connect("animation_started", _animation_started)
 	_podsAnimator.connect("animation_changed", _animation_changed)
@@ -88,75 +66,16 @@ func _animation_finished(_animName:String) -> void:
 func _on_anim_key_event(__animName:String, __keyIndex:int) -> void:
 	match __keyIndex:
 		0:
-			_hitBox.isGuarding = false
+			_attackIsActive = true
+			#_isGuarding = false
 			_swordArea.set_blade_state(MobMeleeWeapon.BladeState.Damaging)
 		1:
-			_hitBox.isGuarding = true
+			_attackIsActive = false
+			#_isGuarding = true
 			_swordArea.set_blade_state(MobMeleeWeapon.BladeState.Idle)
 
-#######################################################
-# sword control
-#######################################################
-
-func _sword_touched_area(_area:Area3D) -> void:
-	if _area.has_method("hit"):
-		_swordHit.hitPosition = _swordArea.global_position
-		var result = _area.hit(_swordHit)
-		if result > 0:
-			print("Brute swing landed")
-	pass
-
-#######################################################
-# incoming damage
-#######################################################
-func _on_health_depleted() -> void:
-	die()
-
-func _on_hitbox_event(_eventType, __hitBox) -> void:
-	
-	#if debugHits && _eventType == HitBox.HITBOX_EVENT_GUARD_DAMAGED:
-	#	_begin_launched(_tarInfo)
-	#	return
-	
-	match _eventType:
-		HitBox.HITBOX_EVENT_DAMAGED:
-			print("hp " + str(__hitBox.get_health_percentage()) + "%")
-			if _state == GameCtrl.MobState.Launched:
-				self.velocity = Vector3(0, 2, 0)
-				return
-			if _state == GameCtrl.MobState.Staggered:
-				if _hitBox.lastHit != null && __hitBox.lastHit.flags & HitInfo.FLAG_VERTICAL_LAUNCHER != 0:
-					print("Brute - LAUNCHED!")
-					_begin_launched(_tarInfo)
-				return
-			if _state == GameCtrl.MobState.Staggered || _state == GameCtrl.MobState.Parried:
-				return
-			#_begin_stagger(_tarInfo)
-			_parryDamage += 50
-			print("Parry damage now " + str(_parryDamage))
-			if _parryDamage < 100.0:
-				_begin_parried(_tarInfo)
-			else:
-				_parryDamage = 0.0
-				_begin_stagger(_tarInfo)
-		HitBox.HITBOX_EVENT_GUARD_DAMAGED:
-			if _state == GameCtrl.MobState.Swinging:
-				print("Hit whilst swinging ignored")
-				return
-			if _state != GameCtrl.MobState.Parried:
-				if randf() > 0.5:
-					_begin_static_guard(_tarInfo)
-				else:
-					_begin_random_swing(_tarInfo)
-
-func hit(_hitInfo:HitInfo) -> int:
-	if _hitInfo.teamId == Game.TEAM_ID_ENEMY:
-		return -1
-	print("Brute - took hit")
-	Game.gfx_spawn_impact_sparks(_hitInfo.hitPosition)
-	return 1
-
 func die() -> void:
+	super()
 	var gfx = _popGfx.instantiate()
 	Zqf.get_actor_root().add_child(gfx)
 	gfx.global_transform = self.global_transform
@@ -176,33 +95,34 @@ func die() -> void:
 	av.y = randf_range(-40, 40)
 	#av.z = randf_range(-100, 100)
 	corpse.angular_velocity = av
-	
-	self.queue_free()
+
+#######################################################
+# sword control
+#######################################################
+
+func _sword_touched_area(_area:Area3D) -> void:
+	if _area.has_method("hit"):
+		_swordHit.hitPosition = _swordArea.global_position
+		var result = _area.hit(_swordHit)
+		if result > 0:
+			print("Brute swing landed")
 	pass
 
 #######################################################
 # state
 #######################################################
 func _begin_approach(__tarInfo:ActorTargetInfo) -> void:
-	_state = GameCtrl.MobState.Approaching
+	super(__tarInfo)
+	_isGuarding = true
 	_podsAnimator.play(ANIM_BLOCK)
-	_agent.set_target_position(__tarInfo.position)
-	_thinkTimer.wait_time = 0.25
-	_thinkTimer.start()
-	_hitBox.isGuarding = true
 
 func _begin_static_guard(__tarInfo:ActorTargetInfo) -> void:
+	super(__tarInfo)
 	_podsAnimator.play(ANIM_BLOCK)
-	_state = GameCtrl.MobState.StaticGuard
-	_thinkTimer.wait_time = 1.0
-	_thinkTimer.start()
-	_hitBox.isGuarding = true
 
 func _begin_random_swing(__tarInfo:ActorTargetInfo) -> void:
-	look_at_flat(_tarInfo.position)
-	_state = GameCtrl.MobState.Swinging
-	_thinkTimer.wait_time = 3
-	_thinkTimer.start()
+	#super(__tarInfo)
+	_set_to_swinging()
 	if randf() > 0.66:
 		_podsAnimator.play(ANIM_SWING_1)
 	elif randf() > 0.33:
@@ -210,94 +130,34 @@ func _begin_random_swing(__tarInfo:ActorTargetInfo) -> void:
 	else:
 		_podsAnimator.play(ANIM_CHOP_1)
 
-func _end_swing() -> void:
-	_begin_approach(_tarInfo)
-
 func _begin_stagger(__tarInfo:ActorTargetInfo) -> void:
-	_hitBox.isGuarding = false
-	_state = GameCtrl.MobState.Staggered
-	_thinkTimer.wait_time = 4
-	_thinkTimer.start()
+	super(__tarInfo)
 	_podsAnimator.play(ANIM_STAGGERED)
 	pass
 
 func _begin_parried(__tarInfo:ActorTargetInfo) -> void:
-	_hitBox.isGuarding = true
-	_state = GameCtrl.MobState.Parried
-	_thinkTimer.wait_time = 1.5
-	_thinkTimer.start()
+	super(__tarInfo)
 	_podsAnimator.play(ANIM_PARRIED)
 
-func _begin_launched(__tarInfo:ActorTargetInfo) -> void:
-	_hitBox.isGuarding = false
-	_state = GameCtrl.MobState.Launched
-	_thinkTimer.stop()
-	#_thinkTimer.wait_time = 1.5
-	#_thinkTimer.start()
+func _begin_juggled(__tarInfo:ActorTargetInfo) -> void:
+	super(__tarInfo)
 	_podsAnimator.play(ANIM_STAGGERED)
-	self.velocity = Vector3(0, 10, 0)
 
-func _think_timeout() -> void:
-	if !Game.validate_target(_tarInfo):
-		return
+func _begin_launched(atkDirection:Vector3) -> void:
+	super(atkDirection)
+	_podsAnimator.play(ANIM_STAGGERED)
+
+func _tock_approaching() -> void:
 	var distSqr:float = global_position.distance_squared_to(_tarInfo.position)
-	match _state:
-		GameCtrl.MobState.Approaching:
-			if distSqr > 6 * 6:
-				_begin_approach(_tarInfo)
-				return
-			if randf() > 0.75:
-				_begin_random_swing(_tarInfo)
-			else:
-				_begin_static_guard(_tarInfo)
-			pass
-		GameCtrl.MobState.StaticGuard:
-			if distSqr > 6 * 6:
-				_begin_approach(_tarInfo)
-			elif randf() > 0.75:
-				_begin_static_guard(_tarInfo)
-			else:
-				_begin_random_swing(_tarInfo)
-		GameCtrl.MobState.Swinging:
-			_begin_approach(_tarInfo)
-		GameCtrl.MobState.Staggered:
-			_begin_static_guard(_tarInfo)
-
-	look_at_flat(_tarInfo.position)
-
-func launch() -> void:
-	$CollisionShape3D.disabled = false
-	$hitbox/CollisionShape3D.disabled = false
-	pass
-
-func look_at_flat(targetPos:Vector3) -> void:
-	targetPos.y = self.global_position.y
-	ZqfUtils.look_at_safe(self, targetPos)
-	pass
-
-func _physics_process(_delta:float) -> void:
-	if _parryDamage > 0.0:
-		_parryDamage -= _parryRecoverRate * _delta
-	
-	if _state == GameCtrl.MobState.Launched:
-		self.velocity += Vector3(0, -10, 0) * _delta
-		self.move_and_slide()
-		if self.is_on_floor() && !self.velocity.y > 0.0:
-			_begin_stagger(_tarInfo)
+	if distSqr > attackDistance * attackDistance:
+		_begin_approach(_tarInfo)
 		return
-	
-	# validate target here just to get up-to-date info
-	if !Game.validate_target(_tarInfo) && _state != GameCtrl.MobState.StaticGuard:
+	if randf() > 0.75:
+		_begin_random_swing(_tarInfo)
+	else:
 		_begin_static_guard(_tarInfo)
-	match _state:
-		GameCtrl.MobState.Swinging:
-			if _podsAnimator.current_animation == ANIM_CHOP_1:
-				if _podsAnimator.current_animation_position < 0.4:
-					look_at_flat(_tarInfo.position)
-		GameCtrl.MobState.Approaching:
-			look_at_flat(_tarInfo.position)
-			if _agent.physics_tick(_delta):
-				self.velocity = _agent.velocity
-				move_and_slide()
-		GameCtrl.MobState.StaticGuard:
+
+func _tick_swinging(_delta:float) -> void:
+	if _podsAnimator.current_animation == ANIM_CHOP_1:
+		if _podsAnimator.current_animation_position < 0.4:
 			look_at_flat(_tarInfo.position)

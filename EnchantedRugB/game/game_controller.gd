@@ -4,6 +4,11 @@ class_name GameCtrl
 const TEAM_ID_ENEMY:int = 0
 const TEAM_ID_PLAYER:int = 1
 
+const HIT_RESPONSE_WHIFF:int = 0
+const HIT_RESPONSE_IGNORED:int = -1
+const HIT_RESPONSE_EVADED:int = -2
+const HIT_RESPONSE_PARRIED:int = -3
+
 const HIT_MASK_WORLD:int = (1 << 0)
 const HIT_MASK_HITBOX:int = (1 << 1)
 const HIT_MASK_PROJECTILE:int = (1 << 2)
@@ -25,11 +30,22 @@ const PLAYER_INTERNAL_FN_MELEE_ATTACK_STARTED:String = "plyr_int_melee_attack_st
 const HIT_RESPONSE_ABSORBED:int = 0
 const HIT_RESPOSNE_IGNORED:int = -1
 
+const DAMAGE_CATEGORY_MELEE:int = 0
+const DAMAGE_CATEGORY_PROJECTILE:int = 1
+
 const PLAYER_GRAPPLE_RANGE:float = 30.0
 
 enum GameState { PreGame, Playing, PostGame, Dead }
 
-enum MobState { Approaching, Swinging, StaticGuard, Parried, Staggered, Launched }
+enum MobState {
+	Idle,
+	Approaching,
+	Swinging,
+	StaticGuard,
+	Parried,
+	Staggered,
+	Juggled,
+	Launched }
 enum MoodAura { Idle, AttackWindup, AttackActive, Parried, Staggered }
 
 #@onready var _loadTimer:Timer = $load_timer
@@ -43,6 +59,13 @@ var _gfxRedSparksPop = preload("res://gfx/mob_pop/red_sparks_pop.tscn")
 var _scorePlum = preload("res://gfx/score_plum/score_plum.tscn")
 var _sparksHitGfx = preload("res://gfx/projectile_impact/projectile_impact_sparks.tscn")
 var _gfxMeleeWhiffParticles = preload("res://gfx/melee_whiff/melee_whiff_particles.tscn")
+
+enum MobType {
+	Fallback,
+	Fodder,
+	Brute,
+	MobileTrainingDummy,
+}
 
 @onready var _users:Node3D = $users
 @onready var _pauseMenu:Control = $pause_menu
@@ -97,13 +120,20 @@ func start_world(worldName:String) -> void:
 		_:
 			worldType = _sandboxWorld
 	
+	var spawnLayerFlags:int = 1
 	var world = worldType.instantiate()
 	Zqf.get_world_root().add_child(world)
 	
 	var proxies = get_tree().get_nodes_in_group(Zqf.GROUP_NAME_ACTOR_PROXIES)
 	for proxy in proxies:
 		proxy.visible = false
-		print("Found actor proxy: " + proxy.name)
+		#print("Found actor proxy: " + proxy.name)
+		if !"spawnLayerFlags" in proxy:
+			print("Proxy " + str(proxy.name) + " has no spawnLayerFlags field")
+			continue
+		if proxy.spawnLayerFlags & spawnLayerFlags == 0:
+			print("Filtered proxy " + str(proxy.name) + " by flags")
+			continue
 		if proxy.has_method("spawn"):
 			proxy.spawn()
 	_gameState = GameState.PreGame

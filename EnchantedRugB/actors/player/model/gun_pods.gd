@@ -37,7 +37,9 @@ func _physics_process(delta) -> void:
 func _fire_projectile(node:Node3D, typeObj) -> void:
 	var prj = typeObj.instantiate()
 	Zqf.get_actor_root().add_child(prj)
-	prj.get_hit_info().teamId = Game.TEAM_ID_PLAYER
+	var hitInfo:HitInfo = prj.get_hit_info()
+	hitInfo.teamId = Game.TEAM_ID_PLAYER
+	hitInfo.category = Game.DAMAGE_CATEGORY_PROJECTILE
 	prj.launch(node.global_position, -node.global_transform.basis.z)
 
 func read_input(_input:PlayerInput) -> bool:

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjm82c0wjsufw"]
+
+[ext_resource type="Script" path="res://npc/limbs/beam_limb.gd" id="1_bsrft"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_m5a1x"]
+size = Vector3(0.05, 0.05, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s3l1c"]
+albedo_color = Color(1, 0.505882, 0, 1)
+
+[node name="BeamLimb" type="Node3D"]
+script = ExtResource("1_bsrft")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+mesh = SubResource("BoxMesh_m5a1x")
+surface_material_override/0 = SubResource("StandardMaterial3D_s3l1c")

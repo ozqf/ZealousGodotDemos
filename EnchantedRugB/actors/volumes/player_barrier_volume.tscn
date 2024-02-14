@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://dhrxmyuc1c4mq"]
+
+[ext_resource type="Script" path="res://actors/volumes/player_barrier_volume.gd" id="1_j56wv"]
+[ext_resource type="Texture2D" uid="uid://cm37vy03rasim" path="res://actors/volumes/player_barrier_grid_albedo.png" id="2_qd8ph"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3m0i7"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0hyq0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kdihk"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+albedo_texture = ExtResource("2_qd8ph")
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[node name="PlayerBarrierVolume" type="StaticBody3D"]
+collision_layer = 512
+collision_mask = 512
+script = ExtResource("1_j56wv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+shape = SubResource("BoxShape3D_3m0i7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+mesh = SubResource("BoxMesh_0hyq0")
+surface_material_override/0 = SubResource("StandardMaterial3D_kdihk")

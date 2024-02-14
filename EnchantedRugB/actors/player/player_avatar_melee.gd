@@ -8,7 +8,12 @@ signal avatar_event(sourceNode, evType, dataObj)
 @onready var _meleePods = $melee_pods
 @onready var _gunPods = $gun_pods
 @onready var _hitbox:HitBox = $hitbox
+@onready var _groundRay:RayCast3D = $ground_ray_1
 
+var _rightPod:MeleePod = null
+var _leftPod:MeleePod = null
+
+var _active:bool = false
 var _meleeMode:bool = true
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -21,14 +26,47 @@ var _dashJuice:float = 99.0
 func _ready() -> void:
 	_hitbox.teamId = Game.TEAM_ID_PLAYER
 	_hitbox.connect("health_depleted", _on_health_depleted)
+	_meleePods.attach_animation_key_callback(_on_animation_key)
+
+# func attach_animation_key_callback(callable:Callable) -> void:
+# 	_meleePods.attach_animation_key_callback(callable)
+
+func set_pods(rightPod:MeleePod, leftPod:MeleePod) -> void:
+	_rightPod = rightPod
+	_leftPod = leftPod
+	_rightPod.connect("melee_pod_event", _on_melee_pod_event)
+	_leftPod.connect("melee_pod_event", _on_melee_pod_event)
 
 func teleport(_transform:Transform3D) -> void:
 	self.emit_signal("avatar_event", self, Game.AVATAR_EVENT_TYPE_TELEPORT, _transform)
+
+func _on_animation_key(_animName:String, _keyIndex:int) -> void:
+	match _keyIndex:
+		0:
+			_rightPod.fist_damage_on()
+		1:
+			_rightPod.damage_off()
+		2:
+			_leftPod.fist_damage_on()
+		3:
+			_leftPod.damage_off()
+
+func _on_melee_pod_event(_typeStr:String, _pod:MeleePod) -> void:
+	match _typeStr:
+		MeleePod.POD_EVENT_PARRIED:
+			#print("Melee Avatar saw parry from pod " + str(_pod.name))
+			# make sure pods are deactivated as we will interupt the current animation
+			_rightPod.damage_off()
+			_leftPod.damage_off()
+			_meleePods.begin_parry()
+			pass
+	pass
 
 func _on_health_depleted() -> void:
 	self.emit_signal("avatar_event", self, Game.AVATAR_EVENT_TYPE_DIED, null)
 
 func activate(resumeVelocity:Vector3, meleeMode:bool = true) -> void:
+	_active = true
 	_meleeMode = meleeMode
 	_bodyShape.disabled = false
 	#_display.visible = true
@@ -36,6 +74,7 @@ func activate(resumeVelocity:Vector3, meleeMode:bool = true) -> void:
 	_gunPods.set_show_lasers(!meleeMode)
 
 func deactivate() -> void:
+	_active = false
 	_bodyShape.disabled = true
 	_gunPods.set_show_lasers(false)
 	#_display.visible = false
@@ -52,14 +91,21 @@ func get_right_gun() -> Node3D:
 func get_left_gun() -> Node3D:
 	return _gunPods.get_left()
 
+func can_change_away() -> bool:
+	if _dashTick > 0.0:
+		return false
+	if _meleePods.is_attacking():
+		return false
+	return true
+
 func _process(_delta:float) -> void:
 	if _dashJuice < 99.0:
-		_dashJuice += (99.0 / 4) * _delta
+		_dashJuice += (99.0 / 3) * _delta
 		if _dashJuice > 99.0:
 			_dashJuice = 99.0
 
 func input_process(_input:PlayerInput, _delta:float) -> void:
-	_meleePods.update_yaw(_input.yaw)
+	_meleePods.update_rotation(_input)
 	_gunPods.update_yaw(_input.yaw)
 	_gunPods.update_aim_point(_input.aimPoint)
 
@@ -68,7 +114,7 @@ func write_hud_info(hudInfo:HudInfo) -> void:
 	hudInfo.staminaPercentage = _dashJuice
 
 func input_physics_process(_input:PlayerInput, _delta:float) -> void:
-	var isOnFloor:bool = self.is_on_floor()
+	var isOnFloor:bool = self.is_on_floor() || _groundRay.is_colliding()
 	var pushDir:Vector3 = _input.pushDir
 	if _dashTick > 0.0:
 		_dashTick -= _delta
@@ -76,10 +122,10 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 		self.move_and_slide()
 		return
 	else:
-		if _input.dash && isOnFloor && _dashJuice > 33 && !pushDir.is_zero_approx():
+		if _input.dash && isOnFloor && _dashJuice > 33 && !_meleePods.is_attacking() && !pushDir.is_zero_approx():
 			_dashJuice -= 33
-			_dashTick = 0.2
-			_hitbox.evadeTick = 0.2
+			_dashTick = 0.15
+			_hitbox.evadeTick = 0.15
 			_dashDir = pushDir.normalized()
 			velocity = _dashDir * 20.0
 			self.move_and_slide()
@@ -90,7 +136,7 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 	var curSpeed:float = self.velocity.length()
 
 	if isOnFloor:
-		if curSpeed > 7 || pushDir.is_zero_approx():
+		if curSpeed > 3 || pushDir.is_zero_approx():
 			curSpeed *= 0.85
 			curVelocity = curVelocity.limit_length(curSpeed)
 		#elif _meleePods.is_attacking():
@@ -98,7 +144,7 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 	
 	var pushStr:float = 80.0
 	if !isOnFloor:
-		pushStr = 10.0
+		pushStr = 2.0
 	elif _meleePods.is_attacking():
 		pushStr = 1.0
 		curVelocity *= 0.9

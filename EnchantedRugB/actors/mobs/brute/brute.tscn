@@ -1,16 +1,21 @@
-[gd_scene load_steps=24 format=3 uid="uid://rworqhwqrtmt"]
+[gd_scene load_steps=27 format=3 uid="uid://rworqhwqrtmt"]
 
 [ext_resource type="Script" path="res://actors/mobs/brute/brute.gd" id="1_msyx4"]
 [ext_resource type="Shape3D" uid="uid://cmcsjju7idrh4" path="res://actors/mobs/brute/brute_cylinder.tres" id="2_uprmj"]
 [ext_resource type="PackedScene" uid="uid://brg4v5wuuaaag" path="res://actors/mobs/brute/brute_model.tscn" id="3_307wd"]
-[ext_resource type="Script" path="res://actors/components/hitbox.gd" id="3_fav4l"]
+[ext_resource type="Script" path="res://actors/components/mood_aura/mesh_mood_aura.gd" id="3_ipqe5"]
 [ext_resource type="CylinderMesh" uid="uid://doo173limjd1o" path="res://actors/player/hook_shot/hook_shot_mesh.tres" id="4_0k0rj"]
+[ext_resource type="Script" path="res://actors/components/hitbox_delegate.gd" id="4_1gqno"]
 [ext_resource type="Material" uid="uid://bj8myurnk2us4" path="res://shared/object_materials/laser_sword_red.tres" id="5_sryw1"]
 [ext_resource type="Script" path="res://actors/components/mob_melee_weapon.gd" id="5_tglei"]
 [ext_resource type="Script" path="res://actors/components/actor_target_info.gd" id="5_urw3r"]
 [ext_resource type="Script" path="res://zqf/zqf_nav_agent.gd" id="6_f3odt"]
 [ext_resource type="Script" path="res://zqf/zqf_animation_key_emitter.gd" id="6_u2oi0"]
 [ext_resource type="Script" path="res://shared/nodes/launch_info.gd" id="11_uo3uo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uo8mm"]
+radius = 1.5
+height = 3.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_26tli"]
 size = Vector3(1, 1, 4.5)
@@ -461,6 +466,10 @@ _data = {
 "swing_2": SubResource("Animation_p1itd")
 }
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8sjov"]
+height = 4.0
+radius = 2.0
+
 [node name="brute" type="CharacterBody3D"]
 collision_layer = 8
 collision_mask = 9
@@ -468,15 +477,18 @@ script = ExtResource("1_msyx4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-shape = ExtResource("2_uprmj")
+shape = SubResource("CapsuleShape3D_uo8mm")
 disabled = true
 
 [node name="display" parent="." instance=ExtResource("3_307wd")]
 
+[node name="aura_mesh" parent="display" index="1"]
+script = ExtResource("3_ipqe5")
+
 [node name="hitbox" type="Area3D" parent="."]
 collision_layer = 2
 collision_mask = 2
-script = ExtResource("3_fav4l")
+script = ExtResource("4_1gqno")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -526,11 +538,19 @@ mesh = ExtResource("4_0k0rj")
 metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="pods"]
-autoplay = "idle"
 libraries = {
 "": SubResource("AnimationLibrary_hwjd5")
 }
+autoplay = "idle"
 script = ExtResource("6_u2oi0")
+
+[node name="knockback_aoe" type="Area3D" parent="."]
+collision_layer = 16
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="knockback_aoe"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("CylinderShape3D_8sjov")
 
 [node name="think_timer" type="Timer" parent="."]
 wait_time = 2.0
@@ -545,3 +565,5 @@ script = ExtResource("6_f3odt")
 
 [node name="LaunchInfo" type="Node" parent="."]
 script = ExtResource("11_uo3uo")
+
+[editable path="display"]

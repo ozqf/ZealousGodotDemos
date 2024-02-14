@@ -32,7 +32,7 @@ mesh = SubResource("CylinderMesh_v56th")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_obyom")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="aura_mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -0.2)
 mesh = SubResource("CylinderMesh_8542c")
 skeleton = NodePath("../..")

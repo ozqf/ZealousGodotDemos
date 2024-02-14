@@ -11,6 +11,6 @@ config_version=5
 [application]
 
 config/name="Godot4EnvironmentTests"
-run/main_scene="res://test_01/test_01.tscn"
+run/main_scene="res://test_03/test_03.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"

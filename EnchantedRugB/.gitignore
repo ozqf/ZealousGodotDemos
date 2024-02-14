@@ -1,2 +1,4 @@
 # Godot 4+ specific ignores
 .godot/
+/addons/godot-jolt/
+!/addons/godot-jolt/godot-jolt.gdextension

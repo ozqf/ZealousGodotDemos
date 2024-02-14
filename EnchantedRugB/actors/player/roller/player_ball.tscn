@@ -54,10 +54,10 @@ size = Vector3(0.9, 0.4, 0.9)
 
 [node name="player_ball" type="RigidBody3D"]
 collision_layer = 8
-collision_mask = 257
+collision_mask = 769
 physics_material_override = SubResource("PhysicsMaterial_nh5ca")
-continuous_cd = true
 freeze_mode = 1
+continuous_cd = true
 script = ExtResource("1_prko3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -98,3 +98,7 @@ script = ExtResource("2_8y86y")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="push_model_tracker"]
 mesh = ExtResource("3_acmx2")
+
+[node name="ground_ray" type="RayCast3D" parent="."]
+top_level = true
+target_position = Vector3(0, -0.55, 0)

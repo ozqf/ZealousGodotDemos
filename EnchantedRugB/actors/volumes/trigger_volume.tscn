@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://dvjml6g3c0l6f"]
+
+[ext_resource type="Script" path="res://actors/volumes/trigger_volume.gd" id="1_yhff3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eg65b"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ul4u3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sv57c"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0.678431, 0, 0.294118)
+
+[node name="TriggerVolume" type="Area3D"]
+collision_layer = 16
+collision_mask = 1024
+script = ExtResource("1_yhff3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_eg65b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_ul4u3")
+surface_material_override/0 = SubResource("StandardMaterial3D_sv57c")

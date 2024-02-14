@@ -22,9 +22,6 @@ var _hookShot:HookShot
 enum UserPlayMode { Unspawned, Ball, Melee, Ranged }
 var _mode:UserPlayMode = UserPlayMode.Unspawned
 
-func _ready() -> void:
-	pass
-
 func _move_trackers(target:Node3D, _cameraNode:Node3D, other:Node3D) -> void:
 	var origin:Vector3 = _cam.global_position
 	var targetPos:Vector3 = target.global_position
@@ -55,19 +52,21 @@ func _process(_delta:float) -> void:
 			_move_trackers(_melee, _cam, _ball)
 			_melee.input_process(_input, _delta)
 	
-	if Input.is_action_just_pressed("slot_1"):
-		_change_mode(UserPlayMode.Ball)
-	if Input.is_action_just_pressed("slot_2"):
-		_change_mode(UserPlayMode.Melee)
-	if Input.is_action_just_pressed("slot_3"):
-		_change_mode(UserPlayMode.Ranged)
-
-	if Input.is_action_just_pressed("character_stance"):
-		match _mode:
-			UserPlayMode.Ball:
-				_change_mode(UserPlayMode.Melee)
-			UserPlayMode.Melee:
-				_change_mode(UserPlayMode.Ball) 
+	# mode switching
+	if _can_change_mode():
+		if Input.is_action_just_pressed("slot_1"):
+			_change_mode(UserPlayMode.Ball)
+		if Input.is_action_just_pressed("slot_2"):
+			_change_mode(UserPlayMode.Melee)
+		if Input.is_action_just_pressed("slot_3"):
+			_change_mode(UserPlayMode.Ranged)
+	
+		if Input.is_action_just_pressed("character_stance"):
+			match _mode:
+				UserPlayMode.Ball:
+					_change_mode(UserPlayMode.Melee)
+				UserPlayMode.Melee:
+					_change_mode(UserPlayMode.Ball) 
 	
 	if _hookShot.is_attached():
 		_hookShot.refresh_tether(_melee.global_transform)
@@ -139,6 +138,13 @@ func _physics_process(_delta:float) -> void:
 	var fn:String = HUD.FN_HUD_BROADCAST_INFO
 	get_tree().call_group(grp, fn, _hudInfo)
 
+func _can_change_mode() -> bool:
+	match _mode:
+		UserPlayMode.Melee:
+			return _melee.can_change_away()
+		_:
+			return true
+
 func _change_mode(_newMode:UserPlayMode) -> void:
 	#print("Change mode" + str(_newMode))
 	var showAimRay:bool = false
@@ -200,10 +206,10 @@ func die() -> void:
 	Zqf.get_actor_root().add_child(corpse)
 	corpse.spawn(_melee.global_transform, _cam.get_camera_transform())
 
-func teleport(transform:Transform3D) -> void:
-	transform.origin.y += 0.5
-	_melee.global_transform = transform
-	_ball.global_transform = transform
+func teleport(newTransform:Transform3D) -> void:
+	newTransform.origin.y += 0.5
+	_melee.global_transform = newTransform
+	_ball.global_transform = newTransform
 
 func spawn(_pos:Vector3, _yaw:float = 0) -> void:
 	_pos += Vector3(0, 1, 0)
@@ -212,6 +218,16 @@ func spawn(_pos:Vector3, _yaw:float = 0) -> void:
 	_cam = _camMountType.instantiate()
 	add_child(_cam)
 	
+	_rightPod = _meleePodType.instantiate()
+	_rightPod.name = "right_pod"
+	add_child(_rightPod)
+	#_rightPod.connect("melee_pod_event", _on_melee_pod_event)
+	
+	_leftPod = _meleePodType.instantiate()
+	_leftPod.name = "left_pod"
+	add_child(_leftPod)
+	#_leftPod.connect("melee_pod_event", _on_melee_pod_event)
+	
 	_ball =  _ballAvatarType.instantiate()
 	add_child(_ball)
 	_ball.connect("avatar_event", _on_avatar_event)
@@ -219,15 +235,9 @@ func spawn(_pos:Vector3, _yaw:float = 0) -> void:
 	_melee = _meleeAvatarType.instantiate()
 	add_child(_melee)
 	_melee.connect("avatar_event", _on_avatar_event)
+	_melee.set_pods(_rightPod, _leftPod)
+	#_melee.attach_animation_key_callback(_on_animation_key)
 
-	_rightPod = _meleePodType.instantiate()
-	_rightPod.name = "right_pod"
-	add_child(_rightPod)
-	
-	_leftPod = _meleePodType.instantiate()
-	_leftPod.name = "left_pod"
-	add_child(_leftPod)
-	
 	_hookShot = _hookshotType.instantiate()
 	add_child(_hookShot)
 
