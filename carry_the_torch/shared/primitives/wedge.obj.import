@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://3e0iouw4ynsk"
+path="res://.godot/imported/wedge.obj-2ca0984d8395580e53f8b0931f901755.mesh"
+
+[deps]
+
+files=["res://.godot/imported/wedge.obj-2ca0984d8395580e53f8b0931f901755.mesh"]
+
+source_file="res://shared/primitives/wedge.obj"
+dest_files=["res://.godot/imported/wedge.obj-2ca0984d8395580e53f8b0931f901755.mesh", "res://.godot/imported/wedge.obj-2ca0984d8395580e53f8b0931f901755.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

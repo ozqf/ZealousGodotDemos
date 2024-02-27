@@ -1,6 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bfbt2g2syrph0"]
+[gd_scene load_steps=10 format=3 uid="uid://bfbt2g2syrph0"]
 
 [ext_resource type="Script" path="res://actors/player/player_avatar.gd" id="1_54sqb"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vjel2"]
+friction = 0.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_3kxjv"]
 
@@ -28,16 +31,24 @@ albedo_texture = SubResource("NoiseTexture2D_ek3uq")
 uv1_triplanar = true
 texture_filter = 2
 
-[node name="player_avatar" type="CharacterBody3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_f5aby"]
+radius = 0.6
+
+[node name="player_avatar" type="RigidBody3D"]
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+physics_material_override = SubResource("PhysicsMaterial_vjel2")
+continuous_cd = true
+max_contacts_reported = 16
+contact_monitor = true
 script = ExtResource("1_54sqb")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("SphereShape3D_3kxjv")
 metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("SphereMesh_65fqs")
 surface_material_override/0 = SubResource("StandardMaterial3D_nwk65")
 metadata/_edit_lock_ = true
@@ -60,4 +71,24 @@ metadata/_edit_lock_ = true
 [node name="RayCast3D" type="RayCast3D" parent="camera_chaser"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 target_position = Vector3(0, 2, 5)
+metadata/_edit_lock_ = true
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+billboard = 1
+text = "Line 1
+Line 2
+Line 3"
+vertical_alignment = 2
+metadata/_edit_lock_ = true
+
+[node name="ground_ray" type="RayCast3D" parent="."]
+target_position = Vector3(0, -0.7, 0)
+metadata/_edit_lock_ = true
+
+[node name="Area3D" type="Area3D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_f5aby")
 metadata/_edit_lock_ = true

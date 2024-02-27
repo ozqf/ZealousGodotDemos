@@ -1,4 +1,4 @@
-extends CharacterBody3D
+extends RigidBody3D
 
 @onready var _cameraChaser:Node3D = $camera_chaser
 @onready var _cameraBlockRay:RayCast3D = $camera_chaser/RayCast3D
@@ -13,15 +13,17 @@ func _physics_process(__delta) -> void:
 	var axisZ:float = Input.get_axis("move_forward", "move_backward")
 	var inputDir:Vector2 = Vector2(axisX, axisZ)
 	var pushDir:Vector3 = ZqfUtils.input_to_push_vector_flat(inputDir, _cameraChaser.global_transform.basis)
-	var newVelocity:Vector3 = self.velocity + (pushDir * 40) * __delta
+	var prevVelocity:Vector3 = self.linear_velocity
+	var newVelocity:Vector3 = prevVelocity + (pushDir * 40) * __delta
+	
 	if !Input.is_action_pressed("move_down"):
-		newVelocity *= 0.9
+		newVelocity *= 0.95
 	
 	if Input.is_action_just_pressed("move_up") && newVelocity.y < 10:
-		newVelocity.y = 10.0
+		newVelocity.y = 20.0
 	newVelocity.y += (-20 * __delta)
-	self.velocity = newVelocity
-	self.move_and_slide()
+	self.linear_velocity = newVelocity
+	#self.move_and_slide()
 	
 	pass
 
@@ -44,6 +46,6 @@ func _input(event) -> void:
 	degrees.y += (-motion.relative.x) * 0.2
 	_cameraChaser.rotation_degrees = degrees
 	
-	degrees = _cameraChaser.rotation_degrees
-	degrees.x += (motion.relative.y) * 0.2
-	_cameraChaser.rotation_degrees = degrees
+	#degrees = _cameraChaser.rotation_degrees
+	#degrees.x += (motion.relative.y) * 0.2
+	#_cameraChaser.rotation_degrees = degrees
