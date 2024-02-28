@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bfbt2g2syrph0"]
+[gd_scene load_steps=11 format=3 uid="uid://bfbt2g2syrph0"]
 
 [ext_resource type="Script" path="res://actors/player/player_avatar.gd" id="1_54sqb"]
 
@@ -7,9 +7,7 @@ friction = 0.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_3kxjv"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_65fqs"]
-radial_segments = 16
-rings = 8
+[sub_resource type="BoxMesh" id="BoxMesh_dqf85"]
 
 [sub_resource type="Gradient" id="Gradient_43r25"]
 colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
@@ -31,6 +29,9 @@ albedo_texture = SubResource("NoiseTexture2D_ek3uq")
 uv1_triplanar = true
 texture_filter = 2
 
+[sub_resource type="BoxMesh" id="BoxMesh_dyxs5"]
+size = Vector3(0.2, 0.5, 0.2)
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_f5aby"]
 radius = 0.6
 
@@ -48,10 +49,23 @@ script = ExtResource("1_54sqb")
 shape = SubResource("SphereShape3D_3kxjv")
 metadata/_edit_lock_ = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_65fqs")
+[node name="display" type="Node3D" parent="."]
+
+[node name="down_ray" type="RayCast3D" parent="display"]
+target_position = Vector3(0, -0.9, 0)
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="display"]
+visible = false
+mesh = SubResource("BoxMesh_dqf85")
+skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_nwk65")
 metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="display"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -0.5)
+mesh = SubResource("BoxMesh_dyxs5")
+skeleton = NodePath("../..")
 
 [node name="camera_chaser" type="Node3D" parent="."]
 top_level = true
@@ -73,7 +87,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 target_position = Vector3(0, 2, 5)
 metadata/_edit_lock_ = true
 
-[node name="Label3D" type="Label3D" parent="."]
+[node name="debug_label" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 billboard = 1
 text = "Line 1
@@ -83,7 +97,7 @@ vertical_alignment = 2
 metadata/_edit_lock_ = true
 
 [node name="ground_ray" type="RayCast3D" parent="."]
-target_position = Vector3(0, -0.7, 0)
+target_position = Vector3(0, -0.9, 0)
 metadata/_edit_lock_ = true
 
 [node name="Area3D" type="Area3D" parent="."]

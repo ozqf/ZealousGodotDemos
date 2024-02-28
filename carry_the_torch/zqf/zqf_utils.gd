@@ -95,6 +95,11 @@ static func create_node3d_instance(prefab:PackedScene, parent:Node3D, pos:Vector
 # geometry stuff
 #####################################
 
+static func align_to_surface(basis:Basis, normal:Vector3) -> Basis:
+	basis.y = normal
+	basis.x = -basis.z.cross(normal)
+	return basis.orthonormalized()
+
 static func snap_f(val:float, stepSize:float) -> float:
 	return (round(val / stepSize)) * stepSize
 
