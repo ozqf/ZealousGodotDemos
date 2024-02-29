@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bfbt2g2syrph0"]
+[gd_scene load_steps=12 format=3 uid="uid://bfbt2g2syrph0"]
 
 [ext_resource type="Script" path="res://actors/player/player_avatar.gd" id="1_54sqb"]
 
@@ -6,6 +6,9 @@
 friction = 0.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_3kxjv"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_hllom"]
+size = Vector3(0.2, 0.5, 0.2)
 
 [sub_resource type="BoxMesh" id="BoxMesh_dqf85"]
 
@@ -49,11 +52,16 @@ script = ExtResource("1_54sqb")
 shape = SubResource("SphereShape3D_3kxjv")
 metadata/_edit_lock_ = true
 
+[node name="surface_alignment_snap" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="surface_alignment_snap"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, -0.5)
+mesh = SubResource("BoxMesh_hllom")
+
 [node name="display" type="Node3D" parent="."]
 
 [node name="down_ray" type="RayCast3D" parent="display"]
-target_position = Vector3(0, -0.9, 0)
-metadata/_edit_lock_ = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="display"]
 visible = false
@@ -69,23 +77,19 @@ skeleton = NodePath("../..")
 
 [node name="camera_chaser" type="Node3D" parent="."]
 top_level = true
-metadata/_edit_lock_ = true
 
 [node name="camera_mount" type="Node3D" parent="camera_chaser"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 5)
-metadata/_edit_lock_ = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 5)
 
 [node name="Camera3D" type="Camera3D" parent="camera_chaser/camera_mount"]
 metadata/_edit_lock_ = true
 
 [node name="camera_target" type="Node3D" parent="camera_chaser"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 5)
-metadata/_edit_lock_ = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 5)
 
 [node name="RayCast3D" type="RayCast3D" parent="camera_chaser"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-target_position = Vector3(0, 2, 5)
-metadata/_edit_lock_ = true
+target_position = Vector3(0, 1.5, 5)
 
 [node name="debug_label" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
@@ -97,7 +101,6 @@ vertical_alignment = 2
 metadata/_edit_lock_ = true
 
 [node name="ground_ray" type="RayCast3D" parent="."]
-target_position = Vector3(0, -0.9, 0)
 metadata/_edit_lock_ = true
 
 [node name="Area3D" type="Area3D" parent="."]
