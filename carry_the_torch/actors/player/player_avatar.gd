@@ -1,9 +1,10 @@
 extends RigidBody3D
 
+@onready var _cameraRig:PlayerCameraRig = $camera_chaser
 @onready var _cameraChaser:Node3D = $camera_chaser
-@onready var _cameraBlockRay:RayCast3D = $camera_chaser/RayCast3D
-@onready var _cameraTarget:Node3D = $camera_chaser/camera_target
-@onready var _cameraMount:Node3D = $camera_chaser/camera_mount
+#@onready var _cameraBlockRay:RayCast3D = $camera_chaser/RayCast3D
+#@onready var _cameraTarget:Node3D = $camera_chaser/camera_target
+#@onready var _cameraMount:Node3D = $camera_chaser/camera_mount
 @onready var _debugLabel:Label3D = $debug_label
 
 @onready var _groundRay:RayCast3D = $ground_ray
@@ -34,6 +35,7 @@ func _physics_process(_delta) -> void:
 	var debugTxt:String = ""
 	
 	var surfaceNormal:Vector3 = calc_surface_normal()
+	var surfaceChanged:bool = surfaceNormal.is_equal_approx(_lastSurfaceNormal)
 	_lastSurfaceNormal = surfaceNormal
 	if _downRay.is_colliding():
 		debugTxt += "Down: " + str(_downRay.get_collision_normal()) + "\n"
@@ -46,23 +48,29 @@ func _physics_process(_delta) -> void:
 	debugTxt += "Surface: " + str(surfaceNormal) + "\n"
 	_debugLabel.text = debugTxt
 
-	#_bodyMesh.global_transform.basis = _align_to_surface_normal(_bodyMesh.global_transform.basis, surfaceNormal)
 	_surfaceSnap.global_transform.basis = ZqfUtils.align_to_surface(_surfaceSnap.global_transform.basis, surfaceNormal)
-	#var targetBasis:Basis = _surfaceSnap.global_transform.basis
-	#var newBasis:Basis = 
-	var b:Basis = _bodyMesh.global_transform.basis
-	_bodyMesh.global_transform.basis = b.slerp(_surfaceSnap.global_transform.basis, 0.1)
-	#_bodyMesh.global_transform
-	#_bodyMesh.global_transform.basis = ZqfUtils.align_to_surface(_bodyMesh.global_transform.basis, surfaceNormal)
+	var current:Basis = _bodyMesh.global_transform.basis
+	var target:Basis = current.slerp(_surfaceSnap.global_transform.basis, 0.1)
+	_bodyMesh.global_transform.basis = target
+	var t:Transform3D = _bodyMesh.global_transform
+
+
+	#var lookTarget:Vector3 = t.origin + (t.origin - _cameraMount.global_transform.origin)
+	#_bodyMesh.look_at(lookTarget, target.y)
+	#if self.linear_velocity.length_squared() > 0:
+	#	_bodyMesh.look_at()
 	
 	# align camera
-	#_cameraChaser.global_transform.basis = b.slerp(_surfaceSnap.global_transform.basis, 0.1)
-	_cameraChaser.global_transform.basis = ZqfUtils.align_to_surface(_cameraChaser.global_transform.basis, surfaceNormal)
+	#if align_with_y:
+	_cameraRig.set_surface_normal(surfaceNormal)
+	#_cameraChaser.global_transform.basis = ZqfUtils.align_to_surface(_cameraChaser.global_transform.basis, surfaceNormal)
+	#_cameraChaser.global_transform = ZqfUtils.align_with_y(_cameraChaser.global_transform, surfaceNormal)
 	
 	var axisX:float = Input.get_axis("move_left", "move_right")
 	var axisZ:float = Input.get_axis("move_forward", "move_backward")
 	var inputDir:Vector2 = Vector2(axisX, axisZ)
-	var pushDir:Vector3 = ZqfUtils.input_to_push_vector_flat(inputDir, _cameraChaser.global_transform.basis)
+	var pushBasis:Basis = _cameraRig.get_input_basis()
+	var pushDir:Vector3 = ZqfUtils.input_to_push_vector_flat(inputDir, pushBasis)
 	var prevVelocity:Vector3 = self.linear_velocity
 	var newVelocity:Vector3 = prevVelocity + (pushDir * 30) * _delta
 	
@@ -96,26 +104,26 @@ func _physics_process(_delta) -> void:
 	
 	pass
 
-func _process(_delta) -> void:
-	if !_cameraBlockRay.is_colliding():
-		_cameraMount.position = _cameraTarget.position
-	else:
-		_cameraMount.global_position = _cameraBlockRay.get_collision_point()
-	var chasePosCurrent:Vector3 = _cameraChaser.global_position
-	var chasePosTarget:Vector3 = self.global_position
-	_cameraChaser.global_position = chasePosCurrent.lerp(chasePosTarget, 0.9)
+#func _process(_delta) -> void:
+#	if !_cameraBlockRay.is_colliding():
+#		_cameraMount.position = _cameraTarget.position
+#	else:
+#		_cameraMount.global_position = _cameraBlockRay.get_collision_point()
+#	var chasePosCurrent:Vector3 = _cameraChaser.global_position
+#	var chasePosTarget:Vector3 = self.global_position
+#	_cameraChaser.global_position = chasePosCurrent.lerp(chasePosTarget, 0.9)
 
-func _input(event) -> void:
-	if Game.has_mouse_claims():
-		return
-	var motion:InputEventMouseMotion = event as InputEventMouseMotion
-	if motion == null:
-		return
-	
-	var degreesChangeX:float = (-motion.relative.x) * 0.2
-	var degreesChangeY:float = (-motion.relative.y) * 0.2
-	_cameraChaser.rotate(_cameraChaser.basis.y, degreesChangeX * ZqfUtils.DEG2RAD)
-	_cameraChaser.rotate(_cameraChaser.basis.x, degreesChangeY * ZqfUtils.DEG2RAD)
+#func _input(event) -> void:
+#	if Game.has_mouse_claims():
+#		return
+#	var motion:InputEventMouseMotion = event as InputEventMouseMotion
+#	if motion == null:
+#		return
+#	
+#	var degreesChangeX:float = (-motion.relative.x) * 0.2
+#	var degreesChangeY:float = (-motion.relative.y) * 0.2
+#	_cameraChaser.rotate(_cameraChaser.basis.y, degreesChangeX * ZqfUtils.DEG2RAD)
+#	_cameraChaser.rotate(_cameraChaser.basis.x, degreesChangeY * ZqfUtils.DEG2RAD)
 	
 	#var degrees:Vector3 = _cameraChaser.rotation_degrees
 	#degrees.y += degreesChangeX

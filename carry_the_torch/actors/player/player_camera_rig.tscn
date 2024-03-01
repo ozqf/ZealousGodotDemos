@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwbf74qvu1swc"]
+
+[ext_resource type="Script" path="res://actors/player/player_camera_rig.gd" id="1_53scc"]
+
+[node name="player_camera_rig" type="Node3D"]
+top_level = true
+script = ExtResource("1_53scc")
+
+[node name="yaw_base" type="Node3D" parent="."]
+
+[node name="pitch_base" type="Node3D" parent="yaw_base"]
+
+[node name="camera_mount" type="Node3D" parent="yaw_base/pitch_base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 5)
+
+[node name="Camera3D" type="Camera3D" parent="yaw_base/pitch_base/camera_mount"]
+metadata/_edit_lock_ = true
+
+[node name="camera_target" type="Node3D" parent="yaw_base/pitch_base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 5)
+
+[node name="RayCast3D" type="RayCast3D" parent="yaw_base/pitch_base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+target_position = Vector3(0, 1.5, 5)

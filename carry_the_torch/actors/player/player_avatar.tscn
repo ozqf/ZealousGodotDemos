@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://bfbt2g2syrph0"]
+[gd_scene load_steps=13 format=3 uid="uid://bfbt2g2syrph0"]
 
 [ext_resource type="Script" path="res://actors/player/player_avatar.gd" id="1_54sqb"]
+[ext_resource type="PackedScene" uid="uid://cwbf74qvu1swc" path="res://actors/player/player_camera_rig.tscn" id="2_ue83b"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vjel2"]
 friction = 0.0
@@ -75,21 +76,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -0.5)
 mesh = SubResource("BoxMesh_dyxs5")
 skeleton = NodePath("../..")
 
-[node name="camera_chaser" type="Node3D" parent="."]
-top_level = true
-
-[node name="camera_mount" type="Node3D" parent="camera_chaser"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 5)
-
-[node name="Camera3D" type="Camera3D" parent="camera_chaser/camera_mount"]
-metadata/_edit_lock_ = true
-
-[node name="camera_target" type="Node3D" parent="camera_chaser"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 5)
-
-[node name="RayCast3D" type="RayCast3D" parent="camera_chaser"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-target_position = Vector3(0, 1.5, 5)
+[node name="camera_chaser" parent="." instance=ExtResource("2_ue83b")]
 
 [node name="debug_label" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
