@@ -4,7 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://bfbt2g2syrph0" path="res://actors/player/player_avatar.tscn" id="1_t7xba"]
 [ext_resource type="Material" uid="uid://cpwdy0o3iwjjs" path="res://shared/world_materials/planar_noise_rock.tres" id="2_fervn"]
 [ext_resource type="ArrayMesh" uid="uid://3e0iouw4ynsk" path="res://shared/primitives/wedge.obj" id="3_dnyju"]
-[ext_resource type="ArrayMesh" uid="uid://p521ubwgmmq3" path="res://shared/primitives/quarter_pipe_small.obj" id="4_y60di"]
+[ext_resource type="PackedScene" uid="uid://bkgxsx5bu1dmm" path="res://shared/prefabs/track_twist_90.tscn" id="5_jtt76"]
+[ext_resource type="PackedScene" uid="uid://borhxeomos4ob" path="res://shared/prefabs/quarter_pipe.tscn" id="5_wqmah"]
 
 [sub_resource type="Environment" id="Environment_braqj"]
 background_mode = 1
@@ -16,8 +17,10 @@ glow_enabled = true
 fog_density = 0.0001
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_afigy"]
+size = Vector3(2000, 1, 2000)
 
 [sub_resource type="BoxMesh" id="BoxMesh_aan34"]
+size = Vector3(2000, 1, 2000)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n5y37"]
 albedo_color = Color(0, 0.196078, 1, 1)
@@ -27,9 +30,6 @@ roughness = 0.22
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_cndw7"]
 data = PackedVector3Array(0, 0, -2, 0, 4, -2, 0, 0, 2, 0, 0, 2, 0, 4, -2, 0, 4, 2, 0, 0, 2, 0, 4, 2, 4, 0, 2, 0, 0, 2, 4, 0, 2, 0, 0, -2, 0, 0, -2, 4, 0, 2, 4, 0, -2, 0, 0, -2, 4, 0, -2, 0, 4, -2, 0, 3.9999, 1.9999, 0, 3.9999, -2, 4, 0, 1.9999, 4, 0, 1.9999, 0, 3.9999, -2, 4, 0, -2)
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_qu1s5"]
-data = PackedVector3Array(0.2499, 0.2499, 1.9999, 2.75, 0.2499, 1.9999, 0, 0, 1.9999, 0, 0, 1.9999, 2.75, 0.2499, 1.9999, 4, 0, 1.9999, 0, 0, 1.9999, 4, 0, 1.9999, 0, 0, -2, 0, 0, -2, 4, 0, 1.9999, 4, 0, -2, 0, 0, -2, 4, 0, -2, 0.2499, 0.2499, -2, 0.2499, 0.2499, -2, 4, 0, -2, 2.75, 0.2499, -2, 0, 0, -2, 0, 4, -2, 0, 0, 1.9999, 0, 0, 1.9999, 0, 4, -2, 0, 4, 1.9999, 0, 4, 1.9999, 0.2499, 2.75, 1.9999, 0, 0, 1.9999, 0, 0, 1.9999, 0.2499, 2.75, 1.9999, 0.2499, 0.2499, 1.9999, 0, 0, -2, 0.2499, 0.2499, -2, 0, 4, -2, 0, 4, -2, 0.2499, 0.2499, -2, 0.2499, 2.75, -2, 0.75, 0.75, 1.9999, 1.75, 0.75, 1.9999, 0.2499, 0.2499, 1.9999, 0.2499, 0.2499, 1.9999, 1.75, 0.75, 1.9999, 2.75, 0.2499, 1.9999, 0.2499, 0.2499, -2, 2.75, 0.2499, -2, 0.75, 0.75, -2, 0.75, 0.75, -2, 2.75, 0.2499, -2, 1.75, 0.75, -2, 0.2499, 2.75, 1.9999, 0.75, 1.75, 1.9999, 0.2499, 0.2499, 1.9999, 0.2499, 0.2499, 1.9999, 0.75, 1.75, 1.9999, 0.75, 0.75, 1.9999, 0.2499, 0.2499, -2, 0.75, 0.75, -2, 0.2499, 2.75, -2, 0.2499, 2.75, -2, 0.75, 0.75, -2, 0.75, 1.75, -2, 0.75, 0.75, 1.9999, 0.75, 1.75, 1.9999, 1.75, 0.75, 1.9999, 0.75, 0.75, -2, 1.75, 0.75, -2, 0.75, 1.75, -2, 2.75, 0.2499, 1.9999, 2.75, 0.2499, -2, 4, 0, 1.9999, 4, 0, 1.9999, 2.75, 0.2499, -2, 4, 0, -2, 0, 4, -2, 0.2499, 2.75, -2, 0, 4, 1.9999, 0, 4, 1.9999, 0.2499, 2.75, -2, 0.2499, 2.75, 1.9999, 1.75, 0.75, 1.9999, 1.75, 0.75, -2, 2.75, 0.2499, 1.9999, 2.75, 0.2499, 1.9999, 1.75, 0.75, -2, 2.75, 0.2499, -2, 0.2499, 2.75, -2, 0.75, 1.75, -2, 0.2499, 2.75, 1.9999, 0.2499, 2.75, 1.9999, 0.75, 1.75, -2, 0.75, 1.75, 1.9999, 0.75, 1.75, 1.9999, 0.75, 1.75, -2, 1.75, 0.75, 1.9999, 1.75, 0.75, 1.9999, 0.75, 1.75, -2, 1.75, 0.75, -2)
 
 [node name="Sandbox" type="Node3D"]
 metadata/_edit_lock_ = true
@@ -47,6 +47,30 @@ metadata/_edit_lock_ = true
 
 [node name="world" type="Node3D" parent="."]
 metadata/_edit_lock_ = true
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 524.5, 63, 431)
+use_collision = true
+size = Vector3(81, 128, 76)
+material = ExtResource("2_fervn")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -722.5, 63, 660)
+use_collision = true
+size = Vector3(81, 128, 76)
+material = ExtResource("2_fervn")
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -722.5, 63, -413)
+use_collision = true
+size = Vector3(81, 128, 76)
+material = ExtResource("2_fervn")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 352.5, 63, -607)
+use_collision = true
+size = Vector3(81, 128, 76)
+material = ExtResource("2_fervn")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="world"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, -0.5, 0)
@@ -85,7 +109,7 @@ size = Vector3(16, 16, 16)
 material = ExtResource("2_fervn")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="world"]
-transform = Transform3D(1000, 0, 0, 0, 1, 0, 0, 0, 1000, 0, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="world/StaticBody3D"]
 shape = SubResource("BoxShape3D_afigy")
@@ -107,55 +131,47 @@ surface_material_override/1 = ExtResource("1_0rs5j")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="world/wedge/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_cndw7")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="world"]
-transform = Transform3D(-1.31134e-07, 0, 3, 0, 3, 0, -3, 0, -1.31134e-07, 19, 0, 19)
-mesh = ExtResource("4_y60di")
-surface_material_override/0 = ExtResource("2_fervn")
-surface_material_override/1 = ExtResource("1_0rs5j")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="world/MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="world/MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_qu1s5")
-
 [node name="CSGBox3D7" type="CSGBox3D" parent="world"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 65.5, 25.5, 25)
 use_collision = true
 size = Vector3(81, 53, 12)
 material = ExtResource("2_fervn")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="world"]
-transform = Transform3D(-1.31134e-07, 0, 3, 0, 3, 0, -3, 0, -1.31134e-07, 31, 0, 19)
-mesh = ExtResource("4_y60di")
-surface_material_override/0 = ExtResource("2_fervn")
-surface_material_override/1 = ExtResource("1_0rs5j")
+[node name="CSGBox3D9" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 65.5, 25.5, -70)
+use_collision = true
+size = Vector3(81, 53, 12)
+material = ExtResource("2_fervn")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="world/MeshInstance3D3"]
+[node name="CSGBox3D8" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 123.5, 41, -24)
+use_collision = true
+size = Vector3(3, 16, 80)
+material = ExtResource("2_fervn")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="world/MeshInstance3D3/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_qu1s5")
+[node name="quarter_pipe3" parent="world" instance=ExtResource("5_wqmah")]
+transform = Transform3D(-1.74846e-07, 0, 4, 0, 4, 0, -4, 0, -1.74846e-07, 98, 0, 19)
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="world"]
-transform = Transform3D(-1.31134e-07, 0, 3, 0, 3, 0, -3, 0, -1.31134e-07, 100, 0, 19)
-mesh = ExtResource("4_y60di")
-surface_material_override/0 = ExtResource("2_fervn")
-surface_material_override/1 = ExtResource("1_0rs5j")
+[node name="quarter_pipe4" parent="world" instance=ExtResource("5_wqmah")]
+transform = Transform3D(-1.5299e-07, 0, 6, 0, 3.5, 0, -3.5, 0, -2.62268e-07, 25, 0, 19)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="world/MeshInstance3D4"]
+[node name="quarter_pipe5" parent="world" instance=ExtResource("5_wqmah")]
+transform = Transform3D(-1.5299e-07, 0, -3.5, 0, 3.5, 0, 3.5, 0, -1.5299e-07, 20, 0, 31)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="world/MeshInstance3D4/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_qu1s5")
+[node name="quarter_pipe6" parent="world" instance=ExtResource("5_wqmah")]
+transform = Transform3D(-1.5299e-07, 0, -3.5, 0, 3.5, 0, 3.5, 0, -1.5299e-07, 32, 0, -64)
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="world"]
-transform = Transform3D(3.93402e-07, 0, -3, 0, 3, 0, 3, 0, 3.93402e-07, 19, 0, 31)
-mesh = ExtResource("4_y60di")
-surface_material_override/0 = ExtResource("2_fervn")
-surface_material_override/1 = ExtResource("1_0rs5j")
+[node name="quarter_pipe" parent="world" instance=ExtResource("5_wqmah")]
+transform = Transform3D(7.64274e-15, -4, -1.74846e-07, -1.74846e-07, -1.74846e-07, 4, -4, 0, -1.74846e-07, 122, 41, 19)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="world/MeshInstance3D2"]
+[node name="quarter_pipe2" parent="world" instance=ExtResource("5_wqmah")]
+transform = Transform3D(-4, 1.74846e-07, -1.74846e-07, -1.74846e-07, -1.74846e-07, 4, 1.74846e-07, 4, 1.74846e-07, 122, 41, -64)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="world/MeshInstance3D2/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_qu1s5")
+[node name="track_twist_90" parent="world" instance=ExtResource("5_jtt76")]
+transform = Transform3D(-2, 0, 3.01992e-07, 0, 2, 0, -3.01992e-07, 0, -2, -10, 15, 19)
+
+[node name="track_twist_91" parent="world" instance=ExtResource("5_jtt76")]
+transform = Transform3D(8.74228e-08, 2, -1.32005e-14, 2, -8.74228e-08, -3.01992e-07, -3.01992e-07, 0, -2, -10, 15, -13)
 
 [node name="entities" type="Node3D" parent="."]
 metadata/_edit_lock_ = true

@@ -8,13 +8,17 @@ class_name PlayerCameraRig
 @onready var _cameraMount:Node3D = $yaw_base/pitch_base/camera_mount
 
 var _surfaceNormal:Vector3 = Vector3(0, 1, 0)
+var _pitchInverted:bool = true
 
 func set_surface_normal(newNormal:Vector3) -> void:
 	_surfaceNormal = newNormal
 	self.global_transform.basis = ZqfUtils.align_to_surface(self.global_transform.basis, _surfaceNormal)
 
-func get_input_basis() -> Basis:
-	return self.global_transform.basis
+func get_surface_input_basis() -> Basis:
+	return _yawBase.global_transform.basis
+
+func get_floating_input_basis() -> Basis:
+	return _pitchBase.global_transform.basis
 
 func _process(_delta:float) -> void:
 	# move the camera on its 'track' if blocked
@@ -29,14 +33,23 @@ func _process(_delta:float) -> void:
 	self.global_position = chasePosCurrent.lerp(chasePosTarget, 0.9)
 	pass
 
-func _input(event) -> void:
+func apply_yaw_rotation(degreesYaw:float) -> void:
+	_yawBase.rotate(_yawBase.basis.y, degreesYaw * ZqfUtils.DEG2RAD)
+
+func apply_pitch_rotation(degreesPitch:float) -> void:
+	_pitchBase.rotate(_pitchBase.basis.x, degreesPitch * ZqfUtils.DEG2RAD)
+
+func on_input(event) -> void:
 	if Game.has_mouse_claims():
 		return
 	var motion:InputEventMouseMotion = event as InputEventMouseMotion
 	if motion == null:
 		return
 	
-	var degreesChangeX:float = (-motion.relative.x) * 0.2
-	var degreesChangeY:float = (-motion.relative.y) * 0.2
-	self.rotate(self.basis.y, degreesChangeX * ZqfUtils.DEG2RAD)
-	self.rotate(self.basis.x, degreesChangeY * ZqfUtils.DEG2RAD)
+	var degreesYaw:float = (-motion.relative.x) * 0.2
+	var degreesPitch:float = (-motion.relative.y) * 0.2
+	# inverted
+	if _pitchInverted:
+		degreesPitch = -degreesPitch
+	_yawBase.rotate(_yawBase.basis.y, degreesYaw * ZqfUtils.DEG2RAD)
+	_pitchBase.rotate(_pitchBase.basis.x, degreesPitch * ZqfUtils.DEG2RAD)

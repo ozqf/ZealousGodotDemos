@@ -9,7 +9,7 @@ friction = 0.0
 [sub_resource type="SphereShape3D" id="SphereShape3D_3kxjv"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_hllom"]
-size = Vector3(0.2, 0.5, 0.2)
+size = Vector3(0.5, 0.02, 0.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_dqf85"]
 
@@ -40,6 +40,7 @@ size = Vector3(0.2, 0.5, 0.2)
 radius = 0.6
 
 [node name="player_avatar" type="RigidBody3D"]
+collision_layer = 2
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
@@ -56,8 +57,17 @@ metadata/_edit_lock_ = true
 [node name="surface_alignment_snap" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="surface_alignment_snap"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, -0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35, 0)
 mesh = SubResource("BoxMesh_hllom")
+
+[node name="debug_label" type="Label3D" parent="surface_alignment_snap"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+billboard = 1
+text = "Line 1
+Line 2
+Line 3"
+vertical_alignment = 2
+metadata/_edit_lock_ = true
 
 [node name="display" type="Node3D" parent="."]
 
@@ -78,21 +88,13 @@ skeleton = NodePath("../..")
 
 [node name="camera_chaser" parent="." instance=ExtResource("2_ue83b")]
 
-[node name="debug_label" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-billboard = 1
-text = "Line 1
-Line 2
-Line 3"
-vertical_alignment = 2
-metadata/_edit_lock_ = true
-
 [node name="ground_ray" type="RayCast3D" parent="."]
 metadata/_edit_lock_ = true
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="surface_area_sensor" type="Area3D" parent="."]
+collision_layer = 4
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="surface_area_sensor"]
 shape = SubResource("SphereShape3D_f5aby")
 metadata/_edit_lock_ = true
