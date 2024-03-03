@@ -219,4 +219,4 @@ transform = Transform3D(8.74228e-08, 2, -1.32005e-14, 2, -8.74228e-08, -3.01992e
 metadata/_edit_lock_ = true
 
 [node name="player_avatar" parent="entities" instance=ExtResource("1_t7xba")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0.5, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.5, -11)

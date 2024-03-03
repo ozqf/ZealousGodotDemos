@@ -8,7 +8,8 @@ class_name PlayerCameraRig
 @onready var _cameraMount:Node3D = $yaw_base/pitch_base/camera_mount
 
 var _surfaceNormal:Vector3 = Vector3(0, 1, 0)
-var _pitchInverted:bool = true
+var _lastRotationTarget:Basis = Basis.IDENTITY
+#var _pitchInverted:bool = true
 
 func set_surface_normal(newNormal:Vector3) -> void:
 	_surfaceNormal = newNormal
@@ -18,13 +19,14 @@ func get_surface_input_basis() -> Basis:
 	return _yawBase.global_transform.basis
 
 func get_floating_input_basis() -> Basis:
-	return _pitchBase.global_transform.basis
+	return _lastRotationTarget
+	#return _pitchBase.global_transform.basis
 
 func _rotate_to_surface(_delta:float) -> void:
 	var current:Basis = self.global_transform.basis.orthonormalized()
 	#var target:Basis = current.slerp(_surfaceSnap.global_transform.basis, 0.3)
-	var targetRot:Basis = ZqfUtils.align_to_surface(self.global_transform.basis, _surfaceNormal)
-	var result:Basis = current.slerp(targetRot, 0.3)
+	_lastRotationTarget = ZqfUtils.align_to_surface(self.global_transform.basis, _surfaceNormal)
+	var result:Basis = current.slerp(_lastRotationTarget, 0.2)
 	self.global_transform.basis = result
 
 func _physics_process(_delta:float) -> void:
@@ -47,7 +49,7 @@ func apply_yaw_rotation(degreesYaw:float) -> void:
 	_yawBase.rotate(axis, degreesYaw * ZqfUtils.DEG2RAD)
 
 func apply_pitch_rotation(degreesPitch:float) -> void:
-	var axis:Vector3 = _yawBase.basis.y.normalized()
+	var axis:Vector3 = _pitchBase.basis.x.normalized()
 	_pitchBase.rotate(axis, degreesPitch * ZqfUtils.DEG2RAD)
 
 func apply_roll_rotation(degreesPitch:float) -> void:

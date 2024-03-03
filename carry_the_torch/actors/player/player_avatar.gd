@@ -81,7 +81,7 @@ func _physics_process(_delta) -> void:
 	else:
 		var lookTarget:Vector3 = t.origin + -_cameraRig.get_floating_input_basis().z
 		_bodyMesh.look_at(lookTarget, target.y)
-		#_surfaceSnap.look_at(lookTarget, _surfaceSnap.global_transform.basis.y)
+		_surfaceSnap.look_at(lookTarget, _surfaceSnap.global_transform.basis.y)
 	
 	# align camera
 	_cameraRig.set_surface_normal(surfaceNormal)
