@@ -96,6 +96,11 @@ static func create_node3d_instance(prefab:PackedScene, parent:Node3D, pos:Vector
 #####################################
 
 static func align_to_surface(basis:Basis, normal:Vector3) -> Basis:
+	#if normal.is_equal_approx(Vector3.BACK):
+	#	print("Align axis == Z")
+		#basis.y = normal
+		#basis.z = -basis.x.cross(normal)
+		#return basis.orthonormalized()
 	basis.y = normal
 	basis.x = -basis.z.cross(normal)
 	return basis.orthonormalized()

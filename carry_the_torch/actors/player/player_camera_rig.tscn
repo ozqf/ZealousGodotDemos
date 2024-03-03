@@ -1,13 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cwbf74qvu1swc"]
+[gd_scene load_steps=6 format=3 uid="uid://cwbf74qvu1swc"]
 
 [ext_resource type="Script" path="res://actors/player/player_camera_rig.gd" id="1_53scc"]
+[ext_resource type="CylinderMesh" uid="uid://bopghr7hrlnbx" path="res://actors/player/player_camera_yaw_gizmo_mesh.tres" id="2_3lj1c"]
 [ext_resource type="Material" uid="uid://b51qsqy4tuj5m" path="res://actors/player/mat_camera_rig_debug.tres" id="2_ppha2"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_mgqt7"]
-size = Vector3(0.1, 0.1, 5)
-
-[sub_resource type="BoxMesh" id="BoxMesh_npn7g"]
-size = Vector3(0.1, 0.5, 0.1)
+[ext_resource type="Material" uid="uid://bkrblhjq2n7uh" path="res://actors/player/mat_camera_rig_debug_2.tres" id="4_7lwtu"]
+[ext_resource type="CylinderMesh" uid="uid://cxx3go4ugj1yq" path="res://actors/player/player_camera_pitch_gizmo_mesh.tres" id="4_scm7y"]
 
 [node name="player_camera_rig" type="Node3D"]
 top_level = true
@@ -19,7 +16,8 @@ script = ExtResource("1_53scc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.5)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="yaw_base/mesh"]
-mesh = SubResource("BoxMesh_mgqt7")
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = ExtResource("2_3lj1c")
 surface_material_override/0 = ExtResource("2_ppha2")
 metadata/_edit_lock_ = true
 
@@ -27,9 +25,10 @@ metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="yaw_base/pitch_base"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
-mesh = SubResource("BoxMesh_npn7g")
+mesh = ExtResource("4_scm7y")
 skeleton = NodePath("../../mesh")
 surface_material_override/0 = ExtResource("2_ppha2")
+metadata/_edit_lock_ = true
 
 [node name="camera_mount" type="Node3D" parent="yaw_base/pitch_base"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 5)
@@ -39,7 +38,28 @@ metadata/_edit_lock_ = true
 
 [node name="camera_target" type="Node3D" parent="yaw_base/pitch_base"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 5)
+metadata/_edit_lock_ = true
 
 [node name="RayCast3D" type="RayCast3D" parent="yaw_base/pitch_base"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 target_position = Vector3(0, 1.5, 5)
+
+[node name="flying_base" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="flying_base"]
+transform = Transform3D(0.5, 0, 0, 0, -4.37114e-08, 2, 0, -1, -8.74228e-08, 0, 0, 2.5)
+mesh = ExtResource("2_3lj1c")
+surface_material_override/0 = ExtResource("4_7lwtu")
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="flying_base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 5)
+mesh = ExtResource("4_scm7y")
+surface_material_override/0 = ExtResource("4_7lwtu")
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="flying_base"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.5, 5)
+mesh = ExtResource("4_scm7y")
+surface_material_override/0 = ExtResource("4_7lwtu")
+metadata/_edit_lock_ = true

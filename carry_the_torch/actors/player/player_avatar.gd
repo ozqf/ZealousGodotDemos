@@ -1,4 +1,5 @@
 extends RigidBody3D
+class_name PlayerAvatar
 
 @onready var _cameraRig:PlayerCameraRig = $camera_chaser
 @onready var _debugLabel:Label3D = $surface_alignment_snap/debug_label
@@ -12,14 +13,19 @@ extends RigidBody3D
 
 enum MoveRegime { Surface, Jump, Gliding }
 
+var _lastMoveRegime:MoveRegime = MoveRegime.Surface
 var _lastSurfaceNormal:Vector3 = Vector3.UP
 var _isOnSurface:bool = true
 var _pitchInverted:bool = true
 
 var _paused:bool = true
 
+var _resetPos:Vector3 = Vector3()
+
 func _ready():
 	#ZqfUtils.disable_mouse_cursor()
+	_resetPos = self.global_position
+	print("Player reset pos " + str(_resetPos))
 	_refresh_pause()
 
 func calc_surface_normal(isOnSurface:bool) -> Vector3:
@@ -45,17 +51,34 @@ func _refresh_pause() -> void:
 		Game.remove_mouse_claim(self)
 
 func _reset() -> void:
-	pass
+	_lastSurfaceNormal = Vector3.UP
+	var t:Transform3D = Transform3D.IDENTITY
+	t.origin = _resetPos
+	self.global_transform = t
+	self.linear_velocity = Vector3()
+	_surfaceSnap.basis = Basis.IDENTITY
+	_cameraRig.reset()
 
 func _physics_process(_delta) -> void:
 	if Input.is_action_just_pressed("pause"):
 		_paused = !_paused
 		_refresh_pause()
 	
+	if Input.is_action_just_pressed("reset"):
+		_reset()
+	
 	var debugTxt:String = ""
 	var inputOn:bool = !Game.has_mouse_claims()
 	_isOnSurface = _surfaceSensor.has_overlapping_bodies()
 	var regime:MoveRegime = calc_move_regime()
+	if regime != _lastMoveRegime:
+		print("Regime change " + str(_lastMoveRegime) + " to " + str(regime))
+		_cameraRig.on_move_regime_change(_lastMoveRegime, regime)
+		#if regime == MoveRegime.Surface:
+		#	_cameraRig.on_glide_to_surface()
+		#elif regime == MoveRegime.Glide:
+
+	_lastMoveRegime = regime
 	var pushBasis:Basis = _cameraRig.get_input_basis(_isOnSurface)
 	var surfaceNormal:Vector3 = calc_surface_normal(_isOnSurface)
 	var surfaceChanged:bool = !surfaceNormal.is_equal_approx(_lastSurfaceNormal)
@@ -67,7 +90,7 @@ func _physics_process(_delta) -> void:
 	match regime:
 		MoveRegime.Surface:
 			if surfaceChanged:
-				print("Surface changed, " + str(_lastSurfaceNormal) + " to " + str(surfaceNormal))
+				#print("Surface changed, " + str(_lastSurfaceNormal) + " to " + str(surfaceNormal))
 				_surfaceSnap.global_transform.basis = ZqfUtils.align_to_surface(_surfaceSnap.global_transform.basis, surfaceNormal)
 			_lastSurfaceNormal = surfaceNormal
 
@@ -182,15 +205,17 @@ func _input(event) -> void:
 		degreesPitch = -degreesPitch
 	
 	if _isOnSurface:
-		_cameraRig.apply_yaw_rotation(degreesYaw)
-		_cameraRig.apply_pitch_rotation(degreesPitch)
+		_cameraRig.apply_surface_yaw(degreesYaw)
+		_cameraRig.apply_surface_pitch(degreesPitch)
 	else:
-		if Input.is_action_pressed("move_down"):
-			#_surfaceSnap.rotate(_surfaceSnap.basis.z, degreesYaw * ZqfUtils.DEG2RAD)
-			#_surfaceSnap.rotate(_surfaceSnap.basis.x, degreesPitch * ZqfUtils.DEG2RAD)
-			_cameraRig.apply_pitch_rotation(degreesPitch)
-			_cameraRig.apply_roll_rotation(degreesYaw)
-		else:
-			_cameraRig.apply_yaw_rotation(degreesYaw)
-			_cameraRig.apply_pitch_rotation(degreesPitch)
+		_cameraRig.apply_gliding_pitch(degreesPitch)
+		_cameraRig.apply_gliding_roll(degreesYaw)
+		#if Input.is_action_pressed("move_down"):
+		#	#_surfaceSnap.rotate(_surfaceSnap.basis.z, degreesYaw * ZqfUtils.DEG2RAD)
+		#	#_surfaceSnap.rotate(_surfaceSnap.basis.x, degreesPitch * ZqfUtils.DEG2RAD)
+		#	_cameraRig.apply_surface_pitch(degreesPitch)
+		#	_cameraRig.apply_gliding_roll(degreesYaw)
+		#else:
+		#	_cameraRig.apply_surface_yaw(degreesYaw)
+		#	_cameraRig.apply_surface_pitch(degreesPitch)
 	#_cameraRig.on_input(event)
