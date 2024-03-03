@@ -14,10 +14,15 @@ var _lastSurfaceNormal:Vector3 = Vector3.UP
 var _isOnSurface:bool = true
 var _pitchInverted:bool = true
 
+var _paused:bool = true
+
 func _ready():
-	ZqfUtils.disable_mouse_cursor()
+	#ZqfUtils.disable_mouse_cursor()
+	_refresh_pause()
 
 func calc_surface_normal(isOnSurface:bool) -> Vector3:
+	if !isOnSurface:
+		return _surfaceSnap.global_transform.basis.y
 	if _downRay.is_colliding():
 		return _downRay.get_collision_normal()
 	elif _groundRay.is_colliding():
@@ -25,9 +30,27 @@ func calc_surface_normal(isOnSurface:bool) -> Vector3:
 	return _lastSurfaceNormal
 	#return _cameraRig.get_floating_input_basis().y
 
+func _refresh_pause() -> void:
+	if _paused:
+		Game.add_mouse_claim(self)
+	else:
+		Game.remove_mouse_claim(self)
+
+func _reset() -> void:
+	pass
+
 func _physics_process(_delta) -> void:
-	var debugTxt:String = ""
+	if Input.is_action_just_pressed("pause"):
+		_paused = !_paused
+		_refresh_pause()
 	
+	var debugTxt:String = ""
+	var inputOn:bool = !Game.has_mouse_claims()
+
+	
+	##################################################################################
+	# orientation
+	##################################################################################
 	#var _isOnSurface:bool = _downRay.is_colliding() || _groundRay.is_colliding()
 	_isOnSurface = _surfaceSensor.has_overlapping_bodies()
 	var prevVelocity:Vector3 = self.linear_velocity
@@ -42,6 +65,7 @@ func _physics_process(_delta) -> void:
 		_surfaceSnap.global_transform.basis = ZqfUtils.align_to_surface(_surfaceSnap.global_transform.basis, surfaceNormal)
 	_lastSurfaceNormal = surfaceNormal
 	
+	#
 	_bodyMesh.global_transform.basis = _bodyMesh.global_transform.basis.orthonormalized()
 	var current:Basis = _bodyMesh.global_transform.basis.orthonormalized()
 	var target:Basis = current.slerp(_surfaceSnap.global_transform.basis, 0.3)
@@ -52,21 +76,29 @@ func _physics_process(_delta) -> void:
 	if _isOnSurface:
 		var lookTarget:Vector3 = t.origin + -pushBasis.z
 		_bodyMesh.look_at(lookTarget, target.y)
+		#var snapT:Transform3D = _surfaceSnap.global_transform.basis
+		_surfaceSnap.look_at(lookTarget, _lastSurfaceNormal)
 	else:
 		var lookTarget:Vector3 = t.origin + -_cameraRig.get_floating_input_basis().z
 		_bodyMesh.look_at(lookTarget, target.y)
+		#_surfaceSnap.look_at(lookTarget, _surfaceSnap.global_transform.basis.y)
 	
 	# align camera
 	_cameraRig.set_surface_normal(surfaceNormal)
 	
+	##################################################################################
+	# input and movement
+	##################################################################################
 	# input to world push direction
 	var axisX:float = Input.get_axis("move_left", "move_right")
 	var axisZ:float = Input.get_axis("move_forward", "move_backward")
 	var inputDir:Vector2 = Vector2(axisX, axisZ)
+	if !inputOn:
+		inputDir = Vector2.ZERO
 	var pushDir:Vector3 = ZqfUtils.input_to_push_vector_flat(inputDir, pushBasis)
 	
 	# calc push strength
-	var pushStr:float = 120 if _isOnSurface else 20
+	var pushStr:float = 120 if _isOnSurface else 60
 	var pushToApply:Vector3 = (pushDir * pushStr)
 	# scale by dot product and range to maximum
 	var maxSpeed:float = 40.0
@@ -77,7 +109,7 @@ func _physics_process(_delta) -> void:
 	
 	var drag:Vector3 = Vector3.ZERO
 	
-	if _isOnSurface:
+	if true: #_isOnSurface:
 		var drag1:Vector3 = -pushToApply * speedWeight
 		var drag2:Vector3 = (-prevVelocity.normalized()) * pushToApply.length() * speedWeight
 		drag = drag2
@@ -85,7 +117,7 @@ func _physics_process(_delta) -> void:
 	var newVelocity:Vector3 = prevVelocity + (pushToApply * _delta) + (drag * _delta)
 	
 	if _downRay.is_colliding():
-		if Input.is_action_just_pressed("move_up"):
+		if inputOn && Input.is_action_just_pressed("move_up"):
 			newVelocity += surfaceNormal * 10
 		# if the player is not on flat ground, pull them onto the surface slightly
 		# otherwise they can drift off
@@ -124,7 +156,17 @@ func _input(event) -> void:
 	# inverted?
 	if _pitchInverted:
 		degreesPitch = -degreesPitch
-	_cameraRig.apply_yaw_rotation(degreesYaw)
-	#if _isOnSurface:
-	_cameraRig.apply_pitch_rotation(degreesPitch)
+	
+	if _isOnSurface:
+		_cameraRig.apply_yaw_rotation(degreesYaw)
+		_cameraRig.apply_pitch_rotation(degreesPitch)
+	else:
+		if Input.is_action_pressed("move_down"):
+			#_surfaceSnap.rotate(_surfaceSnap.basis.z, degreesYaw * ZqfUtils.DEG2RAD)
+			#_surfaceSnap.rotate(_surfaceSnap.basis.x, degreesPitch * ZqfUtils.DEG2RAD)
+			_cameraRig.apply_pitch_rotation(degreesPitch)
+			_cameraRig.apply_roll_rotation(degreesYaw)
+		else:
+			_cameraRig.apply_yaw_rotation(degreesYaw)
+			_cameraRig.apply_pitch_rotation(degreesPitch)
 	#_cameraRig.on_input(event)

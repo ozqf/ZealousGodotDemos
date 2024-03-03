@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bfbt2g2syrph0"]
+[gd_scene load_steps=17 format=3 uid="uid://bfbt2g2syrph0"]
 
 [ext_resource type="Script" path="res://actors/player/player_avatar.gd" id="1_54sqb"]
 [ext_resource type="PackedScene" uid="uid://cwbf74qvu1swc" path="res://actors/player/player_camera_rig.tscn" id="2_ue83b"]
@@ -8,8 +8,26 @@ friction = 0.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_3kxjv"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_hllom"]
-size = Vector3(0.5, 0.02, 0.5)
+[sub_resource type="PrismMesh" id="PrismMesh_kp7rt"]
+size = Vector3(0.5, 1, 0.1)
+
+[sub_resource type="Curve" id="Curve_bmen1"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_hma14"]
+curve = SubResource("Curve_bmen1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g6tbi"]
+direction = Vector3(0, 0, 1)
+spread = 0.0
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_hma14")
+
+[sub_resource type="BoxMesh" id="BoxMesh_75hfu"]
+size = Vector3(0.5, 0.1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_dqf85"]
 
@@ -57,8 +75,14 @@ metadata/_edit_lock_ = true
 [node name="surface_alignment_snap" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="surface_alignment_snap"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35, 0)
-mesh = SubResource("BoxMesh_hllom")
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.45, 0)
+mesh = SubResource("PrismMesh_kp7rt")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="surface_alignment_snap/MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.9, 0.05)
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_g6tbi")
+draw_pass_1 = SubResource("BoxMesh_75hfu")
 
 [node name="debug_label" type="Label3D" parent="surface_alignment_snap"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
@@ -72,7 +96,6 @@ metadata/_edit_lock_ = true
 [node name="display" type="Node3D" parent="."]
 
 [node name="down_ray" type="RayCast3D" parent="display"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="display"]
 visible = false

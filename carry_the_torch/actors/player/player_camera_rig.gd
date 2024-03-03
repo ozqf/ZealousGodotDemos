@@ -12,7 +12,7 @@ var _pitchInverted:bool = true
 
 func set_surface_normal(newNormal:Vector3) -> void:
 	_surfaceNormal = newNormal
-	self.global_transform.basis = ZqfUtils.align_to_surface(self.global_transform.basis, _surfaceNormal)
+	#self.global_transform.basis = ZqfUtils.align_to_surface(self.global_transform.basis, _surfaceNormal)
 
 func get_surface_input_basis() -> Basis:
 	return _yawBase.global_transform.basis
@@ -20,7 +20,16 @@ func get_surface_input_basis() -> Basis:
 func get_floating_input_basis() -> Basis:
 	return _pitchBase.global_transform.basis
 
-func _process(_delta:float) -> void:
+func _rotate_to_surface(_delta:float) -> void:
+	var current:Basis = self.global_transform.basis.orthonormalized()
+	#var target:Basis = current.slerp(_surfaceSnap.global_transform.basis, 0.3)
+	var targetRot:Basis = ZqfUtils.align_to_surface(self.global_transform.basis, _surfaceNormal)
+	var result:Basis = current.slerp(targetRot, 0.3)
+	self.global_transform.basis = result
+
+func _physics_process(_delta:float) -> void:
+	#self.global_transform.basis = ZqfUtils.align_to_surface(self.global_transform.basis, _surfaceNormal)
+	_rotate_to_surface(_delta)
 	# move the camera on its 'track' if blocked
 	if !_cameraBlockRay.is_colliding():
 		_cameraMount.position = _cameraTarget.position
@@ -34,22 +43,28 @@ func _process(_delta:float) -> void:
 	pass
 
 func apply_yaw_rotation(degreesYaw:float) -> void:
-	_yawBase.rotate(_yawBase.basis.y, degreesYaw * ZqfUtils.DEG2RAD)
+	var axis:Vector3 = _yawBase.basis.y.normalized()
+	_yawBase.rotate(axis, degreesYaw * ZqfUtils.DEG2RAD)
 
 func apply_pitch_rotation(degreesPitch:float) -> void:
-	_pitchBase.rotate(_pitchBase.basis.x, degreesPitch * ZqfUtils.DEG2RAD)
+	var axis:Vector3 = _yawBase.basis.y.normalized()
+	_pitchBase.rotate(axis, degreesPitch * ZqfUtils.DEG2RAD)
 
-func on_input(event) -> void:
-	if Game.has_mouse_claims():
-		return
-	var motion:InputEventMouseMotion = event as InputEventMouseMotion
-	if motion == null:
-		return
-	
-	var degreesYaw:float = (-motion.relative.x) * 0.2
-	var degreesPitch:float = (-motion.relative.y) * 0.2
-	# inverted
-	if _pitchInverted:
-		degreesPitch = -degreesPitch
-	_yawBase.rotate(_yawBase.basis.y, degreesYaw * ZqfUtils.DEG2RAD)
-	_pitchBase.rotate(_pitchBase.basis.x, degreesPitch * ZqfUtils.DEG2RAD)
+func apply_roll_rotation(degreesPitch:float) -> void:
+	var axis:Vector3 = _yawBase.basis.y.normalized()
+	_yawBase.rotate(axis, degreesPitch * ZqfUtils.DEG2RAD)
+
+#func on_input(event) -> void:
+#	if Game.has_mouse_claims():
+#		return
+#	var motion:InputEventMouseMotion = event as InputEventMouseMotion
+#	if motion == null:
+#		return
+#	
+#	var degreesYaw:float = (-motion.relative.x) * 0.2
+#	var degreesPitch:float = (-motion.relative.y) * 0.2
+#	# inverted
+#	if _pitchInverted:
+#		degreesPitch = -degreesPitch
+#	_yawBase.rotate(_yawBase.basis.y, degreesYaw * ZqfUtils.DEG2RAD)
+#	_pitchBase.rotate(_pitchBase.basis.x, degreesPitch * ZqfUtils.DEG2RAD)

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://4c82s72nn4o2"]
+[gd_scene load_steps=3 format=3 uid="uid://4c82s72nn4o2"]
 
 [ext_resource type="Script" path="res://game/game_main.gd" id="1_8ffva"]
+[ext_resource type="Script" path="res://zqf/zqf_fps_label.gd" id="2_7oagc"]
 
 [node name="game_main" type="Node3D"]
 script = ExtResource("1_8ffva")
@@ -8,3 +9,18 @@ script = ExtResource("1_8ffva")
 [node name="dynamic_root" type="Node3D" parent="."]
 
 [node name="world_root" type="Node3D" parent="."]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 32.0
+script = ExtResource("2_7oagc")

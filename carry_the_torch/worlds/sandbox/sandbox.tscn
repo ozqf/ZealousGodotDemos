@@ -49,27 +49,51 @@ metadata/_edit_lock_ = true
 metadata/_edit_lock_ = true
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="world"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 524.5, 63, 431)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 832, 159, 876)
 use_collision = true
-size = Vector3(81, 128, 76)
+size = Vector3(336, 320, 248)
 material = ExtResource("2_fervn")
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="world"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -722.5, 63, 660)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -923, 134, 884.5)
 use_collision = true
-size = Vector3(81, 128, 76)
+size = Vector3(154, 270, 231)
 material = ExtResource("2_fervn")
 
 [node name="CSGBox3D12" type="CSGBox3D" parent="world"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -722.5, 63, -413)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -883, 137, -896.5)
 use_collision = true
-size = Vector3(81, 128, 76)
+size = Vector3(234, 276, 207)
+material = ExtResource("2_fervn")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -146, 306.5, -128)
+use_collision = true
+size = Vector3(40, 615, 66)
+material = ExtResource("2_fervn")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 240, 306.5, -128)
+use_collision = true
+size = Vector3(40, 615, 66)
+material = ExtResource("2_fervn")
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 240, 306.5, 166)
+use_collision = true
+size = Vector3(40, 615, 66)
+material = ExtResource("2_fervn")
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -211, 306.5, 166)
+use_collision = true
+size = Vector3(40, 615, 66)
 material = ExtResource("2_fervn")
 
 [node name="CSGBox3D13" type="CSGBox3D" parent="world"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 352.5, 63, -607)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 870.5, 111, -862)
 use_collision = true
-size = Vector3(81, 128, 76)
+size = Vector3(259, 224, 276)
 material = ExtResource("2_fervn")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="world"]
@@ -135,6 +159,24 @@ shape = SubResource("ConcavePolygonShape3D_cndw7")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 65.5, 25.5, 25)
 use_collision = true
 size = Vector3(81, 53, 12)
+material = ExtResource("2_fervn")
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -68.5, 52.5, -1)
+use_collision = true
+size = Vector3(121, 31, 12)
+material = ExtResource("2_fervn")
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -112, 111.5, -1)
+use_collision = true
+size = Vector3(34, 87, 12)
+material = ExtResource("2_fervn")
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96, 88, -6.5)
+use_collision = true
+size = Vector3(30, 4, 75)
 material = ExtResource("2_fervn")
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="world"]
