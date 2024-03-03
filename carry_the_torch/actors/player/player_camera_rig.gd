@@ -13,6 +13,9 @@ var _lastRotationTarget:Basis = Basis.IDENTITY
 
 func set_surface_normal(newNormal:Vector3) -> void:
 	_surfaceNormal = newNormal
+	#var degrees:Vector3 = _yawBase.rotation_degrees
+	#degrees.z = 0
+	#_yawBase.rotation_degrees = degrees
 	#self.global_transform.basis = ZqfUtils.align_to_surface(self.global_transform.basis, _surfaceNormal)
 
 func get_surface_input_basis() -> Basis:
@@ -22,10 +25,17 @@ func get_floating_input_basis() -> Basis:
 	return _lastRotationTarget
 	#return _pitchBase.global_transform.basis
 
+func get_input_basis(isOnSurface:bool) -> Basis:
+	if isOnSurface:
+		return _yawBase.global_transform.basis
+	else:
+		return _pitchBase.global_transform.basis
+	#return _yawBase.global_transform.basis if isOnSurface else _lastRotationTarget
+
 func _rotate_to_surface(_delta:float) -> void:
 	var current:Basis = self.global_transform.basis.orthonormalized()
 	#var target:Basis = current.slerp(_surfaceSnap.global_transform.basis, 0.3)
-	_lastRotationTarget = ZqfUtils.align_to_surface(self.global_transform.basis, _surfaceNormal)
+	_lastRotationTarget = ZqfUtils.align_to_surface(current, _surfaceNormal)
 	var result:Basis = current.slerp(_lastRotationTarget, 0.2)
 	self.global_transform.basis = result
 
@@ -53,7 +63,7 @@ func apply_pitch_rotation(degreesPitch:float) -> void:
 	_pitchBase.rotate(axis, degreesPitch * ZqfUtils.DEG2RAD)
 
 func apply_roll_rotation(degreesPitch:float) -> void:
-	var axis:Vector3 = _yawBase.basis.y.normalized()
+	var axis:Vector3 = _yawBase.basis.z.normalized()
 	_yawBase.rotate(axis, degreesPitch * ZqfUtils.DEG2RAD)
 
 #func on_input(event) -> void:

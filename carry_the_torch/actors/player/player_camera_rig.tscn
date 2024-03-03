@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://cwbf74qvu1swc"]
+[gd_scene load_steps=5 format=3 uid="uid://cwbf74qvu1swc"]
 
 [ext_resource type="Script" path="res://actors/player/player_camera_rig.gd" id="1_53scc"]
+[ext_resource type="Material" uid="uid://b51qsqy4tuj5m" path="res://actors/player/mat_camera_rig_debug.tres" id="2_ppha2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_mgqt7"]
 size = Vector3(0.1, 0.1, 5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_npn7g"]
+size = Vector3(0.1, 0.5, 0.1)
 
 [node name="player_camera_rig" type="Node3D"]
 top_level = true
@@ -16,9 +20,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.5)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="yaw_base/mesh"]
 mesh = SubResource("BoxMesh_mgqt7")
+surface_material_override/0 = ExtResource("2_ppha2")
 metadata/_edit_lock_ = true
 
 [node name="pitch_base" type="Node3D" parent="yaw_base"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="yaw_base/pitch_base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_npn7g")
+skeleton = NodePath("../../mesh")
+surface_material_override/0 = ExtResource("2_ppha2")
 
 [node name="camera_mount" type="Node3D" parent="yaw_base/pitch_base"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 5)
