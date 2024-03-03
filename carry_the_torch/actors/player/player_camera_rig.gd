@@ -42,10 +42,32 @@ func on_move_regime_change(_prev:PlayerAvatar.MoveRegime, _current:PlayerAvatar.
 			on_surface_to_glide()
 	pass
 
+func print_rotations() -> String:
+	var yawDegrees:Vector3 = _yawBase.rotation_degrees
+	var pitchDegrees:Vector3 = _pitchBase.rotation_degrees
+	var flyingDegrees:Vector3 = _flyingBase.rotation_degrees
+	return "Yaw " + str(yawDegrees) + " Pitch " + str(pitchDegrees) + " flying " + str(flyingDegrees)
+
 func on_surface_to_glide() -> void:
+	print("Rig: Surface to glide")
+	print(print_rotations())
+	var yawDegrees:Vector3 = _yawBase.rotation_degrees
+	var pitchDegrees:Vector3 = _pitchBase.rotation_degrees
+	var flyingDegrees:Vector3 = _flyingBase.rotation_degrees
+	flyingDegrees.x = pitchDegrees.x
+	flyingDegrees.y = yawDegrees.y
+	flyingDegrees.z = 0
+	_flyingBase.rotation_degrees = flyingDegrees
 	pass
 
 func on_glide_to_surface() -> void:
+	print("Rig: Glide to surface")
+	print(print_rotations())
+	var yawDegrees:Vector3 = _yawBase.rotation_degrees
+	var pitchDegrees:Vector3 = _pitchBase.rotation_degrees
+	var flyingDegrees:Vector3 = _flyingBase.rotation_degrees
+	_yawBase.rotation_degrees = Vector3(0.0, flyingDegrees.y, 0.0)
+	_pitchBase.rotation_degrees = Vector3(flyingDegrees.x, 0.0, 0.0)
 	pass
 
 func get_input_basis(isOnSurface:bool) -> Basis:
