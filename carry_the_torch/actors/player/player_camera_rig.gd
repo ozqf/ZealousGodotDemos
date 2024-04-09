@@ -5,8 +5,12 @@ class_name PlayerCameraRig
 @onready var _pitchBase:Node3D = $yaw_base/pitch_base
 @onready var _flyingBase:Node3D = $flying_base
 @onready var _cameraBlockRay:RayCast3D = $yaw_base/pitch_base/RayCast3D
-@onready var _cameraTarget:Node3D = $yaw_base/pitch_base/camera_target
-@onready var _cameraMount:Node3D = $yaw_base/pitch_base/camera_mount
+@onready var _cameraTargetGlide:Node3D = $flying_base/camera_target
+@onready var _cameraTargetFlat:Node3D = $yaw_base/pitch_base/camera_target
+@onready var _cameraMount:Node3D = $camera_mount
+
+enum RigMode { Surface, Glide }
+var _mode:RigMode = RigMode.Surface
 
 var _surfaceNormal:Vector3 = Vector3.UP
 var _lastRotationTarget:Basis = Basis.IDENTITY
@@ -49,8 +53,9 @@ func print_rotations() -> String:
 	return "Yaw " + str(yawDegrees) + " Pitch " + str(pitchDegrees) + " flying " + str(flyingDegrees)
 
 func on_surface_to_glide() -> void:
-	print("Rig: Surface to glide")
-	print(print_rotations())
+	print(str(Engine.get_physics_frames()) + "Rig: Surface to glide")
+	print(str(Engine.get_physics_frames()) + print_rotations())
+	_mode = RigMode.Glide
 	var yawDegrees:Vector3 = _yawBase.rotation_degrees
 	var pitchDegrees:Vector3 = _pitchBase.rotation_degrees
 	var flyingDegrees:Vector3 = _flyingBase.rotation_degrees
@@ -61,8 +66,9 @@ func on_surface_to_glide() -> void:
 	pass
 
 func on_glide_to_surface() -> void:
-	print("Rig: Glide to surface")
-	print(print_rotations())
+	print(str(Engine.get_physics_frames()) + "Rig: Glide to surface")
+	print(str(Engine.get_physics_frames()) + print_rotations())
+	_mode = RigMode.Surface
 	var yawDegrees:Vector3 = _yawBase.rotation_degrees
 	var pitchDegrees:Vector3 = _pitchBase.rotation_degrees
 	var flyingDegrees:Vector3 = _flyingBase.rotation_degrees
@@ -85,14 +91,27 @@ func _rotate_to_surface(_delta:float) -> void:
 	var result:Basis = _lastRotationTarget
 	self.global_transform.basis = result
 
+func _tick_camera(_delta) -> void:
+	var targetNode:Node3D = _cameraTargetFlat
+	if _mode == RigMode.Glide:
+		targetNode = _cameraTargetGlide
+	
+	var origin:Transform3D = _cameraMount.global_transform
+	var target:Transform3D = targetNode.global_transform
+	#var result:Transform3D = origin.interpolate_with(target, 0.9)
+	var result:Transform3D = target
+	_cameraMount.global_transform = result
+	# move the camera on its 'track' if blocked
+	#if !_cameraBlockRay.is_colliding():
+	#	_cameraMountFlat.position = _cameraTargetFlat.position
+	#else:
+	#	_cameraMountFlat.global_position = _cameraBlockRay.get_collision_point()
+	pass
+
 func _physics_process(_delta:float) -> void:
 	#self.global_transform.basis = ZqfUtils.align_to_surface(self.global_transform.basis, _surfaceNormal)
 	_rotate_to_surface(_delta)
-	# move the camera on its 'track' if blocked
-	if !_cameraBlockRay.is_colliding():
-		_cameraMount.position = _cameraTarget.position
-	else:
-		_cameraMount.global_position = _cameraBlockRay.get_collision_point()
+	_tick_camera(_delta)
 	
 	# move the whole rig to chase down the player
 	var chasePosCurrent:Vector3 = self.global_position

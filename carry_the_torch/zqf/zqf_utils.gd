@@ -43,6 +43,22 @@ static func look_at_safe(spatial:Node3D, target:Vector3) -> void:
 	spatial.look_at(target, up)
 	pass
 
+# TODO: Still fails sometimes. Find a better solution
+static func look_at_safe_2(spatial:Node3D, target:Vector3, up:Vector3) -> void:
+	var t:Transform3D = spatial.global_transform
+	var origin:Vector3 = t.origin
+	# TODO: ye this sometimes happens for starters
+	if origin.is_equal_approx(target):
+		print("Bad look at target")
+		return
+	
+	var lookDir:Vector3 = (target - origin).normalized()
+	var dot:float = lookDir.dot(up)
+	if dot == 1 or dot == -1:
+		up = t.basis.z
+	spatial.look_at(target, up)
+	pass
+
 static func set_forward(spatial:Node3D, forward:Vector3) -> void:
 	var tar:Vector3 = spatial.global_Transform3D.origin + forward
 	look_at_safe(spatial, tar)
@@ -596,6 +612,10 @@ static func write_string_to_file(_folder:String, _fileName:String, _data:String)
 #####################################
 # system
 #####################################
+
+static func prnt(message:String) -> void:
+	var frameTxt:String = str(Engine.get_physics_frames())
+	print(frameTxt + ": " + message)
 
 static func is_running_in_editor() -> bool:
 	return OS.has_feature("editor")

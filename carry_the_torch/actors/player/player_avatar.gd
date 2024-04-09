@@ -72,14 +72,19 @@ func _physics_process(_delta) -> void:
 	_isOnSurface = _surfaceSensor.has_overlapping_bodies()
 	var regime:MoveRegime = calc_move_regime()
 	if regime != _lastMoveRegime:
-		print("Regime change " + str(_lastMoveRegime) + " to " + str(regime))
+		if Input.is_action_pressed("debug_active"):
+			ZqfUtils.prnt("Debug stop")
+			pass
+		ZqfUtils.prnt("Regime change " + str(_lastMoveRegime) + " to " + str(regime))
 		_cameraRig.on_move_regime_change(_lastMoveRegime, regime)
 		#if regime == MoveRegime.Surface:
 		#	_cameraRig.on_glide_to_surface()
 		#elif regime == MoveRegime.Glide:
-
+	
 	_lastMoveRegime = regime
 	var pushBasis:Basis = _cameraRig.get_input_basis(_isOnSurface)
+	if !pushBasis.is_conformal():
+		ZqfUtils.prnt("Input basis is non-conformal")
 	var surfaceNormal:Vector3 = calc_surface_normal(_isOnSurface)
 	var surfaceChanged:bool = !surfaceNormal.is_equal_approx(_lastSurfaceNormal)
 
@@ -90,8 +95,11 @@ func _physics_process(_delta) -> void:
 	match regime:
 		MoveRegime.Surface:
 			if surfaceChanged:
-				#print("Surface changed, " + str(_lastSurfaceNormal) + " to " + str(surfaceNormal))
+				ZqfUtils.prnt("Surface changed, " + str(_lastSurfaceNormal) + " to " + str(surfaceNormal))
+				var pre:Basis = _surfaceSnap.global_transform.basis
 				_surfaceSnap.global_transform.basis = ZqfUtils.align_to_surface(_surfaceSnap.global_transform.basis, surfaceNormal)
+				var post:Basis = _surfaceSnap.global_transform.basis
+				ZqfUtils.prnt("\tpre " + str(pre) + " post " + str(post))
 			_lastSurfaceNormal = surfaceNormal
 
 			#
@@ -102,8 +110,13 @@ func _physics_process(_delta) -> void:
 			_bodyMesh.global_transform.basis = target
 			var t:Transform3D = _bodyMesh.global_transform
 			var lookTarget:Vector3 = t.origin + -pushBasis.z
-			_bodyMesh.look_at(lookTarget, target.y)
-			_surfaceSnap.look_at(lookTarget, _lastSurfaceNormal)
+			if t.origin.is_equal_approx(lookTarget):
+				ZqfUtils.prnt("Bad look at!")
+			
+			ZqfUtils.look_at_safe_2(_bodyMesh, lookTarget, target.y)
+			ZqfUtils.look_at_safe_2(_surfaceSnap, lookTarget, _lastSurfaceNormal)
+			#_bodyMesh.look_at(lookTarget, target.y)
+			#_surfaceSnap.look_at(lookTarget, _lastSurfaceNormal)
 			_cameraRig.set_surface_normal(surfaceNormal)
 
 		MoveRegime.Gliding:
