@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://cmtpllvkchwv0"]
+[gd_scene load_steps=21 format=3 uid="uid://cmtpllvkchwv0"]
 
 [ext_resource type="PackedScene" uid="uid://bfkojs27kx0v" path="res://test_05/assets/prefab_terrain_patch_1.tscn" id="1_uu361"]
 [ext_resource type="Texture2D" uid="uid://dn4o020egeswq" path="res://test_05/assets/cloud_layer_noise.tres" id="2_vxod7"]
 [ext_resource type="Script" path="res://test_05/assets/environment_random_lightning.gd" id="3_f3gt7"]
+[ext_resource type="Material" uid="uid://yqvoa421h18t" path="res://test_05/assets/colony_concrete_mat.tres" id="4_fovu3"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_jn3pq"]
 lightmap_size_hint = Vector2i(10002, 10002)
@@ -108,9 +109,9 @@ _data = {
 "idle": SubResource("Animation_7k1dx")
 }
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_sxwa8"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_loqn0"]
 top_radius = 24.0
-bottom_radius = 24.0
+bottom_radius = 72.0
 height = 48.0
 radial_segments = 16
 rings = 1
@@ -120,12 +121,13 @@ colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5dxdn"]
 noise_type = 2
-frequency = 0.0066
-fractal_type = 3
-fractal_octaves = 2
+frequency = 0.0327
+fractal_type = 0
+fractal_octaves = 4
 fractal_gain = 1.0
 fractal_weighted_strength = 1.0
-cellular_distance_function = 2
+cellular_distance_function = 1
+domain_warp_type = 1
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jmc1f"]
 seamless = true
@@ -139,6 +141,13 @@ emission = Color(1, 0, 0, 1)
 emission_energy_multiplier = 3.0
 emission_operator = 1
 emission_texture = SubResource("NoiseTexture2D_jmc1f")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_sxwa8"]
+top_radius = 24.0
+bottom_radius = 24.0
+height = 48.0
+radial_segments = 16
+rings = 1
 
 [node name="Test05" type="Node3D"]
 
@@ -194,6 +203,39 @@ autoplay = "idle"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 108, 23, -534)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="tower"]
+mesh = SubResource("CylinderMesh_loqn0")
+surface_material_override/0 = SubResource("StandardMaterial3D_1y0xa")
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="tower"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 48, 0)
 mesh = SubResource("CylinderMesh_sxwa8")
 surface_material_override/0 = SubResource("StandardMaterial3D_1y0xa")
 metadata/_edit_lock_ = true
+
+[node name="base" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 9, 24)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7, -0.3, 3.5)
+light_energy = 2.0
+shadow_enabled = true
+omni_range = 8.0
+omni_attenuation = 0.378929
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.9, -0.3, -2.4)
+light_energy = 2.0
+shadow_enabled = true
+omni_range = 8.0
+omni_attenuation = 0.378929
+
+[node name="csg_box" type="CSGBox3D" parent="base"]
+size = Vector3(20, 10, 20)
+material = ExtResource("4_fovu3")
+
+[node name="csg_box2" type="CSGBox3D" parent="base/csg_box"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -2, 0.5)
+operation = 2
+size = Vector3(8, 6, 5)
+material = ExtResource("4_fovu3")
