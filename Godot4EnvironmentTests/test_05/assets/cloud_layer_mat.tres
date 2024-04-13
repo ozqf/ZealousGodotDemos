@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://doiiyetqkdh2k"]
+
+[ext_resource type="Shader" path="res://test_05/assets/cloud_layer_shader.gdshader" id="1_cbhrp"]
+[ext_resource type="Texture2D" uid="uid://dn4o020egeswq" path="res://test_05/assets/cloud_layer_noise.tres" id="2_36o8e"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_cbhrp")
+shader_parameter/albedo = ExtResource("2_36o8e")
