@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cb31q8iiisu30"]
+
+[ext_resource type="Script" path="res://game/game.gd" id="1_natrj"]
+
+[node name="GameMain" type="Node3D"]
+script = ExtResource("1_natrj")
+
+[node name="world_root" type="Node3D" parent="."]

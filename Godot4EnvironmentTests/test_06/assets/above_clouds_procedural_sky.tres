@@ -3,4 +3,7 @@
 [resource]
 sky_top_color = Color(0.121569, 0.152941, 0.196078, 1)
 sky_horizon_color = Color(0.380392, 0.384314, 0.4, 1)
-sun_angle_max = 45.0
+ground_bottom_color = Color(0.392157, 0.337255, 0.278431, 1)
+ground_horizon_color = Color(0.380392, 0.384314, 0.4, 1)
+sun_angle_max = 25.0
+use_debanding = false

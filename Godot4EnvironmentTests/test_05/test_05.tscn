@@ -43,6 +43,7 @@ emission_energy_multiplier = 0.5
 texture_filter = 2
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oyalp"]
+particle_flag_rotate_y = true
 emission_shape_offset = Vector3(0, 24, 0)
 emission_shape_scale = Vector3(24, 24, 24)
 emission_shape = 3
@@ -53,8 +54,10 @@ initial_velocity_min = 15.0
 initial_velocity_max = 40.0
 gravity = Vector3(0, 0, 0)
 
-[sub_resource type="BoxMesh" id="BoxMesh_efvbx"]
-size = Vector3(0.02, 0.3, 0.02)
+[sub_resource type="CylinderMesh" id="CylinderMesh_n3e0m"]
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.3
 
 [sub_resource type="Animation" id="Animation_26vr3"]
 length = 0.001
@@ -181,7 +184,7 @@ amount = 3000
 lifetime = 2.0
 visibility_aabb = AABB(-47, -24, -40, 94, 48, 80)
 process_material = SubResource("ParticleProcessMaterial_oyalp")
-draw_pass_1 = SubResource("BoxMesh_efvbx")
+draw_pass_1 = SubResource("CylinderMesh_n3e0m")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.2064, 36, 29.0037)

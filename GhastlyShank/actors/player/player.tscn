@@ -27,23 +27,6 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, -0.130526, 0.991445, 0.0001, 1, 0.00569347, -0.0432462, -0.130402, 0.990501)
 
-[sub_resource type="Animation" id="Animation_q5cs4"]
-resource_name = "zero"
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("root")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array()
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("root")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array()
-
 [sub_resource type="Animation" id="Animation_3nmtw"]
 resource_name = "swing_right_to_left"
 length = 1.2
@@ -61,6 +44,23 @@ tracks/1/path = NodePath("root")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, 0.279968, -0.292313, -0.564951, 0.719028, 0.1, 1, -0.0356173, 0.0349964, -0.621929, 0.78148, 0.2, 1, 0.610489, -0.599764, 0.365417, -0.366138, 0.4, 1, 0.692333, -0.681888, 0.168152, -0.165615, 0.8, 1, -0.0356173, 0.0349964, -0.621928, 0.78148, 1.2, 1, 0.279968, -0.292313, -0.564951, 0.719028)
+
+[sub_resource type="Animation" id="Animation_q5cs4"]
+resource_name = "zero"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("root")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array()
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("root")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array()
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a0r4c"]
 _data = {
