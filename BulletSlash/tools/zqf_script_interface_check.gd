@@ -39,6 +39,14 @@ func _get_interfaces() -> Dictionary:
 			"func hit(info:HitInfo) -> int:",
 			"func get_team_id() -> int:"
 		],
+		IActor = [
+			"func get_id() -> String:",
+			"func teleport(t:Transform3D) -> void:"
+		],
+		IMob = [
+			"func get_spawn_info() -> MobSpawnInfo:",
+			"func spawn() -> void:"
+		],
 		IProjectile = [
 			"func launch() -> void:",
 			"func get_launch_info() -> ProjectileLaunchInfo:",
@@ -172,7 +180,7 @@ func _check_implementation(
 		if result.size() > 0:
 			var a:String = _packed_array_to_csv(interface)
 			var b:String = _packed_array_to_csv(implementation)
-			print(">>> Issues on '" + key + "': " + a + " vs " + b)
+			print(">>> Issues on '" + key + "': " + a + " vs " + b + " in " + str(scriptName))
 		for issue in result:
 			print("\t" + issue)
 

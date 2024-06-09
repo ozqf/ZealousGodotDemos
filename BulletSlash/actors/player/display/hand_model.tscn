@@ -1,9 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://5srxb2iaaih4"]
 
-[ext_resource type="SphereMesh" uid="uid://babktp3btotnr" path="res://shared/primitives/lofi_sphere.tres" id="1_gipq2"]
+[sub_resource type="PrismMesh" id="PrismMesh_aducr"]
+size = Vector3(0.5, 1, 0.4)
 
 [node name="hand_model" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.3, 0, 0, 0)
-mesh = ExtResource("1_gipq2")
+transform = Transform3D(0.2, 0, 0, 0, -8.74228e-09, 0.3, 0, -0.2, -1.31134e-08, 0, 0, 0)
+mesh = SubResource("PrismMesh_aducr")

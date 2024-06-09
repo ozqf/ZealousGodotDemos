@@ -11,6 +11,7 @@ var _groundPlane:Plane = Plane()
 
 var _targetInfo:TargetInfo
 var _lastAimPoint:Vector3 = Vector3()
+var _animationRepeatPosition:float = 0.0
 
 func _ready() -> void:
 	_targetInfo = Game.new_target_info()
@@ -30,6 +31,20 @@ func _on_area_entered_left_baton(_area:Area3D) -> void:
 func _set_area_on(area:Area3D, flag:bool) -> void:
 	area.monitoring = flag
 	area.monitorable = flag
+
+func check_animation_loop() -> void:
+	if !Input.is_action_pressed("attack_3"):
+		return
+	match _animator.current_animation:
+		"punch_spin_test":
+			_animator.seek(0.2)
+		"double_spin_chain":
+			print("Repeat from " + str(_animationRepeatPosition))
+			_animator.seek(_animationRepeatPosition, true, true)
+
+func mark_repeat_time() -> void:
+	_animationRepeatPosition = _animator.current_animation_position
+	print("Mark repeat " + str(_animationRepeatPosition))
 
 func right_baton_on() -> void:
 	_set_area_on(_rightBatonArea, true)
@@ -84,10 +99,10 @@ func _process(_delta:float) -> void:
 
 func _physics_process(_delta:float) -> void:
 	
-	if _animator.current_animation == "punch_spin_test":
-		var pos:float = _animator.current_animation_position
-		if Input.is_action_pressed("attack_3") && pos >= 0.4 && pos <= 0.45:
-			_animator.seek(0.2)
+	#if _animator.current_animation == "punch_spin_test":
+	#	var pos:float = _animator.current_animation_position
+	#	if Input.is_action_pressed("attack_3") && pos >= 0.4 && pos <= 0.45:
+	#		_animator.seek(0.2)
 	
 	var isAttacking:bool = is_view_locked()
 	
@@ -102,7 +117,7 @@ func _physics_process(_delta:float) -> void:
 	
 	if !isAttacking && Input.is_action_just_pressed("attack_3"):
 		look_at_aim_point()
-		_animator.play("punch_spin_test")
+		_animator.play("double_spin_chain")
 		_animator.queue("punch_idle")
 	
 	if !is_view_locked():
