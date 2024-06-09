@@ -5,6 +5,8 @@ class_name PlayerAvatar
 @onready var _aimPlanePos:Node3D = $aim_plane_pos
 @onready var _display:Node3D = $display
 @onready var _animator:AnimationPlayer = $display/AnimationPlayer
+@onready var _rightBatonArea:Area3D = $display/right_hand/right_baton/hitbox
+@onready var _leftBatonArea:Area3D = $display/left_hand/left_baton/hitbox
 var _groundPlane:Plane = Plane()
 
 var _targetInfo:TargetInfo
@@ -13,9 +15,33 @@ var _lastAimPoint:Vector3 = Vector3()
 func _ready() -> void:
 	_targetInfo = Game.new_target_info()
 	_animator.play("punch_idle")
+	_rightBatonArea.connect("area_entered", _on_area_entered_right_baton)
+	_leftBatonArea.connect("area_entered", _on_area_entered_left_baton)
 	var grp = Game.GROUP_GAME_EVENTS
 	var fn = Game.GAME_EVENT_FN_PLAYER_SPAWNED
 	get_tree().call_group(grp, fn, self)
+
+func _on_area_entered_right_baton(_area:Area3D) -> void:
+	print("Right baton hit")
+
+func _on_area_entered_left_baton(_area:Area3D) -> void:
+	print("Left baton hit")
+
+func _set_area_on(area:Area3D, flag:bool) -> void:
+	area.monitoring = flag
+	area.monitorable = flag
+
+func right_baton_on() -> void:
+	_set_area_on(_rightBatonArea, true)
+
+func right_baton_off() -> void:
+	_set_area_on(_rightBatonArea, false)
+
+func left_baton_on() -> void:
+	_set_area_on(_leftBatonArea, true)
+
+func left_baton_off() -> void:
+	_set_area_on(_leftBatonArea, false)
 
 func get_target_info() -> TargetInfo:
 	return _targetInfo
@@ -57,6 +83,11 @@ func _process(_delta:float) -> void:
 		look_at_aim_point()
 
 func _physics_process(_delta:float) -> void:
+	
+	if _animator.current_animation == "punch_spin_test":
+		var pos:float = _animator.current_animation_position
+		if Input.is_action_pressed("attack_3") && pos >= 0.4 && pos <= 0.45:
+			_animator.seek(0.2)
 	
 	var isAttacking:bool = is_view_locked()
 	
