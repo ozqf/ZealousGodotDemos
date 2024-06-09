@@ -1,5 +1,6 @@
 #@implements IHittable
 extends Node
+class_name HitDelegate
 
 var _subject:Node = null
 

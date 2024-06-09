@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bjsu0t558qewd"]
+[gd_scene load_steps=9 format=3 uid="uid://c3uuiral8t8w7"]
 
-[ext_resource type="Script" path="res://actors/mobs/mob_base.gd" id="1_3s4xd"]
-[ext_resource type="Script" path="res://shared/nodes/mob_spawn_info.gd" id="2_bakfg"]
+[ext_resource type="Script" path="res://actors/mobs/dummy/mob_dummy.gd" id="1_a0m4j"]
+[ext_resource type="Script" path="res://shared/nodes/hit_delegate.gd" id="2_dgwus"]
+[ext_resource type="Script" path="res://shared/nodes/mob_spawn_info.gd" id="2_mirhw"]
+[ext_resource type="Material" uid="uid://baoycrwbfxk6e" path="res://shared/materials/dev/mat_emissive_red.tres" id="4_3fh6w"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kgw7o"]
 radius = 0.8
@@ -13,16 +15,20 @@ radius = 0.7
 [sub_resource type="BoxMesh" id="BoxMesh_4vigi"]
 size = Vector3(1, 1.8, 1)
 
+[sub_resource type="PrismMesh" id="PrismMesh_fldvh"]
+size = Vector3(1, 0.2, 1)
+
 [node name="MobFodder" type="CharacterBody3D"]
 collision_layer = 8
 collision_mask = 9
-script = ExtResource("1_3s4xd")
+script = ExtResource("1_a0m4j")
 
 [node name="hitbox" type="Area3D" parent="."]
 collision_layer = 2
 collision_mask = 4
 monitoring = false
 monitorable = false
+script = ExtResource("2_dgwus")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
@@ -34,12 +40,16 @@ shape = SubResource("CapsuleShape3D_qqosc")
 disabled = true
 
 [node name="MobSpawnInfo" type="Node" parent="."]
-script = ExtResource("2_bakfg")
+script = ExtResource("2_mirhw")
 
 [node name="display" type="Node3D" parent="."]
-visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="display"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 mesh = SubResource("BoxMesh_4vigi")
 skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="display"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.3, -0.6)
+mesh = SubResource("PrismMesh_fldvh")
+surface_material_override/0 = ExtResource("4_3fh6w")

@@ -13,7 +13,12 @@ var _targetInfo:TargetInfo
 var _lastAimPoint:Vector3 = Vector3()
 var _animationRepeatPosition:float = 0.0
 
+var _hitInfo:HitInfo
+
+var _dashInput:Vector2 = Vector2()
+
 func _ready() -> void:
+	_hitInfo = Game.new_hit_info()
 	_targetInfo = Game.new_target_info()
 	_animator.play("punch_idle")
 	_rightBatonArea.connect("area_entered", _on_area_entered_right_baton)
@@ -23,11 +28,13 @@ func _ready() -> void:
 	get_tree().call_group(grp, fn, self)
 
 func _on_area_entered_right_baton(_area:Area3D) -> void:
-	print("Right baton hit")
+	var result:int = Game.try_hit(_hitInfo, _area)
+	print("Right baton hit result " + str(result))
 
 func _on_area_entered_left_baton(_area:Area3D) -> void:
-	print("Left baton hit")
-
+	var result:int = Game.try_hit(_hitInfo, _area)
+	print("Left baton hit " + str(result))
+	
 func _set_area_on(area:Area3D, flag:bool) -> void:
 	area.monitoring = flag
 	area.monitorable = flag
@@ -39,12 +46,12 @@ func check_animation_loop() -> void:
 		"punch_spin_test":
 			_animator.seek(0.2)
 		"double_spin_chain":
-			print("Repeat from " + str(_animationRepeatPosition))
+			#print("Repeat from " + str(_animationRepeatPosition))
 			_animator.seek(_animationRepeatPosition, true, true)
 
 func mark_repeat_time() -> void:
 	_animationRepeatPosition = _animator.current_animation_position
-	print("Mark repeat " + str(_animationRepeatPosition))
+	#print("Mark repeat " + str(_animationRepeatPosition))
 
 func right_baton_on() -> void:
 	_set_area_on(_rightBatonArea, true)
@@ -84,27 +91,28 @@ func is_view_locked() -> bool:
 		_:
 			return true
 
-func _process(_delta:float) -> void:
-	_groundPlane.normal = Vector3.UP
-	_groundPlane.d = _aimPlanePos.global_position.y
-	var mouse_pos = get_viewport().get_mouse_position()
-	var camera:Camera3D = get_viewport().get_camera_3d()
-	var origin = camera.project_ray_origin(mouse_pos)
-	var direction = camera.project_ray_normal(mouse_pos)
-	_lastAimPoint = _groundPlane.intersects_ray(origin, direction)
-	_cursor.global_position = _lastAimPoint
-	
-	if !is_view_locked():
-		look_at_aim_point()
+func _step_dash(_delta:float) -> void:
+	var move:Vector3 = Vector3(_dashInput.x, 0, _dashInput.y) * 12.0
+	self.velocity = move
+	self.move_and_slide()
 
 func _physics_process(_delta:float) -> void:
 	
-	#if _animator.current_animation == "punch_spin_test":
-	#	var pos:float = _animator.current_animation_position
-	#	if Input.is_action_pressed("attack_3") && pos >= 0.4 && pos <= 0.45:
-	#		_animator.seek(0.2)
 	
-	var isAttacking:bool = is_view_locked()
+	var viewLocked:bool = is_view_locked()
+	var inputVec:Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	if _animator.current_animation == "punch_dash":
+		_step_dash(_delta)
+		return
+		
+	if Input.is_action_just_pressed("dash") && !viewLocked:
+		_dashInput = inputVec
+		_animator.play("punch_dash")
+		_animator.queue("punch_idle")
+		_step_dash(_delta)
+		return
+	
+	var isAttacking:bool = viewLocked
 	
 	if !isAttacking && Input.is_action_just_pressed("attack_1"):
 		look_at_aim_point()
@@ -120,8 +128,20 @@ func _physics_process(_delta:float) -> void:
 		_animator.play("double_spin_chain")
 		_animator.queue("punch_idle")
 	
-	if !is_view_locked():
-		var vec:Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-		var move:Vector3 = Vector3(vec.x, 0, vec.y) * 5.0
+	if !viewLocked:
+		var move:Vector3 = Vector3(inputVec.x, 0, inputVec.y) * 5.0
 		self.velocity = move
 		self.move_and_slide()
+
+func _process(_delta:float) -> void:
+	_groundPlane.normal = Vector3.UP
+	_groundPlane.d = _aimPlanePos.global_position.y
+	var mouse_pos = get_viewport().get_mouse_position()
+	var camera:Camera3D = get_viewport().get_camera_3d()
+	var origin = camera.project_ray_origin(mouse_pos)
+	var direction = camera.project_ray_normal(mouse_pos)
+	_lastAimPoint = _groundPlane.intersects_ray(origin, direction)
+	_cursor.global_position = _lastAimPoint
+	
+	if !is_view_locked():
+		look_at_aim_point()

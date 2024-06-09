@@ -5,11 +5,16 @@ const GROUP_GAME_EVENTS:String = "game_events"
 const GAME_EVENT_FN_PLAYER_SPAWNED:String = "game_event_player_spawned"
 const GAME_EVENT_FN_PLAYER_DESPAWNED:String = "game_event_player_despawned"
 
+const TEAM_ID_NONE:int = 0
+const TEAM_ID_ENEMY:int = 1
+const TEAM_ID_PLAYER:int = 2
+
 # dto types
-var _targetInfoType = preload("res://dtos/target_info.gd")
-var _hitInfoType = preload("res://dtos/hit_info.gd")
+var _targetInfoType = preload("res://shared/info/target_info.gd")
+var _hitInfoType = preload("res://shared/info/hit_info.gd")
 
 # mob types
+var _mobDummyType = preload("res://actors/mobs/dummy/mob_dummy.tscn")
 var _mobFodderType = preload("res://actors/mobs/fodder/mob_fodder.tscn")
 
 var _sandboxWorld:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
@@ -37,6 +42,11 @@ func new_hit_info() -> HitInfo:
 # spawning
 ####################################################
 
+func spawn_mob_dummy() -> Node3D:
+	var mob = _mobDummyType.instantiate() as Node3D
+	_worldRoot.add_child(mob)
+	return mob
+
 func spawn_mob_fodder() -> Node3D:
 	var mob = _mobFodderType.instantiate() as Node3D
 	_worldRoot.add_child(mob)
@@ -51,6 +61,14 @@ func game_event_player_spawned(plyr:PlayerAvatar) -> void:
 
 func game_event_player_despawned(plyr:PlayerAvatar) -> void:
 	_avatar = null
+
+####################################################
+# interactions
+####################################################
+func try_hit(_hitInfo:HitInfo, hitbox:Area3D) -> int:
+	if hitbox.has_method("hit"):
+		return hitbox.hit(_hitInfo)
+	return -1
 
 ####################################################
 # queries

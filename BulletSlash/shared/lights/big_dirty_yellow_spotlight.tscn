@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bpdtm27vex58t"]
+
+[node name="big_dirty_yellow_spotlight" type="SpotLight3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, -5)
+light_color = Color(0.878578, 0.868799, 0, 1)
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 30.0

@@ -25,17 +25,7 @@ var verbose:bool = false
 # declare the interface in this dictionary below
 func _get_interfaces() -> Dictionary:
 	var interfacesRaw = {
-		ifoo = [
-			"func get_foo(a:int, b:float, c:Node3D, d) -> int:",
-			"func set_foo(b) -> void:",
-			"func a():",
-			"func b() -> float:"
-		],
-		ibar = [
-			"func a():",
-			"func b() -> float:"
-		],
-		IHittable = [
+		IHitbox = [
 			"func hit(info:HitInfo) -> int:",
 			"func get_team_id() -> int:"
 		],
