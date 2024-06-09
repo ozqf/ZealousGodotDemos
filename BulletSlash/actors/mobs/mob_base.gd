@@ -11,7 +11,7 @@ func _run_spawn() -> void:
 	print("MobBase run spawn")
 	var t:Transform3D = Transform3D.IDENTITY
 	t.origin = _spawnInfo.t.origin
-	self.global_transform = t
+	self.global_transform = _spawnInfo.t
 	_bodyShape.disabled = false
 	_hitbox.monitorable = true
 	_hitbox.monitoring = true

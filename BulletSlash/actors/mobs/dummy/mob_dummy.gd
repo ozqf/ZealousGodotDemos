@@ -14,7 +14,8 @@ func hit(_hitInfo) -> int:
 	_bounceTick = 0.0
 	_bounceTime = 0.5
 	_bounceDisplayT = _originDisplayT
-	_bounceDisplayT = _bounceDisplayT.rotated(Vector3.RIGHT, deg_to_rad(45.0))
+	var bounceAxis:Vector3 = _hitInfo.direction.cross(Vector3.UP).normalized()
+	_bounceDisplayT = _bounceDisplayT.rotated(bounceAxis, deg_to_rad(45.0))
 	return 0
 
 func _process(_delta:float) -> void:

@@ -17,6 +17,9 @@ var _hitInfoType = preload("res://shared/info/hit_info.gd")
 var _mobDummyType = preload("res://actors/mobs/dummy/mob_dummy.tscn")
 var _mobFodderType = preload("res://actors/mobs/fodder/mob_fodder.tscn")
 
+# projectile types
+var _prjBasicType = preload("res://actors/projectiles/basic/prj_basic.tscn")
+
 var _sandboxWorld:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 
 @onready var _worldRoot:Node3D = $world_root
@@ -51,6 +54,11 @@ func spawn_mob_fodder() -> Node3D:
 	var mob = _mobFodderType.instantiate() as Node3D
 	_worldRoot.add_child(mob)
 	return mob
+
+func spawn_prj_basic() -> PrjBasic:
+	var prj = _prjBasicType.instantiate() as PrjBasic
+	_worldRoot.add_child(prj)
+	return prj
 
 ####################################################
 # registers

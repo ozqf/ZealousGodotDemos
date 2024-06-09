@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=3 uid="uid://b7id2ohxu2y0e"]
+
+[ext_resource type="SphereMesh" uid="uid://babktp3btotnr" path="res://shared/primitives/lofi_sphere.tres" id="1_2y4rc"]
+[ext_resource type="Script" path="res://actors/projectiles/basic/prj_basic.gd" id="1_uonkb"]
+[ext_resource type="Material" uid="uid://bopi5pm0iwq1w" path="res://shared/materials/dev/mat_emissive_yellow.tres" id="2_dngp5"]
+[ext_resource type="Script" path="res://shared/nodes/projectile_launch_info.gd" id="3_g4pwh"]
+
+[sub_resource type="Curve" id="Curve_1tfvq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_y5r7j"]
+curve = SubResource("Curve_1tfvq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3748t"]
+particle_flag_align_y = true
+direction = Vector3(0, 0, 1)
+spread = 0.0
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_y5r7j")
+
+[sub_resource type="TorusMesh" id="TorusMesh_7bs2f"]
+inner_radius = 0.15
+outer_radius = 0.2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_17vui"]
+
+[node name="PrjBasic" type="Area3D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_uonkb")
+
+[node name="display" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="display"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = ExtResource("1_2y4rc")
+surface_material_override/0 = ExtResource("2_dngp5")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="display"]
+material_override = ExtResource("2_dngp5")
+amount = 16
+lifetime = 1.5
+process_material = SubResource("ParticleProcessMaterial_3748t")
+draw_pass_1 = SubResource("TorusMesh_7bs2f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_17vui")
+
+[node name="ProjectileLaunchInfo" type="Node" parent="."]
+script = ExtResource("3_g4pwh")

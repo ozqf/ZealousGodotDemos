@@ -17,6 +17,8 @@ var _hitInfo:HitInfo
 
 var _dashInput:Vector2 = Vector2()
 
+var _refireTick:float = 0.0
+
 func _ready() -> void:
 	_hitInfo = Game.new_hit_info()
 	_targetInfo = Game.new_target_info()
@@ -28,10 +30,18 @@ func _ready() -> void:
 	get_tree().call_group(grp, fn, self)
 
 func _on_area_entered_right_baton(_area:Area3D) -> void:
+	if _animator.current_animation == "double_spin_chain":
+		_hitInfo.direction = -_rightBatonArea.global_transform.basis.x
+	else:
+		_hitInfo.direction = _rightBatonArea.global_transform.basis.z
 	var result:int = Game.try_hit(_hitInfo, _area)
 	print("Right baton hit result " + str(result))
 
 func _on_area_entered_left_baton(_area:Area3D) -> void:
+	if _animator.current_animation == "double_spin_chain":
+		_hitInfo.direction = -_leftBatonArea.global_transform.basis.x
+	else:
+		_hitInfo.direction = _leftBatonArea.global_transform.basis.z
 	var result:int = Game.try_hit(_hitInfo, _area)
 	print("Left baton hit " + str(result))
 	
@@ -86,15 +96,24 @@ func is_view_locked() -> bool:
 			return false
 		"":
 			return false
+		"punch_dash":
+			return false
 		null:
 			return false
 		_:
 			return true
 
 func _step_dash(_delta:float) -> void:
-	var move:Vector3 = Vector3(_dashInput.x, 0, _dashInput.y) * 12.0
+	var move:Vector3 = Vector3(_dashInput.x, 0, _dashInput.y) * 10.0
 	self.velocity = move
 	self.move_and_slide()
+
+func _fire_projectile() -> void:
+	var prj:PrjBasic = Game.spawn_prj_basic()
+	var info:ProjectileLaunchInfo = prj.get_launch_info()
+	info.origin = _rightBatonArea.global_position
+	info.forward = -_display.global_transform.basis.z
+	prj.launch()
 
 func _physics_process(_delta:float) -> void:
 	
@@ -121,6 +140,7 @@ func _physics_process(_delta:float) -> void:
 	
 	if !isAttacking && Input.is_action_just_pressed("attack_2"):
 		look_at_aim_point()
+		_fire_projectile()
 		_animator.play("blaster_idle")
 	
 	if !isAttacking && Input.is_action_just_pressed("attack_3"):
@@ -129,7 +149,10 @@ func _physics_process(_delta:float) -> void:
 		_animator.queue("punch_idle")
 	
 	if !viewLocked:
-		var move:Vector3 = Vector3(inputVec.x, 0, inputVec.y) * 5.0
+		var moveSpeed:float = 5.0
+		if _animator.current_animation == "blaster_idle":
+			moveSpeed = 3.0
+		var move:Vector3 = Vector3(inputVec.x, 0, inputVec.y) * moveSpeed
 		self.velocity = move
 		self.move_and_slide()
 
