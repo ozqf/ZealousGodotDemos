@@ -9,9 +9,12 @@ class_name PlayerAvatar
 @onready var _leftBatonArea:Area3D = $display/left_hand/left_baton/hitbox
 var _groundPlane:Plane = Plane()
 
+enum AttackInputDir { Neutral, Forward, Backward }
+
 var _targetInfo:TargetInfo
 var _lastAimPoint:Vector3 = Vector3()
 var _animationRepeatPosition:float = 0.0
+var _nextShotRight:bool = true
 
 var _hitInfo:HitInfo
 
@@ -30,24 +33,38 @@ func _ready() -> void:
 	get_tree().call_group(grp, fn, self)
 
 func _on_area_entered_right_baton(_area:Area3D) -> void:
+	_hitInfo.position = _rightBatonArea.global_position
 	if _animator.current_animation == "double_spin_chain":
 		_hitInfo.direction = -_rightBatonArea.global_transform.basis.x
 	else:
 		_hitInfo.direction = _rightBatonArea.global_transform.basis.z
 	var result:int = Game.try_hit(_hitInfo, _area)
+	var gfx = Game.spawn_gfx_blade_blood_spurt(_area.global_position, _hitInfo.direction)
 	print("Right baton hit result " + str(result))
 
 func _on_area_entered_left_baton(_area:Area3D) -> void:
+	_hitInfo.position = _leftBatonArea.global_position
 	if _animator.current_animation == "double_spin_chain":
 		_hitInfo.direction = -_leftBatonArea.global_transform.basis.x
 	else:
 		_hitInfo.direction = _leftBatonArea.global_transform.basis.z
 	var result:int = Game.try_hit(_hitInfo, _area)
+	var gfxDir:Vector3 = _hitInfo.direction
+	gfxDir.y = 0
+	gfxDir = gfxDir.normalized()
+	var gfx = Game.spawn_gfx_blade_blood_spurt(_area.global_position, gfxDir)
 	print("Left baton hit " + str(result))
 	
 func _set_area_on(area:Area3D, flag:bool) -> void:
 	area.monitoring = flag
 	area.monitorable = flag
+
+func check_attack_chain_cancel() -> void:
+	if !Input.is_action_pressed("attack_3"):
+		_animator.clear_queue()
+		_animator.play("punch_idle")
+	else:
+		look_at_aim_point()
 
 func check_animation_loop() -> void:
 	if !Input.is_action_pressed("attack_3"):
@@ -57,6 +74,8 @@ func check_animation_loop() -> void:
 			_animator.seek(0.2)
 		"double_spin_chain":
 			#print("Repeat from " + str(_animationRepeatPosition))
+			_animator.seek(_animationRepeatPosition, true, true)
+		_:
 			_animator.seek(_animationRepeatPosition, true, true)
 
 func mark_repeat_time() -> void:
@@ -115,11 +134,19 @@ func _fire_projectile() -> void:
 	info.forward = -_display.global_transform.basis.z
 	prj.launch()
 
+func _get_attack_dir(inputVec:Vector2) -> AttackInputDir:
+	var inputDir:Vector3 = Vector3(inputVec.x, 0, inputVec.y)
+	var dot:float = inputDir.dot(-_display.global_transform.basis.z)
+	if dot > 0.0:
+		return AttackInputDir.Forward
+	elif dot < 0.0:
+		return AttackInputDir.Backward
+	return AttackInputDir.Neutral
+
 func _physics_process(_delta:float) -> void:
-	
-	
 	var viewLocked:bool = is_view_locked()
 	var inputVec:Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var atkDir:AttackInputDir = _get_attack_dir(inputVec)
 	if _animator.current_animation == "punch_dash":
 		_step_dash(_delta)
 		return
@@ -139,14 +166,26 @@ func _physics_process(_delta:float) -> void:
 		_animator.queue("punch_idle")
 	
 	if !isAttacking && Input.is_action_just_pressed("attack_2"):
-		look_at_aim_point()
+		if _nextShotRight:
+			_animator.play("blaster_shoot_right")
+		else:
+			_animator.play("blaster_shoot_left")
+		_nextShotRight = !_nextShotRight
 		_fire_projectile()
-		_animator.play("blaster_idle")
+		_animator.queue("blaster_idle")
 	
 	if !isAttacking && Input.is_action_just_pressed("attack_3"):
 		look_at_aim_point()
-		_animator.play("double_spin_chain")
-		_animator.queue("punch_idle")
+		match atkDir:
+			AttackInputDir.Backward:
+				look_at_aim_point()
+				_animator.play("shredder")
+				_animator.queue("punch_idle")
+			_:
+				look_at_aim_point()
+				_animator.play("double_spin_chain")
+				_animator.queue("punch_idle")
+		
 	
 	if !viewLocked:
 		var moveSpeed:float = 5.0

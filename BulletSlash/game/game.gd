@@ -20,6 +20,9 @@ var _mobFodderType = preload("res://actors/mobs/fodder/mob_fodder.tscn")
 # projectile types
 var _prjBasicType = preload("res://actors/projectiles/basic/prj_basic.tscn")
 
+# gfx types
+var _gfxBladeBloodSpurtType = preload("res://gfx/blade_blood_spurt/gfx_blade_blood_spurt.tscn")
+
 var _sandboxWorld:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 
 @onready var _worldRoot:Node3D = $world_root
@@ -54,6 +57,15 @@ func spawn_mob_fodder() -> Node3D:
 	var mob = _mobFodderType.instantiate() as Node3D
 	_worldRoot.add_child(mob)
 	return mob
+
+func spawn_gfx_blade_blood_spurt(pos:Vector3, forward:Vector3) -> Node3D:
+	#print("gfx pos " + str(pos) + " forward" + str(forward))
+	var gfx:GPUParticles3D = _gfxBladeBloodSpurtType.instantiate() as GPUParticles3D
+	_worldRoot.add_child(gfx)
+	gfx.global_position = pos
+	gfx.look_at(pos + forward, Vector3.UP)
+	gfx.emitting = true
+	return gfx
 
 func spawn_prj_basic() -> PrjBasic:
 	var prj = _prjBasicType.instantiate() as PrjBasic
