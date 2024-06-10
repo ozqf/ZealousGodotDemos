@@ -11,6 +11,9 @@ var _groundPlane:Plane = Plane()
 
 enum AttackInputDir { Neutral, Forward, Backward }
 
+var _stance:PlayerAttacks.Stance = PlayerAttacks.Stance.Punch
+var _pendingStance:PlayerAttacks.Stance = PlayerAttacks.Stance.Punch
+
 var _targetInfo:TargetInfo
 var _lastAimPoint:Vector3 = Vector3()
 var _animationRepeatPosition:float = 0.0
@@ -22,7 +25,11 @@ var _dashInput:Vector2 = Vector2()
 
 var _refireTick:float = 0.0
 
+var _moves:Dictionary
+var _lastMove:Dictionary = {}
+
 func _ready() -> void:
+	_moves = PlayerAttacks.get_moves()
 	_hitInfo = Game.new_hit_info()
 	_targetInfo = Game.new_target_info()
 	_animator.play("punch_idle")
@@ -39,8 +46,7 @@ func _on_area_entered_right_baton(_area:Area3D) -> void:
 	else:
 		_hitInfo.direction = _rightBatonArea.global_transform.basis.z
 	var result:int = Game.try_hit(_hitInfo, _area)
-	var gfx = Game.spawn_gfx_blade_blood_spurt(_area.global_position, _hitInfo.direction)
-	print("Right baton hit result " + str(result))
+	#print("Right baton hit result " + str(result))
 
 func _on_area_entered_left_baton(_area:Area3D) -> void:
 	_hitInfo.position = _leftBatonArea.global_position
@@ -49,34 +55,11 @@ func _on_area_entered_left_baton(_area:Area3D) -> void:
 	else:
 		_hitInfo.direction = _leftBatonArea.global_transform.basis.z
 	var result:int = Game.try_hit(_hitInfo, _area)
-	var gfxDir:Vector3 = _hitInfo.direction
-	gfxDir.y = 0
-	gfxDir = gfxDir.normalized()
-	var gfx = Game.spawn_gfx_blade_blood_spurt(_area.global_position, gfxDir)
-	print("Left baton hit " + str(result))
+	#print("Left baton hit " + str(result))
 	
 func _set_area_on(area:Area3D, flag:bool) -> void:
 	area.monitoring = flag
 	area.monitorable = flag
-
-func check_attack_chain_cancel() -> void:
-	if !Input.is_action_pressed("attack_3"):
-		_animator.clear_queue()
-		_animator.play("punch_idle")
-	else:
-		look_at_aim_point()
-
-func check_animation_loop() -> void:
-	if !Input.is_action_pressed("attack_3"):
-		return
-	match _animator.current_animation:
-		"punch_spin_test":
-			_animator.seek(0.2)
-		"double_spin_chain":
-			#print("Repeat from " + str(_animationRepeatPosition))
-			_animator.seek(_animationRepeatPosition, true, true)
-		_:
-			_animator.seek(_animationRepeatPosition, true, true)
 
 func mark_repeat_time() -> void:
 	_animationRepeatPosition = _animator.current_animation_position
@@ -143,14 +126,56 @@ func _get_attack_dir(inputVec:Vector2) -> AttackInputDir:
 		return AttackInputDir.Backward
 	return AttackInputDir.Neutral
 
+func start_move(moveName:String) -> void:
+	if !_moves.has(moveName):
+		print("Move " + moveName + " not found")
+		return
+	_lastMove = _moves[moveName]
+	_animator.play(_lastMove.animation)
+	_animator.queue(_lastMove.idleAnimation)
+	_hitInfo.damageType = _lastMove.damageType
+
+func check_attack_chain_cancel() -> void:
+	if !Input.is_action_pressed("attack_2"):
+		_animator.clear_queue()
+		_animator.play("punch_idle")
+	else:
+		look_at_aim_point()
+
+func check_animation_loop() -> void:
+	if !Input.is_action_pressed("attack_2"):
+		return
+	match _animator.current_animation:
+		"punch_spin_test":
+			_animator.seek(0.2)
+		"double_spin_chain":
+			#print("Repeat from " + str(_animationRepeatPosition))
+			_animator.seek(_animationRepeatPosition, true, true)
+		_:
+			_animator.seek(_animationRepeatPosition, true, true)
+
 func _physics_process(_delta:float) -> void:
+	if Input.is_action_just_pressed("slot_1"):
+		_pendingStance = PlayerAttacks.Stance.Punch
+	elif Input.is_action_just_pressed("slot_2"):
+		_pendingStance = PlayerAttacks.Stance.Gun
+	
 	var viewLocked:bool = is_view_locked()
 	var inputVec:Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var atkDir:AttackInputDir = _get_attack_dir(inputVec)
 	if _animator.current_animation == "punch_dash":
 		_step_dash(_delta)
 		return
-		
+	
+	if !viewLocked && _stance != _pendingStance:
+		_stance = _pendingStance
+		match _stance:
+			PlayerAttacks.Stance.Gun:
+				_animator.play("blaster_idle")
+			_:
+				_animator.play("punch_idle")
+	
+	
 	if Input.is_action_just_pressed("dash") && !viewLocked:
 		_dashInput = inputVec
 		_animator.play("punch_dash")
@@ -160,31 +185,43 @@ func _physics_process(_delta:float) -> void:
 	
 	var isAttacking:bool = viewLocked
 	
-	if !isAttacking && Input.is_action_just_pressed("attack_1"):
-		look_at_aim_point()
-		_animator.play("punch_jab_left")
-		_animator.queue("punch_idle")
-	
-	if !isAttacking && Input.is_action_just_pressed("attack_2"):
-		if _nextShotRight:
-			_animator.play("blaster_shoot_right")
-		else:
-			_animator.play("blaster_shoot_left")
-		_nextShotRight = !_nextShotRight
-		_fire_projectile()
-		_animator.queue("blaster_idle")
-	
-	if !isAttacking && Input.is_action_just_pressed("attack_3"):
-		look_at_aim_point()
-		match atkDir:
-			AttackInputDir.Backward:
+	match _stance:
+		################################################################
+		# Gun
+		PlayerAttacks.Stance.Gun:
+			if !isAttacking && Input.is_action_just_pressed("attack_1"):
+				if _nextShotRight:
+					_animator.play("blaster_shoot_right")
+				else:
+					_animator.play("blaster_shoot_left")
+				_nextShotRight = !_nextShotRight
+				_fire_projectile()
+				_animator.queue("blaster_idle")
+		################################################################
+		# punch
+		_:
+			if !isAttacking && Input.is_action_just_pressed("attack_1"):
 				look_at_aim_point()
-				_animator.play("shredder")
-				_animator.queue("punch_idle")
-			_:
+				start_move("punch_jab_left")
+				#_animator.play("punch_jab_left")
+				#_animator.queue("punch_idle")
+			if !isAttacking && Input.is_action_just_pressed("attack_2"):
 				look_at_aim_point()
-				_animator.play("double_spin_chain")
-				_animator.queue("punch_idle")
+				match atkDir:
+					AttackInputDir.Backward:
+						look_at_aim_point()
+						start_move("shredder")
+						#_animator.play("shredder")
+						#_animator.queue("punch_idle")
+					_:
+						look_at_aim_point()
+						start_move("double_spin_chain")
+						#_animator.play("double_spin_chain")
+						#_animator.queue("punch_idle")
+			
+			pass
+	
+	
 		
 	
 	if !viewLocked:

@@ -9,6 +9,10 @@ const TEAM_ID_NONE:int = 0
 const TEAM_ID_ENEMY:int = 1
 const TEAM_ID_PLAYER:int = 2
 
+const DAMAGE_TYPE_SLASH:int = 0
+const DAMAGE_TYPE_PUNCH:int = 1
+const DAMAGE_TYPE_BULLET:int = 2
+
 # dto types
 var _targetInfoType = preload("res://shared/info/target_info.gd")
 var _hitInfoType = preload("res://shared/info/hit_info.gd")
@@ -22,6 +26,7 @@ var _prjBasicType = preload("res://actors/projectiles/basic/prj_basic.tscn")
 
 # gfx types
 var _gfxBladeBloodSpurtType = preload("res://gfx/blade_blood_spurt/gfx_blade_blood_spurt.tscn")
+var _gfxPunchBloodSpurtType = preload("res://gfx/punch_blood_spurt/gfx_punch_blood_spurt.tscn")
 
 var _sandboxWorld:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 
@@ -65,6 +70,12 @@ func spawn_gfx_blade_blood_spurt(pos:Vector3, forward:Vector3) -> Node3D:
 	gfx.global_position = pos
 	gfx.look_at(pos + forward, Vector3.UP)
 	gfx.emitting = true
+	return gfx
+
+func spawn_gfx_punch_blood_spurt(pos:Vector3) -> Node3D:
+	var gfx:Node3D = _gfxPunchBloodSpurtType.instantiate() as Node3D
+	_worldRoot.add_child(gfx)
+	gfx.global_position = pos
 	return gfx
 
 func spawn_prj_basic() -> PrjBasic:

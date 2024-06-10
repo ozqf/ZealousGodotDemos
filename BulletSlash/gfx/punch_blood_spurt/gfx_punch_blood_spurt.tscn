@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://ce5fdf6r4kptf"]
+[gd_scene load_steps=8 format=3 uid="uid://d1js80gyc3bsk"]
 
-[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="1_um1nn"]
-[ext_resource type="Script" path="res://zqf/zqf_emit_on_ready.gd" id="1_yp2wh"]
+[ext_resource type="Script" path="res://zqf/zqf_emit_on_ready.gd" id="1_lxlgu"]
+[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="2_fnhre"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l132q"]
 albedo_color = Color(0.733333, 0, 0, 1)
@@ -15,8 +15,8 @@ curve = SubResource("Curve_fywcf")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gkbu8"]
 particle_flag_align_y = true
-direction = Vector3(0, 0, -1)
-spread = 10.0
+direction = Vector3(0, 1, 0)
+spread = 180.0
 initial_velocity_min = 2.0
 initial_velocity_max = 8.0
 gravity = Vector3(0, -6, 0)
@@ -25,16 +25,16 @@ scale_curve = SubResource("CurveTexture_cln2f")
 [sub_resource type="BoxMesh" id="BoxMesh_3e6uj"]
 size = Vector3(0.1, 0.5, 0.1)
 
-[node name="GfxBladeBloodSpurt" type="GPUParticles3D"]
+[node name="GfxPunchBloodSpurt" type="GPUParticles3D"]
 material_override = SubResource("StandardMaterial3D_l132q")
 emitting = false
-amount = 32
+amount = 64
 one_shot = true
 explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_gkbu8")
 draw_pass_1 = SubResource("BoxMesh_3e6uj")
-script = ExtResource("1_yp2wh")
+script = ExtResource("1_lxlgu")
 
 [node name="ZqfTimedCull" type="Node" parent="."]
-script = ExtResource("1_um1nn")
+script = ExtResource("2_fnhre")
 cullParent = true

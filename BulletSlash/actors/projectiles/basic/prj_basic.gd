@@ -10,8 +10,11 @@ func _ready() -> void:
 	self.connect("area_entered", _on_hitbox_area_entered)
 
 func _on_hitbox_area_entered(_area:Area3D) -> void:
+	_hitInfo.position = self.global_position
 	_hitInfo.direction = -self.global_transform.basis.z
-	Game.try_hit(_hitInfo, _area)
+	var result:int = Game.try_hit(_hitInfo, _area)
+	if result > 0:
+		self.queue_free()
 	pass
 
 func launch() -> void:
