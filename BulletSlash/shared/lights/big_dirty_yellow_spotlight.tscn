@@ -6,3 +6,5 @@ light_color = Color(0.878578, 0.868799, 0, 1)
 light_energy = 3.0
 shadow_enabled = true
 spot_range = 30.0
+spot_attenuation = 0.554785
+spot_angle = 60.0

@@ -29,6 +29,7 @@ size = Vector3(0.1, 0.5, 0.1)
 material_override = SubResource("StandardMaterial3D_l132q")
 emitting = false
 amount = 64
+lifetime = 0.25
 one_shot = true
 explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_gkbu8")

@@ -1,4 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://u3amhur0lpuc"]
+[gd_scene load_steps=7 format=3 uid="uid://u3amhur0lpuc"]
+
+[ext_resource type="PackedScene" uid="uid://cof5fjeb11p7u" path="res://actors/player/display/baton_energy_light.tscn" id="1_makf5"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_fv0x3"]
 size = Vector3(0.1, 0.1, 1)
@@ -36,6 +38,21 @@ mesh = SubResource("BoxMesh_rdwk5")
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 mesh = SubResource("CylinderMesh_8ki70")
+
+[node name="BatonEnergyLight" parent="." instance=ExtResource("1_makf5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
+
+[node name="BatonEnergyLight2" parent="." instance=ExtResource("1_makf5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
+
+[node name="BatonEnergyLight3" parent="." instance=ExtResource("1_makf5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.3)
+
+[node name="BatonEnergyLight4" parent="." instance=ExtResource("1_makf5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="BatonEnergyLight5" parent="." instance=ExtResource("1_makf5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.7)
 
 [node name="hitbox" type="Area3D" parent="."]
 collision_layer = 4

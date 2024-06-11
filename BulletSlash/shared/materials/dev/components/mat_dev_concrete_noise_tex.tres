@@ -1,0 +1,13 @@
+[gd_resource type="NoiseTexture2D" load_steps=3 format=3 uid="uid://djymleps4li7h"]
+
+[ext_resource type="FastNoiseLite" uid="uid://csstvwplpybng" path="res://shared/materials/dev/components/mat_dev_concrete_noise.tres" id="1_5607s"]
+
+[sub_resource type="Gradient" id="Gradient_ktm1t"]
+colors = PackedColorArray(0.197937, 0.197937, 0.197937, 1, 0.362829, 0.362829, 0.362829, 1)
+
+[resource]
+width = 256
+height = 256
+seamless = true
+color_ramp = SubResource("Gradient_ktm1t")
+noise = ExtResource("1_5607s")

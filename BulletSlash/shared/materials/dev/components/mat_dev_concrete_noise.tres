@@ -1,0 +1,7 @@
+[gd_resource type="FastNoiseLite" format=3 uid="uid://csstvwplpybng"]
+
+[resource]
+noise_type = 0
+frequency = 0.0274
+domain_warp_enabled = true
+domain_warp_amplitude = 30.705

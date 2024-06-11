@@ -13,6 +13,7 @@ enum AttackInputDir { Neutral, Forward, Backward }
 
 var _stance:PlayerAttacks.Stance = PlayerAttacks.Stance.Punch
 var _pendingStance:PlayerAttacks.Stance = PlayerAttacks.Stance.Punch
+var _inMoveRecovery:bool = false
 
 var _targetInfo:TargetInfo
 var _lastAimPoint:Vector3 = Vector3()
@@ -27,6 +28,8 @@ var _refireTick:float = 0.0
 
 var _moves:Dictionary
 var _lastMove:Dictionary = {}
+var _attack1Buffered:bool = false
+var _attack2Buffered:bool = false
 
 func _ready() -> void:
 	_moves = PlayerAttacks.get_moves()
@@ -65,6 +68,12 @@ func mark_repeat_time() -> void:
 	_animationRepeatPosition = _animator.current_animation_position
 	#print("Mark repeat " + str(_animationRepeatPosition))
 
+func set_recovering_on() -> void:
+	_inMoveRecovery = true
+
+func set_recovering_off() -> void:
+	_inMoveRecovery = false
+
 func right_baton_on() -> void:
 	_set_area_on(_rightBatonArea, true)
 
@@ -92,13 +101,7 @@ func look_at_aim_point() -> void:
 
 func is_view_locked() -> bool:
 	match _animator.current_animation:
-		"punch_idle":
-			return false
-		"blaster_idle":
-			return false
-		"":
-			return false
-		"punch_dash":
+		"", "punch_idle", "blaster_idle", "blaster_shoot_left", "blaster_shoot_right", "punch_dash":
 			return false
 		null:
 			return false
@@ -130,17 +133,23 @@ func start_move(moveName:String) -> void:
 	if !_moves.has(moveName):
 		print("Move " + moveName + " not found")
 		return
+	_attack1Buffered = false
+	_attack2Buffered = false
+	_inMoveRecovery = false
 	_lastMove = _moves[moveName]
 	_animator.play(_lastMove.animation)
 	_animator.queue(_lastMove.idleAnimation)
 	_hitInfo.damageType = _lastMove.damageType
 
 func check_attack_chain_cancel() -> void:
-	if !Input.is_action_pressed("attack_2"):
+	if !_attack1Buffered && !_attack2Buffered:
 		_animator.clear_queue()
 		_animator.play("punch_idle")
-	else:
-		look_at_aim_point()
+		return
+	# contain animation but update direction
+	_attack1Buffered = false
+	_attack2Buffered = false
+	look_at_aim_point()
 
 func check_animation_loop() -> void:
 	if !Input.is_action_pressed("attack_2"):
@@ -175,8 +184,14 @@ func _physics_process(_delta:float) -> void:
 			_:
 				_animator.play("punch_idle")
 	
-	
-	if Input.is_action_just_pressed("dash") && !viewLocked:
+	var canEvade:bool = true
+	if _rightBatonArea.monitoring:
+		canEvade = false
+	if _leftBatonArea.monitoring:
+		canEvade = false
+	#if viewLocked:
+	#	canEvade = false
+	if Input.is_action_just_pressed("dash") && canEvade:
 		_dashInput = inputVec
 		_animator.play("punch_dash")
 		_animator.queue("punch_idle")
@@ -184,6 +199,11 @@ func _physics_process(_delta:float) -> void:
 		return
 	
 	var isAttacking:bool = viewLocked
+	if isAttacking:
+		if Input.is_action_just_pressed("attack_1"):
+			_attack1Buffered = true
+		elif Input.is_action_just_pressed("attack_2"):
+			_attack1Buffered = true
 	
 	match _stance:
 		################################################################

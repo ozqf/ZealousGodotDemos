@@ -36,11 +36,13 @@ script = ExtResource("1_uonkb")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="display"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+cast_shadow = 0
 mesh = ExtResource("1_2y4rc")
 surface_material_override/0 = ExtResource("2_dngp5")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="display"]
 material_override = ExtResource("2_dngp5")
+cast_shadow = 0
 amount = 16
 lifetime = 1.5
 process_material = SubResource("ParticleProcessMaterial_3748t")
