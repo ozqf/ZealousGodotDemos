@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1hby8x3dimgw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f8xqm"]
+albedo_color = Color(0.000726293, 0.215234, 0.749483, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_huvel"]
+albedo_color = Color(0.0687983, 0.0687983, 0.0687983, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ln7g1"]
+size = Vector3(3, 1, 2)
+
+[node name="PropSkip" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 1)
+size = Vector3(3, 1, 2)
+material = SubResource("StandardMaterial3D_f8xqm")
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, -0.5, 1, 0)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 1)
+size = Vector3(3, 0.1, 2)
+material = SubResource("StandardMaterial3D_huvel")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 1)
+shape = SubResource("BoxShape3D_ln7g1")

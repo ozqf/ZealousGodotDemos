@@ -8,6 +8,8 @@ noise = ExtResource("2_uwg48")
 
 [resource]
 albedo_texture = ExtResource("1_flk60")
+metallic = 0.65
+metallic_specular = 0.41
 roughness_texture = SubResource("NoiseTexture2D_ltuua")
 uv1_triplanar = true
 uv1_world_triplanar = true
