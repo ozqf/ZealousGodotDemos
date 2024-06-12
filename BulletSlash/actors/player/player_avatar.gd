@@ -133,11 +133,24 @@ func start_move(moveName:String) -> void:
 	if !_moves.has(moveName):
 		print("Move " + moveName + " not found")
 		return
+	
+	var candidateMove:Dictionary = _moves[moveName]
+	_lastMove = candidateMove
+	var numAnimations:int = candidateMove.animations.size()
+	if numAnimations == 0:
+		return
+	
+	_animator.play(candidateMove.animations[0])
+	for i in range (1, numAnimations):
+		_animator.queue(candidateMove.animations[i])
+	
+	# apply
+	_lastMove = candidateMove
 	_attack1Buffered = false
 	_attack2Buffered = false
 	_inMoveRecovery = false
-	_lastMove = _moves[moveName]
-	_animator.play(_lastMove.animation)
+	
+	#_animator.play(_lastMove.animation)
 	_animator.queue(_lastMove.idleAnimation)
 	_hitInfo.damageType = _lastMove.damageType
 
@@ -223,21 +236,18 @@ func _physics_process(_delta:float) -> void:
 			if !isAttacking && Input.is_action_just_pressed("attack_1"):
 				look_at_aim_point()
 				start_move("punch_jab_left")
-				#_animator.play("punch_jab_left")
-				#_animator.queue("punch_idle")
 			if !isAttacking && Input.is_action_just_pressed("attack_2"):
 				look_at_aim_point()
 				match atkDir:
-					AttackInputDir.Backward:
+					AttackInputDir.Forward:
 						look_at_aim_point()
 						start_move("shredder")
-						#_animator.play("shredder")
-						#_animator.queue("punch_idle")
-					_:
+					AttackInputDir.Backward:
 						look_at_aim_point()
 						start_move("double_spin_chain")
-						#_animator.play("double_spin_chain")
-						#_animator.queue("punch_idle")
+					_:
+						look_at_aim_point()
+						start_move("slash_sequence_2")
 			
 			pass
 	

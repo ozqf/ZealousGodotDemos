@@ -8,17 +8,22 @@ enum Stance {
 static var _moves:Dictionary = {
 	punch_jab_left = {
 		damageType = GameMain.DAMAGE_TYPE_PUNCH,
-		animation = "punch_jab_left",
+		animations = [ "punch_jab_left" ],
+		idleAnimation = "punch_idle"
+	},
+	slash_sequence_2 = {
+		damageType = GameMain.DAMAGE_TYPE_SLASH,
+		animations = [ "slash_sequence_2", "double_spin_chain" ],
 		idleAnimation = "punch_idle"
 	},
 	double_spin_chain = {
 		damageType = GameMain.DAMAGE_TYPE_SLASH,
-		animation = "double_spin_chain",
+		animations = [ "double_spin_chain" ],
 		idleAnimation = "punch_idle"
 	},
 	shredder = {
 		damageType = GameMain.DAMAGE_TYPE_SLASH,
-		animation = "shredder",
+		animations = [ "shredder" ],
 		idleAnimation = "punch_idle"
 	}
 }
