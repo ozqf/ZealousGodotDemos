@@ -7,6 +7,16 @@ class_name MobBase
 @onready var _hitbox:Area3D = $hitbox
 @onready var _bodyShape:CollisionShape3D = $CollisionShape3D
 
+const HIT_BOUNCE_TIME:float = 0.5
+var _hitBounceTick:float = 1.0
+var _hitBounceTime:float = 1.0
+
+var _hitBounceDisplayT:Transform3D
+var _hitOriginDisplayT:Transform3D
+
+func _ready() -> void:
+	_hitOriginDisplayT = _display.transform
+
 func _run_spawn() -> void:
 	print("MobBase run spawn")
 	var t:Transform3D = Transform3D.IDENTITY
@@ -30,9 +40,6 @@ func _physics_process(_delta:float) -> void:
 func get_team_id() -> int:
 	return Game.TEAM_ID_ENEMY
 
-func hit(_hitInfo:HitInfo) -> int:
-	return 0
-
 func get_spawn_info() -> MobSpawnInfo:
 	return _spawnInfo
 
@@ -43,4 +50,35 @@ func get_id() -> String:
 	return ""
 
 func teleport(_transform:Transform3D) -> void:
+	pass
+
+func hit(_hitInfo) -> int:
+	#print("Mob dummy hit")
+	_hitBounceTick = 0.0
+	_hitBounceTime = HIT_BOUNCE_TIME
+	_hitBounceDisplayT = _hitOriginDisplayT
+	var bounceAxis:Vector3 = _hitInfo.direction.cross(Vector3.UP).normalized()
+	_hitBounceDisplayT = _hitBounceDisplayT.rotated(bounceAxis, deg_to_rad(45.0))
+	
+	var gfxDir:Vector3 = _hitInfo.direction
+	gfxDir.y = 0
+	gfxDir = gfxDir.normalized()
+	var gfxPos:Vector3 = self.global_position
+	gfxPos.y += 1
+	gfxPos = gfxPos.lerp(_hitInfo.position, 0.5)
+	if _hitInfo.damageType == Game.DAMAGE_TYPE_SLASH:
+		var gfx = Game.spawn_gfx_blade_blood_spurt(gfxPos, gfxDir)
+	else:
+		Game.spawn_gfx_punch_blood_spurt(gfxPos)
+	return 1
+
+##################################################
+# lifetime
+##################################################
+
+func _process(_delta:float) -> void:
+	_hitBounceTick += _delta
+	_hitBounceTick = clampf(_hitBounceTick, 0, _hitBounceTime)
+	var weight:float = _hitBounceTick / _hitBounceTime
+	_display.transform = _hitBounceDisplayT.interpolate_with(_hitOriginDisplayT, weight)
 	pass

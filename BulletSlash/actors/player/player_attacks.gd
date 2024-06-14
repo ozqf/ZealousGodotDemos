@@ -9,11 +9,23 @@ static var _moves:Dictionary = {
 	punch_jab_left = {
 		damageType = GameMain.DAMAGE_TYPE_PUNCH,
 		animations = [ "punch_jab_left" ],
+		chainOnAtk1 = "",
+		chainOnAtk2 = "punch_spins_test",
+		idleAnimation = "punch_idle"
+	},
+	punch_straight_right = {
+		damageType = GameMain.DAMAGE_TYPE_PUNCH,
+		animations = [ "punch_straight_right" ],
+		idleAnimation = "punch_idle"
+	},
+	punch_machine_gun = {
+		damageType = GameMain.DAMAGE_TYPE_PUNCH,
+		animations = [ "punch_machine_gun" ],
 		idleAnimation = "punch_idle"
 	},
 	slash_sequence_2 = {
 		damageType = GameMain.DAMAGE_TYPE_SLASH,
-		animations = [ "slash_sequence_2", "double_spin_chain" ],
+		animations = [ "slash_sequence_2", "punch_spin_test" ],
 		idleAnimation = "punch_idle"
 	},
 	double_spin_chain = {

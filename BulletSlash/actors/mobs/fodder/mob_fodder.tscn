@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bjsu0t558qewd"]
 
-[ext_resource type="Script" path="res://actors/mobs/mob_base.gd" id="1_3s4xd"]
+[ext_resource type="Script" path="res://actors/mobs/fodder/mob_fodder.gd" id="1_aol1h"]
 [ext_resource type="Script" path="res://shared/nodes/mob_spawn_info.gd" id="2_bakfg"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kgw7o"]
@@ -16,7 +16,7 @@ size = Vector3(1, 1.8, 1)
 [node name="MobFodder" type="CharacterBody3D"]
 collision_layer = 8
 collision_mask = 9
-script = ExtResource("1_3s4xd")
+script = ExtResource("1_aol1h")
 
 [node name="hitbox" type="Area3D" parent="."]
 collision_layer = 2
