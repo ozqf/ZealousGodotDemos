@@ -172,6 +172,8 @@ func is_view_locked() -> bool:
 	match _animator.current_animation:
 		"", "punch_idle", "blaster_idle", "blaster_shoot_left", "blaster_shoot_right", "punch_dash":
 			return false
+		"punch_charge_stance":
+			return false
 		null:
 			return false
 		_:
@@ -341,6 +343,13 @@ func _physics_process(_delta:float) -> void:
 		return
 	
 	var isAttacking:bool = viewLocked
+	
+	if !isAttacking:
+		if Input.is_action_pressed("attack_2"):
+			_animator.play("punch_charge_stance")
+		elif _animator.current_animation == "punch_charge_stance":
+			_animator.play("punch_idle")
+
 	if isAttacking:
 		if Input.is_action_just_pressed("attack_1"):
 			_attack1Buffered = true
