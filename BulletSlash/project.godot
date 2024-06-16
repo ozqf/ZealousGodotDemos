@@ -101,3 +101,4 @@ slot_4={
 3d_physics/layer_2="hitbox"
 3d_physics/layer_3="damager"
 3d_physics/layer_4="actor"
+3d_physics/layer_5="triggers"

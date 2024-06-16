@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://brtreenfu1b6t"]
+
+[ext_resource type="Script" path="res://actors/trigger_volume/trigger_volume.gd" id="1_ph6j3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_drfca"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_pqcc8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_np40u"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0.635294, 0, 0.478431)
+disable_receive_shadows = true
+
+[node name="TriggerVolume" type="Area3D"]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("1_ph6j3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+shape = SubResource("BoxShape3D_drfca")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+layers = 524288
+cast_shadow = 0
+mesh = SubResource("BoxMesh_pqcc8")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_np40u")

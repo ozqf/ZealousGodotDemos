@@ -5,6 +5,10 @@ const GROUP_GAME_EVENTS:String = "game_events"
 const GAME_EVENT_FN_PLAYER_SPAWNED:String = "game_event_player_spawned"
 const GAME_EVENT_FN_PLAYER_DESPAWNED:String = "game_event_player_despawned"
 
+const GROUP_TRIGGER_EVENTS:String = "trigger_events"
+# params: (targetIds:PackedStringArray, eventType:String, data:Dictionary)
+const TRIGGER_EVENT_FN_TRIGGER:String = "trigger_event"
+
 const TEAM_ID_NONE:int = 0
 const TEAM_ID_ENEMY:int = 1
 const TEAM_ID_PLAYER:int = 2
@@ -102,6 +106,11 @@ func try_hit(_hitInfo:HitInfo, hitbox:Area3D) -> int:
 	if hitbox.has_method("hit"):
 		return hitbox.hit(_hitInfo)
 	return -1
+
+func broadcast_trigger_event(targetIds:PackedStringArray, eventType:String, data:Dictionary) -> void:
+	var grp:String = GROUP_TRIGGER_EVENTS
+	var fn:String = TRIGGER_EVENT_FN_TRIGGER
+	get_tree().call_group(grp, fn, targetIds, eventType, data)
 
 ####################################################
 # queries

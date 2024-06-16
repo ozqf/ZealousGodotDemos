@@ -1728,8 +1728,8 @@ _data = {
 }
 
 [node name="player_avatar" type="CharacterBody3D"]
-collision_layer = 8
-collision_mask = 9
+collision_layer = 24
+collision_mask = 25
 script = ExtResource("1_fsn5d")
 
 [node name="aim_plane_pos" type="Node3D" parent="."]

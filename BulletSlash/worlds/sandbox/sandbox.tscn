@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://2wnsyee8vxc6"]
+[gd_scene load_steps=11 format=3 uid="uid://2wnsyee8vxc6"]
 
 [ext_resource type="PackedScene" uid="uid://cta1t8u5ultmf" path="res://actors/player/player_avatar.tscn" id="1_ocjj5"]
 [ext_resource type="Material" uid="uid://4k2kxi2gq51q" path="res://shared/materials/dev/mat_dev_concrete.tres" id="2_l8ahp"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bpdtm27vex58t" path="res://shared/lights/big_dirty_yellow_spotlight.tscn" id="5_3iqyv"]
 [ext_resource type="PackedScene" uid="uid://d1hby8x3dimgw" path="res://actors/props/skip/prop_skip.tscn" id="6_gytad"]
 [ext_resource type="Texture2D" uid="uid://dklkym6sxvdhe" path="res://shared/materials/dev/components/dev_fence_albedo.png" id="6_irtjm"]
+[ext_resource type="PackedScene" uid="uid://brtreenfu1b6t" path="res://actors/trigger_volume/trigger_volume.tscn" id="8_uxb2q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ih3td"]
 transparency = 2
@@ -26,10 +27,11 @@ background_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 20, 0)
 
 [node name="player_avatar" parent="." instance=ExtResource("1_ocjj5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="player_avatar"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 20, 0)
+cull_mask = 524287
 current = true
 fov = 40.0
 size = 16.0
@@ -41,14 +43,17 @@ shadow_enabled = true
 
 [node name="Spawner" parent="." instance=ExtResource("3_ddtwt")]
 transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -17.5, 0, 0)
+id = "spawn_a"
 mobType = "fodder"
 
 [node name="Spawner3" parent="." instance=ExtResource("3_ddtwt")]
 transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, 16, 0, -5.5)
+id = "spawn_b"
 mobType = "fodder"
 
 [node name="Spawner2" parent="." instance=ExtResource("3_ddtwt")]
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -6, 0, 2)
+id = "spawn_0"
 
 [node name="big_dirty_yellow_spotlight5" parent="." instance=ExtResource("5_3iqyv")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -14, 6, -2)
@@ -206,3 +211,11 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -14, 0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_q5f85")
+
+[node name="TriggerVolume" parent="." instance=ExtResource("8_uxb2q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -1)
+targetId = "spawn_0"
+
+[node name="TriggerVolume2" parent="." instance=ExtResource("8_uxb2q")]
+transform = Transform3D(1, 0, 0, 0, 6.65, 0, 0, 0, 12.834, -1, 0, -6)
+targetId = "spawn_a,spawn_b  q"

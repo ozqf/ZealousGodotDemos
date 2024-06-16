@@ -1,8 +1,9 @@
 class_name PlayerAttacks
 
 enum Stance {
-	Punch,
-	Gun
+	Blade,
+	Gun,
+	Punch
 }
 
 static var _moves:Dictionary = {
