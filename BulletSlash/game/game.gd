@@ -13,6 +13,8 @@ const DAMAGE_TYPE_SLASH:int = 0
 const DAMAGE_TYPE_PUNCH:int = 1
 const DAMAGE_TYPE_BULLET:int = 2
 
+const HIT_RESPONSE_SAME_TEAM:int = -1
+
 # dto types
 var _targetInfoType = preload("res://shared/info/target_info.gd")
 var _hitInfoType = preload("res://shared/info/hit_info.gd")

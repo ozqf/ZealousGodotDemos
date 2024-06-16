@@ -272,7 +272,7 @@ func _check_for_punch_stance_move_start_2(isAttacking:bool, atkDir:AttackInputDi
 func _check_for_punch_stance_move_start_1(isAttacking:bool, atkDir:AttackInputDir, _delta:float) -> void:
 	if !isAttacking && Input.is_action_just_pressed("attack_1"):
 		look_at_aim_point()
-		var historySize:int = _animHistory.size()
+		#var historySize:int = _animHistory.size()
 		
 		if _tryAttackSequenceTick > 0.0 && !_lastMove.is_empty() && _lastMove.name == "punch_jab_left":
 			start_move("punch_straight_right")
@@ -298,7 +298,6 @@ func _check_for_punch_stance_move_start_1(isAttacking:bool, atkDir:AttackInputDi
 			_:
 				look_at_aim_point()
 				start_move("slash_sequence_2")
-			
 
 ##########################################################################
 # life time

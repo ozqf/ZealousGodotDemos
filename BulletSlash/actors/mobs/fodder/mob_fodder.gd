@@ -14,11 +14,19 @@ func _change_state(newState:String) -> void:
 	_state = newState
 	_thinkTick = 0.0
 
+func spawn() -> void:
+	super.spawn()
+	_health = 10.0
+	_hitBounceTime = 1.0
+
 func hit(_hitInfo) -> int:
 	var result:int = super.hit(_hitInfo)
+	if _health <= 0.0:
+		self.queue_free()
+		return 1
 	if result > 0:
 		_change_state(MOB_STATE_STUNNED)
-		_thinkTime = HIT_BOUNCE_TIME
+		_thinkTime = _hitBounceTime
 	return result
 
 func _think() -> void:
@@ -45,7 +53,11 @@ func _physics_process(_delta:float) -> void:
 				return
 			var tarPos:Vector3 = _thinkInfo.target.t.origin
 			_look_toward_flat(tarPos)
-			_step_toward_flat(tarPos, _delta)
+			var distSqr:float = _thinkInfo.xzTowardTarget.length_squared()
+			if distSqr > (5.0 * 5.0):
+				_step_toward_flat(tarPos, 8.0, _delta)
+			else:
+				_step_toward_flat(tarPos, 2.0, _delta)
 			pass
 
 func _process(delta) -> void:

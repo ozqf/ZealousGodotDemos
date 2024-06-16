@@ -26,7 +26,7 @@ background_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 20, 0)
 
 [node name="player_avatar" parent="." instance=ExtResource("1_ocjj5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="player_avatar"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 20, 0)
@@ -40,7 +40,11 @@ visible = false
 shadow_enabled = true
 
 [node name="Spawner" parent="." instance=ExtResource("3_ddtwt")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2, 0, -1)
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -17.5, 0, 0)
+mobType = "fodder"
+
+[node name="Spawner3" parent="." instance=ExtResource("3_ddtwt")]
+transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, 16, 0, -5.5)
 mobType = "fodder"
 
 [node name="Spawner2" parent="." instance=ExtResource("3_ddtwt")]
@@ -75,9 +79,9 @@ spot_attenuation = 0.840897
 [node name="hull" type="Node3D" parent="geometry"]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="geometry/hull"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -0.5, 0)
 use_collision = true
-size = Vector3(62, 1, 32)
+size = Vector3(64, 1, 32)
 material = ExtResource("2_l8ahp")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="geometry/hull"]
@@ -89,6 +93,11 @@ size = Vector3(42, 63, 12)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 31.5, -10)
 use_collision = true
 size = Vector3(42, 63, 12)
+
+[node name="doorway_subtract_csg" type="CSGBox3D" parent="geometry/hull/CSGBox3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -30, 5)
+operation = 2
+size = Vector3(2, 3, 2)
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33, 16.5)
@@ -105,10 +114,10 @@ size = Vector3(34, 60, 1)
 material = ExtResource("3_4t8gt")
 
 [node name="CSGBox3D17" type="CSGBox3D" parent="geometry/hull"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 33, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 33.5, 0)
 cast_shadow = 0
 use_collision = true
-size = Vector3(1, 60, 32)
+size = Vector3(1, 59, 32)
 material = ExtResource("3_4t8gt")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="geometry/hull"]
@@ -122,9 +131,14 @@ use_collision = true
 size = Vector3(12, 63, 12)
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="geometry/hull"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 2, 0)
 use_collision = true
-size = Vector3(1, 3, 34)
+size = Vector3(4, 4, 34)
+
+[node name="doorway_subtract_csg2" type="CSGBox3D" parent="geometry/hull/CSGBox3D10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.5, 0)
+operation = 2
+size = Vector3(2, 3, 2)
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.5, 9.1, 0.0762796)
@@ -158,13 +172,24 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 7, 3)
 size = Vector3(0.5, 0.5, 2)
 
 [node name="CSGBox3D16" type="CSGBox3D" parent="geometry/hull"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -5.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -6.5)
 use_collision = true
 size = Vector3(8, 3, 0.4)
 material = SubResource("StandardMaterial3D_ih3td")
 
 [node name="CSGBox3D18" type="CSGBox3D" parent="geometry/hull"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, -5.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, -6.5)
+use_collision = true
+size = Vector3(8, 0.2, 0.4)
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 6.5)
+use_collision = true
+size = Vector3(8, 3, 0.4)
+material = SubResource("StandardMaterial3D_ih3td")
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 6.5)
 use_collision = true
 size = Vector3(8, 0.2, 0.4)
 

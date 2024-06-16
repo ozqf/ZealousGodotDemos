@@ -2,13 +2,18 @@
 extends CharacterBody3D
 class_name MobBase
 
+const MOB_EVENT_DIED:String = "mob_died"
+
+signal mob_broadcast_event(eventType, mobInstance)
+
 @onready var _spawnInfo:MobSpawnInfo = $MobSpawnInfo
 @onready var _display:Node3D = $display
 @onready var _hitbox:Area3D = $hitbox
 @onready var _bodyShape:CollisionShape3D = $CollisionShape3D
 @onready var _thinkInfo:MobThinkInfo = $MobThinkInfo
 
-const HIT_BOUNCE_TIME:float = 0.5
+var _health:float = 1.0
+
 var _hitBounceTick:float = 1.0
 var _hitBounceTime:float = 1.0
 
@@ -32,7 +37,7 @@ func set_body_visible(_flag:bool) -> void:
 	_display.visible = _flag
 
 func _run_spawn() -> void:
-	print("MobBase run spawn")
+	#print("MobBase run spawn")
 	var t:Transform3D = Transform3D.IDENTITY
 	t.origin = _spawnInfo.t.origin
 	self.global_transform = _spawnInfo.t
@@ -42,15 +47,25 @@ func _run_spawn() -> void:
 
 func _refresh_think_info(_delta:float) -> void:
 	_thinkInfo.target = Game.get_player_target()
+	if _thinkInfo.target == null:
+		return
 	_thinkInfo.selfGroundPos = self.global_position
 	_thinkInfo.selfHeadPos = _thinkInfo.selfGroundPos
 	_thinkInfo.selfHeadPos.y += 1.4
+
+	# we're a 3D game honest
+	var flatTargetPos:Vector3 = _thinkInfo.target.t.origin
+	flatTargetPos.y = _thinkInfo.selfGroundPos.y
+	_thinkInfo.xzTowardTarget = (flatTargetPos - _thinkInfo.selfGroundPos)
 
 func _physics_process(_delta:float) -> void:
 	_refresh_think_info(_delta)
 	if _thinkInfo.target == null:
 		return
 	pass
+
+func _exit_tree():
+	self.emit_signal("mob_broadcast_event", MobBase.MOB_EVENT_DIED, self)
 
 ##################################################
 # interfaces
@@ -66,7 +81,7 @@ func spawn() -> void:
 	call_deferred("_run_spawn")
 
 func get_id() -> String:
-	return ""
+	return _spawnInfo.uuid
 
 func teleport(_transform:Transform3D) -> void:
 	self.global_position = _transform.origin
@@ -74,8 +89,13 @@ func teleport(_transform:Transform3D) -> void:
 
 func hit(_hitInfo) -> int:
 	#print("Mob dummy hit")
+	if _hitInfo.damageTeamId == Game.TEAM_ID_ENEMY:
+		return Game.HIT_RESPONSE_SAME_TEAM
+	
+	_health -= _hitInfo.damage
+	
 	_hitBounceTick = 0.0
-	_hitBounceTime = HIT_BOUNCE_TIME
+	_hitBounceTime = _hitBounceTime
 	_hitBounceDisplayT = _hitOriginDisplayT
 	var bounceAxis:Vector3 = _hitInfo.direction.cross(Vector3.UP).normalized()
 	_hitBounceDisplayT = _hitBounceDisplayT.rotated(bounceAxis, deg_to_rad(45.0))
@@ -100,10 +120,10 @@ func _look_toward_flat(targetPos:Vector3) -> void:
 	targetPos.y = selfPos.y
 	self.look_at(targetPos, Vector3.UP)
 
-func _step_toward_flat(targetPos:Vector3, _delta:float) -> void:
+func _step_toward_flat(targetPos:Vector3, metresPerSecond:float, _delta:float) -> void:
 	var selfPos:Vector3 = self.global_position
 	targetPos.y = selfPos.y
-	var move:Vector3 = (targetPos - selfPos).normalized() * 4
+	var move:Vector3 = (targetPos - selfPos).normalized() * metresPerSecond
 	self.velocity = move
 	self.move_and_slide()
 
@@ -116,4 +136,3 @@ func _process(_delta:float) -> void:
 	_hitBounceTick = clampf(_hitBounceTick, 0, _hitBounceTime)
 	var weight:float = _hitBounceTick / _hitBounceTime
 	_display.transform = _hitBounceDisplayT.interpolate_with(_hitOriginDisplayT, weight)
-	pass
