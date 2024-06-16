@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://c3uuiral8t8w7"]
+[gd_scene load_steps=8 format=3 uid="uid://c3uuiral8t8w7"]
 
 [ext_resource type="Script" path="res://actors/mobs/dummy/mob_dummy.gd" id="1_a0m4j"]
 [ext_resource type="Script" path="res://shared/nodes/hit_delegate.gd" id="2_dgwus"]
 [ext_resource type="Script" path="res://shared/nodes/mob_spawn_info.gd" id="2_mirhw"]
-[ext_resource type="Material" uid="uid://baoycrwbfxk6e" path="res://shared/materials/dev/mat_emissive_red.tres" id="4_3fh6w"]
+[ext_resource type="PackedScene" uid="uid://bsadr580c2r0u" path="res://actors/mobs/placehold_mob_model.tscn" id="4_caup2"]
+[ext_resource type="Script" path="res://shared/nodes/mob_think_info.gd" id="5_crksl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kgw7o"]
 radius = 0.8
@@ -11,12 +12,6 @@ height = 2.2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qqosc"]
 radius = 0.7
-
-[sub_resource type="BoxMesh" id="BoxMesh_4vigi"]
-size = Vector3(1, 1.8, 1)
-
-[sub_resource type="PrismMesh" id="PrismMesh_fldvh"]
-size = Vector3(1, 0.2, 1)
 
 [node name="MobFodder" type="CharacterBody3D"]
 collision_layer = 8
@@ -44,12 +39,7 @@ script = ExtResource("2_mirhw")
 
 [node name="display" type="Node3D" parent="."]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="display"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-mesh = SubResource("BoxMesh_4vigi")
-skeleton = NodePath("../..")
+[node name="placehold_npc_model" parent="display" instance=ExtResource("4_caup2")]
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="display"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.3, -0.6)
-mesh = SubResource("PrismMesh_fldvh")
-surface_material_override/0 = ExtResource("4_3fh6w")
+[node name="MobThinkInfo" type="Node" parent="."]
+script = ExtResource("5_crksl")

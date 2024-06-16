@@ -160,6 +160,9 @@ func left_baton_off() -> void:
 func get_target_info() -> TargetInfo:
 	return _targetInfo
 
+func refresh_target_info() -> void:
+	_targetInfo.t = self.global_transform
+
 ##########################################################################
 # attacks
 ##########################################################################
@@ -190,6 +193,7 @@ func _fire_projectile() -> void:
 	info.origin = _rightBatonArea.global_position
 	info.forward = -_display.global_transform.basis.z
 	prj.launch()
+	_refireTick = 0.1
 
 func _get_attack_dir(inputVec:Vector2) -> AttackInputDir:
 	var inputDir:Vector3 = Vector3(inputVec.x, 0, inputVec.y)
@@ -306,8 +310,14 @@ func _exit_tree():
 	get_tree().call_group(grp, fn, self)
 
 func _physics_process(_delta:float) -> void:
+
+	# house-keeping
 	_selfTime += _delta
 	_tryAttackSequenceTick -= _delta
+	_refireTick -= _delta
+	refresh_target_info()
+
+	# inputs
 	if Input.is_action_just_pressed("slot_1"):
 		_pendingStance = PlayerAttacks.Stance.Punch
 	elif Input.is_action_just_pressed("slot_2"):
@@ -360,7 +370,7 @@ func _physics_process(_delta:float) -> void:
 		################################################################
 		# Gun
 		PlayerAttacks.Stance.Gun:
-			if !isAttacking && Input.is_action_just_pressed("attack_1"):
+			if !isAttacking && _refireTick <= 0.0 && Input.is_action_pressed("attack_1"):
 				if _nextShotRight:
 					_animator.play("blaster_shoot_right")
 				else:

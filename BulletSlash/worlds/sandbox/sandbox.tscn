@@ -40,7 +40,8 @@ visible = false
 shadow_enabled = true
 
 [node name="Spawner" parent="." instance=ExtResource("3_ddtwt")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -3)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2, 0, -1)
+mobType = "fodder"
 
 [node name="Spawner2" parent="." instance=ExtResource("3_ddtwt")]
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -6, 0, 2)

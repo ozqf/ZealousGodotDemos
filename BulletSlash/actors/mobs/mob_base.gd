@@ -6,6 +6,7 @@ class_name MobBase
 @onready var _display:Node3D = $display
 @onready var _hitbox:Area3D = $hitbox
 @onready var _bodyShape:CollisionShape3D = $CollisionShape3D
+@onready var _thinkInfo:MobThinkInfo = $MobThinkInfo
 
 const HIT_BOUNCE_TIME:float = 0.5
 var _hitBounceTick:float = 1.0
@@ -15,21 +16,39 @@ var _hitBounceDisplayT:Transform3D
 var _hitOriginDisplayT:Transform3D
 
 func _ready() -> void:
+	set_hitbox_enabled(false)
+	set_world_collision_enabled(false)
+	set_body_visible(false)
 	_hitOriginDisplayT = _display.transform
+
+func set_world_collision_enabled(_flag:bool) -> void:
+	_bodyShape.disabled = !_flag
+
+func set_hitbox_enabled(_flag:bool) -> void:
+	_hitbox.monitorable = _flag
+	_hitbox.monitoring = _flag
+
+func set_body_visible(_flag:bool) -> void:
+	_display.visible = _flag
 
 func _run_spawn() -> void:
 	print("MobBase run spawn")
 	var t:Transform3D = Transform3D.IDENTITY
 	t.origin = _spawnInfo.t.origin
 	self.global_transform = _spawnInfo.t
-	_bodyShape.disabled = false
-	_hitbox.monitorable = true
-	_hitbox.monitoring = true
-	_display.visible = true
+	set_hitbox_enabled(true)
+	set_body_visible(true)
+	set_world_collision_enabled(true)
+
+func _refresh_think_info(_delta:float) -> void:
+	_thinkInfo.target = Game.get_player_target()
+	_thinkInfo.selfGroundPos = self.global_position
+	_thinkInfo.selfHeadPos = _thinkInfo.selfGroundPos
+	_thinkInfo.selfHeadPos.y += 1.4
 
 func _physics_process(_delta:float) -> void:
-	var target:TargetInfo = Game.get_player_target()
-	if target == null:
+	_refresh_think_info(_delta)
+	if _thinkInfo.target == null:
 		return
 	pass
 
@@ -50,6 +69,7 @@ func get_id() -> String:
 	return ""
 
 func teleport(_transform:Transform3D) -> void:
+	self.global_position = _transform.origin
 	pass
 
 func hit(_hitInfo) -> int:
@@ -67,10 +87,25 @@ func hit(_hitInfo) -> int:
 	gfxPos.y += 1
 	gfxPos = gfxPos.lerp(_hitInfo.position, 0.5)
 	if _hitInfo.damageType == Game.DAMAGE_TYPE_SLASH:
-		var gfx = Game.spawn_gfx_blade_blood_spurt(gfxPos, gfxDir)
+		Game.spawn_gfx_blade_blood_spurt(gfxPos, gfxDir)
 	else:
 		Game.spawn_gfx_punch_blood_spurt(gfxPos)
 	return 1
+
+##################################################
+# movement and orientation
+##################################################
+func _look_toward_flat(targetPos:Vector3) -> void:
+	var selfPos:Vector3 = self.global_position
+	targetPos.y = selfPos.y
+	self.look_at(targetPos, Vector3.UP)
+
+func _step_toward_flat(targetPos:Vector3, _delta:float) -> void:
+	var selfPos:Vector3 = self.global_position
+	targetPos.y = selfPos.y
+	var move:Vector3 = (targetPos - selfPos).normalized() * 4
+	self.velocity = move
+	self.move_and_slide()
 
 ##################################################
 # lifetime
