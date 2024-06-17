@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://2wnsyee8vxc6"]
+[gd_scene load_steps=14 format=3 uid="uid://2wnsyee8vxc6"]
 
 [ext_resource type="PackedScene" uid="uid://cta1t8u5ultmf" path="res://actors/player/player_avatar.tscn" id="1_ocjj5"]
 [ext_resource type="Material" uid="uid://4k2kxi2gq51q" path="res://shared/materials/dev/mat_dev_concrete.tres" id="2_l8ahp"]
@@ -9,6 +9,22 @@
 [ext_resource type="Texture2D" uid="uid://dklkym6sxvdhe" path="res://shared/materials/dev/components/dev_fence_albedo.png" id="6_irtjm"]
 [ext_resource type="PackedScene" uid="uid://brtreenfu1b6t" path="res://actors/trigger_volume/trigger_volume.tscn" id="8_uxb2q"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_06qa2"]
+albedo_color = Color(0.299968, 0.511606, 1, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ft3am"]
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+emission_shape = 3
+emission_box_extents = Vector3(16, 0, 16)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_ck5d0"]
+size = Vector3(0.02, 0.2, 0.02)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ih3td"]
 transparency = 2
 alpha_scissor_threshold = 0.5
@@ -18,6 +34,10 @@ uv1_triplanar = true
 
 [sub_resource type="Environment" id="Environment_q5f85"]
 background_mode = 1
+ssr_enabled = true
+glow_enabled = true
+fog_enabled = true
+fog_density = 0.002
 
 [node name="Sandbox" type="Node3D"]
 
@@ -29,12 +49,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 20, 0)
 [node name="player_avatar" parent="." instance=ExtResource("1_ocjj5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
 
-[node name="Camera3D" type="Camera3D" parent="player_avatar"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 20, 0)
+[node name="camera_root" type="Node3D" parent="player_avatar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
+
+[node name="Camera3D" type="Camera3D" parent="player_avatar/camera_root"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 cull_mask = 524287
 current = true
 fov = 40.0
 size = 16.0
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="player_avatar/camera_root"]
+material_override = SubResource("StandardMaterial3D_06qa2")
+amount = 1024
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_ft3am")
+draw_pass_1 = SubResource("BoxMesh_ck5d0")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 5, 4, 24)
@@ -207,15 +237,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -4)
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 11, 0, 4)
 
 [node name="PropSkip3" parent="geometry/props" instance=ExtResource("6_gytad")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -14, 0, 4)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -13, 0, 4)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_q5f85")
 
 [node name="TriggerVolume" parent="." instance=ExtResource("8_uxb2q")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 3)
 targetId = "spawn_0"
 
 [node name="TriggerVolume2" parent="." instance=ExtResource("8_uxb2q")]
 transform = Transform3D(1, 0, 0, 0, 6.65, 0, 0, 0, 12.834, -1, 0, -6)
-targetId = "spawn_a,spawn_b  q"
+targetId = "spawn_a,spawn_b"

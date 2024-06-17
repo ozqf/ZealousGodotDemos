@@ -53,7 +53,7 @@ func _physics_process(_delta:float) -> void:
 	match _state:
 		STATE_MONITORING:
 			if _spawnedMobs.size() == 0:
-				_spawnTick = 0.0
+				_spawnTick = spawnInterval
 				_state = STATE_SPAWNING
 		STATE_SPAWNING:
 			_spawnTick += _delta

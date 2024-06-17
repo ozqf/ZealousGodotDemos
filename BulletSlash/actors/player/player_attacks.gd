@@ -26,7 +26,7 @@ static var _moves:Dictionary = {
 	},
 	slash_sequence_2 = {
 		damageType = GameMain.DAMAGE_TYPE_SLASH,
-		animations = [ "slash_sequence_2", "punch_spin_test" ],
+		animations = [ "slash_sequence_3", "punch_spin_test" ],
 		idleAnimation = "punch_idle"
 	},
 	double_spin_chain = {
