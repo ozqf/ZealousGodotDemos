@@ -39,8 +39,8 @@ var _lastMove:Dictionary = {}
 var _attack1Buffered:bool = false
 var _attack2Buffered:bool = false
 
-var _maxLoadedShots:int = 10
-var _loadedShots:int = 10
+var _maxLoadedShots:int = 40
+var _loadedShots:int = 40
 
 func _ready() -> void:
 	# however many slots we want
@@ -140,25 +140,18 @@ func _queue_idle_animation() -> void:
 			_animator.queue("punch_idle")
 
 func check_attack_chain_cancel() -> void:
-	if !_attack1Buffered && !_attack2Buffered:
+	if !_attack1Buffered: # && !_attack2Buffered:
 		_return_to_idle_animation()
 		return
 	# continue animation but update direction
 	_attack1Buffered = false
-	_attack2Buffered = false
+	#_attack2Buffered = false
 	look_at_aim_point()
 
 func check_animation_loop() -> void:
-	if !Input.is_action_pressed("attack_1") && !Input.is_action_pressed("attack_2"):
+	if !Input.is_action_pressed("attack_1"): # && !Input.is_action_pressed("attack_2"):
 		return
-	match _animator.current_animation:
-		#"punch_spin_test":
-		#	_animator.seek(0.2)
-		"double_spin":
-			#print("Repeat from " + str(_animationRepeatPosition))
-			_animator.seek(_animationRepeatPosition, true, true)
-		_:
-			_animator.seek(_animationRepeatPosition, true, true)
+	_animator.seek(_animationRepeatPosition, true, true)
 
 func mark_repeat_time() -> void:
 	_animationRepeatPosition = _animator.current_animation_position
@@ -438,7 +431,7 @@ func _physics_process(_delta:float) -> void:
 		if Input.is_action_just_pressed("attack_1"):
 			_attack1Buffered = true
 		elif Input.is_action_just_pressed("attack_2"):
-			_attack1Buffered = true
+			_attack2Buffered = true
 	
 	match _stance:
 		################################################################
@@ -464,11 +457,15 @@ func _physics_process(_delta:float) -> void:
 			_check_for_punch_stance_move_start(isAttacking, atkDir, _delta)
 			pass
 	
-	
-	if !viewLocked && !Input.is_action_pressed("attack_2"):
-		var moveSpeed:float = 5.0
-		if _animator.current_animation == "blaster_idle":
-			moveSpeed = 3.0
+	var moveSpeed:float = 5.0
+	if viewLocked:
+		moveSpeed = 1.0
+
+	#if !viewLocked && !Input.is_action_pressed("attack_2"):
+	if !Input.is_action_pressed("attack_2"):
+		
+		#if _animator.current_animation == "blaster_idle":
+		#	moveSpeed = 3.0
 		var move:Vector3 = Vector3(inputVec.x, 0, inputVec.y) * moveSpeed
 		self.velocity = move
 		self.move_and_slide()

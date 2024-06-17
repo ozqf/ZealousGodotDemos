@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://2wnsyee8vxc6"]
+[gd_scene load_steps=15 format=3 uid="uid://2wnsyee8vxc6"]
 
 [ext_resource type="PackedScene" uid="uid://cta1t8u5ultmf" path="res://actors/player/player_avatar.tscn" id="1_ocjj5"]
 [ext_resource type="Material" uid="uid://4k2kxi2gq51q" path="res://shared/materials/dev/mat_dev_concrete.tres" id="2_l8ahp"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://d1hby8x3dimgw" path="res://actors/props/skip/prop_skip.tscn" id="6_gytad"]
 [ext_resource type="Texture2D" uid="uid://dklkym6sxvdhe" path="res://shared/materials/dev/components/dev_fence_albedo.png" id="6_irtjm"]
 [ext_resource type="PackedScene" uid="uid://brtreenfu1b6t" path="res://actors/trigger_volume/trigger_volume.tscn" id="8_uxb2q"]
+[ext_resource type="PackedScene" uid="uid://ckb20t2ehlvqm" path="res://test/models/character_exercise_01.glb" id="9_qlv0n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_06qa2"]
 albedo_color = Color(0.299968, 0.511606, 1, 1)
@@ -249,3 +250,10 @@ targetId = "spawn_0"
 [node name="TriggerVolume2" parent="." instance=ExtResource("8_uxb2q")]
 transform = Transform3D(1, 0, 0, 0, 6.65, 0, 0, 0, 12.834, -1, 0, -6)
 targetId = "spawn_a,spawn_b"
+
+[node name="test" type="Node3D" parent="."]
+
+[node name="char01" type="Node3D" parent="test"]
+
+[node name="character_exercise_01" parent="test/char01" instance=ExtResource("9_qlv0n")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -11, 0, -3)
