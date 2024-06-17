@@ -24,20 +24,20 @@ static var _moves:Dictionary = {
 		animations = [ "punch_machine_gun" ],
 		idleAnimation = "punch_idle"
 	},
-	slash_sequence_2 = {
+	slash_sequence = {
 		damageType = GameMain.DAMAGE_TYPE_SLASH,
 		animations = [ "slash_sequence_3", "punch_spin_test" ],
-		idleAnimation = "punch_idle"
+		idleAnimation = "blade_idle"
 	},
-	double_spin_chain = {
+	double_spin = {
 		damageType = GameMain.DAMAGE_TYPE_SLASH,
 		animations = [ "double_spin_chain" ],
-		idleAnimation = "punch_idle"
+		idleAnimation = "blade_idle"
 	},
 	shredder = {
 		damageType = GameMain.DAMAGE_TYPE_SLASH,
 		animations = [ "shredder" ],
-		idleAnimation = "punch_idle"
+		idleAnimation = "blade_idle"
 	}
 }
 

@@ -33,6 +33,7 @@ var _prjBasicType = preload("res://actors/projectiles/basic/prj_basic.tscn")
 # gfx types
 var _gfxBladeBloodSpurtType = preload("res://gfx/blade_blood_spurt/gfx_blade_blood_spurt.tscn")
 var _gfxPunchBloodSpurtType = preload("res://gfx/punch_blood_spurt/gfx_punch_blood_spurt.tscn")
+var _gfxEjectedShellType = preload("res://gfx/ejected_brass/ejected_shell.tscn")
 
 var _sandboxWorld:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 
@@ -88,6 +89,12 @@ func spawn_prj_basic() -> PrjBasic:
 	var prj = _prjBasicType.instantiate() as PrjBasic
 	_worldRoot.add_child(prj)
 	return prj
+
+func spawn_gfx_ejected_shell(pos:Vector3, forward:Vector3) -> void:
+	var gfx:Node3D = _gfxEjectedShellType.instantiate() as RigidBody3D
+	_worldRoot.add_child(gfx)
+	gfx.global_position = pos
+	gfx.linear_velocity = (forward * 10)
 
 ####################################################
 # registers

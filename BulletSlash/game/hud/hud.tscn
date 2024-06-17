@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcl44eo2kdsde"]
+
+[ext_resource type="Script" path="res://game/hud/hud.gd" id="1_gnfcu"]
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gnfcu")
+
+[node name="shot_count_label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 192.0
+offset_bottom = 32.0
+text = "SHOTS:"
+vertical_alignment = 1

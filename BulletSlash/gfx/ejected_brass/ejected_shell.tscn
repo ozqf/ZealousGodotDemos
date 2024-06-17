@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://dgxjmnutgk53"]
+
+[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="1_af07d"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_11b34"]
+height = 0.15
+radius = 0.06
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_20fc5"]
+top_radius = 0.06
+bottom_radius = 0.06
+height = 0.15
+radial_segments = 8
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aosy1"]
+albedo_color = Color(1, 0.152941, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2n0it"]
+
+[node name="EjectedShell" type="RigidBody3D"]
+collision_layer = 32
+collision_mask = 33
+continuous_cd = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_11b34")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_20fc5")
+surface_material_override/0 = SubResource("StandardMaterial3D_aosy1")
+
+[node name="ZqfTimedCull" type="Node" parent="."]
+script = ExtResource("1_af07d")
+tick = 10.0
+cullParent = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_2n0it")

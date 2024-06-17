@@ -7,12 +7,13 @@ class_name PlayerAvatar
 @onready var _animator:AnimationPlayer = $display/AnimationPlayer
 @onready var _rightBatonArea:Area3D = $display/right_hand/right_baton/hitbox
 @onready var _leftBatonArea:Area3D = $display/left_hand/left_baton/hitbox
+@onready var _hudInfo:HudInfo = $HudInfo
 var _groundPlane:Plane = Plane()
 
 enum AttackInputDir { Neutral, Forward, Backward }
 
 var _stance:PlayerAttacks.Stance = PlayerAttacks.Stance.Punch
-var _pendingStance:PlayerAttacks.Stance = PlayerAttacks.Stance.Punch
+var _pendingStance:PlayerAttacks.Stance = PlayerAttacks.Stance.Blade
 var _inMoveRecovery:bool = false
 
 var _targetInfo:TargetInfo
@@ -38,6 +39,9 @@ var _lastMove:Dictionary = {}
 var _attack1Buffered:bool = false
 var _attack2Buffered:bool = false
 
+var _maxLoadedShots:int = 10
+var _loadedShots:int = 10
+
 func _ready() -> void:
 	# however many slots we want
 	for i in range (0, 8):
@@ -48,7 +52,7 @@ func _ready() -> void:
 	_moves = PlayerAttacks.get_moves()
 	_hitInfo = Game.new_hit_info()
 	_targetInfo = Game.new_target_info()
-	_animator.play("punch_idle")
+	_return_to_idle_animation()
 	_animator.connect("current_animation_changed", _on_weapon_animation_changed)
 	_rightBatonArea.connect("area_entered", _on_area_entered_right_baton)
 	_leftBatonArea.connect("area_entered", _on_area_entered_left_baton)
@@ -82,6 +86,9 @@ func _set_area_on(area:Area3D, flag:bool) -> void:
 # attack animations
 ##########################################################################
 func _on_weapon_animation_changed(_animName:String) -> void:
+	match _animName:
+		"punch_idle", "blade_idle", "blaster_idle":
+			return
 	_animHistorySequence += 1
 	var historyLength:int = _animHistory.size()
 	_animHistory[_animHistorySequence % historyLength] = _animName
@@ -113,10 +120,28 @@ func start_move(moveName:String) -> void:
 	_animator.queue(_lastMove.idleAnimation)
 	_hitInfo.damageType = _lastMove.damageType
 
+func _return_to_idle_animation() -> void:
+	_animator.clear_queue()
+	match _stance:
+		PlayerAttacks.Stance.Blade:
+			_animator.play("blade_idle")
+		PlayerAttacks.Stance.Gun:
+			_animator.play("blaster_idle")
+		_:
+			_animator.play("punch_idle")
+
+func _queue_idle_animation() -> void:
+	match _stance:
+		PlayerAttacks.Stance.Blade:
+			_animator.queue("blade_idle")
+		PlayerAttacks.Stance.Gun:
+			_animator.queue("blaster_idle")
+		_:
+			_animator.queue("punch_idle")
+
 func check_attack_chain_cancel() -> void:
 	if !_attack1Buffered && !_attack2Buffered:
-		_animator.clear_queue()
-		_animator.play("punch_idle")
+		_return_to_idle_animation()
 		return
 	# continue animation but update direction
 	_attack1Buffered = false
@@ -129,7 +154,7 @@ func check_animation_loop() -> void:
 	match _animator.current_animation:
 		#"punch_spin_test":
 		#	_animator.seek(0.2)
-		"double_spin_chain":
+		"double_spin":
 			#print("Repeat from " + str(_animationRepeatPosition))
 			_animator.seek(_animationRepeatPosition, true, true)
 		_:
@@ -138,6 +163,27 @@ func check_animation_loop() -> void:
 func mark_repeat_time() -> void:
 	_animationRepeatPosition = _animator.current_animation_position
 	#print("Mark repeat " + str(_animationRepeatPosition))
+
+func _load_shot() -> bool:
+	if _loadedShots >= _maxLoadedShots:
+		_loadedShots = _maxLoadedShots
+		return false
+	_loadedShots += 1
+	return true
+
+func load_shot_from_right_spin() -> void:
+	if !_load_shot():
+		return
+	var pos:Vector3 = _rightBatonArea.global_position
+	var dir:Vector3 = -_rightBatonArea.global_transform.basis.x
+	Game.spawn_gfx_ejected_shell(pos, dir)
+
+func load_shot_from_left_spin() -> void:
+	if !_load_shot():
+		return
+	var pos:Vector3 = _leftBatonArea.global_position
+	var dir:Vector3 = -_leftBatonArea.global_transform.basis.x
+	Game.spawn_gfx_ejected_shell(pos, dir)
 
 func set_recovering_on() -> void:
 	_inMoveRecovery = true
@@ -173,7 +219,7 @@ func look_at_aim_point() -> void:
 
 func is_view_locked() -> bool:
 	match _animator.current_animation:
-		"", "punch_idle", "blaster_idle", "blaster_shoot_left", "blaster_shoot_right", "punch_dash":
+		"", "punch_idle", "blaster_idle", "blade_idle", "blaster_shoot_left", "blaster_shoot_right", "punch_dash":
 			return false
 		"punch_charge_stance":
 			return false
@@ -213,7 +259,7 @@ func _check_for_blade_stance_move_start(isAttacking:bool, atkDir:AttackInputDir,
 	# quick swing combo
 	if !atkTwoOn:
 		if atkOneJustOn:
-			start_move("slash_sequence_2")
+			start_move("slash_sequence")
 		return
 	
 	# 2 is held, look for 1 taps to release
@@ -221,9 +267,9 @@ func _check_for_blade_stance_move_start(isAttacking:bool, atkDir:AttackInputDir,
 		if atkDir == AttackInputDir.Forward:
 			start_move("shredder")
 		elif atkDir == AttackInputDir.Backward:
-			start_move("double_spin_chain")
+			start_move("double_spin")
 		else:
-			start_move("slash_sequence_2")
+			start_move("slash_sequence")
 
 func _check_for_punch_stance_move_start(isAttacking:bool, atkDir:AttackInputDir, _delta:float) -> void:
 	if isAttacking:
@@ -240,9 +286,9 @@ func _check_for_punch_stance_move_start(isAttacking:bool, atkDir:AttackInputDir,
 	#		start_move("shredder")
 	#		return
 	#	elif atkDir == AttackInputDir.Backward:
-	#		start_move("double_spin_chain")
+	#		start_move("double_spin")
 	#	else:
-	#		start_move("slash_sequence_2")
+	#		start_move("slash_sequence")
 	#	return
 
 	# tapping 1 no 2 - just a quick jab combo
@@ -286,7 +332,7 @@ func _check_for_punch_stance_move_start_2(isAttacking:bool, atkDir:AttackInputDi
 		if !isAttacking && Input.is_action_just_pressed("attack_1"):
 			start_move("punch_jab_left")
 		if !isAttacking && Input.is_action_just_pressed("attack_2"):
-			start_move("slash_sequence_2")
+			start_move("slash_sequence")
 
 func _check_for_punch_stance_move_start_1(isAttacking:bool, atkDir:AttackInputDir, _delta:float) -> void:
 	if !isAttacking && Input.is_action_just_pressed("attack_1"):
@@ -313,14 +359,22 @@ func _check_for_punch_stance_move_start_1(isAttacking:bool, atkDir:AttackInputDi
 				start_move("shredder")
 			AttackInputDir.Backward:
 				look_at_aim_point()
-				start_move("double_spin_chain")
+				start_move("double_spin")
 			_:
 				look_at_aim_point()
-				start_move("slash_sequence_2")
+				start_move("slash_sequence")
 
 ##########################################################################
 # life time
 ##########################################################################
+
+func _broadcast_hud_info() -> void:
+	_hudInfo.shotCount = _loadedShots
+	_hudInfo.maxShotCount = _maxLoadedShots
+	
+	var grp:String = HudInfo.GROUP_NAME
+	var fn:String = HudInfo.FN_HUD_INFO_BROADCAST
+	self.get_tree().call_group(grp, fn, _hudInfo)
 
 func _exit_tree():
 	var grp = Game.GROUP_GAME_EVENTS
@@ -328,12 +382,13 @@ func _exit_tree():
 	get_tree().call_group(grp, fn, self)
 
 func _physics_process(_delta:float) -> void:
-
+	
 	# house-keeping
 	_selfTime += _delta
 	_tryAttackSequenceTick -= _delta
 	_refireTick -= _delta
 	refresh_target_info()
+	_broadcast_hud_info()
 
 	# inputs
 	if Input.is_action_just_pressed("slot_1"):
@@ -352,13 +407,7 @@ func _physics_process(_delta:float) -> void:
 	
 	if !viewLocked && _stance != _pendingStance:
 		_stance = _pendingStance
-		match _stance:
-			PlayerAttacks.Stance.Blade:
-				_animator.play("punch_idle")
-			PlayerAttacks.Stance.Gun:
-				_animator.play("blaster_idle")
-			_:
-				_animator.play("punch_idle")
+		_return_to_idle_animation()
 	
 	var canEvade:bool = true
 	if _rightBatonArea.monitoring:
@@ -370,7 +419,7 @@ func _physics_process(_delta:float) -> void:
 	if Input.is_action_just_pressed("dash") && canEvade:
 		_dashInput = inputVec
 		_animator.play("punch_dash")
-		_animator.queue("punch_idle")
+		_queue_idle_animation()
 		_step_dash(_delta)
 		return
 	
@@ -380,7 +429,10 @@ func _physics_process(_delta:float) -> void:
 		if Input.is_action_pressed("attack_2"):
 			_animator.play("punch_charge_stance")
 		elif _animator.current_animation == "punch_charge_stance":
-			_animator.play("punch_idle")
+			if _stance == PlayerAttacks.Stance.Punch:
+				_animator.play("punch_idle")
+			else:
+				_animator.play("blade_idle")
 
 	if isAttacking:
 		if Input.is_action_just_pressed("attack_1"):
@@ -397,13 +449,15 @@ func _physics_process(_delta:float) -> void:
 		# Gun
 		PlayerAttacks.Stance.Gun:
 			if !isAttacking && _refireTick <= 0.0 && Input.is_action_pressed("attack_1"):
-				if _nextShotRight:
-					_animator.play("blaster_shoot_right")
-				else:
-					_animator.play("blaster_shoot_left")
-				_nextShotRight = !_nextShotRight
-				_fire_projectile()
-				_animator.queue("blaster_idle")
+				if _loadedShots > 0:
+					_loadedShots -= 1
+					if _nextShotRight:
+						_animator.play("blaster_shoot_right")
+					else:
+						_animator.play("blaster_shoot_left")
+					_nextShotRight = !_nextShotRight
+					_fire_projectile()
+					_animator.queue("blaster_idle")
 		################################################################
 		# punch
 		PlayerAttacks.Stance.Punch:
