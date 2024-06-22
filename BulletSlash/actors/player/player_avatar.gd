@@ -39,8 +39,8 @@ var _lastMove:Dictionary = {}
 var _attack1Buffered:bool = false
 var _attack2Buffered:bool = false
 
-var _maxLoadedShots:int = 40
-var _loadedShots:int = 40
+var _maxLoadedShots:int = 20
+var _loadedShots:int = 0
 
 func _ready() -> void:
 	# however many slots we want
@@ -48,7 +48,7 @@ func _ready() -> void:
 		_animHistory.push_back("")
 		_animHistoryTimes.push_back(0)
 	_animHistorySequence = 0
-	
+	_loadedShots = _maxLoadedShots
 	_moves = PlayerAttacks.get_moves()
 	_hitInfo = Game.new_hit_info()
 	_targetInfo = Game.new_target_info()
@@ -148,14 +148,28 @@ func check_attack_chain_cancel() -> void:
 	#_attack2Buffered = false
 	look_at_aim_point()
 
-func check_animation_loop() -> void:
-	if !Input.is_action_pressed("attack_1"): # && !Input.is_action_pressed("attack_2"):
-		return
-	_animator.seek(_animationRepeatPosition, true, true)
-
 func mark_repeat_time() -> void:
 	_animationRepeatPosition = _animator.current_animation_position
 	#print("Mark repeat " + str(_animationRepeatPosition))
+
+func check_animation_loop() -> void:
+	if _animator.current_animation == "blaster_reload":
+		if Input.is_action_pressed("attack_3"):
+			_animator.seek(_animationRepeatPosition, true, true)
+		return
+	if !Input.is_action_pressed("attack_1"): # && !Input.is_action_pressed("attack_2"):
+		return
+	if !consume_shot_for_loop(_lastMove[PlayerAttacks.FIELD_SHOTS_CONSUMED_ON_LOOP]):
+		return
+	_animator.seek(_animationRepeatPosition, true, true)
+
+func consume_shot_for_loop(required:int) -> bool:
+	if required <= 0:
+		return true
+	if _loadedShots >= required:
+		_loadedShots -= required
+		return true
+	return false
 
 func _load_shot() -> bool:
 	if _loadedShots >= _maxLoadedShots:
@@ -248,6 +262,7 @@ func _check_for_blade_stance_move_start(isAttacking:bool, atkDir:AttackInputDir,
 		return
 	var atkOneJustOn:bool = Input.is_action_just_pressed("attack_1")
 	var atkTwoOn:bool = Input.is_action_pressed("attack_2")
+	var atkThree:bool = Input.is_action_pressed("attack_3")
 
 	# quick swing combo
 	if !atkTwoOn:
@@ -260,7 +275,7 @@ func _check_for_blade_stance_move_start(isAttacking:bool, atkDir:AttackInputDir,
 		if atkDir == AttackInputDir.Forward:
 			start_move("shredder")
 		elif atkDir == AttackInputDir.Backward:
-			start_move("double_spin")
+			start_move("hold_forward_spin")
 		else:
 			start_move("slash_sequence")
 
@@ -362,6 +377,8 @@ func _check_for_punch_stance_move_start_1(isAttacking:bool, atkDir:AttackInputDi
 ##########################################################################
 
 func _broadcast_hud_info() -> void:
+	_hudInfo.playerWorldPosition = self.global_position
+	
 	_hudInfo.shotCount = _loadedShots
 	_hudInfo.maxShotCount = _maxLoadedShots
 	
@@ -441,16 +458,19 @@ func _physics_process(_delta:float) -> void:
 		################################################################
 		# Gun
 		PlayerAttacks.Stance.Gun:
-			if !isAttacking && _refireTick <= 0.0 && Input.is_action_pressed("attack_1"):
-				if _loadedShots > 0:
-					_loadedShots -= 1
-					if _nextShotRight:
-						_animator.play("blaster_shoot_right")
-					else:
-						_animator.play("blaster_shoot_left")
-					_nextShotRight = !_nextShotRight
-					_fire_projectile()
-					_animator.queue("blaster_idle")
+			if !isAttacking && _refireTick <= 0.0:
+				if Input.is_action_pressed("attack_1"):
+					if _loadedShots > 0:
+						_loadedShots -= 1
+						if _nextShotRight:
+							_animator.play("blaster_shoot_right")
+						else:
+							_animator.play("blaster_shoot_left")
+						_nextShotRight = !_nextShotRight
+						_fire_projectile()
+						_animator.queue("blaster_idle")
+				elif Input.is_action_pressed("attack_3") && _loadedShots < _maxLoadedShots:
+					start_move("reload_loop")
 		################################################################
 		# punch
 		PlayerAttacks.Stance.Punch:
@@ -458,11 +478,11 @@ func _physics_process(_delta:float) -> void:
 			pass
 	
 	var moveSpeed:float = 5.0
-	if viewLocked:
+	if viewLocked || Input.is_action_pressed("attack_2"):
 		moveSpeed = 1.0
 
 	#if !viewLocked && !Input.is_action_pressed("attack_2"):
-	if !Input.is_action_pressed("attack_2"):
+	if true: # !Input.is_action_pressed("attack_2"):
 		
 		#if _animator.current_animation == "blaster_idle":
 		#	moveSpeed = 3.0

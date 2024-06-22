@@ -54,9 +54,11 @@ func _physics_process(_delta:float) -> void:
 			var tarPos:Vector3 = _thinkInfo.target.t.origin
 			_look_toward_flat(tarPos)
 			var distSqr:float = _thinkInfo.xzTowardTarget.length_squared()
-			if distSqr > (5.0 * 5.0):
+			var runDist:float = 7.0
+			var stopDist:float = 3.0
+			if distSqr > (runDist * runDist):
 				_step_toward_flat(tarPos, 8.0, _delta)
-			else:
+			elif distSqr > (stopDist * stopDist):
 				_step_toward_flat(tarPos, 2.0, _delta)
 			pass
 
