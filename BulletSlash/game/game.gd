@@ -105,10 +105,10 @@ func spawn_gfx_ejected_shell(pos:Vector3, forward:Vector3) -> void:
 	gfx.global_position = pos
 	gfx.linear_velocity = (forward * 10)
 
-func gfx_blood_splat_thrown(pos:Vector3, forward:Vector3) -> void:
+func gfx_blood_splat_thrown(pos:Vector3, forward:Vector3, speed:float = 10) -> void:
 	var gfx:DecalThrownBloodSplat = _gfxBloodSplatThrownType.instantiate() as DecalThrownBloodSplat
 	_worldRoot.add_child(gfx)
-	gfx.throw_decal(pos, forward)
+	gfx.throw_decal(pos, forward, speed)
 
 ####################################################
 # registers

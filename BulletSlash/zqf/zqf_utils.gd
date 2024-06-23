@@ -200,6 +200,16 @@ static func turn_towards_point(spatial:Node3D, pos:Vector3, weight:float) -> voi
 	var result:Transform3D = spatial.Transform3D.interpolate_with(towardPoint, weight)
 	spatial.set_Transform3D(result)
 
+# amount is kinda nebulous here...
+static func quick_skew_direction(dir:Vector3, amount:float = 1.0) -> Vector3:
+	var a:Vector3 = dir * 4.0
+	var offset:Vector3 = Vector3(
+		randf_range(-amount, amount),
+		randf_range(-amount, amount),
+		randf_range(-amount, amount))
+	a += offset
+	return (a - dir).normalized()
+
 #####################################
 # misc data
 #####################################

@@ -107,11 +107,17 @@ func hit(_hitInfo) -> int:
 	gfxPos.y += 1
 	gfxPos = gfxPos.lerp(_hitInfo.position, 0.5)
 	if _hitInfo.damageType == Game.DAMAGE_TYPE_SLASH:
+		var fxSpeed:float = randf_range(5, 10)
 		Game.spawn_gfx_blade_blood_spurt(gfxPos, gfxDir)
-		Game.gfx_blood_splat_thrown(gfxPos, gfxDir)
+		Game.gfx_blood_splat_thrown(gfxPos, ZqfUtils.quick_skew_direction(gfxDir), fxSpeed)
+	elif Game.DAMAGE_TYPE_BULLET:
+		var fxSpeed:float = randf_range(10, 20)
+		Game.spawn_gfx_blade_blood_spurt(gfxPos, gfxDir)
+		Game.gfx_blood_splat_thrown(gfxPos, ZqfUtils.quick_skew_direction(gfxDir), fxSpeed)
 	else:
+		var fxSpeed:float = randf_range(2, 4)
 		Game.spawn_gfx_punch_blood_spurt(gfxPos)
-		Game.gfx_blood_splat_thrown(gfxPos, gfxDir)
+		Game.gfx_blood_splat_thrown(gfxPos, ZqfUtils.quick_skew_direction(gfxDir), fxSpeed)
 	return 1
 
 ##################################################

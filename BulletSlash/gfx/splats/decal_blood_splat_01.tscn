@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bktucppktmkt0"]
+[gd_scene load_steps=6 format=3 uid="uid://bktucppktmkt0"]
 
 [ext_resource type="Texture2D" uid="uid://csybtk28sgpba" path="res://gfx/splats/blood_splat_01.png" id="1_hkbwf"]
 [ext_resource type="Script" path="res://gfx/splats/decal_thrown_blood_splat.gd" id="1_xi7ox"]
@@ -8,6 +8,9 @@ radius = 0.2
 
 [sub_resource type="BoxMesh" id="BoxMesh_12gcl"]
 size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bh0sp"]
+radius = 0.25
 
 [node name="decal_blood_splat_01" type="CharacterBody3D"]
 collision_layer = 32
@@ -27,3 +30,10 @@ disabled = true
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 visible = false
 mesh = SubResource("BoxMesh_12gcl")
+
+[node name="neighbour_detector" type="Area3D" parent="."]
+collision_layer = 32
+collision_mask = 32
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="neighbour_detector"]
+shape = SubResource("SphereShape3D_bh0sp")

@@ -12,6 +12,7 @@ func _ready() -> void:
 func _on_hitbox_area_entered(_area:Area3D) -> void:
 	_hitInfo.position = self.global_position
 	_hitInfo.direction = -self.global_transform.basis.z
+	_hitInfo.damageType = Game.DAMAGE_TYPE_BULLET
 	var result:int = Game.try_hit(_hitInfo, _area)
 	if result > 0:
 		self.queue_free()
