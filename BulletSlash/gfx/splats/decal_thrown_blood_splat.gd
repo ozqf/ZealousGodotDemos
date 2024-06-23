@@ -32,7 +32,6 @@ func _check_neighbours() -> void:
 	var num:int = others.size()
 	if num < 6:
 		return
-	var isWorst:bool = false
 	for i in range(0, num):
 		# TODO: Jank - assuming parent type
 		var other:DecalThrownBloodSplat = others[i].get_parent() as DecalThrownBloodSplat

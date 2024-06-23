@@ -6,7 +6,8 @@ const STATE_SPAWNING:String = "spawning"
 
 @export var id:String = ""
 @export var mobType:String = "dummy"
-@export var maxLiveMobs:int = 2.0
+@export var maxLiveMobs:int = 2
+@export var totalMobs:int = 4
 @export var spawnInterval:float = 1.0
 
 var _spawnedMobs:Dictionary = {}
@@ -14,6 +15,7 @@ var _spawnedMobs:Dictionary = {}
 var _state:String = STATE_WAITING
 
 var _spawnTick:float = 0.0
+var _totalSpawned:int = 0
 
 func _ready() -> void:
 	self.add_to_group(Game.GROUP_TRIGGER_EVENTS)
@@ -32,6 +34,7 @@ func spawn_mob():
 			mob = Game.spawn_mob_fodder() as MobBase
 		_:
 			mob = Game.spawn_mob_dummy() as MobBase
+	_totalSpawned += 1
 	var spawnInfo:MobSpawnInfo = mob.get_spawn_info()
 	spawnInfo.t = self.global_transform
 	mob.spawn()
@@ -44,6 +47,8 @@ func _on_mob_broadcast_event(eventType, mobInstance) -> void:
 		MobBase.MOB_EVENT_DIED:
 			if _spawnedMobs.has(id):
 				_spawnedMobs.erase(id)
+			if _spawnedMobs.size() == 0 && _totalSpawned >= totalMobs:
+				self.queue_free()
 
 func start() -> void:
 	if _state == STATE_WAITING:

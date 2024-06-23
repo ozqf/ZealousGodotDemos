@@ -1,15 +1,21 @@
-[gd_scene load_steps=16 format=3 uid="uid://2wnsyee8vxc6"]
+[gd_scene load_steps=24 format=3 uid="uid://2wnsyee8vxc6"]
 
+[ext_resource type="Script" path="res://game/camera_controller.gd" id="1_gj42n"]
 [ext_resource type="PackedScene" uid="uid://cta1t8u5ultmf" path="res://actors/player/player_avatar.tscn" id="1_ocjj5"]
+[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="1_x5o7t"]
 [ext_resource type="Material" uid="uid://4k2kxi2gq51q" path="res://shared/materials/dev/mat_dev_concrete.tres" id="2_l8ahp"]
 [ext_resource type="Material" uid="uid://ipj5gnxauts0" path="res://shared/materials/dev/mat_dev_void.tres" id="3_4t8gt"]
 [ext_resource type="PackedScene" uid="uid://cs2u0ikx2w1i3" path="res://actors/spawners/spawner.tscn" id="3_ddtwt"]
+[ext_resource type="Material" uid="uid://j8k27wqo2xqn" path="res://shared/materials/editor/editor_mat_volume_green.tres" id="3_epqpt"]
 [ext_resource type="PackedScene" uid="uid://bpdtm27vex58t" path="res://shared/lights/big_dirty_yellow_spotlight.tscn" id="5_3iqyv"]
 [ext_resource type="PackedScene" uid="uid://d1hby8x3dimgw" path="res://actors/props/skip/prop_skip.tscn" id="6_gytad"]
 [ext_resource type="Texture2D" uid="uid://dklkym6sxvdhe" path="res://shared/materials/dev/components/dev_fence_albedo.png" id="6_irtjm"]
 [ext_resource type="PackedScene" uid="uid://brtreenfu1b6t" path="res://actors/trigger_volume/trigger_volume.tscn" id="8_uxb2q"]
 [ext_resource type="PackedScene" uid="uid://ckb20t2ehlvqm" path="res://test/models/character_exercise_01.glb" id="9_qlv0n"]
 [ext_resource type="PackedScene" uid="uid://bktucppktmkt0" path="res://gfx/splats/decal_blood_splat_01.tscn" id="10_7wbtf"]
+[ext_resource type="Texture2D" uid="uid://rts6ifhpf0vj" path="res://shared/materials/mat_puddle_albedo.png" id="13_5qcdn"]
+[ext_resource type="Texture2D" uid="uid://dr05em3mwj8x7" path="res://shared/materials/mat_toward_normal.png" id="14_b0stk"]
+[ext_resource type="Texture2D" uid="uid://d0qjcya3o16mw" path="res://shared/materials/mat_water_orm.png" id="15_g01cq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_06qa2"]
 albedo_color = Color(0.299968, 0.511606, 1, 1)
@@ -27,6 +33,17 @@ initial_velocity_max = 20.0
 [sub_resource type="BoxMesh" id="BoxMesh_ck5d0"]
 size = Vector3(0.02, 0.2, 0.02)
 
+[sub_resource type="NavigationMesh" id="NavigationMesh_2m4k6"]
+vertices = PackedVector3Array(-12.3622, 13.25, -0.35, -12.3622, 13.25, 0.4, 72.1378, 10, 0.4, 72.1378, 10, -0.35, 42.1539, 10, -0.35, 39.4281, 16.25, -0.35, 36.7023, 20, -0.35, 1.26685, 20, -0.35, -1.45895, 19.5, -0.35, -1.45895, 19.5, 0.4, 1.26685, 20, 0.4, 36.7023, 20, 0.4, 39.4281, 16.25, 0.4, 42.1539, 10, 0.4)
+polygons = [PackedInt32Array(0, 8, 1), PackedInt32Array(1, 8, 9), PackedInt32Array(9, 8, 7), PackedInt32Array(9, 7, 10), PackedInt32Array(10, 7, 6), PackedInt32Array(10, 6, 11), PackedInt32Array(11, 6, 5), PackedInt32Array(11, 5, 12), PackedInt32Array(12, 5, 4), PackedInt32Array(12, 4, 13), PackedInt32Array(13, 4, 3), PackedInt32Array(13, 3, 2)]
+agent_height = 0.5
+agent_radius = 0.1
+agent_max_climb = 1.0
+agent_max_slope = 89.0
+
+[sub_resource type="PrismMesh" id="PrismMesh_fyp3j"]
+left_to_right = 0.0
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ih3td"]
 transparency = 2
 alpha_scissor_threshold = 0.5
@@ -36,6 +53,9 @@ uv1_triplanar = true
 
 [sub_resource type="Environment" id="Environment_q5f85"]
 background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0, 0, 0.160784, 1)
+tonemap_mode = 2
 ssr_enabled = true
 glow_enabled = true
 fog_enabled = true
@@ -43,33 +63,76 @@ fog_density = 0.002
 
 [node name="Sandbox" type="Node3D"]
 
-[node name="camera_track" type="Node3D" parent="."]
+[node name="camera_controller" type="Node3D" parent="."]
+script = ExtResource("1_gj42n")
 
-[node name="cam_pos_1" type="Camera3D" parent="camera_track"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -12, 20, 0)
+[node name="preview_camera" type="Camera3D" parent="camera_controller"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -13, 13, 0)
 cull_mask = 524287
 fov = 40.0
 size = 16.0
+script = ExtResource("1_x5o7t")
+tick = 0.1
 
-[node name="node_a" type="Node3D" parent="camera_track"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 20, 0)
+[node name="camera_root" type="Node3D" parent="camera_controller"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
 
-[node name="camera_root" type="Node3D" parent="camera_track/node_a"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="camera_controller/camera_root"]
 
-[node name="Camera3D" type="Camera3D" parent="camera_track/node_a/camera_root"]
+[node name="Camera3D" type="Camera3D" parent="camera_controller/camera_root"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 cull_mask = 524287
 current = true
 fov = 40.0
 size = 16.0
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="camera_track/node_a/camera_root"]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="camera_controller/camera_root"]
 material_override = SubResource("StandardMaterial3D_06qa2")
 amount = 1024
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_ft3am")
 draw_pass_1 = SubResource("BoxMesh_ck5d0")
+
+[node name="camera_track" type="Node3D" parent="camera_controller"]
+
+[node name="node_a" type="Node3D" parent="camera_controller/camera_track"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 13, 0)
+
+[node name="node_b" type="Node3D" parent="camera_controller/camera_track"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="camera_controller"]
+navigation_mesh = SubResource("NavigationMesh_2m4k6")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="camera_controller/NavigationRegion3D"]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, -6.3, 15.6, 0)
+layers = 524288
+size = Vector3(14, 1, 1.2)
+material = ExtResource("3_epqpt")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="camera_controller/NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 19, 0)
+layers = 524288
+size = Vector3(14, 1, 1)
+material = ExtResource("3_epqpt")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="camera_controller/NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 19, 0)
+layers = 524288
+size = Vector3(25, 1, 1)
+material = ExtResource("3_epqpt")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="camera_controller/NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57, 9, 0)
+layers = 524288
+size = Vector3(31, 1, 1)
+material = ExtResource("3_epqpt")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="camera_controller/NavigationRegion3D"]
+transform = Transform3D(4.29, 0, 0, 0, 10.5651, 0, 0, 0, 1, 40.1, 14.2, 0)
+layers = 524288
+mesh = SubResource("PrismMesh_fyp3j")
+material = ExtResource("3_epqpt")
 
 [node name="player_avatar" parent="." instance=ExtResource("1_ocjj5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
@@ -90,7 +153,7 @@ id = "spawn_b"
 mobType = "fodder"
 
 [node name="Spawner2" parent="." instance=ExtResource("3_ddtwt")]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -6, 0, 2)
+transform = Transform3D(-1, 0, -2.62269e-07, 0, 1, 0, 2.62269e-07, 0, -1, -14, 0, -3)
 id = "spawn_0"
 
 [node name="big_dirty_yellow_spotlight5" parent="." instance=ExtResource("5_3iqyv")]
@@ -122,23 +185,26 @@ spot_attenuation = 0.840897
 [node name="hull" type="Node3D" parent="geometry"]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="geometry/hull"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, -0.5, 0)
 layers = 5
 use_collision = true
-size = Vector3(64, 1, 32)
+size = Vector3(74, 1, 32)
 material = ExtResource("2_l8ahp")
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(0.999994, 0.00159512, -0.00302614, -0.00159516, 0.999999, -1.14945e-05, 0.00302612, 1.63135e-05, 0.999995, 25.0311, 31.4672, 10.0625)
 layers = 5
 use_collision = true
 size = Vector3(42, 63, 12)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 31.5, -10)
 layers = 5
 use_collision = true
 size = Vector3(42, 63, 12)
+metadata/_edit_lock_ = true
 
 [node name="doorway_subtract_csg" type="CSGBox3D" parent="geometry/hull/CSGBox3D3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -30, 5)
@@ -152,6 +218,7 @@ cast_shadow = 0
 use_collision = true
 size = Vector3(34, 60, 1)
 material = ExtResource("3_4t8gt")
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D15" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33, -16.5)
@@ -160,6 +227,7 @@ cast_shadow = 0
 use_collision = true
 size = Vector3(34, 60, 1)
 material = ExtResource("3_4t8gt")
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D17" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 33.5, 0)
@@ -168,67 +236,97 @@ cast_shadow = 0
 use_collision = true
 size = Vector3(1, 59, 32)
 material = ExtResource("3_4t8gt")
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 31.5, 10)
 layers = 5
 use_collision = true
 size = Vector3(12, 63, 12)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 31.5, -10)
 layers = 5
 use_collision = true
 size = Vector3(12, 63, 12)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 2, 0)
 layers = 5
 use_collision = true
 size = Vector3(4, 4, 34)
+metadata/_edit_lock_ = true
 
 [node name="doorway_subtract_csg2" type="CSGBox3D" parent="geometry/hull/CSGBox3D10"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.5, 0)
 operation = 2
 size = Vector3(2, 3, 2)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="geometry/hull"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.5, 9.1, 0.0762796)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.5, 9.1, 0.0762796)
 layers = 5
 use_collision = true
-size = Vector3(1, 18.2, 8.1)
+size = Vector3(11, 18.2, 8.1)
+metadata/_edit_lock_ = true
+
+[node name="subtract" type="CSGBox3D" parent="geometry/hull/CSGBox3D11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -3.6, 0.0500002)
+layers = 5
+operation = 2
+use_collision = true
+size = Vector3(10, 11, 4)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D12" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 16.5)
 layers = 5
 use_collision = true
 size = Vector3(32, 3, 1)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D13" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -16.5)
 layers = 5
 use_collision = true
 size = Vector3(32, 3, 1)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 7, -3)
 layers = 5
 size = Vector3(0.5, 0.5, 2)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 5, 0)
+layers = 5
+size = Vector3(0.04, 0.04, 8)
+
+[node name="CSGBox3D22" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 15, 0)
+layers = 5
+size = Vector3(0.04, 0.04, 8)
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 7, -3)
 layers = 5
 size = Vector3(0.5, 0.5, 2)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 7, 3)
 layers = 5
 size = Vector3(0.5, 0.5, 2)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 7, 3)
 layers = 5
 size = Vector3(0.5, 0.5, 2)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D16" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -6.5)
@@ -236,12 +334,14 @@ layers = 5
 use_collision = true
 size = Vector3(8, 3, 0.4)
 material = SubResource("StandardMaterial3D_ih3td")
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D18" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, -6.5)
 layers = 5
 use_collision = true
 size = Vector3(8, 0.2, 0.4)
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D19" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 6.5)
@@ -249,12 +349,14 @@ layers = 5
 use_collision = true
 size = Vector3(8, 3, 0.4)
 material = SubResource("StandardMaterial3D_ih3td")
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D20" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 6.5)
 layers = 5
 use_collision = true
 size = Vector3(8, 0.2, 0.4)
+metadata/_edit_lock_ = true
 
 [node name="props" type="Node3D" parent="geometry"]
 
@@ -281,9 +383,31 @@ targetId = "spawn_a,spawn_b"
 [node name="test" type="Node3D" parent="."]
 
 [node name="char01" type="Node3D" parent="test"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -3)
 
 [node name="character_exercise_01" parent="test/char01" instance=ExtResource("9_qlv0n")]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -11, 0, -3)
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+
+[node name="decal_puddle" type="Decal" parent="test"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -14.3, 0, -1.4)
+size = Vector3(2, 0.2, 2)
+texture_albedo = ExtResource("13_5qcdn")
+texture_normal = ExtResource("14_b0stk")
+texture_orm = ExtResource("15_g01cq")
+normal_fade = 0.999
+
+[node name="decal_puddle2" type="Decal" parent="test"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -12.3, 0, 0.6)
+size = Vector3(2, 0.2, 2)
+texture_albedo = ExtResource("13_5qcdn")
+texture_normal = ExtResource("14_b0stk")
+texture_orm = ExtResource("15_g01cq")
+normal_fade = 0.999
 
 [node name="decal_blood_splat_01" parent="test" instance=ExtResource("10_7wbtf")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -5, 1, -4)
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="test"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 2, 0.5)
+size = Vector3(20, 20, 19)
+cull_mask = 1
