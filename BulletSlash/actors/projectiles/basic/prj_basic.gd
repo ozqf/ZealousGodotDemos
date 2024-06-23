@@ -31,5 +31,5 @@ func cancel(_cancelMode:int) -> void:
 func _physics_process(_delta:float) -> void:
 	var pos:Vector3 = self.global_position
 	var dir:Vector3 = -self.global_transform.basis.z
-	pos += (dir * 15) * _delta
+	pos += (dir * 45) * _delta
 	self.global_position = pos

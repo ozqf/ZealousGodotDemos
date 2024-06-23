@@ -108,8 +108,10 @@ func hit(_hitInfo) -> int:
 	gfxPos = gfxPos.lerp(_hitInfo.position, 0.5)
 	if _hitInfo.damageType == Game.DAMAGE_TYPE_SLASH:
 		Game.spawn_gfx_blade_blood_spurt(gfxPos, gfxDir)
+		Game.gfx_blood_splat_thrown(gfxPos, gfxDir)
 	else:
 		Game.spawn_gfx_punch_blood_spurt(gfxPos)
+		Game.gfx_blood_splat_thrown(gfxPos, gfxDir)
 	return 1
 
 ##################################################

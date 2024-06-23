@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://6ixr350iukeb"]
+
+[node name="DecalRaycaster" type="RayCast3D"]
+target_position = Vector3(0, 0, -1)

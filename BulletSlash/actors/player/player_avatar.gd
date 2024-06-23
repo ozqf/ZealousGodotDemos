@@ -226,11 +226,18 @@ func look_at_aim_point() -> void:
 
 func is_view_locked() -> bool:
 	match _animator.current_animation:
-		"", "punch_idle", "blaster_idle", "blade_idle", "blaster_shoot_left", "blaster_shoot_right", "punch_dash":
+		"", "punch_idle", "blaster_idle", "blade_idle", "blaster_shoot_left", "blaster_shoot_right", "punch_dash", "blaster_reload":
 			return false
 		"punch_charge_stance":
 			return false
 		null:
+			return false
+		_:
+			return true
+
+func is_move_speed_limited() -> bool:
+	match _animator.current_animation:
+		"", "punch_idle", "blaster_idle", "blade_idle", "blaster_shoot_left", "blaster_shoot_right", "punch_dash":
 			return false
 		_:
 			return true
@@ -246,7 +253,7 @@ func _fire_projectile() -> void:
 	info.origin = _rightBatonArea.global_position
 	info.forward = -_display.global_transform.basis.z
 	prj.launch()
-	_refireTick = 0.1
+	_refireTick = 0.2
 
 func _get_attack_dir(inputVec:Vector2) -> AttackInputDir:
 	var inputDir:Vector3 = Vector3(inputVec.x, 0, inputVec.y)
@@ -275,7 +282,7 @@ func _check_for_blade_stance_move_start(isAttacking:bool, atkDir:AttackInputDir,
 		if atkDir == AttackInputDir.Forward:
 			start_move("shredder")
 		elif atkDir == AttackInputDir.Backward:
-			start_move("hold_forward_spin")
+			start_move("double_spin")
 		else:
 			start_move("slash_sequence")
 
@@ -372,6 +379,17 @@ func _check_for_punch_stance_move_start_1(isAttacking:bool, atkDir:AttackInputDi
 				look_at_aim_point()
 				start_move("slash_sequence")
 
+func _gfx_muzzle_from_baton(baton:Area3D) -> void:
+	var t:Transform3D = baton.global_transform
+	# batons are technically facing backwards so NOT -basis.z
+	Game.spawn_gfx_blaster_muzzle(t.origin, t.basis.z)
+
+func gfx_muzzle_from_right_baton() -> void:
+	_gfx_muzzle_from_baton(_rightBatonArea)
+
+func gfx_muzzle_from_left_baton() -> void:
+	_gfx_muzzle_from_baton(_leftBatonArea)
+
 ##########################################################################
 # life time
 ##########################################################################
@@ -464,8 +482,10 @@ func _physics_process(_delta:float) -> void:
 						_loadedShots -= 1
 						if _nextShotRight:
 							_animator.play("blaster_shoot_right")
+							_gfx_muzzle_from_baton(_rightBatonArea)
 						else:
 							_animator.play("blaster_shoot_left")
+							_gfx_muzzle_from_baton(_leftBatonArea)
 						_nextShotRight = !_nextShotRight
 						_fire_projectile()
 						_animator.queue("blaster_idle")
@@ -478,7 +498,9 @@ func _physics_process(_delta:float) -> void:
 			pass
 	
 	var moveSpeed:float = 5.0
-	if viewLocked || Input.is_action_pressed("attack_2"):
+	#if viewLocked || Input.is_action_pressed("attack_2"):
+	#	moveSpeed = 1.0
+	if is_move_speed_limited():
 		moveSpeed = 1.0
 
 	#if !viewLocked && !Input.is_action_pressed("attack_2"):

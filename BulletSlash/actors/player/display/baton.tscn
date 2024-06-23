@@ -25,18 +25,22 @@ height = 1.8
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.3)
+layers = 2
 mesh = SubResource("BoxMesh_fv0x3")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.03, 1)
+layers = 2
 mesh = SubResource("PrismMesh_75t1i")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+layers = 2
 mesh = SubResource("BoxMesh_rdwk5")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+layers = 2
 mesh = SubResource("CylinderMesh_8ki70")
 
 [node name="BatonEnergyLight" parent="." instance=ExtResource("1_makf5")]

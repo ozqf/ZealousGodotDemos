@@ -15,5 +15,6 @@ script = ExtResource("1_gnfcu")
 layout_mode = 0
 offset_right = 192.0
 offset_bottom = 32.0
+theme_override_font_sizes/font_size = 32
 text = "SHOTS:"
 vertical_alignment = 1

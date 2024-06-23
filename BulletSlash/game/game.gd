@@ -34,6 +34,8 @@ var _prjBasicType = preload("res://actors/projectiles/basic/prj_basic.tscn")
 var _gfxBladeBloodSpurtType = preload("res://gfx/blade_blood_spurt/gfx_blade_blood_spurt.tscn")
 var _gfxPunchBloodSpurtType = preload("res://gfx/punch_blood_spurt/gfx_punch_blood_spurt.tscn")
 var _gfxEjectedShellType = preload("res://gfx/ejected_brass/ejected_shell.tscn")
+var _gfxBlasterMuzzleType = preload("res://gfx/blaster/gfx_blaster_muzzle.tscn")
+var _gfxBloodSplatThrownType = preload("res://gfx/splats/decal_blood_splat_01.tscn")
 
 var _sandboxWorld:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 
@@ -79,6 +81,13 @@ func spawn_gfx_blade_blood_spurt(pos:Vector3, forward:Vector3) -> Node3D:
 	gfx.emitting = true
 	return gfx
 
+func spawn_gfx_blaster_muzzle(pos:Vector3, forward:Vector3) -> Node3D:
+	var gfx:Node3D = _gfxBlasterMuzzleType.instantiate() as Node3D
+	_worldRoot.add_child(gfx)
+	gfx.global_position = pos
+	gfx.look_at(pos + forward, Vector3.UP)
+	return gfx
+
 func spawn_gfx_punch_blood_spurt(pos:Vector3) -> Node3D:
 	var gfx:Node3D = _gfxPunchBloodSpurtType.instantiate() as Node3D
 	_worldRoot.add_child(gfx)
@@ -95,6 +104,11 @@ func spawn_gfx_ejected_shell(pos:Vector3, forward:Vector3) -> void:
 	_worldRoot.add_child(gfx)
 	gfx.global_position = pos
 	gfx.linear_velocity = (forward * 10)
+
+func gfx_blood_splat_thrown(pos:Vector3, forward:Vector3) -> void:
+	var gfx:DecalThrownBloodSplat = _gfxBloodSplatThrownType.instantiate() as DecalThrownBloodSplat
+	_worldRoot.add_child(gfx)
+	gfx.throw_decal(pos, forward)
 
 ####################################################
 # registers

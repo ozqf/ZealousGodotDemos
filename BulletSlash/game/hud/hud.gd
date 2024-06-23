@@ -8,7 +8,8 @@ func _ready():
 
 func hud_info_broadcast(hudInfo:HudInfo) -> void:
 	
-	_shotCount.text = "SHOTS: " + str(hudInfo.shotCount)
+	#_shotCount.text = "SHOTS: " + str(hudInfo.shotCount)
+	_shotCount.text = str(hudInfo.shotCount)
 	var viewPort:Viewport = get_viewport()
 	var cam:Camera3D = viewPort.get_camera_3d()
 	var labelPos:Vector2 = world_point_to_screen(

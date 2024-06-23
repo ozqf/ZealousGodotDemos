@@ -97,6 +97,10 @@ slot_4={
 
 [layer_names]
 
+3d_render/layer_1="world"
+3d_render/layer_2="actor"
+3d_render/layer_3="decal"
+3d_render/layer_20="editor"
 3d_physics/layer_1="world"
 3d_physics/layer_2="hitbox"
 3d_physics/layer_3="damager"

@@ -18,6 +18,7 @@ disable_receive_shadows = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+layers = 2
 cast_shadow = 0
 mesh = SubResource("CylinderMesh_3h48b")
 surface_material_override/0 = SubResource("StandardMaterial3D_fgfat")

@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://djit50ad65272"]
+
+[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="1_7n4gr"]
+[ext_resource type="Script" path="res://zqf/zqf_emit_on_ready.gd" id="1_hk6ct"]
+[ext_resource type="Script" path="res://zqf/zqf_timed_hide.gd" id="1_svaak"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dk83g"]
+albedo_color = Color(1, 1, 0, 1)
+emission_enabled = true
+emission = Color(1, 1, 0, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="Curve" id="Curve_qtmqy"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_u0rls"]
+curve = SubResource("Curve_qtmqy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8eag6"]
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+direction = Vector3(0, 0, -1)
+spread = 2.739
+initial_velocity_min = 20.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, -3, 0)
+damping_min = 30.0
+damping_max = 30.0
+scale_min = 0.0
+scale_curve = SubResource("CurveTexture_u0rls")
+
+[sub_resource type="BoxMesh" id="BoxMesh_x7k7a"]
+size = Vector3(0.1, 0.1, 0.2)
+
+[node name="GfxBlasterMuzzle" type="Node3D"]
+script = ExtResource("1_7n4gr")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+layers = 2
+material_override = SubResource("StandardMaterial3D_dk83g")
+amount = 64
+lifetime = 0.8
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_8eag6")
+draw_pass_1 = SubResource("BoxMesh_x7k7a")
+script = ExtResource("1_hk6ct")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+layers = 2
+light_color = Color(1, 1, 0.4, 1)
+light_energy = 2.0
+omni_range = 7.0
+script = ExtResource("1_svaak")
+tick = 0.1

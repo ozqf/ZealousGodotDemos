@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://bktucppktmkt0"]
+
+[ext_resource type="Texture2D" uid="uid://csybtk28sgpba" path="res://gfx/splats/blood_splat_01.png" id="1_hkbwf"]
+[ext_resource type="Script" path="res://gfx/splats/decal_thrown_blood_splat.gd" id="1_xi7ox"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0xppu"]
+radius = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_12gcl"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="decal_blood_splat_01" type="CharacterBody3D"]
+collision_layer = 32
+script = ExtResource("1_xi7ox")
+
+[node name="Decal" type="Decal" parent="."]
+layers = 4
+texture_albedo = ExtResource("1_hkbwf")
+normal_fade = 0.999
+distance_fade_enabled = true
+cull_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_0xppu")
+disabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_12gcl")

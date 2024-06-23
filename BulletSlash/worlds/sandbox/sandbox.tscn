@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://2wnsyee8vxc6"]
+[gd_scene load_steps=16 format=3 uid="uid://2wnsyee8vxc6"]
 
 [ext_resource type="PackedScene" uid="uid://cta1t8u5ultmf" path="res://actors/player/player_avatar.tscn" id="1_ocjj5"]
 [ext_resource type="Material" uid="uid://4k2kxi2gq51q" path="res://shared/materials/dev/mat_dev_concrete.tres" id="2_l8ahp"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dklkym6sxvdhe" path="res://shared/materials/dev/components/dev_fence_albedo.png" id="6_irtjm"]
 [ext_resource type="PackedScene" uid="uid://brtreenfu1b6t" path="res://actors/trigger_volume/trigger_volume.tscn" id="8_uxb2q"]
 [ext_resource type="PackedScene" uid="uid://ckb20t2ehlvqm" path="res://test/models/character_exercise_01.glb" id="9_qlv0n"]
+[ext_resource type="PackedScene" uid="uid://bktucppktmkt0" path="res://gfx/splats/decal_blood_splat_01.tscn" id="10_7wbtf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_06qa2"]
 albedo_color = Color(0.299968, 0.511606, 1, 1)
@@ -44,28 +45,34 @@ fog_density = 0.002
 
 [node name="camera_track" type="Node3D" parent="."]
 
-[node name="Node3D" type="Node3D" parent="camera_track"]
+[node name="cam_pos_1" type="Camera3D" parent="camera_track"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -12, 20, 0)
+cull_mask = 524287
+fov = 40.0
+size = 16.0
+
+[node name="node_a" type="Node3D" parent="camera_track"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 20, 0)
 
-[node name="player_avatar" parent="." instance=ExtResource("1_ocjj5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+[node name="camera_root" type="Node3D" parent="camera_track/node_a"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
-[node name="camera_root" type="Node3D" parent="player_avatar"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
-
-[node name="Camera3D" type="Camera3D" parent="player_avatar/camera_root"]
+[node name="Camera3D" type="Camera3D" parent="camera_track/node_a/camera_root"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 cull_mask = 524287
 current = true
 fov = 40.0
 size = 16.0
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="player_avatar/camera_root"]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="camera_track/node_a/camera_root"]
 material_override = SubResource("StandardMaterial3D_06qa2")
 amount = 1024
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_ft3am")
 draw_pass_1 = SubResource("BoxMesh_ck5d0")
+
+[node name="player_avatar" parent="." instance=ExtResource("1_ocjj5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 5, 4, 24)
@@ -116,17 +123,20 @@ spot_attenuation = 0.840897
 
 [node name="CSGBox3D" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -0.5, 0)
+layers = 5
 use_collision = true
 size = Vector3(64, 1, 32)
 material = ExtResource("2_l8ahp")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(0.999994, 0.00159512, -0.00302614, -0.00159516, 0.999999, -1.14945e-05, 0.00302612, 1.63135e-05, 0.999995, 25.0311, 31.4672, 10.0625)
+layers = 5
 use_collision = true
 size = Vector3(42, 63, 12)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 31.5, -10)
+layers = 5
 use_collision = true
 size = Vector3(42, 63, 12)
 
@@ -137,6 +147,7 @@ size = Vector3(2, 3, 2)
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33, 16.5)
+layers = 5
 cast_shadow = 0
 use_collision = true
 size = Vector3(34, 60, 1)
@@ -144,6 +155,7 @@ material = ExtResource("3_4t8gt")
 
 [node name="CSGBox3D15" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33, -16.5)
+layers = 5
 cast_shadow = 0
 use_collision = true
 size = Vector3(34, 60, 1)
@@ -151,6 +163,7 @@ material = ExtResource("3_4t8gt")
 
 [node name="CSGBox3D17" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 33.5, 0)
+layers = 5
 cast_shadow = 0
 use_collision = true
 size = Vector3(1, 59, 32)
@@ -158,16 +171,19 @@ material = ExtResource("3_4t8gt")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 31.5, 10)
+layers = 5
 use_collision = true
 size = Vector3(12, 63, 12)
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 31.5, -10)
+layers = 5
 use_collision = true
 size = Vector3(12, 63, 12)
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 2, 0)
+layers = 5
 use_collision = true
 size = Vector3(4, 4, 34)
 
@@ -178,54 +194,65 @@ size = Vector3(2, 3, 2)
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.5, 9.1, 0.0762796)
+layers = 5
 use_collision = true
 size = Vector3(1, 18.2, 8.1)
 
 [node name="CSGBox3D12" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 16.5)
+layers = 5
 use_collision = true
 size = Vector3(32, 3, 1)
 
 [node name="CSGBox3D13" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -16.5)
+layers = 5
 use_collision = true
 size = Vector3(32, 3, 1)
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 7, -3)
+layers = 5
 size = Vector3(0.5, 0.5, 2)
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 7, -3)
+layers = 5
 size = Vector3(0.5, 0.5, 2)
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 7, 3)
+layers = 5
 size = Vector3(0.5, 0.5, 2)
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 7, 3)
+layers = 5
 size = Vector3(0.5, 0.5, 2)
 
 [node name="CSGBox3D16" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -6.5)
+layers = 5
 use_collision = true
 size = Vector3(8, 3, 0.4)
 material = SubResource("StandardMaterial3D_ih3td")
 
 [node name="CSGBox3D18" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, -6.5)
+layers = 5
 use_collision = true
 size = Vector3(8, 0.2, 0.4)
 
 [node name="CSGBox3D19" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 6.5)
+layers = 5
 use_collision = true
 size = Vector3(8, 3, 0.4)
 material = SubResource("StandardMaterial3D_ih3td")
 
 [node name="CSGBox3D20" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 6.5)
+layers = 5
 use_collision = true
 size = Vector3(8, 0.2, 0.4)
 
@@ -257,3 +284,6 @@ targetId = "spawn_a,spawn_b"
 
 [node name="character_exercise_01" parent="test/char01" instance=ExtResource("9_qlv0n")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -11, 0, -3)
+
+[node name="decal_blood_splat_01" parent="test" instance=ExtResource("10_7wbtf")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -5, 1, -4)
