@@ -18,3 +18,15 @@ offset_bottom = 32.0
 theme_override_font_sizes/font_size = 32
 text = "SHOTS:"
 vertical_alignment = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -224.0
+offset_right = 224.0
+offset_bottom = 64.0
+grow_horizontal = 2
+text = "prototype - 2024-06-23"
+horizontal_alignment = 1

@@ -19,12 +19,14 @@ func hud_info_broadcast(hudInfo:HudInfo) -> void:
 	_subjectPos = hudInfo.playerWorldPosition
 
 func _physics_process(_delta) -> void:
+	#NavigationServer3D.is
 	var mapId:RID = NavigationServer3D.get_maps()[0]
 	var queryPos:Vector3 = _subjectPos
 	queryPos.y = _cameraRoot.global_position.y
-	var pos:Vector3 = NavigationServer3D.map_get_closest_point(mapId, queryPos)
-	_navAgent.target_position = pos
-	#print("Subject pos " + str(_subjectPos) + " nearest track pos " + str(pos))
+	if NavigationServer3D.map_is_active(mapId):
+		var pos:Vector3 = NavigationServer3D.map_get_closest_point(mapId, queryPos)
+		_navAgent.target_position = pos
+		#print("Subject pos " + str(_subjectPos) + " nearest track pos " + str(pos))
 
 func _process(delta):
 	# navigate tracking point

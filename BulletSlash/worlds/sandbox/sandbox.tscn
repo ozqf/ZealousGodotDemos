@@ -409,5 +409,8 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -5, 1,
 
 [node name="ReflectionProbe" type="ReflectionProbe" parent="test"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 2, 0.5)
+layers = 3
+update_mode = 1
 size = Vector3(20, 20, 19)
+box_projection = true
 cull_mask = 1

@@ -16,6 +16,8 @@ var _stance:PlayerAttacks.Stance = PlayerAttacks.Stance.Punch
 var _pendingStance:PlayerAttacks.Stance = PlayerAttacks.Stance.Blade
 var _inMoveRecovery:bool = false
 
+var _timeSinceLastLookAction:float = 0.0
+
 var _targetInfo:TargetInfo
 var _lastAimPoint:Vector3 = Vector3()
 var _animationRepeatPosition:float = 0.0
@@ -35,7 +37,7 @@ var _refireTick:float = 0.0
 var _tryAttackSequenceTick:float = 0.0
 
 var _moves:Dictionary
-var _lastMove:Dictionary = {}
+var _lastAttack:Dictionary = {}
 var _attack1Buffered:bool = false
 var _attack2Buffered:bool = false
 
@@ -65,7 +67,7 @@ func _ready() -> void:
 ##########################################################################
 func _hit_target(target:Area3D, weaponArea:Area3D) -> void:
 	_hitInfo.position = weaponArea.global_position
-	if !_lastMove.is_empty() && _lastMove.damageType == GameMain.DAMAGE_TYPE_SLASH:
+	if !_lastAttack.is_empty() && _lastAttack.damageType == GameMain.DAMAGE_TYPE_SLASH:
 		# "...and the blood will go fftsssssssssssh..."
 		_hitInfo.direction = -weaponArea.global_transform.basis.x
 	else:
@@ -101,7 +103,7 @@ func start_move(moveName:String) -> void:
 		return
 	
 	var candidateMove:Dictionary = _moves[moveName]
-	_lastMove = candidateMove
+	_lastAttack = candidateMove
 	var numAnimations:int = candidateMove.animations.size()
 	if numAnimations == 0:
 		return
@@ -111,14 +113,16 @@ func start_move(moveName:String) -> void:
 		_animator.queue(candidateMove.animations[i])
 	
 	# apply
-	_lastMove = candidateMove
+	look_at_aim_point()
+	_timeSinceLastLookAction = 0.0
+	_lastAttack = candidateMove
 	_attack1Buffered = false
 	_attack2Buffered = false
 	_inMoveRecovery = false
 	
-	#_animator.play(_lastMove.animation)
-	_animator.queue(_lastMove.idleAnimation)
-	_hitInfo.damageType = _lastMove.damageType
+	#_animator.play(_lastAttack.animation)
+	_animator.queue(_lastAttack.idleAnimation)
+	_hitInfo.damageType = _lastAttack.damageType
 
 func _return_to_idle_animation() -> void:
 	_animator.clear_queue()
@@ -159,7 +163,7 @@ func check_animation_loop() -> void:
 		return
 	if !Input.is_action_pressed("attack_1"): # && !Input.is_action_pressed("attack_2"):
 		return
-	if !consume_shot_for_loop(_lastMove[PlayerAttacks.FIELD_SHOTS_CONSUMED_ON_LOOP]):
+	if !consume_shot_for_loop(_lastAttack[PlayerAttacks.FIELD_SHOTS_CONSUMED_ON_LOOP]):
 		return
 	_animator.seek(_animationRepeatPosition, true, true)
 
@@ -220,9 +224,16 @@ func refresh_target_info() -> void:
 # attacks
 ##########################################################################
 func look_at_aim_point() -> void:
-	var displayPos:Vector3 = _display.global_position
-	displayPos.y = _lastAimPoint.y
-	_display.look_at(_lastAimPoint, Vector3.UP)
+	var displayPos:Vector3 = _lastAimPoint
+	displayPos.y = _display.global_position.y
+	_display.look_at(displayPos, Vector3.UP)
+
+func look_in_move_dir() -> void:
+	if !self.velocity.is_zero_approx():
+		var v:Vector3 = self.velocity
+		v.y = _display.global_position.y
+		var displayPos:Vector3 = _display.global_position + v.normalized()
+		_display.look_at(displayPos, Vector3.UP)
 
 func is_view_locked() -> bool:
 	match _animator.current_animation:
@@ -237,8 +248,12 @@ func is_view_locked() -> bool:
 
 func is_move_speed_limited() -> bool:
 	match _animator.current_animation:
-		"", "punch_idle", "blaster_idle", "blade_idle", "blaster_shoot_left", "blaster_shoot_right", "punch_dash":
+		"", "punch_idle", "blaster_idle", "blade_idle", "punch_dash":
 			return false
+		"blaster_reload":
+			return false
+		#"blaster_shoot_left", "blaster_shoot_right":
+		#	return false
 		_:
 			return true
 
@@ -248,6 +263,7 @@ func _step_dash(_delta:float) -> void:
 	self.move_and_slide()
 
 func _fire_projectile() -> void:
+	_timeSinceLastLookAction = 0.0
 	var prj:PrjBasic = Game.spawn_prj_basic()
 	var info:ProjectileLaunchInfo = prj.get_launch_info()
 	info.origin = _rightBatonArea.global_position
@@ -354,7 +370,7 @@ func _check_for_punch_stance_move_start_1(isAttacking:bool, atkDir:AttackInputDi
 		look_at_aim_point()
 		#var historySize:int = _animHistory.size()
 		
-		if _tryAttackSequenceTick > 0.0 && !_lastMove.is_empty() && _lastMove.name == "punch_jab_left":
+		if _tryAttackSequenceTick > 0.0 && !_lastAttack.is_empty() && _lastAttack.name == "punch_jab_left":
 			start_move("punch_straight_right")
 		else:
 			start_move("punch_jab_left")
@@ -413,6 +429,7 @@ func _physics_process(_delta:float) -> void:
 	
 	# house-keeping
 	_selfTime += _delta
+	_timeSinceLastLookAction += _delta
 	_tryAttackSequenceTick -= _delta
 	_refireTick -= _delta
 	refresh_target_info()
@@ -456,6 +473,7 @@ func _physics_process(_delta:float) -> void:
 	if !isAttacking:
 		if Input.is_action_pressed("attack_2"):
 			_animator.play("punch_charge_stance")
+			_timeSinceLastLookAction = 0.0
 		elif _animator.current_animation == "punch_charge_stance":
 			if _stance == PlayerAttacks.Stance.Punch:
 				_animator.play("punch_idle")
@@ -522,5 +540,7 @@ func _process(_delta:float) -> void:
 	_lastAimPoint = _groundPlane.intersects_ray(origin, direction)
 	_cursor.global_position = _lastAimPoint
 	
-	if !is_view_locked():
+	if !is_view_locked() && _timeSinceLastLookAction <= 3:
 		look_at_aim_point()
+	elif _timeSinceLastLookAction > 3:
+		look_in_move_dir()

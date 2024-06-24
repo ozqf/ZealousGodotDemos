@@ -35,7 +35,7 @@ static var _moves:Dictionary = {
 	},
 	slash_sequence = {
 		damageType = GameMain.DAMAGE_TYPE_SLASH,
-		animations = [ "slash_sequence_3", "punch_spin_test" ],
+		animations = [ "slash_sequence_1", "slash_sequence_3" ],
 		idleAnimation = "blade_idle"
 	},
 	hold_forward_spin = {
