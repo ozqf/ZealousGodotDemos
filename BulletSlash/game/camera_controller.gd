@@ -1,9 +1,9 @@
 extends Node3D
 
 @onready var _cameraRoot:Node3D = $camera_root
+@onready var _camera:Camera3D = $camera_root/Camera3D
 @onready var _navRegion:NavigationRegion3D = $NavigationRegion3D
 @onready var _navAgent:NavigationAgent3D = $camera_root/NavigationAgent3D
-#@onready var _trackRoot:Node3D = $camera_track
 
 var _origin:Vector3
 var _subjectPos:Vector3
@@ -28,6 +28,16 @@ func _physics_process(_delta) -> void:
 		_navAgent.target_position = pos
 		#print("Subject pos " + str(_subjectPos) + " nearest track pos " + str(pos))
 
+func tilt_camera_to_target(targetPos:Vector3) -> void:
+	#var cam:Transform3D = _cameraRoot.global_transform
+	var toTarget:Vector3 = _camera.global_position.direction_to(targetPos)
+	toTarget.x = 0.0
+	var pitch:float = atan2(toTarget.y, -toTarget.z) * ZqfUtils.RAD2DEG
+	#print(pitch)
+	#pitch = clampf(pitch, -90, 90)
+	_camera.rotation_degrees = Vector3(pitch, 0, 0)
+	#_camera.look_at(targetPos, Vector3.UP)
+
 func _process(delta):
 	# navigate tracking point
 	if !_navAgent.is_navigation_finished():
@@ -40,3 +50,4 @@ func _process(delta):
 	var pos:Vector3 = _cameraRoot.global_position.lerp(_trackingPosition, 0.1)
 	#pos.y = _origin.y
 	_cameraRoot.global_position = pos
+	tilt_camera_to_target(_subjectPos)

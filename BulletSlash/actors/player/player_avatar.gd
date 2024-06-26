@@ -526,9 +526,34 @@ func _physics_process(_delta:float) -> void:
 		
 		#if _animator.current_animation == "blaster_idle":
 		#	moveSpeed = 3.0
-		var move:Vector3 = Vector3(inputVec.x, 0, inputVec.y) * moveSpeed
+		
+		#ZqfUtils.fps_input
+		
+		#var pushDir:Vector3 = _calc_move_push(inputVec)
+		var pushDir:Vector3 = Vector3(inputVec.x, 0, inputVec.y)
+		var move:Vector3 = pushDir * moveSpeed
 		self.velocity = move
 		self.move_and_slide()
+
+func _calc_move_push(inputDir:Vector2) -> Vector3:
+	var inputVec:Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var t:Transform3D = get_viewport().get_camera_3d().global_transform
+	var flatLookTarget:Vector3 = self.global_position
+	flatLookTarget.y = t.origin.y
+	t = t.looking_at(flatLookTarget, Vector3.UP)
+	var forward:Vector3 = t.basis.z
+	
+	# check we're not looking vertically down
+	if forward.is_zero_approx():
+		forward = t.basis.y
+	var right:Vector3 = t.basis.x
+	# flatten y components
+	forward.y = 0.0
+	right.y = 0.0
+	var pushDir:Vector3 = Vector3()
+	pushDir += inputVec.x * right
+	pushDir += inputVec.y * forward
+	return pushDir.normalized()
 
 func _process(_delta:float) -> void:
 	_groundPlane.normal = Vector3.UP
@@ -537,7 +562,11 @@ func _process(_delta:float) -> void:
 	var camera:Camera3D = get_viewport().get_camera_3d()
 	var origin = camera.project_ray_origin(mouse_pos)
 	var direction = camera.project_ray_normal(mouse_pos)
-	_lastAimPoint = _groundPlane.intersects_ray(origin, direction)
+	var result = _groundPlane.intersects_ray(origin, direction)
+	if result == null:
+		result = Vector3()
+		return
+	_lastAimPoint = result as Vector3
 	_cursor.global_position = _lastAimPoint
 	
 	if !is_view_locked() && _timeSinceLastLookAction <= 3:
