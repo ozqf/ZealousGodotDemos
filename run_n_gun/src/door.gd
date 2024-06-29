@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends CharacterBody2D
 class_name Door
 
 var _openSprite = load("res://assets/sprites/door_open.png")
@@ -17,9 +17,9 @@ func _process(delta):
 	if _closed != _pendingClosed:
 		_closed = _pendingClosed
 		if _closed:
-			$Sprite.texture = _closedSprite
+			$Sprite2D.texture = _closedSprite
 			$CollisionShape2D.disabled = false
 		else:
-			$Sprite.texture = _openSprite
+			$Sprite2D.texture = _openSprite
 			$CollisionShape2D.disabled = true
 	pass

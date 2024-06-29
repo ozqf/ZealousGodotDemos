@@ -19,10 +19,10 @@ func _kill_self():
 	queue_free()
 
 func _spawn_mob():
-	var mob = _gruntPrefab.instance()
+	var mob = _gruntPrefab.instantiate()
 	Game.get_current_scene_root().add_child(mob)
 	mob.position = position
-	mob.connect("enemy_died", self, "_mob_died")
+	mob.connect("enemy_died", Callable(self, "_mob_died"))
 	_liveMobs += 1
 	_capacity -= 1
 

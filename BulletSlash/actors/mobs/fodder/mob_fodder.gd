@@ -8,6 +8,9 @@ var _state:String = MOB_STATE_IDLE
 var _thinkTick:float = 0.0
 var _thinkTime:float = 0.5
 
+func _ready() -> void:
+	super._ready()
+
 func _change_state(newState:String) -> void:
 	if _state == newState:
 		return

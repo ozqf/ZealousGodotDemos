@@ -14,5 +14,7 @@ func tick(info:AIInfo) -> int:
 	else:
 		info.time -= info.delta
 		var velocity:Vector2 = info.moveDir * 100
-		info.mob.move_and_slide(velocity)
+		info.mob.set_velocity(velocity)
+		info.mob.move_and_slide()
+		info.mob.velocity
 		return RUNNING

@@ -5,7 +5,7 @@ const REFIRE_TIME = 0.05
 var _attackTick: float = 0
 # onready var _door_trigger = 
 func _ready():
-	$door_trigger.connect("body_entered", self, "_on_door_trigger")
+	$door_trigger.connect("body_entered", Callable(self, "_on_door_trigger"))
 	Game.register_player(self)
 
 func _exit_tree():
@@ -24,7 +24,7 @@ func _update_attack(_delta:float):
 		var prj = Game.get_free_player_projectile()
 		var mPos = Game.cursorPos
 		var radians = mPos.angle_to_point(position)
-		radians += rand_range(-0.05, 0.05)
+		radians += randf_range(-0.05, 0.05)
 		prj.launch(position, radians)
 
 func _get_input_move():
@@ -42,6 +42,7 @@ func _get_input_move():
 func _physics_process(delta):
 	var dir = _get_input_move()
 	_velocity = _calc_velocity(_velocity, dir, RUN_SPEED)
-	move_and_slide(_velocity)
+	set_velocity(_velocity)
+	move_and_slide()
 	_update_attack(delta)
 	pass

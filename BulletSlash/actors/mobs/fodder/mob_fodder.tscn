@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://bjsu0t558qewd"]
+[gd_scene load_steps=15 format=3 uid="uid://bjsu0t558qewd"]
 
 [ext_resource type="Script" path="res://actors/mobs/fodder/mob_fodder.gd" id="1_aol1h"]
 [ext_resource type="Script" path="res://shared/nodes/mob_spawn_info.gd" id="2_bakfg"]
 [ext_resource type="Script" path="res://shared/nodes/hit_delegate.gd" id="2_dm2fa"]
 [ext_resource type="PackedScene" uid="uid://bsadr580c2r0u" path="res://actors/mobs/placehold_mob_model.tscn" id="3_i2t4w"]
 [ext_resource type="Script" path="res://shared/nodes/mob_think_info.gd" id="5_ucxt7"]
+[ext_resource type="Script" path="res://shared/nodes/animation_emitter.gd" id="5_uiyrw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_at55x"]
 radius = 0.8
@@ -12,6 +13,117 @@ height = 2.2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d6eyx"]
 radius = 0.7
+
+[sub_resource type="Animation" id="Animation_f8xnr"]
+resource_name = "_idle"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("weapon")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.886009, 2.10789, -0.0922602)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("weapon")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.793191, 0.357611, 0.389399, 0.302209)
+tracks/2/type = "scale_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("weapon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+tracks/3/type = "position_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("placehold_mob_model")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("placehold_mob_model")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_ay1l3"]
+resource_name = "swing_1"
+length = 2.0
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("weapon")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.886009, 2.10789, -0.0922602, 0.4, 1, 0.794724, 1.81021, 0.576699, 0.7, 1, 0.598914, 0.836278, 0.97011, 0.8, 1, 1.21802, 0.718463, -0.177345, 0.9, 1, 0.073741, 0.380239, -1.66704, 1, 1, -1.67501, 0.521024, 0.32727, 1.2, 1, -0.871954, 0.74532, 1.28786, 1.6, 1, -0.985502, 2.14076, -0.468183, 2, 1, 0.886009, 2.10789, -0.0922602)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("weapon")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.793191, 0.357611, 0.389399, 0.302209, 0.4, 1, 0.676898, 0.524199, 0.377388, 0.35299, 0.7, 1, -0.0780834, 0.86985, -0.0435499, 0.485147, 0.8, 1, -0.0313161, 0.977038, -0.0837431, -0.193397, 0.9, 1, -0.0762886, 0.00468475, 0.0466225, 0.995984, 1, 1, -0.0839216, 0.78351, -0.0308347, 0.614914, 1.2, 1, -0.154383, 0.930117, 0.0415064, 0.330642, 1.6, 1, 0.524418, 0.283998, -0.283316, 0.751041, 2, 1, 0.793191, 0.357611, 0.389399, 0.302209)
+tracks/2/type = "scale_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("weapon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1, 2, 1, 1, 1, 1)
+tracks/3/type = "position_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("placehold_mob_model")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0, 0, 0, 2, 1, 0, 0, 0)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("placehold_mob_model")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 2, 1, 0, 0, 0, 1)
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AnimationPlayer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.8, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"right_weapon_on"
+}, {
+"args": [],
+"method": &"right_weapon_off"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i3dtr"]
+_data = {
+"_idle": SubResource("Animation_f8xnr"),
+"swing_1": SubResource("Animation_ay1l3")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wmshk"]
+size = Vector3(0.2, 0.2, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_5hxf0"]
+size = Vector3(0.2, 1, 0.01)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v7dxg"]
+metallic = 0.5
+metallic_specular = 1.0
+roughness = 0.0
 
 [node name="MobFodder" type="CharacterBody3D"]
 collision_layer = 8
@@ -38,6 +150,34 @@ script = ExtResource("2_bakfg")
 [node name="display" type="Node3D" parent="."]
 
 [node name="placehold_mob_model" parent="display" instance=ExtResource("3_i2t4w")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="display"]
+libraries = {
+"": SubResource("AnimationLibrary_i3dtr")
+}
+autoplay = "_idle"
+script = ExtResource("5_uiyrw")
+
+[node name="weapon" type="Node3D" parent="display"]
+transform = Transform3D(-0.229677, -0.0935854, 0.968757, -0.169428, 0.984013, 0.0548904, -0.958406, -0.151528, -0.241861, -1.67501, 0.521024, 0.32727)
+
+[node name="Area3D" type="Area3D" parent="display/weapon"]
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+monitorable = false
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="display/weapon/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.45058e-09, -2.23517e-08, -0.5)
+shape = SubResource("BoxShape3D_wmshk")
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="display/weapon/Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.5)
+mesh = SubResource("PrismMesh_5hxf0")
+surface_material_override/0 = SubResource("StandardMaterial3D_v7dxg")
+metadata/_edit_lock_ = true
 
 [node name="MobThinkInfo" type="Node" parent="."]
 script = ExtResource("5_ucxt7")

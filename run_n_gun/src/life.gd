@@ -1,7 +1,7 @@
 extends Node
 class_name Life
 
-export var health:int = 100
+@export var health:int = 100
 var _dead:bool = false
 signal on_death
 

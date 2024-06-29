@@ -2,8 +2,8 @@ extends Actor
 
 var _ai_info_t = preload("res://src/ai/ai_info.gd")
 
-onready var _aiTree:AINode = $ai_tree
-onready var _life: Life = $life
+@onready var _aiTree:AINode = $ai_tree
+@onready var _life: Life = $life
 var _aiInfo:AIInfo = null
 signal enemy_died
 var _dir = Vector2()
@@ -14,7 +14,7 @@ var _tickMax:float = 0.25
 var _deltaAccumulator:float = 0
 
 func _ready():
-	_life.connect("on_death", self, "on_death")
+	_life.connect("on_death", Callable(self, "on_death"))
 	_aiInfo = _ai_info_t.new()
 	_aiInfo.mob = self
 

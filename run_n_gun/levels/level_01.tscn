@@ -1,37 +1,36 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://c8bkc4t51f6bl"]
 
-[ext_resource path="res://prefabs/spawner.tscn" type="PackedScene" id=1]
-[ext_resource path="res://prefabs/player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://prefabs/door.tscn" type="PackedScene" id=3]
-[ext_resource path="res://resources/test_tile_set.tres" type="TileSet" id=4]
-[ext_resource path="res://assets/sprites/white_64x64.png" type="Texture" id=5]
+[ext_resource type="PackedScene" path="res://prefabs/spawner.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://prefabs/player.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://prefabs/door.tscn" id="3"]
+[ext_resource type="TileSet" path="res://resources/test_tile_set.tres" id="4"]
+[ext_resource type="Texture2D" uid="uid://cfv7hwrtbfcrk" path="res://assets/sprites/white_64x64.png" id="5"]
 
 [node name="level_01" type="Node2D"]
 
-[node name="white_64x64" type="Sprite" parent="."]
-self_modulate = Color( 0.541176, 0.470588, 0, 1 )
-position = Vector2( 479, 272 )
-scale = Vector2( 15, 8.5 )
-texture = ExtResource( 5 )
+[node name="white_64x64" type="Sprite2D" parent="."]
+self_modulate = Color(0.541176, 0.470588, 0, 1)
+position = Vector2(479, 272)
+scale = Vector2(15, 8.5)
+texture = ExtResource("5")
 
 [node name="TileMap" type="TileMap" parent="."]
-tile_set = ExtResource( 4 )
-cell_size = Vector2( 32, 32 )
-format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 23, 0, 0, 24, 0, 0, 25, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 65536, 0, 0, 65565, 0, 0, 131072, 0, 0, 131101, 0, 0, 196608, 0, 0, 196637, 0, 0, 262144, 0, 0, 262173, 0, 0, 327680, 0, 0, 327709, 0, 0, 393216, 0, 0, 393245, 0, 0, 458752, 0, 0, 458759, 0, 0, 458760, 0, 0, 458761, 0, 0, 458772, 0, 0, 458773, 0, 0, 458774, 0, 0, 458781, 0, 0, 524288, 0, 0, 524295, 0, 0, 524296, 0, 0, 524297, 0, 0, 524308, 0, 0, 524309, 0, 0, 524310, 0, 0, 524317, 0, 0, 589824, 0, 0, 589831, 0, 0, 589832, 0, 0, 589833, 0, 0, 589844, 0, 0, 589845, 0, 0, 589846, 0, 0, 589847, 0, 0, 589848, 0, 0, 589849, 0, 0, 589850, 0, 0, 589851, 0, 0, 589852, 0, 0, 589853, 0, 0, 655360, 0, 0, 655380, 0, 0, 655389, 0, 0, 720896, 0, 0, 720916, 0, 0, 720925, 0, 0, 786432, 0, 0, 786461, 0, 0, 851968, 0, 0, 851997, 0, 0, 917504, 0, 0, 917524, 0, 0, 917533, 0, 0, 983040, 0, 0, 983060, 0, 0, 983069, 0, 0, 1048576, 0, 0, 1048577, 0, 0, 1048578, 0, 0, 1048579, 0, 0, 1048580, 0, 0, 1048581, 0, 0, 1048582, 0, 0, 1048583, 0, 0, 1048584, 0, 0, 1048585, 0, 0, 1048586, 0, 0, 1048587, 0, 0, 1048588, 0, 0, 1048589, 0, 0, 1048590, 0, 0, 1048591, 0, 0, 1048592, 0, 0, 1048593, 0, 0, 1048594, 0, 0, 1048595, 0, 0, 1048596, 0, 0, 1048597, 0, 0, 1048598, 0, 0, 1048599, 0, 0, 1048600, 0, 0, 1048601, 0, 0, 1048602, 0, 0, 1048603, 0, 0, 1048604, 0, 0, 1048605, 0, 0 )
+tile_set = ExtResource("4")
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 23, 0, 0, 24, 0, 0, 25, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 65536, 0, 0, 65565, 0, 0, 131072, 0, 0, 131101, 0, 0, 196608, 0, 0, 196637, 0, 0, 262144, 0, 0, 262173, 0, 0, 327680, 0, 0, 327709, 0, 0, 393216, 0, 0, 393245, 0, 0, 458752, 0, 0, 458759, 0, 0, 458760, 0, 0, 458761, 0, 0, 458772, 0, 0, 458773, 0, 0, 458774, 0, 0, 458781, 0, 0, 524288, 0, 0, 524295, 0, 0, 524296, 0, 0, 524297, 0, 0, 524308, 0, 0, 524309, 0, 0, 524310, 0, 0, 524317, 0, 0, 589824, 0, 0, 589831, 0, 0, 589832, 0, 0, 589833, 0, 0, 589844, 0, 0, 589845, 0, 0, 589846, 0, 0, 589847, 0, 0, 589848, 0, 0, 589849, 0, 0, 589850, 0, 0, 589851, 0, 0, 589852, 0, 0, 589853, 0, 0, 655360, 0, 0, 655380, 0, 0, 655389, 0, 0, 720896, 0, 0, 720916, 0, 0, 720925, 0, 0, 786432, 0, 0, 786461, 0, 0, 851968, 0, 0, 851997, 0, 0, 917504, 0, 0, 917524, 0, 0, 917533, 0, 0, 983040, 0, 0, 983060, 0, 0, 983069, 0, 0, 1048576, 0, 0, 1048577, 0, 0, 1048578, 0, 0, 1048579, 0, 0, 1048580, 0, 0, 1048581, 0, 0, 1048582, 0, 0, 1048583, 0, 0, 1048584, 0, 0, 1048585, 0, 0, 1048586, 0, 0, 1048587, 0, 0, 1048588, 0, 0, 1048589, 0, 0, 1048590, 0, 0, 1048591, 0, 0, 1048592, 0, 0, 1048593, 0, 0, 1048594, 0, 0, 1048595, 0, 0, 1048596, 0, 0, 1048597, 0, 0, 1048598, 0, 0, 1048599, 0, 0, 1048600, 0, 0, 1048601, 0, 0, 1048602, 0, 0, 1048603, 0, 0, 1048604, 0, 0, 1048605, 0, 0)
 
-[node name="player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 224, 96 )
+[node name="player" parent="." instance=ExtResource("2")]
+position = Vector2(224, 96)
 
-[node name="spawner" parent="." instance=ExtResource( 1 )]
-position = Vector2( 480, 112 )
+[node name="spawner" parent="." instance=ExtResource("1")]
+position = Vector2(480, 112)
 
-[node name="door" parent="." instance=ExtResource( 3 )]
-position = Vector2( 656, 400 )
+[node name="door" parent="." instance=ExtResource("3")]
+position = Vector2(656, 400)
 
-[node name="door2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 656, 432 )
+[node name="door2" parent="." instance=ExtResource("3")]
+position = Vector2(656, 432)
 
 [node name="Line2D" type="Line2D" parent="."]
-points = PoolVector2Array( 32, 320, 448, 384 )
+points = PackedVector2Array(32, 320, 448, 384)
 width = 8.0

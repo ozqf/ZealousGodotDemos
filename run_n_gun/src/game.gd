@@ -28,6 +28,6 @@ func get_current_scene_root():
 	return get_tree().get_current_scene()
 
 func get_free_player_projectile():
-	var prj = _player_projectile.instance()
+	var prj = _player_projectile.instantiate()
 	get_current_scene_root().add_child(prj)
 	return prj
