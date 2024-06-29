@@ -5,6 +5,8 @@ class_name PlayerAvatar
 @onready var _aimPlanePos:Node3D = $aim_plane_pos
 @onready var _display:Node3D = $display
 @onready var _animator:AnimationPlayer = $display/AnimationPlayer
+@onready var _rightHand:Node3D = $display/right_hand
+@onready var _leftHand:Node3D = $display/left_hand
 @onready var _rightBatonArea:Area3D = $display/right_hand/right_baton/hitbox
 @onready var _leftBatonArea:Area3D = $display/left_hand/left_baton/hitbox
 @onready var _hudInfo:HudInfo = $HudInfo
@@ -196,6 +198,52 @@ func load_shot_from_left_spin() -> void:
 	var dir:Vector3 = -_leftBatonArea.global_transform.basis.x
 	Game.spawn_gfx_ejected_shell(pos, dir)
 
+###############################################
+# Shoot right baton
+func shoot_right_forward() -> void:
+	if !consume_shot_for_loop(1):
+		return
+	var t:Transform3D = _rightHand.global_transform
+	_fire_scatter(t)
+	Game.spawn_gfx_blaster_muzzle(t.origin, -t.basis.z)
+
+func shoot_right_right() -> void:
+	if !consume_shot_for_loop(1):
+		return
+	var t:Transform3D = _rightHand.global_transform
+	t = t.looking_at(t.origin + t.basis.x)
+	_fire_scatter(t)
+	Game.spawn_gfx_blaster_muzzle(t.origin, -t.basis.z)
+	return
+
+func shoot_right_left() -> void:
+	if !consume_shot_for_loop(1):
+		return
+	var t:Transform3D = _rightHand.global_transform
+	t = t.looking_at(t.origin + -t.basis.x)
+	_fire_scatter(t)
+	Game.spawn_gfx_blaster_muzzle(t.origin, -t.basis.z)
+
+###############################################
+# Shoot left baton
+func shoot_left_forward() -> void:
+	if !consume_shot_for_loop(1):
+		return
+	var t:Transform3D = _leftHand.global_transform
+	_fire_scatter(t)
+	Game.spawn_gfx_blaster_muzzle(t.origin, -t.basis.z)
+
+func shoot_left_right() -> void:
+	if !consume_shot_for_loop(1):
+		return
+	pass
+
+func shoot_left_left() -> void:
+	if !consume_shot_for_loop(1):
+		return
+	pass
+
+
 func set_recovering_on() -> void:
 	_inMoveRecovery = true
 
@@ -262,12 +310,20 @@ func _step_dash(_delta:float) -> void:
 	self.velocity = move
 	self.move_and_slide()
 
-func _fire_projectile() -> void:
+func _fire_scatter(t:Transform3D) -> void:
+	var forward:Vector3 = -t.basis.z
+	_fire_projectile(t.origin, forward)
+	forward = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, -1200, 0)
+	_fire_projectile(t.origin, forward)
+	forward = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, 1200, 0)
+	_fire_projectile(t.origin, forward)
+
+func _fire_projectile(origin:Vector3, forward:Vector3) -> void:
 	_timeSinceLastLookAction = 0.0
 	var prj:PrjBasic = Game.spawn_prj_basic()
 	var info:ProjectileLaunchInfo = prj.get_launch_info()
-	info.origin = _rightBatonArea.global_position
-	info.forward = -_display.global_transform.basis.z
+	info.origin = origin #_rightBatonArea.global_position
+	info.forward = forward #-_display.global_transform.basis.z
 	prj.launch()
 	_refireTick = 0.2
 
@@ -298,7 +354,7 @@ func _check_for_blade_stance_move_start(isAttacking:bool, atkDir:AttackInputDir,
 		if atkDir == AttackInputDir.Forward:
 			start_move("shredder")
 		elif atkDir == AttackInputDir.Backward:
-			start_move("double_spin")
+			start_move("hold_forward_spin")
 		else:
 			start_move("slash_sequence")
 
@@ -331,7 +387,7 @@ func _check_for_punch_stance_move_start(isAttacking:bool, atkDir:AttackInputDir,
 	# 2 is held, look for 1 taps to release
 	if atkOneJustOn:
 		if atkDir == AttackInputDir.Forward:
-			start_move("punch_machine_gun")
+			start_move("punch_jet_leap")
 		elif atkDir == AttackInputDir.Backward:
 			start_move("punch_machine_gun")
 		else:
@@ -395,16 +451,19 @@ func _check_for_punch_stance_move_start_1(isAttacking:bool, atkDir:AttackInputDi
 				look_at_aim_point()
 				start_move("slash_sequence")
 
-func _gfx_muzzle_from_baton(baton:Area3D) -> void:
-	var t:Transform3D = baton.global_transform
-	# batons are technically facing backwards so NOT -basis.z
-	Game.spawn_gfx_blaster_muzzle(t.origin, t.basis.z)
+func _gfx_muzzle_from_baton(baton:Area3D, hand:Node3D) -> void:
+	# due to animation method call sync, sometimes the baton is not
+	# angled how we would like. so use the hand as the angle
+	# and baton as position
+	var t:Transform3D = hand.global_transform
+	t.origin = baton.global_position
+	Game.spawn_gfx_blaster_muzzle(t.origin, -t.basis.z)
 
 func gfx_muzzle_from_right_baton() -> void:
-	_gfx_muzzle_from_baton(_rightBatonArea)
+	_gfx_muzzle_from_baton(_rightBatonArea, _rightHand)
 
 func gfx_muzzle_from_left_baton() -> void:
-	_gfx_muzzle_from_baton(_leftBatonArea)
+	_gfx_muzzle_from_baton(_leftBatonArea, _leftHand)
 
 ##########################################################################
 # life time
@@ -500,12 +559,13 @@ func _physics_process(_delta:float) -> void:
 						_loadedShots -= 1
 						if _nextShotRight:
 							_animator.play("blaster_shoot_right")
-							_gfx_muzzle_from_baton(_rightBatonArea)
+							_gfx_muzzle_from_baton(_rightBatonArea, _rightHand)
 						else:
 							_animator.play("blaster_shoot_left")
-							_gfx_muzzle_from_baton(_leftBatonArea)
+							_gfx_muzzle_from_baton(_leftBatonArea, _leftHand)
 						_nextShotRight = !_nextShotRight
-						_fire_projectile()
+						var t:Transform3D = _rightBatonArea.global_transform
+						_fire_projectile(t.origin, t.basis.z)
 						_animator.queue("blaster_idle")
 				elif Input.is_action_pressed("attack_3") && _loadedShots < _maxLoadedShots:
 					start_move("reload_loop")
@@ -569,7 +629,8 @@ func _process(_delta:float) -> void:
 	_lastAimPoint = result as Vector3
 	_cursor.global_position = _lastAimPoint
 	
-	if !is_view_locked() && _timeSinceLastLookAction <= 3:
+	if !is_view_locked(): # && _timeSinceLastLookAction <= 3:
 		look_at_aim_point()
-	elif _timeSinceLastLookAction > 3:
-		look_in_move_dir()
+	# janky - doesn't count enough actions and looks bad
+	#elif _timeSinceLastLookAction > 3:
+	#	look_in_move_dir()

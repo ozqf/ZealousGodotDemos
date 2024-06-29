@@ -36,7 +36,8 @@ static var _moves:Dictionary = {
 	slash_sequence = {
 		damageType = GameMain.DAMAGE_TYPE_SLASH,
 		animations = [ "slash_sequence_1", "slash_sequence_3" ],
-		idleAnimation = "blade_idle"
+		idleAnimation = "blade_idle",
+		shotsConsumedOnLoop = 1
 	},
 	hold_forward_spin = {
 		damageType = GameMain.DAMAGE_TYPE_SLASH,
@@ -55,6 +56,11 @@ static var _moves:Dictionary = {
 		animations = [ "shredder" ],
 		idleAnimation = "punch_idle",
 		shotsConsumedOnLoop = 1
+	},
+	punch_jet_leap = {
+		damageType = GameMain.DAMAGE_TYPE_PUNCH,
+		animations = ["punch_jet_leap"],
+		idleAniumation = "punch_idle"
 	}
 }
 

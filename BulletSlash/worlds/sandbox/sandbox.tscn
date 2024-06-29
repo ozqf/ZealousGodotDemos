@@ -146,11 +146,17 @@ shadow_enabled = true
 transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -17.5, 0, 0)
 id = "spawn_a"
 mobType = "fodder"
+maxLiveMobs = 3
+totalMobs = 9
+spawnInterval = 2.0
 
 [node name="Spawner3" parent="." instance=ExtResource("3_ddtwt")]
 transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, 16, 0, -5.5)
 id = "spawn_b"
 mobType = "fodder"
+maxLiveMobs = 3
+totalMobs = 9
+spawnInterval = 2.0
 
 [node name="Spawner2" parent="." instance=ExtResource("3_ddtwt")]
 transform = Transform3D(-1, 0, -2.62269e-07, 0, 1, 0, 2.62269e-07, 0, -1, -14, 0, -3)
