@@ -1,4 +1,5 @@
 extends AnimationPlayer
+class_name AnimationEmitter
 
 const EVENT_RIGHT_WEAPON_ON:String = "right_weapon_on"
 const EVENT_RIGHT_WEAPON_OFF:String = "right_weapon_off"

@@ -10,6 +10,7 @@ class_name PlayerAvatar
 @onready var _rightBatonArea:Area3D = $display/right_hand/right_baton/hitbox
 @onready var _leftBatonArea:Area3D = $display/left_hand/left_baton/hitbox
 @onready var _hudInfo:HudInfo = $HudInfo
+@onready var _hitbox:Node = $display/hitbox
 var _groundPlane:Plane = Plane()
 
 enum AttackInputDir { Neutral, Forward, Backward }
@@ -63,6 +64,7 @@ func _ready() -> void:
 	var grp = Game.GROUP_GAME_EVENTS
 	var fn = Game.GAME_EVENT_FN_PLAYER_SPAWNED
 	get_tree().call_group(grp, fn, self)
+	_hitbox.set_subject(self)
 
 ##########################################################################
 # Do hits
@@ -85,6 +87,13 @@ func _on_area_entered_left_baton(_area:Area3D) -> void:
 func _set_area_on(area:Area3D, flag:bool) -> void:
 	area.monitoring = flag
 	area.monitorable = flag
+
+##########################################################################
+# Take hit
+##########################################################################
+func hit(_incomingHit:HitInfo) -> int:
+	print("Player hit")
+	return 1
 
 ##########################################################################
 # attack animations
@@ -325,7 +334,7 @@ func _fire_projectile(origin:Vector3, forward:Vector3) -> void:
 	info.origin = origin #_rightBatonArea.global_position
 	info.forward = forward #-_display.global_transform.basis.z
 	prj.launch()
-	_refireTick = 0.2
+	_refireTick = 0.5
 
 func _get_attack_dir(inputVec:Vector2) -> AttackInputDir:
 	var inputDir:Vector3 = Vector3(inputVec.x, 0, inputVec.y)

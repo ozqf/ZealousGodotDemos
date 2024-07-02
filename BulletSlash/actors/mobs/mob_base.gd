@@ -7,7 +7,8 @@ const MOB_EVENT_DIED:String = "mob_died"
 signal mob_broadcast_event(eventType, mobInstance)
 
 @onready var _spawnInfo:MobSpawnInfo = $MobSpawnInfo
-@onready var _display:Node3D = $display
+@onready var _displayRoot:Node3D = $display
+@onready var _bodyDisplayRoot:Node3D = $display
 @onready var _hitbox:Area3D = $hitbox
 @onready var _bodyShape:CollisionShape3D = $CollisionShape3D
 @onready var _thinkInfo:MobThinkInfo = $MobThinkInfo
@@ -23,8 +24,8 @@ var _hitOriginDisplayT:Transform3D
 func _ready() -> void:
 	set_hitbox_enabled(false)
 	set_world_collision_enabled(false)
-	set_body_visible(false)
-	_hitOriginDisplayT = _display.transform
+	set_display_visible(false)
+	_hitOriginDisplayT = _bodyDisplayRoot.transform
 
 func set_world_collision_enabled(_flag:bool) -> void:
 	_bodyShape.disabled = !_flag
@@ -33,8 +34,8 @@ func set_hitbox_enabled(_flag:bool) -> void:
 	_hitbox.monitorable = _flag
 	_hitbox.monitoring = _flag
 
-func set_body_visible(_flag:bool) -> void:
-	_display.visible = _flag
+func set_display_visible(_flag:bool) -> void:
+	_displayRoot.visible = _flag
 
 func _run_spawn() -> void:
 	#print("MobBase run spawn")
@@ -42,7 +43,7 @@ func _run_spawn() -> void:
 	t.origin = _spawnInfo.t.origin
 	self.global_transform = _spawnInfo.t
 	set_hitbox_enabled(true)
-	set_body_visible(true)
+	set_display_visible(true)
 	set_world_collision_enabled(true)
 
 func _refresh_think_info(_delta:float) -> void:
@@ -143,4 +144,4 @@ func _process(_delta:float) -> void:
 	_hitBounceTick += _delta
 	_hitBounceTick = clampf(_hitBounceTick, 0, _hitBounceTime)
 	var weight:float = _hitBounceTick / _hitBounceTime
-	_display.transform = _hitBounceDisplayT.interpolate_with(_hitOriginDisplayT, weight)
+	_bodyDisplayRoot.transform = _hitBounceDisplayT.interpolate_with(_hitOriginDisplayT, weight)

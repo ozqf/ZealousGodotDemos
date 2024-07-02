@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bjsu0t558qewd"]
+[gd_scene load_steps=22 format=3 uid="uid://bjsu0t558qewd"]
 
 [ext_resource type="Script" path="res://actors/mobs/fodder/mob_fodder.gd" id="1_aol1h"]
 [ext_resource type="Script" path="res://shared/nodes/mob_spawn_info.gd" id="2_bakfg"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bsadr580c2r0u" path="res://actors/mobs/placehold_mob_model.tscn" id="3_i2t4w"]
 [ext_resource type="Script" path="res://shared/nodes/mob_think_info.gd" id="5_ucxt7"]
 [ext_resource type="Script" path="res://shared/nodes/animation_emitter.gd" id="5_uiyrw"]
+[ext_resource type="PackedScene" uid="uid://5srxb2iaaih4" path="res://actors/player/display/hand_model.tscn" id="6_qc4ot"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_at55x"]
 radius = 0.8
@@ -19,21 +20,21 @@ resource_name = "_idle"
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("weapon")
+tracks/0/path = NodePath("right_hand")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0.886009, 2.10789, -0.0922602)
 tracks/1/type = "rotation_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("weapon")
+tracks/1/path = NodePath("right_hand")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0.793191, 0.357611, 0.389399, 0.302209)
+tracks/1/keys = PackedFloat32Array(0, 1, 0.812134, 0.00364949, -0.34817, 0.468191)
 tracks/2/type = "scale_3d"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("weapon")
+tracks/2/path = NodePath("right_hand")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1)
@@ -51,6 +52,87 @@ tracks/4/path = NodePath("placehold_mob_model")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+tracks/5/type = "position_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("left_hand")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, -0.79406, 1.2, -0.39522)
+tracks/6/type = "rotation_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("left_hand")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, 0.493086, 0.143517, -0.0828595, 0.854051)
+tracks/7/type = "scale_3d"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("left_hand")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_0m1ka"]
+resource_name = "stunned"
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("right_hand")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.993491, 0.439736, -0.397809)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("right_hand")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.721567, 0.106116, 0.458338, 0.507944)
+tracks/2/type = "scale_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("right_hand")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1)
+tracks/3/type = "position_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("placehold_mob_model")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("placehold_mob_model")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+tracks/5/type = "position_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("left_hand")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, -0.841005, 0.451768, -0.0337089)
+tracks/6/type = "rotation_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("left_hand")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, -0.52506, 0.0162552, -0.245272, 0.814794)
+tracks/7/type = "scale_3d"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("left_hand")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = PackedFloat32Array(0, 1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_ay1l3"]
 resource_name = "swing_1"
@@ -58,21 +140,21 @@ length = 2.0
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("weapon")
+tracks/0/path = NodePath("right_hand")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.886009, 2.10789, -0.0922602, 0.4, 1, 0.794724, 1.81021, 0.576699, 0.7, 1, 0.598914, 0.836278, 0.97011, 0.8, 1, 1.21802, 0.718463, -0.177345, 0.9, 1, 0.073741, 0.380239, -1.66704, 1, 1, -1.67501, 0.521024, 0.32727, 1.2, 1, -0.871954, 0.74532, 1.28786, 1.6, 1, -0.985502, 2.14076, -0.468183, 2, 1, 0.886009, 2.10789, -0.0922602)
+tracks/0/keys = PackedFloat32Array(0, 1, 0.886009, 2.10789, -0.0922602, 0.4, 1, 0.860287, 1.25495, 0.996481, 0.7, 1, 0.598914, 0.836278, 0.97011, 0.8, 1, 1.21802, 0.718463, -0.177345, 0.9, 1, 0.0503374, 0.626312, -1.70493, 1, 1, -1.67501, 0.521024, 0.32727, 1.2, 1, -0.871954, 0.74532, 1.28786, 1.6, 1, -0.985502, 2.14076, -0.468183, 2, 1, 0.886009, 2.10789, -0.0922602)
 tracks/1/type = "rotation_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("weapon")
+tracks/1/path = NodePath("right_hand")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0.793191, 0.357611, 0.389399, 0.302209, 0.4, 1, 0.676898, 0.524199, 0.377388, 0.35299, 0.7, 1, -0.0780834, 0.86985, -0.0435499, 0.485147, 0.8, 1, -0.0313161, 0.977038, -0.0837431, -0.193397, 0.9, 1, -0.0762886, 0.00468475, 0.0466225, 0.995984, 1, 1, -0.0839216, 0.78351, -0.0308347, 0.614914, 1.2, 1, -0.154383, 0.930117, 0.0415064, 0.330642, 1.6, 1, 0.524418, 0.283998, -0.283316, 0.751041, 2, 1, 0.793191, 0.357611, 0.389399, 0.302209)
+tracks/1/keys = PackedFloat32Array(0, 1, 0.286423, -0.063137, 0.524911, 0.799027, 0.4, 1, -0.619704, 0.725109, 0.155945, -0.256642, 0.7, 1, 0.714682, -0.623609, -0.166426, 0.269526, 0.8, 1, -0.113008, 0.169847, -0.695796, 0.688658, 0.9, 1, 0.488879, -0.501705, 0.512827, -0.496285, 1, 1, -0.588238, 0.763587, 0.161516, -0.211715, 1.2, 1, -0.154383, 0.930117, 0.0415064, 0.330642, 1.6, 1, 0.524418, 0.283998, -0.283316, 0.751041, 2, 1, 0.286423, -0.063137, 0.524911, 0.799027)
 tracks/2/type = "scale_3d"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("weapon")
+tracks/2/path = NodePath("right_hand")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = PackedFloat32Array(0, 1, 1, 1, 1, 2, 1, 1, 1, 1)
@@ -111,6 +193,7 @@ tracks/5/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_i3dtr"]
 _data = {
 "_idle": SubResource("Animation_f8xnr"),
+"stunned": SubResource("Animation_0m1ka"),
 "swing_1": SubResource("Animation_ay1l3")
 }
 
@@ -124,6 +207,25 @@ size = Vector3(0.2, 1, 0.01)
 metallic = 0.5
 metallic_specular = 1.0
 roughness = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_4doyq"]
+radial_segments = 16
+rings = 8
+
+[sub_resource type="BoxMesh" id="BoxMesh_wt1um"]
+size = Vector3(0.06, 0.15, 0.35)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eyuwe"]
+albedo_color = Color(0.140447, 0.140447, 0.140447, 1)
+metallic = 0.7
+metallic_specular = 1.0
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_76x07"]
+size = Vector3(0.06, 0.3, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pivne"]
+size = Vector3(0.05, 0.05, 0.1)
 
 [node name="MobFodder" type="CharacterBody3D"]
 collision_layer = 8
@@ -158,25 +260,58 @@ libraries = {
 autoplay = "_idle"
 script = ExtResource("5_uiyrw")
 
-[node name="weapon" type="Node3D" parent="display"]
-transform = Transform3D(-0.229677, -0.0935854, 0.968757, -0.169428, 0.984013, 0.0548904, -0.958406, -0.151528, -0.241861, -1.67501, 0.521024, 0.32727)
+[node name="right_hand" type="Node3D" parent="display"]
+transform = Transform3D(0.757528, 0.331948, -0.562105, -0.320093, -0.561568, -0.763009, -0.568939, 0.757926, -0.319149, 0.886009, 2.10789, -0.0922602)
 
-[node name="Area3D" type="Area3D" parent="display/weapon"]
+[node name="melee_weapon" type="Area3D" parent="display/right_hand"]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
 collision_layer = 4
 collision_mask = 2
 monitoring = false
 monitorable = false
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="display/weapon/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="display/right_hand/melee_weapon"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.45058e-09, -2.23517e-08, -0.5)
 shape = SubResource("BoxShape3D_wmshk")
 metadata/_edit_lock_ = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="display/weapon/Area3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="display/right_hand/melee_weapon"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.5)
 mesh = SubResource("PrismMesh_5hxf0")
 surface_material_override/0 = SubResource("StandardMaterial3D_v7dxg")
+metadata/_edit_lock_ = true
+
+[node name="swing_warning" type="MeshInstance3D" parent="display/right_hand/melee_weapon"]
+visible = false
+mesh = SubResource("SphereMesh_4doyq")
+
+[node name="hand_model" parent="display/right_hand" instance=ExtResource("6_qc4ot")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="left_hand" parent="display" instance=ExtResource("6_qc4ot")]
+transform = Transform3D(0.945074, 0.283065, 0.163428, 0, 0.5, -0.866025, -0.326855, 0.818458, 0.472537, -0.79406, 1.2, -0.39522)
+
+[node name="pistol" type="Node3D" parent="display/left_hand"]
+transform = Transform3D(1, 2.98023e-08, 0, 2.98023e-08, 1, 0, 1.49012e-08, 2.98023e-08, 1, -1.19209e-07, 0.1, -0.0999999)
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="display/left_hand/pistol"]
+transform = Transform3D(1, 0, 1.49012e-08, 0, 1, 8.9407e-08, 0, -1.49012e-07, 1, 5.96046e-08, 0.046776, 0.0438795)
+mesh = SubResource("BoxMesh_wt1um")
+surface_material_override/0 = SubResource("StandardMaterial3D_eyuwe")
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="display/left_hand/pistol"]
+transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 1.78814e-07, 0, -2.08616e-07, 1, 5.96046e-08, -0.172812, 0.0412624)
+mesh = SubResource("BoxMesh_76x07")
+surface_material_override/0 = SubResource("StandardMaterial3D_eyuwe")
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="display/left_hand/pistol"]
+transform = Transform3D(0.999999, -2.98023e-08, 1.19209e-07, -5.96046e-08, 1, 1.78814e-07, 0, -1.49012e-07, 1, 3.57628e-07, 0.0698892, -0.180278)
+mesh = SubResource("BoxMesh_pivne")
 metadata/_edit_lock_ = true
 
 [node name="MobThinkInfo" type="Node" parent="."]
