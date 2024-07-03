@@ -6,10 +6,10 @@ var _bodyCount:int = 0
 var _parent = null
 
 func _ready():
-	var _c1 = connect("body_entered", self, "_on_body_enter")
-	var _c2 = connect("body_exited", self, "_on_body_exit")
-	var _c3 = connect("area_entered", self, "_on_area_enter")
-	var _c4 = connect("area_exited", self, "_on_area_exit")
+	var _c1 = connect("body_entered", Callable(self, "_on_body_enter"))
+	var _c2 = connect("body_exited", Callable(self, "_on_body_exit"))
+	var _c3 = connect("area_entered", Callable(self, "_on_area_enter"))
+	var _c4 = connect("area_exited", Callable(self, "_on_area_exit"))
 	_refreshColour()
 	_parent = get_parent()
 	pass
@@ -19,17 +19,17 @@ func on():
 
 func _refreshColour():
 	if on():
-		$Sprite.self_modulate = Color(1, 1, 1, 1)
+		$Sprite2D.self_modulate = Color(1, 1, 1, 1)
 	else:
-		$Sprite.self_modulate = Color(0, 0, 0, 1)
+		$Sprite2D.self_modulate = Color(0, 0, 0, 1)
 
-func _on_body_enter(_body:PhysicsBody2D):
+func _on_body_enter(_body):
 	if _body == _parent:
 		return
 	_bodyCount += 1
 	_refreshColour()
 
-func _on_body_exit(_body:PhysicsBody2D):
+func _on_body_exit(_body):
 	if _body == _parent:
 		return
 	_bodyCount -= 1

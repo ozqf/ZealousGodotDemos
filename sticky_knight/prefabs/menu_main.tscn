@@ -10,10 +10,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -512.0
-margin_top = -288.0
-margin_right = 512.0
-margin_bottom = 288.0
+offset_left = -512.0
+offset_top = -288.0
+offset_right = 512.0
+offset_bottom = 288.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -23,41 +23,41 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -266.0
-margin_top = 58.0
-margin_right = 269.0
-margin_bottom = 288.0
+offset_left = -266.0
+offset_top = 58.0
+offset_right = 269.0
+offset_bottom = 288.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="level_01" type="Button" parent="gui/root"]
-margin_right = 535.0
-margin_bottom = 20.0
+offset_right = 535.0
+offset_bottom = 20.0
 text = "Level 1"
 
 [node name="level_02" type="Button" parent="gui/root"]
-margin_top = 24.0
-margin_right = 535.0
-margin_bottom = 44.0
+offset_top = 24.0
+offset_right = 535.0
+offset_bottom = 44.0
 text = "Level 2"
 
 [node name="level_test" type="Button" parent="gui/root"]
-margin_top = 48.0
-margin_right = 535.0
-margin_bottom = 68.0
+offset_top = 48.0
+offset_right = 535.0
+offset_bottom = 68.0
 text = "Level Test"
 
 [node name="editor" type="Button" parent="gui/root"]
-margin_top = 72.0
-margin_right = 535.0
-margin_bottom = 92.0
+offset_top = 72.0
+offset_right = 535.0
+offset_bottom = 92.0
 text = "Editor"
 
 [node name="exit" type="Button" parent="gui/root"]
-margin_top = 96.0
-margin_right = 535.0
-margin_bottom = 116.0
+offset_top = 96.0
+offset_right = 535.0
+offset_bottom = 116.0
 text = "Exit"
 
 [node name="Label" type="Label" parent="gui"]
@@ -65,9 +65,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -160.0
-margin_right = 160.0
-margin_bottom = 58.0
+offset_left = -160.0
+offset_right = 160.0
+offset_bottom = 58.0
 text = "Sticky Ninja"
 align = 1
 valign = 1
@@ -76,8 +76,8 @@ __meta__ = {
 }
 
 [node name="debug" type="Label" parent="."]
-margin_right = 512.0
-margin_bottom = 288.0
+offset_right = 512.0
+offset_bottom = 288.0
 text = "..."
 __meta__ = {
 "_edit_use_anchors_": false

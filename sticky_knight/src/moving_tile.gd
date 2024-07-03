@@ -1,9 +1,9 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-onready var _left:WorldSensor = $left
-onready var _right:WorldSensor = $right
+@onready var _left:WorldSensor = $left
+@onready var _right:WorldSensor = $right
 
-export var speed:int = 64
+@export var speed:int = 64
 
 var _velocity:Vector2 = Vector2(-64, 0)
 

@@ -10,9 +10,9 @@ const STATE_SWING:int = 1
 const STATE_RECOVER:int = 2
 const AABB_ONLY:bool = true
 
-onready var _attackLine:Line2D = $melee_area/attack_line
-onready var _shape:CollisionShape2D = $melee_area/CollisionShape2D
-onready var _attackArea:Area2D = $melee_area
+@onready var _attackLine:Line2D = $melee_area/attack_line
+@onready var _shape:CollisionShape2D = $melee_area/CollisionShape2D
+@onready var _attackArea:Area2D = $melee_area
 
 var _state:int = STATE_READY
 var _attackDir = Vector2(1, 0)
@@ -21,8 +21,8 @@ var _lastMoveDir = Vector2(1, 0)
 var player = null
 
 func _ready():
-	var _f1 = _attackArea.connect("area_entered", self, "_on_melee_area_entered")
-	var _f2 = _attackArea.connect("body_entered", self, "_on_melee_body_entered")
+	var _f1 = _attackArea.connect("area_entered", Callable(self, "_on_melee_area_entered"))
+	var _f2 = _attackArea.connect("body_entered", Callable(self, "_on_melee_body_entered"))
 	_shape.disabled = true
 	_attackLine.visible = false
 
@@ -57,7 +57,7 @@ func _process_ready(_delta):
 	if _inputDir.length() == 0:
 		_inputDir = _lastMoveDir
 	_attackLine.self_modulate = Color(1, 1, 1)
-	rotation_degrees = rad2deg(atan2(_inputDir.y, _inputDir.x))
+	rotation_degrees = rad_to_deg(atan2(_inputDir.y, _inputDir.x))
 	#	_attackLine.points[1].x = _inputDir.x * ATTACK_LINE_LENGTH
 	#	_attackLine.points[1].y = _inputDir.y * ATTACK_LINE_LENGTH
 	if Input.is_action_pressed("attack_1"):

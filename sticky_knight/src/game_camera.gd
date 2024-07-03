@@ -5,11 +5,11 @@ var _trackTarget = null
 
 func _ready():
 	_gameParent = get_parent()
-	current = true
+	#current = true
 
 func _set_target(_newTarget):
 	if _trackTarget != null:
-		_trackTarget.disconnect("tree_exiting", self, "on_target_exiting")
+		_trackTarget.disconnect("tree_exiting", Callable(self, "on_target_exiting"))
 		var globalPos
 		if is_inside_tree():
 			globalPos = global_position
@@ -24,7 +24,7 @@ func _set_target(_newTarget):
 	if _newTarget != null:
 		_trackTarget = _newTarget
 		#var globalPos = _trackTarget.global_position
-		_trackTarget.connect("tree_exiting", self, "on_target_exiting")
+		_trackTarget.connect("tree_exiting", Callable(self, "on_target_exiting"))
 		position = Vector2()
 		_gameParent.remove_child(self)
 		_trackTarget.add_child(self)

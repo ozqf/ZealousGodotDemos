@@ -1,25 +1,25 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://b2nfgb305mqg4"]
 
-[ext_resource path="res://src/player_melee.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://src/player_melee.gd" id="1"]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 29, 5.80458 )
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(89, 41)
 
 [node name="melee" type="Node2D"]
-position = Vector2( 0, -14 )
-script = ExtResource( 1 )
+position = Vector2(0, -14)
+script = ExtResource("1")
 
 [node name="melee_area" type="Area2D" parent="."]
-position = Vector2( 48, 0 )
+position = Vector2(48, 0)
 collision_layer = 2
 collision_mask = 54
 
 [node name="attack_line" type="Line2D" parent="melee_area"]
-position = Vector2( 10, 0 )
-points = PoolVector2Array( -48, 0, 10, 0 )
+position = Vector2(32.3714, -5.96046e-07)
+scale = Vector2(1.41429, 1.66667)
+points = PackedVector2Array(-48, 0, 10, 0)
 width = 6.0
-default_color = Color( 1, 1, 1, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="melee_area"]
-position = Vector2( -9, 0 )
-shape = SubResource( 1 )
+position = Vector2(5.5, 0.5)
+shape = SubResource("1")

@@ -1,26 +1,26 @@
-extends KinematicBody2D
+extends CharacterBody2D
 class_name Player
 
-onready var _floorLeft:WorldSensor = $sensors/floor_left
-onready var _floorCentre:WorldSensor = $sensors/floor_centre
-onready var _floorRight:WorldSensor = $sensors/floor_right
+@onready var _floorLeft:WorldSensor = $sensors/floor_left
+@onready var _floorCentre:WorldSensor = $sensors/floor_centre
+@onready var _floorRight:WorldSensor = $sensors/floor_right
 
-onready var _topLeft:WorldSensor = $sensors/top_left
-onready var _topCentre:WorldSensor = $sensors/top_centre
-onready var _topRight:WorldSensor = $sensors/top_right
+@onready var _topLeft:WorldSensor = $sensors/top_left
+@onready var _topCentre:WorldSensor = $sensors/top_centre
+@onready var _topRight:WorldSensor = $sensors/top_right
 
-onready var _leftTop:WorldSensor = $sensors/left_top
-onready var _leftCentre:WorldSensor = $sensors/left_centre
-onready var _leftBottom:WorldSensor = $sensors/left_bottom
+@onready var _leftTop:WorldSensor = $sensors/left_top
+@onready var _leftCentre:WorldSensor = $sensors/left_centre
+@onready var _leftBottom:WorldSensor = $sensors/left_bottom
 
-onready var _rightTop:WorldSensor = $sensors/right_top
-onready var _rightCentre:WorldSensor = $sensors/right_centre
-onready var _rightBottom:WorldSensor = $sensors/right_bottom
+@onready var _rightTop:WorldSensor = $sensors/right_top
+@onready var _rightCentre:WorldSensor = $sensors/right_centre
+@onready var _rightBottom:WorldSensor = $sensors/right_bottom
 
-onready var _melee: PlayerMelee = $melee
-onready var _sprite:Sprite = $sprites/body
-onready var _airJumpSprite:Sprite = $air_jump_sprite
-onready var _groundedSprite:Sprite = $grounded_sprite
+@onready var _melee: PlayerMelee = $melee
+@onready var _sprite:Sprite2D = $sprites/body
+@onready var _airJumpSprite:Sprite2D = $air_jump_sprite
+@onready var _groundedSprite:Sprite2D = $grounded_sprite
 
 const RUN_SPEED = 220.0
 const JUMP_STRENGTH = 365
@@ -207,7 +207,11 @@ func _physics_process(_delta):
 			_airJumps -= 1
 	_refresh_face_direction()
 	# _velocity = move_and_slide(_velocity, Vector2.UP)
-	_velocity = move_and_slide_with_snap(_velocity, _snap, Vector2.UP)
+	set_velocity(_velocity)
+	# TODOConverter3To4 looks that snap in Godot 4 is float, not vector like in Godot 3 - previous value `_snap`
+	set_up_direction(Vector2.UP)
+	move_and_slide()
+	_velocity = velocity
 
 ############################################
 # events

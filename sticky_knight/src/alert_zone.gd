@@ -3,8 +3,8 @@ extends Area2D
 var _player:Node2D = null
 
 func _ready():
-	var _c1 = connect("body_entered", self, "on_body_enter")
-	var _c2 = connect("body_exited", self, "on_body_exit")
+	var _c1 = connect("body_entered", Callable(self, "on_body_enter"))
+	var _c2 = connect("body_exited", Callable(self, "on_body_exit"))
 	_player = get_parent()
 
 func on_body_enter(_body):

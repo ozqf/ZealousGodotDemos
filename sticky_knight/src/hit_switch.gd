@@ -8,14 +8,14 @@ var _pressed:bool = false
 var _tick:float = 0
 var _resetTime:float = 2
 
-export var trigger_target:String = ""
+@export var trigger_target:String = ""
 
 func hit():
 	if _pressed:
 		return
 	_pressed = true
 	_tick = _resetTime
-	$Sprite.texture = _pressedSprite
+	$Sprite2D.texture = _pressedSprite
 	if trigger_target != "":
 		#print("Hit switch triggering " + trigger_target)
 		get_tree().call_group("trigger_targets", "trigger", trigger_target)
@@ -27,4 +27,4 @@ func _process(_delta):
 	_tick -= _delta
 	if _tick <= 0:
 		_pressed = false
-		$Sprite.texture = _unpressedSprite
+		$Sprite2D.texture = _unpressedSprite

@@ -3,6 +3,6 @@
 [node name="tile_cursor" type="Node2D"]
 
 [node name="Line2D" type="Line2D" parent="."]
-points = PoolVector2Array( -16, -16, 16, -16, 16, 16, -16, 16, -16, -18 )
+points = PackedVector2Array( -16, -16, 16, -16, 16, 16, -16, 16, -16, -18 )
 width = 4.0
 default_color = Color( 1, 0, 0, 1 )

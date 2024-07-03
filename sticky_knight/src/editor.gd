@@ -2,15 +2,15 @@ extends Node2D
 
 const CAM_SPEED:float = 320.0
 
-onready var _cursor:Node2D = $tile_cursor
-onready var _panel:Control = $CanvasLayer/panel
-onready var _paintLabel:Label = $CanvasLayer/hud/paint_description
+@onready var _cursor:Node2D = $tile_cursor
+@onready var _panel:Control = $CanvasLayer/panel
+@onready var _paintLabel:Label = $CanvasLayer/hud/paint_description
 
-onready var _solidMap:TileMap = $tile_maps/solid
-onready var _fenceMap:TileMap = $tile_maps/fence
-onready var _solidSlippyMap:TileMap = $tile_maps/solid_slippy
-onready var _fenceSlippyMap:TileMap = $tile_maps/fence_slippy
-onready var _world:TileMap = $tile_maps/solid
+@onready var _solidMap:TileMap = $tile_maps/solid
+@onready var _fenceMap:TileMap = $tile_maps/fence
+@onready var _solidSlippyMap:TileMap = $tile_maps/solid_slippy
+@onready var _fenceSlippyMap:TileMap = $tile_maps/fence_slippy
+@onready var _world:TileMap = $tile_maps/solid
 
 var _panelOn:bool = false
 var _paintMode:int = 1
@@ -21,8 +21,8 @@ var _camPos:Vector2 = Vector2()
 func _ready():
 	get_tree().call_group("game", "on_editor")
 	_panel.visible = false
-	var _c1 = $CanvasLayer/panel/VBoxContainer/load.connect("pressed", self, "on_click_load")
-	var _c2 = $CanvasLayer/panel/VBoxContainer/save.connect("pressed", self, "on_click_save")
+	var _c1 = $CanvasLayer/panel/VBoxContainer/load.connect("pressed", Callable(self, "on_click_load"))
+	var _c2 = $CanvasLayer/panel/VBoxContainer/save.connect("pressed", Callable(self, "on_click_save"))
 
 func _read_cell_type_at(x: int, y: int) -> int:
 	if _solidMap.get_cell(x, y) >= 0:
@@ -82,7 +82,7 @@ func _set_cursor_pos():
 	# get world position of cursor
 	var mPos := get_global_mouse_position()
 	# get tile position of cursor
-	_tilePos = _world.world_to_map(mPos)
+	_tilePos = _world.local_to_map(mPos)
 	# snap cursor to tile pos
 	var cursorPos := Vector2(_tilePos.x * 32, _tilePos.y * 32)
 	cursorPos += Vector2(16, 16)
@@ -90,13 +90,14 @@ func _set_cursor_pos():
 
 func _paint_at(tilePos:Vector2):
 	_clear_tile_at(tilePos)
-	_world.set_cell(int(_tilePos.x), int(_tilePos.y), 0)
+	#_world.set_cell(int(_tilePos.x), int(_tilePos.y), 0)
 
 func _clear_tile_at(tilePos:Vector2):
-	_solidMap.set_cell(int(tilePos.x), int(tilePos.y), -1)
-	_fenceMap.set_cell(int(tilePos.x), int(tilePos.y), -1)
-	_solidSlippyMap.set_cell(int(tilePos.x), int(tilePos.y), -1)
-	_fenceSlippyMap.set_cell(int(tilePos.x), int(tilePos.y), -1)
+	#_solidMap.set_cell(0.)
+	#_solidMap.set_cell(int(tilePos.x), int(tilePos.y), -1)
+	#_fenceMap.set_cell(int(tilePos.x), int(tilePos.y), -1)
+	#_solidSlippyMap.set_cell(int(tilePos.x), int(tilePos.y), -1)
+	#_fenceSlippyMap.set_cell(int(tilePos.x), int(tilePos.y), -1)
 	pass
 
 func _process_edit_world(_delta:float):

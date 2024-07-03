@@ -8,9 +8,9 @@ enum GateDirection {
 	Left,
 	Right
 }
-export var direction = GateDirection.Down
-export var tileCount:int = 2
-export var target_name:String = ""
+@export var direction = GateDirection.Down
+@export var tileCount:int = 2
+@export var target_name:String = ""
 var _tiles = []
 var _on:bool = true
 
@@ -25,7 +25,7 @@ func _ready():
 		step = Vector2(32, 0)
 	var pos = Vector2()
 	for _i in range(0, tileCount):
-		var tile = _tile_prefab.instance()
+		var tile = _tile_prefab.instantiate()
 		_tiles.push_back(tile)
 		add_child(tile)
 		pos += step

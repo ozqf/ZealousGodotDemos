@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 var _projectile_prefab = preload("res://prefabs/projectile.tscn")
 
@@ -13,13 +13,13 @@ const THINK_TIME:float = 0.25
 
 signal enemy_died
 
-onready var _left:WorldSensor = $left
-onready var _right:WorldSensor = $right
-onready var _leftFloor:WorldSensor = $left_floor
-onready var _rightFloor:WorldSensor = $right_floor
-onready var _sprite:Sprite = $Sprite
-onready var _los:RayCast2D = $line_of_sight
-onready var _losMarker:Node2D = $los_marker
+@onready var _left:WorldSensor = $left
+@onready var _right:WorldSensor = $right
+@onready var _leftFloor:WorldSensor = $left_floor
+@onready var _rightFloor:WorldSensor = $right_floor
+@onready var _sprite:Sprite2D = $Sprite2D
+@onready var _los:RayCast2D = $line_of_sight
+@onready var _losMarker:Node2D = $los_marker
 
 var _velocity = Vector2()
 var _gravity = Vector2(0, 900)
@@ -60,7 +60,10 @@ func _walk(_delta):
 		_moveDir.x = 1
 		_velocity.x = 0
 	_velocity.y += _gravity.y * _delta
-	_velocity = move_and_slide(_velocity, Vector2.UP)
+	set_velocity(_velocity)
+	set_up_direction(Vector2.UP)
+	move_and_slide()
+	_velocity = velocity
 	_sprite.flip_h = (_velocity.x < 0)
 
 func _has_los(tar):
@@ -76,7 +79,7 @@ func _refresh_los_pos(tar:Node2D):
 	var destPos:Vector2 = tar.global_position
 	destPos.y -= 16
 	var diff := destPos - selfPos
-	_los.set_cast_to(diff)
+	_los.set_target_position(diff)
 	_losMarker.position = diff
 	# if hitting, something is blocking the ray, so we
 	# DON'T have LoS
@@ -89,10 +92,10 @@ func _refresh_los_pos(tar:Node2D):
 	# print("Diff " + str(diff))
 
 func _attack_target():
-	var prj:Projectile = _projectile_prefab.instance()
+	var prj:Projectile = _projectile_prefab.instantiate()
 	var parent = get_tree().get_current_scene()
 	parent.add_child(prj)
-	prj.launch(null, _sprite.global_position, deg2rad(_attackDegrees), 250, game.TEAM_ENEMY)
+	prj.launch(null, _sprite.global_position, deg_to_rad(_attackDegrees), 250, game.TEAM_ENEMY)
 
 func _physics_process(_delta):
 	_refresh_los_pos(_target)

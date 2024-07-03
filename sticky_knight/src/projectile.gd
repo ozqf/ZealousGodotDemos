@@ -1,17 +1,17 @@
 extends Area2D
 class_name Projectile
 
-onready var _sprite:Sprite = $Sprite
+@onready var _sprite:Sprite2D = $Sprite2D
 var _tick:float = 10.0
 var _active:bool = true
 var _speed:float = 300
 var _radians:float = 0
-var _ignoreBody:PhysicsBody2D = null
+var _ignoreBody:CollisionObject2D = null
 var _teamID:int = 0
 
 func _ready():
-	var _foo = connect("body_entered", self, "on_body_enter")
-	var _bar = connect("area_entered", self, "on_area_enter")
+	var _foo = connect("body_entered", Callable(self, "on_body_enter"))
+	var _bar = connect("area_entered", Callable(self, "on_area_enter"))
 
 func _kill():
 	_active = false
@@ -62,9 +62,22 @@ func _process(_delta:float):
 	if _teamID != game.TEAM_PLAYER:
 		mask |= game.LAYER_PLAYER
 	var spaceRId = get_world_2d().space
-	var spaceState = Physics2DServer.space_get_direct_state(spaceRId)
-	var result = spaceState.intersect_ray(origin, dest, [_ignoreBody], mask, true, false)
+	var spaceState = PhysicsServer2D.space_get_direct_state(spaceRId)
+	var rayParams:PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.new()
+	rayParams.from = origin
+	rayParams.to = dest
+	
+	if _ignoreBody != null && _ignoreBody.has_method("get_rid"):
+		rayParams.exclude = [_ignoreBody.get_rid()]
+	rayParams.collision_mask = mask
+	#rayParams.area
+	#var result = spaceState.intersect_ray(origin, dest, [_ignoreBody], mask, true, false)
+	var result = spaceState.intersect_ray(rayParams)
 	if result:
+		var tileMap:TileMap = result.collider as TileMap
+		if tileMap != null:
+			_kill()
+			return
 		var layer:int = result.collider.collision_layer
 		if (layer & game.LAYER_PLAYER) != 0:
 			#print("Hit player!")

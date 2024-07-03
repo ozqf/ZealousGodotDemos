@@ -1,8 +1,8 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 var offset:Vector2 = Vector2()
-onready var _sprite:Sprite = $Sprite
-onready var _shape:CollisionShape2D = $CollisionShape2D
+@onready var _sprite:Sprite2D = $Sprite2D
+@onready var _shape:CollisionShape2D = $CollisionShape2D
 
 func on():
 	_sprite.visible = true
