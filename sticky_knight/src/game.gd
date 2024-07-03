@@ -1,6 +1,8 @@
 extends Node2D
 class_name Game
 
+var _muzzleGFXType = preload("res://gfx/gfx_shotgun_muzzle/gfx_shotgun_muzzle.tscn")
+
 const LAYER_WORLD = 1
 const LAYER_PLAYER = 2
 const LAYER_ENEMY = 4
@@ -26,6 +28,12 @@ func on_player_start(_player):
 
 func on_player_finish(_player):
 	pass
+
+func gfx_shotgun_muzzle(pos:Vector2) -> Node2D:
+	var gfx:Node2D = _muzzleGFXType.instantiate() as Node2D
+	self.add_child(gfx)
+	gfx.global_position = pos
+	return gfx
 
 func _process(_delta):
 #	if Input.is_action_just_pressed("ui_cancel"):

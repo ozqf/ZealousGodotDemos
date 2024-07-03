@@ -18,7 +18,7 @@ var _state:int = STATE_READY
 var _attackDir = Vector2(1, 0)
 var _attackTick:float = 0
 var _lastMoveDir = Vector2(1, 0)
-var player = null
+var player:Player = null
 
 func _ready():
 	var _f1 = _attackArea.connect("area_entered", Callable(self, "_on_melee_area_entered"))
@@ -39,7 +39,7 @@ func _on_melee_area_entered(_area:Area2D):
 
 func set_last_move_dir(dir:Vector2):
 	_lastMoveDir = dir
-	
+
 func _process_ready(_delta):
 	var _inputDir = Vector2()
 	if Input.is_action_pressed("ui_left"):
@@ -68,6 +68,18 @@ func _process_ready(_delta):
 		_attackLine.self_modulate = Color(1, 0, 0)
 		if player != null:
 			player.on_attack(_inputDir)
+	if Input.is_action_just_pressed("attack_2"):
+		# 'boost' - shoot backward to dash forward
+		var gfx:Node2D = game.gfx_shotgun_muzzle(self.global_position)
+		gfx.rotation_degrees = rotation_degrees + 180.0
+		if (player != null):
+			player.apply_shot_boost(_inputDir)
+		pass
+	if Input.is_action_just_pressed("attack_3"):
+		# shoot
+		var gfx:Node2D = game.gfx_shotgun_muzzle(self.global_position)
+		gfx.rotation_degrees = rotation_degrees
+		pass
 
 func _process_swing(_delta):
 	if _attackTick > 0:

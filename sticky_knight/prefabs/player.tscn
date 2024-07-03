@@ -94,6 +94,14 @@ collision_mask = 513
 position = Vector2(14, -26)
 collision_mask = 513
 
+[node name="ammo_label" type="Label" parent="."]
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+text = "4"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer"]
@@ -106,4 +114,4 @@ offset_left = -151.0
 offset_top = -12.5601
 offset_right = 153.0
 offset_bottom = 37.4399
-text = "Move: Arrows | Jump: C | Attack: X | No Grab: Z"
+text = "ARROWS: Move, SPACE: jump, D attack, SHIFT slip off walls"

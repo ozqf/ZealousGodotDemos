@@ -44,6 +44,9 @@ var _slipOn:bool = false
 var _startPos: Vector2 = Vector2()
 var _snapDir:Vector2 = Vector2()
 
+var _loadedShots:int = 4
+var _loadedShotsMax:int = 4
+
 func _ready():
 	_melee.player = self
 
@@ -135,6 +138,15 @@ func _calc_push_ratio(curSpeed:float, maxSpeed:float):
 	if r < 0: r = 0
 	if r > 1: r = 1
 	return r
+
+func apply_shot_boost(dir:Vector2) -> void:
+	var againstH:bool = _againstHorizontal()
+	var againstV:bool = _againstVertical()
+	if !againstH && !againstV:
+		if dir.y == 0:
+			dir.y = -0.2
+			dir = dir.normalized()
+		_velocity = dir * 500.0
 
 func _physics_process(_delta):
 	_frame += 1

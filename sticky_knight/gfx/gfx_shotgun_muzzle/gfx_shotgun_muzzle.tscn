@@ -1,0 +1,98 @@
+[gd_scene load_steps=11 format=3 uid="uid://d1xpdiaguvuuv"]
+
+[ext_resource type="Script" path="res://zqf/zqf_emit_on_ready_2d.gd" id="1_aoy0e"]
+
+[sub_resource type="Curve" id="Curve_lmo57"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_gd34e"]
+curve = SubResource("Curve_lmo57")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1st1i"]
+particle_flag_disable_z = true
+spread = 15.0
+initial_velocity_min = 500.0
+initial_velocity_max = 600.0
+gravity = Vector3(0, 98, 0)
+damping_min = 700.0
+damping_max = 700.0
+scale_curve = SubResource("CurveTexture_gd34e")
+
+[sub_resource type="Gradient" id="Gradient_yu3ju"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8y1ln"]
+gradient = SubResource("Gradient_yu3ju")
+width = 4
+height = 4
+
+[sub_resource type="Animation" id="Animation_ffbmi"]
+resource_name = "run"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("flash_sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.001, 0.001)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qjs0t"]
+_data = {
+"run": SubResource("Animation_ffbmi")
+}
+
+[sub_resource type="Gradient" id="Gradient_ucq46"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6s8pl"]
+gradient = SubResource("Gradient_ucq46")
+
+[node name="GfxShotgunMuzzle" type="Node2D"]
+z_index = 1
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_1st1i")
+texture = SubResource("GradientTexture2D_8y1ln")
+one_shot = true
+explosiveness = 1.0
+trail_enabled = true
+trail_lifetime = 0.05
+script = ExtResource("1_aoy0e")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qjs0t")
+}
+autoplay = "run"
+
+[node name="flash_sprite" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="flash_sprite"]
+position = Vector2(46, 0)
+rotation = -0.785398
+scale = Vector2(1, 1)
+texture = SubResource("GradientTexture2D_6s8pl")
+metadata/_edit_lock_ = true
