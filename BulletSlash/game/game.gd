@@ -40,6 +40,7 @@ var _gfxBloodSplatThrownType = preload("res://gfx/splats/decal_blood_splat_01.ts
 var _sandboxWorld:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 
 @onready var _worldRoot:Node3D = $world_root
+@onready var sound:GameSound = $GameSound
 
 var _avatar:PlayerAvatar = null
 

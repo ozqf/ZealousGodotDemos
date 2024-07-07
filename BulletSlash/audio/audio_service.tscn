@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmqqx8tc2wnmw"]
+
+[ext_resource type="Script" path="res://audio/audio_service.gd" id="1_2opsi"]
+
+[node name="AudioService" type="Node3D"]
+script = ExtResource("1_2opsi")

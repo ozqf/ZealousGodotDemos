@@ -287,7 +287,6 @@ visible = false
 mesh = SubResource("SphereMesh_4doyq")
 
 [node name="hand_model" parent="display/right_hand" instance=ExtResource("6_qc4ot")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 metadata/_edit_lock_ = true
 
 [node name="left_hand" parent="display" instance=ExtResource("6_qc4ot")]

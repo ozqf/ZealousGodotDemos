@@ -320,6 +320,7 @@ func _step_dash(_delta:float) -> void:
 	self.move_and_slide()
 
 func _fire_scatter(t:Transform3D) -> void:
+	Game.sound.play_shotgun_fire(t.origin)
 	var forward:Vector3 = -t.basis.z
 	_fire_projectile(t.origin, forward)
 	forward = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, -1200, 0)

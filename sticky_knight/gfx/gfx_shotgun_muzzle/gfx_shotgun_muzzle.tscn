@@ -93,6 +93,5 @@ autoplay = "run"
 [node name="Sprite2D" type="Sprite2D" parent="flash_sprite"]
 position = Vector2(46, 0)
 rotation = -0.785398
-scale = Vector2(1, 1)
 texture = SubResource("GradientTexture2D_6s8pl")
 metadata/_edit_lock_ = true

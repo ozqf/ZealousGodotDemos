@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dabw8ifmx5ngi"]
+
+[ext_resource type="Script" path="res://audio/sound_player_omni.gd" id="1_y3ijt"]
+
+[node name="QuickSound" type="AudioStreamPlayer"]
+script = ExtResource("1_y3ijt")

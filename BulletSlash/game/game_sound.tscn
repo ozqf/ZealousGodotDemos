@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsif5uwg8si2n"]
+
+[ext_resource type="Script" path="res://game/game_sound.gd" id="1_7bato"]
+[ext_resource type="PackedScene" uid="uid://dmqqx8tc2wnmw" path="res://audio/audio_service.tscn" id="2_8y16c"]
+
+[node name="GameSound" type="Node3D"]
+script = ExtResource("1_7bato")
+
+[node name="AudioService" parent="." instance=ExtResource("2_8y16c")]
