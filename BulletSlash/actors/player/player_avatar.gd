@@ -1,6 +1,8 @@
 extends CharacterBody3D
 class_name PlayerAvatar
 
+const PARRY_WINDOW:float = 0.5
+
 @onready var _cursor:Node3D = $cursor
 @onready var _aimPlanePos:Node3D = $aim_plane_pos
 @onready var _display:Node3D = $display
@@ -36,6 +38,7 @@ var _hitInfo:HitInfo
 var _dashInput:Vector2 = Vector2()
 
 var _refireTick:float = 0.0
+var _timeBlocking:float = 0.0
 
 var _tryAttackSequenceTick:float = 0.0
 
@@ -92,8 +95,22 @@ func _set_area_on(area:Area3D, flag:bool) -> void:
 # Take hit
 ##########################################################################
 func hit(_incomingHit:HitInfo) -> int:
+	var blockTime:float = get_block_time()
+	if blockTime > 0.0:
+		if blockTime < PARRY_WINDOW:
+			var weight:float = 1.0 - (blockTime / PARRY_WINDOW)
+			_incomingHit.responseParryWeight = weight
+			print("Parried!")
+			return Game.HIT_RESPONSE_PARRIED
+		print("Blocked")
+		return Game.HIT_RESPONSE_BLOCKED
 	print("Player hit")
 	return 1
+
+func get_block_time() -> float:
+	if _animator.current_animation != "punch_charge_stance":
+		return 0.0
+	return _timeBlocking	
 
 ##########################################################################
 # attack animations
@@ -194,18 +211,22 @@ func _load_shot() -> bool:
 	return true
 
 func load_shot_from_right_spin() -> void:
+	sfx_right_baton_swish()
 	if !_load_shot():
 		return
 	var pos:Vector3 = _rightBatonArea.global_position
 	var dir:Vector3 = -_rightBatonArea.global_transform.basis.x
 	Game.spawn_gfx_ejected_shell(pos, dir)
+	Game.sound.play_shotgun_load(pos)
 
 func load_shot_from_left_spin() -> void:
+	sfx_left_baton_swish()
 	if !_load_shot():
 		return
 	var pos:Vector3 = _leftBatonArea.global_position
 	var dir:Vector3 = -_leftBatonArea.global_transform.basis.x
 	Game.spawn_gfx_ejected_shell(pos, dir)
+	Game.sound.play_shotgun_load(pos)
 
 ###############################################
 # Shoot right baton
@@ -252,7 +273,9 @@ func shoot_left_left() -> void:
 		return
 	pass
 
-
+###############################################
+# animation callbacks
+###############################################
 func set_recovering_on() -> void:
 	_inMoveRecovery = true
 
@@ -276,6 +299,12 @@ func get_target_info() -> TargetInfo:
 
 func refresh_target_info() -> void:
 	_targetInfo.t = self.global_transform
+
+func sfx_right_baton_swish() -> void:
+	Game.sound.play_quick_blade_swing(_rightBatonArea.global_position)
+
+func sfx_left_baton_swish() -> void:
+	Game.sound.play_quick_blade_swing(_leftBatonArea.global_position)
 
 ##########################################################################
 # attacks
@@ -499,6 +528,7 @@ func _physics_process(_delta:float) -> void:
 	# house-keeping
 	_selfTime += _delta
 	_timeSinceLastLookAction += _delta
+	_timeBlocking += _delta
 	_tryAttackSequenceTick -= _delta
 	_refireTick -= _delta
 	refresh_target_info()
@@ -542,6 +572,7 @@ func _physics_process(_delta:float) -> void:
 	if !isAttacking:
 		if Input.is_action_pressed("attack_2"):
 			_animator.play("punch_charge_stance")
+			_timeBlocking = 0.0
 			_timeSinceLastLookAction = 0.0
 		elif _animator.current_animation == "punch_charge_stance":
 			if _stance == PlayerAttacks.Stance.Punch:
@@ -570,9 +601,11 @@ func _physics_process(_delta:float) -> void:
 						if _nextShotRight:
 							_animator.play("blaster_shoot_right")
 							_gfx_muzzle_from_baton(_rightBatonArea, _rightHand)
+							Game.sound.play_shotgun_fire(_rightBatonArea.global_position)
 						else:
 							_animator.play("blaster_shoot_left")
 							_gfx_muzzle_from_baton(_leftBatonArea, _leftHand)
+							Game.sound.play_shotgun_fire(_leftBatonArea.global_position)
 						_nextShotRight = !_nextShotRight
 						var t:Transform3D = _rightBatonArea.global_transform
 						_fire_projectile(t.origin, t.basis.z)

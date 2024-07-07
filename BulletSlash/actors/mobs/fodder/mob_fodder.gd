@@ -36,6 +36,11 @@ func _animation_event(eventType:String) -> void:
 
 func _on_weapon_touched_area(area:Area3D) -> void:
 	var result:int = Game.try_hit(_hitInfo, area)
+	if result == Game.HIT_RESPONSE_PARRIED:
+		print("Mob was parried!")
+		_change_state(MOB_STATE_STUNNED)
+		_thinkTime = 3
+		return
 	print("Mob response " + str(result))
 
 func _change_state(newState:String) -> void:
