@@ -2,6 +2,7 @@ extends CharacterBody3D
 class_name PlayerAvatar
 
 const PARRY_WINDOW:float = 0.5
+const ANIM_BLOCK:String = "punch_charge_stance"
 
 @onready var _cursor:Node3D = $cursor
 @onready var _aimPlanePos:Node3D = $aim_plane_pos
@@ -59,6 +60,8 @@ func _ready() -> void:
 	_loadedShots = _maxLoadedShots
 	_moves = PlayerAttacks.get_moves()
 	_hitInfo = Game.new_hit_info()
+	_hitInfo.sourceTeamId = Game.TEAM_ID_PLAYER
+	_hitInfo.damageTeamId = Game.TEAM_ID_PLAYER
 	_targetInfo = Game.new_target_info()
 	_return_to_idle_animation()
 	_animator.connect("current_animation_changed", _on_weapon_animation_changed)
@@ -95,6 +98,11 @@ func _set_area_on(area:Area3D, flag:bool) -> void:
 # Take hit
 ##########################################################################
 func hit(_incomingHit:HitInfo) -> int:
+	if _incomingHit.damageTeamId == Game.TEAM_ID_PLAYER:
+		return Game.HIT_RESPONSE_SAME_TEAM
+	if _incomingHit.sourceTeamId == Game.TEAM_ID_PLAYER:
+		return Game.HIT_RESPONSE_SAME_TEAM
+	
 	var blockTime:float = get_block_time()
 	if blockTime > 0.0:
 		if blockTime < PARRY_WINDOW:
@@ -108,9 +116,9 @@ func hit(_incomingHit:HitInfo) -> int:
 	return 1
 
 func get_block_time() -> float:
-	if _animator.current_animation != "punch_charge_stance":
+	if _animator.current_animation != ANIM_BLOCK:
 		return 0.0
-	return _timeBlocking	
+	return _timeBlocking
 
 ##########################################################################
 # attack animations
@@ -325,7 +333,7 @@ func is_view_locked() -> bool:
 	match _animator.current_animation:
 		"", "punch_idle", "blaster_idle", "blade_idle", "blaster_shoot_left", "blaster_shoot_right", "punch_dash", "blaster_reload":
 			return false
-		"punch_charge_stance":
+		ANIM_BLOCK:
 			return false
 		null:
 			return false
@@ -571,10 +579,11 @@ func _physics_process(_delta:float) -> void:
 	
 	if !isAttacking:
 		if Input.is_action_pressed("attack_2"):
-			_animator.play("punch_charge_stance")
-			_timeBlocking = 0.0
-			_timeSinceLastLookAction = 0.0
-		elif _animator.current_animation == "punch_charge_stance":
+			if !_animator.current_animation == ANIM_BLOCK:
+				_animator.play(ANIM_BLOCK)
+				_timeBlocking = 0.0
+				_timeSinceLastLookAction = 0.0
+		elif _animator.current_animation == ANIM_BLOCK:
 			if _stance == PlayerAttacks.Stance.Punch:
 				_animator.play("punch_idle")
 			else:

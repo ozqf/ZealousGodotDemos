@@ -1,4 +1,5 @@
 extends GPUParticles3D
+class_name ZqfEmitOnReady
 
 @export var emitDuration:float = -1
 @export var oneShot:bool = true

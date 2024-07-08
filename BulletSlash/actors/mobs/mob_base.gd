@@ -13,7 +13,10 @@ signal mob_broadcast_event(eventType, mobInstance)
 @onready var _bodyShape:CollisionShape3D = $CollisionShape3D
 @onready var _thinkInfo:MobThinkInfo = $MobThinkInfo
 
+var _healthMax:float = 1.0
 var _health:float = 1.0
+var _defenceStrengthMax:float = 2.0
+var _defenceStrength:float = 2.0
 
 var _hitBounceTick:float = 1.0
 var _hitBounceTime:float = 1.0
@@ -39,6 +42,8 @@ func set_display_visible(_flag:bool) -> void:
 
 func _run_spawn() -> void:
 	#print("MobBase run spawn")
+	_health = _healthMax
+	_defenceStrength = _defenceStrengthMax
 	var t:Transform3D = Transform3D.IDENTITY
 	t.origin = _spawnInfo.t.origin
 	self.global_transform = _spawnInfo.t
@@ -134,6 +139,10 @@ func _step_toward_flat(targetPos:Vector3, metresPerSecond:float, _delta:float) -
 	targetPos.y = selfPos.y
 	var move:Vector3 = (targetPos - selfPos).normalized() * metresPerSecond
 	self.velocity = move
+	self.move_and_slide()
+
+func _slide_in_direction(dir:Vector3, metresPerSecond:float, _delta:float) -> void:
+	self.velocity = dir * metresPerSecond
 	self.move_and_slide()
 
 ##################################################

@@ -34,8 +34,8 @@ initial_velocity_max = 20.0
 size = Vector3(0.02, 0.2, 0.02)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_2m4k6"]
-vertices = PackedVector3Array(37.6378, 19.75, 2.2476, 37.8878, 20, 2.4976, 38.3878, 18.75, 2.4976, 37.6378, 19.75, 0.9976, 37.6378, 19.75, 2.2476, 38.3878, 18.75, 2.4976, 42.3878, 10.25, 3.2476, 42.6378, 10, 1.7476, 41.3878, 11.75, 1.5601, 38.3878, 18.75, 2.4976, 38.3878, 18.75, 3.2476, 42.3878, 10.25, 3.2476, 42.6378, 10, 1.7476, 72.1378, 10, 1.7476, 72.1378, 10, 0.9976, 37.6378, 19.75, 0.9976, 41.3878, 11.75, 1.5601, 43.3878, 10, 0.9976, 41.9503, 10.75, 0.9976, 37.8878, 20, 2.4976, 37.6378, 19.75, 2.2476, 37.3878, 20, 2.7476, 37.8878, 20, 3.2476, 37.3878, 20, 2.7476, -12.3622, 13.25, 2.4976, -12.3622, 13.25, 3.2476, 37.8878, 20, 3.2476, 0.476534, 20, 2.56212, -2.73314, 18.75, 2.54599, -1.0154, 19.75, 3.2476, 0.605567, 20, 3.2476)
-polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 5), PackedInt32Array(5, 3, 8), PackedInt32Array(5, 8, 7), PackedInt32Array(5, 7, 6), PackedInt32Array(11, 10, 9), PackedInt32Array(15, 18, 16), PackedInt32Array(16, 18, 12), PackedInt32Array(12, 18, 17), PackedInt32Array(12, 17, 14), PackedInt32Array(12, 14, 13), PackedInt32Array(20, 19, 21), PackedInt32Array(21, 19, 22), PackedInt32Array(24, 28, 25), PackedInt32Array(25, 28, 29), PackedInt32Array(29, 28, 27), PackedInt32Array(29, 27, 30), PackedInt32Array(30, 27, 23), PackedInt32Array(30, 23, 26)]
+vertices = PackedVector3Array(37.6378, 19.75, 2.2476, 37.8878, 20, 2.4976, 38.3878, 18.75, 2.4976, 37.6378, 19.75, 0.9976, 37.6378, 19.75, 2.2476, 38.3878, 18.75, 2.4976, 42.3878, 10.25, 3.2476, 42.6378, 10, 1.7476, 41.3878, 11.75, 1.5601, 38.3878, 18.75, 2.4976, 38.3878, 18.75, 3.2476, 42.3878, 10.25, 3.2476, 42.6378, 10, 1.7476, 72.1378, 10, 1.7476, 72.1378, 10, 0.9976, 37.6378, 19.75, 0.9976, 41.3878, 11.75, 1.5601, 43.3878, 10, 0.9976, 41.9503, 10.75, 0.9976, 37.8878, 20, 2.4976, 37.6378, 19.75, 2.2476, 37.3878, 20, 2.7476, 37.8878, 20, 3.2476, 37.8878, 20, 3.2476, 26.6378, 20, 2.7476, 25.3878, 20, 2.7476, 26.6378, 20, 2.7476, 26.3878, 20, 1.7476, 25.6378, 20, 1.7476, 25.3878, 20, 2.7476, 25.3878, 20, 2.7476, -12.3622, 13.25, 2.4976, -12.3622, 13.25, 3.2476, 37.8878, 20, 3.2476, -0.74679, 19.75, 2.57452, -1.0154, 19.75, 3.2476, 0.605567, 20, 3.2476, 37.8878, 20, 3.2476, 37.3878, 20, 2.7476, 26.6378, 20, 2.7476)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 5), PackedInt32Array(5, 3, 8), PackedInt32Array(5, 8, 7), PackedInt32Array(5, 7, 6), PackedInt32Array(11, 10, 9), PackedInt32Array(15, 18, 16), PackedInt32Array(16, 18, 12), PackedInt32Array(12, 18, 17), PackedInt32Array(12, 17, 14), PackedInt32Array(12, 14, 13), PackedInt32Array(20, 19, 21), PackedInt32Array(21, 19, 22), PackedInt32Array(25, 24, 23), PackedInt32Array(27, 26, 28), PackedInt32Array(28, 26, 29), PackedInt32Array(32, 31, 35), PackedInt32Array(35, 31, 34), PackedInt32Array(35, 34, 36), PackedInt32Array(36, 34, 30), PackedInt32Array(36, 30, 33), PackedInt32Array(39, 38, 37)]
 agent_height = 0.5
 agent_radius = 0.1
 agent_max_climb = 1.0
@@ -65,6 +65,7 @@ fog_density = 0.002
 
 [node name="camera_controller" type="Node3D" parent="."]
 script = ExtResource("1_gj42n")
+metadata/_edit_lock_ = true
 
 [node name="preview_camera" type="Camera3D" parent="camera_controller"]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, -13, 13, 3.5)
@@ -75,7 +76,7 @@ script = ExtResource("1_x5o7t")
 tick = 0.1
 
 [node name="camera_root" type="Node3D" parent="camera_controller"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 13.5, 3)
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="camera_controller/camera_root"]
 
@@ -85,6 +86,7 @@ cull_mask = 524287
 current = true
 fov = 40.0
 size = 16.0
+metadata/_edit_lock_ = true
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="camera_controller/camera_root"]
 material_override = SubResource("StandardMaterial3D_06qa2")
@@ -92,8 +94,10 @@ amount = 1024
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_ft3am")
 draw_pass_1 = SubResource("BoxMesh_ck5d0")
+metadata/_edit_lock_ = true
 
 [node name="camera_track" type="Node3D" parent="camera_controller"]
+metadata/_edit_lock_ = true
 
 [node name="node_a" type="Node3D" parent="camera_controller/camera_track"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 13, 0)
@@ -122,6 +126,11 @@ layers = 524288
 size = Vector3(25, 1, 1)
 material = ExtResource("3_epqpt")
 
+[node name="CSGBox3D5" type="CSGBox3D" parent="camera_controller/NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 19, 2)
+layers = 524288
+material = ExtResource("3_epqpt")
+
 [node name="CSGBox3D4" type="CSGBox3D" parent="camera_controller/NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57, 9, 1.3)
 layers = 524288
@@ -135,7 +144,7 @@ mesh = SubResource("PrismMesh_fyp3j")
 material = ExtResource("3_epqpt")
 
 [node name="player_avatar" parent="." instance=ExtResource("1_ocjj5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+transform = Transform3D(-0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, -11.5, 0, -14.5)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 5, 4, 24)
@@ -162,30 +171,6 @@ spawnInterval = 2.0
 transform = Transform3D(-1, 0, -2.62269e-07, 0, 1, 0, 2.62269e-07, 0, -1, -14, 0, -3)
 id = "spawn_0"
 
-[node name="big_dirty_yellow_spotlight5" parent="." instance=ExtResource("5_3iqyv")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -14, 6, -2)
-spot_attenuation = 0.840897
-
-[node name="big_dirty_yellow_spotlight9" parent="." instance=ExtResource("5_3iqyv")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -2, 6, 2)
-spot_attenuation = 0.840897
-
-[node name="big_dirty_yellow_spotlight4" parent="." instance=ExtResource("5_3iqyv")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 9, 6, -2)
-spot_attenuation = 0.840897
-
-[node name="big_dirty_yellow_spotlight8" parent="." instance=ExtResource("5_3iqyv")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -2, 6, -9)
-spot_attenuation = 0.840897
-
-[node name="big_dirty_yellow_spotlight6" parent="." instance=ExtResource("5_3iqyv")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 23, 6, 2)
-spot_attenuation = 0.840897
-
-[node name="big_dirty_yellow_spotlight7" parent="." instance=ExtResource("5_3iqyv")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 41, 6, 2)
-spot_attenuation = 0.840897
-
 [node name="geometry" type="Node3D" parent="."]
 
 [node name="hull" type="Node3D" parent="geometry"]
@@ -194,28 +179,66 @@ spot_attenuation = 0.840897
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, -0.5, 0)
 layers = 5
 use_collision = true
-size = Vector3(74, 1, 32)
+size = Vector3(74, 1, 8)
 material = ExtResource("2_l8ahp")
-metadata/_edit_lock_ = true
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, -0.5, -10)
+layers = 5
+use_collision = true
+size = Vector3(3, 1, 12)
+material = ExtResource("2_l8ahp")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -10)
+layers = 5
+use_collision = true
+size = Vector3(8, 1, 12)
+material = ExtResource("2_l8ahp")
+
+[node name="CSGBox3D25" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 9)
+layers = 5
+use_collision = true
+size = Vector3(8, 1, 14)
+material = ExtResource("2_l8ahp")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, -0.5, -18)
+layers = 5
+use_collision = true
+size = Vector3(6, 1, 28)
+material = ExtResource("2_l8ahp")
+
+[node name="CSGBox3D24" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -0.5, -5.5)
+layers = 5
+use_collision = true
+size = Vector3(2, 1, 3)
+material = ExtResource("2_l8ahp")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="geometry/hull"]
-transform = Transform3D(0.999994, 0.00159512, -0.00302614, -0.00159516, 0.999999, -1.14945e-05, 0.00302612, 1.63135e-05, 0.999995, 25.0311, 31.4672, 10.0625)
+transform = Transform3D(0.999994, 0.00159512, -0.00302614, -0.00159516, 0.999999, -1.14945e-05, 0.00302612, 1.63135e-05, 0.999995, 25, 31, 10)
 layers = 5
 use_collision = true
 size = Vector3(42, 63, 12)
-metadata/_edit_lock_ = true
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="geometry/hull"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 31.5, -10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 31.5, -18)
 layers = 5
 use_collision = true
-size = Vector3(42, 63, 12)
-metadata/_edit_lock_ = true
+size = Vector3(20, 63, 28)
 
 [node name="doorway_subtract_csg" type="CSGBox3D" parent="geometry/hull/CSGBox3D3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -30, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -30, 12.5)
 operation = 2
-size = Vector3(2, 3, 2)
+size = Vector3(2, 3, 3)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37, 31.5, -18)
+layers = 5
+use_collision = true
+size = Vector3(18, 63, 28)
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33, 16.5)
@@ -224,7 +247,6 @@ cast_shadow = 0
 use_collision = true
 size = Vector3(34, 60, 1)
 material = ExtResource("3_4t8gt")
-metadata/_edit_lock_ = true
 
 [node name="CSGBox3D15" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33, -16.5)
@@ -233,7 +255,6 @@ cast_shadow = 0
 use_collision = true
 size = Vector3(34, 60, 1)
 material = ExtResource("3_4t8gt")
-metadata/_edit_lock_ = true
 
 [node name="CSGBox3D17" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 33.5, 0)
@@ -242,28 +263,30 @@ cast_shadow = 0
 use_collision = true
 size = Vector3(1, 59, 32)
 material = ExtResource("3_4t8gt")
-metadata/_edit_lock_ = true
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 31.5, 10)
 layers = 5
 use_collision = true
 size = Vector3(12, 63, 12)
-metadata/_edit_lock_ = true
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="geometry/hull"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 31.5, -10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 31.5, -10)
 layers = 5
 use_collision = true
-size = Vector3(12, 63, 12)
-metadata/_edit_lock_ = true
+size = Vector3(6, 63, 12)
+
+[node name="CSGBox3D23" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 31.5, -10)
+layers = 5
+use_collision = true
+size = Vector3(3, 63, 12)
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 2, 0)
 layers = 5
 use_collision = true
 size = Vector3(4, 4, 34)
-metadata/_edit_lock_ = true
 
 [node name="doorway_subtract_csg2" type="CSGBox3D" parent="geometry/hull/CSGBox3D10"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -0.5, 0)
@@ -291,20 +314,66 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 16.5)
 layers = 5
 use_collision = true
 size = Vector3(32, 3, 1)
-metadata/_edit_lock_ = true
 
 [node name="CSGBox3D13" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -16.5)
 layers = 5
 use_collision = true
 size = Vector3(32, 3, 1)
-metadata/_edit_lock_ = true
 
-[node name="CSGBox3D6" type="CSGBox3D" parent="geometry/hull"]
+[node name="lamppost" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 7, -3)
 layers = 5
 size = Vector3(0.5, 0.5, 2)
-metadata/_edit_lock_ = true
+
+[node name="big_dirty_yellow_spotlight5" parent="geometry/hull/lamppost" instance=ExtResource("5_3iqyv")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1, 1)
+spot_attenuation = 0.840897
+
+[node name="lamppost3" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -3.5, 7, 3.5)
+layers = 5
+size = Vector3(0.5, 0.5, 2)
+
+[node name="big_dirty_yellow_spotlight5" parent="geometry/hull/lamppost3" instance=ExtResource("5_3iqyv")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1, 1)
+spot_attenuation = 0.840897
+
+[node name="lamppost2" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12.6, 7, -9)
+layers = 5
+size = Vector3(0.5, 0.5, 2)
+
+[node name="big_dirty_yellow_spotlight5" parent="geometry/hull/lamppost2" instance=ExtResource("5_3iqyv")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1, 1)
+spot_attenuation = 0.840897
+
+[node name="lamppost5" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3, 7, -9)
+layers = 5
+size = Vector3(0.5, 0.5, 2)
+
+[node name="big_dirty_yellow_spotlight5" parent="geometry/hull/lamppost5" instance=ExtResource("5_3iqyv")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1, 1)
+spot_attenuation = 0.840897
+
+[node name="lamppost8" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 25, 7, -9)
+layers = 5
+size = Vector3(0.5, 0.5, 2)
+
+[node name="big_dirty_yellow_spotlight5" parent="geometry/hull/lamppost8" instance=ExtResource("5_3iqyv")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1, 1)
+spot_attenuation = 0.840897
+
+[node name="lamppost9" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 27, 7, -24)
+layers = 5
+size = Vector3(0.5, 0.5, 2)
+
+[node name="big_dirty_yellow_spotlight5" parent="geometry/hull/lamppost9" instance=ExtResource("5_3iqyv")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1, 1)
+spot_attenuation = 0.840897
 
 [node name="CSGBox3D21" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 5, 0)
@@ -316,23 +385,32 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 15, 0)
 layers = 5
 size = Vector3(0.04, 0.04, 8)
 
-[node name="CSGBox3D7" type="CSGBox3D" parent="geometry/hull"]
+[node name="lamppost4" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 7, -3)
 layers = 5
 size = Vector3(0.5, 0.5, 2)
-metadata/_edit_lock_ = true
 
-[node name="CSGBox3D8" type="CSGBox3D" parent="geometry/hull"]
+[node name="big_dirty_yellow_spotlight4" parent="geometry/hull/lamppost4" instance=ExtResource("5_3iqyv")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1, 1)
+spot_attenuation = 0.840897
+
+[node name="lamppost6" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 7, 3)
 layers = 5
 size = Vector3(0.5, 0.5, 2)
-metadata/_edit_lock_ = true
 
-[node name="CSGBox3D9" type="CSGBox3D" parent="geometry/hull"]
+[node name="big_dirty_yellow_spotlight6" parent="geometry/hull/lamppost6" instance=ExtResource("5_3iqyv")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1, -1)
+spot_attenuation = 0.840897
+
+[node name="lamppost7" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 7, 3)
 layers = 5
 size = Vector3(0.5, 0.5, 2)
-metadata/_edit_lock_ = true
+
+[node name="big_dirty_yellow_spotlight7" parent="geometry/hull/lamppost7" instance=ExtResource("5_3iqyv")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1, -1)
+spot_attenuation = 0.840897
 
 [node name="CSGBox3D16" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -6.5)
@@ -396,7 +474,7 @@ transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 
 [node name="decal_puddle" type="Decal" parent="test"]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -14.3, 0, -1.4)
-layers = 524288
+layers = 524289
 size = Vector3(2, 0.2, 2)
 texture_albedo = ExtResource("13_5qcdn")
 texture_normal = ExtResource("14_b0stk")

@@ -8,3 +8,4 @@ var direction:Vector3 = Vector3()
 var damageType:int = 0
 
 var responseParryWeight:float = 0.0
+var responseParryBaseStrength:float = 1.0

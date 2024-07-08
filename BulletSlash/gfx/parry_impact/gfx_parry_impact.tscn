@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://cene0wv7n38qu"]
+
+[ext_resource type="Script" path="res://zqf/zqf_emit_on_ready.gd" id="1_4kovm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6xo18"]
+emission_enabled = true
+emission = Color(1, 1, 0, 1)
+disable_receive_shadows = true
+
+[sub_resource type="Curve" id="Curve_jexvm"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ve2au"]
+curve = SubResource("Curve_jexvm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wd7ij"]
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+damping_min = 20.0
+damping_max = 20.0
+scale_curve = SubResource("CurveTexture_ve2au")
+
+[sub_resource type="BoxMesh" id="BoxMesh_80a0u"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="GfxParryImpact" type="GPUParticles3D"]
+material_override = SubResource("StandardMaterial3D_6xo18")
+cast_shadow = 0
+amount = 64
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_wd7ij")
+draw_pass_1 = SubResource("BoxMesh_80a0u")
+script = ExtResource("1_4kovm")
+emitDuration = 1.0

@@ -38,6 +38,7 @@ var _gfxPunchBloodSpurtType = preload("res://gfx/punch_blood_spurt/gfx_punch_blo
 var _gfxEjectedShellType = preload("res://gfx/ejected_brass/ejected_shell.tscn")
 var _gfxBlasterMuzzleType = preload("res://gfx/blaster/gfx_blaster_muzzle.tscn")
 var _gfxBloodSplatThrownType = preload("res://gfx/splats/decal_blood_splat_01.tscn")
+var _gfxParryImpactType = preload("res://gfx/parry_impact/gfx_parry_impact.tscn")
 
 var _sandboxWorld:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 
@@ -112,6 +113,11 @@ func gfx_blood_splat_thrown(pos:Vector3, forward:Vector3, speed:float = 10) -> v
 	var gfx:DecalThrownBloodSplat = _gfxBloodSplatThrownType.instantiate() as DecalThrownBloodSplat
 	_worldRoot.add_child(gfx)
 	gfx.throw_decal(pos, forward, speed)
+
+func gfx_parry_impact(pos:Vector3) -> void:
+	var gfx:Node3D = _gfxParryImpactType.instantiate()
+	_worldRoot.add_child(gfx)
+	gfx.global_position = pos
 
 ####################################################
 # registers

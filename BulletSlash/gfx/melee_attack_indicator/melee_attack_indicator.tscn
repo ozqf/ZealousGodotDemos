@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ytciw2x1tp3l"]
+
+[ext_resource type="Script" path="res://gfx/melee_attack_indicator/melee_attack_indicator.gd" id="1_lrxje"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_4doyq"]
+radial_segments = 16
+rings = 8
+
+[node name="melee_attack_indicator" type="MeshInstance3D"]
+mesh = SubResource("SphereMesh_4doyq")
+script = ExtResource("1_lrxje")
