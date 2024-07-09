@@ -1,12 +1,12 @@
 [gd_scene load_steps=24 format=3 uid="uid://2wnsyee8vxc6"]
 
 [ext_resource type="Script" path="res://game/camera_controller.gd" id="1_gj42n"]
-[ext_resource type="PackedScene" uid="uid://cta1t8u5ultmf" path="res://actors/player/player_avatar.tscn" id="1_ocjj5"]
 [ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="1_x5o7t"]
 [ext_resource type="Material" uid="uid://4k2kxi2gq51q" path="res://shared/materials/dev/mat_dev_concrete.tres" id="2_l8ahp"]
 [ext_resource type="Material" uid="uid://ipj5gnxauts0" path="res://shared/materials/dev/mat_dev_void.tres" id="3_4t8gt"]
 [ext_resource type="PackedScene" uid="uid://cs2u0ikx2w1i3" path="res://actors/spawners/spawner.tscn" id="3_ddtwt"]
 [ext_resource type="Material" uid="uid://j8k27wqo2xqn" path="res://shared/materials/editor/editor_mat_volume_green.tres" id="3_epqpt"]
+[ext_resource type="PackedScene" uid="uid://i5yuct2kgvxo" path="res://proxies/player_start_proxy.tscn" id="4_wrl8c"]
 [ext_resource type="PackedScene" uid="uid://bpdtm27vex58t" path="res://shared/lights/big_dirty_yellow_spotlight.tscn" id="5_3iqyv"]
 [ext_resource type="PackedScene" uid="uid://d1hby8x3dimgw" path="res://actors/props/skip/prop_skip.tscn" id="6_gytad"]
 [ext_resource type="Texture2D" uid="uid://dklkym6sxvdhe" path="res://shared/materials/dev/components/dev_fence_albedo.png" id="6_irtjm"]
@@ -142,34 +142,6 @@ transform = Transform3D(4.9335, 0, 0, 0, 10.5651, 0, 0, 0, 2.7048, 40.1, 14.2, 2
 layers = 524288
 mesh = SubResource("PrismMesh_fyp3j")
 material = ExtResource("3_epqpt")
-
-[node name="player_avatar" parent="." instance=ExtResource("1_ocjj5")]
-transform = Transform3D(-0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, -11.5, 0, -14.5)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 5, 4, 24)
-visible = false
-shadow_enabled = true
-
-[node name="Spawner" parent="." instance=ExtResource("3_ddtwt")]
-transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -17.5, 0, 0)
-id = "spawn_a"
-mobType = "fodder"
-maxLiveMobs = 1
-totalMobs = 9
-spawnInterval = 2.0
-
-[node name="Spawner3" parent="." instance=ExtResource("3_ddtwt")]
-transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, 16, 0, -5.5)
-id = "spawn_b"
-mobType = "fodder"
-maxLiveMobs = 1
-totalMobs = 9
-spawnInterval = 2.0
-
-[node name="Spawner2" parent="." instance=ExtResource("3_ddtwt")]
-transform = Transform3D(-1, 0, -2.62269e-07, 0, 1, 0, 2.62269e-07, 0, -1, -14, 0, -3)
-id = "spawn_0"
 
 [node name="geometry" type="Node3D" parent="."]
 
@@ -453,17 +425,6 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 11, 0,
 [node name="PropSkip3" parent="geometry/props" instance=ExtResource("6_gytad")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -13, 0, 4)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_q5f85")
-
-[node name="TriggerVolume" parent="." instance=ExtResource("8_uxb2q")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 3)
-targetId = "spawn_0"
-
-[node name="TriggerVolume2" parent="." instance=ExtResource("8_uxb2q")]
-transform = Transform3D(1, 0, 0, 0, 6.65, 0, 0, 0, 12.834, -1, 0, -6)
-targetId = "spawn_a,spawn_b"
-
 [node name="test" type="Node3D" parent="."]
 
 [node name="char01" type="Node3D" parent="test"]
@@ -500,3 +461,42 @@ update_mode = 1
 size = Vector3(20, 20, 19)
 box_projection = true
 cull_mask = 1
+
+[node name="PlayerStartProxy" parent="." instance=ExtResource("4_wrl8c")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -11.5, 0, -14.5)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 5, 4, 24)
+visible = false
+shadow_enabled = true
+
+[node name="Spawner" parent="." instance=ExtResource("3_ddtwt")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -17.5, 0, 0)
+id = "spawn_a"
+mobType = "fodder"
+maxLiveMobs = 1
+totalMobs = 9
+spawnInterval = 2.0
+
+[node name="Spawner3" parent="." instance=ExtResource("3_ddtwt")]
+transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, 16, 0, -5.5)
+id = "spawn_b"
+mobType = "fodder"
+maxLiveMobs = 1
+totalMobs = 9
+spawnInterval = 2.0
+
+[node name="Spawner2" parent="." instance=ExtResource("3_ddtwt")]
+transform = Transform3D(-1, 0, -2.62269e-07, 0, 1, 0, 2.62269e-07, 0, -1, -14, 0, -3)
+id = "spawn_0"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_q5f85")
+
+[node name="TriggerVolume" parent="." instance=ExtResource("8_uxb2q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 3)
+targetId = "spawn_0"
+
+[node name="TriggerVolume2" parent="." instance=ExtResource("8_uxb2q")]
+transform = Transform3D(1, 0, 0, 0, 6.65, 0, 0, 0, 12.834, -1, 0, -6)
+targetId = "spawn_a,spawn_b"

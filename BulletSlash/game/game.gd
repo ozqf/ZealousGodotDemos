@@ -25,6 +25,9 @@ const HIT_RESPONSE_BLOCKED:int = -3
 var _targetInfoType = preload("res://shared/info/target_info.gd")
 var _hitInfoType = preload("res://shared/info/hit_info.gd")
 
+# player
+var _playerAvatarType = preload("res://actors/player/player_avatar.tscn")
+
 # mob types
 var _mobDummyType = preload("res://actors/mobs/dummy/mob_dummy.tscn")
 var _mobFodderType = preload("res://actors/mobs/fodder/mob_fodder.tscn")
@@ -65,6 +68,12 @@ func new_hit_info() -> HitInfo:
 ####################################################
 # spawning
 ####################################################
+
+func spawn_player_avatar(t:Transform3D) -> PlayerAvatar:
+	var plyr = _playerAvatarType.instantiate() as PlayerAvatar
+	_worldRoot.add_child(plyr)
+	plyr.global_position = t.origin
+	return plyr
 
 func spawn_mob_dummy() -> Node3D:
 	var mob = _mobDummyType.instantiate() as Node3D

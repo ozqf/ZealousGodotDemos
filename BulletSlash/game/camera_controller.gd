@@ -11,8 +11,9 @@ var _trackingPosition:Vector3 = Vector3()
 
 func _ready():
 	self.add_to_group(HudInfo.GROUP_NAME)
-	_origin = _cameraRoot.global_position
-	_subjectPos = _origin
+	var t:Transform3D = _camera.global_transform
+	_origin = t.origin
+	_subjectPos = _origin + -t.basis.z
 	_trackingPosition = _origin
 
 func hud_info_broadcast(hudInfo:HudInfo) -> void:
@@ -29,12 +30,17 @@ func _physics_process(_delta) -> void:
 		#print("Subject pos " + str(_subjectPos) + " nearest track pos " + str(pos))
 
 func tilt_camera_to_target(targetPos:Vector3) -> void:
-	#var cam:Transform3D = _cameraRoot.global_transform
-	var toTarget:Vector3 = _camera.global_position.direction_to(targetPos)
-	toTarget.x = 0.0
-	var pitch:float = atan2(toTarget.y, -toTarget.z) * ZqfUtils.RAD2DEG
-	#print(pitch)
-	#pitch = clampf(pitch, -90, 90)
+	var target:TargetInfo = Game.get_player_target()
+	var pitch:float = -50.0
+	if target != null:
+		_subjectPos = target.t.origin
+		#var cam:Transform3D = _cameraRoot.global_transform
+		var toTarget:Vector3 = _camera.global_position.direction_to(targetPos)
+		toTarget.x = 0.0
+		pitch = atan2(toTarget.y, -toTarget.z) * ZqfUtils.RAD2DEG
+		#print(pitch)
+		#pitch = clampf(pitch, -90, 90)
+	
 	_camera.rotation_degrees = Vector3(pitch, 0, 0)
 	#_camera.look_at(targetPos, Vector3.UP)
 

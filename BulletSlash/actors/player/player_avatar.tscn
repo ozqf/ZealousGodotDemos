@@ -1,23 +1,16 @@
-[gd_scene load_steps=36 format=3 uid="uid://cta1t8u5ultmf"]
+[gd_scene load_steps=35 format=3 uid="uid://cta1t8u5ultmf"]
 
 [ext_resource type="Script" path="res://actors/player/player_avatar.gd" id="1_fsn5d"]
 [ext_resource type="SphereMesh" uid="uid://babktp3btotnr" path="res://shared/primitives/lofi_sphere.tres" id="2_ushwu"]
 [ext_resource type="PackedScene" uid="uid://5srxb2iaaih4" path="res://actors/player/display/hand_model.tscn" id="3_e72x6"]
 [ext_resource type="PackedScene" uid="uid://u3amhur0lpuc" path="res://actors/player/display/baton.tscn" id="3_iu0kq"]
 [ext_resource type="Material" uid="uid://baoycrwbfxk6e" path="res://shared/materials/dev/mat_emissive_red.tres" id="3_nbwir"]
+[ext_resource type="PackedScene" uid="uid://dsu1qkme48w62" path="res://actors/player/player_body_model.tscn" id="4_63j68"]
 [ext_resource type="Script" path="res://shared/nodes/hud_info.gd" id="6_am0c7"]
 [ext_resource type="Script" path="res://shared/nodes/hit_delegate.gd" id="6_ov1ob"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nlu15"]
 height = 1.8
-
-[sub_resource type="BoxMesh" id="BoxMesh_0oc0i"]
-size = Vector3(0.5, 0.1, 0.2)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_p2qv8"]
-height = 1.8
-radial_segments = 8
-rings = 1
 
 [sub_resource type="Animation" id="Animation_gnl4n"]
 resource_name = "_root"
@@ -1446,6 +1439,23 @@ tracks/9/keys = {
 "method": &"shoot_right_forward"
 }]
 }
+tracks/10/type = "method"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("..")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"load_shot_from_right_spin"
+}, {
+"args": [],
+"method": &"load_shot_from_right_spin"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_614pl"]
 resource_name = "punch_straight_right"
@@ -2110,7 +2120,7 @@ tracks/9/path = NodePath("..")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.425, 0.6),
+"times": PackedFloat32Array(0, 0.1, 0.425, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
 "args": [],
@@ -2133,14 +2143,40 @@ tracks/10/path = NodePath("..")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0.1, 0.4, 0.475, 0.65, 1.175),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0.4, 0.675, 0.75, 1.175),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"check_attack_chain_cancel"
+}, {
+"args": [],
+"method": &"load_shot_from_right_spin"
+}, {
+"args": [],
+"method": &"load_shot_from_right_spin"
+}, {
+"args": [],
+"method": &"check_attack_chain_cancel"
+}]
+}
+tracks/11/type = "method"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("..")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0.1, 0.175, 0.35, 0.475, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "values": [{
 "args": [],
 "method": &"load_shot_from_left_spin"
 }, {
 "args": [],
-"method": &"check_attack_chain_cancel"
+"method": &"load_shot_from_left_spin"
+}, {
+"args": [],
+"method": &"load_shot_from_left_spin"
 }, {
 "args": [],
 "method": &"load_shot_from_left_spin"
@@ -2149,7 +2185,7 @@ tracks/10/keys = {
 "method": &"load_shot_from_right_spin"
 }, {
 "args": [],
-"method": &"check_attack_chain_cancel"
+"method": &"load_shot_from_left_spin"
 }]
 }
 
@@ -2206,23 +2242,7 @@ shape = SubResource("CapsuleShape3D_nlu15")
 [node name="display" type="Node3D" parent="."]
 metadata/_edit_lock_ = true
 
-[node name="body" type="Node3D" parent="display"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="display/body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -0.3)
-layers = 2
-mesh = SubResource("BoxMesh_0oc0i")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("3_nbwir")
-metadata/_edit_lock_ = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="display/body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-layers = 2
-mesh = SubResource("CapsuleMesh_p2qv8")
-skeleton = NodePath("../../../..")
-metadata/_edit_lock_ = true
+[node name="body" parent="display" instance=ExtResource("4_63j68")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="display"]
 libraries = {

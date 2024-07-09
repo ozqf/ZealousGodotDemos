@@ -333,9 +333,19 @@ func is_view_locked() -> bool:
 	match _animator.current_animation:
 		"", "punch_idle", "blaster_idle", "blade_idle", "blaster_shoot_left", "blaster_shoot_right", "punch_dash", "blaster_reload":
 			return false
+		"punch_spin_test":
+			return false
 		ANIM_BLOCK:
 			return false
 		null:
+			return false
+		_:
+			return true
+
+
+func is_attacking() -> bool:
+	match _animator.current_animation:
+		null, "", "punch_idle", "blaster_idle", "blade_idle", "punch_dash", ANIM_BLOCK:
 			return false
 		_:
 			return true
@@ -575,7 +585,7 @@ func _physics_process(_delta:float) -> void:
 		_step_dash(_delta)
 		return
 	
-	var isAttacking:bool = viewLocked
+	var isAttacking:bool = is_attacking() #viewLocked
 	
 	if !isAttacking:
 		if Input.is_action_pressed("attack_2"):

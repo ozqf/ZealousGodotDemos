@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://i5yuct2kgvxo"]
+
+[ext_resource type="PackedScene" uid="uid://dsu1qkme48w62" path="res://actors/player/player_body_model.tscn" id="1_hp375"]
+[ext_resource type="Script" path="res://proxies/player_start_proxy.gd" id="1_hw17b"]
+
+[node name="PlayerStartProxy" type="Node3D" groups=["player_start_proxies"]]
+script = ExtResource("1_hw17b")
+
+[node name="body" parent="." instance=ExtResource("1_hp375")]

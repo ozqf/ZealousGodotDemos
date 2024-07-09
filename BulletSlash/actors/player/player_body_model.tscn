@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsu1qkme48w62"]
+
+[ext_resource type="Material" uid="uid://baoycrwbfxk6e" path="res://shared/materials/dev/mat_emissive_red.tres" id="1_x1lp5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0oc0i"]
+size = Vector3(0.5, 0.1, 0.2)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_p2qv8"]
+height = 1.8
+radial_segments = 8
+rings = 1
+
+[node name="body" type="Node3D"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -0.3)
+layers = 2
+mesh = SubResource("BoxMesh_0oc0i")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_x1lp5")
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+layers = 2
+mesh = SubResource("CapsuleMesh_p2qv8")
+skeleton = NodePath("../../../..")
+metadata/_edit_lock_ = true
