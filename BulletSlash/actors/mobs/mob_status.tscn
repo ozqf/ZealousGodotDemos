@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://cn7gsjujrml3a"]
+
+[ext_resource type="Script" path="res://actors/mobs/mob_status.gd" id="1_xrx6k"]
+
+[node name="MobStatus" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_xrx6k")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+self_modulate = Color(0, 1, 0, 1)
+layout_mode = 0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = -48.0
+max_value = 1.0
+value = 0.33
+show_percentage = false
+
+[node name="ProgressBar2" type="ProgressBar" parent="."]
+self_modulate = Color(1, 1, 0, 1)
+layout_mode = 0
+offset_left = -64.0
+offset_top = -48.0
+offset_right = 64.0
+offset_bottom = -32.0
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[node name="ProgressBar3" type="ProgressBar" parent="."]
+self_modulate = Color(0, 1, 1, 1)
+layout_mode = 0
+offset_left = -64.0
+offset_top = -32.0
+offset_right = 64.0
+offset_bottom = -16.0
+max_value = 1.0
+value = 0.66
+show_percentage = false
+
+[node name="ProgressBar4" type="ProgressBar" parent="."]
+self_modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_left = -64.0
+offset_top = -16.0
+offset_right = 64.0
+max_value = 1.0
+value = 0.66
+show_percentage = false

@@ -20,11 +20,21 @@ var _attackTick:float = 0
 var _lastMoveDir = Vector2(1, 0)
 var player:Player = null
 
+var _shotsLoaded:int = 4
+var _shotsLoadedMax:int = 4
+
 func _ready():
+	_shotsLoaded = _shotsLoadedMax
 	var _f1 = _attackArea.connect("area_entered", Callable(self, "_on_melee_area_entered"))
 	var _f2 = _attackArea.connect("body_entered", Callable(self, "_on_melee_body_entered"))
 	_shape.disabled = true
 	_attackLine.visible = false
+
+func get_shots_loaded() -> int:
+	return _shotsLoaded
+
+func try_shot_boost() -> void:
+	pass
 
 func _on_melee_body_entered(_body:PhysicsBody2D):
 	if _body.has_method("hit"):
@@ -60,25 +70,31 @@ func _process_ready(_delta):
 	rotation_degrees = rad_to_deg(atan2(_inputDir.y, _inputDir.x))
 	#	_attackLine.points[1].x = _inputDir.x * ATTACK_LINE_LENGTH
 	#	_attackLine.points[1].y = _inputDir.y * ATTACK_LINE_LENGTH
-	if Input.is_action_pressed("attack_1"):
+	if Input.is_action_pressed("attack_2"):
 		_state = STATE_SWING
 		_shape.disabled = false
 		_attackLine.visible = true
 		_attackTick = ATTACK_TIME
 		_attackLine.self_modulate = Color(1, 0, 0)
+		_shotsLoaded = clampf(_shotsLoaded + 1, 0, _shotsLoadedMax)
 		if player != null:
 			player.on_attack(_inputDir)
-	if Input.is_action_just_pressed("attack_2"):
+	
+	if Input.is_action_just_pressed("attack_1") && _shotsLoaded > 0:
 		# 'boost' - shoot backward to dash forward
 		var gfx:Node2D = game.gfx_shotgun_muzzle(self.global_position)
 		gfx.rotation_degrees = rotation_degrees + 180.0
 		if (player != null):
 			player.apply_shot_boost(_inputDir)
+			_shotsLoaded -= 1
 		pass
-	if Input.is_action_just_pressed("attack_3"):
+	
+	if Input.is_action_just_pressed("attack_3") && _shotsLoaded > 0:
 		# shoot
 		var gfx:Node2D = game.gfx_shotgun_muzzle(self.global_position)
 		gfx.rotation_degrees = rotation_degrees
+		_shotsLoaded -= 1
+		#player.apply_shot_boost(-_inputDir)
 		pass
 
 func _process_swing(_delta):

@@ -87,6 +87,17 @@ static func play_3d(
 	audio.stream = stream
 	audio.play(0)
 
+static func world_to_screen(pos:Vector3, camera:Camera3D) -> Vector2:
+	#var pos:Vector3 = self.global_transform.origin
+	var scrPos:Vector2 = camera.unproject_position(pos)
+	scrPos.y += 64
+	return scrPos
+
+static func get_camera_for_node(node:Node3D) -> Camera3D:
+	var viewport:Viewport = node.get_viewport()
+	var cam:Camera3D = viewport.get_camera_3d()
+	return cam
+
 static func count_bits_set(i:int) -> int:
 	# https://stackoverflow.com/questions/109023/how-to-count-the-number-of-set-bits-in-a-32-bit-integer
 	i = i - ((i >> 1) & 0x55555555);        # add pairs of bits

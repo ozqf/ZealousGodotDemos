@@ -558,4 +558,4 @@ spawnLayerFlags = 0
 
 [node name="spawner_proxy2" parent="." instance=ExtResource("15_mywc1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 3, 17.0391)
-mobType = 3
+mobType = 1

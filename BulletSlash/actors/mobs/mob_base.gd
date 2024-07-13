@@ -15,8 +15,11 @@ signal mob_broadcast_event(eventType, mobInstance)
 
 var _healthMax:float = 1.0
 var _health:float = 1.0
-var _defenceStrengthMax:float = 2.0
-var _defenceStrength:float = 2.0
+var _defenceStrengthMax:float = 1.0
+var _defenceStrength:float = 1.0
+
+var _power:float = 0.0
+var _powerPerSecond:float = 1.0 / 20.0
 
 var _hitBounceTick:float = 1.0
 var _hitBounceTime:float = 1.0
@@ -65,6 +68,7 @@ func _refresh_think_info(_delta:float) -> void:
 	_thinkInfo.xzTowardTarget = (flatTargetPos - _thinkInfo.selfGroundPos)
 
 func _physics_process(_delta:float) -> void:
+	_power = clampf(_power + (_powerPerSecond * _delta), 0, 1.0)
 	_refresh_think_info(_delta)
 	if _thinkInfo.target == null:
 		return

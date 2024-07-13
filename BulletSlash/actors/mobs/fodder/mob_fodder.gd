@@ -16,6 +16,7 @@ const ANIM_SHOOTING:String = "shooting"
 @onready var _animator:AnimationPlayer = $display/AnimationPlayer
 @onready var _weapon:Area3D = $display/right_hand/melee_weapon
 @onready var _meleeIndicator:MeleeAttackIndicator = $display/right_hand/melee_weapon/melee_attack_indicator
+@onready var _hudStatus:MobStatus = $MobStatus
 var _hitInfo:HitInfo = null
 
 var _state:String = MOB_STATE_IDLE
@@ -116,8 +117,21 @@ func _begin_melee_attack() -> void:
 	_animator.play(ANIM_SWING_1)
 	_thinkTime = _animator.current_animation_length
 
+func _update_hud_status() -> void:
+	var hp:float = _health / _healthMax
+	var def:float = _defenceStrength / _defenceStrengthMax
+	var stunTime:float = 0.0
+	match _state:
+		MOB_STATE_STUNNED, MOB_STATE_PARRIED:
+			stunTime = _thinkTick / _thinkTime
+		_:
+			stunTime = 0
+	
+	_hudStatus.update_stats(hp, def, _power, stunTime)
+
 func _physics_process(_delta:float) -> void:
-	_refresh_think_info(_delta)
+	super._physics_process(_delta)
+	_update_hud_status()
 	_thinkTick += _delta
 	if _thinkTick >= _thinkTime:
 		_thinkTick = 0.0

@@ -90,7 +90,7 @@ metadata/_edit_lock_ = true
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="camera_controller/camera_root"]
 material_override = SubResource("StandardMaterial3D_06qa2")
-amount = 1024
+amount = 2048
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_ft3am")
 draw_pass_1 = SubResource("BoxMesh_ck5d0")
@@ -480,7 +480,7 @@ spawnInterval = 2.0
 
 [node name="Spawner3" parent="." instance=ExtResource("3_ddtwt")]
 transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, 16, 0, -5.5)
-id = "spawn_b"
+id = "spawn_c"
 mobType = "fodder"
 maxLiveMobs = 1
 totalMobs = 9

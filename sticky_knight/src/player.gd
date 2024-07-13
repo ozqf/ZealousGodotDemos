@@ -22,6 +22,8 @@ class_name Player
 @onready var _airJumpSprite:Sprite2D = $air_jump_sprite
 @onready var _groundedSprite:Sprite2D = $grounded_sprite
 
+@onready var _ammoLabel:Label = $ammo_label
+
 const RUN_SPEED = 220.0
 const JUMP_STRENGTH = 365
 const AIR_JUMP_STRENGTH = 365
@@ -35,6 +37,7 @@ const GROUND_SECONDS_TO_RUN_SPEED = 0.05
 
 var _pushAccumulator:Vector2 = Vector2()
 
+var _canGroundJump:bool = false
 var _velocity:Vector2 = Vector2()
 var _gravity:Vector2 = Vector2(0, GRAVITY_SPEED)
 var _lastMoveDir:Vector2 = Vector2(1, 0)
@@ -52,6 +55,9 @@ func _ready():
 
 func set_start_position(pos:Vector2):
 	_startPos = pos
+
+func get_can_ground_jump() -> bool:
+	return _canGroundJump
 
 func _againstFloor():
 	return _floorLeft.on() || _floorCentre.on() || _floorRight.on()
@@ -149,6 +155,7 @@ func apply_shot_boost(dir:Vector2) -> void:
 		_velocity = dir * 500.0
 
 func _physics_process(_delta):
+	_ammoLabel.text = str(_melee.get_shots_loaded())
 	_frame += 1
 	var pushX = 0.0
 	var pushY = 0.0
@@ -200,9 +207,9 @@ func _physics_process(_delta):
 	_velocity += (_snapDir * GRAVITY_SPEED) * _delta
 	
 	var _snap:Vector2 = Vector2()
-	var canGroundJump = againstH || againstV
+	_canGroundJump = againstH || againstV
 	
-	if canGroundJump:
+	if _canGroundJump:
 		if _velocity.y >= 0:
 			_snap = _snapDir * 16
 		_airJumps = MAX_AIR_JUMPS
@@ -214,9 +221,10 @@ func _physics_process(_delta):
 			_velocity.y += _jumpDir.y * JUMP_STRENGTH
 		pass
 	else:
-		if _airJumps > 0 && _velocity.y > -AIR_JUMP_STRENGTH && Input.is_action_just_pressed("jump"):
-			_velocity.y = -AIR_JUMP_STRENGTH
-			_airJumps -= 1
+		#if _airJumps > 0 && _velocity.y > -AIR_JUMP_STRENGTH && Input.is_action_just_pressed("jump"):
+		#	_velocity.y = -AIR_JUMP_STRENGTH
+		#	_airJumps -= 1
+		pass
 	_refresh_face_direction()
 	# _velocity = move_and_slide(_velocity, Vector2.UP)
 	set_velocity(_velocity)

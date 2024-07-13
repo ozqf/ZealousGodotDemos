@@ -2250,7 +2250,7 @@ libraries = {
 }
 
 [node name="right_hand" type="Node3D" parent="display"]
-transform = Transform3D(0.651815, -0.315808, 0.689492, 0.611341, 0.75681, -0.231295, -0.448769, 0.572278, 0.686368, 0.275065, 1.20392, -0.581004)
+transform = Transform3D(0.999997, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 1, 1, 0)
 
 [node name="right_baton" parent="display/right_hand" instance=ExtResource("3_iu0kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, -0.1, 0)
@@ -2259,7 +2259,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, -0.1, 0)
 metadata/_edit_lock_ = true
 
 [node name="left_hand" type="Node3D" parent="display"]
-transform = Transform3D(0.769212, 0.293626, -0.567534, -0.633775, 0.463847, -0.61901, 0.0814917, 0.83584, 0.54289, -0.0132355, 1.4521, -0.888938)
+transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, -1, 1, 0)
 
 [node name="left_baton" parent="display/left_hand" instance=ExtResource("3_iu0kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0999998, -1.37091e-06)
