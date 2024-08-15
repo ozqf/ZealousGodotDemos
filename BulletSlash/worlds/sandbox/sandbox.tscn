@@ -34,8 +34,8 @@ initial_velocity_max = 20.0
 size = Vector3(0.02, 0.2, 0.02)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_2m4k6"]
-vertices = PackedVector3Array(37.6378, 19.75, 2.2476, 37.8878, 20, 2.4976, 38.3878, 18.75, 2.4976, 37.6378, 19.75, 0.9976, 37.6378, 19.75, 2.2476, 38.3878, 18.75, 2.4976, 42.3878, 10.25, 3.2476, 42.6378, 10, 1.7476, 41.3878, 11.75, 1.5601, 38.3878, 18.75, 2.4976, 38.3878, 18.75, 3.2476, 42.3878, 10.25, 3.2476, 42.6378, 10, 1.7476, 72.1378, 10, 1.7476, 72.1378, 10, 0.9976, 37.6378, 19.75, 0.9976, 41.3878, 11.75, 1.5601, 43.3878, 10, 0.9976, 41.9503, 10.75, 0.9976, 37.8878, 20, 2.4976, 37.6378, 19.75, 2.2476, 37.3878, 20, 2.7476, 37.8878, 20, 3.2476, 37.8878, 20, 3.2476, 26.6378, 20, 2.7476, 25.3878, 20, 2.7476, 26.6378, 20, 2.7476, 26.3878, 20, 1.7476, 25.6378, 20, 1.7476, 25.3878, 20, 2.7476, 25.3878, 20, 2.7476, -12.3622, 13.25, 2.4976, -12.3622, 13.25, 3.2476, 37.8878, 20, 3.2476, -0.74679, 19.75, 2.57452, -1.0154, 19.75, 3.2476, 0.605567, 20, 3.2476, 37.8878, 20, 3.2476, 37.3878, 20, 2.7476, 26.6378, 20, 2.7476)
-polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 5), PackedInt32Array(5, 3, 8), PackedInt32Array(5, 8, 7), PackedInt32Array(5, 7, 6), PackedInt32Array(11, 10, 9), PackedInt32Array(15, 18, 16), PackedInt32Array(16, 18, 12), PackedInt32Array(12, 18, 17), PackedInt32Array(12, 17, 14), PackedInt32Array(12, 14, 13), PackedInt32Array(20, 19, 21), PackedInt32Array(21, 19, 22), PackedInt32Array(25, 24, 23), PackedInt32Array(27, 26, 28), PackedInt32Array(28, 26, 29), PackedInt32Array(32, 31, 35), PackedInt32Array(35, 31, 34), PackedInt32Array(35, 34, 36), PackedInt32Array(36, 34, 30), PackedInt32Array(36, 30, 33), PackedInt32Array(39, 38, 37)]
+vertices = PackedVector3Array(37.8878, 20, 2.5, 37.6378, 19.75, 2.25, 37.3878, 20, 2.75, 37.8878, 20, 3.25, -0.612175, 20, 2.5, -12.3622, 13.25, 2.5, -12.3622, 13.25, 3.25, 0.637825, 20, 2.75, -2.25106, 19, 2.86111, 0.387825, 20, 1.75, -0.362175, 20, 1.75, -0.612175, 20, 2.5, 0.637825, 20, 2.75, 24.8878, 20, 2.75, 0.637825, 20, 2.75, -12.3622, 13.25, 3.25, 37.8878, 20, 3.25, -2.25106, 19, 2.86111, -1.0154, 19.75, 3.25, 0.605567, 20, 3.25, 26.1378, 20, 2.75, 25.8878, 20, -6.25, 25.1378, 20, -6.25, 24.8878, 20, 2.75, 37.8878, 20, 3.25, 26.1378, 20, 2.75, 24.8878, 20, 2.75, 37.8878, 20, 3.25, 37.3878, 20, 2.75, 26.1378, 20, 2.75, 21.1378, 20, -3.25, 21.1378, 20, -2.75, 21.8878, 20, -2.75, 21.8878, 20, -3.25, 37.6378, 19.75, 2.25, 37.8878, 20, 2.5, 38.3878, 18.75, 2.5, 37.6378, 19.75, 0.75, 37.6378, 19.75, 2.25, 38.3878, 18.75, 2.5, 42.3878, 10.25, 3.25, 42.6378, 10, 1.75, 41.3878, 11.75, 1.5, 38.3878, 18.75, 2.5, 38.3878, 18.75, 3.25, 42.3878, 10.25, 3.25, 42.6378, 10, 1.75, 72.1378, 10, 1.75, 72.1378, 10, 1, 37.6378, 19.75, 0.75, 41.3878, 11.75, 1.5, 43.3878, 10, 0.791667, 41.9503, 10.75, 0.78125)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(7, 8, 4), PackedInt32Array(4, 8, 5), PackedInt32Array(5, 8, 6), PackedInt32Array(10, 9, 11), PackedInt32Array(11, 9, 12), PackedInt32Array(15, 17, 18), PackedInt32Array(18, 17, 19), PackedInt32Array(19, 17, 14), PackedInt32Array(19, 14, 13), PackedInt32Array(19, 13, 16), PackedInt32Array(21, 20, 22), PackedInt32Array(22, 20, 23), PackedInt32Array(26, 25, 24), PackedInt32Array(27, 29, 28), PackedInt32Array(33, 32, 30), PackedInt32Array(30, 32, 31), PackedInt32Array(36, 35, 34), PackedInt32Array(38, 37, 39), PackedInt32Array(39, 37, 42), PackedInt32Array(39, 42, 41), PackedInt32Array(39, 41, 40), PackedInt32Array(45, 44, 43), PackedInt32Array(49, 52, 50), PackedInt32Array(50, 52, 46), PackedInt32Array(46, 52, 51), PackedInt32Array(46, 51, 48), PackedInt32Array(46, 48, 47)]
 agent_height = 0.5
 agent_radius = 0.1
 agent_max_climb = 1.0
@@ -107,6 +107,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="camera_controller"]
 navigation_mesh = SubResource("NavigationMesh_2m4k6")
+metadata/_edit_lock_ = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="camera_controller/NavigationRegion3D"]
 transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, -6.3, 15.6, 3)
@@ -127,7 +128,18 @@ size = Vector3(25, 1, 1)
 material = ExtResource("3_epqpt")
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="camera_controller/NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 19, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 19, -2)
+layers = 524288
+size = Vector3(1, 1, 9)
+material = ExtResource("3_epqpt")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="camera_controller/NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5, 19, -3)
+layers = 524288
+material = ExtResource("3_epqpt")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="camera_controller/NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19, 2)
 layers = 524288
 material = ExtResource("3_epqpt")
 
@@ -207,10 +219,23 @@ operation = 2
 size = Vector3(2, 3, 3)
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="geometry/hull"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37, 31.5, -18)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 31.5, -18.5)
 layers = 5
 use_collision = true
-size = Vector3(18, 63, 28)
+size = Vector3(1, 63, 27)
+
+[node name="doorway_subtract_csg" type="CSGBox3D" parent="geometry/hull/CSGBox3D6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -29.5, -5.5)
+layers = 5
+operation = 2
+use_collision = true
+size = Vector3(1, 4, 2)
+
+[node name="CSGBox3D26" type="CSGBox3D" parent="geometry/hull"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37, 31.5, -4.5)
+layers = 5
+use_collision = true
+size = Vector3(18, 63, 1)
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="geometry/hull"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 33, 16.5)

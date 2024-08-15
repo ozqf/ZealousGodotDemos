@@ -19,7 +19,7 @@ theme_override_font_sizes/font_size = 32
 text = "SHOTS:"
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="."]
+[node name="version_label" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -30,3 +30,14 @@ offset_bottom = 64.0
 grow_horizontal = 2
 text = "prototype - 2024-06-23"
 horizontal_alignment = 1
+
+[node name="debug_label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -448.0
+offset_bottom = 64.0
+grow_horizontal = 0
+text = "pitch yaw roll"
+horizontal_alignment = 2

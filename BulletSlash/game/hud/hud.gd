@@ -2,6 +2,7 @@ extends Control
 class_name Hud
 
 @onready var _shotCount:Label = $shot_count_label
+@onready var _debugLabel:Label = $debug_label
 
 func _ready():
 	self.add_to_group(HudInfo.GROUP_NAME)
