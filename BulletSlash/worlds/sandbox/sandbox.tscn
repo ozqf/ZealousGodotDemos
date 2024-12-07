@@ -500,7 +500,7 @@ transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -17.5, 0
 id = "spawn_a"
 mobType = "fodder"
 maxLiveMobs = 1
-totalMobs = 9
+totalMobs = 999
 spawnInterval = 2.0
 
 [node name="Spawner3" parent="." instance=ExtResource("3_ddtwt")]
@@ -508,7 +508,7 @@ transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, 16, 0,
 id = "spawn_c"
 mobType = "fodder"
 maxLiveMobs = 1
-totalMobs = 9
+totalMobs = 999
 spawnInterval = 2.0
 
 [node name="Spawner2" parent="." instance=ExtResource("3_ddtwt")]

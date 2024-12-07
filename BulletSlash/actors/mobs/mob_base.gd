@@ -17,6 +17,7 @@ var _healthMax:float = 1.0
 var _health:float = 1.0
 var _defenceStrengthMax:float = 1.0
 var _defenceStrength:float = 1.0
+var _defenceless:bool = false
 
 var _power:float = 0.0
 var _powerPerSecond:float = 1.0 / 20.0
@@ -102,7 +103,10 @@ func hit(_hitInfo) -> int:
 	if _hitInfo.damageTeamId == Game.TEAM_ID_ENEMY:
 		return Game.HIT_RESPONSE_SAME_TEAM
 	
-	_health -= _hitInfo.damage
+	var inflictedDamage:float = _hitInfo.damage
+	if _defenceless:
+		inflictedDamage *= 2
+	_health -= inflictedDamage
 	
 	_hitBounceTick = 0.0
 	_hitBounceTime = _hitBounceTime

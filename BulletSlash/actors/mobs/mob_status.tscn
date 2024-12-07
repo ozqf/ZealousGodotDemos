@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cn7gsjujrml3a"]
+[gd_scene load_steps=3 format=3 uid="uid://cn7gsjujrml3a"]
 
 [ext_resource type="Script" path="res://actors/mobs/mob_status.gd" id="1_xrx6k"]
+[ext_resource type="SpriteFrames" uid="uid://dl4q6kn3bhsav" path="res://actors/mobs/mob_status/mob_status_icon_frames.tres" id="2_4kq3d"]
 
 [node name="MobStatus" type="Control"]
 layout_mode = 3
@@ -49,3 +50,8 @@ offset_right = 64.0
 max_value = 1.0
 value = 0.66
 show_percentage = false
+
+[node name="defence_icon" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 16)
+scale = Vector2(0.5, 0.5)
+sprite_frames = ExtResource("2_4kq3d")

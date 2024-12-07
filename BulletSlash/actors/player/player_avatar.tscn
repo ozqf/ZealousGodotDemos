@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cta1t8u5ultmf"]
+[gd_scene load_steps=36 format=3 uid="uid://cta1t8u5ultmf"]
 
 [ext_resource type="Script" path="res://actors/player/player_avatar.gd" id="1_fsn5d"]
 [ext_resource type="SphereMesh" uid="uid://babktp3btotnr" path="res://shared/primitives/lofi_sphere.tres" id="2_ushwu"]
@@ -11,6 +11,9 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nlu15"]
 height = 1.8
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_aay63"]
+size = Vector3(20, 20, 20)
 
 [sub_resource type="Animation" id="Animation_gnl4n"]
 resource_name = "_root"
@@ -2243,6 +2246,15 @@ shape = SubResource("CapsuleShape3D_nlu15")
 metadata/_edit_lock_ = true
 
 [node name="body" parent="display" instance=ExtResource("4_63j68")]
+
+[node name="Area3D" type="Area3D" parent="display/body"]
+collision_layer = 64
+collision_mask = 64
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="display/body/Area3D"]
+transform = Transform3D(0.707107, -0.707107, -3.09086e-08, 0, -4.37114e-08, 1, -0.707107, -0.707107, -3.09086e-08, 0, -4.80825e-07, -14.1)
+shape = SubResource("BoxShape3D_aay63")
+metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="display"]
 libraries = {

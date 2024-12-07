@@ -23,4 +23,3 @@ func world_point_to_screen(pos:Vector3, camera:Camera3D) -> Vector2:
 	var scrPos:Vector2 = camera.unproject_position(pos)
 	scrPos.y += 64
 	return scrPos
-

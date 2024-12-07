@@ -307,6 +307,7 @@ func get_target_info() -> TargetInfo:
 
 func refresh_target_info() -> void:
 	_targetInfo.t = self.global_transform
+	_targetInfo.inAction = is_view_locked()
 
 func sfx_right_baton_swish() -> void:
 	Game.sound.play_quick_blade_swing(_rightBatonArea.global_position)

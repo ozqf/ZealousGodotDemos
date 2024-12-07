@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bjsu0t558qewd"]
+[gd_scene load_steps=27 format=3 uid="uid://bjsu0t558qewd"]
 
 [ext_resource type="Script" path="res://actors/mobs/fodder/mob_fodder.gd" id="1_aol1h"]
 [ext_resource type="Script" path="res://shared/nodes/mob_spawn_info.gd" id="2_bakfg"]
@@ -13,6 +13,9 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_at55x"]
 radius = 0.8
 height = 2.2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0px6s"]
+radius = 0.75
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d6eyx"]
 radius = 0.7
@@ -374,6 +377,14 @@ script = ExtResource("2_dm2fa")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_at55x")
 
+[node name="enemy_view_detector" type="Area3D" parent="."]
+collision_layer = 128
+collision_mask = 64
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="enemy_view_detector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_0px6s")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_d6eyx")
@@ -394,7 +405,7 @@ autoplay = "_idle"
 script = ExtResource("5_uiyrw")
 
 [node name="right_hand" type="Node3D" parent="display"]
-transform = Transform3D(0.695053, -0.173904, -0.69761, 0.438205, -0.666776, 0.602815, -0.569982, -0.724684, -0.387239, 0.781771, 0.612317, 0.137676)
+transform = Transform3D(0.757529, 0.331948, -0.562104, -0.320092, -0.561568, -0.763009, -0.568939, 0.757926, -0.31915, 0.886009, 2.10789, -0.0922602)
 
 [node name="melee_weapon" type="Area3D" parent="display/right_hand"]
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
@@ -423,7 +434,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_xaebs")
 metadata/_edit_lock_ = true
 
 [node name="left_hand" parent="display" instance=ExtResource("6_qc4ot")]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.15589, 1.2, -1.31883)
+transform = Transform3D(0.945074, 0.283065, 0.163428, -2.98023e-08, 0.500001, -0.866025, -0.326855, 0.818458, 0.472538, -0.79406, 1.2, -0.39522)
 
 [node name="pistol" type="Node3D" parent="display/left_hand"]
 transform = Transform3D(1, 2.98023e-08, 0, 2.98023e-08, 1, 0, 1.49012e-08, 2.98023e-08, 1, -1.19209e-07, 0.1, -0.0999999)
@@ -445,6 +456,12 @@ metadata/_edit_lock_ = true
 transform = Transform3D(0.999999, -2.98023e-08, 1.19209e-07, -5.96046e-08, 1, 1.78814e-07, 0, -1.49012e-07, 1, 3.57628e-07, 0.0698892, -0.180278)
 mesh = SubResource("BoxMesh_pivne")
 metadata/_edit_lock_ = true
+
+[node name="melee_attack_indicator2" parent="display/left_hand/pistol" instance=ExtResource("6_72oup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visible = false
+skeleton = NodePath("../../../right_hand/melee_weapon")
+surface_material_override/0 = SubResource("StandardMaterial3D_xaebs")
 
 [node name="MobStatus" parent="." instance=ExtResource("8_08i67")]
 
