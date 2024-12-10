@@ -28,6 +28,11 @@ var _hitBounceTime:float = 1.0
 var _hitBounceDisplayT:Transform3D
 var _hitOriginDisplayT:Transform3D
 
+var _timeSinceLastHit:float = 0.0
+var _blockDamage:float = 0.0
+var _unblockedDamage:float = 0.0
+var _defendedHitsAccumulator:float = 0.0
+
 func _ready() -> void:
 	set_hitbox_enabled(false)
 	set_world_collision_enabled(false)
@@ -69,6 +74,7 @@ func _refresh_think_info(_delta:float) -> void:
 	_thinkInfo.xzTowardTarget = (flatTargetPos - _thinkInfo.selfGroundPos)
 
 func _physics_process(_delta:float) -> void:
+	_timeSinceLastHit += _delta
 	_power = clampf(_power + (_powerPerSecond * _delta), 0, 1.0)
 	_refresh_think_info(_delta)
 	if _thinkInfo.target == null:

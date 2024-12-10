@@ -1,0 +1,49 @@
+[gd_scene load_steps=9 format=3 uid="uid://yeeu2d68mtd3"]
+
+[ext_resource type="Script" path="res://zqf/zqf_emit_on_ready.gd" id="1_mro87"]
+[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="2_25bg3"]
+
+[sub_resource type="Curve" id="Curve_x1277"]
+min_value = -2.0
+max_value = 2.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, -2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_uixdt"]
+curve = SubResource("Curve_x1277")
+
+[sub_resource type="Curve" id="Curve_qg7ol"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_37ci2"]
+curve = SubResource("Curve_qg7ol")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qy7oo"]
+spread = 180.0
+initial_velocity_min = 4.0
+initial_velocity_max = 6.0
+orbit_velocity_curve = SubResource("CurveTexture_uixdt")
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.23517e-06
+linear_accel_max = -2.23517e-06
+damping_min = 5.0
+damping_max = 5.0
+scale_curve = SubResource("CurveTexture_37ci2")
+
+[sub_resource type="SphereMesh" id="SphereMesh_2gy43"]
+radius = 0.05
+height = 0.1
+radial_segments = 16
+rings = 8
+
+[node name="MeleeHitWhiff" type="GPUParticles3D"]
+emitting = false
+amount = 16
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_qy7oo")
+draw_pass_1 = SubResource("SphereMesh_2gy43")
+script = ExtResource("1_mro87")
+
+[node name="ZqfTimedCull" type="Node" parent="."]
+script = ExtResource("2_25bg3")

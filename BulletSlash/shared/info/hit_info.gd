@@ -7,5 +7,8 @@ var position:Vector3 = Vector3()
 var direction:Vector3 = Vector3()
 var damageType:int = 0
 
+var parryBaseWeight:float = 0.0
+var parryBaseStrength:float = 1.0
+
 var responseParryWeight:float = 0.0
 var responseParryBaseStrength:float = 1.0

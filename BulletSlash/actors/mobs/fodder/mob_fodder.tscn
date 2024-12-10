@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bjsu0t558qewd"]
+[gd_scene load_steps=30 format=3 uid="uid://bjsu0t558qewd"]
 
 [ext_resource type="Script" path="res://actors/mobs/fodder/mob_fodder.gd" id="1_aol1h"]
 [ext_resource type="Script" path="res://shared/nodes/mob_spawn_info.gd" id="2_bakfg"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://shared/nodes/animation_emitter.gd" id="5_uiyrw"]
 [ext_resource type="PackedScene" uid="uid://ytciw2x1tp3l" path="res://gfx/melee_attack_indicator/melee_attack_indicator.tscn" id="6_72oup"]
 [ext_resource type="PackedScene" uid="uid://5srxb2iaaih4" path="res://actors/player/display/hand_model.tscn" id="6_qc4ot"]
+[ext_resource type="Script" path="res://gfx/melee_attack_indicator/melee_attack_indicator.gd" id="8_3nsmp"]
 [ext_resource type="PackedScene" uid="uid://cn7gsjujrml3a" path="res://actors/mobs/mob_status.tscn" id="8_08i67"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_at55x"]
@@ -363,6 +364,17 @@ size = Vector3(0.06, 0.3, 0.1)
 [sub_resource type="BoxMesh" id="BoxMesh_pivne"]
 size = Vector3(0.05, 0.05, 0.1)
 
+[sub_resource type="TorusMesh" id="TorusMesh_ldjqq"]
+inner_radius = 0.3
+outer_radius = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r7lvf"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+disable_receive_shadows = true
+billboard_mode = 2
+billboard_keep_scale = true
+
 [node name="MobFodder" type="CharacterBody3D"]
 collision_layer = 8
 collision_mask = 9
@@ -457,11 +469,10 @@ transform = Transform3D(0.999999, -2.98023e-08, 1.19209e-07, -5.96046e-08, 1, 1.
 mesh = SubResource("BoxMesh_pivne")
 metadata/_edit_lock_ = true
 
-[node name="melee_attack_indicator2" parent="display/left_hand/pistol" instance=ExtResource("6_72oup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-visible = false
-skeleton = NodePath("../../../right_hand/melee_weapon")
-surface_material_override/0 = SubResource("StandardMaterial3D_xaebs")
+[node name="melee_attack_indicator2" type="MeshInstance3D" parent="display/left_hand/pistol"]
+mesh = SubResource("TorusMesh_ldjqq")
+surface_material_override/0 = SubResource("StandardMaterial3D_r7lvf")
+script = ExtResource("8_3nsmp")
 
 [node name="MobStatus" parent="." instance=ExtResource("8_08i67")]
 

@@ -21,6 +21,9 @@ func refresh() -> void:
 	#print("New scale " + str(newScale))
 	self.scale = newScale
 
+func remaining_time() -> float:
+	return clampf(_time - _tick, 0.0, _time)
+
 func run(duration:float) -> void:
 	if _isRunning:
 		return

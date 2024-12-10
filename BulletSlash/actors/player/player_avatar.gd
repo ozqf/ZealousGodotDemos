@@ -642,7 +642,7 @@ func _physics_process(_delta:float) -> void:
 	#if viewLocked || Input.is_action_pressed("attack_2"):
 	#	moveSpeed = 1.0
 	if is_move_speed_limited():
-		moveSpeed = 1.0
+		moveSpeed = 1.5
 
 	#if !viewLocked && !Input.is_action_pressed("attack_2"):
 	if true: # !Input.is_action_pressed("attack_2"):
