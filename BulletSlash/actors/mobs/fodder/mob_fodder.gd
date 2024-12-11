@@ -123,7 +123,10 @@ func hit(_incomingHit:HitInfo) -> int:
 		_thinkTick = 0.0
 		print("Block damage " + str(_blockDamage))
 		Game.gfx_melee_hit_whiff(_incomingHit.position)
-		return 0
+		if randf() > 0.5:
+			_begin_melee_attack()
+			return Game.HIT_RESPONSE_PARRIED
+		return Game.HIT_RESPONSE_BLOCKED
 	var type:int = _incomingHit.damageType
 	var takeHitAndBlock:bool = false
 
@@ -150,7 +153,7 @@ func hit(_incomingHit:HitInfo) -> int:
 			Game.DAMAGE_TYPE_PUNCH:
 				if _bladeOn:
 					#_hitInfo.parryBaseStrength
-					apply_parry(1.0, 1.0)
+					apply_parry(1.0, 2.0)
 				elif _state == MOB_STATE_ATTACK_MELEE || _state == MOB_STATE_ATTACK_RANGED:
 					takeHitAndBlock = true
 			Game.DAMAGE_TYPE_SLASH:
@@ -218,8 +221,10 @@ func _think() -> void:
 		#MOB_STATE_CHASE:
 		#	_begin_melee_attack()
 		MOB_STATE_STUNNED:
-			#_begin_block()
-			pass
+			if randf() > 0.5:
+				_begin_block()
+			else:
+				_change_state(MOB_STATE_CHASE)
 		_:
 			var plyr:TargetInfo = Game.get_player_target()
 			if plyr != null:

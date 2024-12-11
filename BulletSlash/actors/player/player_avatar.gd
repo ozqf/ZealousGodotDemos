@@ -39,6 +39,7 @@ var _hitInfo:HitInfo
 var _dashInput:Vector2 = Vector2()
 
 var _refireTick:float = 0.0
+var _attackLockoutTick:float = 0.0
 var _timeBlocking:float = 0.0
 
 var _tryAttackSequenceTick:float = 0.0
@@ -83,6 +84,10 @@ func _hit_target(target:Area3D, weaponArea:Area3D) -> void:
 	else:
 		_hitInfo.direction = weaponArea.global_transform.basis.z
 	var result:int = Game.try_hit(_hitInfo, target)
+	if result == Game.HIT_RESPONSE_PARRIED:
+		# oh dear
+		apply_parry()
+		pass
 
 func _on_area_entered_right_baton(_area:Area3D) -> void:
 	_hit_target(_area, _rightBatonArea)
@@ -108,9 +113,7 @@ func hit(_incomingHit:HitInfo) -> int:
 		if blockTime < PARRY_WINDOW:
 			var weight:float = 1.0 - (blockTime / PARRY_WINDOW)
 			_incomingHit.responseParryWeight = weight
-			print("Parried!")
 			return Game.HIT_RESPONSE_PARRIED
-		print("Blocked")
 		return Game.HIT_RESPONSE_BLOCKED
 	print("Player hit")
 	return 1
@@ -119,6 +122,13 @@ func get_block_time() -> float:
 	if _animator.current_animation != ANIM_BLOCK:
 		return 0.0
 	return _timeBlocking
+
+func apply_parry() -> void:
+	print("Player was parried!")
+	_attackLockoutTick = 1.5
+	call_deferred("right_baton_off")
+	call_deferred("left_baton_off")
+	_animator.play("parried")
 
 ##########################################################################
 # attack animations
@@ -550,6 +560,7 @@ func _physics_process(_delta:float) -> void:
 	_timeBlocking += _delta
 	_tryAttackSequenceTick -= _delta
 	_refireTick -= _delta
+	_attackLockoutTick -= _delta
 	refresh_target_info()
 	_broadcast_hud_info()
 
@@ -606,37 +617,38 @@ func _physics_process(_delta:float) -> void:
 		elif Input.is_action_just_pressed("attack_2"):
 			_attack2Buffered = true
 	
-	match _stance:
-		################################################################
-		# Blade
-		PlayerAttacks.Stance.Blade:
-			_check_for_blade_stance_move_start(isAttacking, atkDir, _delta)
-		################################################################
-		# Gun
-		PlayerAttacks.Stance.Gun:
-			if !isAttacking && _refireTick <= 0.0:
-				if Input.is_action_pressed("attack_1"):
-					if _loadedShots > 0:
-						_loadedShots -= 1
-						if _nextShotRight:
-							_animator.play("blaster_shoot_right")
-							_gfx_muzzle_from_baton(_rightBatonArea, _rightHand)
-							Game.sound.play_shotgun_fire(_rightBatonArea.global_position)
-						else:
-							_animator.play("blaster_shoot_left")
-							_gfx_muzzle_from_baton(_leftBatonArea, _leftHand)
-							Game.sound.play_shotgun_fire(_leftBatonArea.global_position)
-						_nextShotRight = !_nextShotRight
-						var t:Transform3D = _rightBatonArea.global_transform
-						_fire_projectile(t.origin, t.basis.z)
-						_animator.queue("blaster_idle")
-				elif Input.is_action_pressed("attack_3") && _loadedShots < _maxLoadedShots:
-					start_move("reload_loop")
-		################################################################
-		# punch
-		PlayerAttacks.Stance.Punch:
-			_check_for_punch_stance_move_start(isAttacking, atkDir, _delta)
-			pass
+	if _attackLockoutTick <= 0.0:
+		match _stance:
+			################################################################
+			# Blade
+			PlayerAttacks.Stance.Blade:
+				_check_for_blade_stance_move_start(isAttacking, atkDir, _delta)
+			################################################################
+			# Gun
+			PlayerAttacks.Stance.Gun:
+				if !isAttacking && _refireTick <= 0.0:
+					if Input.is_action_pressed("attack_1"):
+						if _loadedShots > 0:
+							_loadedShots -= 1
+							if _nextShotRight:
+								_animator.play("blaster_shoot_right")
+								_gfx_muzzle_from_baton(_rightBatonArea, _rightHand)
+								Game.sound.play_shotgun_fire(_rightBatonArea.global_position)
+							else:
+								_animator.play("blaster_shoot_left")
+								_gfx_muzzle_from_baton(_leftBatonArea, _leftHand)
+								Game.sound.play_shotgun_fire(_leftBatonArea.global_position)
+							_nextShotRight = !_nextShotRight
+							var t:Transform3D = _rightBatonArea.global_transform
+							_fire_projectile(t.origin, t.basis.z)
+							_animator.queue("blaster_idle")
+					elif Input.is_action_pressed("attack_3") && _loadedShots < _maxLoadedShots:
+						start_move("reload_loop")
+			################################################################
+			# punch
+			PlayerAttacks.Stance.Punch:
+				_check_for_punch_stance_move_start(isAttacking, atkDir, _delta)
+				pass
 	
 	var moveSpeed:float = 5.0
 	#if viewLocked || Input.is_action_pressed("attack_2"):
