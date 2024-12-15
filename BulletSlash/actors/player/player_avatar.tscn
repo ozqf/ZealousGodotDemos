@@ -2330,17 +2330,16 @@ shape = SubResource("CapsuleShape3D_nlu15")
 [node name="display" type="Node3D" parent="."]
 metadata/_edit_lock_ = true
 
-[node name="body" parent="display" instance=ExtResource("4_63j68")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="Area3D" type="Area3D" parent="display/body"]
+[node name="Area3D" type="Area3D" parent="display"]
 collision_layer = 64
 collision_mask = 64
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="display/body/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="display/Area3D"]
 transform = Transform3D(0.707107, -0.707107, -3.09086e-08, 0, -4.37114e-08, 1, -0.707107, -0.707107, -3.09086e-08, 0, -4.80825e-07, -14.1)
 shape = SubResource("BoxShape3D_aay63")
 metadata/_edit_lock_ = true
+
+[node name="body" parent="display" instance=ExtResource("4_63j68")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="display"]
 libraries = {
@@ -2348,7 +2347,7 @@ libraries = {
 }
 
 [node name="right_hand" type="Node3D" parent="display"]
-transform = Transform3D(0.836514, -0.0558869, -0.545084, -0.465623, 0.451901, -0.760906, 0.288848, 0.890314, 0.352, 1, 1, 0)
+transform = Transform3D(0.836514, -0.0558869, -0.545084, -0.465623, 0.451901, -0.760906, 0.288848, 0.890314, 0.352, 0.275065, 1.20392, -0.581004)
 
 [node name="right_baton" parent="display/right_hand" instance=ExtResource("3_iu0kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, -0.1, 0)
@@ -2357,7 +2356,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, -0.1, 0)
 metadata/_edit_lock_ = true
 
 [node name="left_hand" type="Node3D" parent="display"]
-transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, -1, 1, 0)
+transform = Transform3D(0.769212, 0.293626, -0.567534, -0.633775, 0.463847, -0.61901, 0.0814917, 0.83584, 0.542889, -1, 1, 0)
 
 [node name="left_baton" parent="display/left_hand" instance=ExtResource("3_iu0kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0999998, -1.37091e-06)

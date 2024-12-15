@@ -19,7 +19,7 @@ var _groundPlane:Plane = Plane()
 enum AttackInputDir { Neutral, Forward, Backward }
 
 var _stance:PlayerAttacks.Stance = PlayerAttacks.Stance.Punch
-var _pendingStance:PlayerAttacks.Stance = PlayerAttacks.Stance.Blade
+var _pendingStance:PlayerAttacks.Stance = PlayerAttacks.Stance.Mixed
 var _inMoveRecovery:bool = false
 
 var _timeSinceLastLookAction:float = 0.0
@@ -404,12 +404,23 @@ func _get_attack_dir(inputVec:Vector2) -> AttackInputDir:
 		return AttackInputDir.Backward
 	return AttackInputDir.Neutral
 
+func _check_for_mixed_stance_move_start(isAttacking:bool, atkDir:AttackInputDir, _delta:float) -> void:
+	if isAttacking:
+		return
+	var atkOneJustOn:bool = Input.is_action_just_pressed("attack_1")
+	var atkTwoJustOn:bool = Input.is_action_just_pressed("attack_2")
+	#var atkThree:bool = Input.is_action_pressed("attack_3")
+	if atkOneJustOn:
+		start_move("slash_sequence")
+	elif atkTwoJustOn:
+		start_move("punch_jab_left")
+
 func _check_for_blade_stance_move_start(isAttacking:bool, atkDir:AttackInputDir, _delta:float) -> void:
 	if isAttacking:
 		return
 	var atkOneJustOn:bool = Input.is_action_just_pressed("attack_1")
 	var atkTwoOn:bool = Input.is_action_pressed("attack_2")
-	var atkThree:bool = Input.is_action_pressed("attack_3")
+	#var atkThree:bool = Input.is_action_pressed("attack_3")
 
 	# quick swing combo
 	if !atkTwoOn:
@@ -565,12 +576,13 @@ func _physics_process(_delta:float) -> void:
 	_broadcast_hud_info()
 
 	# inputs
-	if Input.is_action_just_pressed("slot_1"):
-		_pendingStance = PlayerAttacks.Stance.Blade
-	elif Input.is_action_just_pressed("slot_2"):
-		_pendingStance = PlayerAttacks.Stance.Gun
-	elif Input.is_action_just_pressed("slot_3"):
-		_pendingStance = PlayerAttacks.Stance.Punch
+	if _stance != PlayerAttacks.Stance.Mixed:
+		if Input.is_action_just_pressed("slot_1"):
+			_pendingStance = PlayerAttacks.Stance.Blade
+		elif Input.is_action_just_pressed("slot_2"):
+			_pendingStance = PlayerAttacks.Stance.Punch
+		elif Input.is_action_just_pressed("slot_3"):
+			_pendingStance = PlayerAttacks.Stance.Gun
 	
 	var viewLocked:bool = is_view_locked()
 	var inputVec:Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -599,17 +611,18 @@ func _physics_process(_delta:float) -> void:
 	
 	var isAttacking:bool = is_attacking() #viewLocked
 	
-	if !isAttacking:
-		if Input.is_action_pressed("attack_2"):
-			if !_animator.current_animation == ANIM_BLOCK:
-				_animator.play(ANIM_BLOCK)
-				_timeBlocking = 0.0
-				_timeSinceLastLookAction = 0.0
-		elif _animator.current_animation == ANIM_BLOCK:
-			if _stance == PlayerAttacks.Stance.Punch:
-				_animator.play("punch_idle")
-			else:
-				_animator.play("blade_idle")
+	# stance agnostic block
+	#if !isAttacking:
+	#	if Input.is_action_pressed("attack_2"):
+	#		if !_animator.current_animation == ANIM_BLOCK:
+	#			_animator.play(ANIM_BLOCK)
+	#			_timeBlocking = 0.0
+	#			_timeSinceLastLookAction = 0.0
+	#	elif _animator.current_animation == ANIM_BLOCK:
+	#		if _stance == PlayerAttacks.Stance.Punch:
+	#			_animator.play("punch_idle")
+	#		else:
+	#			_animator.play("blade_idle")
 
 	if isAttacking:
 		if Input.is_action_just_pressed("attack_1"):
@@ -619,6 +632,9 @@ func _physics_process(_delta:float) -> void:
 	
 	if _attackLockoutTick <= 0.0:
 		match _stance:
+			PlayerAttacks.Stance.Mixed:
+				_check_for_mixed_stance_move_start(isAttacking, atkDir, _delta)
+				pass
 			################################################################
 			# Blade
 			PlayerAttacks.Stance.Blade:

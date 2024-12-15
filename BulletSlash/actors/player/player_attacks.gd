@@ -7,7 +7,8 @@ const FIELD_SHOTS_CONSUMED_ON_LOOP:String = "shotsConsumedOnLoop"
 enum Stance {
 	Blade,
 	Gun,
-	Punch
+	Punch,
+	Mixed
 }
 
 static var _moves:Dictionary = {
@@ -17,9 +18,11 @@ static var _moves:Dictionary = {
 	},
 	punch_jab_left = {
 		damageType = GameMain.DAMAGE_TYPE_PUNCH,
-		animations = [ "punch_jab_left" ],
+		#animations = [ "punch_jab_left" ],
+		animations = [ "punch_jab_left", "punch_straight_right", "punch_machine_gun" ],
 		#chainOnAtk1 = "",
 		#chainOnAtk2 = "punch_spins_test",
+		shotsConsumedOnLoop = 1,
 		idleAnimation = "punch_idle"
 	},
 	punch_straight_right = {

@@ -30,6 +30,7 @@ var _subThinkTick:float = 0.0
 var _pushedDir:Vector3 = Vector3.FORWARD
 var _parriedSpeed:float = 5.0
 var _bladeOn:bool = false
+var _windupTargetTrackOn:bool = true
 
 func _ready() -> void:
 	super._ready()
@@ -107,7 +108,7 @@ func apply_parry(weight:float, rootParryStrength:float = 1.0) -> void:
 		_thinkTime = 0.5
 
 func spawn() -> void:
-	_healthMax = 20.0
+	_healthMax = 40.0
 	_defenceStrengthMax = 2.0
 	_hitBounceTime = 1.0
 	super.spawn()
@@ -132,7 +133,7 @@ func hit(_incomingHit:HitInfo) -> int:
 
 	if !_defenceless:
 		_defendedHitsAccumulator += _incomingHit.damage
-		var weight:float = clampf(-_defendedHitsAccumulator, 0, 5) / 5
+		var weight:float = clampf(_defendedHitsAccumulator, 0, 5) / 5
 		weight *= 0.5
 		# roll for entering block
 		var chance:float = randf() * 0.5
@@ -183,6 +184,7 @@ func hit(_incomingHit:HitInfo) -> int:
 
 func _begin_melee_attack() -> void:
 	_change_state(MOB_STATE_ATTACK_MELEE)
+	_windupTargetTrackOn = true
 	_meleeIndicator.run(0.8)
 	_animator.play(ANIM_SWING_1)
 	_thinkTime = _animator.current_animation_length
@@ -271,6 +273,13 @@ func _physics_process(_delta:float) -> void:
 					_begin_block()
 				else:
 					_begin_melee_attack()
+		MOB_STATE_ATTACK_MELEE:
+			if _thinkInfo == null || _thinkInfo.target == null:
+				return
+			if _bladeOn:
+				_windupTargetTrackOn = false
+			if _windupTargetTrackOn:
+				_look_toward_flat(_thinkInfo.target.t.origin)
 		MOB_STATE_PARRIED:
 			var weight:float = 1.0 - (_thinkTick / _thinkTime)
 			_slide_in_direction(_pushedDir, 5 * weight, _delta)
