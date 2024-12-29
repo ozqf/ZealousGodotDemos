@@ -98,7 +98,11 @@ func _tick_camera(_delta) -> void:
 	
 	var origin:Transform3D = _cameraMount.global_transform
 	var target:Transform3D = targetNode.global_transform
+	# Basis must be normalized in order to be casted to a Quaternion.
+	# Use get_rotation_quaternion() or call orthonormalized() if the Basis contains linearly independent vectors.
+	# https://docs.godotengine.org/en/stable/tutorials/3d/using_transforms.html
 	#var result:Transform3D = origin.interpolate_with(target, 0.9)
+	# just snap camera since lerp is screwed up
 	var result:Transform3D = target
 	_cameraMount.global_transform = result
 	# move the camera on its 'track' if blocked

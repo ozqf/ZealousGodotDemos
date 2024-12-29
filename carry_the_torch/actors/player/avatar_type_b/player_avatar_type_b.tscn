@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://btmxb6w6ttyv3"]
+
+[ext_resource type="Script" path="res://actors/player/avatar_type_b/player_avatar_type_b.gd" id="1_lkwln"]
+[ext_resource type="Script" path="res://actors/player/player_input.gd" id="2_3ja18"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ipjjj"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_b0fx8"]
+size = Vector3(1, 1, 0.2)
+
+[node name="PlayerAvatarTypeB" type="CharacterBody3D"]
+script = ExtResource("1_lkwln")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ipjjj")
+
+[node name="body" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.4, 0)
+mesh = SubResource("PrismMesh_b0fx8")
+skeleton = NodePath("../..")
+
+[node name="camera_root" type="Node3D" parent="."]
+
+[node name="camera_mount" type="Node3D" parent="camera_root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 4)
+
+[node name="Camera3D" type="Camera3D" parent="camera_root/camera_mount"]
+fov = 85.0
+
+[node name="PlayerInput" type="Node" parent="."]
+process_priority = -1
+process_physics_priority = -1
+script = ExtResource("2_3ja18")

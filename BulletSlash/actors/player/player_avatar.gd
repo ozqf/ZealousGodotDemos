@@ -84,7 +84,7 @@ func _hit_target(target:Area3D, weaponArea:Area3D) -> void:
 	else:
 		_hitInfo.direction = weaponArea.global_transform.basis.z
 	var result:int = Game.try_hit(_hitInfo, target)
-	if result == Game.HIT_RESPONSE_PARRIED:
+	if result == Game.HIT_VICTIM_RESPONSE_PARRIED:
 		# oh dear
 		apply_parry()
 		pass
@@ -104,18 +104,20 @@ func _set_area_on(area:Area3D, flag:bool) -> void:
 ##########################################################################
 func hit(_incomingHit:HitInfo) -> int:
 	if _incomingHit.damageTeamId == Game.TEAM_ID_PLAYER:
-		return Game.HIT_RESPONSE_SAME_TEAM
+		return Game.HIT_VICTIM_RESPONSE_SAME_TEAM
 	if _incomingHit.sourceTeamId == Game.TEAM_ID_PLAYER:
-		return Game.HIT_RESPONSE_SAME_TEAM
+		return Game.HIT_VICTIM_RESPONSE_SAME_TEAM
 	
 	var blockTime:float = get_block_time()
 	if blockTime > 0.0:
 		if blockTime < PARRY_WINDOW:
 			var weight:float = 1.0 - (blockTime / PARRY_WINDOW)
 			_incomingHit.responseParryWeight = weight
-			return Game.HIT_RESPONSE_PARRIED
-		return Game.HIT_RESPONSE_BLOCKED
+			return Game.HIT_VICTIM_RESPONSE_PARRIED
+		return Game.HIT_VICTIM_RESPONSE_BLOCKED
 	print("Player hit")
+	# oh dear
+	apply_parry()
 	return 1
 
 func get_block_time() -> float:
@@ -576,13 +578,14 @@ func _physics_process(_delta:float) -> void:
 	_broadcast_hud_info()
 
 	# inputs
-	if _stance != PlayerAttacks.Stance.Mixed:
-		if Input.is_action_just_pressed("slot_1"):
-			_pendingStance = PlayerAttacks.Stance.Blade
-		elif Input.is_action_just_pressed("slot_2"):
-			_pendingStance = PlayerAttacks.Stance.Punch
-		elif Input.is_action_just_pressed("slot_3"):
-			_pendingStance = PlayerAttacks.Stance.Gun
+	if Input.is_action_just_pressed("slot_1"):
+		_pendingStance = PlayerAttacks.Stance.Blade
+	elif Input.is_action_just_pressed("slot_2"):
+		_pendingStance = PlayerAttacks.Stance.Punch
+	elif Input.is_action_just_pressed("slot_3"):
+		_pendingStance = PlayerAttacks.Stance.Gun
+	elif Input.is_action_just_pressed("slot_4"):
+		_pendingStance = PlayerAttacks.Stance.Mixed
 	
 	var viewLocked:bool = is_view_locked()
 	var inputVec:Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")

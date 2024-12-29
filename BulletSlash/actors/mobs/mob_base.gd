@@ -104,29 +104,16 @@ func teleport(_transform:Transform3D) -> void:
 	self.global_position = _transform.origin
 	pass
 
-func hit(_hitInfo) -> int:
-	#print("Mob dummy hit")
-	if _hitInfo.damageTeamId == Game.TEAM_ID_ENEMY:
-		return Game.HIT_RESPONSE_SAME_TEAM
-	
-	var inflictedDamage:float = _hitInfo.damage
-	if _defenceless:
-		inflictedDamage *= 2
-	_health -= inflictedDamage
-	
-	_hitBounceTick = 0.0
-	_hitBounceTime = _hitBounceTime
-	_hitBounceDisplayT = _hitOriginDisplayT
-	var bounceAxis:Vector3 = _hitInfo.direction.cross(Vector3.UP).normalized()
-	_hitBounceDisplayT = _hitBounceDisplayT.rotated(bounceAxis, deg_to_rad(45.0))
-	
-	var gfxDir:Vector3 = _hitInfo.direction
-	gfxDir.y = 0
-	gfxDir = gfxDir.normalized()
+func _spawn_hit_victim_fx(damageType:int, hitPos:Vector3, hitDir:Vector3) -> void:
 	var gfxPos:Vector3 = self.global_position
 	gfxPos.y += 1
-	gfxPos = gfxPos.lerp(_hitInfo.position, 0.5)
-	if _hitInfo.damageType == Game.DAMAGE_TYPE_SLASH:
+	gfxPos = gfxPos.lerp(hitPos, 0.5)
+
+	var gfxDir:Vector3 = hitDir
+	gfxDir.y = 0
+	gfxDir = gfxDir.normalized()
+
+	if damageType == Game.DAMAGE_TYPE_SLASH:
 		var fxSpeed:float = randf_range(5, 10)
 		Game.spawn_gfx_blade_blood_spurt(gfxPos, gfxDir)
 		Game.gfx_blood_splat_thrown(gfxPos, ZqfUtils.quick_skew_direction(gfxDir), fxSpeed)
@@ -138,6 +125,59 @@ func hit(_hitInfo) -> int:
 		var fxSpeed:float = randf_range(2, 4)
 		Game.spawn_gfx_punch_blood_spurt(gfxPos)
 		Game.gfx_blood_splat_thrown(gfxPos, ZqfUtils.quick_skew_direction(gfxDir), fxSpeed)
+
+func _run_hit_bounce(hitDir:Vector3) -> void:
+	_hitBounceTick = 0.0
+	_hitBounceTime = _hitBounceTime
+	_hitBounceDisplayT = _hitOriginDisplayT
+	var bounceAxis:Vector3 = hitDir.cross(Vector3.UP).normalized()
+	_hitBounceDisplayT = _hitBounceDisplayT.rotated(bounceAxis, deg_to_rad(45.0))
+
+# Returns > 0 if hit is allowed
+func check_for_hit_rejection(hitInfo) -> int:
+	if hitInfo.damageTeamId == Game.TEAM_ID_ENEMY:
+		return Game.HIT_VICTIM_RESPONSE_SAME_TEAM
+	return 1
+	
+
+func hit(_hitInfo) -> int:
+	#print("Mob dummy hit")
+	if _hitInfo.damageTeamId == Game.TEAM_ID_ENEMY:
+		return Game.HIT_VICTIM_RESPONSE_SAME_TEAM
+	
+	var inflictedDamage:float = _hitInfo.damage
+	if _defenceless:
+		inflictedDamage *= 2
+	_health -= inflictedDamage
+	
+	_run_hit_bounce(_hitInfo.direction)
+	_spawn_hit_victim_fx(_hitInfo.damageType, _hitInfo.position, _hitInfo.direction)
+
+
+	#_hitBounceTick = 0.0
+	#_hitBounceTime = _hitBounceTime
+	#_hitBounceDisplayT = _hitOriginDisplayT
+	#var bounceAxis:Vector3 = _hitInfo.direction.cross(Vector3.UP).normalized()
+	#_hitBounceDisplayT = _hitBounceDisplayT.rotated(bounceAxis, deg_to_rad(45.0))
+	
+	#var gfxDir:Vector3 = _hitInfo.direction
+	#gfxDir.y = 0
+	#gfxDir = gfxDir.normalized()
+	#var gfxPos:Vector3 = self.global_position
+	#gfxPos.y += 1
+	#gfxPos = gfxPos.lerp(_hitInfo.position, 0.5)
+	#if _hitInfo.damageType == Game.DAMAGE_TYPE_SLASH:
+	#	var fxSpeed:float = randf_range(5, 10)
+	#	Game.spawn_gfx_blade_blood_spurt(gfxPos, gfxDir)
+	#	Game.gfx_blood_splat_thrown(gfxPos, ZqfUtils.quick_skew_direction(gfxDir), fxSpeed)
+	#elif Game.DAMAGE_TYPE_BULLET:
+	#	var fxSpeed:float = randf_range(10, 20)
+	#	Game.spawn_gfx_blade_blood_spurt(gfxPos, gfxDir)
+	#	Game.gfx_blood_splat_thrown(gfxPos, ZqfUtils.quick_skew_direction(gfxDir), fxSpeed)
+	#else:
+	#	var fxSpeed:float = randf_range(2, 4)
+	#	Game.spawn_gfx_punch_blood_spurt(gfxPos)
+	#	Game.gfx_blood_splat_thrown(gfxPos, ZqfUtils.quick_skew_direction(gfxDir), fxSpeed)
 	return 1
 
 ##################################################

@@ -1,13 +1,9 @@
-[gd_resource type="SpriteFrames" load_steps=4 format=3 uid="uid://dl4q6kn3bhsav"]
-
-[ext_resource type="Texture2D" uid="uid://y2jt02is357l" path="res://actors/mobs/mob_status/mob_armour_icons.png" id="1_el1kr"]
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://dl4q6kn3bhsav"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkxj2"]
-atlas = ExtResource("1_el1kr")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ksujg"]
-atlas = ExtResource("1_el1kr")
 region = Rect2(64, 0, 64, 64)
 
 [resource]

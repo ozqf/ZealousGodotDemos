@@ -1,11 +1,11 @@
 [gd_scene load_steps=12 format=3 uid="uid://cwadxt82yy7q6"]
 
 [ext_resource type="Material" uid="uid://bga7d12w7ewf3" path="res://shared/world_materials/planar_noise_grass.tres" id="1_0rs5j"]
-[ext_resource type="PackedScene" uid="uid://bfbt2g2syrph0" path="res://actors/player/player_avatar.tscn" id="1_t7xba"]
 [ext_resource type="Material" uid="uid://cpwdy0o3iwjjs" path="res://shared/world_materials/planar_noise_rock.tres" id="2_fervn"]
 [ext_resource type="ArrayMesh" uid="uid://3e0iouw4ynsk" path="res://shared/primitives/wedge.obj" id="3_dnyju"]
 [ext_resource type="PackedScene" uid="uid://bkgxsx5bu1dmm" path="res://shared/prefabs/track_twist_90.tscn" id="5_jtt76"]
 [ext_resource type="PackedScene" uid="uid://borhxeomos4ob" path="res://shared/prefabs/quarter_pipe.tscn" id="5_wqmah"]
+[ext_resource type="PackedScene" uid="uid://b6rfgmoo4hhpm" path="res://actors/player/start/player_start.tscn" id="6_ghdm5"]
 
 [sub_resource type="Environment" id="Environment_braqj"]
 background_mode = 1
@@ -218,5 +218,5 @@ transform = Transform3D(8.74228e-08, 2, -1.32005e-14, 2, -8.74228e-08, -3.01992e
 [node name="entities" type="Node3D" parent="."]
 metadata/_edit_lock_ = true
 
-[node name="player_avatar" parent="entities" instance=ExtResource("1_t7xba")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.5, -11)
+[node name="PlayerStart" parent="." instance=ExtResource("6_ghdm5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0, -6)

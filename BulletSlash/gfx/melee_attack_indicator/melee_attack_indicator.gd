@@ -24,6 +24,9 @@ func refresh() -> void:
 func remaining_time() -> float:
 	return clampf(_time - _tick, 0.0, _time)
 
+func weight() -> float:
+	return clampf(_tick / _time, 0.0, 1.0)
+
 func run(duration:float) -> void:
 	if _isRunning:
 		return

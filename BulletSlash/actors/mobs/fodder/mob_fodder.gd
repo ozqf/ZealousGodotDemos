@@ -7,9 +7,18 @@ const MOB_STATE_CHASE:String = "chase"
 const MOB_STATE_ATTACK_MELEE:String = "attack_melee"
 const MOB_STATE_ATTACK_RANGED:String = "attack_ranged"
 const MOB_STATE_BLOCKING:String = "blocking"
+const MOB_STATE_LAUNCHED:String = "launched"
+
+const HIT_REACTION_NONE:int = 0
+const HIT_REACTION_HIT_STUN:int = 1
+const HIT_REACTION_DAZE:int = 2
+const HIT_REACTION_TAKE_AND_BLOCK:int = 3
+const HIT_REACTION_LAUNCH:int = 4
+const HIT_REACTION_REVENGE:int = 5
 
 const ANIM_IDLE:String = "_idle"
 const ANIM_SWING_1:String = "swing_1"
+const ANIM_SWING_2:String = "swing_2"
 const ANIM_BLOCKING:String = "blocking"
 const ANIM_SHOOTING:String = "shooting"
 
@@ -55,13 +64,14 @@ func _set_blade_on(flag:bool) -> void:
 	_weapon.set_deferred("monitorable", flag)
 	_weapon.set_deferred("monitoring", flag)
 
-func _on_weapon_touched_area(area:Area3D) -> void:
-	var result:int = Game.try_hit(_hitInfo, area)
-	if result == Game.HIT_RESPONSE_PARRIED:
-		_pushedDir = _bodyDisplayRoot.global_transform.basis.z
-		apply_parry(_hitInfo.responseParryWeight, _hitInfo.responseParryBaseStrength)
-		return
-	print("Mob response " + str(result))
+func spawn() -> void:
+	_healthMax = 40.0
+	_defenceStrengthMax = 2.0
+	_hitBounceTime = 1.0
+	super.spawn()
+
+func is_in_hitstun() -> bool:
+	return _state == MOB_STATE_PARRIED || _state == MOB_STATE_STUNNED
 
 func _change_state(newState:String) -> void:
 	if _state == newState:
@@ -87,106 +97,14 @@ func _change_state(newState:String) -> void:
 		_blockDamage = 0.0
 	_thinkTick = 0.0
 
-func apply_parry(weight:float, rootParryStrength:float = 1.0) -> void:
-	print("Mob was parried!")
-	if _state == MOB_STATE_PARRIED:
-		var cap:float = 0.5
-		if _defenceless:
-			cap = 1.0
-		if _thinkTick < cap:
-			_thinkTick = cap
-		return
-	_defenceStrength -= rootParryStrength * weight
-	if _defenceStrength <= 0.0:
-		_defenceless = true
-		_defenceStrength = _defenceStrengthMax
-		_change_state(MOB_STATE_PARRIED)
-		_thinkTime = 2.5
-		Game.gfx_parry_impact(self._weapon.global_position)
-	else:
-		_change_state(MOB_STATE_PARRIED)
-		_thinkTime = 0.5
-
-func spawn() -> void:
-	_healthMax = 40.0
-	_defenceStrengthMax = 2.0
-	_hitBounceTime = 1.0
-	super.spawn()
-
-func is_in_hitstun() -> bool:
-	return _state == MOB_STATE_PARRIED || _state == MOB_STATE_STUNNED
-
-func hit(_incomingHit:HitInfo) -> int:
-	_timeSinceLastHit = 0.0
-	if _state == MOB_STATE_BLOCKING:
-		_blockDamage += _incomingHit.damage
-		# reset block time.
-		_thinkTick = 0.0
-		print("Block damage " + str(_blockDamage))
-		Game.gfx_melee_hit_whiff(_incomingHit.position)
-		if randf() > 0.5:
-			_begin_melee_attack()
-			return Game.HIT_RESPONSE_PARRIED
-		return Game.HIT_RESPONSE_BLOCKED
-	var type:int = _incomingHit.damageType
-	var takeHitAndBlock:bool = false
-
-	if !_defenceless:
-		_defendedHitsAccumulator += _incomingHit.damage
-		var weight:float = clampf(_defendedHitsAccumulator, 0, 5) / 5
-		weight *= 0.5
-		# roll for entering block
-		var chance:float = randf() * 0.5
-		if chance + weight > 0.8:
-			_begin_block()
-	#if _defendedHitsAccumulator > 5.0:
-	#	_defendedHitsAccumulator = 0.0
-	#	takeHitAndBlock = true
-
-	# continue stuns if we are in one
-	if _state == MOB_STATE_PARRIED:
-		_change_state(MOB_STATE_STUNNED)
-	elif _state == MOB_STATE_STUNNED:
-		_thinkTick = 0.0
-	else:
-		# check for interupts
-		match type:
-			Game.DAMAGE_TYPE_PUNCH:
-				if _bladeOn:
-					#_hitInfo.parryBaseStrength
-					apply_parry(1.0, 2.0)
-				elif _state == MOB_STATE_ATTACK_MELEE || _state == MOB_STATE_ATTACK_RANGED:
-					takeHitAndBlock = true
-			Game.DAMAGE_TYPE_SLASH:
-				if _bladeOn:
-					apply_parry(0.5, 1.0)
-					pass
-				elif _state == MOB_STATE_ATTACK_MELEE || _state == MOB_STATE_ATTACK_RANGED:
-					takeHitAndBlock = true
-			Game.DAMAGE_TYPE_BULLET:
-				if _state == MOB_STATE_ATTACK_RANGED:
-					apply_parry(1.0, 1.0)
-				elif _bladeOn:
-					apply_parry(0.5, 1.0)
-					pass
-	var result:int = super.hit(_incomingHit)
-	if _health <= 0.0:
-		self.queue_free()
-		return 1
-	if result > 0:
-		if takeHitAndBlock:
-			_begin_block()
-		else:
-			#_change_state(MOB_STATE_STUNNED)
-			if !is_in_hitstun():
-				_thinkTime = _hitBounceTime
-	return result
-
 func _begin_melee_attack() -> void:
 	_change_state(MOB_STATE_ATTACK_MELEE)
 	_windupTargetTrackOn = true
 	_meleeIndicator.run(0.8)
-	_animator.play(ANIM_SWING_1)
+	if randf() > 0.5:
+		_animator.play(ANIM_SWING_1)
+	else:
+		_animator.play(ANIM_SWING_2)
 	_thinkTime = _animator.current_animation_length
 
 func _begin_ranged_attack() -> void:
@@ -199,6 +117,12 @@ func _begin_ranged_attack() -> void:
 func _begin_block() -> void:
 	_animator.play("blocking")
 	_change_state(MOB_STATE_BLOCKING)
+	_thinkTime = 0.5
+	_thinkTick = 0.0
+
+func _begin_launch() -> void:
+	_animator.play("launched")
+	_change_state(MOB_STATE_LAUNCHED)
 	_thinkTime = 0.5
 	_thinkTick = 0.0
 
@@ -218,11 +142,124 @@ func _update_hud_status() -> void:
 	
 	_hudStatus.update_stats(hp, def, _power, stunTime, _defenceless)
 
+func _on_weapon_touched_area(area:Area3D) -> void:
+	var result:int = Game.try_hit(_hitInfo, area)
+	if result == Game.HIT_VICTIM_RESPONSE_PARRIED:
+		_pushedDir = _bodyDisplayRoot.global_transform.basis.z
+		apply_parry(_hitInfo.responseParryWeight, _hitInfo.responseParryBaseStrength)
+		return
+	print("Mob response " + str(result))
+
+func apply_parry(weight:float, rootParryStrength:float = 1.0) -> void:
+	#print("Mob was parried - weight " + str(weight) + " root strength " + str(rootParryStrength))
+	if _state == MOB_STATE_PARRIED:
+		var cap:float = 0.5
+		if _defenceless:
+			cap = 1.0
+		if _thinkTick < cap:
+			_thinkTick = cap
+		return
+	_defenceStrength -= rootParryStrength * weight
+	if _defenceStrength <= 0.0:
+		# "...prepare to die..."
+		_defenceless = true
+		_defenceStrength = _defenceStrengthMax
+		_change_state(MOB_STATE_PARRIED)
+		_thinkTime = 2.5
+		Game.gfx_parry_impact(self._weapon.global_position)
+	else:
+		# 'tis but a scratch
+		_change_state(MOB_STATE_PARRIED)
+		_thinkTime = 0.35
+
+func _calc_received_parry_weight(_incomingHit:HitInfo) -> float:
+	var typeWeight:float = 0.5
+	match _incomingHit.damageType:
+		Game.DAMAGE_TYPE_PUNCH:
+			typeWeight = 1.0
+	var meleeWindupWeight:float = _meleeIndicator.weight()
+	var rangedWindup:float = _rangedIndicator.weight()
+	if _state == MOB_STATE_ATTACK_MELEE:
+		if _bladeOn:
+			print("Danger parry")
+			return 1.0 * typeWeight
+		print("Windup weight " + str(meleeWindupWeight))
+		var chargeWeight:float = meleeWindupWeight * 0.5
+		return chargeWeight * typeWeight
+	elif _state == MOB_STATE_ATTACK_RANGED:
+		var chargeWeight:float = rangedWindup
+		return chargeWeight * typeWeight
+	return 0.0
+
+func hit(_incomingHit:HitInfo) -> int:
+	var rejectResponse:int = check_for_hit_rejection(_incomingHit)
+	if rejectResponse <= 0:
+		return rejectResponse
+	
+	_timeSinceLastHit = 0.0
+	if _state == MOB_STATE_BLOCKING:
+		_blockDamage += _incomingHit.damage
+		# reset block time.
+		_thinkTick = 0.0
+		print("Block damage " + str(_blockDamage))
+		Game.gfx_melee_hit_whiff(_incomingHit.position)
+		if randf() > 0.5:
+			_begin_melee_attack()
+			return Game.HIT_VICTIM_RESPONSE_PARRIED
+		return Game.HIT_VICTIM_RESPONSE_BLOCKED
+	var type:int = _incomingHit.damageType
+	var takeHitAndBlock:bool = false
+
+	if !_defenceless:
+		_defendedHitsAccumulator += _incomingHit.damage
+		var weight:float = clampf(_defendedHitsAccumulator, 0, 5) / 5
+		weight *= 0.5
+		# roll for entering block
+		var chance:float = randf() * 0.5
+		if chance + weight > 0.8:
+			_begin_block()
+	else:
+		if type == Game.DAMAGE_TYPE_PUNCH:
+			# weeeeeeee
+			takeHitAndBlock = false
+			_begin_launch()
+	#if _defendedHitsAccumulator > 5.0:
+	#	_defendedHitsAccumulator = 0.0
+	#	takeHitAndBlock = true
+
+	# continue stuns if we are in one
+	if _state == MOB_STATE_PARRIED:
+		_change_state(MOB_STATE_STUNNED)
+	elif _state == MOB_STATE_STUNNED:
+		_thinkTick = 0.0
+	else:
+		var parryWeight:float = _calc_received_parry_weight(_incomingHit)
+		if parryWeight > 0.0:
+			apply_parry(parryWeight, 1.0)
+	
+
+	
+	var result:int = super.hit(_incomingHit)
+	
+	
+	
+	if _health <= 0.0:
+		self.queue_free()
+		return 1
+	if result > 0:
+		if takeHitAndBlock:
+			_begin_block()
+		else:
+			#_change_state(MOB_STATE_STUNNED)
+			if !is_in_hitstun():
+				_thinkTime = _hitBounceTime
+	return result
+
 func _think() -> void:
 	match _state:
 		#MOB_STATE_CHASE:
 		#	_begin_melee_attack()
-		MOB_STATE_STUNNED:
+		MOB_STATE_STUNNED, MOB_STATE_PARRIED:
 			if randf() > 0.5:
 				_begin_block()
 			else:
@@ -281,8 +318,12 @@ func _physics_process(_delta:float) -> void:
 			if _windupTargetTrackOn:
 				_look_toward_flat(_thinkInfo.target.t.origin)
 		MOB_STATE_PARRIED:
+			pass
 			var weight:float = 1.0 - (_thinkTick / _thinkTime)
-			_slide_in_direction(_pushedDir, 5 * weight, _delta)
+			_slide_in_direction(_pushedDir, 1 * weight, _delta)
+		MOB_STATE_LAUNCHED:
+			var weight:float = 1.0 - (_thinkTick / _thinkTime)
+			_slide_in_direction(_pushedDir, 10 * weight, _delta)
 		MOB_STATE_ATTACK_RANGED:
 			if _thinkInfo.target == null:
 				_change_state(MOB_STATE_IDLE)

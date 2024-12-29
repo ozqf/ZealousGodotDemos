@@ -64,8 +64,8 @@ axis_lock_angular_z = true
 physics_material_override = SubResource("PhysicsMaterial_vjel2")
 gravity_scale = 0.0
 continuous_cd = true
-max_contacts_reported = 16
 contact_monitor = true
+max_contacts_reported = 16
 script = ExtResource("1_54sqb")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
