@@ -18,6 +18,7 @@ var _health:float = 1.0
 var _defenceStrengthMax:float = 1.0
 var _defenceStrength:float = 1.0
 var _defenceless:bool = false
+var _parryChance:float = 0
 
 var _power:float = 0.0
 var _powerPerSecond:float = 1.0 / 20.0
@@ -195,9 +196,9 @@ func _step_toward_flat(targetPos:Vector3, metresPerSecond:float, _delta:float) -
 	self.velocity = move
 	self.move_and_slide()
 
-func _slide_in_direction(dir:Vector3, metresPerSecond:float, _delta:float) -> void:
+func _slide_in_direction(dir:Vector3, metresPerSecond:float, _delta:float) -> bool:
 	self.velocity = dir * metresPerSecond
-	self.move_and_slide()
+	return self.move_and_slide()
 
 ##################################################
 # lifetime

@@ -615,17 +615,17 @@ func _physics_process(_delta:float) -> void:
 	var isAttacking:bool = is_attacking() #viewLocked
 	
 	# stance agnostic block
-	#if !isAttacking:
-	#	if Input.is_action_pressed("attack_2"):
-	#		if !_animator.current_animation == ANIM_BLOCK:
-	#			_animator.play(ANIM_BLOCK)
-	#			_timeBlocking = 0.0
-	#			_timeSinceLastLookAction = 0.0
-	#	elif _animator.current_animation == ANIM_BLOCK:
-	#		if _stance == PlayerAttacks.Stance.Punch:
-	#			_animator.play("punch_idle")
-	#		else:
-	#			_animator.play("blade_idle")
+	if !isAttacking:
+		if Input.is_action_pressed("attack_2"):
+			if !_animator.current_animation == ANIM_BLOCK:
+				_animator.play(ANIM_BLOCK)
+				_timeBlocking = 0.0
+				_timeSinceLastLookAction = 0.0
+		elif _animator.current_animation == ANIM_BLOCK:
+			if _stance == PlayerAttacks.Stance.Punch:
+				_animator.play("punch_idle")
+			else:
+				_animator.play("blade_idle")
 
 	if isAttacking:
 		if Input.is_action_just_pressed("attack_1"):

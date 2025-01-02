@@ -2,7 +2,7 @@ extends Node
 
 var _worldType:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 
-var _playerType:PackedScene = preload("res://actors/player/player.tscn")
+var _playerType:PackedScene = preload("res://actors/player/player_avatar.tscn")
 
 func _ready():
 	call_deferred("_spawn_world")

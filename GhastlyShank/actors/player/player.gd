@@ -41,38 +41,6 @@ func _ready() -> void:
 # Attack
 ###################################################
 
-func _run_swing(duration:float, start:Transform3D, end:Transform3D):
-	_swinging = true
-	_tick = 0.0
-	_tickMax = duration
-	_a = start
-	_b = end
-
-func _auto_swing() -> void:
-	_lastSwingType = _nextSwingType
-	match _nextSwingType:
-		0:
-			_nextSwingType = 1
-#			_swing_right_high()
-			#_run_swing(0.3, _rightMidStart.transform, _rightMidEnd.transform)
-			pass
-#			_run_swing(0.4, _rightHighStart.transform, _rightHighEnd.transform)
-		1:
-			_nextSwingType = 0
-#			_swing_left_high()
-#			_run_swing(0.3, _leftHighStart.transform, _leftHighEnd.transform)
-			#_run_swing(0.3, _leftMidStart.transform, _leftMidEnd.transform)
-			pass
-		2:
-			_nextSwingType = 0
-			#_run_swing(0.2, _thrustStart.transform, _thrustEnd.transform)
-			#_run_swing(0.2, _centreChopEnd.transform, _centreChopStart.transform)
-			pass
-		3:
-			_nextSwingType = 3
-			#_run_swing(0.2, _centreChopStart.transform, _centreChopEnd.transform)
-			pass
-
 func _get_move_based_swing_type(move:Vector2) -> int:
 	if move.is_zero_approx():
 		return 3
@@ -105,8 +73,6 @@ func _physics_process_attack(_delta:float) -> void:
 	if Input.is_action_pressed("attack_1"):
 		
 		_nextSwingType = _get_move_based_swing_type(_movePushDelta)
-		#_nextSwingType = _get_move_based_swing_type(_mouseDelta.normalized())
-		#_auto_swing()
 		_rightAnimator.play_attack()
 	elif Input.is_action_pressed("attack_3") && _spellTick <= 0.0:
 		var drop = _rageType.instantiate()
@@ -117,24 +83,13 @@ func _physics_process_attack(_delta:float) -> void:
 		drop.launch(origin, forward)
 		_spellTick = 0.1
 		pass
-#		_run_swing(0.2, _thrustStart.transform, _thrustEnd.transform)
-		
 
 func _process(delta:float):
 	_timeSinceLastMouseDelta += delta
-	#if _swinging:
-		#_tick += delta
-		#if _tick > _tickMax:
-			#_tick = 0.0
-			#_swinging = false
-		#var weight:float = _tick / _tickMax
-		#_weaponModel.transform = _a.interpolate_with(_b, weight)
-	
 	if _timeSinceLastMouseDelta < 0.05:
 		var lookMoveDegrees:float = rad_to_deg(atan2(_mouseDelta.y, _mouseDelta.x))
 		_lookDirIcon.rotation_degrees = lookMoveDegrees
 		lookMoveDegrees = ZqfUtils.cap_degrees(lookMoveDegrees)
-		#print(str(lookMoveDegrees) + " from " + str(_mouseDelta))
 	else:
 		_lookDirIcon.rotation_degrees = 270
 	

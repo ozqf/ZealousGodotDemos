@@ -3,10 +3,14 @@ extends MobBase
 const MOB_STATE_IDLE:String = "idle"
 const MOB_STATE_STUNNED:String = "stunned"
 const MOB_STATE_PARRIED:String = "parried"
+# unable to act, vulnerable, but ends on taking any damage.
+const MOB_STATE_DAZED:String = "dazed"
 const MOB_STATE_CHASE:String = "chase"
 const MOB_STATE_ATTACK_MELEE:String = "attack_melee"
 const MOB_STATE_ATTACK_RANGED:String = "attack_ranged"
+# ignores damage. builds retaliation if hit
 const MOB_STATE_BLOCKING:String = "blocking"
+# flying backward
 const MOB_STATE_LAUNCHED:String = "launched"
 
 const HIT_REACTION_NONE:int = 0
@@ -19,6 +23,7 @@ const HIT_REACTION_REVENGE:int = 5
 const ANIM_IDLE:String = "_idle"
 const ANIM_SWING_1:String = "swing_1"
 const ANIM_SWING_2:String = "swing_2"
+const ANIM_STAB_1:String = "stab_1"
 const ANIM_BLOCKING:String = "blocking"
 const ANIM_SHOOTING:String = "shooting"
 
@@ -91,6 +96,11 @@ func _change_state(newState:String) -> void:
 		MOB_STATE_PARRIED:
 			_set_blade_on(false)
 			_animator.play("stunned")
+		MOB_STATE_DAZED:
+			_set_blade_on(false)
+			_animator.play("stunned")
+			_defenceless = true
+			_thinkTime = 3.0
 		_:
 			_defenceless = false
 	if _state != MOB_STATE_STUNNED:
@@ -99,12 +109,20 @@ func _change_state(newState:String) -> void:
 
 func _begin_melee_attack() -> void:
 	_change_state(MOB_STATE_ATTACK_MELEE)
-	_windupTargetTrackOn = true
-	_meleeIndicator.run(0.8)
-	if randf() > 0.5:
+	var r:float = randf()
+	#var r:float = 0
+	if r > 0.66:
 		_animator.play(ANIM_SWING_1)
-	else:
+		_windupTargetTrackOn = true
+		_meleeIndicator.run(0.8)
+	elif r > 0.33:
 		_animator.play(ANIM_SWING_2)
+		_windupTargetTrackOn = true
+		_meleeIndicator.run(0.8)
+	else:
+		_animator.play(ANIM_STAB_1)
+		_windupTargetTrackOn = false
+		_meleeIndicator.run(0.43)
 	_thinkTime = _animator.current_animation_length
 
 func _begin_ranged_attack() -> void:
@@ -113,6 +131,10 @@ func _begin_ranged_attack() -> void:
 	_rangedIndicator.run(_subThinkTick)
 	_animator.play(ANIM_SHOOTING)
 	_thinkTime = _animator.current_animation_length
+
+func _begin_hitstun() -> void:
+	_change_state(MOB_STATE_STUNNED)
+	_thinkTime = 0.25
 
 func _begin_block() -> void:
 	_animator.play("blocking")
@@ -125,6 +147,9 @@ func _begin_launch() -> void:
 	_change_state(MOB_STATE_LAUNCHED)
 	_thinkTime = 0.5
 	_thinkTick = 0.0
+
+func _begin_daze() -> void:
+	_change_state(MOB_STATE_DAZED)
 
 func _fire_gun() -> void:
 	var t:Transform3D = _gunNode.global_transform
@@ -184,7 +209,7 @@ func _calc_received_parry_weight(_incomingHit:HitInfo) -> float:
 			print("Danger parry")
 			return 1.0 * typeWeight
 		print("Windup weight " + str(meleeWindupWeight))
-		var chargeWeight:float = meleeWindupWeight * 0.5
+		var chargeWeight:float = meleeWindupWeight # * 0.5
 		return chargeWeight * typeWeight
 	elif _state == MOB_STATE_ATTACK_RANGED:
 		var chargeWeight:float = rangedWindup
@@ -203,7 +228,7 @@ func hit(_incomingHit:HitInfo) -> int:
 		_thinkTick = 0.0
 		print("Block damage " + str(_blockDamage))
 		Game.gfx_melee_hit_whiff(_incomingHit.position)
-		if randf() > 0.5:
+		if _parryChance > 0 && randf() > _parryChance:
 			_begin_melee_attack()
 			return Game.HIT_VICTIM_RESPONSE_PARRIED
 		return Game.HIT_VICTIM_RESPONSE_BLOCKED
@@ -219,10 +244,16 @@ func hit(_incomingHit:HitInfo) -> int:
 		if chance + weight > 0.8:
 			_begin_block()
 	else:
-		if type == Game.DAMAGE_TYPE_PUNCH:
-			# weeeeeeee
-			takeHitAndBlock = false
-			_begin_launch()
+		match _state:
+			MOB_STATE_DAZED:
+				if type == Game.DAMAGE_TYPE_PUNCH:
+					# weeeeeeee
+					takeHitAndBlock = false
+					_begin_launch()
+				else:
+					_begin_hitstun()
+			_:
+				_begin_hitstun()
 	#if _defendedHitsAccumulator > 5.0:
 	#	_defendedHitsAccumulator = 0.0
 	#	takeHitAndBlock = true
@@ -323,7 +354,8 @@ func _physics_process(_delta:float) -> void:
 			_slide_in_direction(_pushedDir, 1 * weight, _delta)
 		MOB_STATE_LAUNCHED:
 			var weight:float = 1.0 - (_thinkTick / _thinkTime)
-			_slide_in_direction(_pushedDir, 10 * weight, _delta)
+			if _slide_in_direction(_pushedDir, 10 * weight, _delta):
+				_change_state(MOB_STATE_STUNNED)
 		MOB_STATE_ATTACK_RANGED:
 			if _thinkInfo.target == null:
 				_change_state(MOB_STATE_IDLE)

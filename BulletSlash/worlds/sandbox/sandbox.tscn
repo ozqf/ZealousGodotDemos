@@ -505,7 +505,7 @@ spawnInterval = 2.0
 
 [node name="Spawner3" parent="." instance=ExtResource("3_ddtwt")]
 transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, 16, 0, -5.5)
-id = "spawn_c"
+id = "spawn_b"
 mobType = "fodder"
 maxLiveMobs = 1
 totalMobs = 999

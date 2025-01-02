@@ -1,6 +1,6 @@
 extends ActorProxyBase
 
-var _playerType:PackedScene = preload("res://actors/player/player.tscn")
+var _playerType:PackedScene = preload("res://actors/player/player_avatar.tscn")
 
 func _ready():
 	self.visible = false
