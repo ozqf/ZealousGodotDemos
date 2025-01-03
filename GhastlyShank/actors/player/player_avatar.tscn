@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcyuyhg1xs5ud"]
+[gd_scene load_steps=7 format=3 uid="uid://bcyuyhg1xs5ud"]
 
 [ext_resource type="Script" path="res://actors/player/player_avatar.gd" id="1_bwt23"]
 [ext_resource type="Script" path="res://actors/player/camera_rig.gd" id="2_fr0jw"]
 [ext_resource type="Texture2D" uid="uid://dl7uh25m15qyr" path="res://actors/player/hud_icons/arrow.png" id="3_3e5no"]
-[ext_resource type="PackedScene" uid="uid://bbpqs01bg6ias" path="res://player_model.tscn" id="4_23x6f"]
+[ext_resource type="PackedScene" uid="uid://bbpqs01bg6ias" path="res://actors/player/player_model.tscn" id="4_23x6f"]
+[ext_resource type="Script" path="res://game/interactions/actor_target_info.gd" id="5_8inh3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nrxwx"]
 radius = 0.4
@@ -98,3 +99,6 @@ pivot_offset = Vector2(20, 20)
 texture = ExtResource("3_3e5no")
 
 [node name="player_model" parent="." instance=ExtResource("4_23x6f")]
+
+[node name="ActorTargetInfo" type="Node" parent="."]
+script = ExtResource("5_8inh3")

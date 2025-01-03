@@ -1,11 +1,21 @@
-extends Node
+extends Node3D
 
 var _worldType:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
-
 var _playerType:PackedScene = preload("res://actors/player/player_avatar.tscn")
+
+@onready var _emptyTarget:ActorTargetInfo = $empty_target
+@onready var _player:PlayerAvatar = null
 
 func _ready():
 	call_deferred("_spawn_world")
+
+func register_player(plyr:PlayerAvatar) -> void:
+	_player = plyr
+
+func get_player_target() -> ActorTargetInfo:
+	if _player != null:
+		return _player.get_target_info()
+	return _emptyTarget
 
 func _find_actor_proxies(root:Node, results:Array) -> void:
 	if root.has_method("get_actor_proxy_info"):
