@@ -30,7 +30,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7776, 0)
 [node name="pitch_pivot" type="Node3D" parent="camera_rig/yaw_pivot"]
 
 [node name="yaw_shaft" type="Node3D" parent="camera_rig/yaw_pivot/pitch_pivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0, 2.01042)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0, 2.5)
 
 [node name="pitch_shaft" type="Node3D" parent="camera_rig/yaw_pivot/pitch_pivot/yaw_shaft"]
 

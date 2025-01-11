@@ -9,7 +9,7 @@ enum ActorType
 
 @export var actorType:ActorType = ActorType.None
 
-var _playerType:PackedScene = preload("res://actors/player/player.tscn")
+#var _playerType:PackedScene = preload("res://actors/player/player_avatar.tscn")
 var _targetDummyType:PackedScene = preload("res://actors/target_dummy/target_dummy.tscn")
 
 # Called when the node enters the scene tree for the first time.

@@ -1,9 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://dq2pk0xcl4ktu"]
+[gd_scene load_steps=5 format=3 uid="uid://dq2pk0xcl4ktu"]
 
 [ext_resource type="Script" path="res://actors/target_dummy/target_dummy.gd" id="1_qblqf"]
-[ext_resource type="PackedScene" uid="uid://bbpqs01bg6ias" path="res://actors/player/player_model.tscn" id="1_stspw"]
+[ext_resource type="PackedScene" uid="uid://i0wct16b8g5y" path="res://actors/models/humanoid.tscn" id="2_4qgoh"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pq376"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_skic0"]
+height = 1.8
 
 [node name="target_dummy" type="CharacterBody3D"]
 script = ExtResource("1_qblqf")
@@ -12,4 +15,12 @@ script = ExtResource("1_qblqf")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_pq376")
 
-[node name="player_model" parent="." instance=ExtResource("1_stspw")]
+[node name="humanoid" parent="." instance=ExtResource("2_4qgoh")]
+
+[node name="hitbox" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_skic0")

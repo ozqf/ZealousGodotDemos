@@ -342,7 +342,7 @@ libraries = {
 autoplay = "_agile_idle"
 
 [node name="polearm_root" type="Node3D" parent="."]
-transform = Transform3D(0.984807, 0.0733869, 0.157379, -7.45057e-08, 0.906307, -0.422618, -0.173648, 0.416197, 0.892539, 0, 0, 0)
+transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="weapon_base" type="Node3D" parent="polearm_root"]
 metadata/_edit_lock_ = true

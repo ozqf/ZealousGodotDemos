@@ -59,11 +59,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.5)
 uuid = "9ffeed08-904b-4bd4-828b-43172276e8db"
 
 [node name="target_dummy_proxy" parent="actors/campaign" instance=ExtResource("4_1lynf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 0.00680542)
 uuid = "8243ef20-168d-4cf1-b50b-84f974865572"
 
 [node name="target_dummy_proxy2" parent="actors/campaign" instance=ExtResource("4_1lynf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.99319)
 uuid = "a5a6e83a-9937-446a-b65a-a66bbcbf77ad"
 
 [node name="trigger_volume_proxy" parent="actors/campaign" instance=ExtResource("5_7qnin")]

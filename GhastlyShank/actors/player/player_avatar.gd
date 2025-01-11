@@ -4,16 +4,20 @@ class_name PlayerAvatar
 const STANCE_AGILE:int = 0
 const STANCE_COMBAT:int = 1
 
-const AGILE_RUN_SPEED:float = 8.0
-const COMBAT_RUNS_SPEED:float = 4.0
-const EVADE_SPEED:float = 9.0
+const AGILE_RUN_SPEED:float = 7.0
+const COMBAT_RUNS_SPEED:float = 3.5
+const EVADE_SPEED:float = 10.0
+const STATIC_EVADE_TIME:float = 0.35
+const STATIC_EVADE_LOCKOUT_TIME:float = 0.2
+const MOVING_EVADE_TIME:float = 0.2
+const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
 
 @onready var _cameraRig:CameraRig = $camera_rig
-@onready var _model:PlayerModel = $player_model
+@onready var _model:HumanoidModel = $model
 @onready var _targetInfo:ActorTargetInfo = $ActorTargetInfo
 
-var _stance:int = STANCE_COMBAT
-var _pendingStance:int = STANCE_AGILE
+var _stance:int = STANCE_AGILE
+var _pendingStance:int = STANCE_COMBAT
 var _evadeTick:float = 0.0
 var _evadeLockoutTick:float = 0.0
 var _evadeDir:Vector3 = Vector3()
@@ -46,12 +50,22 @@ func _tick_movement(_delta:float) -> void:
 func get_target_info() -> ActorTargetInfo:
 	return _targetInfo
 
-func _tick_movement_agile(pushDir:Vector3) -> void:
+func _tick_movement_agile(pushDir:Vector3, _delta:float) -> void:
+	var verticalSpeed:float = velocity.y
 	velocity = pushDir * AGILE_RUN_SPEED
+	if is_on_floor() && pushDir.y > 0: # jump
+		velocity.y = 5.0
+	else: # fall
+		velocity.y = verticalSpeed + (-20.0 * _delta)
 	move_and_slide()
 
-func _tick_movement_combat(pushDir:Vector3) -> void:
+func _tick_movement_combat(pushDir:Vector3, _delta:float) -> void:
+	var verticalSpeed:float = velocity.y
 	velocity = pushDir * COMBAT_RUNS_SPEED
+	if is_on_floor() && pushDir.y > 0: # jump
+		velocity.y = 5.0
+	else: # fall
+		velocity.y = verticalSpeed + (-20.0 * _delta)
 	move_and_slide()
 
 func _face_model_to_velocity() -> void:
@@ -95,7 +109,8 @@ func _process(_delta: float) -> void:
 	if _evadeTick > 0.0:
 		_evadeTick -= _delta
 	_evadeLockoutTick -= _delta
-	_model.set_blinking(_evadeTick > 0.0)
+	#_model.set_blinking(_evadeTick > 0.0)
+	
 	if _attackLockoutTick > 0.0:
 		_attackLockoutTick -= _delta
 
@@ -122,9 +137,11 @@ func _physics_process(_delta: float) -> void:
 
 	var cameraBasis:Basis = _cameraRig.get_move_basis()
 	var input_dir:Vector2 = Vector2()
+	var input_vert:float = 0.0
 	if !Zqf.has_mouse_claims():
 		input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	var pushDir:Vector3 = (cameraBasis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+		input_vert = Input.get_axis("move_down", "move_up")
+	var pushDir:Vector3 = (cameraBasis * Vector3(input_dir.x, input_vert, input_dir.y)).normalized()
 	var canAttack:bool = _can_start_attack()
 
 	match _stance:
@@ -136,16 +153,21 @@ func _physics_process(_delta: float) -> void:
 				return
 			# always favour evade over starting a move
 			if _can_evade() && Input.is_action_just_pressed("move_special"):
-				_model.set_blinking(true)
+				#_model.set_blinking(true)
 				if pushDir.is_zero_approx():
 					# static evade
-					_evadeTick = 0.2
-					_evadeLockoutTick = 0.3
+					_evadeTick = STATIC_EVADE_TIME
+					_evadeLockoutTick = STATIC_EVADE_LOCKOUT_TIME
 					_evadeDir = Vector3()
+					_model.begin_evade_static()
 				else:
-					_evadeTick = 0.3
-					_evadeLockoutTick = 0.4
+					_evadeTick = MOVING_EVADE_TIME
+					_evadeLockoutTick = MOVING_EVADE_LOCKOUT_TIME
 					_evadeDir = pushDir
+					if input_dir.x < 0:
+						_model.begin_evade_left()
+					else:
+						_model.begin_evade_right()
 				canAttack = false
 			
 			var startedMove:bool = false
@@ -153,20 +175,28 @@ func _physics_process(_delta: float) -> void:
 				var v:float = Input.get_axis("move_backward", "move_forward")
 				if Input.is_action_just_pressed("attack_1"):
 					if v > 0:
-						_model.begin_thrust()
+						_model.begin_move("rolling_punches_repeatable")
 					elif v < 0:
 						_model.begin_uppercut()
 					else:
 						_model.begin_horizontal_swing()
 				elif Input.is_action_just_pressed("attack_2"):
-					pass
+					if v > 0:
+						_model.begin_thrust()
+					elif v < 0:
+						_model.begin_sweep()
+					else:
+						_model.begin_thrust()
 					#_model.begin_thrust()
 			
+			
 			if !startedMove && canAttack:
-				_tick_movement_combat(pushDir)
+				_tick_movement_combat(pushDir, _delta)
 				_face_model_to_look()
+			else:
+				_tick_movement_combat(Vector3(), _delta)
 		_:
-			_tick_movement_agile(pushDir)
+			_tick_movement_agile(pushDir, _delta)
 			if Input.is_action_just_pressed("attack_1") && _can_start_attack():
 				_model.begin_agile_whirlwind()
 			_face_model_to_velocity()

@@ -1,0 +1,44 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://b4fg85m5t4wuw"
+path="res://.godot/imported/character_exercise_01_2024_01_06.glb-7fcb55745f1f7d577a92f2e0a5e27311.scn"
+
+[deps]
+
+source_file="res://actors/models/character_exercise_01_2024_01_06.glb"
+dest_files=["res://.godot/imported/character_exercise_01_2024_01_06.glb-7fcb55745f1f7d577a92f2e0a5e27311.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+_subresources={
+"nodes": {
+"PATH:Armature/Skeleton3D": {
+"rest_pose/external_animation_library": null,
+"retarget/bone_map": Object(BoneMap,"resource_local_to_scene":false,"resource_name":"","profile":null,"bonemap":null,"script":null)
+
+}
+}
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1
