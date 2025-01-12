@@ -5,7 +5,7 @@ const STANCE_AGILE:int = 0
 const STANCE_COMBAT:int = 1
 
 const AGILE_RUN_SPEED:float = 7.0
-const COMBAT_RUNS_SPEED:float = 3.5
+const COMBAT_RUNS_SPEED:float = 3.25
 const EVADE_SPEED:float = 10.0
 const STATIC_EVADE_TIME:float = 0.35
 const STATIC_EVADE_LOCKOUT_TIME:float = 0.2
@@ -15,6 +15,7 @@ const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
 @onready var _cameraRig:CameraRig = $camera_rig
 @onready var _model:HumanoidModel = $model
 @onready var _targetInfo:ActorTargetInfo = $ActorTargetInfo
+@onready var _hitbox:Area3D = $hitbox
 
 var _stance:int = STANCE_AGILE
 var _pendingStance:int = STANCE_COMBAT
@@ -25,10 +26,19 @@ var _attackLockoutTick:float = 0.0
 
 func _ready() -> void:
 	self.connect("tree_exiting", _on_exiting_tree)
+	_model.connect("on_hurtbox_touched_victim", _on_hurt_victim)
+	_model.attach_character_body(self, _hitbox)
 	Game.register_player(self)
-
+ 
 func _on_exiting_tree() -> void:
 	Game.register_player(null)
+
+func _on_hurt_victim(_selfModel:HumanoidModel, _source:Area3D, _victim:Area3D) -> void:
+	if _victim == _hitbox:
+		# self hit
+		print("Player hit self. Amateur!")
+		return
+	print("Player hit something. Bravo")
 
 func _tick_movement(_delta:float) -> void:
 	var cameraBasis:Basis = _cameraRig.get_move_basis()

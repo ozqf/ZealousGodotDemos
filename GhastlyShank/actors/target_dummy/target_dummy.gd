@@ -1,14 +1,34 @@
-extends Node
+extends CharacterBody3D
 
 @onready var _model:HumanoidModel = $humanoid
+@onready var _hitbox:Area3D = $hitbox
 
 var _tick = 1.0
 
 func _ready() -> void:
 	_model.play_idle()
+	_model.attach_character_body(self, _hitbox)
 
 func _physics_process(_delta:float) -> void:
-	if !_model.is_performing_move():
+	var tarInfo:ActorTargetInfo = Game.get_player_target()
+	if !tarInfo.isValid:
+		return
+	var pushDir:Vector3 = Vector3()
+	var flatDist:float = ZqfUtils.flat_distance_sqr(self.global_position, tarInfo.t.origin)
+	
+	var yawToTarget:float = ZqfUtils.yaw_between(self.global_position, tarInfo.t.origin)
+	
+	if flatDist < (2 * 2):
+		pushDir = Vector3()
+	else:
+		pushDir.x = -sin(yawToTarget)
+		pushDir.z = -cos(yawToTarget)
+	
+	
+	
+	_model.custom_physics_process(_delta, pushDir, yawToTarget)
+	
+	if !_model.is_performing_move() && flatDist < (2 * 2):
 		_tick -= _delta
 		if _tick <= 0.0:
 			_tick = randf_range(1.0, 3.0)
