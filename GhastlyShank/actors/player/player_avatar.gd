@@ -113,7 +113,11 @@ func _can_start_attack() -> bool:
 func _can_evade() -> bool:
 	if _evadeLockoutTick > 0.0:
 		return false
-	return _can_start_attack()
+	if _evadeTick > 0.0:
+		return false
+	if !is_on_floor():
+		return false
+	return true
 
 func _process(_delta: float) -> void:
 	if _evadeTick > 0.0:

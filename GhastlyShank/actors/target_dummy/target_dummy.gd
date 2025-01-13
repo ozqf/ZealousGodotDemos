@@ -39,4 +39,6 @@ func _physics_process(_delta:float) -> void:
 				_model.begin_sweep(0.5)
 			else:
 				_model.begin_move("jab_slow")
+		else:
+			_model.look_at_flat(tarInfo.t.origin)
 	pass

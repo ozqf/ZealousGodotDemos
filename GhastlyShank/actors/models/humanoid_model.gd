@@ -53,6 +53,7 @@ func attach_character_body(charBody:CharacterBody3D, hitbox:Area3D) -> void:
 	_hitbox = hitbox
 
 func _all_hurtboxes_off() -> void:
+	_isHitting = false
 	_leftHandArea.monitoring = false
 	_rightHandArea.monitoring = false
 	_leftFootArea.monitoring = false
@@ -86,20 +87,24 @@ func set_idle_to_combat() -> void:
 func play_idle() -> void:
 	_animator.play(_idleAnim)
 
+func _begin_evade_shared() -> void:
+	_all_hurtboxes_off()
+	_animator.queue(_idleAnim)
+
 func begin_evade_static() -> void:
 	if randf() > 0.5:
 		_animator.play(ANIM_EVADE_STATIC_1)
 	else:
 		_animator.play(ANIM_EVADE_STATIC_2)
-	_animator.queue(_idleAnim)
+	_begin_evade_shared()
 
 func begin_evade_left() -> void:
 	_animator.play(ANIM_EVADE_STATIC_1)
-	_animator.queue(_idleAnim)
+	_begin_evade_shared()
 
 func  begin_evade_right() -> void:
 	_animator.play(ANIM_EVADE_STATIC_2)
-	_animator.queue(_idleAnim)
+	_begin_evade_shared()
 
 func begin_flinch() -> void:
 	_animator.play("flinch")
@@ -175,6 +180,11 @@ func set_look_yaw(yawRadians:float) -> void:
 	radians.y = yawRadians
 	radians.y += PI;
 	self.rotation = radians
+
+func look_at_flat(_target:Vector3) -> void:
+	var pos:Vector3 = self.global_position
+	var yaw:float = ZqfUtils.yaw_between(pos, _target)
+	set_look_yaw(yaw)
 
 func is_performing_move() -> bool:
 	var anim:String = _animator.current_animation
