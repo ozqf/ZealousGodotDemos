@@ -7,8 +7,8 @@ const STANCE_COMBAT:int = 1
 const AGILE_RUN_SPEED:float = 7.0
 const COMBAT_RUNS_SPEED:float = 3.25
 const EVADE_SPEED:float = 10.0
-const STATIC_EVADE_TIME:float = 0.35
-const STATIC_EVADE_LOCKOUT_TIME:float = 0.2
+const STATIC_EVADE_TIME:float = 0.2
+const STATIC_EVADE_LOCKOUT_TIME:float = 0.1
 const MOVING_EVADE_TIME:float = 0.2
 const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
 
@@ -190,20 +190,19 @@ func _physics_process(_delta: float) -> void:
 				var v:float = Input.get_axis("move_backward", "move_forward")
 				if Input.is_action_just_pressed("attack_1"):
 					if v > 0:
-						_model.begin_move(HumanoidModel.ANIM_ROLLING_PUNCHES)
+						_model.begin_move(HumanoidModel.ANIM_JAB)
+						#_model.begin_move(HumanoidModel.ANIM_ROLLING_PUNCHES)
 					elif v < 0:
-						_model.begin_uppercut()
 						_model.begin_move(HumanoidModel.ANIM_UPPERCUT)
 					else:
 						_model.begin_move(HumanoidModel.ANIM_JAB)
 				elif Input.is_action_just_pressed("attack_2"):
 					if v > 0:
-						_model.begin_thrust()
+						_model.begin_move(HumanoidModel.ANIM_SPIN_BACK_KICK)
 					elif v < 0:
-						_model.begin_sweep()
+						_model.begin_move(HumanoidModel.ANIM_SWEEP)
 					else:
-						_model.begin_thrust()
-					#_model.begin_thrust()
+						_model.begin_move(HumanoidModel.ANIM_SPIN_BACK_KICK)
 			
 			
 			if !startedMove && canAttack:
