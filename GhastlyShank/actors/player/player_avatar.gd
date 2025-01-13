@@ -15,7 +15,7 @@ const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
 @onready var _cameraRig:CameraRig = $camera_rig
 @onready var _model:HumanoidModel = $model
 @onready var _targetInfo:ActorTargetInfo = $ActorTargetInfo
-@onready var _hitbox:Area3D = $hitbox
+@onready var _hitbox:HitDelegate = $hitbox
 
 var _stance:int = STANCE_AGILE
 var _pendingStance:int = STANCE_COMBAT
@@ -28,6 +28,7 @@ func _ready() -> void:
 	self.connect("tree_exiting", _on_exiting_tree)
 	_model.connect("on_hurtbox_touched_victim", _on_hurt_victim)
 	_model.attach_character_body(self, _hitbox)
+	_hitbox.set_subject(_model)
 	Game.register_player(self)
  
 func _on_exiting_tree() -> void:
@@ -189,11 +190,12 @@ func _physics_process(_delta: float) -> void:
 				var v:float = Input.get_axis("move_backward", "move_forward")
 				if Input.is_action_just_pressed("attack_1"):
 					if v > 0:
-						_model.begin_move("rolling_punches_repeatable")
+						_model.begin_move(HumanoidModel.ANIM_ROLLING_PUNCHES)
 					elif v < 0:
 						_model.begin_uppercut()
+						_model.begin_move(HumanoidModel.ANIM_UPPERCUT)
 					else:
-						_model.begin_horizontal_swing()
+						_model.begin_move(HumanoidModel.ANIM_JAB)
 				elif Input.is_action_just_pressed("attack_2"):
 					if v > 0:
 						_model.begin_thrust()

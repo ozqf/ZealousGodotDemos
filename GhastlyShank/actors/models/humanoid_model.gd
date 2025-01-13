@@ -10,6 +10,38 @@ const ANIM_EVADE_STATIC_2:String = "evade_static_2"
 const ANIM_JAB:String = "jab"
 const ANIM_SPIN_BACK_KICK:String = "spin_back_kick"
 const ANIM_UPPERCUT:String = "uppercut"
+const ANIM_ROLLING_PUNCHES:String = "rolling_punches_repeatable"
+
+var _moves:Dictionary = {
+	"jab" = {
+		anim = ANIM_JAB,
+		hitTick = 0.1,
+		hitTickLH = 0.1,
+		damage = 1.0,
+		juggleStrength = 0.0,
+		launchStrength = 0.0,
+		sweepStrength = 0.0
+	},
+	"uppercut" = {
+		anim = ANIM_UPPERCUT,
+		hitTick = 0.4667,
+		hitTickRH = 0.4667,
+		damage = 2.0,
+		juggleStrength = 0.0,
+		launchStrength = 1.0,
+		sweepStrength = 0.0
+	},
+	"rolling_punches_repeatable" = {
+		anim = ANIM_ROLLING_PUNCHES,
+		hitTick = 0.05,
+		hitTickLH = 0.05,
+		hitTickRH = 0.1,
+		damage = 0.25,
+		juggleStrength = 0.5,
+		launchStrength = 0.0,
+		sweepStrength = 0.0
+	}
+}
 
 const ANIM_FLINCH:String = "flinch"
 const ANIM_DAZED:String = "dazed"
@@ -25,10 +57,11 @@ const STATE_HIT_FLINCHING:int = 2
 const STATE_DAZED:int = 3
 
 @onready var _animator:AnimationPlayer = $AnimationPlayer
-@onready var _leftHandArea:Area3D = $hitboxes/hand_l/Area3D
-@onready var _rightHandArea:Area3D = $hitboxes/hand_r/Area3D
-@onready var _leftFootArea:Area3D = $hitboxes/foot_l/Area3D
-@onready var _rightFootArea:Area3D = $hitboxes/foot_r/Area3D
+@onready var _leftHandArea:HurtboxArea3D = $hitboxes/hand_l/Area3D
+@onready var _rightHandArea:HurtboxArea3D = $hitboxes/hand_r/Area3D
+@onready var _leftFootArea:HurtboxArea3D = $hitboxes/foot_l/Area3D
+@onready var _rightFootArea:HurtboxArea3D = $hitboxes/foot_r/Area3D
+@onready var _hitInfo:HitInfo = $HitInfo
 
 var _charBody:CharacterBody3D = null
 var _hitbox:Area3D = null
@@ -43,10 +76,14 @@ var _isHitting:bool = false
 var _hitTick:float = 0.0
 
 func _ready() -> void:
-	_leftHandArea.monitoring = false
-	_rightHandArea.monitoring = false
-	_leftFootArea.monitoring = false
-	_rightFootArea.monitoring = false
+	_leftHandArea.connect("on_check_for_hits", _on_check_for_hits)
+	_rightHandArea.connect("on_check_for_hits", _on_check_for_hits)
+	_leftFootArea.connect("on_check_for_hits", _on_check_for_hits)
+	_rightFootArea.connect("on_check_for_hits", _on_check_for_hits)
+
+func _on_check_for_hits(_hurtbox:HurtboxArea3D, _victims:Array[Area3D]) -> void:
+
+	pass
 
 func attach_character_body(charBody:CharacterBody3D, hitbox:Area3D) -> void:
 	_charBody = charBody
@@ -54,23 +91,41 @@ func attach_character_body(charBody:CharacterBody3D, hitbox:Area3D) -> void:
 
 func _all_hurtboxes_off() -> void:
 	_isHitting = false
-	_leftHandArea.monitoring = false
-	_rightHandArea.monitoring = false
-	_leftFootArea.monitoring = false
-	_rightFootArea.monitoring = false
+	_leftHandArea.clear()
+	_rightHandArea.clear()
+	_leftFootArea.clear()
+	_rightFootArea.clear()
 
 # queued animation has started
 func _on_animation_changed(_oldName:String, _newName:String) -> void:
 	if _newName == ANIM_IDLE || _newName == ANIM_IDLE_AGILE:
+		_hitInfo.damage = 1.0
+		_hitInfo.juggleStrength = 0.0
+		_hitInfo.launchStrength = 0.0
 		_all_hurtboxes_off()
 
 # 'play' was called
 func _on_current_animation_changed(_anim:String) -> void:
 	pass
 
-func begin_move(animName:String) -> void:
+func begin_move(animName:String, speedModifier:float = 1.0) -> void:
 	print("Begin move " + animName)
-	_animator.play(animName)
+	if !_moves.has(animName):
+		print("move " + animName + " not found!")
+		return
+	var move:Dictionary = _moves[animName]
+	_animator.play(move.anim, -1, speedModifier)
+	_hitInfo.damage = move.damage
+	_hitInfo.juggleStrength = move.juggleStrength
+	_hitInfo.launchStrength = move.launchStrength
+	_hitInfo.sweepStrength = move.sweepStrength
+
+	_leftHandArea.run(ZqfUtils.safe_dict_f(move, "hitTickLH", 0.0))
+	_rightHandArea.run(ZqfUtils.safe_dict_f(move, "hitTickRH", 0.0))
+	_leftFootArea.run(ZqfUtils.safe_dict_f(move, "hitTickLF", 0.0))
+	_rightFootArea.run(ZqfUtils.safe_dict_f(move, "hitTickRF", 0.0))
+
+	#_start_hit_tick(move.hitTick * speedModifier)
 	_animator.queue(_idleAnim)
 
 func _start_hit_tick(hitTime:float = 0.1) -> void:
@@ -146,6 +201,10 @@ func set_blinking(flag:bool) -> void:
 	if !_isBlinking:
 		self.visible = true
 
+func hit(_incomingHit:HitInfo) -> int:
+	print("Humanoid model took hit")
+	return 1
+
 func _check_area_for_hits(hurtBox:Area3D) -> void:
 	if !hurtBox.monitoring:
 		return
@@ -153,6 +212,11 @@ func _check_area_for_hits(hurtBox:Area3D) -> void:
 	var num:int = areas.size()
 	for i in range(0, num):
 		var victim:Area3D = areas[0]
+		if victim == _hitbox:
+			# self hit - ignore
+			continue
+		if victim.has_method("hit"):
+			victim.hit(_hitInfo)
 		on_hurtbox_touched_victim.emit(self, hurtBox, victim)
 
 func _check_for_hits() -> void:
