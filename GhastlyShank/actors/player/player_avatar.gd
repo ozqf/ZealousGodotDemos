@@ -198,11 +198,13 @@ func _physics_process(_delta: float) -> void:
 						_model.begin_move(HumanoidModel.ANIM_JAB)
 				elif Input.is_action_just_pressed("attack_2"):
 					if v > 0:
-						_model.begin_move(HumanoidModel.ANIM_SPIN_BACK_KICK)
+						_model.begin_move(HumanoidModel.ANIM_SPIN_BACK_KICK, 1.2)
 					elif v < 0:
-						_model.begin_move(HumanoidModel.ANIM_SWEEP)
+						_model.begin_move(HumanoidModel.ANIM_SWEEP, 1.2)
 					else:
-						_model.begin_move(HumanoidModel.ANIM_SPIN_BACK_KICK)
+						_model.begin_move(HumanoidModel.ANIM_SPIN_BACK_KICK, 1.2)
+				elif Input.is_action_just_pressed("attack_3"):
+					_model.begin_move("taunt_bring_it_on")
 			
 			
 			if !startedMove && canAttack:

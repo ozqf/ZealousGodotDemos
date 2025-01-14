@@ -41,7 +41,7 @@ var _moves:Dictionary = {
 	},
 	"spin_back_kick" = {
 		anim = ANIM_SPIN_BACK_KICK,
-		hitTickRF = 0.4667,
+		hitTickRF = 0.3,
 		damage = 0.25,
 		juggleStrength = 0.0,
 		launchStrength = 1.0,
@@ -49,11 +49,18 @@ var _moves:Dictionary = {
 	},
 	"sweep" = {
 		anim = ANIM_SWEEP,
-		hitTickRF = 0.1,
+		hitTickRF = 0.33,
 		damage = 0.25,
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 1.0
+	},
+	"taunt_bring_it_on" = {
+		anim = "taunt_combat_1",
+		damage = 0.0,
+		juggleStrength = 0.0,
+		launchStrength = 0.0,
+		sweepStrength = 0.0
 	}
 }
 
@@ -153,7 +160,7 @@ func hit(_incomingHit:HitInfo) -> int:
 		#print("Swept!")
 		begin_fallen()
 	else:
-		print("Humanoid model took hit")
+		begin_flinch()
 	return 1
 
 func _all_hurtboxes_off() -> void:
@@ -167,6 +174,11 @@ func _all_hurtboxes_off() -> void:
 ##############################################################
 
 func begin_move(animName:String, speedModifier:float = 1.0) -> void:
+	# oi no dividing by zero
+	if speedModifier < 0.1:
+		speedModifier = 0.1
+	elif speedModifier > 8.0:
+		speedModifier = 8.0
 	#print("Begin move " + animName)
 	if _state != STATE_NEUTRAL:
 		print("Cannot start move - not neutral")
@@ -181,10 +193,12 @@ func begin_move(animName:String, speedModifier:float = 1.0) -> void:
 	_hitInfo.launchStrength = move.launchStrength
 	_hitInfo.sweepStrength = move.sweepStrength
 
-	_leftHandArea.run(ZqfUtils.safe_dict_f(move, "hitTickLH", 0.0))
-	_rightHandArea.run(ZqfUtils.safe_dict_f(move, "hitTickRH", 0.0))
-	_leftFootArea.run(ZqfUtils.safe_dict_f(move, "hitTickLF", 0.0))
-	_rightFootArea.run(ZqfUtils.safe_dict_f(move, "hitTickRF", 0.0))
+	var hitTickWeight:float = 1.0 - speedModifier
+	_leftHandArea.run(ZqfUtils.safe_dict_f(move, "hitTickLH", 0.0) / speedModifier)
+	_rightHandArea.run(ZqfUtils.safe_dict_f(move, "hitTickRH", 0.0) / speedModifier)
+	_leftFootArea.run(ZqfUtils.safe_dict_f(move, "hitTickLF", 0.0) / speedModifier)
+	var rfTime:float = ZqfUtils.safe_dict_f(move, "hitTickRF", 0.0) / speedModifier
+	_rightFootArea.run(ZqfUtils.safe_dict_f(move, "hitTickRF", 0.0) / speedModifier)
 
 	_animator.queue(_idleAnim)
 
@@ -224,6 +238,10 @@ func  begin_evade_right() -> void:
 
 func begin_flinch() -> void:
 	_animator.play("flinch")
+	_animator.queue(_idleAnim)
+	_state = STATE_HIT_FLINCHING
+	_stateTime = 0.2
+	_stateTick = _stateTime
 
 func begin_dazed() -> void:
 	_animator.play("flinch")
@@ -251,9 +269,9 @@ func begin_launch(yaw:float) -> void:
 	_all_hurtboxes_off()
 	_animator.play("launched")
 	_state = STATE_LAUNCHED
-	_stateTime = 3.0
+	_stateTime = 2.0
 	_stateTick = _stateTime
-	_charBody.velocity = Vector3(-sin(yaw) * 15.0, 0, -cos(yaw) * 15.0)
+	_charBody.velocity = Vector3(-sin(yaw) * 20.0, 0, -cos(yaw) * 20.0)
 	set_look_yaw(yaw + PI)
 
 
@@ -302,14 +320,25 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 			if _charBody.is_on_floor() && _charBody.velocity.y <= 0.0:
 				begin_fallen()
 				return
-			_charBody.velocity.y += -17.0 * _delta
+			_charBody.velocity.y += -16.0 * _delta
 			_charBody.move_and_slide()
 		STATE_FALLEN:
+			if !_charBody.is_on_floor():
+				begin_juggle()
+				return
 			_stateTick -= _delta
 			if _stateTick <= 0.0:
 				_stateTick = 999
 				begin_rising()
 		STATE_RISING:
+			_stateTick -= _delta
+			if _stateTick <= 0.0:
+				_stateTick = 999
+				_state = STATE_NEUTRAL
+		STATE_HIT_FLINCHING:
+			if !_charBody.is_on_floor():
+				begin_juggle()
+				return
 			_stateTick -= _delta
 			if _stateTick <= 0.0:
 				_stateTick = 999

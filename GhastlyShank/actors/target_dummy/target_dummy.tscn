@@ -6,8 +6,9 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pq376"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_skic0"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bt3if"]
 height = 1.8
+radius = 0.6
 
 [node name="target_dummy" type="CharacterBody3D"]
 script = ExtResource("1_qblqf")
@@ -25,4 +26,4 @@ script = ExtResource("3_hdat5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-shape = SubResource("CapsuleShape3D_skic0")
+shape = SubResource("CylinderShape3D_bt3if")

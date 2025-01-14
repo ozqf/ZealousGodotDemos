@@ -19,7 +19,7 @@ func _physics_process(_delta:float) -> void:
 	
 	var yawToTarget:float = ZqfUtils.yaw_between(self.global_position, tarInfo.t.origin)
 	
-	if flatDist < (2 * 2):
+	if flatDist < (1.5 * 1.5):
 		pushDir = Vector3()
 	else:
 		pushDir.x = -sin(yawToTarget)
