@@ -4,7 +4,7 @@ class_name HumanoidModel
 signal on_hurtbox_touched_victim(_model:HumanoidModel, _source:Area3D, _victim:Area3D)
 
 const ANIM_IDLE:String = "_idle"
-const ANIM_IDLE_AGILE:String = "_idle_agile"
+const ANIM_IDLE_AGILE:String = "running" # "_idle_agile"
 const ANIM_EVADE_STATIC_1:String = "evade_static_1"
 const ANIM_EVADE_STATIC_2:String = "evade_static_2"
 const ANIM_JAB:String = "jab"
@@ -13,6 +13,10 @@ const ANIM_UPPERCUT:String = "uppercut"
 const ANIM_ROLLING_PUNCHES:String = "rolling_punches_repeatable"
 const ANIM_SWEEP:String = "sweep"
 
+const HIT_HEIGHT_HIGH:int = (1 << 0)
+const HIT_HEIGHT_MID:int = (1 << 1)
+const HIT_HEIGHT_LOW:int = (1 << 2)
+
 var _moves:Dictionary = {
 	"jab" = {
 		anim = ANIM_JAB,
@@ -20,15 +24,19 @@ var _moves:Dictionary = {
 		damage = 1.0,
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
-		sweepStrength = 0.0
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID
 	},
 	"uppercut" = {
 		anim = ANIM_UPPERCUT,
+		animCharge = "uppercut_charge",
+		animRelease = "uppercut_release",
 		hitTickRH = 0.5,
 		damage = 2.0,
 		juggleStrength = 1.0,
 		launchStrength = 0.0,
-		sweepStrength = 0.0
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID
 	},
 	"rolling_punches_repeatable" = {
 		anim = ANIM_ROLLING_PUNCHES,
@@ -37,7 +45,8 @@ var _moves:Dictionary = {
 		damage = 0.25,
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
-		sweepStrength = 0.0
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID
 	},
 	"spin_back_kick" = {
 		anim = ANIM_SPIN_BACK_KICK,
@@ -45,7 +54,8 @@ var _moves:Dictionary = {
 		damage = 0.25,
 		juggleStrength = 0.0,
 		launchStrength = 1.0,
-		sweepStrength = 0.0
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID
 	},
 	"sweep" = {
 		anim = ANIM_SWEEP,
@@ -53,14 +63,16 @@ var _moves:Dictionary = {
 		damage = 0.25,
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
-		sweepStrength = 1.0
+		sweepStrength = 1.0,
+		hitHeight = HIT_HEIGHT_LOW
 	},
 	"taunt_bring_it_on" = {
 		anim = "taunt_combat_1",
 		damage = 0.0,
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
-		sweepStrength = 0.0
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID
 	}
 }
 
@@ -86,6 +98,7 @@ const STATE_RISING:int = 7
 @onready var _rightHandArea:HurtboxArea3D = $hitboxes/hand_r/Area3D
 @onready var _leftFootArea:HurtboxArea3D = $hitboxes/foot_l/Area3D
 @onready var _rightFootArea:HurtboxArea3D = $hitboxes/foot_r/Area3D
+@onready var _launchedAoE:Area3D = $hitboxes/launched_aoe
 @onready var _hitInfo:HitInfo = $HitInfo
 
 var _charBody:CharacterBody3D = null
@@ -150,12 +163,14 @@ func _on_check_for_victims(_hurtbox:HurtboxArea3D, _victims:Array[Area3D]) -> vo
 		#on_hurtbox_touched_victim.emit(self, _hurtbox, victim)
 
 func hit(_incomingHit:HitInfo) -> int:
-	if _incomingHit.juggleStrength > 0.0:
-		#print("Juggled!")
-		begin_juggle()
-	elif _incomingHit.launchStrength > 0.0:
+	if _incomingHit.launchStrength > 0.0:
 		#print("Launched!")
 		begin_launch(_incomingHit.launchYawRadians)
+	elif _state == STATE_JUGGLED:
+		begin_juggle(4.0)
+	elif _incomingHit.juggleStrength > 0.0:
+		#print("Juggled!")
+		begin_juggle(10.0)
 	elif _incomingHit.sweepStrength > 0.0:
 		#print("Swept!")
 		begin_fallen()
@@ -168,6 +183,7 @@ func _all_hurtboxes_off() -> void:
 	_rightHandArea.clear()
 	_leftFootArea.clear()
 	_rightFootArea.clear()
+	_launchedAoE.monitoring = false
 
 ##############################################################
 # begin your rude manoeuvres
@@ -188,23 +204,26 @@ func begin_move(animName:String, speedModifier:float = 1.0) -> void:
 		return
 	var move:Dictionary = _moves[animName]
 	_animator.play(move.anim, -1, speedModifier)
+
+	# required
 	_hitInfo.damage = move.damage
 	_hitInfo.juggleStrength = move.juggleStrength
 	_hitInfo.launchStrength = move.launchStrength
 	_hitInfo.sweepStrength = move.sweepStrength
+	_hitInfo.hitHeight = move.hitHeight
 
-	var hitTickWeight:float = 1.0 - speedModifier
+	# variable which are on
 	_leftHandArea.run(ZqfUtils.safe_dict_f(move, "hitTickLH", 0.0) / speedModifier)
 	_rightHandArea.run(ZqfUtils.safe_dict_f(move, "hitTickRH", 0.0) / speedModifier)
 	_leftFootArea.run(ZqfUtils.safe_dict_f(move, "hitTickLF", 0.0) / speedModifier)
 	var rfTime:float = ZqfUtils.safe_dict_f(move, "hitTickRF", 0.0) / speedModifier
-	_rightFootArea.run(ZqfUtils.safe_dict_f(move, "hitTickRF", 0.0) / speedModifier)
+	_rightFootArea.run(rfTime)
 
 	_animator.queue(_idleAnim)
 
 func is_performing_move() -> bool:
 	var anim:String = _animator.current_animation
-	if anim == ANIM_IDLE:
+	if anim == ANIM_IDLE || anim == "running":
 		return false
 	if anim == ANIM_EVADE_STATIC_1 || anim == ANIM_EVADE_STATIC_2:
 		return false
@@ -246,11 +265,12 @@ func begin_flinch() -> void:
 func begin_dazed() -> void:
 	_animator.play("flinch")
 
-func begin_juggle() -> void:
+func begin_juggle(strength:float = 10.0) -> void:
+	strength = clampf(strength, 0.1, 25.0)
 	_all_hurtboxes_off()
 	_animator.play("launched")
 	_state = STATE_JUGGLED
-	_charBody.velocity = Vector3(0, 10, 0)
+	_charBody.velocity = Vector3(0, strength, 0)
 
 func begin_fallen() -> void:
 	_animator.play("fallen")
@@ -266,14 +286,18 @@ func begin_rising() -> void:
 	_stateTick = _stateTime
 
 func begin_launch(yaw:float) -> void:
+	if _state == STATE_LAUNCHED:
+		return
 	_all_hurtboxes_off()
+	_hitInfo.launchYawRadians = yaw
+	_hitInfo.launchStrength = 1.0
 	_animator.play("launched")
 	_state = STATE_LAUNCHED
 	_stateTime = 2.0
 	_stateTick = _stateTime
 	_charBody.velocity = Vector3(-sin(yaw) * 20.0, 0, -cos(yaw) * 20.0)
 	set_look_yaw(yaw + PI)
-
+	_launchedAoE.monitoring = true
 
 func begin_agile_whirlwind() -> void:
 	pass
@@ -304,6 +328,13 @@ func look_at_flat(_target:Vector3) -> void:
 	var yaw:float = ZqfUtils.yaw_between(pos, _target)
 	set_look_yaw(yaw)
 
+func _launch_nearby_teammates() -> void:
+	var areas:Array[Area3D] = _launchedAoE.get_overlapping_areas()
+	for i in range(0, areas.size()):
+		var area:Area3D = areas[i]
+		if area.has_method("hit"):
+			area.hit(_hitInfo)
+
 func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) -> void:
 	match _state:
 		STATE_NEUTRAL:
@@ -324,7 +355,7 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 			_charBody.move_and_slide()
 		STATE_FALLEN:
 			if !_charBody.is_on_floor():
-				begin_juggle()
+				begin_juggle(1.0)
 				return
 			_stateTick -= _delta
 			if _stateTick <= 0.0:
@@ -337,7 +368,7 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 				_state = STATE_NEUTRAL
 		STATE_HIT_FLINCHING:
 			if !_charBody.is_on_floor():
-				begin_juggle()
+				begin_juggle(1.0)
 				return
 			_stateTick -= _delta
 			if _stateTick <= 0.0:
@@ -352,4 +383,6 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 			var result = _charBody.move_and_collide(_charBody.velocity * _delta)
 			if result != null:
 				begin_fallen()
+				return
+			_launch_nearby_teammates()
 	
