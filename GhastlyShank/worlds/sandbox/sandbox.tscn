@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://b74gc3asjkkh0"]
+[gd_scene load_steps=8 format=3 uid="uid://b74gc3asjkkh0"]
 
 [ext_resource type="Material" uid="uid://dw3gssqjk355i" path="res://shared/world_materials/noise_grass.tres" id="1_hkk0c"]
 [ext_resource type="Material" uid="uid://ckvyd5s7dehok" path="res://shared/world_materials/noise_dirt.tres" id="2_23mqu"]
 [ext_resource type="PackedScene" uid="uid://xtgy6f7r7yg" path="res://actor_proxies/target_dummy_proxy.tscn" id="4_1lynf"]
 [ext_resource type="PackedScene" uid="uid://cjhh34b5npjxe" path="res://actor_proxies/trigger_volume_proxy.tscn" id="5_7qnin"]
 [ext_resource type="PackedScene" uid="uid://cnd4bggxi4moa" path="res://actors/rage_drop/rage_drop.tscn" id="6_8pekt"]
+[ext_resource type="PackedScene" uid="uid://bthg8rgdfc3b" path="res://actor_proxies/generic_actor_proxy.tscn" id="6_i8mfg"]
 [ext_resource type="PackedScene" uid="uid://dn26esbqk10ah" path="res://actor_proxies/player_start_proxy.tscn" id="6_no8gy"]
 
 [node name="sandbox" type="Node3D"]
@@ -58,10 +59,6 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.5)
 uuid = "9ffeed08-904b-4bd4-828b-43172276e8db"
 
-[node name="target_dummy_proxy" parent="actors/campaign" instance=ExtResource("4_1lynf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 0.00680542)
-uuid = "8243ef20-168d-4cf1-b50b-84f974865572"
-
 [node name="target_dummy_proxy2" parent="actors/campaign" instance=ExtResource("4_1lynf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.99319)
 uuid = "a5a6e83a-9937-446a-b65a-a66bbcbf77ad"
@@ -69,6 +66,10 @@ uuid = "a5a6e83a-9937-446a-b65a-a66bbcbf77ad"
 [node name="trigger_volume_proxy" parent="actors/campaign" instance=ExtResource("5_7qnin")]
 transform = Transform3D(7, 0, 0, 0, 3, 0, 0, 0, 1, -3.5, 0, 3.5)
 uuid = "c279acce-9bb8-4ebd-a7d0-c04872514531"
+
+[node name="generic_actor_proxy" parent="actors/campaign" instance=ExtResource("6_i8mfg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 4)
+actorType = 3
 
 [node name="remix_1" type="Node3D" parent="actors"]
 

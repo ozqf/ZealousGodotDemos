@@ -102,7 +102,6 @@ script = ExtResource("5_8inh3")
 [node name="hitbox" type="Area3D" parent="."]
 collision_layer = 8
 collision_mask = 16
-monitorable = false
 script = ExtResource("6_7px14")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]

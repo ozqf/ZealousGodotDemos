@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bthaoxuvwcl1k"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_utrcc"]
+bottom_radius = 0.35
+height = 1.0
+radial_segments = 8
+rings = 1
+
+[node name="WallTurret" type="Area3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_utrcc")

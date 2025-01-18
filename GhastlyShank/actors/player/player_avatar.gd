@@ -23,6 +23,10 @@ var _evadeTick:float = 0.0
 var _evadeLockoutTick:float = 0.0
 var _evadeDir:Vector3 = Vector3()
 var _attackLockoutTick:float = 0.0
+var _desiredYaw:float = 0.0
+
+var _bufferedMove:String = ""
+var _bufferedMoveTick:float = 0.0
 
 func _ready() -> void:
 	self.connect("tree_exiting", _on_exiting_tree)
@@ -79,21 +83,21 @@ func _tick_movement_combat(pushDir:Vector3, _delta:float) -> void:
 		velocity.y = verticalSpeed + (-20.0 * _delta)
 	move_and_slide()
 
-func _face_model_to_velocity() -> void:
+func _face_model_to_velocity() -> float:
 	if velocity:
 		var modelYaw:float = atan2(-velocity.x, -velocity.z)
-		_model.set_look_yaw(modelYaw)
+		_desiredYaw = modelYaw
+	return _desiredYaw
+		#_model.set_look_yaw(modelYaw)
 		#var radians:Vector3 = _model.rotation
 		#radians.y = modelYaw
 		#_model.rotation = radians
 
-func _face_model_to_look() -> void:
+func _face_model_to_look() -> float:
 	var dir:Vector3 = _cameraRig.get_move_basis().z
-	var modelYaw:float = atan2(dir.x, dir.z)
-	_model.set_look_yaw(modelYaw)
-	#var radians:Vector3 = _model.rotation
-	#radians.y = modelYaw
-	#_model.rotation = radians
+	_desiredYaw = atan2(dir.x, dir.z)
+	return _desiredYaw
+	#_model.set_look_yaw(_desiredYaw)
 
 func _can_change_stance() -> bool:
 	if _model.is_performing_move():
@@ -133,6 +137,10 @@ func _refresh_target_info() -> void:
 	_targetInfo.isValid = true
 	_targetInfo.t = self.global_transform
 
+func _buffer_move(moveName:String) -> void:
+	_bufferedMove = moveName
+	_bufferedMoveTick = 0.0
+
 func _physics_process(_delta: float) -> void:
 	_refresh_target_info()
 	
@@ -159,6 +167,36 @@ func _physics_process(_delta: float) -> void:
 	var pushDir:Vector3 = (cameraBasis * Vector3(input_dir.x, input_vert, input_dir.y)).normalized()
 	var canAttack:bool = _can_start_attack()
 
+
+	# read desired move
+	match _stance:
+		STANCE_COMBAT:
+			var v:float = Input.get_axis("move_backward", "move_forward")
+			if Input.is_action_just_pressed("attack_1"):
+				if v > 0:
+					_buffer_move(HumanoidModel.ANIM_JAB)
+					#_model.begin_move(HumanoidModel.ANIM_ROLLING_PUNCHES)
+				elif v < 0:
+					_buffer_move(HumanoidModel.ANIM_UPPERCUT)
+				else:
+					_buffer_move(HumanoidModel.ANIM_JAB)
+				pass
+			elif Input.is_action_just_pressed("attack_2"):
+				if v > 0:
+					_buffer_move(HumanoidModel.ANIM_SPIN_BACK_KICK)
+				elif v < 0:
+					_buffer_move(HumanoidModel.ANIM_SWEEP)
+				else:
+					_buffer_move(HumanoidModel.ANIM_SPIN_BACK_KICK)
+			elif Input.is_action_just_pressed("attack_3"):
+				_buffer_move("taunt_bring_it_on")
+
+	if _bufferedMove != "":
+		_bufferedMoveTick += _delta
+		if _bufferedMoveTick > 0.2:
+			_buffer_move("")
+
+
 	match _stance:
 		STANCE_COMBAT:
 			
@@ -169,6 +207,7 @@ func _physics_process(_delta: float) -> void:
 			# always favour evade over starting a move
 			if _can_evade() && Input.is_action_just_pressed("move_special"):
 				#_model.set_blinking(true)
+				_buffer_move("")
 				if pushDir.is_zero_approx():
 					# static evade
 					_evadeTick = STATIC_EVADE_TIME
@@ -186,32 +225,21 @@ func _physics_process(_delta: float) -> void:
 				canAttack = false
 			
 			var startedMove:bool = false
-			if canAttack:
-				var v:float = Input.get_axis("move_backward", "move_forward")
-				if Input.is_action_just_pressed("attack_1"):
-					if v > 0:
-						_model.begin_move(HumanoidModel.ANIM_JAB)
-						#_model.begin_move(HumanoidModel.ANIM_ROLLING_PUNCHES)
-					elif v < 0:
-						_model.begin_move(HumanoidModel.ANIM_UPPERCUT)
-					else:
-						_model.begin_move(HumanoidModel.ANIM_JAB)
-				elif Input.is_action_just_pressed("attack_2"):
-					if v > 0:
-						_model.begin_move(HumanoidModel.ANIM_SPIN_BACK_KICK, 1.2)
-					elif v < 0:
-						_model.begin_move(HumanoidModel.ANIM_SWEEP, 1.2)
-					else:
-						_model.begin_move(HumanoidModel.ANIM_SPIN_BACK_KICK, 1.2)
-				elif Input.is_action_just_pressed("attack_3"):
-					_model.begin_move("taunt_bring_it_on")
-			
-			
-			if !startedMove && canAttack:
-				_tick_movement_combat(pushDir, _delta)
+			if canAttack && _bufferedMove != "":
+				var startMove:String = _bufferedMove
+				_bufferedMove = ""
 				_face_model_to_look()
-			else:
-				_tick_movement_combat(Vector3(), _delta)
+				_model.set_look_yaw(_desiredYaw)
+				_model.begin_move(startMove)
+
+			if !pushDir.is_zero_approx():
+				_face_model_to_look()
+			_model.custom_physics_process(_delta, pushDir, _desiredYaw)
+			#if !startedMove && canAttack:
+			#	_tick_movement_combat(pushDir, _delta)
+			#	_face_model_to_look()
+			#else:
+			#	_tick_movement_combat(Vector3(), _delta)
 		_:
 			_tick_movement_agile(pushDir, _delta)
 			if Input.is_action_just_pressed("attack_1") && _can_start_attack():

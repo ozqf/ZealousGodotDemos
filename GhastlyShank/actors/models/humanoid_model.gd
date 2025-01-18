@@ -13,6 +13,9 @@ const ANIM_UPPERCUT:String = "uppercut"
 const ANIM_ROLLING_PUNCHES:String = "rolling_punches_repeatable"
 const ANIM_SWEEP:String = "sweep"
 
+const MOVE_TYPE_SINGLE:int = 0
+const MOVE_TYPE_CHARGE:int = 1
+
 const HIT_HEIGHT_HIGH:int = (1 << 0)
 const HIT_HEIGHT_MID:int = (1 << 1)
 const HIT_HEIGHT_LOW:int = (1 << 2)
@@ -20,7 +23,18 @@ const HIT_HEIGHT_LOW:int = (1 << 2)
 var _moves:Dictionary = {
 	"jab" = {
 		anim = ANIM_JAB,
+		moveType = MOVE_TYPE_SINGLE,
 		hitTickLH = 0.1,
+		damage = 1.0,
+		juggleStrength = 0.0,
+		launchStrength = 0.0,
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID
+	},
+	"jab_slow" = {
+		anim = "jab_slow",
+		moveType = MOVE_TYPE_SINGLE,
+		hitTickLH = 0.5,
 		damage = 1.0,
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
@@ -29,6 +43,7 @@ var _moves:Dictionary = {
 	},
 	"uppercut" = {
 		anim = ANIM_UPPERCUT,
+		moveType = MOVE_TYPE_CHARGE,
 		animCharge = "uppercut_charge",
 		animRelease = "uppercut_release",
 		hitTickRH = 0.5,
@@ -40,6 +55,7 @@ var _moves:Dictionary = {
 	},
 	"rolling_punches_repeatable" = {
 		anim = ANIM_ROLLING_PUNCHES,
+		moveType = MOVE_TYPE_SINGLE,
 		hitTickLH = 0.05,
 		hitTickRH = 0.1,
 		damage = 0.25,
@@ -50,6 +66,7 @@ var _moves:Dictionary = {
 	},
 	"spin_back_kick" = {
 		anim = ANIM_SPIN_BACK_KICK,
+		moveType = MOVE_TYPE_SINGLE,
 		hitTickRF = 0.3,
 		damage = 0.25,
 		juggleStrength = 0.0,
@@ -59,6 +76,7 @@ var _moves:Dictionary = {
 	},
 	"sweep" = {
 		anim = ANIM_SWEEP,
+		moveType = MOVE_TYPE_SINGLE,
 		hitTickRF = 0.33,
 		damage = 0.25,
 		juggleStrength = 0.0,
@@ -68,6 +86,7 @@ var _moves:Dictionary = {
 	},
 	"taunt_bring_it_on" = {
 		anim = "taunt_combat_1",
+		moveType = MOVE_TYPE_SINGLE,
 		damage = 0.0,
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
@@ -109,6 +128,8 @@ var _stance:int = STANCE_COMBAT
 var _stateTick:float = 0.0
 var _stateTime:float = 0.0
 var _lookYaw:float = 0.0
+var _currentMoveName:String = ""
+var _nextMoveYaw:float = 0.0
 
 var _idleAnim:String = ANIM_IDLE
 var _blinkTick:float = 0.0
@@ -154,7 +175,7 @@ func _on_check_for_victims(_hurtbox:HurtboxArea3D, _victims:Array[Area3D]) -> vo
 	_hitInfo.launchYawRadians = _lookYaw - PI
 	var num:int = _victims.size()
 	for i in range(0, num):
-		var victim:Area3D = _victims[0]
+		var victim:Area3D = _victims[i]
 		if victim == _hitbox:
 			# self hit - ignore
 			continue
@@ -163,6 +184,7 @@ func _on_check_for_victims(_hurtbox:HurtboxArea3D, _victims:Array[Area3D]) -> vo
 		#on_hurtbox_touched_victim.emit(self, _hurtbox, victim)
 
 func hit(_incomingHit:HitInfo) -> int:
+	print(str(self) + " hit")
 	if _incomingHit.launchStrength > 0.0:
 		#print("Launched!")
 		begin_launch(_incomingHit.launchYawRadians)
@@ -189,21 +211,25 @@ func _all_hurtboxes_off() -> void:
 # begin your rude manoeuvres
 ##############################################################
 
-func begin_move(animName:String, speedModifier:float = 1.0) -> void:
+# returns true if move started
+func begin_move(moveName:String, speedModifier:float = 1.0) -> bool:
 	# oi no dividing by zero
 	if speedModifier < 0.1:
 		speedModifier = 0.1
 	elif speedModifier > 8.0:
 		speedModifier = 8.0
-	#print("Begin move " + animName)
+	#print("Begin move " + moveName)
 	if _state != STATE_NEUTRAL:
-		print("Cannot start move - not neutral")
-		return
-	if !_moves.has(animName):
-		print("move " + animName + " not found!")
-		return
-	var move:Dictionary = _moves[animName]
+		return false
+	if !_moves.has(moveName):
+		print("move " + moveName + " not found!")
+		return false
+	if is_performing_move():
+		return false
+	
+	var move:Dictionary = _moves[moveName]
 	_animator.play(move.anim, -1, speedModifier)
+	_currentMoveName = moveName
 
 	# required
 	_hitInfo.damage = move.damage
@@ -220,6 +246,7 @@ func begin_move(animName:String, speedModifier:float = 1.0) -> void:
 	_rightFootArea.run(rfTime)
 
 	_animator.queue(_idleAnim)
+	return true
 
 func is_performing_move() -> bool:
 	var anim:String = _animator.current_animation
@@ -247,7 +274,7 @@ func begin_evade_left() -> void:
 	_animator.play(ANIM_EVADE_STATIC_1)
 	_begin_evade_shared()
 
-func  begin_evade_right() -> void:
+func begin_evade_right() -> void:
 	_animator.play(ANIM_EVADE_STATIC_2)
 	_begin_evade_shared()
 
@@ -263,7 +290,10 @@ func begin_flinch() -> void:
 	_stateTick = _stateTime
 
 func begin_dazed() -> void:
-	_animator.play("flinch")
+	_animator.play("dazed")
+	_state = STATE_DAZED
+	_stateTime = 10.0
+	_stateTick = _stateTime
 
 func begin_juggle(strength:float = 10.0) -> void:
 	strength = clampf(strength, 0.1, 25.0)
@@ -273,9 +303,9 @@ func begin_juggle(strength:float = 10.0) -> void:
 	_charBody.velocity = Vector3(0, strength, 0)
 
 func begin_fallen() -> void:
-	_animator.play("fallen")
+	_animator.play("knockdown")
 	_state = STATE_FALLEN
-	_stateTime = 3.0
+	_stateTime = 4.0
 	_stateTick = _stateTime
 
 func begin_rising() -> void:
@@ -340,6 +370,7 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 		STATE_NEUTRAL:
 			if is_performing_move():
 				return
+			set_look_yaw(_desiredYaw)
 			var verticalSpeed:float = _charBody.velocity.y
 			_charBody.velocity = _pushDir * 3.0
 			if _charBody.is_on_floor() && _pushDir.y > 0: # jump
