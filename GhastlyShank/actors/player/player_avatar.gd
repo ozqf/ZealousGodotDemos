@@ -33,6 +33,7 @@ func _ready() -> void:
 	self.connect("tree_exiting", _on_exiting_tree)
 	_model.connect("on_hurtbox_touched_victim", _on_hurt_victim)
 	_model.attach_character_body(self, _hitbox, GameController.TEAM_ID_PLAYER)
+	_model.set_stats(HumanoidModel.WEIGHT_CLASS_PLAYER)
 	_hitbox.set_subject(_model)
 	Game.register_player(self)
  
@@ -210,20 +211,7 @@ func _physics_process(_delta: float) -> void:
 				#_model.set_blinking(true)
 				_buffer_move("")
 				_model.begin_evade(pushDir)
-				#if pushDir.is_zero_approx():
-				#	# static evade
-				#	_evadeTick = STATIC_EVADE_TIME
-				#	_evadeLockoutTick = STATIC_EVADE_LOCKOUT_TIME
-				#	_evadeDir = Vector3()
-				#	_model.begin_evade_static()
-				#else:
-				#	_evadeTick = MOVING_EVADE_TIME
-				#	_evadeLockoutTick = MOVING_EVADE_LOCKOUT_TIME
-				#	_evadeDir = pushDir
-				#	if input_dir.x < 0:
-				#		_model.begin_evade_left()
-				#	else:
-				#		_model.begin_evade_right()
+				
 				canAttack = false
 			
 			var startedMove:bool = false

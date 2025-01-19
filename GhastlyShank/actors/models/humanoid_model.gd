@@ -13,19 +13,6 @@ const ANIM_UPPERCUT:String = "uppercut"
 const ANIM_ROLLING_PUNCHES:String = "rolling_punches_repeatable"
 const ANIM_SWEEP:String = "sweep"
 
-const EVADE_SPEED:float = 10.0
-const STATIC_EVADE_TIME:float = 0.2
-const STATIC_EVADE_LOCKOUT_TIME:float = 0.1
-const MOVING_EVADE_TIME:float = 0.2
-const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
-
-const MOVE_TYPE_SINGLE:int = 0
-const MOVE_TYPE_CHARGE:int = 1
-
-const HIT_HEIGHT_HIGH:int = (1 << 0)
-const HIT_HEIGHT_MID:int = (1 << 1)
-const HIT_HEIGHT_LOW:int = (1 << 2)
-
 var _moves:Dictionary = {
 	"jab" = {
 		anim = ANIM_JAB,
@@ -35,7 +22,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID
+		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH
 	},
 	"jab_slow" = {
 		anim = "jab_slow",
@@ -57,7 +44,7 @@ var _moves:Dictionary = {
 		juggleStrength = 1.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID
+		hitHeight = HIT_HEIGHT_LOW | HIT_HEIGHT_MID
 	},
 	"rolling_punches_repeatable" = {
 		anim = ANIM_ROLLING_PUNCHES,
@@ -101,6 +88,20 @@ var _moves:Dictionary = {
 	}
 }
 
+const EVADE_SPEED:float = 10.0
+const STATIC_EVADE_TIME:float = 0.2
+const STATIC_EVADE_LOCKOUT_TIME:float = 0.1
+const MOVING_EVADE_TIME:float = 0.2
+const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
+const FLINCH_EVADE_LOCKOUT_TIME:float = 0.1
+
+const MOVE_TYPE_SINGLE:int = 0
+const MOVE_TYPE_CHARGE:int = 1
+
+const HIT_HEIGHT_HIGH:int = (1 << 0)
+const HIT_HEIGHT_MID:int = (1 << 1)
+const HIT_HEIGHT_LOW:int = (1 << 2)
+
 const ANIM_FLINCH:String = "flinch"
 const ANIM_DAZED:String = "dazed"
 
@@ -119,6 +120,11 @@ const STATE_FALLEN:int = 6
 const STATE_RISING:int = 7
 const STATE_EVADE_STATIC:int = 8
 const STATE_EVADE_MOVING:int = 9
+
+const WEIGHT_CLASS_FEATHER:int = 0
+const WEIGHT_CLASS_FODDER:int = 1
+const WEIGHT_CLASS_HEAVY:int = 2
+const WEIGHT_CLASS_PLAYER:int = 3
 
 @onready var _animator:AnimationPlayer = $AnimationPlayer
 @onready var _leftHandArea:HurtboxArea3D = $hitboxes/hand_l/Area3D
@@ -145,6 +151,8 @@ var _idleAnim:String = ANIM_IDLE
 var _blinkTick:float = 0.0
 var _isBlinking:bool = false
 
+var _weightClass:int = WEIGHT_CLASS_FODDER
+
 func _ready() -> void:
 	_leftHandArea.connect("on_check_for_victims", _on_check_for_victims)
 	_rightHandArea.connect("on_check_for_victims", _on_check_for_victims)
@@ -156,6 +164,9 @@ func attach_character_body(charBody:CharacterBody3D, hitbox:Area3D, newTeamId:in
 	_charBody = charBody
 	_hitbox = hitbox
 	_teamId = newTeamId
+
+func set_stats(fighterWeightClass:int = 0) -> void:
+	_weightClass = fighterWeightClass
 
 # queued animation has started
 func _on_animation_changed(_oldName:String, _newName:String) -> void:
@@ -183,8 +194,11 @@ func play_idle() -> void:
 	_animator.play(_idleAnim)
 
 func get_debug_text() -> String:
-	var txt:String = "State " + str(_state)
-	txt += "\nMove " + str(_currentMoveName)
+	var txt:String = "State: " + str(_state)
+	if _currentMoveName != "":
+		txt += "\nMove: " + str(_currentMoveName)
+	else:
+		txt += "\nNo move"
 	return txt
 
 ##############################################################
@@ -207,15 +221,23 @@ func _on_check_for_victims(_hurtbox:HurtboxArea3D, _victims:Array[Area3D]) -> vo
 func hit(_incomingHit:HitInfo) -> int:
 	if _incomingHit.teamId == self._teamId:
 		return -2
+	
+	var hitsLow:bool = (_incomingHit.hitHeight & HIT_HEIGHT_LOW) != 0
+	
+	
 	# check if move can hit first
-	if _state == STATE_EVADE_MOVING || _state == STATE_EVADE_STATIC:
+	if _state == STATE_EVADE_MOVING || _state == STATE_EVADE_STATIC && !hitsLow:
 		print(str(self) + " evaded")
 		return -1
 	
-	var hitsLow:bool = (_incomingHit.hitHeight & HIT_HEIGHT_LOW) != 0
 	if !hitsLow && _currentMoveName == "sweep":
 		print(str(self) + " evaded low")
 		return -1
+	
+	if _state == STATE_FALLEN && !hitsLow:
+		print(str(self) + " attack too high")
+		return -1
+
 	print(str(self) + " hit")
 	if _incomingHit.launchStrength > 0.0:
 		#print("Launched!")
@@ -308,6 +330,9 @@ func _play_random_evade_anim() -> void:
 func begin_evade(dir:Vector3) -> bool:
 	if _evadeLockoutTick > 0.0:
 		return false
+	match _state:
+		STATE_DAZED, STATE_FALLEN, STATE_JUGGLED, STATE_LAUNCHED:
+			return false
 	if dir.is_zero_approx():
 		_play_random_evade_anim()
 		_charBody.velocity = Vector3()
@@ -337,9 +362,12 @@ func begin_evade(dir:Vector3) -> bool:
 ##############################################################
 
 func begin_flinch() -> void:
+	_all_hurtboxes_off()
+	_clear_current_move()
 	_animator.play("flinch")
 	_animator.queue(_idleAnim)
 	_state = STATE_HIT_FLINCHING
+	_evadeLockoutTick = FLINCH_EVADE_LOCKOUT_TIME
 	_stateTime = 0.2
 	_stateTick = _stateTime
 
@@ -352,17 +380,28 @@ func begin_dazed() -> void:
 func begin_juggle(strength:float = 10.0) -> void:
 	strength = clampf(strength, 0.1, 25.0)
 	_all_hurtboxes_off()
+	_clear_current_move()
 	_animator.play("launched")
 	_state = STATE_JUGGLED
 	_charBody.velocity = Vector3(0, strength, 0)
 
 func begin_fallen() -> void:
+	if _state == STATE_FALLEN:
+		return
+	_all_hurtboxes_off()
+	_clear_current_move()
 	_animator.play("knockdown")
 	_state = STATE_FALLEN
-	_stateTime = 4.0
+	match _weightClass:
+		WEIGHT_CLASS_PLAYER:
+			_stateTime = 0.625
+		_:
+			_stateTime = 4.0
 	_stateTick = _stateTime
 
 func begin_rising() -> void:
+	_all_hurtboxes_off()
+	_clear_current_move()
 	_animator.play("fallen_to_idle")
 	_animator.queue(_idleAnim)
 	_state = STATE_RISING
@@ -374,7 +413,9 @@ func begin_launch(yaw:float, launchingTeamId:int = 0) -> void:
 		return
 	if launchingTeamId == _teamId:
 		return
+	
 	_all_hurtboxes_off()
+	_clear_current_move()
 
 	# for the duration of launch our hit info because a player hit to launch
 	# other enemies
@@ -384,9 +425,15 @@ func begin_launch(yaw:float, launchingTeamId:int = 0) -> void:
 
 	_animator.play("launched")
 	_state = STATE_LAUNCHED
-	_stateTime = 2.0
+	var speed:float = 20.0
+	match _weightClass:
+		WEIGHT_CLASS_PLAYER:
+			_stateTime = 0.2
+			speed = 15.0
+		_:
+			_stateTime = 2.0
 	_stateTick = _stateTime
-	_charBody.velocity = Vector3(-sin(yaw) * 20.0, 0, -cos(yaw) * 20.0)
+	_charBody.velocity = Vector3(-sin(yaw) * speed, 0, -cos(yaw) * speed)
 	set_look_yaw(yaw + PI)
 	_launchedAoE.monitoring = true
 
@@ -480,6 +527,7 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 				_stateTick = 999
 				begin_fallen()
 				return
+			
 			var result = _charBody.move_and_collide(_charBody.velocity * _delta)
 			if result != null:
 				begin_fallen()

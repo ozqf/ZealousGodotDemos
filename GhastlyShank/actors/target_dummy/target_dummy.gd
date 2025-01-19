@@ -1,9 +1,12 @@
 extends CharacterBody3D
 
+const MELEE_RANGE:float = 1.6
+
 @onready var _model:HumanoidModel = $humanoid
 @onready var _hitbox:HitDelegate = $hitbox
 
 var _tick = 1.0
+var _speedMul:float = 0.5
 
 func _ready() -> void:
 	_model.play_idle()
@@ -19,9 +22,18 @@ func _physics_process(_delta:float) -> void:
 	
 	var yawToTarget:float = ZqfUtils.yaw_between(self.global_position, tarInfo.t.origin)
 	
-	if flatDist < (1.7 * 1.7):
+	if flatDist < (MELEE_RANGE * MELEE_RANGE):
 		pushDir = Vector3()
-		_model.begin_move("jab_slow")
+		var r:float = randf()
+		_model.set_look_yaw(yawToTarget)
+		if r > 0.75:
+			_model.begin_move("sweep", _speedMul)
+		elif r > 0.5:
+			_model.begin_move("uppercut", _speedMul)
+		elif r > 0.25:
+			_model.begin_move("spin_back_kick", _speedMul)
+		else:
+			_model.begin_move("jab_slow")
 	else:
 		pushDir.x = -sin(yawToTarget)
 		pushDir.z = -cos(yawToTarget)
