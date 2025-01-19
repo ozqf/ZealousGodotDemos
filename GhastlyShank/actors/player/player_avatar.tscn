@@ -107,3 +107,13 @@ script = ExtResource("6_7px14")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_calxy")
+
+[node name="debug_text" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+billboard = 1
+text = "Some Example
+Debug Text
+Lines 
+Here please"
+font_size = 24
+vertical_alignment = 2

@@ -1,9 +1,15 @@
 extends Node3D
+class_name GameController
+
+const TEAM_ID_NONE:int = 0
+const TEAM_ID_ENEMY:int = 1
+const TEAM_ID_PLAYER:int = 2
 
 var _worldType:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 var _playerType:PackedScene = preload("res://actors/player/player_avatar.tscn")
 var _targetDummyType:PackedScene = preload("res://actors/target_dummy/target_dummy.tscn")
 var _wallTurretType:PackedScene = preload("res://actors/world/wall_turret.tscn")
+var _volumeTriggerType:PackedScene = preload("res://actors/volumes/trigger_volume.tscn")
 
 @onready var _emptyTarget:ActorTargetInfo = $empty_target
 @onready var _player:PlayerAvatar = null
@@ -69,11 +75,13 @@ func _restore_actor(data:Dictionary) -> void:
 			var t:Transform3D = ZqfUtils.Transform3D_from_dict(data.xform)
 			_spawn_player(t)
 		"target_dummy":
-			#var dummyType = preload("res://actors/target_dummy/target_dummy.tscn")
 			var dummy = Zqf.create_actor(_targetDummyType)
 			dummy.global_transform = ZqfUtils.Transform3D_from_dict(data.xform)
 		"wall_turret":
 			var turret = Zqf.create_actor(_wallTurretType)
 			turret.global_transform = ZqfUtils.Transform3D_from_dict(data.xform)
+		"trigger_volume":
+			var vol = Zqf.create_actor(_volumeTriggerType)
+			vol.restore(data)
 		_:
 			print("Unknown actor type " + str(type))

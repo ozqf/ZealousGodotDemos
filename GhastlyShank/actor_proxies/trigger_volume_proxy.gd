@@ -22,7 +22,7 @@ func get_actor_proxy_info() -> Dictionary:
 func get_spawn_data() -> Dictionary:
 	return {
 		"meta": {
-			"prefab": "triger_volume",
+			"prefab": "trigger_volume",
 			"flags": 0,
 			"tags": ""
 		},

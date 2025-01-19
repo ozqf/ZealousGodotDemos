@@ -1,6 +1,7 @@
 extends Node
 class_name HitInfo
 
+var teamId:int = 0
 var damage:float = 1.0
 var launchYawRadians:float = 0.0
 var juggleStrength:float = 0.0

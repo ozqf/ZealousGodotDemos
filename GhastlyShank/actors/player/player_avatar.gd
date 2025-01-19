@@ -16,6 +16,7 @@ const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
 @onready var _model:HumanoidModel = $model
 @onready var _targetInfo:ActorTargetInfo = $ActorTargetInfo
 @onready var _hitbox:HitDelegate = $hitbox
+@onready var _debugText:Label3D = $debug_text
 
 var _stance:int = STANCE_AGILE
 var _pendingStance:int = STANCE_COMBAT
@@ -31,7 +32,7 @@ var _bufferedMoveTick:float = 0.0
 func _ready() -> void:
 	self.connect("tree_exiting", _on_exiting_tree)
 	_model.connect("on_hurtbox_touched_victim", _on_hurt_victim)
-	_model.attach_character_body(self, _hitbox)
+	_model.attach_character_body(self, _hitbox, GameController.TEAM_ID_PLAYER)
 	_hitbox.set_subject(_model)
 	Game.register_player(self)
  
@@ -143,6 +144,7 @@ func _buffer_move(moveName:String) -> void:
 
 func _physics_process(_delta: float) -> void:
 	_refresh_target_info()
+	_debugText.text = _model.get_debug_text()
 	
 	if Input.is_action_just_pressed("slot_1"):
 		_pendingStance = STANCE_AGILE
@@ -196,7 +198,6 @@ func _physics_process(_delta: float) -> void:
 		if _bufferedMoveTick > 0.2:
 			_buffer_move("")
 
-
 	match _stance:
 		STANCE_COMBAT:
 			
@@ -208,20 +209,21 @@ func _physics_process(_delta: float) -> void:
 			if _can_evade() && Input.is_action_just_pressed("move_special"):
 				#_model.set_blinking(true)
 				_buffer_move("")
-				if pushDir.is_zero_approx():
-					# static evade
-					_evadeTick = STATIC_EVADE_TIME
-					_evadeLockoutTick = STATIC_EVADE_LOCKOUT_TIME
-					_evadeDir = Vector3()
-					_model.begin_evade_static()
-				else:
-					_evadeTick = MOVING_EVADE_TIME
-					_evadeLockoutTick = MOVING_EVADE_LOCKOUT_TIME
-					_evadeDir = pushDir
-					if input_dir.x < 0:
-						_model.begin_evade_left()
-					else:
-						_model.begin_evade_right()
+				_model.begin_evade(pushDir)
+				#if pushDir.is_zero_approx():
+				#	# static evade
+				#	_evadeTick = STATIC_EVADE_TIME
+				#	_evadeLockoutTick = STATIC_EVADE_LOCKOUT_TIME
+				#	_evadeDir = Vector3()
+				#	_model.begin_evade_static()
+				#else:
+				#	_evadeTick = MOVING_EVADE_TIME
+				#	_evadeLockoutTick = MOVING_EVADE_LOCKOUT_TIME
+				#	_evadeDir = pushDir
+				#	if input_dir.x < 0:
+				#		_model.begin_evade_left()
+				#	else:
+				#		_model.begin_evade_right()
 				canAttack = false
 			
 			var startedMove:bool = false
@@ -245,3 +247,4 @@ func _physics_process(_delta: float) -> void:
 			if Input.is_action_just_pressed("attack_1") && _can_start_attack():
 				_model.begin_agile_whirlwind()
 			_face_model_to_velocity()
+			_model.set_look_yaw(_desiredYaw)

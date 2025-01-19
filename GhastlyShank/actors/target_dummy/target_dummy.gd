@@ -7,7 +7,7 @@ var _tick = 1.0
 
 func _ready() -> void:
 	_model.play_idle()
-	_model.attach_character_body(self, _hitbox)
+	_model.attach_character_body(self, _hitbox, GameController.TEAM_ID_ENEMY)
 	_hitbox.set_subject(_model)
 
 func _physics_process(_delta:float) -> void:

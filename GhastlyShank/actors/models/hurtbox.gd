@@ -24,7 +24,7 @@ func clear() -> void:
 
 func _process(_delta:float) -> void:
 	_tick -= _delta
-	print(str(_tick))
+	#print(str(_tick))
 	if _tick <= 0.0:
 		_tick = 999
 		# check for hits

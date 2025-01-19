@@ -13,6 +13,12 @@ const ANIM_UPPERCUT:String = "uppercut"
 const ANIM_ROLLING_PUNCHES:String = "rolling_punches_repeatable"
 const ANIM_SWEEP:String = "sweep"
 
+const EVADE_SPEED:float = 10.0
+const STATIC_EVADE_TIME:float = 0.2
+const STATIC_EVADE_LOCKOUT_TIME:float = 0.1
+const MOVING_EVADE_TIME:float = 0.2
+const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
+
 const MOVE_TYPE_SINGLE:int = 0
 const MOVE_TYPE_CHARGE:int = 1
 
@@ -111,6 +117,8 @@ const STATE_JUGGLED:int = 4
 const STATE_LAUNCHED:int = 5
 const STATE_FALLEN:int = 6
 const STATE_RISING:int = 7
+const STATE_EVADE_STATIC:int = 8
+const STATE_EVADE_MOVING:int = 9
 
 @onready var _animator:AnimationPlayer = $AnimationPlayer
 @onready var _leftHandArea:HurtboxArea3D = $hitboxes/hand_l/Area3D
@@ -122,11 +130,13 @@ const STATE_RISING:int = 7
 
 var _charBody:CharacterBody3D = null
 var _hitbox:Area3D = null
+var _teamId:int = 0
 
 var _state:int = STATE_NEUTRAL
 var _stance:int = STANCE_COMBAT
 var _stateTick:float = 0.0
 var _stateTime:float = 0.0
+var _evadeLockoutTick:float = 0.0
 var _lookYaw:float = 0.0
 var _currentMoveName:String = ""
 var _nextMoveYaw:float = 0.0
@@ -140,10 +150,12 @@ func _ready() -> void:
 	_rightHandArea.connect("on_check_for_victims", _on_check_for_victims)
 	_leftFootArea.connect("on_check_for_victims", _on_check_for_victims)
 	_rightFootArea.connect("on_check_for_victims", _on_check_for_victims)
+	_animator.connect("animation_changed", _on_animation_changed)
 
-func attach_character_body(charBody:CharacterBody3D, hitbox:Area3D) -> void:
+func attach_character_body(charBody:CharacterBody3D, hitbox:Area3D, newTeamId:int) -> void:
 	_charBody = charBody
 	_hitbox = hitbox
+	_teamId = newTeamId
 
 # queued animation has started
 func _on_animation_changed(_oldName:String, _newName:String) -> void:
@@ -151,6 +163,9 @@ func _on_animation_changed(_oldName:String, _newName:String) -> void:
 		_hitInfo.damage = 1.0
 		_hitInfo.juggleStrength = 0.0
 		_hitInfo.launchStrength = 0.0
+		if _currentMoveName != "":
+			print("Enter idle move clear")
+			_clear_current_move()
 		_all_hurtboxes_off()
 
 # 'play' was called
@@ -167,12 +182,18 @@ func set_idle_to_combat() -> void:
 func play_idle() -> void:
 	_animator.play(_idleAnim)
 
+func get_debug_text() -> String:
+	var txt:String = "State " + str(_state)
+	txt += "\nMove " + str(_currentMoveName)
+	return txt
+
 ##############################################################
 # hittin' and hurtin'
 ##############################################################
 
 func _on_check_for_victims(_hurtbox:HurtboxArea3D, _victims:Array[Area3D]) -> void:
 	_hitInfo.launchYawRadians = _lookYaw - PI
+	_hitInfo.teamId = _teamId
 	var num:int = _victims.size()
 	for i in range(0, num):
 		var victim:Area3D = _victims[i]
@@ -184,10 +205,21 @@ func _on_check_for_victims(_hurtbox:HurtboxArea3D, _victims:Array[Area3D]) -> vo
 		#on_hurtbox_touched_victim.emit(self, _hurtbox, victim)
 
 func hit(_incomingHit:HitInfo) -> int:
+	if _incomingHit.teamId == self._teamId:
+		return -2
+	# check if move can hit first
+	if _state == STATE_EVADE_MOVING || _state == STATE_EVADE_STATIC:
+		print(str(self) + " evaded")
+		return -1
+	
+	var hitsLow:bool = (_incomingHit.hitHeight & HIT_HEIGHT_LOW) != 0
+	if !hitsLow && _currentMoveName == "sweep":
+		print(str(self) + " evaded low")
+		return -1
 	print(str(self) + " hit")
 	if _incomingHit.launchStrength > 0.0:
 		#print("Launched!")
-		begin_launch(_incomingHit.launchYawRadians)
+		begin_launch(_incomingHit.launchYawRadians, _incomingHit.teamId)
 	elif _state == STATE_JUGGLED:
 		begin_juggle(4.0)
 	elif _incomingHit.juggleStrength > 0.0:
@@ -256,27 +288,49 @@ func is_performing_move() -> bool:
 		return false
 	return anim != ""
 
+func _clear_current_move() -> void:
+	_currentMoveName = ""
+
 ##############################################################
 # Begin Evading - can interupts other actions
 ##############################################################
-func _begin_evade_shared() -> void:
+func _evade_start() -> void:
 	_all_hurtboxes_off()
-	_animator.queue(_idleAnim)
+	_clear_current_move()
 
-func begin_evade_static() -> void:
+func _play_random_evade_anim() -> void:
 	if randf() > 0.5:
 		_animator.play(ANIM_EVADE_STATIC_1)
 	else:
 		_animator.play(ANIM_EVADE_STATIC_2)
-	_begin_evade_shared()
+	_animator.queue(_idleAnim)
 
-func begin_evade_left() -> void:
-	_animator.play(ANIM_EVADE_STATIC_1)
-	_begin_evade_shared()
-
-func begin_evade_right() -> void:
-	_animator.play(ANIM_EVADE_STATIC_2)
-	_begin_evade_shared()
+func begin_evade(dir:Vector3) -> bool:
+	if _evadeLockoutTick > 0.0:
+		return false
+	if dir.is_zero_approx():
+		_play_random_evade_anim()
+		_charBody.velocity = Vector3()
+		_stateTime = STATIC_EVADE_TIME
+		_stateTick = _stateTime
+		_evadeLockoutTick = STATIC_EVADE_LOCKOUT_TIME
+		_state = STATE_EVADE_STATIC
+	else:
+		if dir.x < 0:
+			_animator.play(ANIM_EVADE_STATIC_1)
+			_animator.queue(_idleAnim)
+		elif dir.x > 0:
+			_animator.play(ANIM_EVADE_STATIC_2)
+			_animator.queue(_idleAnim)
+		else:
+			_play_random_evade_anim()
+		_charBody.velocity = dir * EVADE_SPEED
+		_stateTime = MOVING_EVADE_TIME
+		_stateTick = _stateTime
+		_evadeLockoutTick = MOVING_EVADE_LOCKOUT_TIME
+		_state = STATE_EVADE_MOVING
+	_evade_start()
+	return true
 
 ##############################################################
 # Begin disabling hit responses
@@ -315,12 +369,19 @@ func begin_rising() -> void:
 	_stateTime = 1.0
 	_stateTick = _stateTime
 
-func begin_launch(yaw:float) -> void:
+func begin_launch(yaw:float, launchingTeamId:int = 0) -> void:
 	if _state == STATE_LAUNCHED:
 		return
+	if launchingTeamId == _teamId:
+		return
 	_all_hurtboxes_off()
+
+	# for the duration of launch our hit info because a player hit to launch
+	# other enemies
 	_hitInfo.launchYawRadians = yaw
 	_hitInfo.launchStrength = 1.0
+	_hitInfo.teamId = launchingTeamId
+
 	_animator.play("launched")
 	_state = STATE_LAUNCHED
 	_stateTime = 2.0
@@ -340,6 +401,8 @@ func set_blinking(flag:bool) -> void:
 		self.visible = true
 
 func _process(_delta:float) -> void:
+	if _evadeLockoutTick > 0.0:
+		_evadeLockoutTick -= _delta
 	if _isBlinking:
 		_blinkTick -= _delta
 		if _blinkTick <= 0.0:
@@ -378,6 +441,12 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 			else: # fall
 				_charBody.velocity.y = verticalSpeed + (-20.0 * _delta)
 			_charBody.move_and_slide()
+		STATE_EVADE_MOVING, STATE_EVADE_STATIC:
+			_charBody.move_and_slide()
+			_stateTick -= _delta
+			if _stateTick <= 0.0:
+				_charBody.velocity = Vector3()
+				_state = STATE_NEUTRAL
 		STATE_JUGGLED:
 			if _charBody.is_on_floor() && _charBody.velocity.y <= 0.0:
 				begin_fallen()
