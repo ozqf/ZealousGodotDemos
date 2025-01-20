@@ -139,13 +139,17 @@ var _hitbox:Area3D = null
 var _teamId:int = 0
 
 var _state:int = STATE_NEUTRAL
-var _stance:int = STANCE_COMBAT
 var _stateTick:float = 0.0
 var _stateTime:float = 0.0
+
+var _stance:int = STANCE_AGILE
+var _pendingStance:int = STANCE_COMBAT
+var _stanceMoveSpeed:float = 3.0
+
 var _evadeLockoutTick:float = 0.0
 var _lookYaw:float = 0.0
 var _currentMoveName:String = ""
-var _nextMoveYaw:float = 0.0
+#var _nextMoveYaw:float = 0.0
 
 var _idleAnim:String = ANIM_IDLE
 var _blinkTick:float = 0.0
@@ -249,7 +253,10 @@ func hit(_incomingHit:HitInfo) -> int:
 		begin_juggle(10.0)
 	elif _incomingHit.sweepStrength > 0.0:
 		#print("Swept!")
-		begin_fallen()
+		if _weightClass == WEIGHT_CLASS_PLAYER:
+			begin_flinch()
+		else:
+			begin_fallen()
 	else:
 		begin_flinch()
 	return 1
@@ -310,12 +317,18 @@ func is_performing_move() -> bool:
 		return false
 	return anim != ""
 
+func _can_change_stance() -> bool:
+	if self.is_performing_move():
+		return false
+	return true
+
 func _clear_current_move() -> void:
 	_currentMoveName = ""
 
 ##############################################################
 # Begin Evading - can interupts other actions
 ##############################################################
+
 func _evade_start() -> void:
 	_all_hurtboxes_off()
 	_clear_current_move()
@@ -475,14 +488,34 @@ func _launch_nearby_teammates() -> void:
 		if area.has_method("hit"):
 			area.hit(_hitInfo)
 
+func set_desired_stance(newStance:int) -> void:
+	_pendingStance = newStance
+
+func _change_stance(newStance:int) -> void:
+	match newStance:
+		STANCE_AGILE:
+			_stanceMoveSpeed = 8.0
+			self.set_idle_to_agile()
+		_:
+			# default - combat
+			_stanceMoveSpeed = 3.0
+			self.set_idle_to_combat()
+
+func get_stance() -> int:
+	return _stance
+
 func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) -> void:
+
+	if _stance != _pendingStance && _can_change_stance():
+		_stance = _pendingStance
+
 	match _state:
 		STATE_NEUTRAL:
 			if is_performing_move():
 				return
 			set_look_yaw(_desiredYaw)
 			var verticalSpeed:float = _charBody.velocity.y
-			_charBody.velocity = _pushDir * 3.0
+			_charBody.velocity = _pushDir * _stanceMoveSpeed
 			if _charBody.is_on_floor() && _pushDir.y > 0: # jump
 				_charBody.velocity.y = 5.0
 			else: # fall

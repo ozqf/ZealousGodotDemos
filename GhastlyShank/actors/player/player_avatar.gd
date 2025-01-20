@@ -169,8 +169,7 @@ func _physics_process(_delta: float) -> void:
 		input_vert = Input.get_axis("move_down", "move_up")
 	var pushDir:Vector3 = (cameraBasis * Vector3(input_dir.x, input_vert, input_dir.y)).normalized()
 	var canAttack:bool = _can_start_attack()
-
-
+	
 	# read desired move
 	match _stance:
 		STANCE_COMBAT:
