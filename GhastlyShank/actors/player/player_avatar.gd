@@ -176,12 +176,21 @@ func _physics_process(_delta: float) -> void:
 			var v:float = Input.get_axis("move_backward", "move_forward")
 			if Input.is_action_just_pressed("attack_1"):
 				if v > 0:
-					_buffer_move(HumanoidModel.ANIM_JAB)
+					_buffer_move("straight")
 					#_model.begin_move(HumanoidModel.ANIM_ROLLING_PUNCHES)
 				elif v < 0:
 					_buffer_move(HumanoidModel.ANIM_UPPERCUT)
 				else:
-					_buffer_move(HumanoidModel.ANIM_JAB)
+					var curMove:String = _model.get_current_move_name()
+					match curMove:
+						HumanoidModel.ANIM_JAB:
+							_buffer_move("straight")
+						"straight":
+							_buffer_move("hook_front")
+						"hook_front":
+							_buffer_move("hook_back")
+						_:
+							_buffer_move(HumanoidModel.ANIM_JAB)
 				pass
 			elif Input.is_action_just_pressed("attack_2"):
 				if v > 0:
@@ -191,11 +200,14 @@ func _physics_process(_delta: float) -> void:
 				else:
 					_buffer_move(HumanoidModel.ANIM_SPIN_BACK_KICK)
 			elif Input.is_action_just_pressed("attack_3"):
-				_buffer_move("taunt_bring_it_on")
+				if v < 0:
+					_buffer_move("taunt_bring_it_on")
+				else:
+					_buffer_move("haymaker_loop")
 
 	if _bufferedMove != "":
 		_bufferedMoveTick += _delta
-		if _bufferedMoveTick > 0.2:
+		if _bufferedMoveTick > 0.35:
 			_buffer_move("")
 
 	match _stance:
@@ -206,12 +218,11 @@ func _physics_process(_delta: float) -> void:
 				move_and_slide()
 				return
 			# always favour evade over starting a move
-			if _can_evade() && Input.is_action_just_pressed("move_special"):
-				#_model.set_blinking(true)
+			if Input.is_action_just_pressed("move_special"):
+				# player is trying to evade, lets clear their move buffer
 				_buffer_move("")
-				_model.begin_evade(pushDir)
-				
-				canAttack = false
+				if _model.begin_evade(pushDir):
+					canAttack = false
 			
 			var startedMove:bool = false
 			if canAttack && _bufferedMove != "":

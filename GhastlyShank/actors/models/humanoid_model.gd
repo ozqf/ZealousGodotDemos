@@ -34,6 +34,36 @@ var _moves:Dictionary = {
 		sweepStrength = 0.0,
 		hitHeight = HIT_HEIGHT_MID
 	},
+	"straight" = {
+		anim = "straight",
+		moveType = MOVE_TYPE_SINGLE,
+		hitTickRH = 0.1,
+		damage = 1.5,
+		juggleStrength = 0.0,
+		launchStrength = 0.0,
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH
+	},
+	"hook_front" = {
+		anim = "hook_front",
+		moveType = MOVE_TYPE_SINGLE,
+		hitTickRH = 0.23,
+		damage = 2.0,
+		juggleStrength = 0.0,
+		launchStrength = 0.0,
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH
+	},
+	"hook_back" = {
+		anim = "hook_back",
+		moveType = MOVE_TYPE_SINGLE,
+		hitTickLH = 0.23,
+		damage = 2.5,
+		juggleStrength = 0.0,
+		launchStrength = 0.0,
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH
+	},
 	"uppercut" = {
 		anim = ANIM_UPPERCUT,
 		moveType = MOVE_TYPE_CHARGE,
@@ -45,6 +75,17 @@ var _moves:Dictionary = {
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
 		hitHeight = HIT_HEIGHT_LOW | HIT_HEIGHT_MID
+	},
+	"haymaker_loop" = {
+		anim = "haymakers",
+		moveType = MOVE_TYPE_SINGLE,
+		hitTickRH = 0.3667,
+		hitTickLH = 1.0,
+		damage = 3.0,
+		juggleStrength = 0.0,
+		launchStrength = 0.0,
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_HIGH | HIT_HEIGHT_MID
 	},
 	"rolling_punches_repeatable" = {
 		anim = ANIM_ROLLING_PUNCHES,
@@ -88,8 +129,8 @@ var _moves:Dictionary = {
 	}
 }
 
-const EVADE_SPEED:float = 10.0
-const STATIC_EVADE_TIME:float = 0.2
+const EVADE_SPEED:float = 9.0
+const STATIC_EVADE_TIME:float = 0.3
 const STATIC_EVADE_LOCKOUT_TIME:float = 0.1
 const MOVING_EVADE_TIME:float = 0.2
 const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
@@ -187,6 +228,9 @@ func _on_animation_changed(_oldName:String, _newName:String) -> void:
 func _on_current_animation_changed(_anim:String) -> void:
 	pass
 
+func get_current_move_name() -> String:
+	return _currentMoveName
+
 # stance specific idle animations
 func set_idle_to_agile() -> void:
 	_idleAnim = ANIM_IDLE_AGILE
@@ -199,10 +243,13 @@ func play_idle() -> void:
 
 func get_debug_text() -> String:
 	var txt:String = "State: " + str(_state)
-	if _currentMoveName != "":
-		txt += "\nMove: " + str(_currentMoveName)
+	if _state == STATE_EVADE_MOVING || _state == STATE_EVADE_STATIC:
+		txt += "\nEvade: " + str(_stateTick)
 	else:
-		txt += "\nNo move"
+		if _currentMoveName != "":
+			txt += "\nMove: " + str(_currentMoveName)
+		else:
+			txt += "\nNo move"
 	return txt
 
 ##############################################################
@@ -238,7 +285,8 @@ func hit(_incomingHit:HitInfo) -> int:
 		print(str(self) + " evaded low")
 		return -1
 	
-	if _state == STATE_FALLEN && !hitsLow:
+	# 0.5 is falling-over part of knockdown animation
+	if !hitsLow && _state == STATE_FALLEN && _animator.current_animation_position > 0.5:
 		print(str(self) + " attack too high")
 		return -1
 

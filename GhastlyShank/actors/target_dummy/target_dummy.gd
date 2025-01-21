@@ -13,6 +13,17 @@ func _ready() -> void:
 	_model.attach_character_body(self, _hitbox, GameController.TEAM_ID_ENEMY)
 	_hitbox.set_subject(_model)
 
+func _start_random_move() -> void:
+	var r:float = randf()
+	if r > 0.75:
+		_model.begin_move("sweep", _speedMul)
+	elif r > 0.5:
+		_model.begin_move("uppercut", _speedMul)
+	elif r > 0.25:
+		_model.begin_move("spin_back_kick", _speedMul)
+	else:
+		_model.begin_move("jab_slow")
+
 func _physics_process(_delta:float) -> void:
 	var tarInfo:ActorTargetInfo = Game.get_player_target()
 	if !tarInfo.isValid:
@@ -24,16 +35,8 @@ func _physics_process(_delta:float) -> void:
 	
 	if flatDist < (MELEE_RANGE * MELEE_RANGE):
 		pushDir = Vector3()
-		var r:float = randf()
+		_model.begin_move("spin_back_kick", _speedMul)
 		_model.set_look_yaw(yawToTarget)
-		if r > 0.75:
-			_model.begin_move("sweep", _speedMul)
-		elif r > 0.5:
-			_model.begin_move("uppercut", _speedMul)
-		elif r > 0.25:
-			_model.begin_move("spin_back_kick", _speedMul)
-		else:
-			_model.begin_move("jab_slow")
 	else:
 		pushDir.x = -sin(yawToTarget)
 		pushDir.z = -cos(yawToTarget)
