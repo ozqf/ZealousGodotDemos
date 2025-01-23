@@ -74,9 +74,9 @@ func _restore_actor(data:Dictionary) -> void:
 		"player_start":
 			var t:Transform3D = ZqfUtils.Transform3D_from_dict(data.xform)
 			_spawn_player(t)
-		"target_dummy":
-			var dummy = Zqf.create_actor(_targetDummyType)
-			dummy.global_transform = ZqfUtils.Transform3D_from_dict(data.xform)
+		#"target_dummy":
+		#	var dummy = Zqf.create_actor(_targetDummyType)
+		#	dummy.global_transform = ZqfUtils.Transform3D_from_dict(data.xform)
 		"wall_turret":
 			var turret = Zqf.create_actor(_wallTurretType)
 			turret.global_transform = ZqfUtils.Transform3D_from_dict(data.xform)

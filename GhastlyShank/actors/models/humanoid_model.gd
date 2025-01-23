@@ -47,7 +47,7 @@ var _moves:Dictionary = {
 	"hook_front" = {
 		anim = "hook_front",
 		moveType = MOVE_TYPE_SINGLE,
-		hitTickRH = 0.23,
+		hitTickLH = 0.23,
 		damage = 2.0,
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
@@ -57,7 +57,7 @@ var _moves:Dictionary = {
 	"hook_back" = {
 		anim = "hook_back",
 		moveType = MOVE_TYPE_SINGLE,
-		hitTickLH = 0.23,
+		hitTickRH = 0.23,
 		damage = 2.5,
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
@@ -179,6 +179,7 @@ var _charBody:CharacterBody3D = null
 var _hitbox:Area3D = null
 var _teamId:int = 0
 
+var _totalThinkTime:float = 0.0
 var _state:int = STATE_NEUTRAL
 var _stateTick:float = 0.0
 var _stateTime:float = 0.0
@@ -190,6 +191,8 @@ var _stanceMoveSpeed:float = 3.0
 var _evadeLockoutTick:float = 0.0
 var _lookYaw:float = 0.0
 var _currentMoveName:String = ""
+var _lastMoveName:String = ""
+var _lastMoveEndTime:float = 0.0
 #var _nextMoveYaw:float = 0.0
 
 var _idleAnim:String = ANIM_IDLE
@@ -221,8 +224,16 @@ func _on_animation_changed(_oldName:String, _newName:String) -> void:
 		_hitInfo.launchStrength = 0.0
 		if _currentMoveName != "":
 			print("Enter idle move clear")
+			_lastMoveName = _currentMoveName
+			_lastMoveEndTime = _totalThinkTime
 			_clear_current_move()
 		_all_hurtboxes_off()
+
+func get_last_move() -> String:
+	return _lastMoveName
+
+func get_time_since_last_move() -> float:
+	return _totalThinkTime - _lastMoveEndTime
 
 # 'play' was called
 func _on_current_animation_changed(_anim:String) -> void:
@@ -248,9 +259,22 @@ func get_debug_text() -> String:
 	else:
 		if _currentMoveName != "":
 			txt += "\nMove: " + str(_currentMoveName)
+			var move = _moves[_currentMoveName]
+			move.hitHeight
+			txt += "\nHit height " + str(move.hitHeight)
 		else:
 			txt += "\nNo move"
+		if _lastMoveName != "" && get_time_since_last_move() < 0.25:
+			txt += "\nLast Move: " + str(_lastMoveName)
+		else:
+			txt += "\nNo last move"	
 	return txt
+
+func set_show_attack_indicators(flag:bool) -> void:
+	_leftHandArea.showAttackIndicators = flag
+	_rightHandArea.showAttackIndicators = flag
+	_leftFootArea.showAttackIndicators = flag
+	_rightFootArea.showAttackIndicators = flag
 
 ##############################################################
 # hittin' and hurtin'
@@ -380,12 +404,19 @@ func _clear_current_move() -> void:
 func _evade_start() -> void:
 	_all_hurtboxes_off()
 	_clear_current_move()
+	_lastMoveName = ""
 
 func _play_random_evade_anim() -> void:
-	if randf() > 0.5:
+	var curAnim:String = _animator.current_animation
+	if curAnim == ANIM_EVADE_STATIC_1:
+		_animator.play(ANIM_EVADE_STATIC_2)
+	elif curAnim == ANIM_EVADE_STATIC_2:
 		_animator.play(ANIM_EVADE_STATIC_1)
 	else:
-		_animator.play(ANIM_EVADE_STATIC_2)
+		if randf() > 0.5:
+			_animator.play(ANIM_EVADE_STATIC_1)
+		else:
+			_animator.play(ANIM_EVADE_STATIC_2)
 	_animator.queue(_idleAnim)
 
 func begin_evade(dir:Vector3) -> bool:
@@ -509,6 +540,7 @@ func set_blinking(flag:bool) -> void:
 		self.visible = true
 
 func _process(_delta:float) -> void:
+	_totalThinkTime += _delta
 	if _evadeLockoutTick > 0.0:
 		_evadeLockoutTick -= _delta
 	if _isBlinking:

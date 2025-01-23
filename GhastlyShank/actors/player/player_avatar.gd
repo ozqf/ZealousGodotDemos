@@ -33,6 +33,7 @@ func _ready() -> void:
 	self.connect("tree_exiting", _on_exiting_tree)
 	_model.connect("on_hurtbox_touched_victim", _on_hurt_victim)
 	_model.attach_character_body(self, _hitbox, GameController.TEAM_ID_PLAYER)
+	_model.set_show_attack_indicators(false)
 	_model.set_stats(HumanoidModel.WEIGHT_CLASS_PLAYER)
 	_hitbox.set_subject(_model)
 	Game.register_player(self)
@@ -143,6 +144,17 @@ func _buffer_move(moveName:String) -> void:
 	_bufferedMove = moveName
 	_bufferedMoveTick = 0.0
 
+func _queue_next_move(curMove:String) -> void:
+	match curMove:
+		HumanoidModel.ANIM_JAB:
+			_buffer_move("straight")
+		"straight":
+			_buffer_move("hook_front")
+		"hook_front":
+			_buffer_move("hook_back")
+		_:
+			_buffer_move(HumanoidModel.ANIM_JAB)
+
 func _physics_process(_delta: float) -> void:
 	_refresh_target_info()
 	_debugText.text = _model.get_debug_text()
@@ -182,15 +194,16 @@ func _physics_process(_delta: float) -> void:
 					_buffer_move(HumanoidModel.ANIM_UPPERCUT)
 				else:
 					var curMove:String = _model.get_current_move_name()
-					match curMove:
-						HumanoidModel.ANIM_JAB:
-							_buffer_move("straight")
-						"straight":
-							_buffer_move("hook_front")
-						"hook_front":
-							_buffer_move("hook_back")
-						_:
-							_buffer_move(HumanoidModel.ANIM_JAB)
+					if curMove != "":
+						_queue_next_move(curMove)
+					else:
+						# see if we are within a small window of a move finishing
+						var lastMove:String = _model.get_last_move()
+						var timeSinceLast:float = _model.get_time_since_last_move()
+						if timeSinceLast > 0.25:
+							_queue_next_move("")
+						if timeSinceLast <= 0.25:
+							_queue_next_move(lastMove)
 				pass
 			elif Input.is_action_just_pressed("attack_2"):
 				if v > 0:
