@@ -22,7 +22,8 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH
+		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH,
+		canEvadeCancel = true
 	},
 	"jab_slow" = {
 		anim = "jab_slow",
@@ -32,7 +33,8 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID
+		hitHeight = HIT_HEIGHT_MID,
+		canEvadeCancel = true
 	},
 	"straight" = {
 		anim = "straight",
@@ -42,7 +44,8 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH
+		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH,
+		canEvadeCancel = true
 	},
 	"hook_front" = {
 		anim = "hook_front",
@@ -52,7 +55,8 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH
+		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH,
+		canEvadeCancel = true
 	},
 	"hook_back" = {
 		anim = "hook_back",
@@ -62,7 +66,8 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH
+		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH,
+		canEvadeCancel = true
 	},
 	"uppercut" = {
 		anim = ANIM_UPPERCUT,
@@ -74,7 +79,8 @@ var _moves:Dictionary = {
 		juggleStrength = 1.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_LOW | HIT_HEIGHT_MID
+		hitHeight = HIT_HEIGHT_LOW | HIT_HEIGHT_MID,
+		canEvadeCancel = true
 	},
 	"haymaker_loop" = {
 		anim = "haymakers",
@@ -85,7 +91,8 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_HIGH | HIT_HEIGHT_MID
+		hitHeight = HIT_HEIGHT_HIGH | HIT_HEIGHT_MID,
+		canEvadeCancel = true
 	},
 	"rolling_punches_repeatable" = {
 		anim = ANIM_ROLLING_PUNCHES,
@@ -96,7 +103,8 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID
+		hitHeight = HIT_HEIGHT_MID,
+		canEvadeCancel = true
 	},
 	"spin_back_kick" = {
 		anim = ANIM_SPIN_BACK_KICK,
@@ -106,7 +114,8 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 1.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID
+		hitHeight = HIT_HEIGHT_MID,
+		canEvadeCancel = false
 	},
 	"sweep" = {
 		anim = ANIM_SWEEP,
@@ -116,7 +125,8 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 1.0,
-		hitHeight = HIT_HEIGHT_LOW
+		hitHeight = HIT_HEIGHT_LOW,
+		canEvadeCancel = false
 	},
 	"taunt_bring_it_on" = {
 		anim = "taunt_combat_1",
@@ -125,15 +135,16 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID
+		hitHeight = HIT_HEIGHT_MID,
+		canEvadeCancel = true
 	}
 }
 
 const EVADE_SPEED:float = 9.0
-const STATIC_EVADE_TIME:float = 0.3
+const STATIC_EVADE_TIME:float = 0.25
 const STATIC_EVADE_LOCKOUT_TIME:float = 0.1
-const MOVING_EVADE_TIME:float = 0.2
-const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
+const MOVING_EVADE_TIME:float = 0.25
+const MOVING_EVADE_LOCKOUT_TIME:float = 0.2
 const FLINCH_EVADE_LOCKOUT_TIME:float = 0.1
 
 const MOVE_TYPE_SINGLE:int = 0
@@ -188,6 +199,7 @@ var _stance:int = STANCE_AGILE
 var _pendingStance:int = STANCE_COMBAT
 var _stanceMoveSpeed:float = 3.0
 
+var _evadeDir:Vector3 = Vector3()
 var _evadeLockoutTick:float = 0.0
 var _lookYaw:float = 0.0
 var _currentMoveName:String = ""
@@ -425,6 +437,9 @@ func begin_evade(dir:Vector3) -> bool:
 	match _state:
 		STATE_DAZED, STATE_FALLEN, STATE_JUGGLED, STATE_LAUNCHED:
 			return false
+	if _moves.has(_currentMoveName) && !_moves[_currentMoveName].canEvadeCancel:
+		return false
+	_evadeDir = dir
 	if dir.is_zero_approx():
 		_play_random_evade_anim()
 		_charBody.velocity = Vector3()
@@ -602,6 +617,13 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 				_charBody.velocity.y = verticalSpeed + (-20.0 * _delta)
 			_charBody.move_and_slide()
 		STATE_EVADE_MOVING, STATE_EVADE_STATIC:
+			var evadeMoveWeight = _stateTick / _stateTime
+			evadeMoveWeight = (evadeMoveWeight * 0.75) + 0.25
+			var vel:Vector3 = _charBody.velocity
+			vel.x = _evadeDir.x * EVADE_SPEED * evadeMoveWeight
+			vel.z = _evadeDir.z * EVADE_SPEED * evadeMoveWeight
+			vel.y += (-20.0 * _delta)
+			_charBody.velocity = vel
 			_charBody.move_and_slide()
 			_stateTick -= _delta
 			if _stateTick <= 0.0:
