@@ -4,13 +4,15 @@ class_name PlayerAvatar
 const STANCE_AGILE:int = 0
 const STANCE_COMBAT:int = 1
 
+const MOVE_BUFFER_SECONDS:float = 1.0
+
 const AGILE_RUN_SPEED:float = 7.0
 const COMBAT_RUNS_SPEED:float = 3.25
 const EVADE_SPEED:float = 10.0
-const STATIC_EVADE_TIME:float = 0.2
-const STATIC_EVADE_LOCKOUT_TIME:float = 0.1
-const MOVING_EVADE_TIME:float = 0.2
-const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
+#const STATIC_EVADE_TIME:float = 0.2
+#const STATIC_EVADE_LOCKOUT_TIME:float = 0.1
+#const MOVING_EVADE_TIME:float = 0.2
+#const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
 
 @onready var _cameraRig:CameraRig = $camera_rig
 @onready var _model:HumanoidModel = $model
@@ -147,17 +149,21 @@ func _buffer_move(moveName:String) -> void:
 func _queue_next_move(curMove:String) -> void:
 	match curMove:
 		HumanoidModel.ANIM_JAB:
-			_buffer_move("straight")
+			_model.buffer_move("straight")
 		"straight":
-			_buffer_move("hook_front")
+			_model.buffer_move("hook_front")
 		"hook_front":
-			_buffer_move("hook_back")
+			_model.buffer_move("hook_back")
 		_:
-			_buffer_move(HumanoidModel.ANIM_JAB)
+			_model.buffer_move(HumanoidModel.ANIM_JAB)
 
 func _physics_process(_delta: float) -> void:
 	_refresh_target_info()
-	_debugText.text = _model.get_debug_text()
+	var txt = _model.get_debug_text()
+	if _bufferedMoveTick > 0: # < MOVE_BUFFER_SECONDS:
+		txt += "\nBuffered: " + _bufferedMove
+		txt += "\n" + str(_bufferedMoveTick)
+	_debugText.text = txt
 	
 	if Input.is_action_just_pressed("slot_1"):
 		_pendingStance = STANCE_AGILE
@@ -182,16 +188,26 @@ func _physics_process(_delta: float) -> void:
 	var pushDir:Vector3 = (cameraBasis * Vector3(input_dir.x, input_vert, input_dir.y)).normalized()
 	var canAttack:bool = _can_start_attack()
 	
+	var atk1:bool = false
+	var atk2:bool = false
+	var atk3:bool = false
+	var moveSpecial:bool = false
+	if !Zqf.has_mouse_claims():
+		atk1 = Input.is_action_just_pressed("attack_1")
+		atk2 = Input.is_action_just_pressed("attack_2")
+		atk3 = Input.is_action_just_pressed("attack_3")
+		moveSpecial = Input.is_action_just_pressed("move_special")
+	
 	# read desired move
 	match _stance:
 		STANCE_COMBAT:
 			var v:float = Input.get_axis("move_backward", "move_forward")
-			if Input.is_action_just_pressed("attack_1"):
+			if atk1:
 				if v > 0:
-					_buffer_move("straight")
+					_model.buffer_move("straight")
 					#_model.begin_move(HumanoidModel.ANIM_ROLLING_PUNCHES)
 				elif v < 0:
-					_buffer_move(HumanoidModel.ANIM_UPPERCUT)
+					_model.buffer_move(HumanoidModel.ANIM_UPPERCUT)
 				else:
 					var curMove:String = _model.get_current_move_name()
 					if curMove != "":
@@ -200,50 +216,51 @@ func _physics_process(_delta: float) -> void:
 						# see if we are within a small window of a move finishing
 						var lastMove:String = _model.get_last_move()
 						var timeSinceLast:float = _model.get_time_since_last_move()
-						if timeSinceLast > 0.25:
+						if timeSinceLast > 0.3:
 							_queue_next_move("")
-						if timeSinceLast <= 0.25:
+						if timeSinceLast <= 0.3:
 							_queue_next_move(lastMove)
 				pass
-			elif Input.is_action_just_pressed("attack_2"):
+			elif atk2:
 				if v > 0:
-					_buffer_move(HumanoidModel.ANIM_SPIN_BACK_KICK)
+					_model.buffer_move(HumanoidModel.ANIM_SPIN_BACK_KICK)
 				elif v < 0:
-					_buffer_move(HumanoidModel.ANIM_SWEEP)
+					_model.buffer_move(HumanoidModel.ANIM_SWEEP)
 				else:
-					_buffer_move(HumanoidModel.ANIM_SPIN_BACK_KICK)
-			elif Input.is_action_just_pressed("attack_3"):
+					_model.buffer_move(HumanoidModel.ANIM_SPIN_BACK_KICK)
+			elif atk3:
 				if v < 0:
-					_buffer_move("taunt_bring_it_on")
+					_model.buffer_move("taunt_bring_it_on")
 				else:
-					_buffer_move("haymaker_loop")
+					_model.buffer_move("haymaker_loop")
 
 	if _bufferedMove != "":
+		print("Current '" + _model.get_last_move() + "' Buffered '" + str(_bufferedMove) + "' for " + str(_bufferedMoveTick))
 		_bufferedMoveTick += _delta
-		if _bufferedMoveTick > 0.35:
-			_buffer_move("")
+		if _bufferedMoveTick > MOVE_BUFFER_SECONDS:
+			_model.buffer_move("")
 
 	match _stance:
 		STANCE_COMBAT:
 			
-			if _evadeTick > 0.0:
-				velocity = _evadeDir * EVADE_SPEED
-				move_and_slide()
-				return
+			#if _evadeTick > 0.0:
+			#	velocity = _evadeDir * EVADE_SPEED
+			#	move_and_slide()
+			#	return
 			# always favour evade over starting a move
-			if Input.is_action_just_pressed("move_special"):
+			if moveSpecial:
 				# player is trying to evade, lets clear their move buffer
-				_buffer_move("")
+				_model.buffer_move("")
 				if _model.begin_evade(pushDir):
 					canAttack = false
 			
-			var startedMove:bool = false
-			if canAttack && _bufferedMove != "":
-				var startMove:String = _bufferedMove
-				_bufferedMove = ""
-				_face_model_to_look()
-				_model.set_look_yaw(_desiredYaw)
-				_model.begin_move(startMove)
+			#var startedMove:bool = false
+			#if canAttack && _bufferedMove != "":
+			#	var startMove:String = _bufferedMove
+			#	_bufferedMove = ""
+			#	_face_model_to_look()
+			#	_model.set_look_yaw(_desiredYaw)
+			#	_model.begin_move(startMove)
 
 			if !pushDir.is_zero_approx():
 				_face_model_to_look()
@@ -255,7 +272,7 @@ func _physics_process(_delta: float) -> void:
 			#	_tick_movement_combat(Vector3(), _delta)
 		_:
 			_tick_movement_agile(pushDir, _delta)
-			if Input.is_action_just_pressed("attack_1") && _can_start_attack():
+			if atk1 && _can_start_attack():
 				_model.begin_agile_whirlwind()
 			_face_model_to_velocity()
 			_model.set_look_yaw(_desiredYaw)

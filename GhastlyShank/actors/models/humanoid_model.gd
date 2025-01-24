@@ -140,10 +140,10 @@ var _moves:Dictionary = {
 	}
 }
 
-const EVADE_SPEED:float = 9.0
+const EVADE_SPEED:float = 9.5
 const STATIC_EVADE_TIME:float = 0.25
 const STATIC_EVADE_LOCKOUT_TIME:float = 0.1
-const MOVING_EVADE_TIME:float = 0.25
+const MOVING_EVADE_TIME:float = 0.3
 const MOVING_EVADE_LOCKOUT_TIME:float = 0.2
 const FLINCH_EVADE_LOCKOUT_TIME:float = 0.1
 
@@ -203,6 +203,8 @@ var _evadeDir:Vector3 = Vector3()
 var _evadeLockoutTick:float = 0.0
 var _lookYaw:float = 0.0
 var _currentMoveName:String = ""
+var _bufferedMoveName:String = ""
+var _bufferedMoveTick:float = 0.0
 var _lastMoveName:String = ""
 var _lastMoveEndTime:float = 0.0
 #var _nextMoveYaw:float = 0.0
@@ -231,15 +233,8 @@ func set_stats(fighterWeightClass:int = 0) -> void:
 # queued animation has started
 func _on_animation_changed(_oldName:String, _newName:String) -> void:
 	if _newName == ANIM_IDLE || _newName == ANIM_IDLE_AGILE:
-		_hitInfo.damage = 1.0
-		_hitInfo.juggleStrength = 0.0
-		_hitInfo.launchStrength = 0.0
-		if _currentMoveName != "":
-			print("Enter idle move clear")
-			_lastMoveName = _currentMoveName
-			_lastMoveEndTime = _totalThinkTime
-			_clear_current_move()
-		_all_hurtboxes_off()
+		#_finish_move()
+		pass
 
 func get_last_move() -> String:
 	return _lastMoveName
@@ -252,6 +247,8 @@ func _on_current_animation_changed(_anim:String) -> void:
 	pass
 
 func get_current_move_name() -> String:
+	if _state != STATE_PERFORMING_MOVE:
+		return ""
 	return _currentMoveName
 
 # stance specific idle animations
@@ -272,7 +269,6 @@ func get_debug_text() -> String:
 		if _currentMoveName != "":
 			txt += "\nMove: " + str(_currentMoveName)
 			var move = _moves[_currentMoveName]
-			move.hitHeight
 			txt += "\nHit height " + str(move.hitHeight)
 		else:
 			txt += "\nNo move"
@@ -372,9 +368,12 @@ func begin_move(moveName:String, speedModifier:float = 1.0) -> bool:
 	if is_performing_move():
 		return false
 	
+	print("Start " + str (moveName))
 	var move:Dictionary = _moves[moveName]
 	_animator.play(move.anim, -1, speedModifier)
+	_animator.queue(_idleAnim)
 	_currentMoveName = moveName
+	_state = STATE_PERFORMING_MOVE
 
 	# required
 	_hitInfo.damage = move.damage
@@ -390,8 +389,22 @@ func begin_move(moveName:String, speedModifier:float = 1.0) -> bool:
 	var rfTime:float = ZqfUtils.safe_dict_f(move, "hitTickRF", 0.0) / speedModifier
 	_rightFootArea.run(rfTime)
 
-	_animator.queue(_idleAnim)
 	return true
+
+func buffer_move(moveName:String) -> void:
+	_bufferedMoveName = moveName
+	_bufferedMoveTick = 0.0
+
+func _finish_move() -> void:
+	_hitInfo.damage = 1.0
+	_hitInfo.juggleStrength = 0.0
+	_hitInfo.launchStrength = 0.0
+	if _currentMoveName != "":
+		print("Enter idle move clear")
+		_lastMoveName = _currentMoveName
+		_lastMoveEndTime = _totalThinkTime
+		_clear_current_move()
+	_all_hurtboxes_off()
 
 func is_performing_move() -> bool:
 	var anim:String = _animator.current_animation
@@ -603,7 +616,11 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 
 	if _stance != _pendingStance && _can_change_stance():
 		_stance = _pendingStance
-
+	
+	if _bufferedMoveName != "":
+		_bufferedMoveTick += _delta
+		if _bufferedMoveTick > 0.5:
+			buffer_move("")
 	match _state:
 		STATE_NEUTRAL:
 			if is_performing_move():
@@ -615,7 +632,23 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 				_charBody.velocity.y = 5.0
 			else: # fall
 				_charBody.velocity.y = verticalSpeed + (-20.0 * _delta)
+			if _bufferedMoveName != "":
+				if begin_move(_bufferedMoveName, 1.0):
+					buffer_move("")
+					return
 			_charBody.move_and_slide()
+		STATE_PERFORMING_MOVE:
+			if !_moves.has(_currentMoveName):
+				# err?
+				_state = STATE_NEUTRAL
+				return
+			var move:Dictionary = _moves[_currentMoveName]
+			# check if we are in idle
+			var anim:String = _animator.current_animation
+			if anim == ANIM_IDLE || anim == ANIM_IDLE_AGILE:
+				print("Performing move finish - anim is idle")
+				_finish_move()
+				_state = STATE_NEUTRAL
 		STATE_EVADE_MOVING, STATE_EVADE_STATIC:
 			var evadeMoveWeight = _stateTick / _stateTime
 			evadeMoveWeight = (evadeMoveWeight * 0.75) + 0.25
