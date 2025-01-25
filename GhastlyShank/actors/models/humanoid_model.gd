@@ -8,6 +8,7 @@ var _moves:Dictionary = {
 		anim = "jab",
 		moveType = MOVE_TYPE_SINGLE,
 		hitTickLH = 0.0333,
+		hitTickLHOff = 0.1,
 		damage = 1.0,
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
@@ -112,6 +113,7 @@ var _moves:Dictionary = {
 		anim = "flying_kick",
 		moveType = MOVE_TYPE_DESCENDING,
 		hitTickRF = 0.0333,
+		hitTickRFoff = 4,
 		damage = 0.25,
 		juggleStrength = 0.0,
 		launchStrength = 1.0,
@@ -124,6 +126,7 @@ var _moves:Dictionary = {
 		anim = "slide_kick",
 		moveType = MOVE_TYPE_SLIDE,
 		hitTickRF = 0.0333,
+		hitTickRFoff = 4,
 		damage = 0.25,
 		juggleStrength = 1.0,
 		launchStrength = 0.0,
@@ -259,11 +262,17 @@ var _isBlinking:bool = false
 var _weightClass:int = WEIGHT_CLASS_FODDER
 
 func _ready() -> void:
+	_animator.connect("animation_changed", _on_animation_changed)
+
 	_leftHandArea.connect("on_check_for_victims", _on_check_for_victims)
 	_rightHandArea.connect("on_check_for_victims", _on_check_for_victims)
 	_leftFootArea.connect("on_check_for_victims", _on_check_for_victims)
 	_rightFootArea.connect("on_check_for_victims", _on_check_for_victims)
-	_animator.connect("animation_changed", _on_animation_changed)
+
+	_leftHandArea.connect("on_hit_victim", _on_hit_victim)
+	_rightHandArea.connect("on_hit_victim", _on_hit_victim)
+	_leftFootArea.connect("on_hit_victim", _on_hit_victim)
+	_rightFootArea.connect("on_hit_victim", _on_hit_victim)
 
 func attach_character_body(charBody:CharacterBody3D, hitbox:Area3D, newTeamId:int) -> void:
 	_charBody = charBody
@@ -343,6 +352,15 @@ func _on_check_for_victims(_hurtbox:HurtboxArea3D, _victims:Array[Area3D]) -> vo
 		if victim.has_method("hit"):
 			victim.hit(_hitInfo)
 		#on_hurtbox_touched_victim.emit(self, _hurtbox, victim)
+
+func _on_hit_victim(_hurtbox:HurtboxArea3D, victim:Area3D) -> void:
+	_hitInfo.launchYawRadians = _lookYaw - PI
+	_hitInfo.teamId = _teamId
+	if victim == _hitbox:
+		# self hit - ignore
+		return
+	if victim.has_method("hit"):
+		victim.hit(_hitInfo)
 
 func hit(_incomingHit:HitInfo) -> int:
 	if _incomingHit.teamId == self._teamId:
@@ -430,11 +448,10 @@ func begin_move(moveName:String, speedModifier:float = 1.0) -> bool:
 	_hitInfo.hitHeight = move.hitHeight
 
 	# variable which are on
-	_leftHandArea.run(ZqfUtils.safe_dict_f(move, "hitTickLH", 0.0) / speedModifier)
-	_rightHandArea.run(ZqfUtils.safe_dict_f(move, "hitTickRH", 0.0) / speedModifier)
-	_leftFootArea.run(ZqfUtils.safe_dict_f(move, "hitTickLF", 0.0) / speedModifier)
-	var rfTime:float = ZqfUtils.safe_dict_f(move, "hitTickRF", 0.0) / speedModifier
-	_rightFootArea.run(rfTime)
+	_leftHandArea.check_start_from_move(move, "hitTickLH", "hitTickLHoff")
+	_rightHandArea.check_start_from_move(move, "hitTickRH", "hitTickRHoff")
+	_leftFootArea.check_start_from_move(move, "hitTickLF", "hitTickLFoff")
+	_rightFootArea.check_start_from_move(move, "hitTickRF", "hitTickRFoff")
 
 	return true
 
@@ -678,17 +695,17 @@ func check_stance() -> int:
 
 func _step_movement(_delta:float, _pushDir:Vector3, pushSpeedCap:float, jumpSpeed:float) -> void:
 	
+	var isOnFloor:bool = _charBody.is_on_floor()
 	var verticalSpeed:float = _charBody.velocity.y
 
 	# calc horizontal velocity
 	var horizontalVelocity:Vector3 = _charBody.velocity
 	horizontalVelocity.y = 0.0
 	var flatVelocityCap:float = horizontalVelocity.length()
-	if flatVelocityCap < pushSpeedCap:
+	if flatVelocityCap < pushSpeedCap || isOnFloor:
 		flatVelocityCap = pushSpeedCap
 	
 	var dragAccel:float = 15.0
-	var isOnFloor:bool = _charBody.is_on_floor()
 	var isPushing:bool = _pushDir.x != 0 && _pushDir.z != 0
 	if isOnFloor:
 		dragAccel = 50.0

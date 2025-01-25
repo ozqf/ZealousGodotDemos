@@ -13,8 +13,6 @@ const COMBAT_RUNS_SPEED:float = 3.25
 @onready var _hitbox:HitDelegate = $hitbox
 @onready var _debugText:Label3D = $debug_text
 
-var _stance:int = STANCE_AGILE
-var _pendingStance:int = STANCE_COMBAT
 var _evadeTick:float = 0.0
 var _desiredYaw:float = 0.0
 
@@ -26,7 +24,8 @@ func _ready() -> void:
 	_model.set_stats(HumanoidModel.WEIGHT_CLASS_PLAYER)
 	_hitbox.set_subject(_model)
 	Game.register_player(self)
- 
+	_debugText.visible = false
+
 func _on_exiting_tree() -> void:
 	Game.register_player(null)
 

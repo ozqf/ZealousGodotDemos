@@ -1,6 +1,5 @@
-[gd_scene load_steps=8 format=3 uid="uid://b74gc3asjkkh0"]
+[gd_scene load_steps=7 format=3 uid="uid://b74gc3asjkkh0"]
 
-[ext_resource type="Material" uid="uid://dw3gssqjk355i" path="res://shared/world_materials/noise_grass.tres" id="1_hkk0c"]
 [ext_resource type="Material" uid="uid://ckvyd5s7dehok" path="res://shared/world_materials/noise_dirt.tres" id="2_23mqu"]
 [ext_resource type="PackedScene" uid="uid://xtgy6f7r7yg" path="res://actor_proxies/target_dummy_proxy.tscn" id="4_1lynf"]
 [ext_resource type="PackedScene" uid="uid://cjhh34b5npjxe" path="res://actor_proxies/trigger_volume_proxy.tscn" id="5_7qnin"]
@@ -11,17 +10,17 @@
 [node name="sandbox" type="Node3D"]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.4335, 0)
 use_collision = true
-size = Vector3(66, 8, 66)
-material = ExtResource("1_hkk0c")
+size = Vector3(66, 40, 66)
+material = ExtResource("2_23mqu")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="CSGBox3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
 operation = 2
 use_collision = true
-size = Vector3(32, 8, 32)
-material = ExtResource("1_hkk0c")
+size = Vector3(32, 36, 32)
+material = ExtResource("2_23mqu")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, -5)
@@ -48,7 +47,8 @@ size = Vector3(1, 4, 1)
 material = ExtResource("2_23mqu")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, 0, 11, 8)
+transform = Transform3D(0.707107, 0.612373, -0.353553, 0, 0.5, 0.866026, 0.707107, -0.612373, 0.353553, 0, 11, 8)
+light_color = Color(0.823529, 0.647059, 0, 1)
 shadow_enabled = true
 
 [node name="actors" type="Node3D" parent="."]
