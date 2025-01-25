@@ -30,13 +30,19 @@ func _physics_process(_delta:float) -> void:
 		return
 	var pushDir:Vector3 = Vector3()
 	var flatDist:float = ZqfUtils.flat_distance_sqr(self.global_position, tarInfo.t.origin)
+
+	var desiredStance:int = HumanoidModel.STANCE_COMBAT
+	if flatDist > 15.0:
+		desiredStance = HumanoidModel.STANCE_AGILE
+	_model.set_desired_stance(desiredStance)
+	_model.check_stance()
 	
 	var yawToTarget:float = ZqfUtils.yaw_between(self.global_position, tarInfo.t.origin)
-	
+
 	if flatDist < (MELEE_RANGE * MELEE_RANGE):
 		pushDir = Vector3()
 		#_model.begin_move("spin_back_kick", _speedMul)
-		_start_random_move()
+		#_start_random_move()
 		_model.set_look_yaw(yawToTarget)
 	else:
 		pushDir.x = -sin(yawToTarget)

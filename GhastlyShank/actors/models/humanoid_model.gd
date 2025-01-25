@@ -7,7 +7,7 @@ var _moves:Dictionary = {
 	"jab" = {
 		anim = "jab",
 		moveType = MOVE_TYPE_SINGLE,
-		hitTickLH = 0.1,
+		hitTickLH = 0.0333,
 		damage = 1.0,
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
@@ -111,7 +111,7 @@ var _moves:Dictionary = {
 		#anim = "air_spin_kicks",
 		anim = "flying_kick",
 		moveType = MOVE_TYPE_DESCENDING,
-		hitTickRF = 0.3,
+		hitTickRF = 0.0333,
 		damage = 0.25,
 		juggleStrength = 0.0,
 		launchStrength = 1.0,
@@ -123,10 +123,10 @@ var _moves:Dictionary = {
 		#anim = "air_spin_kicks",
 		anim = "slide_kick",
 		moveType = MOVE_TYPE_SLIDE,
-		hitTickRF = 0.3,
+		hitTickRF = 0.0333,
 		damage = 0.25,
-		juggleStrength = 0.0,
-		launchStrength = 1.0,
+		juggleStrength = 1.0,
+		launchStrength = 0.0,
 		sweepStrength = 0.0,
 		hitHeight = HIT_HEIGHT_LOW,
 		canEvadeCancel = false
@@ -610,9 +610,6 @@ func begin_launch(yaw:float, launchingTeamId:int = 0) -> void:
 	set_look_yaw(yaw + PI)
 	_launchedAoE.monitoring = true
 
-func begin_agile_whirlwind() -> void:
-	pass
-
 func set_blinking(flag:bool) -> void:
 	if !_isBlinking && flag:
 		_blinkTick = BLINK_TIME
@@ -658,12 +655,14 @@ func _change_stance(newStance:int) -> void:
 		STANCE_AGILE:
 			_stanceMoveSpeed = 8.0
 			self.set_idle_to_agile()
-			self.play_idle()
+			if _state == STATE_NEUTRAL:
+				self.play_idle()
 		_:
 			# default - combat
 			_stanceMoveSpeed = 3.0
 			self.set_idle_to_combat()
-			self.play_idle()
+			if _state == STATE_NEUTRAL:
+				self.play_idle()
 
 func get_stance() -> int:
 	return _stance
@@ -740,65 +739,6 @@ func _process_agile_stance(_delta: float, _pushDir:Vector3, _desiredYaw:float) -
 			buffer_move("")
 			return
 
-func _process_agile_stance2(_delta: float, _pushDir:Vector3, _desiredYaw:float) -> void:
-	
-	var verticalSpeed:float = _charBody.velocity.y
-
-	# calc horizontal velocity
-	var horizontalVelocity:Vector3 = _charBody.velocity
-	horizontalVelocity.y = 0.0
-	var flatVelocityCap:float = horizontalVelocity.length()
-	if flatVelocityCap < _stanceMoveSpeed:
-		flatVelocityCap = _stanceMoveSpeed
-	
-	var dragAccel:float = 15.0
-	var isOnFloor:bool = _charBody.is_on_floor()
-	var isPushing:bool = _pushDir.x != 0 && _pushDir.z != 0
-	if isOnFloor:
-		dragAccel = 50.0
-
-	if isPushing:
-		# pushing
-		if isOnFloor:
-			horizontalVelocity += (_pushDir * (80.0 * _delta))
-	else:
-		# no push - drag
-		var drag:Vector3 = horizontalVelocity.normalized()
-		drag = -drag
-		drag *= dragAccel * _delta
-		horizontalVelocity += drag
-		# force stop
-		if horizontalVelocity.length_squared() <= drag.length_squared():
-			horizontalVelocity.x = 0
-			horizontalVelocity.z = 0
-	if horizontalVelocity.length() > flatVelocityCap:
-		horizontalVelocity = horizontalVelocity.normalized() * flatVelocityCap
-
-	var finalVelocity:Vector3 = horizontalVelocity
-	finalVelocity.y = verticalSpeed
-
-
-	if isOnFloor && _pushDir.y > 0: # jump
-		finalVelocity.y = 7.5
-	else: # fall
-		finalVelocity.y = verticalSpeed + (-20.0 * _delta)
-	_charBody.velocity = finalVelocity
-	_charBody.move_and_slide()
-
-	# look in dir of movement
-	if horizontalVelocity.x != 0 && horizontalVelocity.z != 0:
-		var modelYaw:float = atan2(-horizontalVelocity.x, -horizontalVelocity.z)
-		_desiredYaw = modelYaw
-		set_look_yaw(_desiredYaw)
-	
-	# start moves
-	if _bufferedMoveName != "":
-		if begin_move(_bufferedMoveName, 1.0):
-			buffer_move("")
-			return
-	pass
-
-
 func _process_neutral_combat_stance(_delta:float, _pushDir:Vector3, _desiredYaw:float) -> void:
 	if is_performing_move():
 		return
@@ -808,39 +748,6 @@ func _process_neutral_combat_stance(_delta:float, _pushDir:Vector3, _desiredYaw:
 		if begin_move(_bufferedMoveName, 1.0):
 			buffer_move("")
 			return
-
-func _process_neutral_combat_stance2(_delta:float, _pushDir:Vector3, _desiredYaw:float) -> void:
-	if is_performing_move():
-		return
-	set_look_yaw(_desiredYaw)
-
-	var verticalSpeed:float = _charBody.velocity.y
-
-	# calc horizontal velocity
-	var horizontalVelocity:Vector3 = _charBody.velocity
-	horizontalVelocity.y = 0.0
-	var flatVelocityCap:float = horizontalVelocity.length()
-	if flatVelocityCap < _stanceMoveSpeed:
-		flatVelocityCap = _stanceMoveSpeed
-	horizontalVelocity += (_pushDir * (80.0 * _delta))
-	if horizontalVelocity.length() > flatVelocityCap:
-		horizontalVelocity = horizontalVelocity.normalized() * flatVelocityCap
-
-	var finalVelocity:Vector3 = horizontalVelocity
-	finalVelocity.y = verticalSpeed
-
-	#_charBody.velocity = _pushDir * _stanceMoveSpeed
-	if _charBody.is_on_floor() && _pushDir.y > 0: # jump
-		finalVelocity.y = 5.0
-	else: # fall
-		finalVelocity.y = verticalSpeed + (-20.0 * _delta)
-	
-	if _bufferedMoveName != "":
-		if begin_move(_bufferedMoveName, 1.0):
-			buffer_move("")
-			return
-	_charBody.velocity = finalVelocity
-	_charBody.move_and_slide()
 
 func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) -> void:
 

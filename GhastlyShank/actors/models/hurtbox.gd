@@ -20,9 +20,9 @@ func run(timeToRun:float = 0.1) -> void:
 	_time = timeToRun
 	_tick = _time
 	monitoring = true
+	set_process(true)
 	if showAttackIndicators:
 		_indicator.visible = true
-		set_process(true)
 
 func clear() -> void:
 	_indicator.visible = false

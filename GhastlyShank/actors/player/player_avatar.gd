@@ -37,53 +37,8 @@ func _on_hurt_victim(_selfModel:HumanoidModel, _source:Area3D, _victim:Area3D) -
 		return
 	print("Player hit something. Bravo")
 
-func _tick_movement(_delta:float) -> void:
-	var cameraBasis:Basis = _cameraRig.get_move_basis()
-	
-	var input_dir:Vector2 = Vector2()
-	if !Zqf.has_mouse_claims():
-		input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	var pushDir:Vector3 = (cameraBasis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	velocity = pushDir * 5
-	
-	if velocity:
-		var modelYaw:float = atan2(-velocity.x, -velocity.z)
-		var radians:Vector3 = _model.rotation
-		radians.y = modelYaw
-		_model.rotation = radians		
-
-	move_and_slide()
-
 func get_target_info() -> ActorTargetInfo:
 	return _targetInfo
-
-func _tick_movement_agile(pushDir:Vector3, _delta:float) -> void:
-	var verticalSpeed:float = velocity.y
-	velocity = pushDir * AGILE_RUN_SPEED
-	if is_on_floor() && pushDir.y > 0: # jump
-		velocity.y = 5.0
-	else: # fall
-		velocity.y = verticalSpeed + (-20.0 * _delta)
-	move_and_slide()
-
-func _tick_movement_combat(pushDir:Vector3, _delta:float) -> void:
-	var verticalSpeed:float = velocity.y
-	velocity = pushDir * COMBAT_RUNS_SPEED
-	if is_on_floor() && pushDir.y > 0: # jump
-		velocity.y = 5.0
-	else: # fall
-		velocity.y = verticalSpeed + (-20.0 * _delta)
-	move_and_slide()
-
-func _face_model_to_velocity() -> float:
-	if velocity:
-		var modelYaw:float = atan2(-velocity.x, -velocity.z)
-		_desiredYaw = modelYaw
-	return _desiredYaw
-		#_model.set_look_yaw(modelYaw)
-		#var radians:Vector3 = _model.rotation
-		#radians.y = modelYaw
-		#_model.rotation = radians
 
 func _face_model_to_look() -> float:
 	var dir:Vector3 = _cameraRig.get_move_basis().z
@@ -227,11 +182,4 @@ func _physics_process(_delta: float) -> void:
 				_face_model_to_look()
 			_model.custom_physics_process(_delta, pushDir, _desiredYaw)
 		_:
-			
 			_model.custom_physics_process(_delta, pushDir, _desiredYaw)
-			#_tick_movement_agile(pushDir, _delta)
-			#if atk1:
-			#	pass
-			#	#_model.begin_agile_whirlwind()
-			#_face_model_to_velocity()
-			#_model.set_look_yaw(_desiredYaw)
