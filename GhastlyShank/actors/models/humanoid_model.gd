@@ -109,14 +109,26 @@ var _moves:Dictionary = {
 	},
 	"flying_kick" = {
 		#anim = "air_spin_kicks",
-		anim = "air_spin_kicks",
+		anim = "flying_kick",
 		moveType = MOVE_TYPE_DESCENDING,
 		hitTickRF = 0.3,
 		damage = 0.25,
 		juggleStrength = 0.0,
 		launchStrength = 1.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID,
+		hitHeight = HIT_HEIGHT_HIGH,
+		canEvadeCancel = false
+	},
+	"slide_kick" = {
+		#anim = "air_spin_kicks",
+		anim = "slide_kick",
+		moveType = MOVE_TYPE_SLIDE,
+		hitTickRF = 0.3,
+		damage = 0.25,
+		juggleStrength = 0.0,
+		launchStrength = 1.0,
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_LOW,
 		canEvadeCancel = false
 	},
 	"air_snap_kicks" = {
@@ -177,6 +189,7 @@ const ANIM_DAZED:String = "dazed"
 const MOVE_TYPE_SINGLE:int = 0
 const MOVE_TYPE_CHARGE:int = 1
 const MOVE_TYPE_DESCENDING:int = 2
+const MOVE_TYPE_SLIDE:int = 3
 
 const MOVE_JAB:String = "jab"
 const MOVE_SPIN_BACK_KICK:String = "spin_back_kick"
@@ -212,6 +225,8 @@ const WEIGHT_CLASS_PLAYER:int = 3
 @onready var _rightFootArea:HurtboxArea3D = $hitboxes/foot_r/Area3D
 @onready var _launchedAoE:Area3D = $hitboxes/launched_aoe
 @onready var _hitInfo:HitInfo = $HitInfo
+
+var debugLevel:int = 0
 
 var _charBody:CharacterBody3D = null
 var _hitbox:Area3D = null
@@ -338,16 +353,19 @@ func hit(_incomingHit:HitInfo) -> int:
 	
 	# check if move can hit first
 	if _state == STATE_EVADE_MOVING || _state == STATE_EVADE_STATIC && !hitsLow:
-		print(str(self) + " evaded")
+		if debugLevel > 0:
+			print(str(self) + " evaded")
 		return -1
 	
 	if !hitsLow && _currentMoveName == "sweep":
-		print(str(self) + " evaded low")
+		if debugLevel > 0:
+			print(str(self) + " evaded low")
 		return -1
 	
 	# 0.5 is falling-over part of knockdown animation
 	if !hitsLow && _state == STATE_FALLEN && _animator.current_animation_position > 0.5:
-		print(str(self) + " attack too high")
+		if debugLevel > 0:
+			print(str(self) + " attack too high")
 		return -1
 
 	print(str(self) + " hit")
@@ -395,13 +413,14 @@ func begin_move(moveName:String, speedModifier:float = 1.0) -> bool:
 		return false
 	if is_performing_move():
 		return false
-	
-	print("Start " + str (moveName))
+	if debugLevel > 0:
+		print("Start " + str (moveName))
 	var move:Dictionary = _moves[moveName]
 	_animator.play(move.anim, -1, speedModifier)
 	_animator.queue(_stanceIdleAnim)
 	_currentMoveName = moveName
 	_state = STATE_PERFORMING_MOVE
+	_stateTick = 0.0
 
 	# required
 	_hitInfo.damage = move.damage
@@ -428,7 +447,8 @@ func _finish_move() -> void:
 	_hitInfo.juggleStrength = 0.0
 	_hitInfo.launchStrength = 0.0
 	if _currentMoveName != "":
-		print("Enter idle move clear")
+		if debugLevel > 0:
+			print("Enter idle move clear")
 		_lastMoveName = _currentMoveName
 		_lastMoveEndTime = _totalThinkTime
 		_clear_current_move()
@@ -575,7 +595,8 @@ func begin_launch(yaw:float, launchingTeamId:int = 0) -> void:
 	_hitInfo.launchStrength = 1.0
 	_hitInfo.teamId = launchingTeamId
 
-	_animator.play("launched")
+	if debugLevel > 0:
+		_animator.play("launched")
 	_state = STATE_LAUNCHED
 	var speed:float = 20.0
 	match _weightClass:
@@ -656,21 +677,117 @@ func check_stance() -> int:
 # Frame tick
 ########################################################
 
-func _process_agile_stance(_delta: float, _pushDir:Vector3, _desiredYaw:float) -> void:
-	var vel:Vector3 = _charBody.velocity
-	var verticalSpeed:float = vel.y
-	vel = _pushDir * 9.5
+func _step_movement(_delta:float, _pushDir:Vector3, pushSpeedCap:float, jumpSpeed:float) -> void:
+	
+	var verticalSpeed:float = _charBody.velocity.y
 
-	if _charBody.is_on_floor() && _pushDir.y > 0: # jump
-		vel.y = 7.5
+	# calc horizontal velocity
+	var horizontalVelocity:Vector3 = _charBody.velocity
+	horizontalVelocity.y = 0.0
+	var flatVelocityCap:float = horizontalVelocity.length()
+	if flatVelocityCap < pushSpeedCap:
+		flatVelocityCap = pushSpeedCap
+	
+	var dragAccel:float = 15.0
+	var isOnFloor:bool = _charBody.is_on_floor()
+	var isPushing:bool = _pushDir.x != 0 && _pushDir.z != 0
+	if isOnFloor:
+		dragAccel = 50.0
+
+	if isPushing:
+		# pushing
+		if isOnFloor:
+			horizontalVelocity += (_pushDir * (80.0 * _delta))
+	else:
+		# no push - drag
+		var drag:Vector3 = horizontalVelocity.normalized()
+		drag = -drag
+		drag *= dragAccel * _delta
+		horizontalVelocity += drag
+		# force stop
+		if horizontalVelocity.length_squared() <= drag.length_squared():
+			horizontalVelocity.x = 0
+			horizontalVelocity.z = 0
+	if horizontalVelocity.length() > flatVelocityCap:
+		horizontalVelocity = horizontalVelocity.normalized() * flatVelocityCap
+
+	var finalVelocity:Vector3 = horizontalVelocity
+	finalVelocity.y = verticalSpeed
+
+	if isOnFloor && _pushDir.y > 0: # jump
+		finalVelocity.y = jumpSpeed
 	else: # fall
-		vel.y = verticalSpeed + (-20.0 * _delta)
-	_charBody.velocity = vel
+		finalVelocity.y = verticalSpeed + (-20.0 * _delta)
+	_charBody.velocity = finalVelocity
+	_charBody.move_and_slide()
+
+	pass
+
+func _process_agile_stance(_delta: float, _pushDir:Vector3, _desiredYaw:float) -> void:
+	_step_movement(_delta, _pushDir, _stanceMoveSpeed, 7.5)
+	
+	var horizontalVelocity:Vector3 = _charBody.velocity
+	horizontalVelocity.y = 0.0
+	# look in dir of movement
+	if horizontalVelocity.x != 0 && horizontalVelocity.z != 0:
+		var modelYaw:float = atan2(-horizontalVelocity.x, -horizontalVelocity.z)
+		_desiredYaw = modelYaw
+		set_look_yaw(_desiredYaw)
+	
+	# start moves
+	if _bufferedMoveName != "":
+		if begin_move(_bufferedMoveName, 1.0):
+			buffer_move("")
+			return
+
+func _process_agile_stance2(_delta: float, _pushDir:Vector3, _desiredYaw:float) -> void:
+	
+	var verticalSpeed:float = _charBody.velocity.y
+
+	# calc horizontal velocity
+	var horizontalVelocity:Vector3 = _charBody.velocity
+	horizontalVelocity.y = 0.0
+	var flatVelocityCap:float = horizontalVelocity.length()
+	if flatVelocityCap < _stanceMoveSpeed:
+		flatVelocityCap = _stanceMoveSpeed
+	
+	var dragAccel:float = 15.0
+	var isOnFloor:bool = _charBody.is_on_floor()
+	var isPushing:bool = _pushDir.x != 0 && _pushDir.z != 0
+	if isOnFloor:
+		dragAccel = 50.0
+
+	if isPushing:
+		# pushing
+		if isOnFloor:
+			horizontalVelocity += (_pushDir * (80.0 * _delta))
+	else:
+		# no push - drag
+		var drag:Vector3 = horizontalVelocity.normalized()
+		drag = -drag
+		drag *= dragAccel * _delta
+		horizontalVelocity += drag
+		# force stop
+		if horizontalVelocity.length_squared() <= drag.length_squared():
+			horizontalVelocity.x = 0
+			horizontalVelocity.z = 0
+	if horizontalVelocity.length() > flatVelocityCap:
+		horizontalVelocity = horizontalVelocity.normalized() * flatVelocityCap
+
+	var finalVelocity:Vector3 = horizontalVelocity
+	finalVelocity.y = verticalSpeed
+
+
+	if isOnFloor && _pushDir.y > 0: # jump
+		finalVelocity.y = 7.5
+	else: # fall
+		finalVelocity.y = verticalSpeed + (-20.0 * _delta)
+	_charBody.velocity = finalVelocity
 	_charBody.move_and_slide()
 
 	# look in dir of movement
-	if vel.x != 0 && vel.z != 0:
-		var modelYaw:float = atan2(-vel.x, -vel.z)
+	if horizontalVelocity.x != 0 && horizontalVelocity.z != 0:
+		var modelYaw:float = atan2(-horizontalVelocity.x, -horizontalVelocity.z)
 		_desiredYaw = modelYaw
 		set_look_yaw(_desiredYaw)
 	
@@ -681,21 +798,48 @@ func _process_agile_stance(_delta: float, _pushDir:Vector3, _desiredYaw:float) -
 			return
 	pass
 
+
 func _process_neutral_combat_stance(_delta:float, _pushDir:Vector3, _desiredYaw:float) -> void:
 	if is_performing_move():
 		return
 	set_look_yaw(_desiredYaw)
+	_step_movement(_delta, _pushDir, _stanceMoveSpeed, 5.0)
+	if _bufferedMoveName != "":
+		if begin_move(_bufferedMoveName, 1.0):
+			buffer_move("")
+			return
+
+func _process_neutral_combat_stance2(_delta:float, _pushDir:Vector3, _desiredYaw:float) -> void:
+	if is_performing_move():
+		return
+	set_look_yaw(_desiredYaw)
+
 	var verticalSpeed:float = _charBody.velocity.y
-	_charBody.velocity = _pushDir * _stanceMoveSpeed
+
+	# calc horizontal velocity
+	var horizontalVelocity:Vector3 = _charBody.velocity
+	horizontalVelocity.y = 0.0
+	var flatVelocityCap:float = horizontalVelocity.length()
+	if flatVelocityCap < _stanceMoveSpeed:
+		flatVelocityCap = _stanceMoveSpeed
+	horizontalVelocity += (_pushDir * (80.0 * _delta))
+	if horizontalVelocity.length() > flatVelocityCap:
+		horizontalVelocity = horizontalVelocity.normalized() * flatVelocityCap
+
+	var finalVelocity:Vector3 = horizontalVelocity
+	finalVelocity.y = verticalSpeed
+
+	#_charBody.velocity = _pushDir * _stanceMoveSpeed
 	if _charBody.is_on_floor() && _pushDir.y > 0: # jump
-		_charBody.velocity.y = 5.0
+		finalVelocity.y = 5.0
 	else: # fall
-		_charBody.velocity.y = verticalSpeed + (-20.0 * _delta)
+		finalVelocity.y = verticalSpeed + (-20.0 * _delta)
 	
 	if _bufferedMoveName != "":
 		if begin_move(_bufferedMoveName, 1.0):
 			buffer_move("")
 			return
+	_charBody.velocity = finalVelocity
 	_charBody.move_and_slide()
 
 func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) -> void:
@@ -722,17 +866,36 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 				MOVE_TYPE_DESCENDING:
 					if _charBody.is_on_floor():
 						_finish_move()
+						play_idle()
 						_state = STATE_NEUTRAL
 					else:
 						var vel:Vector3 = _charBody.velocity
 						vel.y += (-20.0 * _delta)
 						_charBody.velocity = vel
 						_charBody.move_and_slide()
+				MOVE_TYPE_SLIDE:
+					_stateTick += _delta
+					var vel:Vector3 = _charBody.velocity
+					var drag = _charBody.velocity.normalized()
+					drag.y = 0
+					drag = -drag
+					drag *= 10.0 * _delta
+					vel += drag
+					vel.y += (-20.0 * _delta)
+					_charBody.velocity = vel
+					_charBody.move_and_slide()
+					if debugLevel > 1:
+						print(str(_stateTick))
+					if _stateTick > 0.75:
+						_finish_move()
+						play_idle()
+						_state = STATE_NEUTRAL
 				_:
 					# check if we are in idle
 					var anim:String = _animator.current_animation
 					if anim == ANIM_IDLE || anim == ANIM_IDLE_AGILE:
-						print("Performing move finish - anim is idle")
+						if debugLevel > 0:
+							print("Performing move finish - anim is idle")
 						_finish_move()
 						_state = STATE_NEUTRAL
 		STATE_EVADE_MOVING, STATE_EVADE_STATIC:

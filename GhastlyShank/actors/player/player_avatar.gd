@@ -207,10 +207,13 @@ func _physics_process(_delta: float) -> void:
 					else:
 						_model.buffer_move("haymaker_loop")
 		HumanoidModel.STANCE_AGILE:
-			var v:float = Input.get_axis("move_backward", "move_forward")
+			#var v:float = Input.get_axis("move_backward", "move_forward")
 			if !self.is_on_floor():
-				if atk1:
+				if atk2:
 					_model.buffer_move("flying_kick")
+			else:
+				if atk2:
+					_model.buffer_move("slide_kick")
 
 	match stance:
 		HumanoidModel.STANCE_COMBAT:
