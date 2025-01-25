@@ -3,19 +3,9 @@ class_name HumanoidModel
 
 signal on_hurtbox_touched_victim(_model:HumanoidModel, _source:Area3D, _victim:Area3D)
 
-const ANIM_IDLE:String = "_idle"
-const ANIM_IDLE_AGILE:String = "running" # "_idle_agile"
-const ANIM_EVADE_STATIC_1:String = "evade_static_1"
-const ANIM_EVADE_STATIC_2:String = "evade_static_2"
-const ANIM_JAB:String = "jab"
-const ANIM_SPIN_BACK_KICK:String = "spin_back_kick"
-const ANIM_UPPERCUT:String = "uppercut"
-const ANIM_ROLLING_PUNCHES:String = "rolling_punches_repeatable"
-const ANIM_SWEEP:String = "sweep"
-
 var _moves:Dictionary = {
 	"jab" = {
-		anim = ANIM_JAB,
+		anim = "jab",
 		moveType = MOVE_TYPE_SINGLE,
 		hitTickLH = 0.1,
 		damage = 1.0,
@@ -70,7 +60,7 @@ var _moves:Dictionary = {
 		canEvadeCancel = true
 	},
 	"uppercut" = {
-		anim = ANIM_UPPERCUT,
+		anim = "uppercut",
 		moveType = MOVE_TYPE_CHARGE,
 		animCharge = "uppercut_charge",
 		animRelease = "uppercut_release",
@@ -95,7 +85,7 @@ var _moves:Dictionary = {
 		canEvadeCancel = true
 	},
 	"rolling_punches_repeatable" = {
-		anim = ANIM_ROLLING_PUNCHES,
+		anim = "rolling_punches_repeatable",
 		moveType = MOVE_TYPE_SINGLE,
 		hitTickLH = 0.05,
 		hitTickRH = 0.1,
@@ -107,7 +97,7 @@ var _moves:Dictionary = {
 		canEvadeCancel = true
 	},
 	"spin_back_kick" = {
-		anim = ANIM_SPIN_BACK_KICK,
+		anim = "spin_back_kick",
 		moveType = MOVE_TYPE_SINGLE,
 		hitTickRF = 0.3,
 		damage = 0.25,
@@ -117,8 +107,33 @@ var _moves:Dictionary = {
 		hitHeight = HIT_HEIGHT_MID,
 		canEvadeCancel = false
 	},
+	"flying_kick" = {
+		#anim = "air_spin_kicks",
+		anim = "air_spin_kicks",
+		moveType = MOVE_TYPE_DESCENDING,
+		hitTickRF = 0.3,
+		damage = 0.25,
+		juggleStrength = 0.0,
+		launchStrength = 1.0,
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID,
+		canEvadeCancel = false
+	},
+	"air_snap_kicks" = {
+		#anim = "air_spin_kicks",
+		anim = "air_snap_kicks",
+		moveType = MOVE_TYPE_DESCENDING,
+		hitTickLF = 0.1,
+		hitTickRF = 0.3,
+		damage = 1.25,
+		juggleStrength = 1.0,
+		launchStrength = 0.0,
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID,
+		canEvadeCancel = false
+	},
 	"sweep" = {
-		anim = ANIM_SWEEP,
+		anim = "sweep",
 		moveType = MOVE_TYPE_SINGLE,
 		hitTickRF = 0.33,
 		damage = 0.25,
@@ -147,15 +162,27 @@ const MOVING_EVADE_TIME:float = 0.3
 const MOVING_EVADE_LOCKOUT_TIME:float = 0.2
 const FLINCH_EVADE_LOCKOUT_TIME:float = 0.1
 
-const MOVE_TYPE_SINGLE:int = 0
-const MOVE_TYPE_CHARGE:int = 1
-
 const HIT_HEIGHT_HIGH:int = (1 << 0)
 const HIT_HEIGHT_MID:int = (1 << 1)
 const HIT_HEIGHT_LOW:int = (1 << 2)
 
+const ANIM_IDLE:String = "_idle"
+const ANIM_IDLE_AGILE:String = "running" # "_idle_agile"
+const ANIM_EVADE_STATIC_1:String = "evade_static_1"
+const ANIM_EVADE_STATIC_2:String = "evade_static_2"
+
 const ANIM_FLINCH:String = "flinch"
 const ANIM_DAZED:String = "dazed"
+
+const MOVE_TYPE_SINGLE:int = 0
+const MOVE_TYPE_CHARGE:int = 1
+const MOVE_TYPE_DESCENDING:int = 2
+
+const MOVE_JAB:String = "jab"
+const MOVE_SPIN_BACK_KICK:String = "spin_back_kick"
+const MOVE_UPPERCUT:String = "uppercut"
+const MOVE_ROLLING_PUNCHES:String = "rolling_punches_repeatable"
+const MOVE_SWEEP:String = "sweep"
 
 const BLINK_TIME:float = 0.05
 
@@ -198,6 +225,8 @@ var _stateTime:float = 0.0
 var _stance:int = STANCE_AGILE
 var _pendingStance:int = STANCE_COMBAT
 var _stanceMoveSpeed:float = 3.0
+var _stanceIdleAnim:String = ANIM_IDLE
+var _stanceJumpSpeed:float = 3.0
 
 var _evadeDir:Vector3 = Vector3()
 var _evadeLockoutTick:float = 0.0
@@ -209,7 +238,6 @@ var _lastMoveName:String = ""
 var _lastMoveEndTime:float = 0.0
 #var _nextMoveYaw:float = 0.0
 
-var _idleAnim:String = ANIM_IDLE
 var _blinkTick:float = 0.0
 var _isBlinking:bool = false
 
@@ -253,13 +281,13 @@ func get_current_move_name() -> String:
 
 # stance specific idle animations
 func set_idle_to_agile() -> void:
-	_idleAnim = ANIM_IDLE_AGILE
+	_stanceIdleAnim = ANIM_IDLE_AGILE
 
 func set_idle_to_combat() -> void:
-	_idleAnim = ANIM_IDLE
+	_stanceIdleAnim = ANIM_IDLE
 
 func play_idle() -> void:
-	_animator.play(_idleAnim)
+	_animator.play(_stanceIdleAnim)
 
 func get_debug_text() -> String:
 	var txt:String = "State: " + str(_state)
@@ -371,7 +399,7 @@ func begin_move(moveName:String, speedModifier:float = 1.0) -> bool:
 	print("Start " + str (moveName))
 	var move:Dictionary = _moves[moveName]
 	_animator.play(move.anim, -1, speedModifier)
-	_animator.queue(_idleAnim)
+	_animator.queue(_stanceIdleAnim)
 	_currentMoveName = moveName
 	_state = STATE_PERFORMING_MOVE
 
@@ -442,7 +470,7 @@ func _play_random_evade_anim() -> void:
 			_animator.play(ANIM_EVADE_STATIC_1)
 		else:
 			_animator.play(ANIM_EVADE_STATIC_2)
-	_animator.queue(_idleAnim)
+	_animator.queue(_stanceIdleAnim)
 
 func begin_evade(dir:Vector3) -> bool:
 	if _evadeLockoutTick > 0.0:
@@ -452,6 +480,10 @@ func begin_evade(dir:Vector3) -> bool:
 			return false
 	if _moves.has(_currentMoveName) && !_moves[_currentMoveName].canEvadeCancel:
 		return false
+	if !_charBody.is_on_floor():
+		return false
+	# okay, we can evade
+
 	_evadeDir = dir
 	if dir.is_zero_approx():
 		_play_random_evade_anim()
@@ -463,10 +495,10 @@ func begin_evade(dir:Vector3) -> bool:
 	else:
 		if dir.x < 0:
 			_animator.play(ANIM_EVADE_STATIC_1)
-			_animator.queue(_idleAnim)
+			_animator.queue(_stanceIdleAnim)
 		elif dir.x > 0:
 			_animator.play(ANIM_EVADE_STATIC_2)
-			_animator.queue(_idleAnim)
+			_animator.queue(_stanceIdleAnim)
 		else:
 			_play_random_evade_anim()
 		_charBody.velocity = dir * EVADE_SPEED
@@ -485,7 +517,7 @@ func begin_flinch() -> void:
 	_all_hurtboxes_off()
 	_clear_current_move()
 	_animator.play("flinch")
-	_animator.queue(_idleAnim)
+	_animator.queue(_stanceIdleAnim)
 	_state = STATE_HIT_FLINCHING
 	_evadeLockoutTick = FLINCH_EVADE_LOCKOUT_TIME
 	_stateTime = 0.2
@@ -523,7 +555,7 @@ func begin_rising() -> void:
 	_all_hurtboxes_off()
 	_clear_current_move()
 	_animator.play("fallen_to_idle")
-	_animator.queue(_idleAnim)
+	_animator.queue(_stanceIdleAnim)
 	_state = STATE_RISING
 	_stateTime = 1.0
 	_stateTick = _stateTime
@@ -600,55 +632,109 @@ func set_desired_stance(newStance:int) -> void:
 	_pendingStance = newStance
 
 func _change_stance(newStance:int) -> void:
+	_stance = newStance
 	match newStance:
 		STANCE_AGILE:
 			_stanceMoveSpeed = 8.0
 			self.set_idle_to_agile()
+			self.play_idle()
 		_:
 			# default - combat
 			_stanceMoveSpeed = 3.0
 			self.set_idle_to_combat()
+			self.play_idle()
 
 func get_stance() -> int:
 	return _stance
 
+func check_stance() -> int:
+	if _stance != _pendingStance && _can_change_stance():
+		_change_stance(_pendingStance)
+	return _stance
+
+########################################################
+# Frame tick
+########################################################
+
+func _process_agile_stance(_delta: float, _pushDir:Vector3, _desiredYaw:float) -> void:
+	var vel:Vector3 = _charBody.velocity
+	var verticalSpeed:float = vel.y
+	vel = _pushDir * 9.5
+
+	if _charBody.is_on_floor() && _pushDir.y > 0: # jump
+		vel.y = 7.5
+	else: # fall
+		vel.y = verticalSpeed + (-20.0 * _delta)
+	_charBody.velocity = vel
+	_charBody.move_and_slide()
+
+	# look in dir of movement
+	if vel.x != 0 && vel.z != 0:
+		var modelYaw:float = atan2(-vel.x, -vel.z)
+		_desiredYaw = modelYaw
+		set_look_yaw(_desiredYaw)
+	
+	# start moves
+	if _bufferedMoveName != "":
+		if begin_move(_bufferedMoveName, 1.0):
+			buffer_move("")
+			return
+	pass
+
+func _process_neutral_combat_stance(_delta:float, _pushDir:Vector3, _desiredYaw:float) -> void:
+	if is_performing_move():
+		return
+	set_look_yaw(_desiredYaw)
+	var verticalSpeed:float = _charBody.velocity.y
+	_charBody.velocity = _pushDir * _stanceMoveSpeed
+	if _charBody.is_on_floor() && _pushDir.y > 0: # jump
+		_charBody.velocity.y = 5.0
+	else: # fall
+		_charBody.velocity.y = verticalSpeed + (-20.0 * _delta)
+	
+	if _bufferedMoveName != "":
+		if begin_move(_bufferedMoveName, 1.0):
+			buffer_move("")
+			return
+	_charBody.move_and_slide()
+
 func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) -> void:
 
-	if _stance != _pendingStance && _can_change_stance():
-		_stance = _pendingStance
-	
 	if _bufferedMoveName != "":
 		_bufferedMoveTick += _delta
 		if _bufferedMoveTick > 0.5:
 			buffer_move("")
 	match _state:
 		STATE_NEUTRAL:
-			if is_performing_move():
-				return
-			set_look_yaw(_desiredYaw)
-			var verticalSpeed:float = _charBody.velocity.y
-			_charBody.velocity = _pushDir * _stanceMoveSpeed
-			if _charBody.is_on_floor() && _pushDir.y > 0: # jump
-				_charBody.velocity.y = 5.0
-			else: # fall
-				_charBody.velocity.y = verticalSpeed + (-20.0 * _delta)
-			if _bufferedMoveName != "":
-				if begin_move(_bufferedMoveName, 1.0):
-					buffer_move("")
-					return
-			_charBody.move_and_slide()
+			match _stance:
+				STANCE_AGILE:
+					_process_agile_stance(_delta, _pushDir, _desiredYaw)
+				_:
+					_process_neutral_combat_stance(_delta, _pushDir, _desiredYaw)
 		STATE_PERFORMING_MOVE:
 			if !_moves.has(_currentMoveName):
 				# err?
 				_state = STATE_NEUTRAL
 				return
 			var move:Dictionary = _moves[_currentMoveName]
-			# check if we are in idle
-			var anim:String = _animator.current_animation
-			if anim == ANIM_IDLE || anim == ANIM_IDLE_AGILE:
-				print("Performing move finish - anim is idle")
-				_finish_move()
-				_state = STATE_NEUTRAL
+			var moveType:int = move.moveType
+			match moveType:
+				MOVE_TYPE_DESCENDING:
+					if _charBody.is_on_floor():
+						_finish_move()
+						_state = STATE_NEUTRAL
+					else:
+						var vel:Vector3 = _charBody.velocity
+						vel.y += (-20.0 * _delta)
+						_charBody.velocity = vel
+						_charBody.move_and_slide()
+				_:
+					# check if we are in idle
+					var anim:String = _animator.current_animation
+					if anim == ANIM_IDLE || anim == ANIM_IDLE_AGILE:
+						print("Performing move finish - anim is idle")
+						_finish_move()
+						_state = STATE_NEUTRAL
 		STATE_EVADE_MOVING, STATE_EVADE_STATIC:
 			var evadeMoveWeight = _stateTick / _stateTime
 			evadeMoveWeight = (evadeMoveWeight * 0.75) + 0.25
