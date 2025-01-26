@@ -5,6 +5,7 @@ const TEAM_ID_NONE:int = 0
 const TEAM_ID_ENEMY:int = 1
 const TEAM_ID_PLAYER:int = 2
 
+var _titleType:PackedScene = preload("res://worlds/title/title.tscn")
 var _sandboxWorldType:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 var _gameWorldType:PackedScene = preload("res://worlds/01/01.tscn")
 
@@ -19,7 +20,7 @@ var _volumeTriggerType:PackedScene = preload("res://actors/volumes/trigger_volum
 var _spawnPoints:Dictionary = {}
 
 func _ready():
-	call_deferred("_spawn_world")
+	call_deferred("start_title")
 	add_to_group(Zqf.GROUP_APP)
 
 func on_app_event(_event:String) -> void:
@@ -38,9 +39,11 @@ func get_player_target() -> ActorTargetInfo:
 	return _emptyTarget
 
 func register_spawn_point(uuid:String, spawnPoint) -> void:
+	print("Register spawn " + uuid)
 	_spawnPoints[uuid] = spawnPoint
 
 func unregister_spawn_point(uuid:String) -> void:
+	print("Unregister spawn " + uuid)
 	_spawnPoints.erase(uuid)
 
 func get_spawn_point(uuid:String):
@@ -71,8 +74,21 @@ func _gather_spawn_list(world:Node) -> Array:
 		spawnList.push_back(data)
 	return spawnList
 
-func _spawn_world() -> void:
-	var world:Node3D = Zqf.create_new_world(_sandboxWorldType)
+func start_new_game() -> void:
+	print("===== start game =====")
+	_spawn_world(_gameWorldType)
+
+func start_title() -> void:
+	print("===== start title =====")
+	_spawn_world(_titleType)
+
+func start_gym() -> void:
+	print("===== start gym =====")
+	_spawn_world(_sandboxWorldType)
+
+func _spawn_world(worldType:PackedScene) -> void:
+	Zqf.clear_all_actors()
+	var world:Node3D = Zqf.create_new_world(worldType)
 	var spawnList:Array = _gather_spawn_list(world)
 	_spawn_actors(spawnList)
 

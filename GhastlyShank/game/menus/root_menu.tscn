@@ -31,6 +31,14 @@ alignment = 1
 layout_mode = 2
 text = "START"
 
+[node name="title" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "RETURN TO TITLE"
+
+[node name="gym" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "ENTER GYM"
+
 [node name="back_to_game" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "BACK TO GAME"

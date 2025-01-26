@@ -15,23 +15,12 @@ var _playerInputOn:bool = false
 var _mouseClaims:Array = []
 var _pauseClaims:Array = []
 
-#func _ready():
-#	set_player_input_on(false)
-
-#func _process_defunct(_delta):
-#	if Input.is_action_just_pressed("toggle_console"):
-#		set_player_input_on(!_playerInputOn)
-#	pass
-
-#func set_player_input_on(flag:bool) -> void:
-#	_playerInputOn = flag
-#	if _playerInputOn:
-#		remove_mouse_claim(self)
-#	else:
-#		add_mouse_claim(self)
-
 func get_player_input_on() -> bool:
 	return _playerInputOn
+
+###################################################################
+# Scene Control
+###################################################################
 
 func get_actor_root() -> Node3D:
 	return _dynamicRoot

@@ -1,9 +1,19 @@
 extends Area3D
 class_name HurtboxArea3D
 
+enum Limb
+{
+	None,
+	LeftHand,
+	RightHand,
+	LeftFoot,
+	RightFoot
+}
+
 signal on_check_for_victims(_hurtbox:HurtboxArea3D, _areas:Array[Area3D])
 signal on_hit_victim(_hurtbox:HurtboxArea3D, victim:Area3D)
 
+@export var limb:Limb = Limb.None
 @onready var _indicator:AttackIndicator = $AttackIndicatorSphere
 
 enum State {

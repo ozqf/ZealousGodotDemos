@@ -20,7 +20,7 @@ func _ready() -> void:
 	self.connect("tree_exiting", _on_exiting_tree)
 	_model.connect("on_hurtbox_touched_victim", _on_hurt_victim)
 	_model.attach_character_body(self, _hitbox, GameController.TEAM_ID_PLAYER)
-	_model.set_show_attack_indicators(false)
+	#_model.set_show_attack_indicators(false)
 	_model.set_stats(HumanoidModel.WEIGHT_CLASS_PLAYER)
 	_hitbox.set_subject(_model)
 	Game.register_player(self)
@@ -111,8 +111,9 @@ func _physics_process(_delta: float) -> void:
 		HumanoidModel.STANCE_COMBAT:
 			var v:float = Input.get_axis("move_backward", "move_forward")
 			if !self.is_on_floor():
-				if atk1:
-					_model.buffer_move("air_snap_kicks")
+				if atk2:
+					_model.buffer_move("air_split_kicks")
+					#_model.buffer_move("air_snap_kicks")
 			else:
 				if atk1:
 					if v > 0:

@@ -147,6 +147,19 @@ var _moves:Dictionary = {
 		hitHeight = HIT_HEIGHT_MID,
 		canEvadeCancel = false
 	},
+	"air_split_kicks" = {
+		#anim = "air_spin_kicks",
+		anim = "air_split_kick",
+		moveType = MOVE_TYPE_SINGLE,
+		hitTickLF = 0.3,
+		hitTickRF = 0.3,
+		damage = 1.25,
+		juggleStrength = 0.0,
+		launchStrength = 0.5,
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID,
+		canEvadeCancel = false
+	},
 	"sweep" = {
 		anim = "sweep",
 		moveType = MOVE_TYPE_SINGLE,
@@ -353,9 +366,18 @@ func _on_check_for_victims(_hurtbox:HurtboxArea3D, _victims:Array[Area3D]) -> vo
 			victim.hit(_hitInfo)
 		#on_hurtbox_touched_victim.emit(self, _hurtbox, victim)
 
-func _on_hit_victim(_hurtbox:HurtboxArea3D, victim:Area3D) -> void:
+func _setup_hit_info(hurtBox:HurtboxArea3D, moveName:String) -> void:
 	_hitInfo.launchYawRadians = _lookYaw - PI
+	if moveName == "air_split_kicks":
+		match hurtBox.limb:
+			HurtboxArea3D.Limb.LeftHand, HurtboxArea3D.Limb.LeftFoot:
+				_hitInfo.launchYawRadians += (PI * 0.5)
+			HurtboxArea3D.Limb.RightHand, HurtboxArea3D.Limb.RightFoot:
+				_hitInfo.launchYawRadians -= (PI * 0.5)
 	_hitInfo.teamId = _teamId
+
+func _on_hit_victim(_hurtbox:HurtboxArea3D, victim:Area3D) -> void:
+	_setup_hit_info(_hurtbox, _currentMoveName)
 	if victim == _hitbox:
 		# self hit - ignore
 		return
@@ -386,10 +408,12 @@ func hit(_incomingHit:HitInfo) -> int:
 			print(str(self) + " attack too high")
 		return -1
 
-	print(str(self) + " hit")
+	#print(str(self) + " hit")
 	if _incomingHit.launchStrength > 0.0:
 		#print("Launched!")
-		begin_launch(_incomingHit.launchYawRadians, _incomingHit.teamId)
+		# don't relaunch otherwise multi-directional attacks interfer
+		if _state != STATE_LAUNCHED:
+			begin_launch(_incomingHit.launchYawRadians, _incomingHit.teamId)
 	elif _state == STATE_JUGGLED:
 		begin_juggle(4.0)
 	elif _incomingHit.juggleStrength > 0.0:
