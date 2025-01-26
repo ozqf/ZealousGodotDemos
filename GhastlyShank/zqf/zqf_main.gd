@@ -1,27 +1,34 @@
 extends Node3D
 class_name ZqfMain
 
+const GROUP_APP:String = "app"
+const FN_ON_APP_EVENT:String = "on_app_event"
 const GROUP_NAME_ACTOR_PROXIES:String = "actor_proxies"
+
+const APP_EVENT_PLAY:String = "play"
+const APP_EVENT_PAUSE:String = "pause"
 
 @onready var _dynamicRoot:Node3D = $dynamic_root
 @onready var _worldRoot:Node3D = $world_root
 
 var _playerInputOn:bool = false
+var _mouseClaims:Array = []
+var _pauseClaims:Array = []
 
-func _ready():
-	set_player_input_on(false)
+#func _ready():
+#	set_player_input_on(false)
 
-func _process(_delta):
-	if Input.is_action_just_pressed("toggle_console"):
-		set_player_input_on(!_playerInputOn)
-	pass
+#func _process_defunct(_delta):
+#	if Input.is_action_just_pressed("toggle_console"):
+#		set_player_input_on(!_playerInputOn)
+#	pass
 
-func set_player_input_on(flag:bool) -> void:
-	_playerInputOn = flag
-	if _playerInputOn:
-		remove_mouse_claim(self)
-	else:
-		add_mouse_claim(self)
+#func set_player_input_on(flag:bool) -> void:
+#	_playerInputOn = flag
+#	if _playerInputOn:
+#		remove_mouse_claim(self)
+#	else:
+#		add_mouse_claim(self)
 
 func get_player_input_on() -> bool:
 	return _playerInputOn
@@ -48,7 +55,6 @@ func create_new_world(worldScene:PackedScene) -> Node3D:
 ###################################################################
 # Mouse claims
 ###################################################################
-var _mouseClaims:Array = []
 
 func _refresh_mouse_claims() -> void:
 	if _mouseClaims.size() > 0:
@@ -70,3 +76,25 @@ func remove_mouse_claim(claimant:Node) -> void:
 	if i >= 0:
 		_mouseClaims.remove_at(i)
 	_refresh_mouse_claims()
+
+###################################################################
+# Pause claims
+###################################################################
+
+func has_pause_claims() -> bool:
+	return _pauseClaims.size() > 0
+
+func add_pause_claim(claimant:Node) -> void:
+	var prevCount:int = _pauseClaims.size()
+	var i:int = _pauseClaims.find(claimant)
+	if i == -1:
+		_pauseClaims.push_back(claimant)
+	if prevCount == 0:
+		self.get_tree().call_group(GROUP_APP, FN_ON_APP_EVENT, APP_EVENT_PAUSE)
+
+func remove_pause_claim(claimant:Node) -> void:
+	var i:int = _pauseClaims.find(claimant)
+	if i >= 0:
+		_pauseClaims.remove_at(i)
+		if _pauseClaims.is_empty():
+			self.get_tree().call_group(GROUP_APP, FN_ON_APP_EVENT, APP_EVENT_PLAY)

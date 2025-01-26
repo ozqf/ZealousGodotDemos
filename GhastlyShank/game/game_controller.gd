@@ -5,7 +5,9 @@ const TEAM_ID_NONE:int = 0
 const TEAM_ID_ENEMY:int = 1
 const TEAM_ID_PLAYER:int = 2
 
-var _worldType:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
+var _sandboxWorldType:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
+var _gameWorldType:PackedScene = preload("res://worlds/01/01.tscn")
+
 var _playerType:PackedScene = preload("res://actors/player/player_avatar.tscn")
 var _targetDummyType:PackedScene = preload("res://actors/target_dummy/target_dummy.tscn")
 var _wallTurretType:PackedScene = preload("res://actors/world/wall_turret.tscn")
@@ -13,9 +15,19 @@ var _volumeTriggerType:PackedScene = preload("res://actors/volumes/trigger_volum
 
 @onready var _emptyTarget:ActorTargetInfo = $empty_target
 @onready var _player:PlayerAvatar = null
+@onready var _rootMenu:RootMenu = $RootMenu
+var _spawnPoints:Dictionary = {}
 
 func _ready():
 	call_deferred("_spawn_world")
+	add_to_group(Zqf.GROUP_APP)
+
+func on_app_event(_event:String) -> void:
+	match _event:
+		Zqf.APP_EVENT_PAUSE:
+			Engine.time_scale = 0.0
+		Zqf.APP_EVENT_PLAY:
+			Engine.time_scale = 1.0
 
 func register_player(plyr:PlayerAvatar) -> void:
 	_player = plyr
@@ -24,6 +36,17 @@ func get_player_target() -> ActorTargetInfo:
 	if _player != null:
 		return _player.get_target_info()
 	return _emptyTarget
+
+func register_spawn_point(uuid:String, spawnPoint) -> void:
+	_spawnPoints[uuid] = spawnPoint
+
+func unregister_spawn_point(uuid:String) -> void:
+	_spawnPoints.erase(uuid)
+
+func get_spawn_point(uuid:String):
+	if !_spawnPoints.has(uuid):
+		return null
+	return _spawnPoints[uuid]
 
 func _find_actor_proxies(root:Node, results:Array) -> void:
 	if root.has_method("get_actor_proxy_info"):
@@ -49,7 +72,7 @@ func _gather_spawn_list(world:Node) -> Array:
 	return spawnList
 
 func _spawn_world() -> void:
-	var world:Node3D = Zqf.create_new_world(_worldType)
+	var world:Node3D = Zqf.create_new_world(_sandboxWorldType)
 	var spawnList:Array = _gather_spawn_list(world)
 	_spawn_actors(spawnList)
 
@@ -60,15 +83,18 @@ func _spawn_actors(list:Array) -> void:
 	print("Spawning " + str(numActors) + " actors")
 	for i in range(0, numActors):
 		var data:Dictionary = list[i]
-		_restore_actor(data)
+		restore_actor(data)
 
 func _spawn_player(t:Transform3D) -> void:
-	var plyr:Node3D = _playerType.instantiate() as Node3D
-	Zqf.get_actor_root().add_child(plyr)
+	var plyr:Node3D = Zqf.create_actor(_playerType)
 	plyr.global_transform = t
 
-func _restore_actor(data:Dictionary) -> void:
+func restore_actor(data:Dictionary) -> String:
 	var type:String = data.meta.prefab
+	if !data.meta.has("uuid") || data.meta.uuid == "":
+		data.meta.uuid = UUID.v4()
+	var newUUID:String = data.meta.uuid
+
 	print("Restoring " + str(type))
 	match type:
 		"player_start":
@@ -85,3 +111,14 @@ func _restore_actor(data:Dictionary) -> void:
 			vol.restore(data)
 		_:
 			print("Unknown actor type " + str(type))
+			return ""
+	print("Spawned new " + str(type) + " " + str(newUUID))
+	return newUUID
+
+func _process(_delta):
+	if Input.is_action_just_pressed("toggle_console"):
+		if _rootMenu.is_on():
+			_rootMenu.off()
+		else:
+			_rootMenu.on()
+	pass

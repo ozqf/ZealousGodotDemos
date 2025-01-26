@@ -10,8 +10,10 @@ albedo_color = Color(0.431373, 1, 0.65098, 0.266667)
 
 [node name="trigger_volume_proxy" type="Node3D"]
 script = ExtResource("1_5ru8s")
+uuid = "f8bd785d-9fcf-4fbd-ac02-5bee0c92663e"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+layers = 524288
 mesh = SubResource("BoxMesh_e3put")
 surface_material_override/0 = SubResource("StandardMaterial3D_mg2qo")

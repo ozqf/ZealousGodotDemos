@@ -36,6 +36,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0, 2.01042)
 [node name="pitch_shaft" type="Node3D" parent="camera_rig/yaw_pivot/pitch_pivot/yaw_shaft"]
 
 [node name="Camera3D" type="Camera3D" parent="camera_rig/yaw_pivot/pitch_pivot/yaw_shaft/pitch_shaft"]
+cull_mask = 524287
 fov = 85.0
 
 [node name="model" parent="." instance=ExtResource("3_cxqjw")]

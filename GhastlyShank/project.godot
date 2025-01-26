@@ -32,7 +32,12 @@ project/assembly_name="GhastlyShank"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/zqf_actor_proxy_editor/plugin.cfg")
+enabled=PackedStringArray("res://addons/zqf_actor_proxy_editor/plugin.cfg", "res://addons/zqf_uuid_clipboard/plugin.cfg", "res://addons/zqf_uuid_setter/plugin.cfg")
+
+[global_group]
+
+actors=""
+actor_proxies=""
 
 [input]
 

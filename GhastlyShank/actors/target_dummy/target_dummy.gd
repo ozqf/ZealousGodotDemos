@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 const MELEE_RANGE:float = 1.6
 
+@export var uuid:String = ""
 @onready var _model:HumanoidModel = $humanoid
 @onready var _hitbox:HitDelegate = $hitbox
 
@@ -9,6 +10,8 @@ var _tick = 1.0
 var _speedMul:float = 0.5
 
 func _ready() -> void:
+	if (uuid == ""):
+		uuid = UUID.v4()
 	_model.play_idle()
 	_model.attach_character_body(self, _hitbox, GameController.TEAM_ID_ENEMY)
 	_hitbox.set_subject(_model)

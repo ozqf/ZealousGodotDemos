@@ -39,6 +39,9 @@ func _on_hurt_victim(_selfModel:HumanoidModel, _source:Area3D, _victim:Area3D) -
 func get_target_info() -> ActorTargetInfo:
 	return _targetInfo
 
+func get_actor_category() -> int:
+	return Interactions.ACTOR_CATEGORY_PLAYER_AVATAR
+
 func _face_model_to_look() -> float:
 	var dir:Vector3 = _cameraRig.get_move_basis().z
 	_desiredYaw = atan2(dir.x, dir.z)
@@ -58,9 +61,6 @@ func _can_start_attack() -> bool:
 	if !is_on_floor():
 		return false
 	return true
-
-func _process(_delta: float) -> void:
-	pass
 
 func _refresh_target_info() -> void:
 	_targetInfo.isValid = true
@@ -82,21 +82,6 @@ func _physics_process(_delta: float) -> void:
 	var txt = _model.get_debug_text()
 	_debugText.text = txt
 	
-	#if Input.is_action_just_pressed("slot_1"):
-	#	_pendingStance = STANCE_AGILE
-	#if Input.is_action_just_pressed("slot_2"):
-	#	_pendingStance = STANCE_COMBAT
-	
-	#if _pendingStance != _stance && _can_change_stance():
-	#	_model.set_desired_stance(_pendingStance)
-	#	_stance = _pendingStance
-	#	match _stance:
-	#		STANCE_COMBAT:
-	#			_model.set_idle_to_combat()
-	#		_:
-	#			_model.set_idle_to_agile()
-	#	_model.play_idle()
-
 	if Input.is_action_just_pressed("slot_1"):
 		_model.set_desired_stance(HumanoidModel.STANCE_AGILE)
 	if Input.is_action_just_pressed("slot_2"):

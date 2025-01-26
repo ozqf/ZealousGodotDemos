@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://actor_proxies/generic_actor_proxy.gd" id="1_o5reh"]
 [ext_resource type="PackedScene" uid="uid://bo8t5t610vttb" path="res://shared/widgets/actor_proxy_widget_box.tscn" id="2_1bs58"]
 
-[node name="generic_actor_proxy" type="Node3D"]
+[node name="generic_actor_proxy" type="Node3D" groups=["actor_proxies"]]
 script = ExtResource("1_o5reh")
 prefabName = "target_dummy"
 

@@ -1,10 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://cvh16fnn0jwjg"]
+[gd_scene load_steps=4 format=3 uid="uid://cvh16fnn0jwjg"]
 
 [ext_resource type="Script" path="res://game/game_controller.gd" id="1_8j174"]
 [ext_resource type="Script" path="res://game/interactions/actor_target_info.gd" id="2_gw5yb"]
+[ext_resource type="PackedScene" uid="uid://h5ny4unwnrna" path="res://game/menus/root_menu.tscn" id="3_7vobi"]
 
 [node name="game" type="Node3D"]
+process_mode = 3
 script = ExtResource("1_8j174")
 
 [node name="empty_target" type="Node" parent="."]
 script = ExtResource("2_gw5yb")
+
+[node name="RootMenu" parent="." instance=ExtResource("3_7vobi")]
