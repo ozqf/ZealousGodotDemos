@@ -106,6 +106,18 @@ func _physics_process(_delta: float) -> void:
 		atk3 = Input.is_action_just_pressed("attack_3")
 		moveSpecial = Input.is_action_just_pressed("move_special")
 	
+	var buttons:int = 0
+	if Input.is_action_pressed("attack_1"):
+		buttons |= HumanoidModel.ATK_HOLD_BIT_0
+	if Input.is_action_pressed("attack_2"):
+		buttons |= HumanoidModel.ATK_HOLD_BIT_1
+	if Input.is_action_pressed("attack_3"):
+		buttons |= HumanoidModel.ATK_HOLD_BIT_2
+
+	if _model.get_state() == HumanoidModel.STATE_PERFORMING_CHARGE_MOVE:
+
+		pass
+	
 	# read desired move
 	match stance:
 		HumanoidModel.STANCE_COMBAT:
@@ -118,9 +130,8 @@ func _physics_process(_delta: float) -> void:
 				if atk1:
 					if v > 0:
 						_model.buffer_move("straight")
-						#_model.begin_move(HumanoidModel.MOVE_ROLLING_PUNCHES)
 					elif v < 0:
-						_model.buffer_move(HumanoidModel.MOVE_UPPERCUT)
+						_model.buffer_move(HumanoidModel.MOVE_UPPERCUT, 1.0, HumanoidModel.ATK_HOLD_BIT_0)
 					else:
 						var curMove:String = _model.get_current_move_name()
 						if curMove != "":
@@ -136,7 +147,7 @@ func _physics_process(_delta: float) -> void:
 					pass
 				elif atk2:
 					if v > 0:
-						_model.buffer_move(HumanoidModel.MOVE_SPIN_BACK_KICK)
+						_model.buffer_move("no_shadow_kick_charge", 1.0, HumanoidModel.ATK_HOLD_BIT_1)
 					elif v < 0:
 						_model.buffer_move(HumanoidModel.MOVE_SWEEP)
 					else:
@@ -165,6 +176,6 @@ func _physics_process(_delta: float) -> void:
 			
 			if !pushDir.is_zero_approx():
 				_face_model_to_look()
-			_model.custom_physics_process(_delta, pushDir, _desiredYaw)
+			_model.custom_physics_process(_delta, pushDir, _desiredYaw, buttons)
 		_:
-			_model.custom_physics_process(_delta, pushDir, _desiredYaw)
+			_model.custom_physics_process(_delta, pushDir, _desiredYaw, buttons)

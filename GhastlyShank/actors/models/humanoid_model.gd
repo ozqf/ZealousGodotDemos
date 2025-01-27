@@ -61,14 +61,46 @@ var _moves:Dictionary = {
 		canEvadeCancel = true
 	},
 	"uppercut" = {
-		anim = "uppercut",
-		moveType = MOVE_TYPE_CHARGE,
-		animCharge = "uppercut_charge",
-		animRelease = "uppercut_release",
+		anim = "uppercut_charge",
+		moveType = MOVE_TYPE_HOLD_SINGLE,
+		releaseMove = "uppercut_release",
 		hitTickRH = 0.5,
 		damage = 2.0,
 		juggleStrength = 1.0,
 		launchStrength = 0.0,
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID,
+		canEvadeCancel = true
+	},
+	"uppercut_release" = {
+		anim = "uppercut_release",
+		moveType = MOVE_TYPE_SINGLE,
+		hitTickRH = 0.1,
+		damage = 2.0,
+		juggleStrength = 1.0,
+		launchStrength = 0.0,
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_MID,
+		canEvadeCancel = true
+	},
+	"no_shadow_kick_charge" = {
+		anim = "no_shadow_charge",
+		moveType = MOVE_TYPE_HOLD_SINGLE,
+		releaseMove = "no_shadow_kick_release",
+		damage = 2.0,
+		juggleStrength = 0.0,
+		launchStrength = 1.0,
+		sweepStrength = 0.0,
+		hitHeight = HIT_HEIGHT_LOW | HIT_HEIGHT_MID,
+		canEvadeCancel = true
+	},
+	"no_shadow_kick_release" = {
+		anim = "no_shadow_release",
+		moveType = MOVE_TYPE_SINGLE,
+		hitTickRF = 0.05,
+		damage = 2.0,
+		juggleStrength = 0.0,
+		launchStrength = 1.0,
 		sweepStrength = 0.0,
 		hitHeight = HIT_HEIGHT_LOW | HIT_HEIGHT_MID,
 		canEvadeCancel = true
@@ -194,6 +226,10 @@ const HIT_HEIGHT_HIGH:int = (1 << 0)
 const HIT_HEIGHT_MID:int = (1 << 1)
 const HIT_HEIGHT_LOW:int = (1 << 2)
 
+const ATK_HOLD_BIT_0:int = (1 << 0)
+const ATK_HOLD_BIT_1:int = (1 << 1)
+const ATK_HOLD_BIT_2:int = (1 << 2)
+
 const ANIM_IDLE:String = "_idle"
 const ANIM_IDLE_AGILE:String = "running" # "_idle_agile"
 const ANIM_EVADE_STATIC_1:String = "evade_static_1"
@@ -203,9 +239,10 @@ const ANIM_FLINCH:String = "flinch"
 const ANIM_DAZED:String = "dazed"
 
 const MOVE_TYPE_SINGLE:int = 0
-const MOVE_TYPE_CHARGE:int = 1
-const MOVE_TYPE_DESCENDING:int = 2
-const MOVE_TYPE_SLIDE:int = 3
+const MOVE_TYPE_HOLD_SINGLE:int = 1
+const MOVE_TYPE_HOLD_MULTI:int = 2
+const MOVE_TYPE_DESCENDING:int = 3
+const MOVE_TYPE_SLIDE:int = 4
 
 const MOVE_JAB:String = "jab"
 const MOVE_SPIN_BACK_KICK:String = "spin_back_kick"
@@ -228,6 +265,7 @@ const STATE_FALLEN:int = 6
 const STATE_RISING:int = 7
 const STATE_EVADE_STATIC:int = 8
 const STATE_EVADE_MOVING:int = 9
+const STATE_PERFORMING_CHARGE_MOVE:int = 10
 
 const WEIGHT_CLASS_FEATHER:int = 0
 const WEIGHT_CLASS_FODDER:int = 1
@@ -263,10 +301,16 @@ var _evadeDir:Vector3 = Vector3()
 var _evadeLockoutTick:float = 0.0
 var _lookYaw:float = 0.0
 var _currentMoveName:String = ""
-var _bufferedMoveName:String = ""
-var _bufferedMoveTick:float = 0.0
+var _releaseMoveName:String = ""
+var _atkHold:int = 0
 var _lastMoveName:String = ""
 var _lastMoveEndTime:float = 0.0
+
+
+var _bufferedMoveName:String = ""
+var _bufferedMoveTick:float = 0.0
+var _bufferedMoveSpeedMul:float = 1.0
+var _bufferedMoveHoldButtons:int = 0
 #var _nextMoveYaw:float = 0.0
 
 var _blinkTick:float = 0.0
@@ -441,13 +485,7 @@ func _all_hurtboxes_off() -> void:
 ##############################################################
 
 # returns true if move started
-func begin_move(moveName:String, speedModifier:float = 1.0) -> bool:
-	# oi no dividing by zero
-	if speedModifier < 0.1:
-		speedModifier = 0.1
-	elif speedModifier > 8.0:
-		speedModifier = 8.0
-	#print("Begin move " + moveName)
+func begin_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0) -> bool:
 	if _state != STATE_NEUTRAL:
 		return false
 	if !_moves.has(moveName):
@@ -455,14 +493,31 @@ func begin_move(moveName:String, speedModifier:float = 1.0) -> bool:
 		return false
 	if is_performing_move():
 		return false
+	return _overwrite_move(moveName, speedModifier, atkHold)
+
+# start a move with no checks
+func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0) -> bool:
+	# oi no dividing by zero
+	if speedModifier < 0.1:
+		speedModifier = 0.1
+	elif speedModifier > 8.0:
+		speedModifier = 8.0
+	#print("Begin move " + moveName)
 	if debugLevel > 0:
 		print("Start " + str (moveName))
 	var move:Dictionary = _moves[moveName]
-	_animator.play(move.anim, -1, speedModifier)
-	_animator.queue(_stanceIdleAnim)
 	_currentMoveName = moveName
+	if move.moveType == MOVE_TYPE_HOLD_SINGLE || move.moveType == MOVE_TYPE_HOLD_MULTI:
+		_state = STATE_PERFORMING_MOVE
+		_stateTick = 0.0
+		_atkHold = atkHold
+		_releaseMoveName = move.releaseMove
+		_animator.play(move.anim, -1, speedModifier)
+		return true
 	_state = STATE_PERFORMING_MOVE
 	_stateTick = 0.0
+	_animator.play(move.anim, -1, speedModifier)
+	_animator.queue(_stanceIdleAnim)
 
 	# required
 	_hitInfo.damage = move.damage
@@ -479,9 +534,11 @@ func begin_move(moveName:String, speedModifier:float = 1.0) -> bool:
 
 	return true
 
-func buffer_move(moveName:String) -> void:
+func buffer_move(moveName:String, speedMul:float = 1.0, holdButton:int = 0) -> void:
 	_bufferedMoveName = moveName
 	_bufferedMoveTick = 0.0
+	_bufferedMoveSpeedMul = speedMul
+	_bufferedMoveHoldButtons = holdButton
 
 func _finish_move() -> void:
 	_hitInfo.damage = 1.0
@@ -708,6 +765,9 @@ func _change_stance(newStance:int) -> void:
 func get_stance() -> int:
 	return _stance
 
+func get_state() -> int:
+	return _state
+
 func check_stance() -> int:
 	if _stance != _pendingStance && _can_change_stance():
 		_change_stance(_pendingStance)
@@ -776,7 +836,7 @@ func _process_agile_stance(_delta: float, _pushDir:Vector3, _desiredYaw:float) -
 	
 	# start moves
 	if _bufferedMoveName != "":
-		if begin_move(_bufferedMoveName, 1.0):
+		if begin_move(_bufferedMoveName, _bufferedMoveSpeedMul, _bufferedMoveHoldButtons):
 			buffer_move("")
 			return
 
@@ -786,11 +846,11 @@ func _process_neutral_combat_stance(_delta:float, _pushDir:Vector3, _desiredYaw:
 	set_look_yaw(_desiredYaw)
 	_step_movement(_delta, _pushDir, _stanceMoveSpeed, 5.0)
 	if _bufferedMoveName != "":
-		if begin_move(_bufferedMoveName, 1.0):
+		if begin_move(_bufferedMoveName, _bufferedMoveSpeedMul, _bufferedMoveHoldButtons):
 			buffer_move("")
 			return
 
-func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) -> void:
+func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, buttons:int) -> void:
 
 	if _bufferedMoveName != "":
 		_bufferedMoveTick += _delta
@@ -811,6 +871,12 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 			var move:Dictionary = _moves[_currentMoveName]
 			var moveType:int = move.moveType
 			match moveType:
+				MOVE_TYPE_HOLD_SINGLE:
+					if (buttons & _atkHold) == 0:
+						_overwrite_move(_releaseMoveName, _bufferedMoveSpeedMul, 0)
+						return
+				MOVE_TYPE_HOLD_MULTI:
+					pass
 				MOVE_TYPE_DESCENDING:
 					if _charBody.is_on_floor():
 						_finish_move()
@@ -859,6 +925,10 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float) 
 			if _stateTick <= 0.0:
 				_charBody.velocity = Vector3()
 				_state = STATE_NEUTRAL
+		STATE_PERFORMING_CHARGE_MOVE:
+			if buttons & _atkHold == 0:
+				_state = STATE_NEUTRAL
+				play_idle()
 		STATE_JUGGLED:
 			if _charBody.is_on_floor() && _charBody.velocity.y <= 0.0:
 				begin_fallen()

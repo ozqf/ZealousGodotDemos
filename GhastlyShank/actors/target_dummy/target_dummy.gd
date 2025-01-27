@@ -19,13 +19,13 @@ func _ready() -> void:
 func _start_random_move() -> void:
 	var r:float = randf()
 	if r > 0.75:
-		_model.begin_move("sweep", _speedMul)
+		_model.buffer_move("sweep")
 	elif r > 0.5:
-		_model.begin_move("uppercut", _speedMul)
+		_model.buffer_move("uppercut")
 	elif r > 0.25:
-		_model.begin_move("spin_back_kick", _speedMul)
+		_model.buffer_move("spin_back_kick")
 	else:
-		_model.begin_move("jab_slow")
+		_model.buffer_move("jab_slow")
 
 func _physics_process(_delta:float) -> void:
 	var tarInfo:ActorTargetInfo = Game.get_player_target()
@@ -51,7 +51,7 @@ func _physics_process(_delta:float) -> void:
 		pushDir.x = -sin(yawToTarget)
 		pushDir.z = -cos(yawToTarget)
 	
-	_model.custom_physics_process(_delta, pushDir, yawToTarget)
+	_model.custom_physics_process(_delta, pushDir, yawToTarget, 0)
 	
 	#if !_model.is_performing_move() && flatDist < (2 * 2):
 	#	_tick -= _delta
