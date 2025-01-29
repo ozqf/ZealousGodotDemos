@@ -963,9 +963,16 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, 
 				begin_fallen()
 				return
 			
-			var result = _charBody.move_and_collide(_charBody.velocity * _delta)
-			if result != null:
-				begin_fallen()
+			var results:KinematicCollision3D = _charBody.move_and_collide(_charBody.velocity * _delta)
+			if results != null:
+				var l:int = results.get_collision_count()
+				for i in range(0, l):
+					var obj:Object = results.get_collider(i)
+					if "collision_layer" in obj:
+						var layer:int = obj.collision_layer
+						if (layer & (1 << 0)) == 1:
+							begin_fallen()
+							break;
 				return
 			_launch_nearby_teammates()
 	
