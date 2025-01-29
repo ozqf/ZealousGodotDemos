@@ -46,7 +46,7 @@ func _physics_process(_delta:float) -> void:
 		pushDir = Vector3()
 		#_model.begin_move("spin_back_kick", _speedMul)
 		#_start_random_move()
-		_model.set_look_yaw(yawToTarget)
+		#_model.set_look_yaw(yawToTarget)
 	else:
 		pushDir.x = -sin(yawToTarget)
 		pushDir.z = -cos(yawToTarget)

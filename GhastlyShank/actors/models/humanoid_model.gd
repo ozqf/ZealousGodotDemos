@@ -85,7 +85,7 @@ var _moves:Dictionary = {
 	},
 	"no_shadow_kick_charge" = {
 		anim = "no_shadow_charge",
-		moveType = MOVE_TYPE_HOLD_SINGLE,
+		moveType = MOVE_TYPE_HOLD_MULTI,
 		releaseMove = "no_shadow_kick_release",
 		damage = 2.0,
 		juggleStrength = 0.0,
@@ -96,7 +96,7 @@ var _moves:Dictionary = {
 	},
 	"no_shadow_kick_release" = {
 		anim = "no_shadow_release",
-		moveType = MOVE_TYPE_SINGLE,
+		moveType = MOVE_TYPE_RELEASE_MULTI,
 		hitTickRF = 0.05,
 		damage = 2.0,
 		juggleStrength = 0.0,
@@ -243,6 +243,7 @@ const MOVE_TYPE_HOLD_SINGLE:int = 1
 const MOVE_TYPE_HOLD_MULTI:int = 2
 const MOVE_TYPE_DESCENDING:int = 3
 const MOVE_TYPE_SLIDE:int = 4
+const MOVE_TYPE_RELEASE_MULTI:int = 5
 
 const MOVE_JAB:String = "jab"
 const MOVE_SPIN_BACK_KICK:String = "spin_back_kick"
@@ -305,7 +306,7 @@ var _releaseMoveName:String = ""
 var _atkHold:int = 0
 var _lastMoveName:String = ""
 var _lastMoveEndTime:float = 0.0
-
+var _multiHitRepeats:int = 0
 
 var _bufferedMoveName:String = ""
 var _bufferedMoveTick:float = 0.0
@@ -517,7 +518,8 @@ func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0
 	_state = STATE_PERFORMING_MOVE
 	_stateTick = 0.0
 	_animator.play(move.anim, -1, speedModifier)
-	_animator.queue(_stanceIdleAnim)
+	if move.moveType != MOVE_TYPE_RELEASE_MULTI:
+		_animator.queue(_stanceIdleAnim)
 
 	# required
 	_hitInfo.damage = move.damage
@@ -864,6 +866,7 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, 
 				_:
 					_process_neutral_combat_stance(_delta, _pushDir, _desiredYaw)
 		STATE_PERFORMING_MOVE:
+			_stateTick += _delta
 			if !_moves.has(_currentMoveName):
 				# err?
 				_state = STATE_NEUTRAL
@@ -872,11 +875,19 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, 
 			var moveType:int = move.moveType
 			match moveType:
 				MOVE_TYPE_HOLD_SINGLE:
-					if (buttons & _atkHold) == 0:
+					if (buttons & _atkHold) == 0 && _stateTick > 0.4:
 						_overwrite_move(_releaseMoveName, _bufferedMoveSpeedMul, 0)
 						return
 				MOVE_TYPE_HOLD_MULTI:
-					pass
+					set_look_yaw(_desiredYaw)
+					if (buttons & _atkHold) == 0 && _stateTick > 0.4:
+						_overwrite_move(_releaseMoveName, _bufferedMoveSpeedMul, 0)
+						return
+				MOVE_TYPE_RELEASE_MULTI:
+					set_look_yaw(_desiredYaw)
+					if (buttons & _atkHold) != 0:
+						_overwrite_move(_releaseMoveName, _bufferedMoveSpeedMul, 0)
+						return
 				MOVE_TYPE_DESCENDING:
 					if _charBody.is_on_floor():
 						_finish_move()
@@ -888,7 +899,6 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, 
 						_charBody.velocity = vel
 						_charBody.move_and_slide()
 				MOVE_TYPE_SLIDE:
-					_stateTick += _delta
 					var vel:Vector3 = _charBody.velocity
 					var drag = _charBody.velocity.normalized()
 					drag.y = 0
