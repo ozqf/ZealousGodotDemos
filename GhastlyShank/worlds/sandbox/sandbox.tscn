@@ -67,7 +67,7 @@ material = ExtResource("1_k773q")
 [node name="campaign" type="Node3D" parent="actors"]
 
 [node name="player_start_proxy" parent="actors/campaign" instance=ExtResource("6_no8gy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.5)
 uuid = "9ffeed08-904b-4bd4-828b-43172276e8db"
 
 [node name="trigger_volume_proxy" parent="actors/campaign" instance=ExtResource("5_7qnin")]
@@ -78,10 +78,6 @@ ent_tags = "a5a6e83a-9937-446a-b65a-a66bbcbf77ad"
 [node name="generic_actor_proxy" parent="actors/campaign" instance=ExtResource("6_i8mfg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 4)
 actorType = 3
-
-[node name="MobSpawner" parent="actors/campaign" instance=ExtResource("6_socmd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -6)
-uuid = "a40d507a-7bf2-43f8-ad98-441c36405233"
 
 [node name="MobSpawner2" parent="actors/campaign" instance=ExtResource("6_socmd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -6)

@@ -11,7 +11,7 @@ var flinchStrength:float = 1.0
 var hitHeight:int = 1
 
 func reset() -> void:
-    damage = 1.0
-    juggleStrength = 0.0
-    launchStrength = 0.0
-    sweepStrength = 0.0
+	damage = 1.0
+	juggleStrength = 0.0
+	launchStrength = 0.0
+	sweepStrength = 0.0

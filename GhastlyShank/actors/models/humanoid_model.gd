@@ -197,6 +197,7 @@ var _moves:Dictionary = {
 		anim = "sweep",
 		moveType = MOVE_TYPE_SINGLE,
 		hitTickRF = 0.33,
+		hitTickRFoff = 0.5,
 		damage = 0.25,
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
@@ -532,10 +533,10 @@ func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0
 	_hitInfo.hitHeight = move.hitHeight
 
 	# variable which are on
-	_leftHandArea.check_start_from_move(move, "hitTickLH", "hitTickLHoff")
-	_rightHandArea.check_start_from_move(move, "hitTickRH", "hitTickRHoff")
-	_leftFootArea.check_start_from_move(move, "hitTickLF", "hitTickLFoff")
-	_rightFootArea.check_start_from_move(move, "hitTickRF", "hitTickRFoff")
+	_leftHandArea.check_start_from_move(move, "hitTickLH", "hitTickLHoff", speedModifier)
+	_rightHandArea.check_start_from_move(move, "hitTickRH", "hitTickRHoff", speedModifier)
+	_leftFootArea.check_start_from_move(move, "hitTickLF", "hitTickLFoff", speedModifier)
+	_rightFootArea.check_start_from_move(move, "hitTickRF", "hitTickRFoff", speedModifier)
 
 	return true
 

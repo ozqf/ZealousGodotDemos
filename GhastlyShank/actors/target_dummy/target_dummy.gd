@@ -19,11 +19,11 @@ func _ready() -> void:
 func _start_random_move() -> void:
 	var r:float = randf()
 	if r > 0.75:
-		_model.buffer_move("sweep")
+		_model.buffer_move("sweep", _speedMul)
 	elif r > 0.5:
-		_model.buffer_move("uppercut")
+		_model.buffer_move("hook_back", _speedMul)
 	elif r > 0.25:
-		_model.buffer_move("spin_back_kick")
+		_model.buffer_move("spin_back_kick",_speedMul)
 	else:
 		_model.buffer_move("jab_slow")
 
@@ -45,7 +45,8 @@ func _physics_process(_delta:float) -> void:
 	if flatDist < (MELEE_RANGE * MELEE_RANGE):
 		pushDir = Vector3()
 		#_model.begin_move("spin_back_kick", _speedMul)
-		_start_random_move()
+		#_start_random_move()
+		_model.buffer_move("sweep", _speedMul)
 		#_model.set_look_yaw(yawToTarget)
 	else:
 		pushDir.x = -sin(yawToTarget)
