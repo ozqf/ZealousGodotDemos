@@ -7,6 +7,7 @@ var launchYawRadians:float = 0.0
 var juggleStrength:float = 0.0
 var launchStrength:float = 0.0
 var sweepStrength:float = 0.0
+var flinchStrength:float = 1.0
 var hitHeight:int = 1
 
 func reset() -> void:

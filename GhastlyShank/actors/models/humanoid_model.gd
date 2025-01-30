@@ -66,7 +66,7 @@ var _moves:Dictionary = {
 		releaseMove = "uppercut_release",
 		hitTickRH = 0.5,
 		damage = 2.0,
-		juggleStrength = 1.0,
+		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
 		hitHeight = HIT_HEIGHT_MID,
@@ -100,8 +100,9 @@ var _moves:Dictionary = {
 		hitTickRF = 0.05,
 		damage = 2.0,
 		juggleStrength = 0.0,
-		launchStrength = 1.0,
+		launchStrength = 0.0,
 		sweepStrength = 0.0,
+		flinchStrength = 2.0,
 		hitHeight = HIT_HEIGHT_LOW | HIT_HEIGHT_MID,
 		canEvadeCancel = true
 	},
@@ -467,11 +468,11 @@ func hit(_incomingHit:HitInfo) -> int:
 	elif _incomingHit.sweepStrength > 0.0:
 		#print("Swept!")
 		if _weightClass == WEIGHT_CLASS_PLAYER:
-			begin_flinch()
+			begin_flinch(_incomingHit.flinchStrength)
 		else:
 			begin_fallen()
 	else:
-		begin_flinch()
+		begin_flinch(_incomingHit.flinchStrength)
 	return 1
 
 func _all_hurtboxes_off() -> void:
@@ -526,6 +527,8 @@ func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0
 	_hitInfo.juggleStrength = move.juggleStrength
 	_hitInfo.launchStrength = move.launchStrength
 	_hitInfo.sweepStrength = move.sweepStrength
+	# every move should have a little flinch effect at least
+	_hitInfo.flinchStrength = ZqfUtils.safe_dict_f(move, "flinchStrength", 1.0)
 	_hitInfo.hitHeight = move.hitHeight
 
 	# variable which are on
@@ -633,14 +636,15 @@ func begin_evade(dir:Vector3) -> bool:
 # Begin disabling hit responses
 ##############################################################
 
-func begin_flinch() -> void:
+func begin_flinch(weight:float) -> void:
 	_all_hurtboxes_off()
 	_clear_current_move()
+	_animator.stop()
 	_animator.play("flinch")
 	_animator.queue(_stanceIdleAnim)
 	_state = STATE_HIT_FLINCHING
 	_evadeLockoutTick = FLINCH_EVADE_LOCKOUT_TIME
-	_stateTime = 0.2
+	_stateTime = 0.25 * weight
 	_stateTick = _stateTime
 
 func begin_dazed() -> void:
