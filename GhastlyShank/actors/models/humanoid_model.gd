@@ -13,7 +13,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH,
+		hitHeight = Mobs.HIT_HEIGHT_MID | Mobs.HIT_HEIGHT_HIGH,
 		canEvadeCancel = true
 	},
 	"jab_slow" = {
@@ -24,7 +24,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID,
+		hitHeight =Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = true
 	},
 	"straight" = {
@@ -35,7 +35,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH,
+		hitHeight =Mobs.HIT_HEIGHT_MID | Mobs.HIT_HEIGHT_HIGH,
 		canEvadeCancel = true
 	},
 	"hook_front" = {
@@ -46,7 +46,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH,
+		hitHeight =Mobs.HIT_HEIGHT_MID | Mobs.HIT_HEIGHT_HIGH,
 		canEvadeCancel = true
 	},
 	"hook_back" = {
@@ -57,7 +57,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID | HIT_HEIGHT_HIGH,
+		hitHeight =Mobs.HIT_HEIGHT_MID | Mobs.HIT_HEIGHT_HIGH,
 		canEvadeCancel = true
 	},
 	"uppercut" = {
@@ -69,7 +69,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID,
+		hitHeight =Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = true
 	},
 	"uppercut_release" = {
@@ -80,7 +80,7 @@ var _moves:Dictionary = {
 		juggleStrength = 1.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID,
+		hitHeight =Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = true
 	},
 	"no_shadow_kick_charge" = {
@@ -91,7 +91,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 1.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_LOW | HIT_HEIGHT_MID,
+		hitHeight = Mobs.HIT_HEIGHT_LOW | Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = true
 	},
 	"no_shadow_kick_release" = {
@@ -103,7 +103,7 @@ var _moves:Dictionary = {
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
 		flinchStrength = 2.0,
-		hitHeight = HIT_HEIGHT_LOW | HIT_HEIGHT_MID,
+		hitHeight = Mobs.HIT_HEIGHT_LOW | Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = true
 	},
 	"haymaker_loop" = {
@@ -115,7 +115,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_HIGH | HIT_HEIGHT_MID,
+		hitHeight = Mobs.HIT_HEIGHT_HIGH | Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = true
 	},
 	"rolling_punches_repeatable" = {
@@ -127,7 +127,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID,
+		hitHeight = Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = true
 	},
 	"spin_back_kick" = {
@@ -138,7 +138,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 1.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID,
+		hitHeight = Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = false
 	},
 	"flying_kick" = {
@@ -151,7 +151,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 1.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_HIGH,
+		hitHeight = Mobs.HIT_HEIGHT_HIGH,
 		canEvadeCancel = false
 	},
 	"slide_kick" = {
@@ -164,7 +164,7 @@ var _moves:Dictionary = {
 		juggleStrength = 1.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_LOW,
+		hitHeight = Mobs.HIT_HEIGHT_LOW,
 		canEvadeCancel = false
 	},
 	"air_snap_kicks" = {
@@ -177,7 +177,7 @@ var _moves:Dictionary = {
 		juggleStrength = 1.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID,
+		hitHeight = Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = false
 	},
 	"air_split_kicks" = {
@@ -190,7 +190,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.5,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID,
+		hitHeight = Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = false
 	},
 	"sweep" = {
@@ -202,7 +202,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 1.0,
-		hitHeight = HIT_HEIGHT_LOW,
+		hitHeight = Mobs.HIT_HEIGHT_LOW,
 		canEvadeCancel = false
 	},
 	"taunt_bring_it_on" = {
@@ -212,7 +212,7 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
-		hitHeight = HIT_HEIGHT_MID,
+		hitHeight = Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = true
 	}
 }
@@ -223,10 +223,6 @@ const STATIC_EVADE_LOCKOUT_TIME:float = 0.1
 const MOVING_EVADE_TIME:float = 0.3
 const MOVING_EVADE_LOCKOUT_TIME:float = 0.2
 const FLINCH_EVADE_LOCKOUT_TIME:float = 0.1
-
-const HIT_HEIGHT_HIGH:int = (1 << 0)
-const HIT_HEIGHT_MID:int = (1 << 1)
-const HIT_HEIGHT_LOW:int = (1 << 2)
 
 const ATK_HOLD_BIT_0:int = (1 << 0)
 const ATK_HOLD_BIT_1:int = (1 << 1)
@@ -258,23 +254,6 @@ const BLINK_TIME:float = 0.05
 const STANCE_COMBAT:int = 0
 const STANCE_AGILE:int = 1
 
-const STATE_NEUTRAL:int = 0
-const STATE_PERFORMING_MOVE:int = 1
-const STATE_HIT_FLINCHING:int = 2
-const STATE_DAZED:int = 3
-const STATE_JUGGLED:int = 4
-const STATE_LAUNCHED:int = 5
-const STATE_FALLEN:int = 6
-const STATE_RISING:int = 7
-const STATE_EVADE_STATIC:int = 8
-const STATE_EVADE_MOVING:int = 9
-const STATE_PERFORMING_CHARGE_MOVE:int = 10
-
-const WEIGHT_CLASS_FEATHER:int = 0
-const WEIGHT_CLASS_FODDER:int = 1
-const WEIGHT_CLASS_HEAVY:int = 2
-const WEIGHT_CLASS_PLAYER:int = 3
-
 @onready var _animator:AnimationPlayer = $AnimationPlayer
 @onready var _leftHandArea:HurtboxArea3D = $hitboxes/hand_l/Area3D
 @onready var _rightHandArea:HurtboxArea3D = $hitboxes/hand_r/Area3D
@@ -290,7 +269,7 @@ var _hitbox:Area3D = null
 var _teamId:int = 0
 
 var _totalThinkTime:float = 0.0
-var _state:int = STATE_NEUTRAL
+var _state:int = Mobs.STATE_NEUTRAL
 var _stateTick:float = 0.0
 var _stateTime:float = 0.0
 
@@ -319,7 +298,7 @@ var _bufferedMoveHoldButtons:int = 0
 var _blinkTick:float = 0.0
 var _isBlinking:bool = false
 
-var _weightClass:int = WEIGHT_CLASS_FODDER
+var _weightClass:int = Mobs.WEIGHT_CLASS_FODDER
 
 func _ready() -> void:
 	_animator.connect("animation_changed", _on_animation_changed)
@@ -359,7 +338,7 @@ func _on_current_animation_changed(_anim:String) -> void:
 	pass
 
 func get_current_move_name() -> String:
-	if _state != STATE_PERFORMING_MOVE:
+	if _state != Mobs.STATE_PERFORMING_MOVE:
 		return ""
 	return _currentMoveName
 
@@ -375,7 +354,7 @@ func play_idle() -> void:
 
 func get_debug_text() -> String:
 	var txt:String = "State: " + str(_state)
-	if _state == STATE_EVADE_MOVING || _state == STATE_EVADE_STATIC:
+	if _state == Mobs.STATE_EVADE_MOVING || _state == Mobs.STATE_EVADE_STATIC:
 		txt += "\nEvade: " + str(_stateTick)
 	else:
 		if _currentMoveName != "":
@@ -435,11 +414,11 @@ func hit(_incomingHit:HitInfo) -> int:
 	if _incomingHit.teamId == self._teamId:
 		return -2
 	
-	var hitsLow:bool = (_incomingHit.hitHeight & HIT_HEIGHT_LOW) != 0
+	var hitsLow:bool = (_incomingHit.hitHeight & Mobs.HIT_HEIGHT_LOW) != 0
 	
 	
 	# check if move can hit first
-	if _state == STATE_EVADE_MOVING || _state == STATE_EVADE_STATIC && !hitsLow:
+	if _state == Mobs.STATE_EVADE_MOVING || _state == Mobs.STATE_EVADE_STATIC && !hitsLow:
 		if debugLevel > 0:
 			print(str(self) + " evaded")
 		return -1
@@ -450,7 +429,7 @@ func hit(_incomingHit:HitInfo) -> int:
 		return -1
 	
 	# 0.5 is falling-over part of knockdown animation
-	if !hitsLow && _state == STATE_FALLEN && _animator.current_animation_position > 0.5:
+	if !hitsLow && _state == Mobs.STATE_FALLEN && _animator.current_animation_position > 0.5:
 		if debugLevel > 0:
 			print(str(self) + " attack too high")
 		return -1
@@ -459,16 +438,16 @@ func hit(_incomingHit:HitInfo) -> int:
 	if _incomingHit.launchStrength > 0.0:
 		#print("Launched!")
 		# don't relaunch otherwise multi-directional attacks interfer
-		if _state != STATE_LAUNCHED:
+		if _state != Mobs.STATE_LAUNCHED:
 			begin_launch(_incomingHit.launchYawRadians, _incomingHit.teamId)
-	elif _state == STATE_JUGGLED:
+	elif _state == Mobs.STATE_JUGGLED:
 		begin_juggle(4.0)
 	elif _incomingHit.juggleStrength > 0.0:
 		#print("Juggled!")
 		begin_juggle(10.0)
 	elif _incomingHit.sweepStrength > 0.0:
 		#print("Swept!")
-		if _weightClass == WEIGHT_CLASS_PLAYER:
+		if _weightClass == Mobs.WEIGHT_CLASS_PLAYER:
 			begin_flinch(_incomingHit.flinchStrength)
 		else:
 			begin_fallen()
@@ -489,7 +468,7 @@ func _all_hurtboxes_off() -> void:
 
 # returns true if move started
 func begin_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0) -> bool:
-	if _state != STATE_NEUTRAL:
+	if _state != Mobs.STATE_NEUTRAL:
 		return false
 	if !_moves.has(moveName):
 		print("move " + moveName + " not found!")
@@ -511,13 +490,13 @@ func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0
 	var move:Dictionary = _moves[moveName]
 	_currentMoveName = moveName
 	if move.moveType == MOVE_TYPE_HOLD_SINGLE || move.moveType == MOVE_TYPE_HOLD_MULTI:
-		_state = STATE_PERFORMING_MOVE
+		_state = Mobs.STATE_PERFORMING_MOVE
 		_stateTick = 0.0
 		_atkHold = atkHold
 		_releaseMoveName = move.releaseMove
 		_animator.play(move.anim, -1, speedModifier)
 		return true
-	_state = STATE_PERFORMING_MOVE
+	_state = Mobs.STATE_PERFORMING_MOVE
 	_stateTick = 0.0
 	_animator.play(move.anim, -1, speedModifier)
 	if move.moveType != MOVE_TYPE_RELEASE_MULTI:
@@ -600,7 +579,7 @@ func begin_evade(dir:Vector3) -> bool:
 	if _evadeLockoutTick > 0.0:
 		return false
 	match _state:
-		STATE_DAZED, STATE_FALLEN, STATE_JUGGLED, STATE_LAUNCHED:
+		Mobs.STATE_DAZED, Mobs.STATE_FALLEN, Mobs.STATE_JUGGLED, Mobs.STATE_LAUNCHED:
 			return false
 	if _moves.has(_currentMoveName) && !_moves[_currentMoveName].canEvadeCancel:
 		return false
@@ -615,7 +594,7 @@ func begin_evade(dir:Vector3) -> bool:
 		_stateTime = STATIC_EVADE_TIME
 		_stateTick = _stateTime
 		_evadeLockoutTick = STATIC_EVADE_LOCKOUT_TIME
-		_state = STATE_EVADE_STATIC
+		_state = Mobs.STATE_EVADE_STATIC
 	else:
 		if dir.x < 0:
 			_animator.play(ANIM_EVADE_STATIC_1)
@@ -629,7 +608,7 @@ func begin_evade(dir:Vector3) -> bool:
 		_stateTime = MOVING_EVADE_TIME
 		_stateTick = _stateTime
 		_evadeLockoutTick = MOVING_EVADE_LOCKOUT_TIME
-		_state = STATE_EVADE_MOVING
+		_state = Mobs.STATE_EVADE_MOVING
 	_evade_start()
 	return true
 
@@ -643,14 +622,14 @@ func begin_flinch(weight:float) -> void:
 	_animator.stop()
 	_animator.play("flinch")
 	_animator.queue(_stanceIdleAnim)
-	_state = STATE_HIT_FLINCHING
+	_state = Mobs.STATE_HIT_FLINCHING
 	_evadeLockoutTick = FLINCH_EVADE_LOCKOUT_TIME
 	_stateTime = 0.25 * weight
 	_stateTick = _stateTime
 
 func begin_dazed() -> void:
 	_animator.play("dazed")
-	_state = STATE_DAZED
+	_state = Mobs.STATE_DAZED
 	_stateTime = 10.0
 	_stateTick = _stateTime
 
@@ -659,18 +638,18 @@ func begin_juggle(strength:float = 10.0) -> void:
 	_all_hurtboxes_off()
 	_clear_current_move()
 	_animator.play("launched")
-	_state = STATE_JUGGLED
+	_state = Mobs.STATE_JUGGLED
 	_charBody.velocity = Vector3(0, strength, 0)
 
 func begin_fallen() -> void:
-	if _state == STATE_FALLEN:
+	if _state == Mobs.STATE_FALLEN:
 		return
 	_all_hurtboxes_off()
 	_clear_current_move()
 	_animator.play("knockdown")
-	_state = STATE_FALLEN
+	_state = Mobs.STATE_FALLEN
 	match _weightClass:
-		WEIGHT_CLASS_PLAYER:
+		Mobs.WEIGHT_CLASS_PLAYER:
 			_stateTime = 0.625
 		_:
 			_stateTime = 4.0
@@ -681,12 +660,12 @@ func begin_rising() -> void:
 	_clear_current_move()
 	_animator.play("fallen_to_idle")
 	_animator.queue(_stanceIdleAnim)
-	_state = STATE_RISING
+	_state = Mobs.STATE_RISING
 	_stateTime = 1.0
 	_stateTick = _stateTime
 
 func begin_launch(yaw:float, launchingTeamId:int = 0) -> void:
-	if _state == STATE_LAUNCHED:
+	if _state == Mobs.STATE_LAUNCHED:
 		return
 	if launchingTeamId == _teamId:
 		return
@@ -694,7 +673,7 @@ func begin_launch(yaw:float, launchingTeamId:int = 0) -> void:
 	_all_hurtboxes_off()
 	_clear_current_move()
 
-	# for the duration of launch our hit info because a player hit to launch
+	# for the duration of launch our hit info becomes a player hit to launch
 	# other enemies
 	_hitInfo.launchYawRadians = yaw
 	_hitInfo.launchStrength = 1.0
@@ -702,10 +681,10 @@ func begin_launch(yaw:float, launchingTeamId:int = 0) -> void:
 
 	if debugLevel > 0:
 		_animator.play("launched")
-	_state = STATE_LAUNCHED
+	_state = Mobs.STATE_LAUNCHED
 	var speed:float = 20.0
 	match _weightClass:
-		WEIGHT_CLASS_PLAYER:
+		Mobs.WEIGHT_CLASS_PLAYER:
 			_stateTime = 0.2
 			speed = 15.0
 		_:
@@ -760,13 +739,13 @@ func _change_stance(newStance:int) -> void:
 		STANCE_AGILE:
 			_stanceMoveSpeed = 8.0
 			self.set_idle_to_agile()
-			if _state == STATE_NEUTRAL:
+			if _state == Mobs.STATE_NEUTRAL:
 				self.play_idle()
 		_:
 			# default - combat
 			_stanceMoveSpeed = 3.0
 			self.set_idle_to_combat()
-			if _state == STATE_NEUTRAL:
+			if _state == Mobs.STATE_NEUTRAL:
 				self.play_idle()
 
 func get_stance() -> int:
@@ -864,17 +843,17 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, 
 		if _bufferedMoveTick > 0.5:
 			buffer_move("")
 	match _state:
-		STATE_NEUTRAL:
+		Mobs.STATE_NEUTRAL:
 			match _stance:
 				STANCE_AGILE:
 					_process_agile_stance(_delta, _pushDir, _desiredYaw)
 				_:
 					_process_neutral_combat_stance(_delta, _pushDir, _desiredYaw)
-		STATE_PERFORMING_MOVE:
+		Mobs.STATE_PERFORMING_MOVE:
 			_stateTick += _delta
 			if !_moves.has(_currentMoveName):
 				# err?
-				_state = STATE_NEUTRAL
+				_state = Mobs.STATE_NEUTRAL
 				return
 			var move:Dictionary = _moves[_currentMoveName]
 			var moveType:int = move.moveType
@@ -897,7 +876,7 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, 
 					if _charBody.is_on_floor():
 						_finish_move()
 						play_idle()
-						_state = STATE_NEUTRAL
+						_state = Mobs.STATE_NEUTRAL
 					else:
 						var vel:Vector3 = _charBody.velocity
 						vel.y += (-20.0 * _delta)
@@ -918,16 +897,17 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, 
 					if _stateTick > 0.75:
 						_finish_move()
 						play_idle()
-						_state = STATE_NEUTRAL
+						_state = Mobs.STATE_NEUTRAL
 				_:
+					
 					# check if we are in idle
 					var anim:String = _animator.current_animation
 					if anim == ANIM_IDLE || anim == ANIM_IDLE_AGILE:
 						if debugLevel > 0:
 							print("Performing move finish - anim is idle")
 						_finish_move()
-						_state = STATE_NEUTRAL
-		STATE_EVADE_MOVING, STATE_EVADE_STATIC:
+						_state = Mobs.STATE_NEUTRAL
+		Mobs.STATE_EVADE_MOVING, Mobs.STATE_EVADE_STATIC:
 			var evadeMoveWeight = _stateTick / _stateTime
 			evadeMoveWeight = (evadeMoveWeight * 0.75) + 0.25
 			var vel:Vector3 = _charBody.velocity
@@ -939,18 +919,18 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, 
 			_stateTick -= _delta
 			if _stateTick <= 0.0:
 				_charBody.velocity = Vector3()
-				_state = STATE_NEUTRAL
-		STATE_PERFORMING_CHARGE_MOVE:
+				_state = Mobs.STATE_NEUTRAL
+		Mobs.STATE_PERFORMING_CHARGE_MOVE:
 			if buttons & _atkHold == 0:
-				_state = STATE_NEUTRAL
+				_state = Mobs.STATE_NEUTRAL
 				play_idle()
-		STATE_JUGGLED:
+		Mobs.STATE_JUGGLED:
 			if _charBody.is_on_floor() && _charBody.velocity.y <= 0.0:
 				begin_fallen()
 				return
 			_charBody.velocity.y += -16.0 * _delta
 			_charBody.move_and_slide()
-		STATE_FALLEN:
+		Mobs.STATE_FALLEN:
 			if !_charBody.is_on_floor():
 				begin_juggle(1.0)
 				return
@@ -958,20 +938,20 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, 
 			if _stateTick <= 0.0:
 				_stateTick = 999
 				begin_rising()
-		STATE_RISING:
+		Mobs.STATE_RISING:
 			_stateTick -= _delta
 			if _stateTick <= 0.0:
 				_stateTick = 999
-				_state = STATE_NEUTRAL
-		STATE_HIT_FLINCHING:
+				_state = Mobs.STATE_NEUTRAL
+		Mobs.STATE_HIT_FLINCHING:
 			if !_charBody.is_on_floor():
 				begin_juggle(1.0)
 				return
 			_stateTick -= _delta
 			if _stateTick <= 0.0:
 				_stateTick = 999
-				_state = STATE_NEUTRAL
-		STATE_LAUNCHED:
+				_state = Mobs.STATE_NEUTRAL
+		Mobs.STATE_LAUNCHED:
 			_stateTick -= _delta
 			if _stateTick <= 0.0:
 				_stateTick = 999

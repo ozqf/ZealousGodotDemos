@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dq2pk0xcl4ktu"]
 
-[ext_resource type="Script" path="res://actors/target_dummy/target_dummy.gd" id="1_qblqf"]
+[ext_resource type="Script" path="res://actors/mobs/target_dummy.gd" id="1_qblqf"]
 [ext_resource type="PackedScene" uid="uid://i0wct16b8g5y" path="res://actors/models/humanoid.tscn" id="2_4qgoh"]
 [ext_resource type="Script" path="res://game/interactions/hitbox_delegate.gd" id="3_hdat5"]
 

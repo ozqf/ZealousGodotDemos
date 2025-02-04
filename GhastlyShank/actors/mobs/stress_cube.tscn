@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://srag48fbednw"]
+
+[ext_resource type="Script" path="res://actors/mobs/stress_cube.gd" id="1_ot6f2"]
+[ext_resource type="Script" path="res://game/interactions/hitbox_delegate.gd" id="2_4xuiv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gkkeo"]
+size = Vector3(0.8, 1.6, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h0757"]
+size = Vector3(0.8, 1.6, 0.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_67d18"]
+size = Vector3(0.7, 1.6, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_eauly"]
+size = Vector3(0.8, 0.2, 0.4)
+
+[node name="StressCube" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_ot6f2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("BoxShape3D_gkkeo")
+
+[node name="hitbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+collision_layer = 8
+collision_mask = 16
+script = ExtResource("2_4xuiv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
+shape = SubResource("BoxShape3D_h0757")
+
+[node name="model" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("BoxMesh_67d18")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -0.2)
+mesh = SubResource("BoxMesh_eauly")
+
+[node name="debug_text" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7441, 0)
+billboard = 1
+text = "LINE 1
+LINE 2
+LINE 3
+LINE 4"
+vertical_alignment = 2

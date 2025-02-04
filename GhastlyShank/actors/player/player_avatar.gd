@@ -21,7 +21,7 @@ func _ready() -> void:
 	_model.connect("on_hurtbox_touched_victim", _on_hurt_victim)
 	_model.attach_character_body(self, _hitbox, GameController.TEAM_ID_PLAYER)
 	#_model.set_show_attack_indicators(false)
-	_model.set_stats(HumanoidModel.WEIGHT_CLASS_PLAYER)
+	_model.set_stats(Mobs.WEIGHT_CLASS_PLAYER)
 	_hitbox.set_subject(_model)
 	Game.register_player(self)
 	_debugText.visible = false
@@ -114,7 +114,7 @@ func _physics_process(_delta: float) -> void:
 	if Input.is_action_pressed("attack_3"):
 		buttons |= HumanoidModel.ATK_HOLD_BIT_2
 
-	if _model.get_state() == HumanoidModel.STATE_PERFORMING_CHARGE_MOVE:
+	if _model.get_state() == Mobs.STATE_PERFORMING_CHARGE_MOVE:
 
 		pass
 	

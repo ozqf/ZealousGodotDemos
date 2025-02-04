@@ -591,6 +591,14 @@ static func get_window_to_screen_ratio(windowIndex:int = 0) -> Vector2:
 	return result
 
 #####################################
+# movement
+#####################################
+static func calc_drag_vector3(velocity:Vector3, dragAccel:float, delta:float) -> Vector3:
+	var drag:Vector3 = -(velocity.normalized())
+	drag *= dragAccel * delta
+	return drag
+
+#####################################
 # 3D sprite directions
 #####################################
 
