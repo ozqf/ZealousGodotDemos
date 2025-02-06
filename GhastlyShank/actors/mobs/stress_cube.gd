@@ -18,7 +18,12 @@ func hit(_incomingHit:HitInfo) -> int:
 		if _state != Mobs.STATE_LAUNCHED:
 			begin_launch(_incomingHit.launchYawRadians, _incomingHit.teamId)
 	elif _state == Mobs.STATE_JUGGLED:
-		begin_suspend(0.5)
+		if _incomingHit.juggleStrength > 0.0:
+			# relaunch
+			begin_juggle(_incomingHit.juggleStrength)
+		else:
+			# hover
+			begin_suspend(0.5)
 	elif _incomingHit.juggleStrength > 0.0:
 		#print("Juggled!")
 		begin_juggle(_incomingHit.juggleStrength)

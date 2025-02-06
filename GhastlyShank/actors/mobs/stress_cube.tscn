@@ -17,6 +17,7 @@ size = Vector3(0.8, 0.2, 0.4)
 
 [node name="StressCube" type="CharacterBody3D"]
 collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_ot6f2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

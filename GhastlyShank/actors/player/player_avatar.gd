@@ -123,15 +123,20 @@ func _physics_process(_delta: float) -> void:
 		HumanoidModel.STANCE_COMBAT:
 			var v:float = Input.get_axis("move_backward", "move_forward")
 			if !self.is_on_floor():
+				if atk1:
+					_model.buffer_move("dive_kick")
 				if atk2:
 					_model.buffer_move("air_split_kicks")
 					#_model.buffer_move("air_snap_kicks")
 			else:
 				if atk1:
-					if v > 0:
-						_model.buffer_move("straight")
-					elif v < 0:
+					# holding back
+					if v < 0:
 						_model.buffer_move(HumanoidModel.MOVE_UPPERCUT, 1.0, HumanoidModel.ATK_HOLD_BIT_0)
+					# holding forward
+					#elif v > 0:
+					#	_model.buffer_move("straight")
+					
 					else:
 						var curMove:String = _model.get_current_move_name()
 						if curMove != "":
@@ -146,17 +151,21 @@ func _physics_process(_delta: float) -> void:
 								_queue_next_move(lastMove)
 					pass
 				elif atk2:
-					if v > 0:
-						_model.buffer_move("no_shadow_kick_charge", 1.0, HumanoidModel.ATK_HOLD_BIT_1)
-					elif v < 0:
+					# holding back
+					if v < 0:
 						_model.buffer_move(HumanoidModel.MOVE_SWEEP)
+					# holding forward
+					#elif v > 0:
+					#	_model.buffer_move("no_shadow_kick_charge", 1.0, HumanoidModel.ATK_HOLD_BIT_1)
 					else:
 						_model.buffer_move(HumanoidModel.MOVE_SPIN_BACK_KICK)
 				elif atk3:
 					if v < 0:
-						_model.buffer_move("taunt_bring_it_on")
+						#_model.buffer_move("taunt_bring_it_on")
+						_model.buffer_move("somersault_backward")
 					else:
-						_model.buffer_move("haymaker_loop")
+						#_model.buffer_move("haymaker_loop")
+						_model.buffer_move("no_shadow_kick_charge", 1.0, HumanoidModel.ATK_HOLD_BIT_2)
 		HumanoidModel.STANCE_AGILE:
 			#var v:float = Input.get_axis("move_backward", "move_forward")
 			if !self.is_on_floor():

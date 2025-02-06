@@ -193,6 +193,19 @@ var _moves:Dictionary = {
 		hitHeight = Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = false
 	},
+	"dive_kick" = {
+		#anim = "air_spin_kicks",
+		anim = "dive_kick",
+		moveType = MOVE_TYPE_DESCENDING,
+		#hitTickLF = 0.3,
+		hitTickRF = 0.3,
+		damage = 1.25,
+		juggleStrength = 0.0,
+		launchStrength = 0.5,
+		sweepStrength = 0.0,
+		hitHeight = Mobs.HIT_HEIGHT_MID,
+		canEvadeCancel = false
+	},
 	"sweep" = {
 		anim = "sweep",
 		moveType = MOVE_TYPE_SINGLE,
@@ -203,6 +216,18 @@ var _moves:Dictionary = {
 		launchStrength = 0.0,
 		sweepStrength = 1.0,
 		hitHeight = Mobs.HIT_HEIGHT_LOW,
+		canEvadeCancel = false
+	},
+	"somersault_backward" = {
+		anim = "somersault_backward",
+		moveType = MOVE_TYPE_SINGLE,
+		hitTickLF = 0.43,
+		hitTickLFoff = 0.6,
+		damage = 0.25,
+		juggleStrength = 7.0,
+		launchStrength = 0.0,
+		sweepStrength = 0.0,
+		hitHeight = Mobs.HIT_HEIGHT_LOW | Mobs.HIT_HEIGHT_MID | Mobs.HIT_HEIGHT_HIGH,
 		canEvadeCancel = false
 	},
 	"taunt_bring_it_on" = {
@@ -499,7 +524,7 @@ func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0
 	_state = Mobs.STATE_PERFORMING_MOVE
 	_stateTick = 0.0
 	_animator.play(move.anim, -1, speedModifier)
-	if move.moveType != MOVE_TYPE_RELEASE_MULTI:
+	if move.moveType != MOVE_TYPE_RELEASE_MULTI && move.moveType != MOVE_TYPE_DESCENDING:
 		_animator.queue(_stanceIdleAnim)
 
 	# required
