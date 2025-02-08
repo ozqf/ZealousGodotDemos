@@ -42,11 +42,10 @@ func get_target_info() -> ActorTargetInfo:
 func get_actor_category() -> int:
 	return Interactions.ACTOR_CATEGORY_PLAYER_AVATAR
 
-func _face_model_to_look() -> float:
+func _calc_look_yaw() -> float:
 	var dir:Vector3 = _cameraRig.get_move_basis().z
-	_desiredYaw = atan2(dir.x, dir.z)
-	return _desiredYaw
-	#_model.set_look_yaw(_desiredYaw)
+	var yaw:float = atan2(dir.x, dir.z)
+	return yaw
 
 func _can_change_stance() -> bool:
 	if _model.is_performing_move():
@@ -67,6 +66,7 @@ func _refresh_target_info() -> void:
 	_targetInfo.t = self.global_transform
 
 func _queue_next_move(curMove:String) -> void:
+	_model.buffer_move_yaw(_calc_look_yaw())
 	match curMove:
 		HumanoidModel.MOVE_JAB:
 			_model.buffer_move("straight")
@@ -76,6 +76,7 @@ func _queue_next_move(curMove:String) -> void:
 			_model.buffer_move("hook_back")
 		_:
 			_model.buffer_move(HumanoidModel.MOVE_JAB)
+	# 
 
 func _physics_process(_delta: float) -> void:
 	_refresh_target_info()
@@ -124,15 +125,24 @@ func _physics_process(_delta: float) -> void:
 			var v:float = Input.get_axis("move_backward", "move_forward")
 			if !self.is_on_floor():
 				if atk1:
-					_model.buffer_move("dive_kick")
-				if atk2:
-					_model.buffer_move("air_split_kicks")
+					_model.buffer_move("air_snap_kicks")
+					_model.buffer_move_yaw(_calc_look_yaw())
+				elif atk2:
+					if v < 0:
+						_model.buffer_move("air_split_kicks")
+					else:
+						_model.buffer_move("air_spin_back_kick")
+					_model.buffer_move_yaw(_calc_look_yaw())
+				elif atk3:
+					_model.buffer_move("air_axe_kick")
+					_model.buffer_move_yaw(_calc_look_yaw())
 					#_model.buffer_move("air_snap_kicks")
 			else:
 				if atk1:
 					# holding back
 					if v < 0:
 						_model.buffer_move(HumanoidModel.MOVE_UPPERCUT, 1.0, HumanoidModel.ATK_HOLD_BIT_0)
+						_model.buffer_move_yaw(_calc_look_yaw())
 					# holding forward
 					#elif v > 0:
 					#	_model.buffer_move("straight")
@@ -154,22 +164,30 @@ func _physics_process(_delta: float) -> void:
 					# holding back
 					if v < 0:
 						_model.buffer_move(HumanoidModel.MOVE_SWEEP)
+						_model.buffer_move_yaw(_calc_look_yaw())
 					# holding forward
 					#elif v > 0:
 					#	_model.buffer_move("no_shadow_kick_charge", 1.0, HumanoidModel.ATK_HOLD_BIT_1)
 					else:
 						_model.buffer_move(HumanoidModel.MOVE_SPIN_BACK_KICK)
+						_model.buffer_move_yaw(_calc_look_yaw())
 				elif atk3:
 					if v < 0:
 						#_model.buffer_move("taunt_bring_it_on")
 						_model.buffer_move("somersault_backward")
+						_model.buffer_move_yaw(_calc_look_yaw())
 					else:
 						#_model.buffer_move("haymaker_loop")
 						_model.buffer_move("no_shadow_kick_charge", 1.0, HumanoidModel.ATK_HOLD_BIT_2)
+						_model.buffer_move_yaw(_calc_look_yaw())
 		HumanoidModel.STANCE_AGILE:
 			#var v:float = Input.get_axis("move_backward", "move_forward")
+			# agile moves do not buffer a yaw change, as increased move speed
+			# gives player a turning circle
 			if !self.is_on_floor():
-				if atk2:
+				if atk1:
+					_model.buffer_move("dive_kick")
+				elif atk2:
 					_model.buffer_move("flying_kick")
 			else:
 				if atk2:
@@ -183,8 +201,10 @@ func _physics_process(_delta: float) -> void:
 				_model.buffer_move("")
 				_model.begin_evade(pushDir)
 			
-			if !pushDir.is_zero_approx():
-				_face_model_to_look()
+			# facing look only on input is glitchy and sod it just look into the bloody screen
+			#if !pushDir.is_zero_approx():
+			#	_desiredYaw = _calc_look_yaw()
+			_desiredYaw = _calc_look_yaw()
 			_model.custom_physics_process(_delta, pushDir, _desiredYaw, buttons)
 		_:
 			_model.custom_physics_process(_delta, pushDir, _desiredYaw, buttons)

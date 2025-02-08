@@ -51,3 +51,5 @@ LINE 2
 LINE 3
 LINE 4"
 vertical_alignment = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

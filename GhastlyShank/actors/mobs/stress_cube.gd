@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+@onready var _animator:AnimationPlayer = $AnimationPlayer
 @onready var _debugText:Label3D = $debug_text
 
 var _state:int = Mobs.STATE_NEUTRAL

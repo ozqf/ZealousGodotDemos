@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://h5ny4unwnrna"]
+[gd_scene load_steps=3 format=3 uid="uid://h5ny4unwnrna"]
 
 [ext_resource type="Script" path="res://game/menus/root_menu.gd" id="1_4am3d"]
+[ext_resource type="PackedScene" uid="uid://bknkjgtw0smrc" path="res://game/menus/cheats_panel.tscn" id="2_ijbmj"]
 
 [node name="RootMenu" type="Control"]
 process_mode = 3
@@ -42,3 +43,10 @@ text = "ENTER GYM"
 [node name="back_to_game" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "BACK TO GAME"
+
+[node name="CheatsPanel" parent="." instance=ExtResource("2_ijbmj")]
+layout_mode = 1
+offset_top = 192.0
+offset_bottom = 196.0
+grow_horizontal = 1
+grow_vertical = 1

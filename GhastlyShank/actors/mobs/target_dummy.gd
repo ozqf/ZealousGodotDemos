@@ -30,7 +30,9 @@ func _start_random_move() -> void:
 func _physics_process(_delta:float) -> void:
 	var tarInfo:ActorTargetInfo = Game.get_player_target()
 	if !tarInfo.isValid:
+		_model.custom_physics_process(_delta, Vector3(), 0, 0)
 		return
+	
 	var pushDir:Vector3 = Vector3()
 	var flatDist:float = ZqfUtils.flat_distance_sqr(self.global_position, tarInfo.t.origin)
 

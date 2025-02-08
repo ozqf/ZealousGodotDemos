@@ -69,6 +69,8 @@ var _moves:Dictionary = {
 		juggleStrength = 0.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
+		chargeTime = 1.0,
+		chargeMultiplier = 2.0,
 		hitHeight =Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = true
 	},
@@ -193,6 +195,30 @@ var _moves:Dictionary = {
 		hitHeight = Mobs.HIT_HEIGHT_MID,
 		canEvadeCancel = false
 	},
+	"air_axe_kick" = {
+		#anim = "air_spin_kicks",
+		anim = "air_axe_kick",
+		moveType = MOVE_TYPE_SINGLE,
+		hitTickRF = 0.2667,
+		hitTickRFoff = 0.3667,
+		damage = 1.25,
+		juggleStrength = -1.0,
+		launchStrength = 0.0,
+		sweepStrength = 0.0,
+		hitHeight = Mobs.HIT_HEIGHT_MID | Mobs.HIT_HEIGHT_HIGH,
+		canEvadeCancel = false
+	},
+	"air_spin_back_kick" = {
+		anim = "spin_back_kick",
+		moveType = MOVE_TYPE_SINGLE,
+		hitTickRF = 0.3,
+		damage = 0.25,
+		juggleStrength = 0.0,
+		launchStrength = 1.0,
+		sweepStrength = 0.0,
+		hitHeight = Mobs.HIT_HEIGHT_MID | Mobs.HIT_HEIGHT_HIGH,
+		canEvadeCancel = false
+	},
 	"dive_kick" = {
 		#anim = "air_spin_kicks",
 		anim = "dive_kick",
@@ -246,7 +272,7 @@ const EVADE_SPEED:float = 9.5
 const STATIC_EVADE_TIME:float = 0.25
 const STATIC_EVADE_LOCKOUT_TIME:float = 0.1
 const MOVING_EVADE_TIME:float = 0.3
-const MOVING_EVADE_LOCKOUT_TIME:float = 0.2
+const MOVING_EVADE_LOCKOUT_TIME:float = 0.1
 const FLINCH_EVADE_LOCKOUT_TIME:float = 0.1
 
 const ATK_HOLD_BIT_0:int = (1 << 0)
@@ -313,11 +339,13 @@ var _atkHold:int = 0
 var _lastMoveName:String = ""
 var _lastMoveEndTime:float = 0.0
 var _multiHitRepeats:int = 0
+var _lastChargeMultiplier:float = 1.0
 
 var _bufferedMoveName:String = ""
 var _bufferedMoveTick:float = 0.0
 var _bufferedMoveSpeedMul:float = 1.0
 var _bufferedMoveHoldButtons:int = 0
+var _bufferedYaw:float = 0.0
 #var _nextMoveYaw:float = 0.0
 
 var _blinkTick:float = 0.0
@@ -503,7 +531,7 @@ func begin_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0) -> 
 	return _overwrite_move(moveName, speedModifier, atkHold)
 
 # start a move with no checks
-func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0) -> bool:
+func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0, chargeMoveScale:float = 1.0) -> bool:
 	# oi no dividing by zero
 	if speedModifier < 0.1:
 		speedModifier = 0.1
@@ -514,6 +542,10 @@ func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0
 		print("Start " + str (moveName))
 	var move:Dictionary = _moves[moveName]
 	_currentMoveName = moveName
+	set_look_yaw(_bufferedYaw)
+	_stateTime = ZqfUtils.safe_dict_f(move, "chargeTime", 1.0)
+	_lastChargeMultiplier = ZqfUtils.safe_dict_f(move, "chargeMultiplier", 1.0)
+	print("Charge mul " + str(_lastChargeMultiplier))
 	if move.moveType == MOVE_TYPE_HOLD_SINGLE || move.moveType == MOVE_TYPE_HOLD_MULTI:
 		_state = Mobs.STATE_PERFORMING_MOVE
 		_stateTick = 0.0
@@ -528,12 +560,12 @@ func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0
 		_animator.queue(_stanceIdleAnim)
 
 	# required
-	_hitInfo.damage = move.damage
-	_hitInfo.juggleStrength = move.juggleStrength
-	_hitInfo.launchStrength = move.launchStrength
-	_hitInfo.sweepStrength = move.sweepStrength
+	_hitInfo.damage = move.damage * chargeMoveScale
+	_hitInfo.juggleStrength = move.juggleStrength * chargeMoveScale
+	_hitInfo.launchStrength = move.launchStrength * chargeMoveScale
+	_hitInfo.sweepStrength = move.sweepStrength * chargeMoveScale
 	# every move should have a little flinch effect at least
-	_hitInfo.flinchStrength = ZqfUtils.safe_dict_f(move, "flinchStrength", 1.0)
+	_hitInfo.flinchStrength = ZqfUtils.safe_dict_f(move, "flinchStrength", 1.0) * chargeMoveScale
 	_hitInfo.hitHeight = move.hitHeight
 
 	# variable which are on
@@ -549,6 +581,9 @@ func buffer_move(moveName:String, speedMul:float = 1.0, holdButton:int = 0) -> v
 	_bufferedMoveTick = 0.0
 	_bufferedMoveSpeedMul = speedMul
 	_bufferedMoveHoldButtons = holdButton
+
+func buffer_move_yaw(yaw:float) -> void:
+	_bufferedYaw = yaw
 
 func _finish_move() -> void:
 	_hitInfo.damage = 1.0
@@ -862,11 +897,12 @@ func _process_neutral_combat_stance(_delta:float, _pushDir:Vector3, _desiredYaw:
 			return
 
 func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, buttons:int) -> void:
-
+	
 	if _bufferedMoveName != "":
 		_bufferedMoveTick += _delta
 		if _bufferedMoveTick > 0.5:
 			buffer_move("")
+	
 	match _state:
 		Mobs.STATE_NEUTRAL:
 			match _stance:
@@ -884,8 +920,12 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, 
 			var moveType:int = move.moveType
 			match moveType:
 				MOVE_TYPE_HOLD_SINGLE:
-					if (buttons & _atkHold) == 0 && _stateTick > 0.4:
-						_overwrite_move(_releaseMoveName, _bufferedMoveSpeedMul, 0)
+					var canRelease:bool = _stateTick > 0.4
+					var chargeWeight:float = clampf(_stateTick / _stateTime, 0.0, 1.0)
+					var damageMul:float = _lastChargeMultiplier * chargeWeight
+					print("tick " + str(_stateTick) + " Charge weight " + str(chargeWeight) + " last mul " + str(_lastChargeMultiplier) + " damage mul " + str(damageMul))
+					if (buttons & _atkHold) == 0 && canRelease:
+						_overwrite_move(_releaseMoveName, _bufferedMoveSpeedMul, 0, damageMul)
 						return
 				MOVE_TYPE_HOLD_MULTI:
 					set_look_yaw(_desiredYaw)

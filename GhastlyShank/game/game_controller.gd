@@ -1,9 +1,17 @@
 extends Node3D
 class_name GameController
 
+const GROUP_GAME_EVENTS:String = "game_events"
+const FN_GAME_EVENT_CHEATS_FLAGS_REFRESH:String = "game_event_cheat_flags_refresh"
+
+const CHEAT_FLAG_NO_TARGET:int = (1 << 0)
+const CHEAT_FLAG_INVUL:int = (1 << 1)
+
 const TEAM_ID_NONE:int = 0
 const TEAM_ID_ENEMY:int = 1
 const TEAM_ID_PLAYER:int = 2
+
+var _cheatFlags:int = 0
 
 var _titleType:PackedScene = preload("res://worlds/title/title.tscn")
 var _sandboxWorldType:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
@@ -22,6 +30,7 @@ var _spawnPoints:Dictionary = {}
 func _ready():
 	call_deferred("start_title")
 	add_to_group(Zqf.GROUP_APP)
+	add_to_group(GROUP_GAME_EVENTS)
 
 func on_app_event(_event:String) -> void:
 	match _event:
@@ -30,10 +39,15 @@ func on_app_event(_event:String) -> void:
 		Zqf.APP_EVENT_PLAY:
 			Engine.time_scale = 1.0
 
+func game_event_cheat_flags_refresh(flags:int) -> void:
+	_cheatFlags = flags
+
 func register_player(plyr:PlayerAvatar) -> void:
 	_player = plyr
 
 func get_player_target() -> ActorTargetInfo:
+	if (_cheatFlags & CHEAT_FLAG_NO_TARGET) != 0:
+		return _emptyTarget
 	if _player != null:
 		return _player.get_target_info()
 	return _emptyTarget
