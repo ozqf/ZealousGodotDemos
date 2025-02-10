@@ -11,7 +11,7 @@ func _ready() -> void:
 func get_actor_proxy_info() -> Dictionary:
 	return {
 		"meta": {
-			"prefab": "target_dummy",
+			"prefab": "goon_fodder",
 			"flags": 0,
 			"tags": ""
 		}
@@ -20,7 +20,7 @@ func get_actor_proxy_info() -> Dictionary:
 func get_spawn_data() -> Dictionary:
 	return {
 		"meta": {
-			"prefab": "target_dummy",
+			"prefab": "goon_fodder",
 			"flags": 0,
 			"tags": ""
 		},

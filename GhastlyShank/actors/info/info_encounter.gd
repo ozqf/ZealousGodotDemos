@@ -28,5 +28,5 @@ func actor_trigger(msg:String) -> void:
 				var point = Game.get_spawn_point(spawnPointId)
 				if point != null && point is Node3D:
 					t = point.global_transform
-				var data:Dictionary = _create_spawn_data("target_dummy", t)
+				var data:Dictionary = _create_spawn_data("goon_fodder", t)
 				Game.restore_actor(data)

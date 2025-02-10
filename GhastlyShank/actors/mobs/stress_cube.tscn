@@ -3,8 +3,9 @@
 [ext_resource type="Script" path="res://actors/mobs/stress_cube.gd" id="1_ot6f2"]
 [ext_resource type="Script" path="res://game/interactions/hitbox_delegate.gd" id="2_4xuiv"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_gkkeo"]
-size = Vector3(0.8, 1.6, 0.8)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kib8a"]
+radius = 0.3
+height = 1.6
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_h0757"]
 size = Vector3(0.8, 1.6, 0.8)
@@ -22,7 +23,7 @@ script = ExtResource("1_ot6f2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
-shape = SubResource("BoxShape3D_gkkeo")
+shape = SubResource("CapsuleShape3D_kib8a")
 
 [node name="hitbox" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)

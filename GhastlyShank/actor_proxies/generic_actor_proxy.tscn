@@ -5,6 +5,6 @@
 
 [node name="generic_actor_proxy" type="Node3D" groups=["actor_proxies"]]
 script = ExtResource("1_o5reh")
-prefabName = "target_dummy"
+prefabName = "goon_fodder"
 
 [node name="actor_proxy_widget_box" parent="." instance=ExtResource("2_1bs58")]

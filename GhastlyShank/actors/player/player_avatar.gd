@@ -174,11 +174,11 @@ func _physics_process(_delta: float) -> void:
 				elif atk3:
 					if v < 0:
 						#_model.buffer_move("taunt_bring_it_on")
-						_model.buffer_move("somersault_backward")
+						_model.buffer_move("no_shadow_kick_charge", 1.0, HumanoidModel.ATK_HOLD_BIT_2)
 						_model.buffer_move_yaw(_calc_look_yaw())
 					else:
 						#_model.buffer_move("haymaker_loop")
-						_model.buffer_move("no_shadow_kick_charge", 1.0, HumanoidModel.ATK_HOLD_BIT_2)
+						_model.buffer_move("somersault_backward")
 						_model.buffer_move_yaw(_calc_look_yaw())
 		HumanoidModel.STANCE_AGILE:
 			#var v:float = Input.get_axis("move_backward", "move_forward")
@@ -195,16 +195,17 @@ func _physics_process(_delta: float) -> void:
 
 	match stance:
 		HumanoidModel.STANCE_COMBAT:
+			_desiredYaw = _calc_look_yaw()
 			# always favour evade over starting a move
 			if moveSpecial:
 				# player is trying to evade, lets clear their move buffer
 				_model.buffer_move("")
+				_model.buffer_move_yaw(_desiredYaw)
 				_model.begin_evade(pushDir)
 			
 			# facing look only on input is glitchy and sod it just look into the bloody screen
 			#if !pushDir.is_zero_approx():
 			#	_desiredYaw = _calc_look_yaw()
-			_desiredYaw = _calc_look_yaw()
 			_model.custom_physics_process(_delta, pushDir, _desiredYaw, buttons)
 		_:
 			_model.custom_physics_process(_delta, pushDir, _desiredYaw, buttons)

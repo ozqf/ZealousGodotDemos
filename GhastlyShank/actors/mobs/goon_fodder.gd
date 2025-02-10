@@ -47,8 +47,8 @@ func _physics_process(_delta:float) -> void:
 	if flatDist < (MELEE_RANGE * MELEE_RANGE):
 		pushDir = Vector3()
 		#_model.begin_move("spin_back_kick", _speedMul)
-		#_start_random_move()
-		_model.buffer_move("sweep", _speedMul)
+		_start_random_move()
+		#_model.buffer_move("sweep", _speedMul)
 		#_model.set_look_yaw(yawToTarget)
 	else:
 		pushDir.x = -sin(yawToTarget)

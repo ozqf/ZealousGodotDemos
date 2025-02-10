@@ -18,7 +18,7 @@ var _sandboxWorldType:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 var _gameWorldType:PackedScene = preload("res://worlds/01/01.tscn")
 
 var _playerType:PackedScene = preload("res://actors/player/player_avatar.tscn")
-var _targetDummyType:PackedScene = preload("res://actors/mobs/target_dummy.tscn")
+var _targetDummyType:PackedScene = preload("res://actors/mobs/goon_fodder.tscn")
 var _wallTurretType:PackedScene = preload("res://actors/world/wall_turret.tscn")
 var _volumeTriggerType:PackedScene = preload("res://actors/volumes/trigger_volume.tscn")
 
@@ -130,7 +130,7 @@ func restore_actor(data:Dictionary) -> String:
 		"player_start":
 			var t:Transform3D = ZqfUtils.Transform3D_from_dict(data.xform)
 			_spawn_player(t)
-		"target_dummy":
+		"goon_fodder":
 			var dummy = Zqf.create_actor(_targetDummyType)
 			dummy.global_transform = ZqfUtils.Transform3D_from_dict(data.xform)
 		"wall_turret":

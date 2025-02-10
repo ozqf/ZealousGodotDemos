@@ -12,30 +12,35 @@ var _gravityStrengthWeight:float = 1.0
 var _gravityStrengthDelayTime:float = 1.0
 
 func hit(_incomingHit:HitInfo) -> int:
-	print("Stress cube hit")
+	#print("Stress cube hit")
 	if _incomingHit.launchStrength > 0.0:
 		#print("Launched!")
 		# don't relaunch otherwise multi-directional attacks interfer
 		if _state != Mobs.STATE_LAUNCHED:
 			begin_launch(_incomingHit.launchYawRadians, _incomingHit.teamId)
 	elif _state == Mobs.STATE_JUGGLED:
-		if _incomingHit.juggleStrength > 0.0:
+		if _incomingHit.juggleStrength != 0.0:
 			# relaunch
 			begin_juggle(_incomingHit.juggleStrength)
 		else:
 			# hover
 			begin_suspend(0.5)
-	elif _incomingHit.juggleStrength > 0.0:
+	elif _incomingHit.juggleStrength != 0.0:
 		#print("Juggled!")
 		begin_juggle(_incomingHit.juggleStrength)
 	return 1
 
 func begin_juggle(strength:float = 10.0) -> void:
-	_state = Mobs.STATE_JUGGLED
-	#self.velocity.y = strength
-	#if strength < 1.0:
-	#	_gravityStrengthWeight = 0.0
-	self.velocity = Vector3(0, strength, 0)
+	if strength > 0.0:
+		_state = Mobs.STATE_JUGGLED
+		#self.velocity.y = strength
+		#if strength < 1.0:
+		#	_gravityStrengthWeight = 0.0
+		self.velocity = Vector3(0, strength, 0)
+	elif strength < 0.0:
+		# force downward into ground splat
+		_state = Mobs.STATE_GROUND_SLAMMED
+		self.velocity = Vector3(0, strength, 0)
 
 func begin_suspend(strength:float = 1.0) -> void:
 	_state = Mobs.STATE_JUGGLED
@@ -103,6 +108,13 @@ func _physics_process(_delta: float) -> void:
 				return
 			self.velocity.y += -calc_gravity() * _delta
 			self.move_and_slide()
+		Mobs.STATE_GROUND_SLAMMED:
+			# ground splat rebound
+			if self.is_on_floor() && self.velocity.y <= 0.0:
+				begin_juggle(5.0)
+				return
+			self.velocity.y += -calc_gravity() * _delta
+			self.move_and_slide()
 		Mobs.STATE_FALLEN:
 			if !self.is_on_floor():
 				begin_juggle(1.0)
@@ -136,11 +148,12 @@ func _physics_process(_delta: float) -> void:
 						if (layer & (1 << 0)) == 1:
 							begin_juggle(3.5)
 							var n:Vector3 = results.get_normal(i)
-							n *= 5.0
+							# horizontal movement
+							n *= 4.0
 							# force pop up
 							self.global_position.y += 0.2
 							n.y = 5.0
 							self.velocity = n
-							print("Begin fall, vel " + str(n))
+							#print("Begin fall, vel " + str(n))
 							break;
 				return

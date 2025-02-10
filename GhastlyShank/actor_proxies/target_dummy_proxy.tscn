@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://xtgy6f7r7yg"]
 
-[ext_resource type="Script" path="res://actor_proxies/target_dummy_proxy.gd" id="1_tw2wp"]
+[ext_resource type="Script" path="res://actor_proxies/goon_fodder_proxy.gd" id="1_tw2wp"]
 [ext_resource type="PackedScene" uid="uid://bo8t5t610vttb" path="res://shared/widgets/actor_proxy_widget_box.tscn" id="2_xkpj5"]
 [ext_resource type="Script" path="res://addons/zqf_actor_proxy_editor/fields/tags_field.gd" id="3_iyld6"]
 
-[node name="target_dummy_proxy" type="Node3D"]
+[node name="goon_fodder_proxy" type="Node3D"]
 script = ExtResource("1_tw2wp")
 
 [node name="actor_proxy_widget_box" parent="." instance=ExtResource("2_xkpj5")]

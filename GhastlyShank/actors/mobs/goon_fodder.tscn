@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dq2pk0xcl4ktu"]
 
-[ext_resource type="Script" path="res://actors/mobs/target_dummy.gd" id="1_qblqf"]
+[ext_resource type="Script" path="res://actors/mobs/goon_fodder.gd" id="1_qblqf"]
 [ext_resource type="PackedScene" uid="uid://i0wct16b8g5y" path="res://actors/models/humanoid.tscn" id="2_4qgoh"]
 [ext_resource type="Script" path="res://game/interactions/hitbox_delegate.gd" id="3_hdat5"]
 
@@ -10,7 +10,7 @@
 height = 1.8
 radius = 0.6
 
-[node name="target_dummy" type="CharacterBody3D"]
+[node name="goon_fodder" type="CharacterBody3D"]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_qblqf")

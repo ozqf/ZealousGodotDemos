@@ -101,7 +101,7 @@ var _moves:Dictionary = {
 		moveType = MOVE_TYPE_RELEASE_MULTI,
 		hitTickRF = 0.05,
 		damage = 2.0,
-		juggleStrength = 0.0,
+		juggleStrength = 2.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
 		flinchStrength = 2.0,
@@ -172,11 +172,12 @@ var _moves:Dictionary = {
 	"air_snap_kicks" = {
 		#anim = "air_spin_kicks",
 		anim = "air_snap_kicks",
-		moveType = MOVE_TYPE_DESCENDING,
+		moveType = MOVE_TYPE_SINGLE,
+		#moveType = MOVE_TYPE_DESCENDING,
 		hitTickLF = 0.1,
 		hitTickRF = 0.3,
 		damage = 1.25,
-		juggleStrength = 1.0,
+		juggleStrength = 3.5,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
 		hitHeight = Mobs.HIT_HEIGHT_MID,
@@ -202,7 +203,7 @@ var _moves:Dictionary = {
 		hitTickRF = 0.2667,
 		hitTickRFoff = 0.3667,
 		damage = 1.25,
-		juggleStrength = -1.0,
+		juggleStrength = -10.0,
 		launchStrength = 0.0,
 		sweepStrength = 0.0,
 		hitHeight = Mobs.HIT_HEIGHT_MID | Mobs.HIT_HEIGHT_HIGH,
@@ -340,6 +341,7 @@ var _lastMoveName:String = ""
 var _lastMoveEndTime:float = 0.0
 var _multiHitRepeats:int = 0
 var _lastChargeMultiplier:float = 1.0
+var _lastMoveMovementMode:int = Mobs.MOVE_MOVE_MODE_SUSPEND
 
 var _bufferedMoveName:String = ""
 var _bufferedMoveTick:float = 0.0
@@ -498,6 +500,9 @@ func hit(_incomingHit:HitInfo) -> int:
 	elif _incomingHit.juggleStrength > 0.0:
 		#print("Juggled!")
 		begin_juggle(10.0)
+	elif _incomingHit.juggleStrength < 0.0:
+		# ground splat into juggle
+		begin_juggle(10.0)
 	elif _incomingHit.sweepStrength > 0.0:
 		#print("Swept!")
 		if _weightClass == Mobs.WEIGHT_CLASS_PLAYER:
@@ -545,6 +550,11 @@ func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0
 	set_look_yaw(_bufferedYaw)
 	_stateTime = ZqfUtils.safe_dict_f(move, "chargeTime", 1.0)
 	_lastChargeMultiplier = ZqfUtils.safe_dict_f(move, "chargeMultiplier", 1.0)
+	_lastMoveMovementMode = ZqfUtils.safe_dict_i(move, "movementMode", Mobs.MOVE_MOVE_MODE_SUSPEND)
+	match _lastMoveMovementMode:
+		Mobs.MOVE_MOVE_MODE_SUSPEND, Mobs.MOVE_MOVE_MODE_CANCEL_AND_FALL:
+			_charBody.velocity = Vector3()
+
 	print("Charge mul " + str(_lastChargeMultiplier))
 	if move.moveType == MOVE_TYPE_HOLD_SINGLE || move.moveType == MOVE_TYPE_HOLD_MULTI:
 		_state = Mobs.STATE_PERFORMING_MOVE
@@ -644,10 +654,12 @@ func begin_evade(dir:Vector3) -> bool:
 	if _moves.has(_currentMoveName) && !_moves[_currentMoveName].canEvadeCancel:
 		return false
 	if !_charBody.is_on_floor():
+		print("Cannot air evade!")
 		return false
 	# okay, we can evade
 
 	_evadeDir = dir
+	set_look_yaw(_bufferedYaw)
 	if dir.is_zero_approx():
 		_play_random_evade_anim()
 		_charBody.velocity = Vector3()
@@ -918,6 +930,12 @@ func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, 
 				return
 			var move:Dictionary = _moves[_currentMoveName]
 			var moveType:int = move.moveType
+			
+			#match _lastMoveMovementMode:
+			#	Mobs.MOVE_MOVE_MODE_CANCEL_AND_FALL, Mobs.MOVE_MOVE_MODE_CONTINUE:
+			#		_charBody.velocity.y += (-20.0 * _delta)
+			#		_charBody.move_and_slide()
+
 			match moveType:
 				MOVE_TYPE_HOLD_SINGLE:
 					var canRelease:bool = _stateTick > 0.4

@@ -1,19 +1,19 @@
-[gd_scene load_steps=9 format=3 uid="uid://3gqftyxafxpf"]
+[gd_scene load_steps=8 format=3 uid="uid://3gqftyxafxpf"]
 
 [ext_resource type="Material" uid="uid://cpdl3ls1phjtv" path="res://shared/world_materials/noise_concrete.tres" id="1_hf2nd"]
 [ext_resource type="PackedScene" uid="uid://dn26esbqk10ah" path="res://actor_proxies/player_start_proxy.tscn" id="2_wqyc4"]
 [ext_resource type="PackedScene" uid="uid://cjhh34b5npjxe" path="res://actor_proxies/trigger_volume_proxy.tscn" id="3_igiu4"]
-[ext_resource type="PackedScene" uid="uid://bthg8rgdfc3b" path="res://actor_proxies/generic_actor_proxy.tscn" id="4_u0da2"]
 [ext_resource type="PackedScene" uid="uid://dpo6c240jjuf2" path="res://actors/info/info_spawn_point.tscn" id="5_u8ieh"]
 [ext_resource type="PackedScene" uid="uid://ctje3sge00y7j" path="res://actors/info/info_encounter.tscn" id="6_r76yl"]
 [ext_resource type="PackedScene" uid="uid://cnd4bggxi4moa" path="res://actors/rage_drop/rage_drop.tscn" id="7_owv5b"]
 
 [sub_resource type="Environment" id="Environment_nnbbp"]
 ambient_light_source = 2
-ambient_light_color = Color(2.16588e-06, 0, 0.656531, 1)
+ambient_light_color = Color(0.09, 0.332666, 1, 1)
 tonemap_mode = 2
 glow_enabled = true
 fog_enabled = true
+fog_density = 0.005
 
 [node name="sandbox" type="Node3D"]
 
@@ -21,7 +21,7 @@ fog_enabled = true
 environment = SubResource("Environment_nnbbp")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.707107, 0.612373, -0.353553, 0, 0.5, 0.866026, 0.707107, 0.612373, -0.353553, 0, 11, 8)
+transform = Transform3D(-0.707107, 0.664463, -0.241845, 0, 0.34202, 0.939693, 0.707107, 0.664463, -0.241845, 0, 11, 8)
 light_color = Color(0.823529, 0.647059, 0, 1)
 shadow_enabled = true
 
@@ -39,25 +39,61 @@ size = Vector3(32, 36, 32)
 material = ExtResource("1_hf2nd")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2, -9)
 use_collision = true
 size = Vector3(1, 4, 1)
 material = ExtResource("1_hf2nd")
 
+[node name="CSGBox3D10" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 18, 0)
+use_collision = true
+size = Vector3(4, 36, 7)
+material = ExtResource("1_hf2nd")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 18, 0)
+use_collision = true
+size = Vector3(4, 36, 7)
+material = ExtResource("1_hf2nd")
+
 [node name="CSGBox3D3" type="CSGBox3D" parent="."]
-transform = Transform3D(1, -0.000274193, 0.000126283, 0.00027418, 1, 8.70085e-05, -0.000126312, -8.69667e-05, 1, -4, 2, -5)
+transform = Transform3D(1, -0.000274193, 0.000126283, 0.00027418, 1, 8.70085e-05, -0.000126312, -8.69667e-05, 1, -9, 2, -9)
 use_collision = true
 size = Vector3(1, 4, 1)
 material = ExtResource("1_hf2nd")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2, 9)
 use_collision = true
 size = Vector3(1, 4, 1)
 material = ExtResource("1_hf2nd")
 
+[node name="CSGBox3D6" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1, 0)
+use_collision = true
+size = Vector3(0.2, 2, 17)
+material = ExtResource("1_hf2nd")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -9)
+use_collision = true
+size = Vector3(17, 2, 0.2)
+material = ExtResource("1_hf2nd")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 9)
+use_collision = true
+size = Vector3(17, 2, 0.2)
+material = ExtResource("1_hf2nd")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1, 0)
+use_collision = true
+size = Vector3(0.2, 2, 17)
+material = ExtResource("1_hf2nd")
+
 [node name="CSGBox3D5" type="CSGBox3D" parent="."]
-transform = Transform3D(1, -0.000274193, 0.000126283, 0.00027418, 1, 8.70085e-05, -0.000126312, -8.69667e-05, 1, -4, 2, 4)
+transform = Transform3D(1, -0.000274193, 0.000126283, 0.00027418, 1, 8.70085e-05, -0.000126312, -8.69667e-05, 1, -9, 2, 9)
 use_collision = true
 size = Vector3(1, 4, 1)
 material = ExtResource("1_hf2nd")
@@ -71,13 +107,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.5)
 uuid = "9ffeed08-904b-4bd4-828b-43172276e8db"
 
 [node name="trigger_volume_proxy" parent="actors/campaign" instance=ExtResource("3_igiu4")]
-transform = Transform3D(7, 0, 0, 0, 3, 0, 0, 0, 1, -3.5, 0, -5.5)
+transform = Transform3D(7, 0, 0, 0, 3, 0, 0, 0, 1, -3.5, 0, -11.5)
 uuid = "c279acce-9bb8-4ebd-a7d0-c04872514531"
 ent_tags = "a5a6e83a-9937-446a-b65a-a66bbcbf77ad"
-
-[node name="generic_actor_proxy" parent="actors/campaign" instance=ExtResource("4_u0da2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 4)
-actorType = 3
 
 [node name="MobSpawner" parent="actors/campaign" instance=ExtResource("5_u8ieh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -13)

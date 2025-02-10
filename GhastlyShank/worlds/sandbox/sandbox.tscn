@@ -11,7 +11,7 @@
 
 [sub_resource type="Environment" id="Environment_nnbbp"]
 ambient_light_source = 2
-ambient_light_color = Color(2.16588e-06, 0, 0.656531, 1)
+ambient_light_color = Color(0.0930148, 0.330488, 0.999996, 1)
 tonemap_mode = 2
 glow_enabled = true
 fog_enabled = true
@@ -22,7 +22,7 @@ fog_enabled = true
 environment = SubResource("Environment_nnbbp")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.707107, 0.612373, -0.353553, 0, 0.5, 0.866026, 0.707107, -0.612373, 0.353553, 0, 11, 8)
+transform = Transform3D(0.707107, 0.683013, -0.183013, 0, 0.258819, 0.965926, 0.707107, -0.683013, 0.183013, 0, 11, 8)
 light_color = Color(0.823529, 0.647059, 0, 1)
 shadow_enabled = true
 
