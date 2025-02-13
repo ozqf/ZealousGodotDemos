@@ -303,6 +303,8 @@ const MOVE_SWEEP:String = "sweep"
 
 const BLINK_TIME:float = 0.05
 
+const MAX_AIR_MOVES:int = 1
+
 const STANCE_COMBAT:int = 0
 const STANCE_AGILE:int = 1
 
@@ -315,6 +317,7 @@ const STANCE_AGILE:int = 1
 @onready var _hitInfo:HitInfo = $HitInfo
 
 var debugLevel:int = 0
+var _airMoves:int = 1
 
 var _charBody:CharacterBody3D = null
 var _hitbox:Area3D = null
@@ -356,6 +359,7 @@ var _isBlinking:bool = false
 var _weightClass:int = Mobs.WEIGHT_CLASS_FODDER
 
 func _ready() -> void:
+	_airMoves = MAX_AIR_MOVES
 	_animator.connect("animation_changed", _on_animation_changed)
 
 	_leftHandArea.connect("on_check_for_victims", _on_check_for_victims)
@@ -531,6 +535,8 @@ func begin_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0) -> 
 	if !_moves.has(moveName):
 		print("move " + moveName + " not found!")
 		return false
+	if !_charBody.is_on_floor() && _airMoves == 0:
+		return false
 	if is_performing_move():
 		return false
 	return _overwrite_move(moveName, speedModifier, atkHold)
@@ -551,6 +557,8 @@ func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0
 	_stateTime = ZqfUtils.safe_dict_f(move, "chargeTime", 1.0)
 	_lastChargeMultiplier = ZqfUtils.safe_dict_f(move, "chargeMultiplier", 1.0)
 	_lastMoveMovementMode = ZqfUtils.safe_dict_i(move, "movementMode", Mobs.MOVE_MOVE_MODE_SUSPEND)
+	if !_charBody.is_on_floor():
+		_airMoves -= 1
 	match _lastMoveMovementMode:
 		Mobs.MOVE_MOVE_MODE_SUSPEND, Mobs.MOVE_MOVE_MODE_CANCEL_AND_FALL:
 			_charBody.velocity = Vector3()
@@ -586,7 +594,14 @@ func _overwrite_move(moveName:String, speedModifier:float = 1.0, atkHold:int = 0
 
 	return true
 
+func clear_move_buffer() -> void:
+	_bufferedMoveName = ""
+
 func buffer_move(moveName:String, speedMul:float = 1.0, holdButton:int = 0) -> void:
+	# deny move buffering if off ground
+	if _airMoves <= 0:
+		clear_move_buffer()
+		return
 	_bufferedMoveName = moveName
 	_bufferedMoveTick = 0.0
 	_bufferedMoveSpeedMul = speedMul
@@ -895,7 +910,7 @@ func _process_agile_stance(_delta: float, _pushDir:Vector3, _desiredYaw:float) -
 	# start moves
 	if _bufferedMoveName != "":
 		if begin_move(_bufferedMoveName, _bufferedMoveSpeedMul, _bufferedMoveHoldButtons):
-			buffer_move("")
+			clear_move_buffer()
 			return
 
 func _process_neutral_combat_stance(_delta:float, _pushDir:Vector3, _desiredYaw:float) -> void:
@@ -905,15 +920,16 @@ func _process_neutral_combat_stance(_delta:float, _pushDir:Vector3, _desiredYaw:
 	_step_movement(_delta, _pushDir, _stanceMoveSpeed, 5.0)
 	if _bufferedMoveName != "":
 		if begin_move(_bufferedMoveName, _bufferedMoveSpeedMul, _bufferedMoveHoldButtons):
-			buffer_move("")
+			clear_move_buffer()
 			return
 
 func custom_physics_process(_delta: float, _pushDir:Vector3, _desiredYaw:float, buttons:int) -> void:
-	
+	if _charBody.is_on_floor():
+		_airMoves = MAX_AIR_MOVES
 	if _bufferedMoveName != "":
 		_bufferedMoveTick += _delta
 		if _bufferedMoveTick > 0.5:
-			buffer_move("")
+			clear_move_buffer()
 	
 	match _state:
 		Mobs.STATE_NEUTRAL:

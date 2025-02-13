@@ -199,7 +199,7 @@ func _physics_process(_delta: float) -> void:
 			# always favour evade over starting a move
 			if moveSpecial:
 				# player is trying to evade, lets clear their move buffer
-				_model.buffer_move("")
+				_model.clear_move_buffer()
 				_model.buffer_move_yaw(_desiredYaw)
 				_model.begin_evade(pushDir)
 			

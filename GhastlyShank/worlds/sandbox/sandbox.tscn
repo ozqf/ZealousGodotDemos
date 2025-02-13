@@ -72,7 +72,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -2.5)
 uuid = "9ffeed08-904b-4bd4-828b-43172276e8db"
 
 [node name="trigger_volume_proxy" parent="actors/campaign" instance=ExtResource("5_7qnin")]
-transform = Transform3D(7, 0, 0, 0, 3, 0, 0, 0, 1, -3.5, 0, 3.5)
+transform = Transform3D(7, 0, 0, 0, 3, 0, 0, 0, 1, -3.5, 5, 3.5)
 uuid = "c279acce-9bb8-4ebd-a7d0-c04872514531"
 ent_tags = "a5a6e83a-9937-446a-b65a-a66bbcbf77ad"
 
