@@ -1,18 +1,18 @@
-extends Spatial
+extends Node3D
 class_name TriggerTeleport
 
 # signal trigger()
 
-onready var _ent:Entity = $Entity
-onready var _collider:CollisionShape = $CollisionShape
+@onready var _ent:Entity = $Entity
+@onready var _collider:CollisionShape3D = $CollisionShape
 
-export var triggerTargetName:String = ""
+@export var triggerTargetName:String = ""
 # if 0 or negative - no reset
-export var resetSeconds:float = 0
-export var active:bool = true
+@export var resetSeconds:float = 0
+@export var active:bool = true
 # purely for debugging so volume can be visualised
-export var noAutoHide:bool = false
-export var hintMessage:String = ""
+@export var noAutoHide:bool = false
+@export var hintMessage:String = ""
 
 var _resetTick:float = 0
 

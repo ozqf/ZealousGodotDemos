@@ -79,8 +79,8 @@ func _ready() -> void:
 # 	var degrees:float = 0.0
 # 	var results = []
 # 	for _i in range(0, count):
-# 		var x:float = cos(deg2rad(degrees))
-# 		var y:float = sin(deg2rad(degrees))
+# 		var x:float = cos(deg_to_rad(degrees))
+# 		var y:float = sin(deg_to_rad(degrees))
 # 		results.push_back([ x * radius, y * radius ])
 # 		degrees += step
 # 	return results
@@ -101,7 +101,7 @@ func _tick_fire_function(_attack:MobAttack, _tarPos:Vector3) -> void:
 		_prjSpeed = 15
 		spread = _spreadY
 		#spread = _spreadCrossSmall
-	var t:Transform = _mob.head.global_transform
+	var t:Transform3D = _mob.head.global_transform
 	for _i in range(0, spread.size()):
 		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spread[_i][0], spread[_i][1])
 		_fire_spread_prj(t.origin, forward)

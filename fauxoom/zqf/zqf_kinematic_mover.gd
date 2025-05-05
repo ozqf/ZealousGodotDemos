@@ -1,8 +1,8 @@
-extends Spatial
+extends Node3D
 
-export var running:bool = true
-export var duration:float = 1.0
-export var destination:Vector3 = Vector3()
+@export var running:bool = true
+@export var duration:float = 1.0
+@export var destination:Vector3 = Vector3()
 
 var _origin:Vector3
 

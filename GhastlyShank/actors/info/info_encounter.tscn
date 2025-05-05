@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ctje3sge00y7j"]
 
-[ext_resource type="Script" path="res://actors/info/info_encounter.gd" id="1_0fjp5"]
+[ext_resource type="Script" uid="uid://c3vtr0v1d83a" path="res://actors/info/info_encounter.gd" id="1_0fjp5"]
 [ext_resource type="PackedScene" uid="uid://bo8t5t610vttb" path="res://shared/widgets/actor_proxy_widget_box.tscn" id="2_qjll0"]
 
 [node name="InfoEncounter" type="Node3D" groups=["actors"]]

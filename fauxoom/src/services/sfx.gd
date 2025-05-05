@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 class_name SoundFXManager
 
 var _impact_s:AudioStream = preload("res://assets/sounds/impact/Bullet_Impact_1.wav")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://srag48fbednw"]
 
-[ext_resource type="Script" path="res://actors/mobs/stress_cube.gd" id="1_ot6f2"]
-[ext_resource type="Script" path="res://game/interactions/hitbox_delegate.gd" id="2_4xuiv"]
+[ext_resource type="Script" uid="uid://8vl7dnys52em" path="res://actors/mobs/stress_cube.gd" id="1_ot6f2"]
+[ext_resource type="Script" uid="uid://iojx2ph5oybx" path="res://game/interactions/hitbox_delegate.gd" id="2_4xuiv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kib8a"]
 radius = 0.3

@@ -1,4 +1,4 @@
-extends Camera
+extends Camera3D
 
 
 # Declare member variables here. Examples:
@@ -13,7 +13,7 @@ func _ready():
 	pass # Replace with function body.
 
 func player_camera_moved(_body, _head) -> void:
-	# var t:Transform = _head.global_transform
+	# var t:Transform3D = _head.global_transform
 	# global_transform.basis = t.basis
 	# fov = Config.cfg.r_fov
 	pass

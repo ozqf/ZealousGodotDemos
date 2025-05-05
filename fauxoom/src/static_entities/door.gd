@@ -1,4 +1,4 @@
-extends KinematicBody
+extends CharacterBody3D
 
 const Enums = preload("res://src/enums.gd")
 

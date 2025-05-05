@@ -58,10 +58,10 @@ var prj_player_saw_t = preload("res://prefabs/projectiles/prj_player_saw.tscn")
 
 ############################################
 
-var _dynamicRoot:Spatial = null
-var _entRoot:Spatial = null
+var _dynamicRoot:Node3D = null
+var _entRoot:Node3D = null
 
-func prefab_factory_init(dynamicRoot:Spatial, entRoot:Spatial) -> void:
+func prefab_factory_init(dynamicRoot:Node3D, entRoot:Node3D) -> void:
 	_dynamicRoot = dynamicRoot
 	_entRoot = entRoot
 
@@ -85,7 +85,7 @@ func spawn_mob(def:SpawnDef) -> Object:
 	var mob = Ents.create_mob_by_name(def.type, def.t, def.forceAwake)
 	return mob
 
-func spawn_corpse(spawnerPrefabType:String, info:CorpseSpawnInfo, t:Transform) -> void:
+func spawn_corpse(spawnerPrefabType:String, info:CorpseSpawnInfo, t:Transform3D) -> void:
 	var prefab = null
 	var offsetY:int = 32
 	var pixelSize:float = 0.03
@@ -130,7 +130,7 @@ func spawn_rage_drops(pos:Vector3, dropType:int, dropCount:int, throwYawDegrees:
 		drop.launch_rage_drop(pos, dropType, throwYawDegrees, autoGather)
 
 # returns last gib spawned
-func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:
+func spawn_gibs(origin:Vector3, dir:Vector3, count:int) ->Node3D:
 	var def = _entRoot.get_prefab_def(Entities.PREFAB_GIB)
 	var result = null;
 	for _i in range(0, count):
@@ -138,17 +138,17 @@ func spawn_gibs(origin:Vector3, dir:Vector3, count:int) -> Spatial:
 		result = gib
 		add_child(gib)
 		var pos:Vector3 = origin
-		pos.x += rand_range(-0.5, 0.5)
-		pos.y += rand_range(0, 1.5)
-		pos.z += rand_range(-0.5, 0.5)
+		pos.x += randf_range(-0.5, 0.5)
+		pos.y += randf_range(0, 1.5)
+		pos.z += randf_range(-0.5, 0.5)
 		gib.global_transform.origin = pos
 		gib.launch_gib(dir, 1, 0)
 	return result
 
 func spawn_impact_sprite(origin:Vector3) -> void:
-	var impact:Spatial = prefab_impact.instance()
+	var impact:Node3D = prefab_impact.instance()
 	get_dynamic_parent().add_child(impact)
-	var t:Transform = impact.global_transform
+	var t:Transform3D = impact.global_transform
 	t.origin = origin
 	impact.global_transform = t
 
@@ -156,19 +156,19 @@ func _spawn_debris_prefab(
 	prefab, origin:Vector3, normal:Vector3, minSpeed:float, maxSpeed:float, count:int) -> void:
 
 	for _i in range(0, count):
-		var debris:Spatial = prefab.instance()
+		var debris:Node3D = prefab.instance()
 		get_dynamic_parent().add_child(debris)
-		var t:Transform = Transform.IDENTITY
+		var t:Transform3D = Transform3D.IDENTITY
 		t.origin = origin
 		debris.global_transform = t
 		var rigidBody:RigidBody = debris.find_node("RigidBody")
 		if rigidBody != null:
 			var launchVel:Vector3 = normal
-			launchVel.x += rand_range(-0.3, 0.3)
-			launchVel.y += rand_range(-0.3, 0.3)
-			launchVel.z += rand_range(-0.3, 0.3)
+			launchVel.x += randf_range(-0.3, 0.3)
+			launchVel.y += randf_range(-0.3, 0.3)
+			launchVel.z += randf_range(-0.3, 0.3)
 			launchVel = launchVel.normalized()
-			launchVel *= rand_range(minSpeed, maxSpeed)
+			launchVel *= randf_range(minSpeed, maxSpeed)
 			rigidBody.linear_velocity = launchVel
 
 func spawn_impact_debris(

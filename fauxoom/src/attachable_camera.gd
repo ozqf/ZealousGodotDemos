@@ -1,8 +1,8 @@
-extends Camera
+extends Camera3D
 class_name AttachableCamera
 
-var _worldParent:Spatial = null
-var _attachParent:Spatial = null
+var _worldParent:Node3D = null
+var _attachParent:Node3D = null
 
 var _attachMode:bool = true
 
@@ -50,7 +50,7 @@ func shake(_duration:float, _strength:float) -> void:
 
 func _refresh_pos() -> void:
 	if _attachMode && ZqfUtils.is_obj_safe(_attachParent):
-		var t:Transform = _attachParent.global_transform
+		var t:Transform3D = _attachParent.global_transform
 		self.global_transform = t
 		#print("Cam pos " + str(t.origin))
 	pass
@@ -83,9 +83,9 @@ func _tick_gun_kick(_delta:float) -> void:
 	else:
 		weight = 0.0
 	var offset:float = _shakeStrength * weight
-	var shakeX:float = rand_range(-offset, offset) * weight
-	var shakeY:float = rand_range(-offset, offset) * weight
-	var shakeZ:float = rand_range(-offset, offset) * weight
+	var shakeX:float = randf_range(-offset, offset) * weight
+	var shakeY:float = randf_range(-offset, offset) * weight
+	var shakeZ:float = randf_range(-offset, offset) * weight
 	#var offX:Vector3 = transform.basis.x * shakeX
 	#var offY:Vector3 = transform.basis.y * shakeY
 	#var offZ:Vector3 = transform.basis.z * shakeZ
@@ -97,7 +97,7 @@ func _tick_gun_kick(_delta:float) -> void:
 
 	get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_CAMERA_UPDATE, global_transform.basis)
 
-func attach_to(newParent:Spatial) -> void:
+func attach_to(newParent:Node3D) -> void:
 	if _attachParent != null:
 		detach()
 	current = true
@@ -107,17 +107,17 @@ func attach_to(newParent:Spatial) -> void:
 	if _attachMode:
 		_worldParent.remove_child(self)
 		_attachParent.add_child(self)
-		transform = Transform.IDENTITY
-		var _f = _attachParent.connect("tree_exiting", self, "detach")
+		transform = Transform3D.IDENTITY
+		var _f = _attachParent.connect("tree_exiting", detach)
 
 func detach() -> void:
 	if _attachParent == null:
 		return
 	current = false
 	if _attachMode:
-		var t:Transform = _attachParent.global_transform
+		var t:Transform3D = _attachParent.global_transform
 		_attachParent.remove_child(self)
-		_attachParent.disconnect("tree_exiting", self, "detach")
+		_attachParent.disconnect("tree_exiting", detach)
 		global_transform = t
 		_worldParent.call_deferred("add_child", self)
 		#_worldParent.add_child(self)

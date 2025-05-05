@@ -1,4 +1,4 @@
-extends RayCast
+extends RayCast3D
 class_name GroundPointSensor
 
 var _tick:float = 0.0

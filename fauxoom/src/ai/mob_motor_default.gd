@@ -36,10 +36,10 @@ func _calc_move_yaw() -> float:
 			var offset:float = 0
 			if _mob.get_health_percentage() < 50 && distSqr < (30 * 30):
 				# panic move
-				offset = deg2rad(rand_range(panicEvadeDegreesMin, panicEvadeDegreesMax))
+				offset = deg_to_rad(randf_range(panicEvadeDegreesMin, panicEvadeDegreesMax))
 			else:
 				# normal move
-				offset = deg2rad(evadeDegrees)
+				offset = deg_to_rad(evadeDegrees)
 			if tarAimIsToLeft:
 				_yawOffset = -offset
 			elif !tarAimIsToLeft:

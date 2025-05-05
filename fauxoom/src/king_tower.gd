@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 class_name KingTower
 
 var _gameOverUI_t = preload("res://prefabs/ui/king_game_over_ui.tscn")
@@ -15,18 +15,18 @@ enum KingTowerState {
 	WaitingForPlayer
 }
 
-onready var _ent:Entity = $Entity
-onready var _outerShellMesh = $display/outer_shell_mesh
-onready var _path:GroundPath = $ground_path
-onready var _forcefieldDetector:Area = $forcefield_detector
-onready var _prismTop:MeshInstance = $display/prism_top
-onready var _prismBottom:MeshInstance = $display/prism_bottom
-onready var _coreReceptacle = $core_receptacle
-onready var _coreCollisionShape = $core_receptacle/CollisionShape
+@onready var _ent:Entity = $Entity
+@onready var _outerShellMesh = $display/outer_shell_mesh
+@onready var _path:GroundPath = $ground_path
+@onready var _forcefieldDetector:Area3D = $forcefield_detector
+@onready var _prismTop:MeshInstance3D = $display/prism_top
+@onready var _prismBottom:MeshInstance3D = $display/prism_bottom
+@onready var _coreReceptacle = $core_receptacle
+@onready var _coreCollisionShape = $core_receptacle/CollisionShape
 
-export var nodesCSV:String = ""
+@export var nodesCSV:String = ""
 
-export var speed:float = 14
+@export var speed:float = 14
 
 var _state = KingTowerState.Idle
 
@@ -122,7 +122,7 @@ func _on_body_entered_forcefield_detector(body) -> void:
 	if body.has_method("set_active"):
 		body.set_active(false)
 
-func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
+func console_on_exec(txt:String, _tokens:PackedStringArray) -> void:
 	if txt != "king":
 		return
 	print("-- King tower status --")
@@ -230,7 +230,7 @@ func _spawn_next_weapon() -> void:
 		var l:int = _weapons.size()
 		if l == 0:
 			return
-		var i:int = int(rand_range(0, l))
+		var i:int = int(randf_range(0, l))
 		type = _weapons[i]
 	# _weapons.remove(i)
 	_lastWeaponId = _spawn_item(type, 99999, true, false)
@@ -239,11 +239,11 @@ func _spawn_next_weapon() -> void:
 	var fn = HudObjectives.FN_ADD_OBJECTIVE
 	get_tree().call_group(grp, fn, _takeGunObjective)
 
-func pick_spawn_point() -> Transform:
+func pick_spawn_point() -> Transform3D:
 	var numPoints:int = _pointEnts.size()
 	if numPoints == 0:
 		return self.global_transform
-	var i:int = int(rand_range(0, numPoints))
+	var i:int = int(randf_range(0, numPoints))
 	var ent:Entity = _pointEnts[i]
 	return ent.get_ent_transform()
 
@@ -261,13 +261,13 @@ func _spawn_item(
 		print("King tower - failed to spawn item")
 		return 0
 	var vel:Vector3 = Vector3()
-	vel.y = 10.0 # rand_range(5.0, 15.0)
+	vel.y = 10.0 # randf_range(5.0, 15.0)
 	if horizontalKick:
-		var radians:float = rand_range(0, PI * 2)
-		var throwSpeed = rand_range(2.0, 4.0)
+		var radians:float = randf_range(0, PI * 2)
+		var throwSpeed = randf_range(2.0, 4.0)
 		vel.x = cos(radians) * throwSpeed
 		vel.z = sin(radians) * throwSpeed
-	item.set_velocity(vel)
+	item.set_item_velocity(vel)
 	item.set_time_to_live(timeToLive)
 	return item.get_ent_id()
 
@@ -278,7 +278,7 @@ func _pick_event() -> bool:
 		var eventObj = _eventEnts[i].get_parent()
 		eventObj.weight += 1
 		sum += eventObj.weight
-	var randWeight:int = int(rand_range(0, sum))
+	var randWeight:int = int(randf_range(0, sum))
 	for i in range(0, numEvents):
 		var eventObj = _eventEnts[i].get_parent()
 		if randWeight < eventObj.weight:
@@ -292,7 +292,7 @@ func _pick_event() -> bool:
 func _pick_event_2() -> bool:
 	var numEvents:int = _eventEnts.size()
 	if numEvents > 0:
-		_eventIndex = rand_range(0, numEvents)
+		_eventIndex = randf_range(0, numEvents)
 		return true
 	return false
 
@@ -393,7 +393,7 @@ func _spawn_transition_mobs() -> void:
 		accumulator = lastPos.distance_to(nextPos)
 		while accumulator > mobStep:
 			print("Transition spawn at " + str(nextPos))
-			def.t = Transform.IDENTITY
+			def.t = Transform3D.IDENTITY
 			def.t.origin = nextPos
 			def.type = Ents.PREFAB_MOB_PUNK
 			def.forceAwake = false
@@ -458,7 +458,7 @@ func _process(_delta:float):
 	#if _mobSpawnTick <= 0.0:
 	#	_mobSpawnTick = 0.1
 	#	if _activeMobIds.size() < 3:
-	#		var t:Transform = pick_spawn_point()
+	#		var t:Transform3D = pick_spawn_point()
 	#		var mob = Ents.create_mob_by_enum(Enums.EnemyType.Punk, t, true)
 	#		mob.force_awake()
 	#		var childId:int = mob.get_node("Entity").id

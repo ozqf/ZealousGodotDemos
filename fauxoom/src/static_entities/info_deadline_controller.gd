@@ -1,10 +1,10 @@
-extends Spatial
+extends Node3D
 
-export var triggerName:String = ""
-export var triggerTargetName:String = ""
-export var durationSeconds:int = 180
+@export var triggerName:String = ""
+@export var triggerTargetName:String = ""
+@export var durationSeconds:int = 180
 
-onready var _ent:Entity = $Entity
+@onready var _ent:Entity = $Entity
 
 
 # Game.show_hint_text(hintMessage)

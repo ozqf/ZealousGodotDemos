@@ -4,12 +4,12 @@ class_name OrbShield
 signal shield_broke(index)
 signal shield_restored(index)
 
-onready var _shape:CollisionShape = $CollisionShape
-onready var _restoreParticles = $restore_particles
-onready var _mesh:MeshInstance = $MeshInstance
+@onready var _shape:CollisionShape3D = $CollisionShape
+@onready var _restoreParticles = $restore_particles
+@onready var _mesh:MeshInstance3D = $MeshInstance3D
 
-export var restoreTime:float = 0
-export var health:int = 100
+@export var restoreTime:float = 0
+@export var health:int = 100
 
 var index:int = 0
 var _state:int = 0

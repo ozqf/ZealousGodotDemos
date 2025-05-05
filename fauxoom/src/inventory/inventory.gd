@@ -34,7 +34,7 @@ var ownerId:int = 0
 var chainsawRevs:int = 0
 # var _currentWeapon:InvWeapon = null
 
-func custom_init(launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
+func custom_init(launchNode:Node3D, ignoreBody:PhysicsBody, hud) -> void:
 	# gather weapons
 	var children = $weapons.get_children()
 	for child in children:

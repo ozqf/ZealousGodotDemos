@@ -54,5 +54,5 @@ func _list_parents(root:Node) -> void:
 
 func generate() -> void:
 	print("Block2mesh - generate from " + str(_node))
-	var root:Spatial = _node
+	var root:Node3D = _node
 	_list_parents(root)

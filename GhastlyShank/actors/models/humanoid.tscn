@@ -1,13 +1,13 @@
 [gd_scene load_steps=15 format=3 uid="uid://i0wct16b8g5y"]
 
 [ext_resource type="PackedScene" uid="uid://b4fg85m5t4wuw" path="res://actors/models/character_exercise_01_2024_01_06.glb" id="1_gjkax"]
-[ext_resource type="Script" path="res://actors/models/humanoid_model.gd" id="2_tbpui"]
+[ext_resource type="Script" uid="uid://qssi4xdg03ku" path="res://actors/models/humanoid_model.gd" id="2_tbpui"]
 [ext_resource type="PackedScene" uid="uid://b11i612qmwnqp" path="res://actors/models/weapon_gauntlet.tscn" id="3_4e873"]
 [ext_resource type="PackedScene" uid="uid://seggs0vb84xb" path="res://actors/models/limb_model.tscn" id="3_kulp1"]
-[ext_resource type="Script" path="res://actors/models/hurtbox.gd" id="5_ccxe5"]
+[ext_resource type="Script" uid="uid://cdub0nkor0w2w" path="res://actors/models/hurtbox.gd" id="5_ccxe5"]
 [ext_resource type="PackedScene" uid="uid://dho0rxobt3qqm" path="res://actors/components/attack_indicator_sphere.tscn" id="6_kbpha"]
 [ext_resource type="Shape3D" uid="uid://coubyfjhgcfdo" path="res://actors/models/humanoid_limb_hurtbox_shape.tres" id="6_p1dqm"]
-[ext_resource type="Script" path="res://game/interactions/hit_info.gd" id="6_u6dvx"]
+[ext_resource type="Script" uid="uid://c6lplacqycfco" path="res://game/interactions/hit_info.gd" id="6_u6dvx"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_e8iew"]
 

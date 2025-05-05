@@ -2,28 +2,28 @@ extends Control
 
 const Enums = preload("res://src/enums.gd")
 
-onready var _godMode:Button = $HBoxContainer/cheats_container/god_mode
-onready var _endlessRage:Button = $HBoxContainer/cheats_container/endless_rage
-onready var _endlessAmmo:Button = $HBoxContainer/cheats_container/endless_ammo
-onready var _giveAll:Button = $HBoxContainer/cheats_container/give_all
+@onready var _godMode:Button = $HBoxContainer/cheats_container/god_mode
+@onready var _endlessRage:Button = $HBoxContainer/cheats_container/endless_rage
+@onready var _endlessAmmo:Button = $HBoxContainer/cheats_container/endless_ammo
+@onready var _giveAll:Button = $HBoxContainer/cheats_container/give_all
 
-onready var _deathray:Button = $HBoxContainer/laser_container/deathray
-onready var _scanEnemy:Button = $HBoxContainer/laser_container/scan_enemy
-onready var _atkTestColumn:Button = $HBoxContainer/laser_container/attack_test_column
-onready var _atkTestSpikes:Button = $HBoxContainer/laser_container/attack_test_spikes
+@onready var _deathray:Button = $HBoxContainer/laser_container/deathray
+@onready var _scanEnemy:Button = $HBoxContainer/laser_container/scan_enemy
+@onready var _atkTestColumn:Button = $HBoxContainer/laser_container/attack_test_column
+@onready var _atkTestSpikes:Button = $HBoxContainer/laser_container/attack_test_spikes
 
-onready var _spawnPunk:Button = $HBoxContainer/spawns_container/punk
-onready var _spawnWorm:Button = $HBoxContainer/spawns_container/worm
-onready var _spawnSpider:Button = $HBoxContainer/spawns_container/spider
-onready var _spawnGolem:Button = $HBoxContainer/spawns_container/golem
-onready var _spawnTitan:Button = $HBoxContainer/spawns_container/titan
-onready var _spawnGasSac:Button = $HBoxContainer/spawns_container/gas_sac
-onready var _spawnSerpent:Button = $HBoxContainer/spawns_container/serpent
-onready var _spawnCyclops:Button = $HBoxContainer/spawns_container/cyclops
+@onready var _spawnPunk:Button = $HBoxContainer/spawns_container/punk
+@onready var _spawnWorm:Button = $HBoxContainer/spawns_container/worm
+@onready var _spawnSpider:Button = $HBoxContainer/spawns_container/spider
+@onready var _spawnGolem:Button = $HBoxContainer/spawns_container/golem
+@onready var _spawnTitan:Button = $HBoxContainer/spawns_container/titan
+@onready var _spawnGasSac:Button = $HBoxContainer/spawns_container/gas_sac
+@onready var _spawnSerpent:Button = $HBoxContainer/spawns_container/serpent
+@onready var _spawnCyclops:Button = $HBoxContainer/spawns_container/cyclops
 
-onready var _spawnMinorHp:Button = $HBoxContainer/items_container/minor_health
-onready var _spawnMinorRage:Button = $HBoxContainer/items_container/minor_rage
-onready var _spawnMinorBonus:Button = $HBoxContainer/items_container/minor_bonus
+@onready var _spawnMinorHp:Button = $HBoxContainer/items_container/minor_health
+@onready var _spawnMinorRage:Button = $HBoxContainer/items_container/minor_rage
+@onready var _spawnMinorBonus:Button = $HBoxContainer/items_container/minor_bonus
 
 func _ready() -> void:
 	visible = false

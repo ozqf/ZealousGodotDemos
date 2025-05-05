@@ -1,20 +1,22 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/tech_door_01.obj-733a7b98fa0e360506e50b3bc09f9122.mesh"
+uid="uid://7len1il2ah3l"
+path="res://.godot/imported/tech_door_01.obj-733a7b98fa0e360506e50b3bc09f9122.mesh"
 
 [deps]
 
-files=[ "res://.import/tech_door_01.obj-733a7b98fa0e360506e50b3bc09f9122.mesh" ]
+files=["res://.godot/imported/tech_door_01.obj-733a7b98fa0e360506e50b3bc09f9122.mesh"]
 
 source_file="res://prefabs/doors/tech_door_01/tech_door_01.obj"
-dest_files=[ "res://.import/tech_door_01.obj-733a7b98fa0e360506e50b3bc09f9122.mesh", "res://.import/tech_door_01.obj-733a7b98fa0e360506e50b3bc09f9122.mesh" ]
+dest_files=["res://.godot/imported/tech_door_01.obj-733a7b98fa0e360506e50b3bc09f9122.mesh", "res://.godot/imported/tech_door_01.obj-733a7b98fa0e360506e50b3bc09f9122.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

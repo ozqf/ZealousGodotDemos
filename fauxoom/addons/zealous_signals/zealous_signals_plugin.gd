@@ -1,4 +1,4 @@
-tool
+@tool
 extends EditorPlugin
 
 func _list_triggers(obj:Object):
@@ -29,8 +29,8 @@ func _list_connections(obj:Object):
 		# signal: "trigger"
 		# source: object
 		# target: object
-		var src:Spatial = connection.source as Spatial
-		var tar:Spatial = connection.target as Spatial
+		var src:Node3D = connection.source as Node3D
+		var tar:Node3D = connection.target as Node3D
 		var srcPos:Vector3 = src.global_transform.origin
 		var tarPos:Vector3 = tar.global_transform.origin
 		if src == null || tar == null:

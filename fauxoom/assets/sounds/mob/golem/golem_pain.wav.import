@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/golem_pain.wav-5c135e4974727956b249e863bdd3fd93.sample"
+type="AudioStreamWAV"
+uid="uid://d2o1d5v1qndyu"
+path="res://.godot/imported/golem_pain.wav-5c135e4974727956b249e863bdd3fd93.sample"
 
 [deps]
 
 source_file="res://assets/sounds/mob/golem/golem_pain.wav"
-dest_files=[ "res://.import/golem_pain.wav-5c135e4974727956b249e863bdd3fd93.sample" ]
+dest_files=["res://.godot/imported/golem_pain.wav-5c135e4974727956b249e863bdd3fd93.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

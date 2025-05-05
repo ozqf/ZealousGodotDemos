@@ -1,9 +1,9 @@
-extends Spatial
+extends Node3D
 
-onready var _scanner:ZqfVolumeScanner = $Area
-export var damage:int = 150
+@onready var _scanner:ZqfVolumeScanner = $Area
+@export var damage:int = 150
 
-export var explosiveRadius:float = 3
+@export var explosiveRadius:float = 3
 
 var _dead:bool = false
 var _tick:int = 0

@@ -1,4 +1,4 @@
-extends KinematicBody
+extends CharacterBody3D
 
 var _death1:AudioStream = preload("res://assets/sounds/mob/punk/punk_death_1.wav")
 var _death2:AudioStream = preload("res://assets/sounds/mob/punk/punk_death_2.wav")
@@ -15,11 +15,11 @@ enum CorpseState {
 	Unresponsive # if this, don't respond to hits etc anymore
 }
 
-onready var _sprite:CustomAnimator3D = $CustomAnimator3D
-onready var _headshotSpurt:CPUParticles = $headshot_spurt
-onready var _wholebodyBurst:CPUParticles = $wholebody_burst
-onready var _collisionShape:CollisionShape = $CollisionShape
-onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
+@onready var _sprite:CustomAnimator3D = $CustomAnimator3D
+@onready var _headshotSpurt:CPUParticles3D = $headshot_spurt
+@onready var _wholebodyBurst:CPUParticles3D = $wholebody_burst
+@onready var _collisionShape:CollisionShape3D = $CollisionShape
+@onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 var _velocity:Vector3 = Vector3()
 var _friction:float = 0.95
@@ -40,7 +40,7 @@ func _damage_hit(direction:Vector3, _hitStrength:float = 1.5) -> void:
 	_velocity += direction * _hitStrength
 
 # func _play_stream(audio: AudioStreamPlayer3D, stream:AudioStream, pitchAlt:float = 0.0, plusDb:float = 0.0) -> void:
-# 	_audio.pitch_scale = rand_range(1 - pitchAlt, 1 + pitchAlt)
+# 	_audio.pitch_scale = randf_range(1 - pitchAlt, 1 + pitchAlt)
 # 	_audio.volume_db = plusDb
 # 	_audio.set_attenuation_model(AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE)
 # 	_audio.stream = stream
@@ -57,9 +57,9 @@ func _spawn_hit_particles(pos:Vector3, deathHit:bool) -> void:
 		var blood = Game.get_factory().prefab_blood_hit.instance()
 		root.add_child(blood)
 		var offset:Vector3 = Vector3(
-			rand_range(-_range, _range),
-			rand_range(-_range, _range),
-			rand_range(-_range, _range))
+			randf_range(-_range, _range),
+			randf_range(-_range, _range),
+			randf_range(-_range, _range))
 		blood.global_transform.origin = (pos + offset)
 
 func hit(_spawnInfo:HitInfo) -> int:
@@ -143,7 +143,7 @@ func _whole_body_bleed(amount:int, duration:float) -> void:
 	_wholebodyBurst.amount = amount
 	_wholeBodyBleedTick = duration
 
-func spawn(_spawnInfo:CorpseSpawnInfo, _trans:Transform) -> void:
+func spawn(_spawnInfo:CorpseSpawnInfo, _trans:Transform3D) -> void:
 	global_transform = _trans
 	var selfPos:Vector3 = global_transform.origin
 	if _spawnInfo == null:
@@ -201,7 +201,9 @@ func _physics_process(_delta:float) -> void:
 	_velocity.x *= _friction
 	_velocity.z *= _friction
 	_velocity.y -= 15.0 * _delta
-	_velocity = move_and_slide(_velocity)
+	self.velocity = _velocity
+	move_and_slide()
+	_velocity = self.velocity
 	
 	if _wholeBodyBleedTick > 0.0:
 		_wholeBodyBleedTick -= _delta

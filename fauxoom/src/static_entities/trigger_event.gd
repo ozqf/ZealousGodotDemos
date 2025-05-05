@@ -1,10 +1,10 @@
-extends Spatial
+extends Node3D
 
-onready var _ent:Entity = $Entity
+@onready var _ent:Entity = $Entity
 
-export var selfName:String = ""
-export var triggerTargetName:String = ""
-export var waitSeconds:float = 0
+@export var selfName:String = ""
+@export var triggerTargetName:String = ""
+@export var waitSeconds:float = 0
 export(Environment) var worldEnvironment:Environment = null
 
 var _active:bool = false
@@ -20,7 +20,7 @@ enum EventType {
 }
 
 export(EventType) var type = EventType.None
-export var intParameter1:int = 0
+@export var intParameter1:int = 0
 
 var _lastHintCount:int = -1
 

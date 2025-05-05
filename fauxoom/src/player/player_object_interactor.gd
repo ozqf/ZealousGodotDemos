@@ -1,4 +1,4 @@
-extends RayCast
+extends RayCast3D
 class_name PlayerObjectInteractor
 
 func get_is_colliding() -> bool:

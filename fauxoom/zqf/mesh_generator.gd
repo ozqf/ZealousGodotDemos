@@ -1,17 +1,17 @@
-extends MeshInstance
+extends MeshInstance3D
 class_name MeshGenerator
 
 const defaultColour:Color = Color(1, 1, 1)
 
-export var verbose:bool = false
-export var material:SpatialMaterial = SpatialMaterial.new()
+@export var verbose:bool = false
+@export var material:StandardMaterial3D = StandardMaterial3D.new()
 
 var _built:bool = false
 var _building:bool = false
 # constructed mesh
 var _sTool:SurfaceTool = SurfaceTool.new()
 var _tmpMesh = Mesh.new()
-var _vertices = PoolVector3Array()
+var _vertices = PackedVector3Array()
 #var _uvs = PoolVector2Array()
 var _colour = defaultColour
 
@@ -30,14 +30,14 @@ func clear() -> void:
 	_vertices = []
 	mesh = null
 
-func set_material(newMat:SpatialMaterial) -> void:
+func set_material(newMat:StandardMaterial3D) -> void:
 	material = newMat
 	self.set_material_override(newMat)
 
-func get_collision_mesh() -> Shape:
+func get_collision_mesh() -> Shape3D:
 	if _vertices.size() == 0:
 		return null
-	var poly:ConcavePolygonShape = ConcavePolygonShape.new()
+	var poly:ConcavePolygonShape3D = ConcavePolygonShape3D.new()
 	poly.set_faces(_vertices)
 	return poly
 
@@ -91,8 +91,8 @@ func add_triangle_v(v1:Vector3, v2:Vector3, v3:Vector3, uv1:Vector2, uv2:Vector2
 	if !_building:
 		return
 	
-	# _colour = Color(rand_range(0, 1), rand_range(0, 1), rand_range(0, 1), 1)
-	_colour = Color.white
+	# _colour = Color(randf_range(0, 1), randf_range(0, 1), randf_range(0, 1), 1)
+	_colour = Color.WHITE
 	_sTool.add_color(_colour)
 	_sTool.add_uv(uv1)
 	_sTool.add_vertex(v1)

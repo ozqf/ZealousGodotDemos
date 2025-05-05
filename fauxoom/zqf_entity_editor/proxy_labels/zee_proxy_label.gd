@@ -2,13 +2,13 @@ extends Control
 
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 
-onready var _label:Label = $Label
+@onready var _label:Label = $Label
 var _proxy:ZEEEntityProxy = null
 
 func init(proxy) -> void:
 	add_to_group(EdEnums.GROUP_NAME)
 	_proxy = proxy
-	_proxy.connect("tree_exiting", self, "_on_subject_tree_exiting")
+	_proxy.connect("tree_exiting", _on_subject_tree_exiting)
 	_refresh()
 
 func _on_subject_tree_exiting() -> void:

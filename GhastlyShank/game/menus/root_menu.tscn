@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://h5ny4unwnrna"]
 
-[ext_resource type="Script" path="res://game/menus/root_menu.gd" id="1_4am3d"]
+[ext_resource type="Script" uid="uid://7ystyj26o7o8" path="res://game/menus/root_menu.gd" id="1_4am3d"]
 [ext_resource type="PackedScene" uid="uid://bknkjgtw0smrc" path="res://game/menus/cheats_panel.tscn" id="2_ijbmj"]
 
 [node name="RootMenu" type="Control"]

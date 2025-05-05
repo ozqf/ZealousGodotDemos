@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 class_name FlatMapEditor
 
 const MOUSE_CLAIM:String = "editor"
@@ -6,18 +6,18 @@ const DEFAULT_MAP_SIZE:int = 24
 
 enum EditMode { Grid, Entities }
 
-onready var _gridButton:Button = $main_options/mode_select/grid
-onready var _entsButton:Button = $main_options/mode_select/entities
+@onready var _gridButton:Button = $main_options/mode_select/grid
+@onready var _entsButton:Button = $main_options/mode_select/entities
 
-onready var _grid:GridEditor = $grid_editor
-onready var _ents:MapGenEntityEditor = $entity_editor
+@onready var _grid:GridEditor = $grid_editor
+@onready var _ents:MapGenEntityEditor = $entity_editor
 
-onready var _cursor:Spatial = $cursor
-onready var _camera:Camera = $Camera
+@onready var _cursor:Node3D = $cursor
+@onready var _camera:Camera3D = $Camera
 
 var _initialised:bool = false
 var _mapDef:MapDef
-var _cameraStart:Transform
+var _cameraStart:Transform3D
 var _cameraSpeed:float = 20
 var _cursorGridPos:Vector2 = Vector2()
 var _mode = EditMode.Grid
@@ -46,8 +46,8 @@ func init(newMapDef:MapDef, entityTemplates) -> void:
 	_ents.set_active(false)
 
 	var _f
-	_f = _gridButton.connect("pressed", self, "_on_grid_mode")
-	_f = _entsButton.connect("pressed", self, "_on_ents_mode")
+	_f = _gridButton.connect("pressed", _on_grid_mode)
+	_f = _entsButton.connect("pressed", _on_ents_mode)
 
 func _exit_tree():
 	MouseLock.remove_claim(get_tree(), MOUSE_CLAIM)
@@ -55,7 +55,7 @@ func _exit_tree():
 func _set_cursor_by_grid_pos(x:int, y:int) -> void:
 	var hSize:float = _mapDef.scale * 0.5
 	var pos:Vector3 = Vector3((x * _mapDef.scale) + hSize, 0, (y * _mapDef.scale) + hSize)
-	var t:Transform = _cursor.global_transform
+	var t:Transform3D = _cursor.global_transform
 	t.origin = pos
 	_cursor.global_transform = t
 
@@ -91,19 +91,19 @@ func _unhandled_input(event):
 	# Mouse in viewport coordinates.
 	if event is InputEventMouseButton:
 		if event.pressed:
-			if event.button_index == BUTTON_LEFT:
+			if event.button_index == MOUSE_BUTTON_LEFT:
 				_leftMouseHeld = true
 				if _mode == EditMode.Grid:
 					_grid.process_click()
 				elif _mode == EditMode.Entities:
 					_ents.process_click()
-			if event.button_index == BUTTON_RIGHT:
+			if event.button_index == MOUSE_BUTTON_RIGHT:
 				if _mode == EditMode.Grid:
 					_grid.process_right_click()
 				elif _mode == EditMode.Entities:
 					_ents.process_right_click()
 		elif !event.pressed:
-			if event.button_index == BUTTON_LEFT:
+			if event.button_index == MOUSE_BUTTON_LEFT:
 				_leftMouseHeld = false
 
 func _input(event):
@@ -129,7 +129,7 @@ func _update_camera(delta:float) -> void:
 		camMove.y += 3
 	camMove = (camMove * _cameraSpeed) * delta
 	
-	var t:Transform = _camera.global_transform
+	var t:Transform3D = _camera.global_transform
 	t.origin += camMove
 	_camera.global_transform = t
 

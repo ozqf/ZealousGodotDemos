@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dc347ne70dxit"]
+
+[ext_resource type="Texture2D" uid="uid://kv8cg7ik6c7f" path="res://test_07_walled_city/prefabs/tex_skyscraper_windows_1.tres" id="1_mh0qk"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0xddy"]
+size = Vector3(64, 400, 64)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aogm2"]
+albedo_texture = ExtResource("1_mh0qk")
+emission_enabled = true
+emission_texture = ExtResource("1_mh0qk")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_triplanar = true
+texture_filter = 1
+
+[node name="skyscraper_1" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 200, 0)
+mesh = SubResource("BoxMesh_0xddy")
+surface_material_override/0 = SubResource("StandardMaterial3D_aogm2")

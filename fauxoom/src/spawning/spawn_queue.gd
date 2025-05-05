@@ -21,11 +21,11 @@ func build(count:int, difficulty:int, spawnPointEnts) -> void:
 	_spawnedCount = 0
 	pass
 
-func _pick_spawn_point() -> Transform:
+func _pick_spawn_point() -> Transform3D:
 	var numPoints:int = _spawnPointEnts.size()
 	if numPoints == 0:
 		return get_parent().global_transform
-	var i:int = int(rand_range(0, numPoints))
+	var i:int = int(randf_range(0, numPoints))
 	var ent:Entity = _spawnPointEnts[i]
 	return ent.get_ent_transform()
 

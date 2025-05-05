@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/titan_alert.wav-d2df56109750069fd271f294bb94c817.sample"
+type="AudioStreamWAV"
+uid="uid://uyfho7rntb50"
+path="res://.godot/imported/titan_alert.wav-d2df56109750069fd271f294bb94c817.sample"
 
 [deps]
 
 source_file="res://assets/sounds/mob/titan/titan_alert.wav"
-dest_files=[ "res://.import/titan_alert.wav-d2df56109750069fd271f294bb94c817.sample" ]
+dest_files=["res://.godot/imported/titan_alert.wav-d2df56109750069fd271f294bb94c817.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

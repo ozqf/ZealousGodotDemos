@@ -1,7 +1,7 @@
 extends RigidBody
 
-onready var _sprite = $Sprite3D
-onready var _particles = $particles
+@onready var _sprite = $Sprite3D
+@onready var _particles = $particles
 
 var _timeToLive:float = 10
 var _angleTick:int = 0
@@ -50,11 +50,11 @@ func drop() -> void:
 	
 	var minSpin = 1
 	var maxSpin = 5
-	angular.x = rand_range(minSpin, maxSpin)
+	angular.x = randf_range(minSpin, maxSpin)
 	if randf() > 0.5:
 		angular.x *= -1
 	
-	angular.z = rand_range(minSpin, maxSpin)
+	angular.z = randf_range(minSpin, maxSpin)
 	if randf() > 0.5:
 		angular.z *= -1
 	
@@ -72,31 +72,31 @@ func launch_gib(_dir:Vector3, _power:float, ttlOverride:float) -> void:
 	if Config.cfg.r_bloodParticles:
 		_particles.emitting = true
 	var vel:Vector3 = Vector3()
-	_dir.x += rand_range(-0.2, 0.2)
-	_dir.y += rand_range(-0.2, 0.2)
-	_dir.z += rand_range(-0.2, 0.2)
+	_dir.x += randf_range(-0.2, 0.2)
+	_dir.y += randf_range(-0.2, 0.2)
+	_dir.z += randf_range(-0.2, 0.2)
 	# vel.x = _dir.x * 10
 	# vel.y = _dir.y * 10
 	# vel.z = _dir.z * 10
-	vel.x = rand_range(-7, 7) * _power
-	vel.y = rand_range(6, 8) * _power
-	vel.z = rand_range(-7, 7) * _power
+	vel.x = randf_range(-7, 7) * _power
+	vel.y = randf_range(6, 8) * _power
+	vel.z = randf_range(-7, 7) * _power
 	self.linear_velocity = vel
 	
 	var minSpin = 1
 	var maxSpin = 5
 	var angular:Vector3 = Vector3()
 	
-	angular.x = rand_range(minSpin, maxSpin)
+	angular.x = randf_range(minSpin, maxSpin)
 	if randf() > 0.5:
 		angular.x *= -1
 	
 	# tumbling effect when camera attached is too icky with Y enabled
-	# angular.y = rand_range(minSpin, maxSpin)
+	# angular.y = randf_range(minSpin, maxSpin)
 	# if randf() > 0.5:
 	# angular.y *= -1
 	
-	angular.z = rand_range(minSpin, maxSpin)
+	angular.z = randf_range(minSpin, maxSpin)
 	if randf() > 0.5:
 		angular.z *= -1
 	

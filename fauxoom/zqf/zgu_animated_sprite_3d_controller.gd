@@ -1,7 +1,7 @@
 extends AnimatedSprite3D
 
-export var playOnReady:bool = true
-export var hideOnLoop:bool = false
+@export var playOnReady:bool = true
+@export var hideOnLoop:bool = false
 
 var _hasPlayed:bool = false
 

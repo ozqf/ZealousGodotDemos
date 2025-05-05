@@ -1,19 +1,22 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/panel_32x1x4.obj-f0c679e8e2049c0c6e2cc8402719150d.mesh"
+uid="uid://bp0g7gvojt83v"
+path="res://.godot/imported/panel_32x1x4.obj-f0c679e8e2049c0c6e2cc8402719150d.mesh"
 
 [deps]
 
-files=[ "res://.import/panel_32x1x4.obj-f0c679e8e2049c0c6e2cc8402719150d.mesh" ]
+files=["res://.godot/imported/panel_32x1x4.obj-f0c679e8e2049c0c6e2cc8402719150d.mesh"]
 
 source_file="res://zqf_auto/mesh/panel/panel_32x1x4.obj"
-dest_files=[ "res://.import/panel_32x1x4.obj-f0c679e8e2049c0c6e2cc8402719150d.mesh", "res://.import/panel_32x1x4.obj-f0c679e8e2049c0c6e2cc8402719150d.mesh" ]
+dest_files=["res://.godot/imported/panel_32x1x4.obj-f0c679e8e2049c0c6e2cc8402719150d.mesh", "res://.godot/imported/panel_32x1x4.obj-f0c679e8e2049c0c6e2cc8402719150d.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
 optimize_mesh=true
+force_disable_mesh_compression=false

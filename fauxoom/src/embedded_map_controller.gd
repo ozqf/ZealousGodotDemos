@@ -1,10 +1,10 @@
-extends Spatial
+extends Node3D
 
 # var _prefab_player = preload("res://prefabs/player.tscn")
 # var _prefab_mob_gunner = preload("res://prefabs/dynamic_entities/mob_gunner.tscn")
 # var _prefab_horde_spawn = preload("res://prefabs/static_entities/horde_spawn.tscn")
 
-onready var _camera:Camera = $Camera
+@onready var _camera:Camera3D = $Camera
 
 # var _startEnts = []
 
@@ -27,4 +27,4 @@ onready var _camera:Camera = $Camera
 # 	for _i in range (0, l):
 # 		var ent = _startEnts[_i]
 # 		if ent.has_method("start_play"):
-# 			ent.start_play($dynamic as Spatial)
+# 			ent.start_play($dynamic asNode3D)

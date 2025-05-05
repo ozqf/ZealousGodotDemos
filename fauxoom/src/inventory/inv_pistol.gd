@@ -1,16 +1,16 @@
 extends InvWeapon
 
-export var maxSpreadX:int = 200
-export var maxSpreadY:int = 100
-export var maxLoaded:int = 12
+@export var maxSpreadX:int = 200
+@export var maxSpreadY:int = 100
+@export var maxLoaded:int = 12
 
-export var secondaryAmmoCost:int = 15
+@export var secondaryAmmoCost:int = 15
 
 var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
 var _pistolReload:AudioStream = preload("res://assets/sounds/item/weapon_reload_light.wav")
-var _brassNode:Spatial
-var _brassRight:Spatial
-var _brassLeft:Spatial
+var _brassNode:Node3D
+var _brassRight:Node3D
+var _brassLeft:Node3D
 
 var _spreadScale:float = 0
 # var _reloading:bool = false
@@ -64,10 +64,10 @@ func _custom_shoot(isHyper:bool, _spreadX:float, _spreadY:float, shotSpreadScale
 		_hitInfo.stunOverrideTime = -1
 		_hitInfo.stunOverrideDamage = -1
 		_hitInfo.hyperLevel = 0
-	var t:Transform = self._launchNode.global_transform
+	var t:Transform3D = self._launchNode.global_transform
 	var forward:Vector3 = -_launchNode.global_transform.basis.z
-	var spreadX:float = rand_range(-_spreadX, _spreadX) * shotSpreadScale
-	var spreadY:float = rand_range(-_spreadY, _spreadY) * shotSpreadScale
+	var spreadX:float = randf_range(-_spreadX, _spreadX) * shotSpreadScale
+	var spreadY:float = randf_range(-_spreadY, _spreadY) * shotSpreadScale
 	forward = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
 	_fire_single(forward, 1000)
 	self.emit_signal("weapon_action", self, "fire")
@@ -85,7 +85,7 @@ func _fire_flare(hyper:bool) -> void:
 		Game.get_dynamic_parent().add_child(prj)
 		prj.override_damage(70)
 	
-	var t:Transform = _launchNode.global_transform
+	var t:Transform3D = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward = -t.basis.z
 	if hyper:
@@ -95,7 +95,7 @@ func _fire_flare(hyper:bool) -> void:
 	prj.launch_prj(selfPos, forward, Interactions.PLAYER_RESERVED_ID, Interactions.TEAM_PLAYER, _prjMask)
 
 func _spawn_brass(left:bool = false) -> void:
-	var brass:Spatial = _brassRight
+	var brass:Node3D = _brassRight
 	if left:
 		brass = _brassLeft
 	Game.get_factory().spawn_ejected_bullet(brass.global_transform.origin, brass.global_transform.basis.y, 1, 3, 1)

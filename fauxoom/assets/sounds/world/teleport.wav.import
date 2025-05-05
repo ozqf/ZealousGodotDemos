@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/teleport.wav-483ecaae3dc74e97252e75ece54d55e8.sample"
+type="AudioStreamWAV"
+uid="uid://da50r0nvvhe5x"
+path="res://.godot/imported/teleport.wav-483ecaae3dc74e97252e75ece54d55e8.sample"
 
 [deps]
 
 source_file="res://assets/sounds/world/teleport.wav"
-dest_files=[ "res://.import/teleport.wav-483ecaae3dc74e97252e75ece54d55e8.sample" ]
+dest_files=["res://.godot/imported/teleport.wav-483ecaae3dc74e97252e75ece54d55e8.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

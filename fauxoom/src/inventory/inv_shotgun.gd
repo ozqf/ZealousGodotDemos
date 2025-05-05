@@ -1,6 +1,6 @@
 extends InvWeapon
 
-var _brassNode:Spatial
+var _brassNode:Node3D
 var _rocketShoot:AudioStream = preload("res://assets/sounds/weapon/rocket_fire.wav")
 var _prjMask:int = -1
 
@@ -20,19 +20,19 @@ func deequip() -> void:
 	.deequip()
 
 func _fire_shotgun() -> void:
-	var t:Transform = _launchNode.global_transform
+	var t:Transform3D = _launchNode.global_transform
 	var randSpreadX:float = 500
 	var randSpreadY:float = 200
 	for _i in range(0, 5):
-		var spreadX:float = rand_range(-randSpreadX, randSpreadX)
-		var spreadY:float = rand_range(-randSpreadY, randSpreadY)
+		var spreadX:float = randf_range(-randSpreadX, randSpreadX)
+		var spreadY:float = randf_range(-randSpreadY, randSpreadY)
 		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
 		_fire_single(forward, 1000)
 
 func _fire_stasis_grenade() -> void:
 	var rocket = Game.get_factory().statis_grenade_t.instance()
 	Game.get_dynamic_parent().add_child(rocket)
-	var t:Transform = _launchNode.global_transform
+	var t:Transform3D = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward = -t.basis.z
 	rocket.launch_prj(selfPos, forward, 1, Interactions.TEAM_PLAYER, _prjMask)

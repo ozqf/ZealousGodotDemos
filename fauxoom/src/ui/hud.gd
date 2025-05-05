@@ -4,34 +4,34 @@ class_name Hud
 var _hit_indicator_t = load("res://prefabs/ui/hud_hit_indicator.tscn")
 
 # player sprites
-onready var gunsContainer:Control = $view_sprites/gun
-onready var centreSprite:HudWeaponSprite = $view_sprites/gun/weapon_centre
-onready var centreSpriteBig:HudWeaponSprite = $view_sprites/gun/weapon_centre_big
-onready var rightSprite:HudWeaponSprite = $view_sprites/gun/weapon_right
-onready var leftSprite:HudWeaponSprite = $view_sprites/gun/weapon_left
+@onready var gunsContainer:Control = $view_sprites/gun
+@onready var centreSprite:HudWeaponSprite = $view_sprites/gun/weapon_centre
+@onready var centreSpriteBig:HudWeaponSprite = $view_sprites/gun/weapon_centre_big
+@onready var rightSprite:HudWeaponSprite = $view_sprites/gun/weapon_right
+@onready var leftSprite:HudWeaponSprite = $view_sprites/gun/weapon_left
 
-onready var _ssgSprite:HudWeaponSprite = $view_sprites/gun/weapon_ssg
-onready var _pgSprite:HudWeaponSprite = $view_sprites/gun/weapon_pg
+@onready var _ssgSprite:HudWeaponSprite = $view_sprites/gun/weapon_ssg
+@onready var _pgSprite:HudWeaponSprite = $view_sprites/gun/weapon_pg
 
-onready var _handRight:AnimatedSprite = $view_sprites/bottom_right/right_hand
-onready var _handLeft:AnimatedSprite = $view_sprites/bottom_left/left_hand
+@onready var _handRight:AnimatedSprite3D = $view_sprites/bottom_right/right_hand
+@onready var _handLeft:AnimatedSprite3D = $view_sprites/bottom_left/left_hand
 
-onready var _playerStatus = $player_status
-onready var _ammoStatus = $bottom_right_panel
-onready var _crosshair = $centre
+@onready var _playerStatus = $player_status
+@onready var _ammoStatus = $bottom_right_panel
+@onready var _crosshair = $centre
 
 # red bars for critical health
-onready var _criticalHealthLeft:ColorRect = $hurt_left/ColorRect
-onready var _criticalHealthRight:ColorRect = $hurt_right/ColorRect
-onready var _criticalHealthTop:ColorRect = $hurt_top/ColorRect
-onready var _criticalHealthBottom:ColorRect = $hurt_bottom/ColorRect
+@onready var _criticalHealthLeft:ColorRect = $hurt_left/ColorRect
+@onready var _criticalHealthRight:ColorRect = $hurt_right/ColorRect
+@onready var _criticalHealthTop:ColorRect = $hurt_top/ColorRect
+@onready var _criticalHealthBottom:ColorRect = $hurt_bottom/ColorRect
 
 # audio
-onready var audio:AudioStreamPlayer = $audio/AudioStreamPlayer
-onready var audio2:AudioStreamPlayer = $audio/AudioStreamPlayer2
-onready var _pickupAudio:AudioStreamPlayer = $audio/audio_pickup
+@onready var audio:AudioStreamPlayer = $audio/AudioStreamPlayer
+@onready var audio2:AudioStreamPlayer = $audio/AudioStreamPlayer2
+@onready var _pickupAudio:AudioStreamPlayer = $audio/audio_pickup
 
-onready var hudAudio = $audio
+@onready var hudAudio = $audio
 
 var _maxHealthColour:Color = Color(0, 1, 0, 1)
 var _minHealthColour:Color = Color(1, 0, 0, 1)
@@ -84,8 +84,8 @@ func _ready() -> void:
 	add_to_group(Groups.PLAYER_GROUP_NAME)
 	add_to_group(Groups.HUD_GROUP_NAME)
 	var _f
-	_f = _handRight.connect("animation_finished", self, "_on_right_hand_animation_finished")
-	_f = _handLeft.connect("animation_finished", self, "_on_left_hand_animation_finished")
+	_f = _handRight.connect("animation_finished", _on_right_hand_animation_finished)
+	_f = _handLeft.connect("animation_finished", _on_left_hand_animation_finished)
 
 	# centreSprite.play(_currentWeap["idle"])
 	# self.on_change_weapon("ssg")
@@ -93,15 +93,15 @@ func _ready() -> void:
 	_rightTrans = rightSprite.transform
 	_leftTrans = leftSprite.transform
 
-func inventory_weapon_changed(_newWeap:InvWeapon, _prevWeap:InvWeapon) -> void:
-	#if _prevWeap != null:
-	#	print("HUD disconnect from " + _prevWeap.name)
-	#	_prevWeap.disconnect("weapon_action", self, "weapon_action")
-	#if _newWeap != null:
-	#	print("HUD connect to " + _newWeap.name)
-	#	var _err = _newWeap.connect("weapon_action", self, "weapon_action")
-	# set_to_idle(_newWeap)
-	pass
+#func inventory_weapon_changed(_newWeap:InvWeapon, _prevWeap:InvWeapon) -> void:
+#	#if _prevWeap != null:
+#	#	print("HUD disconnect from " + _prevWeap.name)
+#	#	_prevWeap.disconnect("weapon_action", self, "weapon_action")
+#	#if _newWeap != null:
+#	#	print("HUD connect to " + _newWeap.name)
+#	#	var _err = _newWeap.connect("weapon_action", self, "weapon_action")
+#	# set_to_idle(_newWeap)
+#	pass
 
 #func weapon_action(_weap:InvWeapon, _actionName:String) -> void:
 #	print("HUD saw weapon action " + _actionName)

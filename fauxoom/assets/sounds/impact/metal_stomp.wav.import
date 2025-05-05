@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/metal_stomp.wav-77b7311cde33e7b2f7df9554372d6418.sample"
+type="AudioStreamWAV"
+uid="uid://c7lll4qk0604o"
+path="res://.godot/imported/metal_stomp.wav-77b7311cde33e7b2f7df9554372d6418.sample"
 
 [deps]
 
 source_file="res://assets/sounds/impact/metal_stomp.wav"
-dest_files=[ "res://.import/metal_stomp.wav-77b7311cde33e7b2f7df9554372d6418.sample" ]
+dest_files=["res://.godot/imported/metal_stomp.wav-77b7311cde33e7b2f7df9554372d6418.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

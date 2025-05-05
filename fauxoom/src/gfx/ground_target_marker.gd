@@ -1,6 +1,6 @@
-extends Spatial
+extends Node3D
 
-onready var _laser = $mob_aim_laser
+@onready var _laser = $mob_aim_laser
 
 var _duration:float = 4
 var _tick:float = 4

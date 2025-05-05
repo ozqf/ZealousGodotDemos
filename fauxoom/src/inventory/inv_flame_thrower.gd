@@ -9,14 +9,14 @@ func custom_init_b() -> void:
 func _fire_rocket() -> void:
 	var rocket = Game.flame_t.instance()
 	Game.get_dynamic_parent().add_child(rocket)
-	var t:Transform = _launchNode.global_transform
+	var t:Transform3D = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin
 	selfPos.y -= 0.3
 	
 	var randSpreadX:float = 1200
 	var randSpreadY:float = 800
-	var spreadX:float = rand_range(-randSpreadX, randSpreadX)
-	var spreadY:float = rand_range(-randSpreadY, randSpreadY)
+	var spreadX:float = randf_range(-randSpreadX, randSpreadX)
+	var spreadY:float = randf_range(-randSpreadY, randSpreadY)
 	var forward = -t.basis.z
 	forward = ZqfUtils.calc_forward_spread_from_basis(selfPos, t.basis, spreadX, spreadY)
 

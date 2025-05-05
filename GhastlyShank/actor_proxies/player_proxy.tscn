@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cb1gshgpl027a"]
 
-[ext_resource type="Script" path="res://actor_proxies/player_proxy.gd" id="1_vgu1i"]
+[ext_resource type="Script" uid="uid://cyh3auxywq6l" path="res://actor_proxies/player_proxy.gd" id="1_vgu1i"]
 [ext_resource type="PackedScene" uid="uid://bo8t5t610vttb" path="res://shared/widgets/actor_proxy_widget_box.tscn" id="2_mmacd"]
 
 [node name="player_proxy" type="Node3D" groups=["actor_proxies"]]

@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/shotgun_fire.wav-a696446ee091bab2e61ba25c65d9fea1.sample"
+type="AudioStreamWAV"
+uid="uid://b3tq3223d35qv"
+path="res://.godot/imported/shotgun_fire.wav-a696446ee091bab2e61ba25c65d9fea1.sample"
 
 [deps]
 
 source_file="res://assets/sounds/weapon/shotgun_fire.wav"
-dest_files=[ "res://.import/shotgun_fire.wav-a696446ee091bab2e61ba25c65d9fea1.sample" ]
+dest_files=["res://.godot/imported/shotgun_fire.wav-a696446ee091bab2e61ba25c65d9fea1.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

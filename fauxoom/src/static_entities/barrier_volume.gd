@@ -1,13 +1,13 @@
-extends Spatial
+extends Node3D
 class_name BarrierVolume
 
-onready var _mesh:MeshInstance = $MeshInstance
-onready var _shape:CollisionShape = $CollisionShape
-onready var _ent:Entity = $Entity
-onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
+@onready var _mesh:MeshInstance3D = $MeshInstance3D
+@onready var _shape:CollisionShape3D = $CollisionShape
+@onready var _ent:Entity = $Entity
+@onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
 
-export var nameOverride:String = ""
-export var active:bool = true
+@export var nameOverride:String = ""
+@export var active:bool = true
 
 func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)

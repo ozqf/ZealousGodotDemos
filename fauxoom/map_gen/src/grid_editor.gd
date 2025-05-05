@@ -1,10 +1,10 @@
-extends Spatial
+extends Node3D
 class_name GridEditor
 
 # visual map display - must refresh on map changes
-onready var _mapGen:MapGen = $map_gen
+@onready var _mapGen:MapGen = $map_gen
 # text displaying current edit state
-onready var _paintLabel:Label = $ui/paint/paint_type_label
+@onready var _paintLabel:Label = $ui/paint/paint_type_label
 
 # injected from controller
 var _mapDef:MapDef = null

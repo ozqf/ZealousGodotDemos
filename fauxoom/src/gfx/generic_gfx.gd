@@ -1,6 +1,6 @@
 extends AnimatedSprite3D
 
-export var frameIndices = [ 100, 101, 102 ]
+@export var frameIndices = [ 100, 101, 102 ]
 var _currentFrame:int = 0
 var _frameTime:float = 1.0 / 10.0
 var _tick:float = 0.0
@@ -11,7 +11,7 @@ func _ready():
 	_tick = _frameTime
 	var _min:float = 1.0 / 10.0
 	var _max:float = 1.0 / 15.0
-	_frameTime = rand_range(_min, _max)
+	_frameTime = randf_range(_min, _max)
 
 func _process(delta):
 	if !_active:

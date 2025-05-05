@@ -23,7 +23,7 @@ func create_gizmo(spatial):
 	return gizmo_t.new()
 
 func has_gizmo(spatial) -> bool:
-#	var result = spatial is MeshInstance
+#	var result = spatial is MeshInstance3D
 	var result = spatial is PhysicsBody
 #	print("Has custom gizmo " + str(result))
 	return result

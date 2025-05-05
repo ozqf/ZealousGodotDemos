@@ -1,11 +1,11 @@
-extends Spatial
+extends Node3D
 
 var isValid:bool = false
 
 func _process(_delta:float) -> void:
 	var canSeeGround:bool = false
-	if get_parent() is RayCast:
-		var raycast:RayCast = get_parent() as RayCast
+	if get_parent() is RayCast3D:
+		var raycast:RayCast3D = get_parent() as RayCast3D
 		canSeeGround  = raycast.is_colliding()
 	if !canSeeGround:
 		visible = false

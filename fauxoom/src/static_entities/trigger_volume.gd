@@ -1,26 +1,26 @@
-extends Spatial
+extends Node3D
 class_name TriggerVolume
 
 const Enums = preload("res://src/enums.gd")
 
 signal trigger()
 
-onready var _ent:Entity = $Entity
-onready var _collider:CollisionShape = $CollisionShape
+@onready var _ent:Entity = $Entity
+@onready var _collider:CollisionShape3D = $CollisionShape
 
 export(Enums.TriggerVolumeAction) var action = Enums.TriggerVolumeAction.TriggerTargets
-export var triggerTargetName:String = ""
+@export var triggerTargetName:String = ""
 # if 0 or negative - no reset
-export var resetSeconds:float = 0
-export var valueParameter1:int = 0
-export var active:bool = true
+@export var resetSeconds:float = 0
+@export var valueParameter1:int = 0
+@export var active:bool = true
 # purely for debugging so volume can be visualised
-export var noAutoHide:bool = false
-export var hintMessage:String = ""
-export var touchDamage:int = 0
+@export var noAutoHide:bool = false
+@export var hintMessage:String = ""
+@export var touchDamage:int = 0
 
 var _targetTags:EntTagSet = null
-export var triggerMessage:String = ""
+@export var triggerMessage:String = ""
 
 var _resetTick:float = 0
 
@@ -114,10 +114,10 @@ func _on_body_entered(_body:PhysicsBody) -> void:
 		if targetEnt == null:
 			print("Trigger teleport failed to find target '" + str(_ent.triggerTargetName) + "'")
 			return
-		var target:Spatial = targetEnt.get_root_node() as Spatial
-		# target = find_node("teleport_destination") as Spatial
+		var target:Node3D = targetEnt.get_root_node() asNode3D
+		# target = find_node("teleport_destination") asNode3D
 		# # for child in get_children():
-		# # 	if child is Spatial:
+		# # 	if child isNode3D:
 		# # 		target = child
 		# # 		break;
 		# if target == null:

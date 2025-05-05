@@ -1,20 +1,20 @@
-extends Spatial
+extends Node3D
 class_name Projectile
 
-export var maxSpeed:float = 15.0
-export var timeToLive:float = 10
-export var spawnTime:float = 0
+@export var maxSpeed:float = 15.0
+@export var timeToLive:float = 10
+@export var spawnTime:float = 0
 
-export var directDamage:int = 15
+@export var directDamage:int = 15
 
-export var laserGuided:bool = false
+@export var laserGuided:bool = false
 
 # all projectiles have an animator
-onready var animator:CustomAnimator3D = $CustomAnimator3D
+@onready var animator:CustomAnimator3D = $CustomAnimator3D
 
-export var gravity:float = 0.0
+@export var gravity:float = 0.0
 # these are optional - setup in _ready
-export var deathSpawnPrefab:Resource = null
+@export var deathSpawnPrefab:Resource = null
 
 enum ProjectileState {
 	Idle,
@@ -65,8 +65,8 @@ func triggered_detonate() -> void:
 	die()
 
 func laser_aim_update(_laserPosition:Vector3) -> void:
-	var t:Transform = global_transform
-	var toward:Transform = t.looking_at(_laserPosition, Vector3.UP)
+	var t:Transform3D = global_transform
+	var toward:Transform3D = t.looking_at(_laserPosition, Vector3.UP)
 	t = t.interpolate_with(toward, 0.2)
 	global_transform = t
 
@@ -78,7 +78,7 @@ func prj_laser_laser_aim_at(_laserPosition:Vector3, _plyrId:int) -> void:
 	laser_aim_update(_laserPosition)
 
 # func _move_as_ray_2(_delta:float) -> void:
-# 	var t:Transform = global_transform
+# 	var t:Transform3D = global_transform
 # 	t.origin += (_velocity * _delta)
 # 	global_transform = t
 
@@ -102,7 +102,7 @@ func die() -> void:
 	animator.hide()
 	
 	if deathSpawnPrefab != null:
-		var t:Transform = global_transform
+		var t:Transform3D = global_transform
 		# var velNormal:Vector3 = _velocity.normalized()
 		var velNormal:Vector3 = -t.basis.z
 		var instance = deathSpawnPrefab.instance()
@@ -113,7 +113,7 @@ func die() -> void:
 
 func _move_as_ray(_delta:float) -> void:
 
-	var t:Transform = global_transform
+	var t:Transform3D = global_transform
 	var origin:Vector3 = t.origin
 	# ZqfUtils.look_at_safe(self, origin + _velocity)
 	# step backward slightly, or ray can sometimes penetrate walls...
@@ -197,7 +197,7 @@ func launch_prj(origin:Vector3, _forward:Vector3, sourceId:int, prjTeam:int, col
 	_hitInfo.sourceId = sourceId
 	_hitInfo.damageType = 0
 	_hitInfo.attackTeam = prjTeam
-	var t:Transform = global_transform
+	var t:Transform3D = global_transform
 	t.origin = origin
 	global_transform = t
 	# _velocity = _forward * maxSpeed

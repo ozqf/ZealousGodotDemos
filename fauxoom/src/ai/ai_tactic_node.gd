@@ -1,11 +1,11 @@
-extends Spatial
+extends Node3D
 class_name AITacticNode
 
-export var tag:int = 0
+@export var tag:int = 0
 # Do not consider this node for cover
-export var isVulnerable:bool = false
+@export var isVulnerable:bool = false
 # This is a good node for ranged attacks
-export var sniperSpot:bool = false
+@export var sniperSpot:bool = false
 
 # set by manager when registered
 var index:int = -1
@@ -23,10 +23,10 @@ var assignedAgent = null
 func _ready() -> void:
 	visible = false
 	var influence = $influence
-	$influence.connect("body_entered", self, "on_body_entered")
-	$influence.connect("body_exited", self, "on_body_exited")
-	$influence.connect("area_entered", self, "on_area_entered")
-	$influence.connect("area_exited", self, "on_area_exited")
+	$influence.connect("body_entered", on_body_entered)
+	$influence.connect("body_exited", on_body_exited)
+	$influence.connect("area_entered", on_area_entered)
+	$influence.connect("area_exited", on_area_exited)
 
 func on_body_entered(body:Node) -> void:
 	if body.has_method("is_mob"):
@@ -40,10 +40,10 @@ func on_body_exited(body:Node) -> void:
 		else:
 			print("Mob left influence but wasn't in list!")
 
-func on_area_entered(_area:Area) -> void:
+func on_area_entered(_area:Area3D) -> void:
 	pass
 
-func on_area_exited(_area:Area) -> void:
+func on_area_exited(_area:Area3D) -> void:
 	pass
 func _enter_tree() -> void:
 	AI.register_tactic_node(self)

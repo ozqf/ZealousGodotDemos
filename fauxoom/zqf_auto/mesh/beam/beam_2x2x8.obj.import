@@ -1,19 +1,22 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/beam_2x2x8.obj-719c94ad9fd7bef85d21f324d39236e1.mesh"
+uid="uid://85dsc3ljdep7"
+path="res://.godot/imported/beam_2x2x8.obj-719c94ad9fd7bef85d21f324d39236e1.mesh"
 
 [deps]
 
-files=[ "res://.import/beam_2x2x8.obj-719c94ad9fd7bef85d21f324d39236e1.mesh" ]
+files=["res://.godot/imported/beam_2x2x8.obj-719c94ad9fd7bef85d21f324d39236e1.mesh"]
 
 source_file="res://zqf_auto/mesh/beam/beam_2x2x8.obj"
-dest_files=[ "res://.import/beam_2x2x8.obj-719c94ad9fd7bef85d21f324d39236e1.mesh", "res://.import/beam_2x2x8.obj-719c94ad9fd7bef85d21f324d39236e1.mesh" ]
+dest_files=["res://.godot/imported/beam_2x2x8.obj-719c94ad9fd7bef85d21f324d39236e1.mesh", "res://.godot/imported/beam_2x2x8.obj-719c94ad9fd7bef85d21f324d39236e1.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
 optimize_mesh=true
+force_disable_mesh_compression=false

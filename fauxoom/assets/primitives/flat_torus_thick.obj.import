@@ -1,19 +1,22 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/flat_torus_thick.obj-6a2595d420870c8767c3031fb2b2f83f.mesh"
+uid="uid://brxplnms2rehi"
+path="res://.godot/imported/flat_torus_thick.obj-6a2595d420870c8767c3031fb2b2f83f.mesh"
 
 [deps]
 
-files=[ "res://.import/flat_torus_thick.obj-6a2595d420870c8767c3031fb2b2f83f.mesh" ]
+files=["res://.godot/imported/flat_torus_thick.obj-6a2595d420870c8767c3031fb2b2f83f.mesh"]
 
 source_file="res://assets/primitives/flat_torus_thick.obj"
-dest_files=[ "res://.import/flat_torus_thick.obj-6a2595d420870c8767c3031fb2b2f83f.mesh", "res://.import/flat_torus_thick.obj-6a2595d420870c8767c3031fb2b2f83f.mesh" ]
+dest_files=["res://.godot/imported/flat_torus_thick.obj-6a2595d420870c8767c3031fb2b2f83f.mesh", "res://.godot/imported/flat_torus_thick.obj-6a2595d420870c8767c3031fb2b2f83f.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
 optimize_mesh=true
+force_disable_mesh_compression=false

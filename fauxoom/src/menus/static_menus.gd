@@ -2,15 +2,15 @@ extends Node
 
 #signal menu_navigate(name)
 
-onready var _console:LineEdit = $console
-onready var _bg:ColorRect = $background
-# onready var _title:Control = $title_text
-onready var _rootMenu:Control = $root_menu
-onready var _embeddedMapMenu:Control = $embedded_maps
-onready var _customMapMenu:Control = $custom_map_menu
-onready var _customMapTextMenu:Control = $custom_map_text_menu
-onready var _optionsMenu:Control = $options
-onready var _bindsMenu:Control = $binds
+@onready var _console:LineEdit = $console
+@onready var _bg:ColorRect = $background
+# @onready var _title:Control = $title_text
+@onready var _rootMenu:Control = $root_menu
+@onready var _embeddedMapMenu:Control = $embedded_maps
+@onready var _customMapMenu:Control = $custom_map_menu
+@onready var _customMapTextMenu:Control = $custom_map_text_menu
+@onready var _optionsMenu:Control = $options
+@onready var _bindsMenu:Control = $binds
 
 enum MenuPage {
 	Root,

@@ -1,7 +1,7 @@
 extends Particles
 
-export var on:bool = true
-export var repeatTime:float = 0.0
+@export var on:bool = true
+@export var repeatTime:float = 0.0
 var _tick:float = 0.0
 
 # Called when the node enters the scene tree for the first time.

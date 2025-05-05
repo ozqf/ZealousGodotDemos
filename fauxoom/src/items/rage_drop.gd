@@ -11,12 +11,12 @@ const ANIMATION_ADRENALINE_MINOR:String = "green_capsule"
 const ANIMATION_BONUS_MINOR:String = "bonus_minor"
 
 
-export var time:float = 4
-export var remove_parent:bool = false
+@export var time:float = 4
+@export var remove_parent:bool = false
 
-onready var _sprite = $Sprite3D
-onready var _toward:Spatial = $toward
-onready var _light:OmniLight = $OmniLight
+@onready var _sprite = $Sprite3D
+@onready var _toward:Node3D = $toward
+@onready var _light:OmniLight = $OmniLight
 
 enum State { Idle, Gather, Dead }
 
@@ -47,14 +47,14 @@ func launch_rage_drop(pos:Vector3, dropType:int, throwYawDegrees:float, autoGath
 	global_transform.origin = pos
 	var velocity:Vector3 = Vector3()
 	if throwYawDegrees < 0.0:
-		velocity.x += rand_range(-5, 5)
-		velocity.z += rand_range(-5, 5)
+		velocity.x += randf_range(-5, 5)
+		velocity.z += randf_range(-5, 5)
 	else:
 		#print("Throw rage yaw " + str(throwYawDegrees))
-		throwYawDegrees += rand_range(-45, 45)
+		throwYawDegrees += randf_range(-45, 45)
 		velocity = ZqfUtils.yaw_to_flat_vector3(throwYawDegrees)
-		velocity *= rand_range(3, 6)
-	velocity.y += rand_range(5, 10)
+		velocity *= randf_range(3, 6)
+	velocity.y += randf_range(5, 10)
 	linear_velocity = velocity
 	
 	# converts excess health to 'bonus' items.
@@ -71,7 +71,7 @@ func launch_rage_drop(pos:Vector3, dropType:int, throwYawDegrees:float, autoGath
 	if _type == Enums.QuickDropType.Rage:
 		_sprite.animation = ANIMATION_ADRENALINE_MINOR
 		time = 4
-		_light.light_color = Color.green
+		_light.light_color = Color.GREEN
 	elif _type == Enums.QuickDropType.Bonus:
 		_sprite.animation = ANIMATION_BONUS_MINOR
 		time = 8
@@ -186,7 +186,7 @@ func _process(_delta:float):
 			_gatherSpeed = _gatherSpeedMax
 		
 		_gatherSpeed = 2
-		var t:Transform = global_transform
+		var t:Transform3D = global_transform
 		
 		# terrible janky orbit
 		

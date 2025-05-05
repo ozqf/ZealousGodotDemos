@@ -1,10 +1,10 @@
 extends Node
 
-onready var _sprite:CustomAnimator3D = $sprite
+@onready var _sprite:CustomAnimator3D = $sprite
 
-export var animationSet:String = "flesh_worm"
-export var dyingAnimation:String = "dying"
-export var deadAnimation:String = "dead"
+@export var animationSet:String = "flesh_worm"
+@export var dyingAnimation:String = "dying"
+@export var deadAnimation:String = "dead"
 
 var _tick:float = 20.0
 
@@ -21,7 +21,7 @@ func set_sprite_offset(x:int, y:int) -> void:
 func set_sprite_pixel_size(size:float) -> void:
 	_sprite.pixel_size = size
 
-func spawn(_spawnInfo:CorpseSpawnInfo, _trans:Transform) -> void:
+func spawn(_spawnInfo:CorpseSpawnInfo, _trans:Transform3D) -> void:
 	self.global_transform = _trans
 	_sprite.change_set_and_animation(animationSet, dyingAnimation)
 	_sprite.play_animation("dying", "dead")

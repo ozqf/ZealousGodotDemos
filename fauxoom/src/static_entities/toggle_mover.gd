@@ -1,14 +1,14 @@
-extends Spatial
+extends Node3D
 
-onready var _ent:Entity = $Entity
-onready var _marker:Spatial = $MeshInstance
-onready var _marker2:Spatial = $MeshInstance2
-onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
+@onready var _ent:Entity = $Entity
+@onready var _marker:Node3D = $MeshInstance3D
+@onready var _marker2:Node3D = $MeshInstance2
+@onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
 
-export var selfTagsCSV:String = ""
-export var active:bool = false
-export var loop:bool = false
-export var seconds:float = 2
+@export var selfTagsCSV:String = ""
+@export var active:bool = false
+@export var loop:bool = false
+@export var seconds:float = 2
 export(Vector3) var offset:Vector3 = Vector3()
 
 var _time:float = 0
@@ -17,8 +17,8 @@ var _time:float = 0
 # a a == closed or 'on'
 # at b == open or 'off'
 var _dir:float = 1
-var _xformA:Transform
-var _xformB:Transform
+var _xformA:Transform3D
+var _xformB:Transform3D
 
 func _ready():
 	_marker.visible = false

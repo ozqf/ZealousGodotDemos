@@ -1,20 +1,20 @@
-extends Spatial
+extends Node3D
 
-onready var _scanner:Area = $Area
+@onready var _scanner:Area3D = $Area
 var _bodies = []
 var _areas = []
 var _hasFired:bool = false
 var _tick:float = 0
 var _ticks:int = 0
-export var lifeTime:float = 1.5
+@export var lifeTime:float = 1.5
 var _hitInfo:HitInfo = null
 var _beamEnd:Vector3 = Vector3()
 
 func _ready():
-	_scanner.connect("body_entered", self, "_on_body_entered")
-	_scanner.connect("area_entered", self, "_on_area_entered")
-	_scanner.connect("body_exited", self, "_on_body_exited")
-	_scanner.connect("area_exited", self, "_on_area_exited")
+	_scanner.connect("body_entered", _on_body_entered)
+	_scanner.connect("area_entered", _on_area_entered)
+	_scanner.connect("body_exited", _on_body_exited)
+	_scanner.connect("area_exited", _on_area_exited)
 	_hitInfo = Game.new_hit_info()
 	_hitInfo.damage = 200
 	_hitInfo.damageType = Interactions.DAMAGE_TYPE_SUPER_RAIL
@@ -23,7 +23,7 @@ func _ready():
 	_hitInfo.hyperLevel = 1
 	pass # Replace with function body.
 
-func _on_body_entered(_body:PhysicsBody) -> void:
+func _on_body_entered(_body:PhysicsBody3D) -> void:
 	# if !_isScanning:
 	# 	return
 	#print("Lightning found body")
@@ -34,13 +34,13 @@ func _on_body_exited(_body) -> void:
 	var i:int = _bodies.find(_body)
 	_bodies.remove(i)
 
-func _on_area_entered(_area:Area) -> void:
+func _on_area_entered(_area:Area3D) -> void:
 	# if !_isScanning:
 	# 	return
 	#print("Lightning found area")
 	_areas.push_back(_area)
 
-func _on_area_exited(_area:Area) -> void:
+func _on_area_exited(_area:Area3D) -> void:
 	#print("Lightning lost area")
 	var i:int = _areas.find(_area)
 	_areas.remove(i)
@@ -81,19 +81,19 @@ func _process(_delta):
 	if _tick > lifeTime:
 		queue_free()
 
-func spawn(t:Transform, beamLength:float) -> void:
+func spawn(t:Transform3D, beamLength:float) -> void:
 	global_transform = t
 	_beamEnd = t.origin + (-t.basis.z * beamLength)
 	var shaftWidth:float = 0.15
-	$MeshInstance.scale = Vector3(shaftWidth, beamLength, shaftWidth)
-	$MeshInstance.transform.origin = Vector3(0.0, 0.0, -(beamLength / 2))
+	$MeshInstance3D.scale = Vector3(shaftWidth, beamLength, shaftWidth)
+	$MeshInstance3D.transform.origin = Vector3(0.0, 0.0, -(beamLength / 2))
 
 	$MeshInstance2.scale = Vector3(shaftWidth, beamLength, shaftWidth)
 	$MeshInstance2.transform.origin = Vector3(0.0, 0.0, -(beamLength / 2))
 
 	# move meshes slightly so they're not directly in the player's eyes!
-	$MeshInstance.transform.origin -= t.basis.y * 0.1
+	$MeshInstance3D.transform.origin -= t.basis.y * 0.1
 	$MeshInstance2.transform.origin -= t.basis.y * 0.1
-	var box:BoxShape = BoxShape.new()
+	var box:BoxShape3D = BoxShape3D.new()
 	box.extents = Vector3(1.0, beamLength, 1.0)
 	$Area/CollisionShape.shape = box

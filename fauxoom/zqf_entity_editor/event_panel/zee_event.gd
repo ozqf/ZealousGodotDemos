@@ -2,9 +2,9 @@ extends Node
 
 var _action_t = preload("res://zqf_entity_editor/event_panel/zee_event_action.tscn")
 
-onready var _nameEdit:LineEdit = $event_name_edit
-onready var _actionsRoot:Control = $actions_list
-onready var _addNewAction:Button = $add_action
+@onready var _nameEdit:LineEdit = $event_name_edit
+@onready var _actionsRoot:Control = $actions_list
+@onready var _addNewAction:Button = $add_action
 
 func _ready() -> void:
 	_addNewAction.connect("pressed", self, "_on_add_new_action")

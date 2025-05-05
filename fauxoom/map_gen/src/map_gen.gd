@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 class_name MapGen
 
 var _prefab_ground = preload("res://prefabs/grid_map/ground_tile.tscn")
@@ -9,10 +9,10 @@ var _prefab_default_mob = preload("res://prefabs/sprite_object.tscn")
 
 var _prefab_player = preload("res://prefabs/player.tscn")
 
-var _wall_mat:SpatialMaterial = preload("res://assets/world/materials/mat_default_wall.tres")
-var _floor_mat:SpatialMaterial = preload("res://assets/world/materials/mat_default_ground.tres")
-var _water_mat:SpatialMaterial = preload("res://assets/world/materials/mat_default_water.tres")
-var _ceiling_mat:SpatialMaterial = preload("res://assets/world/materials/mat_default_ceiling.tres")
+var _wall_mat:StandardMaterial3D = preload("res://assets/world/materials/mat_default_wall.tres")
+var _floor_mat:StandardMaterial3D = preload("res://assets/world/materials/mat_default_ground.tres")
+var _water_mat:StandardMaterial3D = preload("res://assets/world/materials/mat_default_water.tres")
+var _ceiling_mat:StandardMaterial3D = preload("res://assets/world/materials/mat_default_ceiling.tres")
 
 const fWall:int = (1 << 0)
 const fFloor:int = (1 << 1)
@@ -21,36 +21,36 @@ const fWater:int = (1 << 3)
 
 var _noCeiling:bool = true
 
-const _tile_types:Dictionary = {
+static var _tile_types:Dictionary = {
 	str(MapDef.TILE_PATH): 0
 }
 
-onready var _camera:Camera = $Camera
+@onready var _camera:Camera3D = $Camera
 
 # display meshes
-onready var _world_mesh:MeshGenerator = $world_mesh
-onready var _world_floor_mesh:MeshGenerator = $world_floor
-onready var _world_ceiling_mesh:MeshGenerator = $world_ceiling
-onready var _world_water_mesh:MeshGenerator = $world_water
+@onready var _world_mesh:MeshGenerator = $world_mesh
+@onready var _world_floor_mesh:MeshGenerator = $world_floor
+@onready var _world_ceiling_mesh:MeshGenerator = $world_ceiling
+@onready var _world_water_mesh:MeshGenerator = $world_water
 
 # collision meshes
-onready var _world_hull:MeshGenerator = $world_hull
-onready var _world_water_blocker:MeshGenerator = $world_hull_water
+@onready var _world_hull:MeshGenerator = $world_hull
+@onready var _world_water_blocker:MeshGenerator = $world_hull_water
 
-onready var _world_polygon:CollisionShape = $world_body/CollisionShape
-onready var _player_blocker:CollisionShape = $player_water_blocker/CollisionShape
+@onready var _world_polygon:CollisionShape3D = $world_body/CollisionShape
+@onready var _player_blocker:CollisionShape3D = $player_water_blocker/CollisionShape
 
 ###########################################
 # Add geometry
 ###########################################
 
 func _set_world_boundary(width:int, height:int, tileSize:int) -> void:
-	var t:Transform = Transform()
+	var t:Transform3D = Transform3D()
 	var w:int = width * tileSize
 	var h:int = height * tileSize
 	# print("Boundary size: " + str(w) + " by " + str(h))
 	
-	var node:Spatial = $world_boundary/north
+	var node:Node3D = $world_boundary/north
 	t.origin = Vector3(w / 2.0, 0, -1)
 	node.scale = Vector3(w + 2, 1, 1)
 	node.global_transform = t

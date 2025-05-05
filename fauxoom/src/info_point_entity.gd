@@ -1,9 +1,9 @@
-extends Spatial
+extends Node3D
 
-onready var _ent:Entity = $Entity
+@onready var _ent:Entity = $Entity
 
-export var targetName:String = ""
-export var triggerTargetName:String = ""
+@export var targetName:String = ""
+@export var triggerTargetName:String = ""
 
 var _losCheckTick:float = 0.0
 

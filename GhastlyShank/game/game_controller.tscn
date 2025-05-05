@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cvh16fnn0jwjg"]
 
-[ext_resource type="Script" path="res://game/game_controller.gd" id="1_8j174"]
-[ext_resource type="Script" path="res://game/interactions/actor_target_info.gd" id="2_gw5yb"]
+[ext_resource type="Script" uid="uid://dm2ihm4oty85f" path="res://game/game_controller.gd" id="1_8j174"]
+[ext_resource type="Script" uid="uid://dn5mpuoeoowi7" path="res://game/interactions/actor_target_info.gd" id="2_gw5yb"]
 [ext_resource type="PackedScene" uid="uid://h5ny4unwnrna" path="res://game/menus/root_menu.tscn" id="3_7vobi"]
 
 [node name="game" type="Node3D"]

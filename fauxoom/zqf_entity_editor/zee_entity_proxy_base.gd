@@ -1,8 +1,8 @@
 # Class that attaches to a non-editor related object and handles
 # editor manipulation of the object.
-# Objects must have methods to export their fields etc to the proxy
+# Objects must have methods to @export their fields etc to the proxy
 # or it can't do very much
-extends Spatial
+extends Node3D
 class_name ZEEEntityProxy
 
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
@@ -109,20 +109,20 @@ func get_field(fieldName:String) -> Dictionary:
 	var field = _data.fields[fieldName]
 	return field
 
-func get_tags_field_value(fieldName:String) -> PoolStringArray:
+func get_tags_field_value(fieldName:String) -> PackedStringArray:
 	if !_data || !_data.has("fields"):
-		return PoolStringArray()
+		return PackedStringArray()
 	if !_data.fields.has(fieldName):
-		return PoolStringArray()
+		return PackedStringArray()
 	var field = _data.fields[fieldName]
 	if field.type != EdEnums.FIELD_TYPE_TAGS:
-		return PoolStringArray()
+		return PackedStringArray()
 	return field.value.split(",", false, 0)
 
 func get_tag_fields():
 	var result = []
 	if !_data || !_data.has("fields"):
-		return PoolStringArray()
+		return PackedStringArray()
 	for fieldName in _data.fields:
 		var field = _data.fields[fieldName]
 		if field.type == EdEnums.FIELD_TYPE_TAGS:
@@ -153,7 +153,7 @@ func set_prefab_yaw(degrees:float) -> void:
 func get_prefab_yaw_degrees() -> float:
 	return _prefab.rotation_degrees.y
 
-func get_prefab_transform() -> Transform:
+func get_prefab_transform() -> Transform3D:
 	return _prefab.global_transform
 
 func get_prefab_basis() -> Basis:
@@ -194,7 +194,7 @@ func get_label() -> String:
 
 func is_on_screen() -> bool:
 	var pos:Vector3 = get_parent().global_transform.origin
-	var cam:Transform = get_viewport().get_camera().global_transform
+	var cam:Transform3D = get_viewport().get_camera().global_transform
 	var toCamera:Vector3 = cam.origin - pos
 	if (cam.basis.z).dot(toCamera) > 0:
 		return true

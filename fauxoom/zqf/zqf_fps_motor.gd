@@ -26,8 +26,8 @@ var invertedY:bool = false
 var nearWall:bool = false
 var onFloor:bool = false
 
-var _body:KinematicBody = null
-var _head:Spatial = null
+var _body:CharacterBody3D = null
+var _head:Node3D = null
 var _inputOn:bool = false
 var _groundSlamming:bool = false
 var _velocity:Vector3 = Vector3()
@@ -61,7 +61,7 @@ func get_flat_velocity() -> Vector3:
 func get_sway_scale() -> float:
 	return _velocity.length() / RUN_SPEED
 
-func init_motor(body:KinematicBody, head:Spatial) -> void:
+func init_motor(body:CharacterBody3D, head:Node3D) -> void:
 	_body = body
 	_head = head
 
@@ -156,7 +156,7 @@ func custom_tick(delta:float) -> void:
 			return
 
 	var input:Vector3 = _read_input()
-	var t:Transform = _head.global_transform
+	var t:Transform3D = _head.global_transform
 	var forward:Vector3 = t.basis.z
 	var left:Vector3 = t.basis.x
 	var pushDir:Vector3 = Vector3()

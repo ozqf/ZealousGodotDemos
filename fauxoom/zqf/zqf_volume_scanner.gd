@@ -1,4 +1,4 @@
-extends Area
+extends Area3D
 class_name ZqfVolumeScanner
 
 var bodies = []
@@ -9,17 +9,17 @@ var total:int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var _r
-	_r = self.connect("area_entered", self, "_area_entered")
-	_r = self.connect("area_exited", self, "_area_exited")
-	_r = self.connect("body_entered", self, "_body_entered")
-	_r = self.connect("body_exited", self, "_body_exited")
+	_r = self.connect("area_entered", _area_entered)
+	_r = self.connect("area_exited", _area_exited)
+	_r = self.connect("body_entered", _body_entered)
+	_r = self.connect("body_exited", _body_exited)
 	pass # Replace with function body.
 
-func _area_entered(area:Area) -> void:
+func _area_entered(area:Area3D) -> void:
 	areas.push_back(area)
 	total += 1
 
-func _area_exited(area:Area) -> void:
+func _area_exited(area:Area3D) -> void:
 	var i:int = areas.find(area)
 	areas.remove(i)
 	total -= 1

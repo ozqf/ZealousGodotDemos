@@ -1,3 +1,3 @@
 extends Resource
 
-export (String) var text:String = ""
+@export (String) var text:String = ""

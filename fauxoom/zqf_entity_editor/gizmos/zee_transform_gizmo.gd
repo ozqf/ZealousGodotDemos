@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 
@@ -12,16 +12,16 @@ enum TransformMode {
 	ScaleZ
 }
 
-onready var _rotate:Spatial = $rotate
-onready var _centre:Spatial = $rotate/centre
-onready var _pivot:Spatial = $rotate/handle_pivot
-onready var _pivotHandle:Spatial = $rotate/handle_pivot/handle
-onready var _3dCursor:Spatial = $rotate/centre/cursor3d
+@onready var _rotate:Node3D = $rotate
+@onready var _centre:Node3D = $rotate/centre
+@onready var _pivot:Node3D = $rotate/handle_pivot
+@onready var _pivotHandle:Node3D = $rotate/handle_pivot/handle
+@onready var _3dCursor:Node3D = $rotate/centre/cursor3d
 
-onready var _scale:Spatial = $scale
-onready var _xAxisHandle:Spatial = $scale/x
-onready var _yAxisHandle:Spatial = $scale/y
-onready var _zAxisHandle:Spatial = $scale/z
+@onready var _scale:Node3D = $scale
+@onready var _xAxisHandle:Node3D = $scale/x
+@onready var _yAxisHandle:Node3D = $scale/y
+@onready var _zAxisHandle:Node3D = $scale/z
 
 var _proxy:ZEEEntityProxy = null
 var _enabled:bool = false
@@ -88,19 +88,19 @@ func zee_on_global_disabled() -> void:
 	_disable()
 
 func _cast_ray_to_horizontal():
-	var t:Transform = _proxy.get_prefab_transform()
+	var t:Transform3D = _proxy.get_prefab_transform()
 
 	_dragPlane.d = t.origin.y
 	# cast ray to drag plane
 	var cursorPos:Vector2 = get_viewport().get_mouse_position()
-	var cam:Camera = get_viewport().get_camera()
+	var cam:Camera3D = get_viewport().get_camera()
 	var dir:Vector3 = cam.project_ray_normal(cursorPos)
 	var result = _dragPlane.intersects_ray(cam.global_transform.origin, dir)
 	return result
 
 func _find_next_drag_handle() -> void:
 	var cursorPos:Vector2 = get_viewport().get_mouse_position()
-	var cam:Camera = get_viewport().get_camera()
+	var cam:Camera3D = get_viewport().get_camera()
 	var dir:Vector3 = cam.project_ray_normal(cursorPos)
 	var origin:Vector3 = cam.global_transform.origin
 	var mask:int = (1 << 21)
@@ -143,7 +143,7 @@ func _tick_translate(pos:Vector3) -> void:
 
 func _tick_yaw(pos:Vector3) -> void:
 	_dragEndPos = pos
-	var degrees:float = rad2deg(ZqfUtils.yaw_between(_dragStartPos, _dragEndPos))
+	var degrees:float = rad_to_deg(ZqfUtils.yaw_between(_dragStartPos, _dragEndPos))
 	degrees = ZqfUtils.snap_f(degrees, 45.0)
 	_proxy.set_prefab_yaw(degrees)
 	_refresh_rotation_display()
@@ -258,7 +258,7 @@ func _process(_delta:float) -> void:
 	if _proxy == null:
 		return
 	
-	var t:Transform = _proxy.get_prefab_transform()
+	var t:Transform3D = _proxy.get_prefab_transform()
 	global_transform.origin = t.origin
 
 	# prevent manipulation of static entities

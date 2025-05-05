@@ -1,19 +1,22 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/cube_1x1x1_corner_mats_3.obj-0c96b0d9205d651a9130fcbe88823a6d.mesh"
+uid="uid://bn4utv64fheky"
+path="res://.godot/imported/cube_1x1x1_corner_mats_3.obj-0c96b0d9205d651a9130fcbe88823a6d.mesh"
 
 [deps]
 
-files=[ "res://.import/cube_1x1x1_corner_mats_3.obj-0c96b0d9205d651a9130fcbe88823a6d.mesh" ]
+files=["res://.godot/imported/cube_1x1x1_corner_mats_3.obj-0c96b0d9205d651a9130fcbe88823a6d.mesh"]
 
 source_file="res://assets/primitives/cube_1x1x1_corner_mats_3.obj"
-dest_files=[ "res://.import/cube_1x1x1_corner_mats_3.obj-0c96b0d9205d651a9130fcbe88823a6d.mesh", "res://.import/cube_1x1x1_corner_mats_3.obj-0c96b0d9205d651a9130fcbe88823a6d.mesh" ]
+dest_files=["res://.godot/imported/cube_1x1x1_corner_mats_3.obj-0c96b0d9205d651a9130fcbe88823a6d.mesh", "res://.godot/imported/cube_1x1x1_corner_mats_3.obj-0c96b0d9205d651a9130fcbe88823a6d.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
 optimize_mesh=true
+force_disable_mesh_compression=false

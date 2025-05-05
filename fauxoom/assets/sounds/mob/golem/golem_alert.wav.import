@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/golem_alert.wav-598662852221fb8be32212ab87c921f6.sample"
+type="AudioStreamWAV"
+uid="uid://bivh460tcr0re"
+path="res://.godot/imported/golem_alert.wav-598662852221fb8be32212ab87c921f6.sample"
 
 [deps]
 
 source_file="res://assets/sounds/mob/golem/golem_alert.wav"
-dest_files=[ "res://.import/golem_alert.wav-598662852221fb8be32212ab87c921f6.sample" ]
+dest_files=["res://.godot/imported/golem_alert.wav-598662852221fb8be32212ab87c921f6.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

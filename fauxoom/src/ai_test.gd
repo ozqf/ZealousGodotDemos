@@ -1,12 +1,12 @@
-extends Spatial
+extends Node3D
 
-onready var _body:MeshInstance = $body
-onready var _toTarget:Spatial = $to_target
-onready var _to_left:Spatial = $to_left
-onready var _to_right:Spatial = $to_right
+@onready var _body:MeshInstance3D = $body
+@onready var _toTarget:Node3D = $to_target
+@onready var _to_left:Node3D = $to_left
+@onready var _to_right:Node3D = $to_right
 
-export var _autoRotateDegrees:float = 0
-export var _pathToPlayerTest:bool = false
+@export var _autoRotateDegrees:float = 0
+@export var _pathToPlayerTest:bool = false
 
 var _mat_green = preload("res://assets/mat_green.tres")
 var _mat_red = preload("res://assets/mat_red.tres")
@@ -22,7 +22,7 @@ func _find_path() -> void:
 	var info = AI.get_player_target()
 	if !info:
 		return
-	var path:PoolVector3Array = AI.get_path_to_point(global_transform.origin, info.position)
+	var path:PackedVector3Array = AI.get_path_to_point(global_transform.origin, info.position)
 	if path.size() == 0:
 		return
 	AI.debug_path(path)

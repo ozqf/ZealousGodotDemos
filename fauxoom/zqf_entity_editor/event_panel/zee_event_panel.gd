@@ -3,11 +3,11 @@ extends Node
 var _button_t = preload("res://zqf_entity_editor/event_panel/zee_event_item.tscn")
 var _event_t = preload("res://zqf_entity_editor/event_panel/zee_event_details.tscn")
 
-onready var _eventsEditRoot:Control = $event_edit
-onready var _addNewEvent:Button = $event_list/add_new_event
-onready var _eventListRoot:Control = $event_list
-onready var _eventListItems:Control = $event_list/event_list_items
-onready var _closeEditing:Button = $close_event_edit
+@onready var _eventsEditRoot:Control = $event_edit
+@onready var _addNewEvent:Button = $event_list/add_new_event
+@onready var _eventListRoot:Control = $event_list
+@onready var _eventListItems:Control = $event_list/event_list_items
+@onready var _closeEditing:Button = $close_event_edit
 
 var _exampleEvents = [
 	{

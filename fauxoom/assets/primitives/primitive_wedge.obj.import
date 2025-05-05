@@ -1,19 +1,22 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/primitive_wedge.obj-5ef80347123d53db72b1a4256bb8c17c.mesh"
+uid="uid://h227cxtjo43e"
+path="res://.godot/imported/primitive_wedge.obj-5ef80347123d53db72b1a4256bb8c17c.mesh"
 
 [deps]
 
-files=[ "res://.import/primitive_wedge.obj-5ef80347123d53db72b1a4256bb8c17c.mesh" ]
+files=["res://.godot/imported/primitive_wedge.obj-5ef80347123d53db72b1a4256bb8c17c.mesh"]
 
 source_file="res://assets/primitives/primitive_wedge.obj"
-dest_files=[ "res://.import/primitive_wedge.obj-5ef80347123d53db72b1a4256bb8c17c.mesh", "res://.import/primitive_wedge.obj-5ef80347123d53db72b1a4256bb8c17c.mesh" ]
+dest_files=["res://.godot/imported/primitive_wedge.obj-5ef80347123d53db72b1a4256bb8c17c.mesh", "res://.godot/imported/primitive_wedge.obj-5ef80347123d53db72b1a4256bb8c17c.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
 optimize_mesh=true
+force_disable_mesh_compression=false

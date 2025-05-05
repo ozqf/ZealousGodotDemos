@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/psychic_idle.wav-4f67659b872ffe886a94999f66f30c84.sample"
+type="AudioStreamWAV"
+uid="uid://dakfytuwbqo6r"
+path="res://.godot/imported/psychic_idle.wav-4f67659b872ffe886a94999f66f30c84.sample"
 
 [deps]
 
 source_file="res://assets/sounds/mob/psychic/psychic_idle.wav"
-dest_files=[ "res://.import/psychic_idle.wav-4f67659b872ffe886a94999f66f30c84.sample" ]
+dest_files=["res://.godot/imported/psychic_idle.wav-4f67659b872ffe886a94999f66f30c84.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

@@ -1,9 +1,9 @@
-extends Spatial
+extends Node3D
 
-onready var _ring:Spatial = $ring
+@onready var _ring:Node3D = $ring
 
-export var time:float = 0.1
-export var remove_parent:bool = false
+@export var time:float = 0.1
+@export var remove_parent:bool = false
 var _startTime:float = 0.1
 var _ringTime:float = 0
 var _ringMax:float = 0.2

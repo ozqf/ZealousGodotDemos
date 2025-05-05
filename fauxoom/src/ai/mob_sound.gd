@@ -1,8 +1,8 @@
-extends Spatial
+extends Node3D
 class_name MobSound
 
-onready var _voice:AudioStreamPlayer3D = $voice
-onready var _equipment:AudioStreamPlayer3D = $equipment
+@onready var _voice:AudioStreamPlayer3D = $voice
+@onready var _equipment:AudioStreamPlayer3D = $equipment
 
 # listen to MobBase parent for mob_event signals
 func _ready():

@@ -1,22 +1,22 @@
-extends Spatial
+extends Node3D
 
-onready var _texRect:TextureRect = $CanvasLayer/TextureRect
-onready var _mesh:MeshInstance = $mesh
+@onready var _texRect:TextureRect = $CanvasLayer/TextureRect
+@onready var _mesh:MeshInstance3D = $mesh
 
 # grid size
-export var width:int = 100
-export var height:int = 100
+@export var width:int = 100
+@export var height:int = 100
 # size of a cell in engine units - currently only 1 works!
-export var cellSize:float = 1
-export var tickRate:float = 0.2
+@export var cellSize:float = 1
+@export var tickRate:float = 0.2
 
-export var enemyTemplateTexture:StreamTexture
+@export var enemyTemplateTexture:CompressedTexture2D
 
-export var autoUpdate:bool = true
-export var debugDraw2d:bool = false
-export var debugDraw3d:bool = false
+@export var autoUpdate:bool = true
+@export var debugDraw2d:bool = false
+@export var debugDraw3d:bool = false
 
-var _material:SpatialMaterial = null
+var _material:StandardMaterial3D = null
 var _img:Image
 var _tex:ImageTexture
 var _halfWidth:int = 25
@@ -53,7 +53,7 @@ func _ready():
 
 
 	if _material == null:
-		_material = SpatialMaterial.new()
+		_material = StandardMaterial3D.new()
 	if width <= 0:
 		width = 1
 	if height <= 0:
@@ -120,13 +120,13 @@ func _build_texture() -> void:
 	_img.unlock()
 	print("Source format " + str(_enemyTemplate.get_format()) + " target format: " + str(_img.get_format()))
 	_tex.create_from_image(_img)
-	_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, _tex)
+	_material.set_texture(StandardMaterial3D.TEXTURE_ALBEDO, _tex)
 	_mesh.material_override = _material
 
 func _reset() -> void:
 	_img.fill(Color(0, 0, 0, 0.25))
 	_tex.create_from_image(_img)
-	_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, _tex)
+	_material.set_texture(StandardMaterial3D.TEXTURE_ALBEDO, _tex)
 	_texRect.texture = _tex
 
 func find_closest_no_green(_worldOrigin:Vector3) -> Vector2:
@@ -171,7 +171,7 @@ func find_closest_no_green(_worldOrigin:Vector3) -> Vector2:
 #################################################
 # debugging commands
 #################################################
-func console_on_exec(_txt: String, _tokens:PoolStringArray) -> void:
+func console_on_exec(_txt: String, _tokens:PackedStringArray) -> void:
 	if _tokens.size() < 2:
 		return
 	if _tokens[0] != "ai":
@@ -196,10 +196,10 @@ func console_on_exec(_txt: String, _tokens:PoolStringArray) -> void:
 		_reset()
 		_img.lock()
 		_img.set_pixel(int(gridPos.x), int(gridPos.y), Color(1, 0, 0, 1))
-		# _img.set_pixel(0, 25, Color.red)
+		# _img.set_pixel(0, 25, Color.RED)
 		_img.unlock()
 		_tex.create_from_image(_img)
-		_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, _tex)
+		_material.set_texture(StandardMaterial3D.TEXTURE_ALBEDO, _tex)
 
 func world_to_grid(_worldPos:Vector3) -> Vector2:
 	var x = _worldPos.x - _worldMin.x
@@ -276,23 +276,23 @@ func _rebuild() -> void:
 		# 	blitPos.y -= _playerTemplate.get_height() / 2.0
 		# 	_img.blit_rect(_playerTemplate, _playerTemplate.get_used_rect(), blitPos)
 
-		_img.set_pixel(int(playerGridPos.x), int(playerGridPos.y), Color.white)
-		# _img.set_pixel(0, 25, Color.red)
+		_img.set_pixel(int(playerGridPos.x), int(playerGridPos.y), Color.WHITE)
+		# _img.set_pixel(0, 25, Color.RED)
 	
 	# paint enemies
 	for _i in range(0, _agents.size()):
-		var agent:Spatial = _agents[_i]
+		var agent:Node3D = _agents[_i]
 		var agentOrigin:Vector3 = agent.global_transform.origin
 		_draw_template_by_world_pos(_enemyTemplate, agentOrigin)
 		# draw nearest outside player focus
 		var dest:Vector2 = find_closest_no_green(agentOrigin)
 		_img.lock()
-		_img.set_pixel(int(dest.x), int(dest.y), Color.blue)
+		_img.set_pixel(int(dest.x), int(dest.y), Color.BLUE)
 		_img.unlock()
 	
 	_img.unlock()
 	_tex.create_from_image(_img)
-	_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, _tex)
+	_material.set_texture(StandardMaterial3D.TEXTURE_ALBEDO, _tex)
 
 func _process(_delta:float) -> void:
 	if !autoUpdate:

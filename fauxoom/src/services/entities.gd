@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 class_name Entities
 
 const Enums = preload("res://src/enums.gd")
@@ -308,14 +308,14 @@ func _ready() -> void:
 		if !prefab.has("noEditor"):
 			prefab.noEditor = false
 
-func build_global_tag_list() -> PoolStringArray:
+func build_global_tag_list() -> PackedStringArray:
 	var tagsDict = {}
 	var ents = get_tree().get_nodes_in_group(Groups.ENTS_GROUP_NAME)
 	for ent in ents:
 		if !(ent is Entity):
 			continue
 		ent.append_global_tags(tagsDict)
-	return PoolStringArray(tagsDict.keys())
+	return PackedStringArray(tagsDict.keys())
 
 func get_mob_prefab_names() -> Array:
 	var names = []
@@ -366,7 +366,7 @@ func select_prefab(enemyType:int) -> String:
 		print("Ents - unknown enemy type " + str(enemyType))
 		return PREFAB_MOB_PUNK
 
-func create_mob_by_name(prefabLabel:String, _transform:Transform, alert:bool):
+func create_mob_by_name(prefabLabel:String, _transform:Transform3D, alert:bool):
 	var mob = get_prefab_def(prefabLabel).prefab.instance()
 	self.add_child(mob)
 	mob.teleport(_transform)
@@ -374,7 +374,7 @@ func create_mob_by_name(prefabLabel:String, _transform:Transform, alert:bool):
 		mob.force_awake()
 	return mob
 
-func create_mob_by_enum(enemyType:int, _transform:Transform, alert:bool):
+func create_mob_by_enum(enemyType:int, _transform:Transform3D, alert:bool):
 	var prefabLabel:String = select_prefab(enemyType)
 	return create_mob_by_name(prefabLabel, _transform, alert)
 	#var mob = get_prefab_def(prefabLabel).prefab.instance()
@@ -559,5 +559,5 @@ func console_on_exec(_txt:String, _tokens) -> void:
 		file.store_string(txt)
 		file.close()
 	elif _txt == "ents_tags":
-		var tags:PoolStringArray = build_global_tag_list()
+		var tags:PackedStringArray = build_global_tag_list()
 		print("Tags: " + tags.join(", "))

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cjhh34b5npjxe"]
 
-[ext_resource type="Script" path="res://actor_proxies/trigger_volume_proxy.gd" id="1_5ru8s"]
+[ext_resource type="Script" uid="uid://d275an012xrob" path="res://actor_proxies/trigger_volume_proxy.gd" id="1_5ru8s"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_e3put"]
 

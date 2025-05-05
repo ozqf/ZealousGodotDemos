@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dpo6c240jjuf2"]
 
-[ext_resource type="Script" path="res://actors/info/info_spawn_point.gd" id="1_3fvae"]
+[ext_resource type="Script" uid="uid://cmiyvprrgnjai" path="res://actors/info/info_spawn_point.gd" id="1_3fvae"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_3uqjj"]
 size = Vector3(1, 1, 0.2)

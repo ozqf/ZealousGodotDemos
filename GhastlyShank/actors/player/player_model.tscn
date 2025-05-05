@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=3 uid="uid://bbpqs01bg6ias"]
 
 [ext_resource type="PackedScene" uid="uid://cfqbhlo28w86t" path="res://actors/player/polearm_model.tscn" id="1_aq1j0"]
-[ext_resource type="Script" path="res://actors/player/player_model.gd" id="1_m873b"]
+[ext_resource type="Script" uid="uid://bxpl6y7wc663e" path="res://actors/player/player_model.gd" id="1_m873b"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_w5js4"]
 height = 1.8
@@ -304,19 +304,19 @@ tracks/1/keys = PackedFloat32Array(0, 1, 0.215616, 0.0850898, -0.018864, 0.97258
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0fvwd"]
 _data = {
-"RESET": SubResource("Animation_5pai0"),
-"_agile_idle": SubResource("Animation_dbdbf"),
-"_combat_idle": SubResource("Animation_7iw6r"),
-"_reset": SubResource("Animation_hy2gi"),
-"agile_whirlwind": SubResource("Animation_xnla0"),
-"block_1": SubResource("Animation_e1yup"),
-"combat_flinch": SubResource("Animation_nsugi"),
-"combat_parried": SubResource("Animation_ai5u7"),
-"swing_1": SubResource("Animation_py34y"),
-"swing_horizontal_1": SubResource("Animation_dyul2"),
-"swing_quick_1": SubResource("Animation_nr4x2"),
-"thrust_1": SubResource("Animation_h5jub"),
-"upper_cut": SubResource("Animation_74ppn")
+&"RESET": SubResource("Animation_5pai0"),
+&"_agile_idle": SubResource("Animation_dbdbf"),
+&"_combat_idle": SubResource("Animation_7iw6r"),
+&"_reset": SubResource("Animation_hy2gi"),
+&"agile_whirlwind": SubResource("Animation_xnla0"),
+&"block_1": SubResource("Animation_e1yup"),
+&"combat_flinch": SubResource("Animation_nsugi"),
+&"combat_parried": SubResource("Animation_ai5u7"),
+&"swing_1": SubResource("Animation_py34y"),
+&"swing_horizontal_1": SubResource("Animation_dyul2"),
+&"swing_quick_1": SubResource("Animation_nr4x2"),
+&"thrust_1": SubResource("Animation_h5jub"),
+&"upper_cut": SubResource("Animation_74ppn")
 }
 
 [node name="player_model" type="Node3D"]

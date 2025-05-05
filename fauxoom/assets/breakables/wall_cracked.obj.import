@@ -1,19 +1,22 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/wall_cracked.obj-6d709e0b3382cac0b9e5287f1fb8ed40.mesh"
+uid="uid://cv2p6uknrcxh3"
+path="res://.godot/imported/wall_cracked.obj-6d709e0b3382cac0b9e5287f1fb8ed40.mesh"
 
 [deps]
 
-files=[ "res://.import/wall_cracked.obj-6d709e0b3382cac0b9e5287f1fb8ed40.mesh" ]
+files=["res://.godot/imported/wall_cracked.obj-6d709e0b3382cac0b9e5287f1fb8ed40.mesh"]
 
 source_file="res://assets/breakables/wall_cracked.obj"
-dest_files=[ "res://.import/wall_cracked.obj-6d709e0b3382cac0b9e5287f1fb8ed40.mesh", "res://.import/wall_cracked.obj-6d709e0b3382cac0b9e5287f1fb8ed40.mesh" ]
+dest_files=["res://.godot/imported/wall_cracked.obj-6d709e0b3382cac0b9e5287f1fb8ed40.mesh", "res://.godot/imported/wall_cracked.obj-6d709e0b3382cac0b9e5287f1fb8ed40.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
 optimize_mesh=true
+force_disable_mesh_compression=false

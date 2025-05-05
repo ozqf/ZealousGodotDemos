@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://btmxb6w6ttyv3"]
 
-[ext_resource type="Script" path="res://actors/player/avatar_type_b/player_avatar_type_b.gd" id="1_lkwln"]
-[ext_resource type="Script" path="res://actors/player/player_input.gd" id="2_3ja18"]
+[ext_resource type="Script" uid="uid://qr82nfav5p8o" path="res://actors/player/avatar_type_b/player_avatar_type_b.gd" id="1_lkwln"]
+[ext_resource type="Script" uid="uid://b4d4qwhs2kowr" path="res://actors/player/player_input.gd" id="2_3ja18"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ipjjj"]
 

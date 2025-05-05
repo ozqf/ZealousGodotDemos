@@ -10,16 +10,16 @@ const UNGUIDED_SPEED:float = 50.0
 const STEP_BACK_SCALAR:float = 0.3
 const REV_DOWN_TIME:float = 8.0
 
-onready var _display:Spatial = $display
-onready var _sparks1:CPUParticles = $display/sparks_1
-onready var _sparks2:CPUParticles = $display/sparks_2
-onready var _blood1:CPUParticles = $display/blood_1
-onready var _blood2:CPUParticles = $display/blood_2
-onready var _shootableArea:Area = $shootable_area
-onready var _shootableShape:CollisionShape = $shootable_area/CollisionShape
-onready var _damageArea:ZqfVolumeScanner = $damage_area
-onready var _damageShape:CollisionShape = $damage_area/CollisionShape
-onready var _attach:ZqfTempChild = $attach
+@onready var _display:Node3D = $display
+@onready var _sparks1:CPUParticles = $display/sparks_1
+@onready var _sparks2:CPUParticles = $display/sparks_2
+@onready var _blood1:CPUParticles = $display/blood_1
+@onready var _blood2:CPUParticles = $display/blood_2
+@onready var _shootableArea:Area3D = $shootable_area
+@onready var _shootableShape:CollisionShape3D = $shootable_area/CollisionShape
+@onready var _damageArea:ZqfVolumeScanner = $damage_area
+@onready var _damageShape:CollisionShape3D = $damage_area/CollisionShape
+@onready var _attach:ZqfTempChild = $attach
 
 var _state = State.Idle
 var _currentSpeed:float = 25
@@ -37,8 +37,8 @@ var _bloodEmitTick:float = 0.0
 
 var _damageTick:float = 0.0
 
-var _worldParent:Spatial
-var _attachParent:Spatial
+var _worldParent:Node3D
+var _attachParent:Node3D
 
 var _gatheredItems = []
 
@@ -87,7 +87,7 @@ func _on_detached_from_body() -> void:
 	var below:Vector3 = global_transform.origin
 	below.y -= 1.0
 	ZqfUtils.look_at_safe(self, below)
-	var t:Transform = global_transform
+	var t:Transform3D = global_transform
 	launch(t, revs)
 	pass
 
@@ -144,7 +144,7 @@ func _relaunch_from_hit(hit:HitInfo) -> void:
 		print("No ray ground hit")
 		return
 	var newDir:Vector3 = (rayPlaneForwardHit - rayPlaneGroundHit).normalized()
-	var t:Transform = self.global_transform
+	var t:Transform3D = self.global_transform
 	# t = t.looking_at(t.origin + newDir, _lastStuckNormal)
 	t = t.looking_at(t.origin + newDir, Vector3.UP)
 	t.origin += (_lastStuckNormal * 0.2)
@@ -152,7 +152,7 @@ func _relaunch_from_hit(hit:HitInfo) -> void:
 	launch(t, 50)
 	pass
 
-func launch(originT:Transform, launchRevs:float) -> void:
+func launch(originT:Transform3D, launchRevs:float) -> void:
 	disable_body()
 	visible = true
 	revs = launchRevs
@@ -187,9 +187,9 @@ func set_dropped() -> void:
 
 func _apply_dropped_push(normal:Vector3) -> void:
 	var pushPos:Vector3 = Vector3()
-	pushPos.x = rand_range(-0.3, 0.3)
-	pushPos.y = rand_range(-0.3, 0.3)
-	pushPos.z = rand_range(-0.3, 0.3)
+	pushPos.x = randf_range(-0.3, 0.3)
+	pushPos.y = randf_range(-0.3, 0.3)
+	pushPos.z = randf_range(-0.3, 0.3)
 	apply_impulse(pushPos, normal * 5)
 
 func start_recall() -> void:
@@ -205,7 +205,7 @@ func _set_volumes_active(flag:bool) -> void:
 	_damageShape.disabled = !flag
 
 func _move_as_ray(_delta:float, speed:float) -> void:
-	var t:Transform = global_transform
+	var t:Transform3D = global_transform
 	var space = get_world().direct_space_state
 	var origin:Vector3 = t.origin
 	var dir:Vector3 = -t.basis.z
@@ -284,8 +284,8 @@ func _move_as_ray(_delta:float, speed:float) -> void:
 		global_transform.origin = dest
 
 func turn_toward_point(pos:Vector3) -> void:
-	var towardPoint:Transform = global_transform.looking_at(pos, Vector3.UP)
-	var result:Transform = transform.interpolate_with(towardPoint, 0.8)
+	var towardPoint:Transform3D = global_transform.looking_at(pos, Vector3.UP)
+	var result:Transform3D = transform.interpolate_with(towardPoint, 0.8)
 	set_transform(result)
 
 func _state_allows_recall() -> bool:

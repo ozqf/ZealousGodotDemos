@@ -1,5 +1,5 @@
 # Main AI class run by mob_base when it has a target (and isn't dead or stunned!)
-extends Spatial
+extends Node3D
 class_name AITicker
 
 const Enums = preload("res://src/enums.gd")
@@ -192,12 +192,12 @@ func _select_attack(_tickInfo:AITickInfo) -> int:
 	return -1
 
 func set_rotation_to_movement() -> void:
-	_mob.sprite.yawDegrees = rad2deg(_mob.motor.moveYaw)
+	_mob.sprite.yawDegrees = rad_to_deg(_mob.motor.moveYaw)
 	# set_rotation_to_target(_mob.motor.moveTargetPos)
 
 func set_rotation_to_target(pos:Vector3) -> void:
 	var yawDegrees:float = ZqfUtils.yaw_between(_mob.global_transform.origin, pos)
-	yawDegrees = rad2deg(yawDegrees)
+	yawDegrees = rad_to_deg(yawDegrees)
 	_mob.sprite.yawDegrees = yawDegrees
 
 func _attack_move(_delta:float) -> void:

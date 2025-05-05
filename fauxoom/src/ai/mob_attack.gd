@@ -3,36 +3,36 @@ class_name MobAttack
 
 # var _prj_point_t = load("res://prefabs/projectiles/prj_point.tscn")
 
-export var tag:String = ""
+@export var tag:String = ""
 # flag to force this mob attack from being selected automatically.
-export var enabled:bool = true
-export var minUseRange:float = 0
-export var maxUseRange:float = 9999
-export var attackCount:int = 1
+@export var enabled:bool = true
+@export var minUseRange:float = 0
+@export var maxUseRange:float = 9999
+@export var attackCount:int = 1
 
-export var windUpTime:float = 0.25
-export var windDownTime:float = 0.25
-export var repeatTime:float = 0.1
-export var attackAnimTime:float = 0.1
+@export var windUpTime:float = 0.25
+@export var windDownTime:float = 0.25
+@export var repeatTime:float = 0.1
+@export var attackAnimTime:float = 0.1
 
-export var showAimLaser:bool = false
-export var showAimLaserDuringRepeat:bool = false
-export var showOmniCharge:bool = false
-export var allowMovement:bool = true
+@export var showAimLaser:bool = false
+@export var showAimLaserDuringRepeat:bool = false
+@export var showOmniCharge:bool = false
+@export var allowMovement:bool = true
 
 # TODO - implement attack cooldowns
 # make this attack unusable for the duration, and other attacks
 # must be used instead. Stops enemies from spamming powerful attacks
-export var cooldown:float = 0
+@export var cooldown:float = 0
 var lastSelectTime:float = 0
 # limits number of times this mob can fire this attack
-export var ammo:int = -1
+@export var ammo:int = -1
 
-export var faceTargetDuringWindup:bool = true
-export var faceTargetDuringAttack:bool = true
-export var requiresLos:bool = true
-export var useLastSeenPosition:bool = true
-export var ignoreAutoSelect:bool = false
+@export var faceTargetDuringWindup:bool = true
+@export var faceTargetDuringAttack:bool = true
+@export var requiresLos:bool = true
+@export var useLastSeenPosition:bool = true
+@export var ignoreAutoSelect:bool = false
 
 # eg 
 var prjPrefabOverride = null
@@ -40,8 +40,8 @@ var prjPrefabOverride = null
 # set by mob when attacks are collected
 var index:int = 0
 
-var _launchNode:Spatial = null
-var _body:Spatial = null
+var _launchNode:Node3D = null
+var _body:Node3D = null
 var _pattern:Pattern = null
 
 var _tick:float = 0
@@ -52,7 +52,7 @@ var _prjMask:int = -1
 
 var _patternBuffer
 
-func custom_init(launchNode:Spatial, body:Spatial) -> void:
+func custom_init(launchNode:Node3D, body:Node3D) -> void:
 	_launchNode = launchNode
 	_body = body
 	_prjMask = Interactions.get_enemy_prj_mask()
@@ -73,10 +73,10 @@ func _tick_down(_delta:float) -> bool:
 func cancel() -> void:
 	pass
 
-func fire_from(_target:Vector3, launch:Spatial, _spinDegrees:float = 0.0) -> void:
+func fire_from(_target:Vector3, launch:Node3D, _spinDegrees:float = 0.0) -> void:
 	# print("Fire!")
 	
-	var t:Transform = launch.global_transform
+	var t:Transform3D = launch.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward:Vector3 = -t.basis.z
 

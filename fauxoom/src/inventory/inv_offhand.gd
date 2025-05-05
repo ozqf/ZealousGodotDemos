@@ -1,9 +1,9 @@
 extends InvWeapon
 
-export var punchScanRange:float = 2
-export var regularDamage:int = 25
-export var superDamage:int = 200
-export var superCost:int = 20
+@export var punchScanRange:float = 2
+@export var regularDamage:int = 25
+@export var superDamage:int = 200
+@export var superCost:int = 20
 
 var _charging:bool = false
 var _chargeTick:float = 0.0

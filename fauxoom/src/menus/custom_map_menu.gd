@@ -2,8 +2,8 @@ extends Control
 
 signal menu_navigate(name)
 
-onready var _filesList = $ItemList/VBoxContainer
-onready var _description:Label = $map_description
+@onready var _filesList = $ItemList/VBoxContainer
+@onready var _description:Label = $map_description
 
 var _selectedFileName:String = ""
 var _buttons = []

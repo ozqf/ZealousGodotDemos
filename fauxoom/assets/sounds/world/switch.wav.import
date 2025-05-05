@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/switch.wav-1bebf637a189a26ede40434343e79c9a.sample"
+type="AudioStreamWAV"
+uid="uid://dik5crfmf1yfe"
+path="res://.godot/imported/switch.wav-1bebf637a189a26ede40434343e79c9a.sample"
 
 [deps]
 
 source_file="res://assets/sounds/world/switch.wav"
-dest_files=[ "res://.import/switch.wav-1bebf637a189a26ede40434343e79c9a.sample" ]
+dest_files=["res://.godot/imported/switch.wav-1bebf637a189a26ede40434343e79c9a.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

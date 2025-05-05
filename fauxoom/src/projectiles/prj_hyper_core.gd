@@ -12,16 +12,16 @@ enum HyperCoreState {
 	Gathered
 }
 
-onready var _bodyShape = $CollisionShape
-onready var _particles = $Particles
-onready var _light:OmniLight = $OmniLight
-onready var _area:Area = $Area
-onready var _areaShape = $Area/CollisionShape
+@onready var _bodyShape = $CollisionShape
+@onready var _particles = $Particles
+@onready var _light:OmniLight3D = $OmniLight
+@onready var _area:Area3D = $Area
+@onready var _areaShape = $Area/CollisionShape
 
-var _worldParent:Spatial = null
-var _attachParent:Spatial = null
+var _worldParent:Node3D = null
+var _attachParent:Node3D = null
 # gather object can be a rigidbody which we can't just attach to...?
-var _gatherParent:Spatial = null
+var _gatherParent:Node3D = null
 
 var _fuseLit:bool = false
 var _fuseTime:float = 4.0
@@ -30,7 +30,7 @@ var _fuseTick:float = 4.0
 var _coreState = HyperCoreState.None
 var _scaleBoost:int = 0
 var _dead:bool = false
-var _lastTransform:Transform = Transform.IDENTITY
+var _lastTransform:Transform3D = Transform3D.IDENTITY
 var _deadBall:bool = false
 var _originGravityScale:float = 1.0
 
@@ -44,11 +44,11 @@ func _ready() -> void:
 	timeToLive = 999
 	add_to_group(Groups.HYPER_CORES_GROUP)
 	_area.set_subject(self)
-	_area.connect("area_entered", self, "on_area_entered_area")
-	_area.connect("body_entered", self, "on_body_entered_area")
+	_area.connect("area_entered", on_area_entered_area)
+	_area.connect("body_entered", on_body_entered_area)
 	_time = 999
 	# self.connect("area_entered", self, "on_area_entered_body")
-	self.connect("body_entered", self, "on_body_entered_body")
+	self.connect("body_entered", on_body_entered_body)
 
 func _custom_init() -> void:
 	pass
@@ -57,7 +57,7 @@ func core_collect() -> void:
 	_dead = true
 	self.queue_free()
 
-func on_area_entered_area(area:Area) -> void:
+func on_area_entered_area(area:Area3D) -> void:
 	Interactions.hit(_hitInfo, area)
 	# if Interactions.is_obj_a_mob(area):
 		# # 
@@ -74,7 +74,7 @@ func on_body_entered_area(body) -> void:
 				_kick_up()
 		Interactions.hit(_hitInfo, body)
 
-# func on_area_entered_body(area:Area) -> void:
+# func on_area_entered_body(area:Area3D) -> void:
 # 	if _coreState != HyperCoreState.Stake:
 # 		return
 # 	self.mode = MODE_KINEMATIC
@@ -97,7 +97,7 @@ func on_body_entered_body(_body) -> void:
 	#global_transform = _lastTransform]
 
 func _spawn_now() -> void:
-	._spawn_now()
+	super._spawn_now()
 	linear_velocity = _velocity
 	pass
 
@@ -141,7 +141,7 @@ func spawn_shrapnel_bomb(pos:Vector3) -> void:
 func _spawn_rail_shot(a:Vector3, b:Vector3) -> void:
 	var dist:float = a.distance_to(b)
 	var column = _column_t.instance()
-	var t:Transform = Transform.IDENTITY
+	var t:Transform3D = Transform3D.IDENTITY
 	t.origin = a
 	t = t.looking_at(b, Vector3.UP)
 	column.spawn(t, dist)
@@ -162,7 +162,7 @@ func railshot_links() -> void:
 			_spawn_rail_shot(a.global_transform.origin, b.global_transform.origin)
 	pass
 
-func bullet_cancel(t:Transform) -> void:
+func bullet_cancel(t:Transform3D) -> void:
 	var aoe = _bullet_cancel_t.instance()
 	Game.get_dynamic_parent().add_child(aoe)
 	aoe.global_transform = t
@@ -172,19 +172,19 @@ func bullet_cancel(t:Transform) -> void:
 func _refresh() -> void:
 	var c:Color
 	var weight:float = float(_scaleBoost) / float(3)
-	animator.scale = Vector3(1, 1, 1).linear_interpolate(Vector3(2, 2, 2), weight)
-	animator.modulate = Color(1, 1, 1).linear_interpolate(Color(1, 0, 0), weight)
+	animator.scale = Vector3(1, 1, 1).lerp(Vector3(2, 2, 2), weight)
+	animator.modulate = Color(1, 1, 1).lerp(Color(1, 0, 0), weight)
 
 func _attach(newParent) -> void:
 	print("Hyper core - attach")
 	_coreState = HyperCoreState.Stuck
 	_attachParent = newParent
-	var t:Transform = global_transform
+	var t:Transform3D = global_transform
 	_worldParent = get_parent()
 	_worldParent.remove_child(self)
 	_attachParent.add_child(self)
 	global_transform = t
-	_attachParent.connect("tree_exiting", self, "on_attach_parent_exiting_tree")
+	_attachParent.connect("tree_exiting", on_attach_parent_exiting_tree)
 
 func item_projectile_gather(newParent) -> void:
 	
@@ -200,7 +200,7 @@ func item_projectile_gather(newParent) -> void:
 	_coreState = HyperCoreState.Gathered
 	_bodyShape.disabled = true
 	_areaShape.disabled = true
-	self.mode = RigidBody.MODE_KINEMATIC
+	self.freeze = false
 	_gatherParent = newParent
 	newParent.connect("item_projectile_drop", self, "projectile_detach")
 	cancel_fuse()
@@ -220,7 +220,7 @@ func _try_attach_to_mob(collider) -> void:
 func drop() -> void:
 	light_fuse()
 	_coreState = HyperCoreState.None
-	self.mode = MODE_RIGID
+	self.freeze = false
 	_bodyShape.disabled = false
 	_areaShape.disabled = false
 	self.gravity_scale = _originGravityScale
@@ -230,13 +230,13 @@ func on_attach_parent_exiting_tree() -> void:
 
 func detach():
 	print("Core - detach")
-	var t:Transform
+	var t:Transform3D
 	if _attachParent == null:
 		drop()
 		return
 	t = _attachParent.global_transform
 	_attachParent.remove_child(self)
-	_attachParent.disconnect("tree_exiting", self, "on_attach_parent_exiting_tree")
+	_attachParent.disconnect("tree_exiting",  on_attach_parent_exiting_tree)
 	_attachParent = null
 	_worldParent.add_child(self)
 	# become a rigid body again
@@ -258,7 +258,7 @@ func _change_to_stake(direction:Vector3) -> int:
 	#print("Change core to stake at " + str(global_transform.origin))
 	self.gravity_scale = 0.0
 	_bodyShape.disabled = true
-	self.mode = MODE_KINEMATIC
+	self.freeze = true
 	self.linear_velocity = _stakeVelocity
 	_coreState = HyperCoreState.Stake
 	#print("\tChanged at " + str(global_transform.origin))

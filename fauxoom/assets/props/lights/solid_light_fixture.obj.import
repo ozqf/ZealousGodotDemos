@@ -1,19 +1,22 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/solid_light_fixture.obj-d259baeb76d82ef747cf857f3133a5f0.mesh"
+uid="uid://d0k2r4vsssf1w"
+path="res://.godot/imported/solid_light_fixture.obj-d259baeb76d82ef747cf857f3133a5f0.mesh"
 
 [deps]
 
-files=[ "res://.import/solid_light_fixture.obj-d259baeb76d82ef747cf857f3133a5f0.mesh" ]
+files=["res://.godot/imported/solid_light_fixture.obj-d259baeb76d82ef747cf857f3133a5f0.mesh"]
 
 source_file="res://assets/props/lights/solid_light_fixture.obj"
-dest_files=[ "res://.import/solid_light_fixture.obj-d259baeb76d82ef747cf857f3133a5f0.mesh", "res://.import/solid_light_fixture.obj-d259baeb76d82ef747cf857f3133a5f0.mesh" ]
+dest_files=["res://.godot/imported/solid_light_fixture.obj-d259baeb76d82ef747cf857f3133a5f0.mesh", "res://.godot/imported/solid_light_fixture.obj-d259baeb76d82ef747cf857f3133a5f0.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
 optimize_mesh=true
+force_disable_mesh_compression=false

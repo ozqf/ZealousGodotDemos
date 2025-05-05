@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 class_name MapGenEntityEditor
 
 const _prefab_spawn_t = preload("res://map_gen/prefabs/point_spawn.tscn")
@@ -7,7 +7,7 @@ const _mapSpawnDef_t = preload("./map_spawn_def.gd")
 
 enum EntEditMode { Select, Add, Rotate, SetTargets }
 
-onready var _entTypeLabel:Label = $ui/template_list/ent_type_label
+@onready var _entTypeLabel:Label = $ui/template_list/ent_type_label
 
 # updated from controller
 var _gridX:int = 0
@@ -78,7 +78,7 @@ func _create_spawn_at(pos:Vector3) -> SpawnPoint:
 	var prefab = _prefab_spawn_t.instance()
 	add_child(prefab)
 	_ents.push_back(prefab)
-	var t:Transform = Transform.IDENTITY
+	var t:Transform3D = Transform3D.IDENTITY
 	t.origin = pos
 	prefab.global_transform = t
 	return prefab
@@ -163,11 +163,11 @@ func process_right_click() -> void:
 		return
 	if _editMode == EntEditMode.Rotate:
 		var dest:Vector3 = _grid_pos_to_world(_gridX, _gridY)
-		var t:Transform = _selected.global_transform
+		var t:Transform3D = _selected.global_transform
 		var origin = t.origin
 		var dx = dest.x - origin.x
 		var dz = origin.z - dest.z
-		var degrees = rad2deg(atan2(dz, dx))
+		var degrees = rad_to_deg(atan2(dz, dx))
 		degrees -= 90
 		print("Rotate from " + str(origin) + " look at " + str(dest))
 		print("degrees: " + str(degrees))
@@ -177,14 +177,14 @@ func process_right_click() -> void:
 	else:
 		var dest:Vector3 = _grid_pos_to_world(_gridX, _gridY)
 		print("Move selected to " + str(dest))
-		var t:Transform = _selected.global_transform
+		var t:Transform3D = _selected.global_transform
 		t.origin = dest
 		_selected.global_transform = t
 		_selected.def.position.x = _gridX
 		_selected.def.position.z = _gridY
 
 func _find_highlighted_ent() -> void:
-	var cam:Camera = get_viewport().get_camera()
+	var cam:Camera3D = get_viewport().get_camera()
 	if cam == null:
 		return
 	var mouse:Vector2 = get_viewport().get_mouse_position()

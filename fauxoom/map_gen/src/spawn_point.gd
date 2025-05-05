@@ -1,13 +1,13 @@
-extends Area
+extends Area3D
 class_name SpawnPoint
 
-const _selectedMat:SpatialMaterial = preload("../materials/spawn_point_selected.tres")
-const _unselectedMat:SpatialMaterial = preload("../materials/spawn_point_unselected.tres")
-const _highlightedMat:SpatialMaterial = preload("../materials/spawn_point_highlighted.tres")
+const _selectedMat:StandardMaterial3D = preload("../materials/spawn_point_selected.tres")
+const _unselectedMat:StandardMaterial3D = preload("../materials/spawn_point_unselected.tres")
+const _highlightedMat:StandardMaterial3D = preload("../materials/spawn_point_highlighted.tres")
 const _mapSpawnDef_t = preload("./map_spawn_def.gd")
 
-onready var _mesh:MeshInstance = $display/MeshInstance
-# export var entType:String = ""
+@onready var _mesh:MeshInstance3D = $display/MeshInstance3D
+# @export var entType:String = ""
 
 var def:MapSpawnDef = _mapSpawnDef_t.new()
 

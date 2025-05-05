@@ -1,6 +1,6 @@
 class_name EntTagSet
 
-var _tags:PoolStringArray = PoolStringArray()
+var _tags:PackedStringArray = PackedStringArray()
 
 func tag_count() -> int:
 	return _tags.size()
@@ -28,7 +28,7 @@ func remove_tag(removeTag:String) -> void:
 			_tags.remove(_i)
 			return
 
-func get_tags() -> PoolStringArray:
+func get_tags() -> PackedStringArray:
 	return _tags
 
 func get_csv() -> String:

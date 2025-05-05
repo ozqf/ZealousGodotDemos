@@ -2,9 +2,9 @@ extends InvWeapon
 # pistol but with a clip that requires reloading.
 # don't really like it but code kept here for potential reuse.
 
-export var maxSpreadX:int = 200
-export var maxSpreadY:int = 100
-export var maxLoaded:int = 12
+@export var maxSpreadX:int = 200
+@export var maxSpreadY:int = 100
+@export var maxLoaded:int = 12
 
 var _pistolShoot:AudioStream = preload("res://assets/sounds/weapon/pistol_fire.wav")
 var _pistolReload:AudioStream = preload("res://assets/sounds/item/weapon_reload_light.wav")
@@ -29,10 +29,10 @@ func write_hud_status(statusDict:PlayerHudStatus) -> void:
 	statusDict.currentAmmo = _inventory.get_count(ammoType)
 
 func _custom_shoot(_spreadX:float, _spreadY:float, shotSpreadScale:float) -> void:
-	var t:Transform = _launchNode.global_transform
+	var t:Transform3D = _launchNode.global_transform
 	var forward:Vector3 = -_launchNode.global_transform.basis.z
-	var spreadX:float = rand_range(-_spreadX, _spreadX) * shotSpreadScale
-	var spreadY:float = rand_range(-_spreadY, _spreadY) * shotSpreadScale
+	var spreadX:float = randf_range(-_spreadX, _spreadX) * shotSpreadScale
+	var spreadY:float = randf_range(-_spreadY, _spreadY) * shotSpreadScale
 	forward = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
 	_fire_single(forward, 1000)
 	self.emit_signal("weapon_action", self, "fire")
@@ -56,10 +56,10 @@ func read_input(_weaponInput:WeaponInput) -> void:
 	if _weaponInput.primaryOn:
 		_awaitOff = true
 		tick = refireTime
-		# var t:Transform = _launchNode.global_transform
+		# var t:Transform3D = _launchNode.global_transform
 		# var forward:Vector3 = -_launchNode.global_transform.basis.z
-		# var spreadX:float = rand_range(-maxSpreadX, maxSpreadX) * _spreadScale
-		# var spreadY:float = rand_range(-maxSpreadY, maxSpreadY) * _spreadScale
+		# var spreadX:float = randf_range(-maxSpreadX, maxSpreadX) * _spreadScale
+		# var spreadY:float = randf_range(-maxSpreadY, maxSpreadY) * _spreadScale
 		# forward = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
 		# _fire_single(forward, 1000)
 		_custom_shoot(maxSpreadX, maxSpreadY, _spreadScale)

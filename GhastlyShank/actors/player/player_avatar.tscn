@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://bcyuyhg1xs5ud"]
 
-[ext_resource type="Script" path="res://actors/player/player_avatar.gd" id="1_bwt23"]
-[ext_resource type="Script" path="res://actors/player/camera_rig.gd" id="2_fr0jw"]
+[ext_resource type="Script" uid="uid://vpx6a8h4orvm" path="res://actors/player/player_avatar.gd" id="1_bwt23"]
+[ext_resource type="Script" uid="uid://dqujx5mxrge6j" path="res://actors/player/camera_rig.gd" id="2_fr0jw"]
 [ext_resource type="Texture2D" uid="uid://dl7uh25m15qyr" path="res://actors/player/hud_icons/arrow.png" id="3_3e5no"]
 [ext_resource type="PackedScene" uid="uid://i0wct16b8g5y" path="res://actors/models/humanoid.tscn" id="3_cxqjw"]
-[ext_resource type="Script" path="res://game/interactions/actor_target_info.gd" id="5_8inh3"]
-[ext_resource type="Script" path="res://game/interactions/hitbox_delegate.gd" id="6_7px14"]
+[ext_resource type="Script" uid="uid://dn5mpuoeoowi7" path="res://game/interactions/actor_target_info.gd" id="5_8inh3"]
+[ext_resource type="Script" uid="uid://iojx2ph5oybx" path="res://game/interactions/hitbox_delegate.gd" id="6_7px14"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nrxwx"]
 radius = 0.4

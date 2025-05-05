@@ -5,10 +5,10 @@ var _hyper_core_projectile_t = preload("res://prefabs/projectiles/prj_hyper_core
 var _weapon_input_t = preload("res://src/defs/weapon_input.gd")
 var _weaponInput:WeaponInput = null
 
-# var _launchNode:Spatial = null
+# var _launchNode:Node3D = null
 # var _parentBody:PhysicsBody = null
 # var _inventory:Inventory = null
-var _launchNode:Spatial = null
+var _launchNode:Node3D = null
 var _interactor:PlayerObjectInteractor
 var _inventory = null
 var _active:bool = false
@@ -23,7 +23,7 @@ var _charging:bool = false
 var _chargeTick:float = 0.0
 var _chargeMax:float = 3.0
 
-func init_attack(launchNode:Spatial, interactor:PlayerObjectInteractor, inventory) -> void:
+func init_attack(launchNode:Node3D, interactor:PlayerObjectInteractor, inventory) -> void:
 	_launchNode = launchNode
 	_interactor = interactor
 	_inventory = inventory
@@ -50,7 +50,7 @@ func get_punch_charge_weight() -> float:
 	return _chargeTick / _chargeMax
 
 func fire_hyper_core() -> void:
-	var t:Transform = _launchNode.global_transform
+	var t:Transform3D = _launchNode.global_transform
 	var origin:Vector3 = t.origin
 	var dir:Vector3 = -t.basis.z
 	var prj = _hyper_core_projectile_t.instance()

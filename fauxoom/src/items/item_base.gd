@@ -1,10 +1,10 @@
-extends KinematicBody
+extends CharacterBody3D
 class_name ItemBase
 
-onready var _sprite:AnimatedSprite3D = $sprite
-onready var _areaShape:CollisionShape = $Area/CollisionShape
-onready var _particles = $particles
-onready var _light = $light
+@onready var _sprite:AnimatedSprite3D = $sprite
+@onready var _areaShape:CollisionShape3D = $Area/CollisionShape
+@onready var _particles = $particles
+@onready var _light = $light
 
 var _ent:Entity
 # move to separate class
@@ -13,17 +13,17 @@ enum SoundType {
 	Generic,
 	Weapon
 }
-export(SoundType) var soundType = SoundType.Generic
+@export var soundType = SoundType.Generic
 
 # two item types are specified, as items like weapons will give two
 # items (the weapon itself + ammunition)
-export(String) var type:String = ""
-export(int) var quantity:int = 1
+@export var type:String = ""
+@export var quantity:int = 1
 
-export(String) var subType:String = ""
-export(int) var subQuantity:int = 1
+@export var subType:String = ""
+@export var subQuantity:int = 1
 
-export var isImportant:bool = false
+@export var isImportant:bool = false
 
 var _selfRespawnTick:float = 20
 # export(String) var targetName:String = ""
@@ -51,12 +51,12 @@ func _ready() -> void:
 	
 	add_to_group(Groups.GAME_GROUP_NAME)
 	#_spawnState = write_state()
-	var _result = $Area.connect("body_entered", self, "on_body_entered")
-	_result = $Area.connect("body_exited", self, "on_body_exited")
+	var _result = $Area.connect("body_entered", on_body_entered)
+	_result = $Area.connect("body_exited", on_body_exited)
 
 	_ent = get_parent().get_node("Entity")
-	_result = _ent.connect("entity_restore_state", self, "restore_state")
-	_result = _ent.connect("entity_append_state", self, "append_state")
+	_result = _ent.connect("entity_restore_state", restore_state)
+	_result = _ent.connect("entity_append_state", append_state)
 
 func get_editor_info() -> Dictionary:
 	# visible = true
@@ -104,7 +104,7 @@ func game_on_reset() -> void:
 	#restore_state(_spawnState)
 	pass
 
-func item_projectile_gather(_other:Spatial) -> void:
+func item_projectile_gather(_other:Node3D) -> void:
 	print("Item collect")
 	pass
 
@@ -133,7 +133,7 @@ func _set_active(flag:bool) -> void:
 	_areaShape.disabled = !_active
 
 	if flag == true:
-		_sprite.modulate = Color.white
+		_sprite.modulate = Color.WHITE
 		check_important_display_flag(true)
 	else:
 		check_important_display_flag(false)
@@ -148,7 +148,7 @@ func set_time_to_live(seconds:float) -> void:
 	_ttlTime = seconds
 	_ttlTick = 0.0
 
-func set_velocity(newVelocity) -> void:
+func set_item_velocity(newVelocity) -> void:
 	_velocity = newVelocity
 
 func _physics_process(_delta:float) -> void:
@@ -163,7 +163,9 @@ func _physics_process(_delta:float) -> void:
 			_velocity.x = 0.0
 		if abs(_velocity.y) < 0.05:
 			_velocity.y = 0.0
-	_velocity = self.move_and_slide(_velocity, Vector3.UP)
+	self.velocity = _velocity
+	self.move_and_slide()
+	#_velocity = self.move_and_slide(_velocity, Vector3.UP)
 
 func _process(_delta:float) -> void:
 

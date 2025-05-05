@@ -1,9 +1,9 @@
-extends Spatial
+extends Node3D
 
 var _gas_sac_t = preload("res://prefabs/dynamic_entities/mob_gas_sac.tscn")
 
-export var respawnTime:float = 0.5
-export var count:int = 30
+@export var respawnTime:float = 0.5
+@export var count:int = 30
 
 var _tick:float = 0.5
 var _state:int = 0

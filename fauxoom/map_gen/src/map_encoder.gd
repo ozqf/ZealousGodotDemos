@@ -21,7 +21,7 @@ static func degrees_to_byte(degrees:float) -> int:
 static func byte_to_degrees(val:int) -> float:
 	return float(val * 2)
 
-static func write_to_bytes(map:MapDef) -> PoolByteArray:
+static func write_to_bytes(map:MapDef) -> PackedByteArray:
 	var buf:ByteBuffer = _byteBuffer_t.new()
 	buf.reset_cursor()
 
@@ -57,7 +57,7 @@ static func write_to_bytes(map:MapDef) -> PoolByteArray:
 	return buf.get_bytes()
 
 # returns null if something went wrong
-static func _read_from_bytes(bytes:PoolByteArray, msgArray) -> MapDef:
+static func _read_from_bytes(bytes:PackedByteArray, msgArray) -> MapDef:
 	var buf:ByteBuffer = _byteBuffer_t.new()
 	buf.set_bytes(bytes)
 	var check:int = buf.read_int16()
@@ -110,7 +110,7 @@ static func b64_to_map(b64:String, messageArray = null) -> MapDef:
 	if messageArray == null:
 		messageArray = []
 	# messageArray.push_back("Load from b64 '" + str(b64) + "'")
-	var bytes:PoolByteArray = Marshalls.base64_to_raw(b64)
+	var bytes:PackedByteArray = Marshalls.base64_to_raw(b64)
 	var _numBytes = bytes.size()
 	messageArray.push_back("Reading " + str(_numBytes) + " bytes from " + str(b64.length()) + " chars")
 	if _numBytes == 0:
@@ -120,7 +120,7 @@ static func b64_to_map(b64:String, messageArray = null) -> MapDef:
 	return map
 
 static func map_to_b64(_map:MapDef) -> String:
-	var bytes:PoolByteArray = write_to_bytes(_map)
+	var bytes:PackedByteArray = write_to_bytes(_map)
 	return Marshalls.raw_to_base64(bytes)
 
 static func empty_map(w:int, h:int) -> MapDef:
@@ -132,8 +132,8 @@ static func empty_map(w:int, h:int) -> MapDef:
 # 	if map == null:
 # 		map = _mapDef_t.new()
 # 	# map.format = 666
-# 	# map.width = 511 # int(rand_range(0, 999999))
-# 	# map.height = 486 # int(rand_range(0, 999999))
+# 	# map.width = 511 # int(randf_range(0, 999999))
+# 	# map.height = 486 # int(randf_range(0, 999999))
 # 	print("Encoding map - version " + str(map.format) + " size: " + str(map.width) + ", " + str(map.height))
 # 	var bytes = write_to_bytes(map)
 # 	print("\tWrote " + str(bytes.size()) + " bytes")

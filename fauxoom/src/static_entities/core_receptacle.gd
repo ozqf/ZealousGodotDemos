@@ -1,14 +1,14 @@
-extends Spatial
+extends Node3D
 
-onready var _ent:Entity = $Entity
-onready var _area:Area = $Area
-onready var _coreSprite:AnimatedSprite3D = $Area/core_sprite
-onready var _light:OmniLight = $OmniLight
+@onready var _ent:Entity = $Entity
+@onready var _area:Area3D = $Area
+@onready var _coreSprite:AnimatedSprite3D = $Area/core_sprite
+@onready var _light:OmniLight = $OmniLight
 
-export var on:bool = false
-export var activeSeconds:float = 4.0
-export var onTriggerMessage:String = ""
-export var offTriggerMessage:String = ""
+@export var on:bool = false
+@export var activeSeconds:float = 4.0
+@export var onTriggerMessage:String = ""
+@export var offTriggerMessage:String = ""
 var _tick:float = 0.0
 
 var _onTags:EntTagSet
@@ -76,7 +76,7 @@ func set_on(flag:bool) -> void:
 		var targets = _onTags.get_tags()
 		Interactions.triggerTargetsWithParams(get_tree(), targets, onTriggerMessage, ZqfUtils.EMPTY_DICT)
 	else:
-		_light.light_color = Color.green
+		_light.light_color = Color.GREEN
 		var targets = _offTags.get_tags()
 		Interactions.triggerTargetsWithParams(get_tree(), targets, offTriggerMessage, ZqfUtils.EMPTY_DICT)
 

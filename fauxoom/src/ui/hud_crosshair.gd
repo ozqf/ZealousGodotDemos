@@ -1,17 +1,17 @@
 extends Node
 
 # crosshair
-onready var _prompt:Label = $interact_prompt
-onready var _promptBG:ColorRect = $interact_prompt_bg
-onready var _energyBar:TextureProgress = $energy
-onready var _healthBar:TextureProgress = $health
-onready var _redDot:ColorRect = $red_dot
-onready var _weaponCharge:ProgressBar = $weapon_charge_bar
-onready var _slimeTimeBar:ProgressBar = $slime_time_bar
-onready var _targetHealth:TextureProgress = $target_health
-onready var _walldashIndicator:Control = $walldash_indicator
-onready var _hyperTime:Label = $hyper_time/Label
-onready var _healthText:Label = $health2/Label
+@onready var _prompt:Label = $interact_prompt
+@onready var _promptBG:ColorRect = $interact_prompt_bg
+@onready var _energyBar:TextureProgress = $energy
+@onready var _healthBar:TextureProgress = $health
+@onready var _redDot:ColorRect = $red_dot
+@onready var _weaponCharge:ProgressBar = $weapon_charge_bar
+@onready var _slimeTimeBar:ProgressBar = $slime_time_bar
+@onready var _targetHealth:TextureProgress = $target_health
+@onready var _walldashIndicator:Control = $walldash_indicator
+@onready var _hyperTime:Label = $hyper_time/Label
+@onready var _healthText:Label = $health2/Label
 
 var _maxHealthColour:Color = Color(0, 1, 0, 1)
 var _minHealthColour:Color = Color(1, 0, 0, 1)

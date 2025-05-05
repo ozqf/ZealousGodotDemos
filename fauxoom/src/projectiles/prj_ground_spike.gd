@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 const DAMAGE_PER_TICK:int = 10
 const DAMAGE_TICKS_DELAY:float = 0.5
@@ -12,11 +12,11 @@ const STATE_DEAD:int = 3
 const GROW_TIME:float = 2.0 # 0.4
 const GROWN_TIME:float = 1.5
 
-export var harmlessMaterial:SpatialMaterial = null
-export var dangerousMaterial:SpatialMaterial = null
+@export var harmlessMaterial:StandardMaterial3D = null
+@export var dangerousMaterial:StandardMaterial3D = null
 
-onready var _cone:MeshInstance = $cone
-onready var _area:Area = $Area
+@onready var _cone:MeshInstance3D = $cone
+@onready var _area:Area3D = $Area
 
 var _player = null
 
@@ -29,8 +29,8 @@ var _hitTick:float = 0
 func _ready() -> void:
 	self.add_to_group(Groups.PRJ_GROUP_NAME)
 	_hitInfo = Game.new_hit_info()
-	_area.connect("body_entered", self, "on_body_entered")
-	_area.connect("body_exited", self, "on_body_exited")
+	_area.connect("body_entered", on_body_entered)
+	_area.connect("body_exited", on_body_exited)
 	_hitInfo.attackTeam = Interactions.TEAM_ENEMY
 	_hitInfo.damage = DAMAGE_PER_TICK
 	_spikeState = STATE_GROWING

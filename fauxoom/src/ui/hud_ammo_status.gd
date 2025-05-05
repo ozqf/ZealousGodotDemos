@@ -2,13 +2,13 @@ extends Node
 
 
 # right side - weapon bar
-onready var _bulletCount:Label = $bottom_right_panel/ammo_counts/bullets/count
-onready var _shellCount:Label = $bottom_right_panel/ammo_counts/shells/count
-onready var _plasmaCount:Label = $bottom_right_panel/ammo_counts/plasma/count
-onready var _rocketCount:Label = $bottom_right_panel/ammo_counts/rockets/count
-onready var _fuelCount:Label = $bottom_right_panel/ammo_counts/fuel/count
-onready var _bonusCount:Label = $bonus_count
-onready var _bg:ColorRect = $bg
+@onready var _bulletCount:Label = $bottom_right_panel/ammo_counts/bullets/count
+@onready var _shellCount:Label = $bottom_right_panel/ammo_counts/shells/count
+@onready var _plasmaCount:Label = $bottom_right_panel/ammo_counts/plasma/count
+@onready var _rocketCount:Label = $bottom_right_panel/ammo_counts/rockets/count
+@onready var _fuelCount:Label = $bottom_right_panel/ammo_counts/fuel/count
+@onready var _bonusCount:Label = $bonus_count
+@onready var _bg:ColorRect = $bg
 
 func _update_label(label:Label, count:int, percentage:float) -> void:
 	label.text = str(count)

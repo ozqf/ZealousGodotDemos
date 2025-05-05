@@ -1,30 +1,30 @@
 extends Node
 
-onready var _northDoor1:Spatial = $north_door_1
-onready var _northDoor2:Spatial = $north_door_2
+@onready var _northDoor1:Node3D = $north_door_1
+@onready var _northDoor2:Node3D = $north_door_2
 
-onready var _southDoor1:Spatial = $south_door_1
-onready var _southDoor2:Spatial = $south_door_2
+@onready var _southDoor1:Node3D = $south_door_1
+@onready var _southDoor2:Node3D = $south_door_2
 
-onready var _northEastDoor1:Spatial = $north_east_door_1
-onready var _northEastDoor2:Spatial = $north_east_door_2
+@onready var _northEastDoor1:Node3D = $north_east_door_1
+@onready var _northEastDoor2:Node3D = $north_east_door_2
 
-onready var _northWestDoor1:Spatial = $north_west_door_1
-onready var _northWestDoor2:Spatial = $north_west_door_2
+@onready var _northWestDoor1:Node3D = $north_west_door_1
+@onready var _northWestDoor2:Node3D = $north_west_door_2
 
-onready var _southEastDoor1:Spatial = $south_east_door_1
-onready var _southEastDoor2:Spatial = $south_east_door_2
+@onready var _southEastDoor1:Node3D = $south_east_door_1
+@onready var _southEastDoor2:Node3D = $south_east_door_2
 
-onready var _southWestDoor1:Spatial = $south_west_door_1
-onready var _southWestDoor2:Spatial = $south_west_door_2
+@onready var _southWestDoor1:Node3D = $south_west_door_1
+@onready var _southWestDoor2:Node3D = $south_west_door_2
 
-export var northDoorOpen:bool = false
-export var southDoorOpen:bool = false
+@export var northDoorOpen:bool = false
+@export var southDoorOpen:bool = false
 
-export var northEastDoorOpen:bool = false
-export var northWestDoorOpen:bool = false
-export var southEastDoorOpen:bool = false
-export var southWestDoorOpen:bool = false
+@export var northEastDoorOpen:bool = false
+@export var northWestDoorOpen:bool = false
+@export var southEastDoorOpen:bool = false
+@export var southWestDoorOpen:bool = false
 
 func _ready():
 	if northDoorOpen:

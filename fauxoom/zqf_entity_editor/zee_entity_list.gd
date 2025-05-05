@@ -5,14 +5,14 @@ const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 # var _ent_t = preload("res://zqf_entity_editor/zee_entity.tscn")
 var _proxy_t = preload("res://zqf_entity_editor/zee_point_entity_proxy.tscn")
 
-var _entsRoot:Spatial
+var _entsRoot:Node3D
 
 func _ready() -> void:
 	# listening to game group to track new entities!
 	add_to_group(Groups.ENTS_GROUP_NAME)
 	pass
 
-func zee_ent_list_init(entsRoot:Spatial):
+func zee_ent_list_init(entsRoot:Node3D):
 	_entsRoot = entsRoot
 
 func on_restored_entity(prefab, prefabDef) -> void:

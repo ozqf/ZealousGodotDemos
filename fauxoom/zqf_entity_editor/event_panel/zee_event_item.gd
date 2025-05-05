@@ -2,8 +2,8 @@ extends Node
 
 signal action(eventItem, action)
 
-onready var _edit:Button = $event_edit
-onready var _delete:Button = $event_delete
+@onready var _edit:Button = $event_edit
+@onready var _delete:Button = $event_delete
 
 var eventDetails = null
 

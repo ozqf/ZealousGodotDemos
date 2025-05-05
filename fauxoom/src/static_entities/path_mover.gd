@@ -1,14 +1,14 @@
-extends Spatial
+extends Node3D
 
 # root is the node that will be moved around
-onready var _root:Spatial = $root
+@onready var _root:Node3D = $root
 # a and b are the global positions root will be moved between
-onready var _a:MeshInstance = $a
-onready var _b:MeshInstance = $b
-onready var _ent:Entity = $Entity
+@onready var _a:MeshInstance3D = $a
+@onready var _b:MeshInstance3D = $b
+@onready var _ent:Entity = $Entity
 
-export var active:bool = false
-export var loop:bool = false
+@export var active:bool = false
+@export var loop:bool = false
 
 var _time:float = 0
 var _dir:float = 1

@@ -1,13 +1,13 @@
-extends RayCast
+extends RayCast3D
 
-onready var _a:MeshInstance = $rotator/Spatial/MeshInstance
-onready var _b:MeshInstance = $rotator/Spatial/MeshInstance2
-onready var _c:MeshInstance = $rotator/Spatial/MeshInstance3
-onready var _d:MeshInstance = $rotator/Spatial/MeshInstance4
-onready var _rotator:Spatial = $rotator
+@onready var _a:MeshInstance3D = $rotator/Spatial/MeshInstance3D
+@onready var _b:MeshInstance3D = $rotator/Spatial/MeshInstance2
+@onready var _c:MeshInstance3D = $rotator/Spatial/MeshInstance3
+@onready var _d:MeshInstance3D = $rotator/Spatial/MeshInstance4
+@onready var _rotator:Node3D = $rotator
 
-# onready var _defaultLength:float = 50
-onready var _ignoreRaycast:bool = false
+# @onready var _defaultLength:float = 50
+@onready var _ignoreRaycast:bool = false
 
 var _on:bool = false
 var _tick:float = 0

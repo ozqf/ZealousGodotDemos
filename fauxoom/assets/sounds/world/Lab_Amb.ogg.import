@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/Lab_Amb.ogg-81fcb52c10a5ecc89c89b46db9d9ac8d.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://d27wkp3ux1mq7"
+path="res://.godot/imported/Lab_Amb.ogg-81fcb52c10a5ecc89c89b46db9d9ac8d.oggvorbisstr"
 
 [deps]
 
 source_file="res://assets/sounds/world/Lab_Amb.ogg"
-dest_files=[ "res://.import/Lab_Amb.ogg-81fcb52c10a5ecc89c89b46db9d9ac8d.oggstr" ]
+dest_files=["res://.godot/imported/Lab_Amb.ogg-81fcb52c10a5ecc89c89b46db9d9ac8d.oggvorbisstr"]
 
 [params]
 
 loop=true
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

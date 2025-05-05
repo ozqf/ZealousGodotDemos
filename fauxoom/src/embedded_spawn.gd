@@ -1,6 +1,6 @@
 # Intentional use of this class and prefab is for maps created
 # within godot itself, and not the custom map editor
-extends Spatial
+extends Node3D
 class_name EmbeddedSpawn
 
 enum EntityType {
@@ -23,7 +23,7 @@ func get_def() -> MapSpawnDef:
 	$actor_spawn.hide()
 	var spawn:SpawnPoint = $actor_spawn
 	spawn.def.type = type
-	var t:Transform = global_transform
+	var t:Transform3D = global_transform
 	spawn.def.position = t.origin
 	spawn.def.yaw = int(rotation_degrees.y)
 	spawn.def.triggerName = targetName

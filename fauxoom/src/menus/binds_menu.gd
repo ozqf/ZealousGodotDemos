@@ -2,9 +2,9 @@ extends Control
 
 signal menu_navigate(name)
 
-onready var _root:Control = $VBoxContainer
-onready var _popUp:Control = $rebinding_popup
-onready var _popUpLabel:Label = $rebinding_popup/Label
+@onready var _root:Control = $VBoxContainer
+@onready var _popUp:Control = $rebinding_popup
+@onready var _popUpLabel:Label = $rebinding_popup/Label
 
 var _actions = [
 	{ tag = "move_forward", label = "Move Forward" },
@@ -33,7 +33,7 @@ var _loaded:bool = false
 var _active:bool = false
 var _isRebinding:String = ""
 
-export var verbose:bool = false
+@export var verbose:bool = false
 
 func _ready():
 	add_to_group(Config.GROUP)

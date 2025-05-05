@@ -1,6 +1,6 @@
 extends Node
 
-onready var _ed = $flat_map_editor
+@onready var _ed = $flat_map_editor
 var _mapDef:MapDef = null;
 
 var _templates = [
@@ -44,7 +44,7 @@ func _ready() -> void:
 
 func game_on_load_base64(b64:String) -> void:
 	print("Custom editor load from " + str(b64.length()) + " base64 chars")
-	#var bytes:PoolByteArray = Marshalls.base64_to_raw(b64)
+	#var bytes:PackedByteArray = Marshalls.base64_to_raw(b64)
 	# print("Editor reading " + str(bytes.size()) + " bytes")
 
 	var messages = []

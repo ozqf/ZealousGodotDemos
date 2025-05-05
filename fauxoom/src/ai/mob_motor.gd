@@ -1,7 +1,7 @@
 # Mob movement base class
 # subclass sandbox extended by other classes for actual
 # use by mobs
-extends Spatial
+extends Node3D
 class_name MobMotor
 
 const STATE_IDLE:int = 0
@@ -9,11 +9,11 @@ const STATE_HUNT:int = 1
 const STATE_PATROL:int = 2
 const STATE_LEAP:int = 3
 
-onready var _floorFront:GroundPointSensor = $floor_in_front
-onready var _floorBack:GroundPointSensor = $floor_behind
-onready var _floorLeft:GroundPointSensor = $floor_left
-onready var _floorRight:GroundPointSensor = $floor_right
-onready var _groundRay:RayCast = $ground_ray
+@onready var _floorFront:GroundPointSensor = $floor_in_front
+@onready var _floorBack:GroundPointSensor = $floor_behind
+@onready var _floorLeft:GroundPointSensor = $floor_left
+@onready var _floorRight:GroundPointSensor = $floor_right
+@onready var _groundRay:RayCast3D = $ground_ray
 
 enum MobMoveType {
 	Ground,
@@ -27,12 +27,12 @@ enum MobMoveStyle {
 }
 
 # export
-export(MobMoveType) var moveType = MobMoveType.Ground
-export(MobMoveStyle) var moveStyle = MobMoveStyle.CloseStraight
-export var inactiveWhenAttacking:bool = false
-export var evadeDegrees:float = 65
-export var panicEvadeDegreesMin:float = 100
-export var panicEvadeDegreesMax:float = 180
+@export var moveType = MobMoveType.Ground
+@export var moveStyle = MobMoveStyle.CloseStraight
+@export var inactiveWhenAttacking:bool = false
+@export var evadeDegrees:float = 65
+@export var panicEvadeDegreesMin:float = 100
+@export var panicEvadeDegreesMax:float = 180
 
 # public
 var moveYaw:float = 0.0
@@ -43,7 +43,7 @@ var evadeSpeed:float = 2
 var _agent:NavAgent = null
 
 # components
-var _body:KinematicBody = null
+var _body:CharacterBody3D = null
 var _mob = null
 
 # status
@@ -57,7 +57,7 @@ var _hasTarget:bool = false
 var moveTargetPos:Vector3 = Vector3()
 var _targetForward:Vector3 = Vector3()
 
-var _evadeTarget:Spatial = null 
+var _evadeTarget:Node3D = null 
 var _evadeTick:float = 0.0
 
 func get_debug_text() -> String:
@@ -67,7 +67,7 @@ func get_debug_text() -> String:
 	txt += "Has node target: " + str(_agent.objectiveNode != null) + "\n"
 	return txt
 
-func custom_init(body:KinematicBody) -> void:
+func custom_init(body:CharacterBody3D) -> void:
 	_agent = AI.create_nav_agent()
 	_body = body
 	_mob = _body
@@ -150,9 +150,9 @@ func damage_hit(_hitInfo:HitInfo) -> void:
 ##################################
 # evasion functions
 ##################################
-func _pick_evade_point(_verbose:bool) -> Spatial:
+func _pick_evade_point(_verbose:bool) ->Node3D:
 	var r:float = randf()
-	var p:Spatial = null
+	var p:Node3D = null
 	if _floorLeft.isValid:
 		if _floorRight.isValid:
 			# pick a direction
@@ -168,7 +168,7 @@ func _pick_evade_point(_verbose:bool) -> Spatial:
 	if p != null:
 		if _verbose:
 			print("Mob evade to " + p.name)
-		_evadeTick = rand_range(1.5, 4)
+		_evadeTick = randf_range(1.5, 4)
 		return p
 	return null
 
@@ -195,7 +195,8 @@ func _evade_step(_delta:float) -> void:
 	to.y = from.y
 	var toward:Vector3 = to - from
 	toward = toward.normalized()
-	_body.move_and_slide(toward * 4)
+	_body.velocity = toward * 4
+	_body.move_and_slide()
 
 	# face move (attack) target
 	var towardTarget:Vector3 = moveTargetPos - from

@@ -1,20 +1,22 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/threshold_switch_base.obj-3724032b64029697f1214f21be544b90.mesh"
+uid="uid://bt3qa80iq12n3"
+path="res://.godot/imported/threshold_switch_base.obj-3724032b64029697f1214f21be544b90.mesh"
 
 [deps]
 
-files=[ "res://.import/threshold_switch_base.obj-3724032b64029697f1214f21be544b90.mesh" ]
+files=["res://.godot/imported/threshold_switch_base.obj-3724032b64029697f1214f21be544b90.mesh"]
 
 source_file="res://assets/objects/threshold_switch/threshold_switch_base.obj"
-dest_files=[ "res://.import/threshold_switch_base.obj-3724032b64029697f1214f21be544b90.mesh", "res://.import/threshold_switch_base.obj-3724032b64029697f1214f21be544b90.mesh" ]
+dest_files=["res://.godot/imported/threshold_switch_base.obj-3724032b64029697f1214f21be544b90.mesh", "res://.godot/imported/threshold_switch_base.obj-3724032b64029697f1214f21be544b90.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

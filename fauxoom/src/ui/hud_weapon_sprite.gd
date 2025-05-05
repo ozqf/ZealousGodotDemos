@@ -1,22 +1,22 @@
-extends AnimatedSprite
+extends AnimatedSprite3D
 class_name HudWeaponSprite
 
-export var pushBoostDistance:int = 48
-export var pushDuration:float = 0.15
+@export var pushBoostDistance:int = 48
+@export var pushDuration:float = 0.15
 var nextAnim:String = ""
 
-var _screenOrigin:Vector2
-var _pushOrigin:Vector2
+var _screenOrigin:Vector3
+var _pushOrigin:Vector3
 var _pushOffset:Vector2 = Vector2()
 var _pushTime:float = 0.0
 
-var _a:Vector2 = Vector2()
-var _b:Vector2 = Vector2()
+var _a:Vector3 = Vector3()
+var _b:Vector3 = Vector3()
 
-var _swayOffset:Vector2 = Vector2()
+var _swayOffset:Vector3 = Vector3()
 
-var baseColour:Color = Color.white
-var hyperColour:Color = Color.green
+var baseColour:Color = Color.WHITE
+var hyperColour:Color = Color.GREEN
 
 var _colourTick:float = 0.0
 
@@ -27,7 +27,7 @@ func _ready():
 	_pushOrigin.y += pushBoostDistance
 	_a = _screenOrigin
 	_b = _screenOrigin
-	var _r = connect("animation_finished", self, "on_animation_finished")
+	var _r = connect("animation_finished", on_animation_finished)
 
 func on_animation_finished() -> void:
 	if nextAnim != "":
@@ -55,12 +55,12 @@ func _process(_delta:float):
 	var weight:float = _pushTime / pushDuration
 	if weight > 1.0:
 		weight = 1.0
-	position = _a.linear_interpolate(_b, weight) + _swayOffset
+	position = _a.lerp(_b, weight) + _swayOffset
 	
 	# colour
 	if Game.hyperLevel > 0:
 		_colourTick += (_delta * 4.0)
 		var colourWeight:float = (cos(_colourTick) + 1.0) * 0.5
-		self.modulate = baseColour.linear_interpolate(hyperColour, colourWeight)
+		self.modulate = baseColour.lerp(hyperColour, colourWeight)
 	else:
 		self.modulate = baseColour

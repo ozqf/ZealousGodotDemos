@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/punk_death_3.wav-aaeb9028a05070a69fed231ab7777a11.sample"
+type="AudioStreamWAV"
+uid="uid://d2aqnbora54kn"
+path="res://.godot/imported/punk_death_3.wav-aaeb9028a05070a69fed231ab7777a11.sample"
 
 [deps]
 
 source_file="res://assets/sounds/mob/punk/punk_death_3.wav"
-dest_files=[ "res://.import/punk_death_3.wav-aaeb9028a05070a69fed231ab7777a11.sample" ]
+dest_files=["res://.godot/imported/punk_death_3.wav-aaeb9028a05070a69fed231ab7777a11.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

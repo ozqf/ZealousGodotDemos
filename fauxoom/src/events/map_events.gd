@@ -4,7 +4,7 @@ const _empty_events:Dictionary = {
 	"events": {}
 }
 
-export var eventsDict:Dictionary
+@export var eventsDict:Dictionary
 
 var _data = {}
 
@@ -60,7 +60,7 @@ func remove_action(eventName:String, actionIndex:int) -> Dictionary:
 	print("Remove action " + str(actionIndex) + " from event " + str(eventName))
 	return {}
 
-func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
+func console_on_exec(_txt:String, _tokens:PackedStringArray) -> void:
 	if _tokens[0] != "events":
 		return
 	if _tokens.size() == 1:

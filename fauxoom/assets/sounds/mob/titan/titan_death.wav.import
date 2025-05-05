@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/titan_death.wav-8e227593b160a381b7949e98fad11b48.sample"
+type="AudioStreamWAV"
+uid="uid://wna2dbu1keuq"
+path="res://.godot/imported/titan_death.wav-8e227593b160a381b7949e98fad11b48.sample"
 
 [deps]
 
 source_file="res://assets/sounds/mob/titan/titan_death.wav"
-dest_files=[ "res://.import/titan_death.wav-8e227593b160a381b7949e98fad11b48.sample" ]
+dest_files=["res://.godot/imported/titan_death.wav-8e227593b160a381b7949e98fad11b48.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

@@ -1,4 +1,4 @@
-extends KinematicBody
+extends CharacterBody3D
 
 # if none, must be triggered to break
 enum DamageMode {
@@ -10,16 +10,16 @@ enum DamageMode {
 	None
 }
 
-onready var _shape:CollisionShape = $CollisionShape
-onready var _meshes:Spatial = $meshes
-# onready var _sprite:Sprite3D = $Sprite3D
-# onready var _sprite2:Sprite3D = $Sprite3D2
+@onready var _shape:CollisionShape3D = $CollisionShape
+@onready var _meshes:Node3D = $meshes
+# @onready var _sprite:Sprite3D = $Sprite3D
+# @onready var _sprite2:Sprite3D = $Sprite3D2
 # signal trigger()
 
-onready var _ent:Entity = $Entity
+@onready var _ent:Entity = $Entity
 
 export(DamageMode) var damageMode = DamageMode.All
-export var health:int = 50
+@export var health:int = 50
 var _acceptedDamageType:int = 0
 var _dead:bool = false
 

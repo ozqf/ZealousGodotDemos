@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 
@@ -15,7 +15,7 @@ var _enabled:bool = true
 var inputOn:bool = true
 var _flyOn:bool = true
 var turningOn:bool = true
-var _head:Spatial = null
+var _head:Node3D = null
 var _speed:float = 10.0
 
 func _ready() -> void:
@@ -38,7 +38,7 @@ func zee_on_global_disabled() -> void:
 	_refresh_mouse_claim()
 
 func reset() -> void:
-	global_transform = Transform.IDENTITY
+	global_transform = Transform3D.IDENTITY
 
 func set_fly_camera_enabled(flag:bool) -> void:
 	_flyOn = flag
@@ -107,7 +107,7 @@ func _input(_event: InputEvent):
 		var mMoveX: float = (_event.relative.x * moveMul) * scrSizeRatio.x
 		# flip as we want moving mouse to the right to rotate LEFT (anti-clockwise)
 		mMoveX = -mMoveX
-		#var rotY: float = deg2rad(mMoveX)
+		#var rotY: float = deg_to_rad(mMoveX)
 		m_yaw += mMoveX
 
 		# vertical
@@ -129,7 +129,7 @@ func _process(_delta:float) -> void:
 
 	var input:Vector3 = _read_input()
 	
-	var t:Transform = _head.global_transform
+	var t:Transform3D = _head.global_transform
 	var forward:Vector3 = t.basis.z
 	var left:Vector3 = t.basis.x
 	var up:Vector3 = t.basis.y

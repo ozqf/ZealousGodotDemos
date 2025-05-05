@@ -10,11 +10,11 @@ const nearRight:float = 384.0
 const flyTime:float = 0.25
 const pauseTime:float = 1.5
 
-onready var _left:Label = $left
-onready var _right:Label = $right
+@onready var _left:Label = $left
+@onready var _right:Label = $right
 
-var _messageStackLeft:PoolStringArray = PoolStringArray()
-var _messageStackRight:PoolStringArray = PoolStringArray()
+var _messageStackLeft:PackedStringArray = PackedStringArray()
+var _messageStackRight:PackedStringArray = PackedStringArray()
 
 enum FlashyMessageState {
 	Idle,
@@ -32,7 +32,7 @@ func _ready():
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	_reset()
 
-func console_on_exec(_text:String, tokens:PoolStringArray) -> void:
+func console_on_exec(_text:String, tokens:PackedStringArray) -> void:
 	var numTokens:int = tokens.size()
 	if numTokens == 1:
 		if _text == "flashy":

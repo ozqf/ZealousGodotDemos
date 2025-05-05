@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/psychic_death.wav-91eb5a26393dc698b5dd8d555ae3a19f.sample"
+type="AudioStreamWAV"
+uid="uid://0n1bub1266c8"
+path="res://.godot/imported/psychic_death.wav-91eb5a26393dc698b5dd8d555ae3a19f.sample"
 
 [deps]
 
 source_file="res://assets/sounds/mob/psychic/psychic_death.wav"
-dest_files=[ "res://.import/psychic_death.wav-91eb5a26393dc698b5dd8d555ae3a19f.sample" ]
+dest_files=["res://.godot/imported/psychic_death.wav-91eb5a26393dc698b5dd8d555ae3a19f.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

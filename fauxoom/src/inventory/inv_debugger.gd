@@ -23,7 +23,7 @@ func _spawn_enemy(type) -> void:
 	var dict:Dictionary = AI.get_player_target_debug()
 	if dict.id == 0:
 		return
-	var t:Transform = Transform()
+	var t:Transform3D = Transform3D()
 	t.origin = dict.aimPos
 	var n:Vector3 = dict.aimHitNormal
 	var dp:float = n.dot(Vector3.UP)
@@ -63,12 +63,12 @@ func _fire_column_projectile() -> void:
 	pass
 
 func _fire_test_projectile() -> void:
-	var t:Transform = _launchNode.global_transform
+	var t:Transform3D = _launchNode.global_transform
 	var pos:Vector3 = t.origin + (-t.basis.z)
 	PrjUtils.fire_from(pos, _launchNode, null, Game.get_factory().prj_column_t)
 
 func _fire_spike_line() -> void:
-	var t:Transform = _launchNode.global_transform
+	var t:Transform3D = _launchNode.global_transform
 	var result = ZqfUtils.hitscan_by_direction_3D(_launchNode, t.origin, -t.basis.z, 60, ZqfUtils.EMPTY_ARRAY, 1)
 	var dest:Vector3 = t.origin + (-t.basis.z * 60.0)
 	if result:
@@ -142,7 +142,7 @@ func read_input(_weaponInput:WeaponInput) -> void:
 		# raycast_for_debug_mob(-_launchNode.global_transform.basis.z)
 
 func deequip() -> void:
-	.deequip()
+	super.deequip()
 	get_tree().call_group(Groups.PLAYER_GROUP_NAME, "player_close_debug_menu")
 
 func _process(_delta:float) -> void:

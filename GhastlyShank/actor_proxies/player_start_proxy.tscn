@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://dn26esbqk10ah"]
 
-[ext_resource type="Script" path="res://addons/zqf_actor_proxy_editor/actor_proxy_base.gd" id="1_jmsp7"]
+[ext_resource type="Script" uid="uid://bodvp6acu7isl" path="res://addons/zqf_actor_proxy_editor/actor_proxy_base.gd" id="1_jmsp7"]
 [ext_resource type="PackedScene" uid="uid://bo8t5t610vttb" path="res://shared/widgets/actor_proxy_widget_box.tscn" id="2_al8yo"]
-[ext_resource type="Script" path="res://addons/zqf_actor_proxy_editor/fields/tags_field.gd" id="3_5gtwj"]
+[ext_resource type="Script" uid="uid://dwyvt8b2t7g8g" path="res://addons/zqf_actor_proxy_editor/fields/tags_field.gd" id="3_5gtwj"]
 
 [node name="player_start_proxy" type="Node3D"]
 script = ExtResource("1_jmsp7")

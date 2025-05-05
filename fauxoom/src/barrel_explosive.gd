@@ -1,8 +1,8 @@
-extends KinematicBody
+extends CharacterBody3D
 
-onready var _ent:Entity = $Entity
-onready var _shape:CollisionShape = $CollisionShape
-onready var _sprite:AnimatedSprite3D = $Sprite
+@onready var _ent:Entity = $Entity
+@onready var _shape:CollisionShape3D = $CollisionShape
+@onready var _sprite:AnimatedSprite3D = $Sprite
 
 var _dead:bool = false
 var _beingCarried:bool = false
@@ -37,6 +37,6 @@ func _process(_delta:float) -> void:
 		var info:Dictionary = AI.get_player_target()
 		if info.id == 0:
 			return
-		var t:Transform = info.throwableTransform
+		var t:Transform3D = info.throwableTransform
 		#global_transform = t
 		global_transform.origin = t.origin

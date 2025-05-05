@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/D_EVIL_24k.ogg-afd6d66f539cd78d8c7f112fc59fa812.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://buruhfak6plij"
+path="res://.godot/imported/D_EVIL_24k.ogg-afd6d66f539cd78d8c7f112fc59fa812.oggvorbisstr"
 
 [deps]
 
 source_file="res://assets/music/action_light/D_EVIL_24k.ogg"
-dest_files=[ "res://.import/D_EVIL_24k.ogg-afd6d66f539cd78d8c7f112fc59fa812.oggstr" ]
+dest_files=["res://.godot/imported/D_EVIL_24k.ogg-afd6d66f539cd78d8c7f112fc59fa812.oggvorbisstr"]
 
 [params]
 
 loop=true
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

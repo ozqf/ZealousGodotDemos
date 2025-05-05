@@ -1,19 +1,22 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/square_8x1x8.obj-8cc0d62cf36fb85c44131e7e37993568.mesh"
+uid="uid://binfa6pyu7gfu"
+path="res://.godot/imported/square_8x1x8.obj-8cc0d62cf36fb85c44131e7e37993568.mesh"
 
 [deps]
 
-files=[ "res://.import/square_8x1x8.obj-8cc0d62cf36fb85c44131e7e37993568.mesh" ]
+files=["res://.godot/imported/square_8x1x8.obj-8cc0d62cf36fb85c44131e7e37993568.mesh"]
 
 source_file="res://zqf_auto/mesh/square/square_8x1x8.obj"
-dest_files=[ "res://.import/square_8x1x8.obj-8cc0d62cf36fb85c44131e7e37993568.mesh", "res://.import/square_8x1x8.obj-8cc0d62cf36fb85c44131e7e37993568.mesh" ]
+dest_files=["res://.godot/imported/square_8x1x8.obj-8cc0d62cf36fb85c44131e7e37993568.mesh", "res://.godot/imported/square_8x1x8.obj-8cc0d62cf36fb85c44131e7e37993568.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
 optimize_mesh=true
+force_disable_mesh_compression=false

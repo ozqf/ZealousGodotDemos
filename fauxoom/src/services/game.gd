@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 class_name GameController
 
 const Enums = preload("res://src/enums.gd")
@@ -25,18 +25,18 @@ var prj_player_saw_t = preload("res://prefabs/projectiles/prj_player_saw.tscn")
 
 ###########################
 var _entRoot:Entities = null
-var _dynamicRoot:Spatial = null
+var _dynamicRoot:Node3D = null
 
-onready var _factory:PrefabFactory = $prefab_factory
-onready var _events = $map_events
-onready var _pregameUI:Control = $game_state_overlay/pregame
-onready var _completeUI:Control = $game_state_overlay/complete
-onready var _deathUI:Control = $game_state_overlay/death
-onready var _hintContainer:Control = $game_state_overlay/hint_text
-onready var _hintLabelTop:Label = $game_state_overlay/hint_text/hint_label_top
-onready var _screenFade:ColorRect = $game_state_overlay/screen_fade
+@onready var _factory:PrefabFactory = $prefab_factory
+@onready var _events = $map_events
+@onready var _pregameUI:Control = $game_state_overlay/pregame
+@onready var _completeUI:Control = $game_state_overlay/complete
+@onready var _deathUI:Control = $game_state_overlay/death
+@onready var _hintContainer:Control = $game_state_overlay/hint_text
+@onready var _hintLabelTop:Label = $game_state_overlay/hint_text/hint_label_top
+@onready var _screenFade:ColorRect = $game_state_overlay/screen_fade
 
-onready var _camera:AttachableCamera = $attachable_camera
+@onready var _camera:AttachableCamera = $attachable_camera
 var _defaultEnvironment:Environment = null
 var _environment:String = ""
 var _environments = ZqfUtils.EMPTY_DICT
@@ -61,7 +61,7 @@ var quickSwitchTime:float = 0.5
 var hyperLevel:int = 0
 
 var _hasPlayerStart:bool = false
-var _playerOrigin:Transform = Transform.IDENTITY
+var _playerOrigin:Transform3D = Transform3D.IDENTITY
 
 var _debugMob = null
 
@@ -93,9 +93,9 @@ func _ready() -> void:
 	add_to_group(Groups.CONSOLE_GROUP_NAME)
 	add_to_group(Groups.GAME_GROUP_NAME)
 	_refresh_overlay()
-	var _result = $game_state_overlay/death/menu/reset.connect("pressed", self, "on_clicked_reset")
-	_result = $game_state_overlay/death/menu/checkpoint.connect("pressed", self, "on_clicked_checkpoint")
-	_result = $game_state_overlay/complete/menu/reset.connect("pressed", self, "on_clicked_reset")
+	var _result = $game_state_overlay/death/menu/reset.connect("pressed", on_clicked_reset)
+	_result = $game_state_overlay/death/menu/checkpoint.connect("pressed", on_clicked_checkpoint)
+	_result = $game_state_overlay/complete/menu/reset.connect("pressed", on_clicked_reset)
 	Main.set_camera(_camera)
 	_hintContainer.visible = false
 
@@ -142,7 +142,7 @@ func config_changed(_cfg:Dictionary) -> void:
 		target = 0
 	elif target < 60:
 		target = 60
-	Engine.set_target_fps(target)
+	ZqfUtils.set_target_fps(target)
 
 func write_save_file(fileName:String) -> void:
 	var path = Main.build_save_path(fileName, false)
@@ -250,7 +250,7 @@ func _input(_event) -> void:
 		# if a && b && c && d:
 		# 	begin_game()
 
-func get_dynamic_parent() -> Spatial:
+func get_dynamic_parent() ->Node3D:
 	if _dynamicRoot != null:
 		return _dynamicRoot
 	return _entRoot
@@ -411,7 +411,7 @@ func _exec_file_load(fileName, appState, fileIsEmbedded:bool) -> void:
 	else:
 		print("Save is same map - no change")
 
-func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
+func console_on_exec(_txt:String, _tokens:PackedStringArray) -> void:
 	var numTokens:int = _tokens.size()
 	var first:String = _tokens[0]
 	if first == "reset":
@@ -546,10 +546,7 @@ func save_game(filePath:String) -> void:
 
 func _write_save_file(filePath:String, data:Dictionary) -> void:
 	# write file
-	var file = File.new()
-	file.open(filePath, File.WRITE)
-	file.store_string(to_json(data))
-	file.close()
+	ZqfUtils.write_dict_json_to_path(filePath, data)
 
 ###############
 # game state
@@ -562,7 +559,7 @@ func _write_save_file(filePath:String, data:Dictionary) -> void:
 #	get_dynamic_parent().add_child(player)
 #	player.teleport(_playerOrigin)
 
-func spawn_player(t:Transform) -> void:
+func spawn_player(t:Transform3D) -> void:
 	if _player != null:
 		print(">> Cannot spawn player twice! <<")
 		return
@@ -584,7 +581,7 @@ func reset_game() -> void:
 	if _state == Enums.GameState.Pregame:
 		return
 	_camera.detach()
-	_camera.global_transform = Transform.IDENTITY
+	_camera.global_transform = Transform3D.IDENTITY
 	_clear_dynamic_entities()
 	_set_to_pregame()
 
@@ -594,7 +591,7 @@ func set_game_state(gameState) -> void:
 	_state = gameState
 	if _state == Enums.GameState.Pregame:
 		_camera.detach()
-		_camera.global_transform = Transform.IDENTITY
+		_camera.global_transform = Transform3D.IDENTITY
 
 	_refresh_overlay()
 
@@ -671,13 +668,13 @@ func set_all_forcefields(on:bool) -> void:
 # registers
 ###############
 
-func register_dynamic_root(_node:Spatial) -> void:
+func register_dynamic_root(_node:Node3D) -> void:
 	if _dynamicRoot == null:
 		_dynamicRoot = _node
 		_factory.prefab_factory_init(_dynamicRoot, _entRoot)
 	pass
 
-func deregister_dynamic_root(_node:Spatial) -> void:
+func deregister_dynamic_root(_node:Node3D) -> void:
 	if _node == _dynamicRoot:
 		_dynamicRoot = null
 		_factory.prefab_factory_init(null, _entRoot)
@@ -699,12 +696,12 @@ func deregister_player(plyr:Player) -> void:
 	print("Game - deregister player")
 	_player = null
 
-func register_player_start(_obj:Spatial) -> void:
+func register_player_start(_obj:Node3D) -> void:
 	_playerOrigin = _obj.global_transform
 	_hasPlayerStart = true
 	_refresh_overlay()
 
-func deregister_player_start(_obj:Spatial) -> void:
+func deregister_player_start(_obj:Node3D) -> void:
 	_hasPlayerStart = false
 	_refresh_overlay()
 

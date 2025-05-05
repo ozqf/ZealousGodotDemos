@@ -20,14 +20,14 @@ const RAD2DEG = 57.29577951308
 
 const ROOT_DIR = "res://"
 
-static func global_translate(spatial:Spatial, offset:Vector3) -> void:
+static func global_translate(spatial:Node3D, offset:Vector3) -> void:
 	spatial.global_transform.origin += offset
 
-static func local_translate(spatial:Spatial, offset:Vector3) -> void:
+static func local_translate(spatial:Node3D, offset:Vector3) -> void:
 	spatial.transform.origin += offset
 
-static func look_at_safe(spatial:Spatial, target:Vector3) -> void:
-	var t:Transform = spatial.global_transform
+static func look_at_safe(spatial:Node3D, target:Vector3) -> void:
+	var t:Transform3D = spatial.global_transform
 	var origin:Vector3 = t.origin
 	var up:Vector3 = t.basis.y
 	var lookDir:Vector3 = (target - origin).normalized()
@@ -38,7 +38,7 @@ static func look_at_safe(spatial:Spatial, target:Vector3) -> void:
 	spatial.look_at(target, up)
 	pass
 
-static func set_forward(spatial:Spatial, forward:Vector3) -> void:
+static func set_forward(spatial:Node3D, forward:Vector3) -> void:
 	var tar:Vector3 = spatial.global_transform.origin + forward
 	look_at_safe(spatial, tar)
 
@@ -62,7 +62,7 @@ static func clamp_int(_value:int, _min:int, _max:int) -> int:
 	return _value
 
 static func play_3d(audio: AudioStreamPlayer3D, stream:AudioStream, pitchAlt:float = 0.0, plusDb:float = 0.0) -> void:
-	audio.pitch_scale = rand_range(1 - pitchAlt, 1 + pitchAlt)
+	audio.pitch_scale = randf_range(1 - pitchAlt, 1 + pitchAlt)
 	audio.unit_db = plusDb
 	audio.set_attenuation_model(AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE)
 	audio.stream = stream
@@ -108,7 +108,7 @@ static func is_point_left_of_line3D_flat(lineOrigin: Vector3, lineSize: Vector3,
 	return (dp < 0)
 
 static func yaw_to_flat_vector3(yawDegrees:float) -> Vector3:
-	var radians:float = deg2rad(yawDegrees)
+	var radians:float = deg_to_rad(yawDegrees)
 	return Vector3(sin(radians), 0, -cos(radians))
 
 # Only does Pitch and Yaw
@@ -173,27 +173,27 @@ static func VectorMA(start: Vector3, scale: float, dir:Vector3) -> Vector3:
 	return dest
 
 # weight should be between 0 and 1
-static func get_turned_towards_point(t:Transform, pos:Vector3, weight:float) -> Transform:
-	var towardPoint:Transform = t.looking_at(pos, Vector3.UP)
+static func get_turned_towards_point(t:Transform3D, pos:Vector3, weight:float) -> Transform3D:
+	var towardPoint:Transform3D = t.looking_at(pos, Vector3.UP)
 	return t.interpolate_with(towardPoint, weight)
 
-static func turn_towards_point(spatial:Spatial, pos:Vector3, weight:float) -> void:
-	var towardPoint:Transform = spatial.global_transform.looking_at(pos, Vector3.UP)
-	var result:Transform = spatial.transform.interpolate_with(towardPoint, weight)
+static func turn_towards_point(spatial:Node3D, pos:Vector3, weight:float) -> void:
+	var towardPoint:Transform3D = spatial.global_transform.looking_at(pos, Vector3.UP)
+	var result:Transform3D = spatial.transform.interpolate_with(towardPoint, weight)
 	spatial.set_transform(result)
 
 #####################################
 # spatial nodes
 #####################################
 
-# static func dynamic_attach(child:Spatial, parent:Spatial, exitTreeCallback:String = ""):
+# static func dynamic_attach(child:Node3D, parent:Node3D, exitTreeCallback:String = ""):
 # 	pass
 
 #####################################
 # misc data
 #####################################
 
-static func pool_string_find(strings:PoolStringArray, query:String) -> int:
+static func pool_string_find(strings:PackedStringArray, query:String) -> int:
 	var l:int = strings.size()
 	for i in range(0, l):
 		if strings[i] == query:
@@ -264,7 +264,7 @@ static func v3_to_dict(v:Vector3) -> Dictionary:
 static func v3_from_dict(dict:Dictionary) -> Vector3:
 	return Vector3(dict.x, dict.y, dict.z)
 
-static func transform_to_dict(t:Transform) -> Dictionary:
+static func transform_to_dict(t:Transform3D) -> Dictionary:
 	var origin:Vector3 = t.origin
 	var basis:Basis = t.basis
 	return {
@@ -282,8 +282,8 @@ static func transform_to_dict(t:Transform) -> Dictionary:
 		zz = basis.z.z,
 	}
 
-static func transform_from_dict(dict:Dictionary) -> Transform:
-	var t:Transform = Transform.IDENTITY
+static func transform_from_dict(dict:Dictionary) -> Transform3D:
+	var t:Transform3D = Transform3D.IDENTITY
 	t.origin.x = dict.px
 	t.origin.y = dict.py
 	t.origin.z = dict.pz
@@ -326,17 +326,17 @@ static func safe_dict_v3(d:Dictionary, field:String, fail:Vector3) -> Vector3:
 		return v3_from_dict(d[field])
 	return fail
 
-static func safe_dict_transform(d:Dictionary, field:String, fail:Transform) -> Transform:
+static func safe_dict_transform(d:Dictionary, field:String, fail:Transform3D) -> Transform3D:
 	if d.has(field):
 		return transform_from_dict(d[field])
 	return fail
 
-static func safe_dict_apply_transform(d:Dictionary, field:String, target:Spatial) -> void:
+static func safe_dict_apply_transform(d:Dictionary, field:String, target:Node3D) -> void:
 	if d.has(field):
 		target.global_transform = transform_from_dict(d[field])
 
 #####################################
-# Spatial scan wrappers
+#Node3D scan wrappers
 #####################################
 
 # result Dictionary from intersect_ray:
@@ -351,7 +351,7 @@ static func safe_dict_apply_transform(d:Dictionary, field:String, target:Spatial
 # simple cast a ray from the given position and forward. requires a spatial
 # to acquire the direct space state to cast in.
 static func hitscan_by_direction_3D(
-	_spatial:Spatial,
+	_spatial:Node3D,
 	_origin:Vector3,
 	_forward:Vector3,
 	_distance:float,
@@ -364,7 +364,7 @@ static func hitscan_by_direction_3D(
 # simple cast a ray from the given position to the given destination.
 # requires a spatial to acquire the direct space state to cast in.
 static func hitscan_by_position_3D(
-	_spatial:Spatial,
+	_spatial:Node3D,
 	_origin:Vector3,
 	_dest:Vector3,
 	ignoreArray,
@@ -375,11 +375,11 @@ static func hitscan_by_position_3D(
 # simple cast a ray from the given spatial node. uses the node's
 # own origin and forward for the ray.
 static func quick_hitscan3D(
-	_source:Spatial,
+	_source:Node3D,
 	_distance:float,
 	ignoreArray,
 	_mask:int) -> Dictionary:
-	var _t:Transform = _source.global_transform
+	var _t:Transform3D = _source.global_transform
 	var _origin:Vector3 = _t.origin
 	var _forward:Vector3 = _t.basis.z
 	var _dest:Vector3 = _origin + (_forward * -_distance)
@@ -387,7 +387,7 @@ static func quick_hitscan3D(
 	return space.intersect_ray(_origin, _dest, ignoreArray, _mask, true, true)
 
 static func los_check(
-	_spatial:Spatial,
+	_spatial:Node3D,
 	_origin:Vector3,
 	_dest:Vector3,
 	_mask:int) -> bool:
@@ -399,7 +399,7 @@ static func los_check(
 # I guess Godot just can't do this as easily as I'd like :(
 # would like a means to just quickly point test vs a collision shape
 # or body...
-static func quick_point_test(_source:Spatial, point:Vector3, ignoreArray, mask:int) -> Array:
+static func quick_point_test(_source:Node3D, point:Vector3, ignoreArray, mask:int) -> Array:
 	var space = _source.get_world().direct_space_state
 	# doesn't exist :(
 	return space.intersect_point(point, 32, ignoreArray, mask, true, true)
@@ -421,8 +421,8 @@ static func join_strings(stringArr, separator:String) -> String:
 # Split a string by spaces and tabs eg "foo bar" becomes
 # ["foo", "bar"]
 # TODO add support for quotes.
-static func tokenise(_text:String, quoteChar:String = "\"") -> PoolStringArray:
-	var tokens: PoolStringArray = []
+static func tokenise(_text:String, quoteChar:String = "\"") -> PackedStringArray:
+	var tokens: PackedStringArray = []
 	var _len:int = _text.length()
 	if _len == 0:
 		return tokens
@@ -471,29 +471,40 @@ static func tokenise(_text:String, quoteChar:String = "\"") -> PoolStringArray:
 # files
 #####################################
 
+static func append_extension(fileName:String, extension:String) -> String:
+	if fileName.ends_with(extension):
+		return fileName
+	if !extension.begins_with("."):
+		extension = "." + extension
+	return fileName + extension
+
 static func does_file_exist(path:String) -> bool:
-	var file = File.new()
-	return file.file_exists(path)
+	return FileAccess.file_exists(path)
 
 static func does_dir_exist(path:String) -> bool:
-	var dir = Directory.new()
-	return dir.dir_exists(path)
+	return DirAccess.dir_exists_absolute(path)
 
 static func make_dir(path:String) -> void:
-	var dir = Directory.new()
-	if !dir.dir_exists(path):
-		dir.make_dir(path)
+	if !DirAccess.dir_exists_absolute(path):
+		DirAccess.make_dir_absolute(path)
 
-static func get_files_in_directory(path:String, extension:String):
-	var files = []
-	var dir = Directory.new()
-	var err = dir.open(path)
-	if err != 0:
-		print("Error " + str(err) + " finding files in " + path)
-		return files
-	dir.list_dir_begin(true)
-	while true:
-		var file = dir.get_next()
+static func find_all_files_with_extension(path:String, results:Dictionary, extension:String) -> void:
+	if path.begins_with('res:///.'):
+		return
+	#print("Searching path " + path)
+	var files:PackedStringArray = DirAccess.get_files_at(path)
+	var dirs:PackedStringArray = DirAccess.get_directories_at(path)
+	for fileName in files:
+		#print("\tFile " + fileName)
+		if fileName.ends_with(extension):
+			results[path + "/" + fileName] = 0
+	for dir in dirs:
+		find_all_files_with_extension(path + "/" + dir, results, extension)
+
+static func get_files_in_directory(path:String, extension:String) -> PackedStringArray:
+	var files:PackedStringArray = PackedStringArray()
+	var paths:PackedStringArray = DirAccess.get_files_at(path)
+	for file in paths:
 		if file == "":
 			break;
 		if file == "." || file == "..":
@@ -501,29 +512,113 @@ static func get_files_in_directory(path:String, extension:String):
 		if !file.ends_with(extension):
 			continue;
 		files.push_back(file)
-	dir.list_dir_end()
 	return files
+
+static func get_directories_at(path:String) -> PackedStringArray:
+	return DirAccess.get_directories_at(path)
+
+static func dict_to_json(_dict:Dictionary) -> String:
+	return JSON.stringify(_dict)
+#	var j:JSON = JSON.new()
+#	return j.stringify(_dict)
+
+static func load_file_text(_path:String) -> String:
+	if !FileAccess.file_exists(_path):
+		print("No file " + str(_path) + " to load")
+		return ""
+	var file = FileAccess.open(_path, FileAccess.READ)
+	var txt:String = file.get_as_text()
+	file.close()
+	return txt
+
+static func write_file_text(_path:String, text:String) -> int:
+	var file = FileAccess.open(_path, FileAccess.WRITE)
+	if file == null:
+		return 1
+	file.store_string(text)
+	file.close()
+	return 0
+
+static func load_from_json(json:String) -> Variant:
+	if json == null || json == "":
+		return null
+	var j:JSON = JSON.new()
+	var error = j.parse(json)
+	if error == OK:
+		var data = j.get_data()
+		return data
+	else:
+		return null
+
+static func load_dict_from_json(json:String) -> Dictionary:
+	if json == null || json == "":
+		return {}
+	var j:JSON = JSON.new()
+	var error = j.parse(json)
+	if error == OK:
+		var data = j.get_data()
+		if typeof(data) != TYPE_DICTIONARY:
+			#print("Expected a dictionary from json" + str(_path))
+			return {}
+		return data as Dictionary
+	else:
+		return {}
 
 # if returned dictionary is falsy, the file wasn't loaded
 static func load_dict_json_file(_path:String) -> Dictionary:
-	var file = File.new()
-	if !file.file_exists(_path):
-		print("No file " + str(_path) + " to load")
+	var json:String = load_file_text(_path)
+	if json == "":
 		return {}
-	file.open(_path, File.READ)
-	var data = parse_json(file.get_as_text())
-	file.close()
-	return data
+	return load_dict_from_json(json)
+	# if !FileAccess.file_exists(_path):
+	# 	print("No file " + str(_path) + " to load")
+	# 	return {}
+	# var file = FileAccess.open(_path, FileAccess.READ)
+	# var j:JSON = JSON.new()
+	# var error = j.parse(file.get_as_text())
+	# if error == OK:
+	# 	var data = j.get_data()
+	# 	if typeof(data) != TYPE_DICTIONARY:
+	# 		print("Expected a dictionary from json" + str(_path))
+	# 		return {}
+	# 	return data as Dictionary
+	# else:
+	# 	return {}
 
 static func write_dict_json_file(_folder:String, _fileName:String, _dict:Dictionary) -> String:
 	make_dir(_folder)
 	var path:String = _folder + _fileName
-	var file = File.new()
-	var err = file.open(path, File.WRITE)
-	if err != 0:
-		return "Write dict json error " + str(err) + " opening " + path
-	file.store_string(to_json(_dict))
-	file.close()
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		return "Write dict json error opening " + path
+	var json:String = JSON.stringify(_dict)
+	file.store_string(json)
+	return ""
+
+static func write_dict_json_to_path(path:String, _dict:Dictionary) -> String:
+	make_dir(path.get_base_dir())
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		return "Write dict json error opening " + path
+	var json:String = JSON.stringify(_dict)
+	file.store_string(json)
+	return ""
+
+static func write_string_to_file(_folder:String, _fileName:String, _data:String) -> String:
+	make_dir(_folder)
+	var path:String = _folder + _fileName
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		return "Write string error opening " + path
+	file.store_string(_data)
+	return ""
+
+static func write_string_to_path(path:String, _data:String) -> String:
+	make_dir(path.get_base_dir())
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		return "Write string error opening " + path
+	file.store_string(_data)
 	return ""
 
 #####################################
@@ -536,11 +631,14 @@ static func is_running_in_editor() -> bool:
 static func is_web_build() -> bool:
 	return OS.get_name() == "HTML5"
 
-static func get_window_to_screen_ratio() -> Vector2:
-	var real: Vector2 = OS.get_real_window_size()
-	var scr: Vector2 = OS.get_screen_size()
-	var result: Vector2 = Vector2(real.x / scr.x, real.y / scr.y)
+static func get_window_to_screen_ratio(windowIndex:int = 0) -> Vector2:
+	var screen: Vector2 = DisplayServer.screen_get_size()
+	var window: Vector2 = DisplayServer.window_get_size(windowIndex)
+	var result: Vector2 = Vector2(window.x / screen.x, window.y / screen.y)
 	return result
+
+static func set_target_fps(target:int) -> void:
+	Engine.max_fps = target
 
 #####################################
 # 3D sprite directions
@@ -561,13 +659,13 @@ static func angle_index(degrees:float, numIndices:int) -> int:
 
 static func positions_to_sprite_degrees(camPos:Vector3, selfPos:Vector3, yawDegrees:float) -> float:
 	var toDegrees:float = atan2(camPos.z - selfPos.z, camPos.x - selfPos.x)
-	toDegrees = rad2deg(toDegrees)
+	toDegrees = rad_to_deg(toDegrees)
 	toDegrees += 90
 	toDegrees += yawDegrees
 	# toDegrees = cap_degrees(toDegrees)
 	return toDegrees
 
-static func sprite_index(cam:Transform, obj:Transform, yawDegrees:float, numIndices:int) -> int:
+static func sprite_index(cam:Transform3D, obj:Transform3D, yawDegrees:float, numIndices:int) -> int:
 	var camPos:Vector3 = cam.origin
 	var selfPos:Vector3 = obj.origin
 	var degrees:float = positions_to_sprite_degrees(camPos, selfPos, yawDegrees)

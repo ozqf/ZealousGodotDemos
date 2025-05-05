@@ -3,18 +3,18 @@ class_name OptionsMenu
 
 signal menu_navigate(name)
 
-onready var _invertedY:CheckBox = $VBoxContainer/inverted_mouse/CheckBox
-onready var _sensitivity:LineEdit = $VBoxContainer/mouse_sensitivity/LineEdit
+@onready var _invertedY:CheckBox = $VBoxContainer/inverted_mouse/CheckBox
+@onready var _sensitivity:LineEdit = $VBoxContainer/mouse_sensitivity/LineEdit
 
-onready var _windowed:CheckBox = $VBoxContainer/windowed/CheckBox
-onready var _vsync:CheckBox = $VBoxContainer/vsync/CheckBox
-onready var _fovLabel:Label = $VBoxContainer/fov/Label
-onready var _fov:HSlider = $VBoxContainer/fov/HSlider
-onready var _targetFPSLabel:Label = $VBoxContainer/target_fps/Label
-onready var _targetFPS:HSlider = $VBoxContainer/target_fps/HSlider
+@onready var _windowed:CheckBox = $VBoxContainer/windowed/CheckBox
+@onready var _vsync:CheckBox = $VBoxContainer/vsync/CheckBox
+@onready var _fovLabel:Label = $VBoxContainer/fov/Label
+@onready var _fov:HSlider = $VBoxContainer/fov/HSlider
+@onready var _targetFPSLabel:Label = $VBoxContainer/target_fps/Label
+@onready var _targetFPS:HSlider = $VBoxContainer/target_fps/HSlider
 
-onready var _sfx:HSlider = $VBoxContainer/sound_volume/HSlider
-onready var _bgm:HSlider = $VBoxContainer/music_volume/HSlider
+@onready var _sfx:HSlider = $VBoxContainer/sound_volume/HSlider
+@onready var _bgm:HSlider = $VBoxContainer/music_volume/HSlider
 
 func _ready() -> void:
 	var _f = $VBoxContainer/back.connect("pressed", self, "_on_back")

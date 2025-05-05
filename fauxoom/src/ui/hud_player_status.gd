@@ -1,15 +1,15 @@
 extends Node
 
 # left side - immediate status
-onready var _healthCount:Label = $player_status/health/count
-onready var _energyCount:Label = $player_status/energy/count
-onready var _ammoCount:Label = $player_status/ammo/count
-onready var _rageCount:Label = $player_status/rage/count
-onready var _hyperTime:TextureProgress = $hyper_time
-onready var _bg:ColorRect = $bg
+@onready var _healthCount:Label = $player_status/health/count
+@onready var _energyCount:Label = $player_status/energy/count
+@onready var _ammoCount:Label = $player_status/ammo/count
+@onready var _rageCount:Label = $player_status/rage/count
+@onready var _hyperTime:TextureProgress = $hyper_time
+@onready var _bg:ColorRect = $bg
 
-onready var _healthLabel:Label = $player_status/health/Label
-onready var _rageLabel:Label = $player_status/rage/Label
+@onready var _healthLabel:Label = $player_status/health/Label
+@onready var _rageLabel:Label = $player_status/rage/Label
 
 const PICKUP_GLOW_TIME:float = 1.0
 

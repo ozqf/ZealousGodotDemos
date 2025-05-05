@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://csav8oxi8bfei"]
+
+[ext_resource type="Shader" uid="uid://b26vn35jdwoya" path="res://test_05_colony_drizzle/assets/terrain_shader.gdshader" id="1_v84vv"]
+[ext_resource type="Texture2D" uid="uid://cxs0xv3tu6lr4" path="res://test_05_colony_drizzle/assets/terrain_albedo.tres" id="2_w0xmp"]
+[ext_resource type="Texture2D" uid="uid://dnnjj4affmnyb" path="res://test_05_colony_drizzle/assets/terrain_heightmap.tres" id="2_yuilb"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_v84vv")
+shader_parameter/heightLimit = 15.0
+shader_parameter/heightMap = ExtResource("2_yuilb")
+shader_parameter/albedo = ExtResource("2_w0xmp")

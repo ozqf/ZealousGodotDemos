@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 const Enums = preload("res://src/enums.gd")
 
@@ -13,7 +13,7 @@ var verboseMobs:bool = false
 var _navAgent_t = preload("res://src/defs/nav_agent.gd")
 var _aiTickInfo_t = preload("res://src/defs/ai_tick_info.gd")
 
-onready var _testNavDest:Spatial = $test_nav_dest
+@onready var _testNavDest:Node3D = $test_nav_dest
 
 # Other services
 var _entRoot:Entities = null
@@ -58,7 +58,7 @@ func _ready():
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.INFLUENCE_GROUP)
 
-func console_on_exec(_txt: String, _tokens:PoolStringArray) -> void:
+func console_on_exec(_txt: String, _tokens:PackedStringArray) -> void:
 	if _txt == "ainodes":
 		print("=== AI Nodes ===")
 		for _i in range(0, _tacticNodes.size()):
@@ -308,10 +308,10 @@ func find_closest_navmesh_point(to:Vector3) -> Vector3:
 		return Vector3()
 	return _navService.get_closest_point(to)
 
-func get_path_to_point(from:Vector3, to:Vector3) -> PoolVector3Array:
+func get_path_to_point(from:Vector3, to:Vector3) -> PackedVector3Array:
 	if _navService == null:
 		# err... panic I guess
-		var result:PoolVector3Array = PoolVector3Array()
+		var result:PackedVector3Array = PackedVector3Array()
 		result.push_back(from)
 		result.push_back(to)
 		return result
@@ -336,7 +336,7 @@ func get_path_for_agent(agent:NavAgent) -> bool:
 	# debug_path(agent.path)
 	return true
 
-func debug_path(path:PoolVector3Array) -> void:
+func debug_path(path:PackedVector3Array) -> void:
 	# clear current nodes
 	for i in range(0, _debugPathPoints.size()):
 		_debugPathPoints[i].queue_free()
@@ -378,7 +378,7 @@ func check_player_in_front(origin:Vector3, yawDegrees:float) -> bool:
 	if !has_valid_player():
 		return false
 	var dest = _player.get_targetting_info().position
-	var yawToPlayer:float = rad2deg(ZqfUtils.yaw_between(dest, origin))
+	var yawToPlayer:float = rad_to_deg(ZqfUtils.yaw_between(dest, origin))
 	yawDegrees = ZqfUtils.cap_degrees(yawDegrees - 90)
 	yawToPlayer = ZqfUtils.cap_degrees(yawToPlayer)
 	# var diff1:float = yawToPlayer - yawDegrees
@@ -389,10 +389,10 @@ func check_player_in_front(origin:Vector3, yawDegrees:float) -> bool:
 		return true
 	return false
 
-func mob_check_target_old(_current:Spatial) -> Spatial:
+func mob_check_target_old(_current:Node3D) ->Node3D:
 	if !has_valid_player():
 		return null
-	return _player as Spatial
+	return _player asNode3D
 
 func mob_check_target() -> Dictionary:
 	if !has_valid_player():

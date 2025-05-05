@@ -6,7 +6,7 @@ const FN_ADD_OBJECTIVE:String = "objectives_add"
 const FN_REMOVE_OBJECTIVE:String = "objectives_remove"
 const FN_CLEAR_OBJECTIVES:String = "objectives_clear"
 
-onready var _text:Label = $VBoxContainer/Label
+@onready var _text:Label = $VBoxContainer/Label
 
 var _objectiveStrings = []
 

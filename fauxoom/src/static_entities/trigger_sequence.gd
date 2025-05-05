@@ -1,13 +1,13 @@
-extends Spatial
+extends Node3D
 
 const Enums = preload("res://src/enums.gd")
 
-onready var _ent:Entity = $Entity
+@onready var _ent:Entity = $Entity
 
-export var selfName:String = ""
-export var triggerTargetName:String = ""
-export var waitSeconds:float = 0
-export var targetsPerTrigger:int = 1
+@export var selfName:String = ""
+@export var triggerTargetName:String = ""
+@export var waitSeconds:float = 0
+@export var targetsPerTrigger:int = 1
 
 var _targets = []
 
@@ -18,7 +18,7 @@ var _index:int = 0
 
 export(Enums.SequenceOrder) var type = Enums.SequenceOrder.Linear
 
-export var intParameter1:int = 0
+@export var intParameter1:int = 0
 
 func _ready() -> void:
 	add_to_group(Groups.ENTS_GROUP_NAME)
@@ -36,7 +36,7 @@ func on_trigger(_msg:String, _params:Dictionary) -> void:
 		return
 	if waitSeconds <= 0:
 		if type == Enums.SequenceOrder.Random:
-			var i:int = int(rand_range(0, _targets.size()))
+			var i:int = int(randf_range(0, _targets.size()))
 			Interactions.triggerTargets(get_tree(), _targets[i])
 		elif type == Enums.SequenceOrder.Linear:
 			var i:int = _index

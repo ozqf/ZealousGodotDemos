@@ -1,4 +1,4 @@
-extends KinematicBody
+extends CharacterBody3D
 
 var _speed:float = 5.0
 

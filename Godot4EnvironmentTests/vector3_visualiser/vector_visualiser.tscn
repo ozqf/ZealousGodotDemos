@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyv8u102d5dam"]
+
+[ext_resource type="PackedScene" uid="uid://b8f4je4h763ov" path="res://vector3_visualiser/actor_gizmo.tscn" id="1_bqqap"]
+[ext_resource type="Script" uid="uid://dv5b6e3mduqjs" path="res://vector3_visualiser/vector3_visualiser.gd" id="1_lcf3w"]
+[ext_resource type="Script" uid="uid://b8et4d1o2d7n7" path="res://vector3_visualiser/player_mover.gd" id="3_mjk7n"]
+
+[node name="VectorVisualiser" type="Label"]
+offset_right = 561.0
+offset_bottom = 135.0
+script = ExtResource("1_lcf3w")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 3, 2)
+current = true
+
+[node name="player" parent="." instance=ExtResource("1_bqqap")]
+transform = Transform3D(-0.5, 0, 0.866026, 0, 1, 0, -0.866026, 0, -0.5, 1, 0, -1)
+script = ExtResource("3_mjk7n")
+
+[node name="mob_a" parent="." instance=ExtResource("1_bqqap")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -1, 0, 1)
+
+[node name="mob_b" parent="." instance=ExtResource("1_bqqap")]
+transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -2, 0, -1)

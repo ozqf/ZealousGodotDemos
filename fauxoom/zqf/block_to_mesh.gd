@@ -1,13 +1,13 @@
-extends Spatial
+extends Node3D
 class_name ZGUBlock2Mesh
 
-export var pixelsPerMetre:int = 64
-export var buildOnStart:bool = true
-export var verbose:bool = false
+@export var pixelsPerMetre:int = 64
+@export var buildOnStart:bool = true
+@export var verbose:bool = false
 
-export var wallMaterial:SpatialMaterial = null
-export var groundMaterial:SpatialMaterial = null
-export var ceilingMaterial:SpatialMaterial = null
+@export var wallMaterial:StandardMaterial3D = null
+@export var groundMaterial:StandardMaterial3D = null
+@export var ceilingMaterial:StandardMaterial3D = null
 
 var groundMesh = null
 var ceilingMesh = null
@@ -20,7 +20,7 @@ var _ceilingTexSize:Vector2 = Vector2(32, 32)
 func _ready() -> void:
 	if verbose:
 		print("--- Block 2 mesh ready ---")
-	groundMesh = MeshInstance.new()
+	groundMesh = MeshInstance3D.new()
 	groundMesh.script = load("res://zqf/mesh_generator.gd")
 	add_child(groundMesh)
 	if groundMaterial != null:
@@ -31,7 +31,7 @@ func _ready() -> void:
 		_groundTexSize.y = groundMaterial.albedo_texture.get_height()
 		print("ground tex size: " + str(_groundTexSize.x) + ", " + str(_groundTexSize.y))
 	
-	ceilingMesh = MeshInstance.new()
+	ceilingMesh = MeshInstance3D.new()
 	ceilingMesh.script = load("res://zqf/mesh_generator.gd")
 	add_child(ceilingMesh)
 	if ceilingMaterial != null:
@@ -42,7 +42,7 @@ func _ready() -> void:
 		_ceilingTexSize.y = ceilingMaterial.albedo_texture.get_height()
 		print("ceiling tex size: " + str(_ceilingTexSize.x) + ", " + str(_ceilingTexSize.y))
 	
-	sidesMesh = MeshInstance.new()
+	sidesMesh = MeshInstance3D.new()
 	sidesMesh.script = load("res://zqf/mesh_generator.gd")
 	add_child(sidesMesh)
 	if wallMaterial != null:
@@ -56,8 +56,8 @@ func _ready() -> void:
 	if buildOnStart:
 		build()
 
-func _cube_tris(size:float) -> PoolVector3Array:
-	var tris:PoolVector3Array = PoolVector3Array()
+func _cube_tris(size:float) -> PackedVector3Array:
+	var tris:PackedVector3Array = PackedVector3Array()
 	
 	# front quad
 	tris.push_back(Vector3(-size, -size, size))
@@ -73,12 +73,12 @@ func _cube_tris(size:float) -> PoolVector3Array:
 
 	return tris
 
-func gather_nodes(root:Spatial, resultsArray) -> void:
+func gather_nodes(root:Node3D, resultsArray) -> void:
 	# if root.has_method("is_invisible_wall"):
 	if root is ZGUInvisibleWall:
 		return
 	var numChildren:int = root.get_child_count()
-	if numChildren == 0 || root is MeshInstance:
+	if numChildren == 0 || root is MeshInstance3D:
 		resultsArray.push_back(root)
 		return
 	for _i in range(0, numChildren):
@@ -105,22 +105,24 @@ func build() -> void:
 	var triSize:float = 0.5
 
 	for _i in range(0, numVolumes):
-		# var child:Spatial = volumesNode.get_child(_i)
-		var child:Spatial = volumes[_i]
+		# var child:Node3D = volumesNode.get_child(_i)
+		var child:Node3D = volumes[_i]
 		if verbose:
 			print("Adding volume " + str(_i) + ": " + child.name)
 		child.visible = false
-		var t:Transform = child.global_transform
+		var t:Transform3D = child.global_transform
 		var pos:Vector3 = t.origin
 		var rot:Basis = t.basis
 		
-		var tris = _cube_tris(triSize)
+		var tris:PackedVector3Array = _cube_tris(triSize)
 		# transform
-		for _j in range(0, tris.size()):
-			tris[_j] = rot.xform(tris[_j]) + pos
 		
-		if (child is MeshInstance):
-			var _mesh:MeshInstance = child as MeshInstance
+		for _j in range(0, tris.size()):
+			tris[_j] = tris[_j] * rot + pos
+			#tris[_j] = rot.xform(tris[_j]) + pos
+		
+		if (child is MeshInstance3D):
+			var _mesh:MeshInstance3D = child as MeshInstance3D
 		
 		# TODO - a proper pixels-per-metre implementation here!
 		

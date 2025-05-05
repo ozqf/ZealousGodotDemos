@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/punk_pain.wav-2f13f71de5b3355d522ff305d4c72439.sample"
+type="AudioStreamWAV"
+uid="uid://biqby04cgrv4d"
+path="res://.godot/imported/punk_pain.wav-2f13f71de5b3355d522ff305d4c72439.sample"
 
 [deps]
 
 source_file="res://assets/sounds/mob/punk/punk_pain.wav"
-dest_files=[ "res://.import/punk_pain.wav-2f13f71de5b3355d522ff305d4c72439.sample" ]
+dest_files=["res://.godot/imported/punk_pain.wav-2f13f71de5b3355d522ff305d4c72439.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

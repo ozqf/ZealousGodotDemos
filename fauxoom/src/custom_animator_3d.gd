@@ -1,12 +1,12 @@
 extends AnimatedSprite3D
 class_name CustomAnimator3D
 
-export var active:bool = false
-export var useParentYaw:bool = false
-export var animationSet:String = ""
-export var defaultAnimation:String = ""
+@export var active:bool = false
+@export var useParentYaw:bool = false
+@export var animationSet:String = ""
+@export var defaultAnimation:String = ""
 
-var _yawOverride:Spatial = null
+var _yawOverride:Node3D = null
 
 var _frameRate:float = 5
 var _tick:float = 0
@@ -26,7 +26,7 @@ var yawDegrees:float = 0
 func _ready() -> void:
 	change_set_and_animation(animationSet, defaultAnimation)
 
-func set_yaw_override(yawSourceOverride:Spatial) -> void:
+func set_yaw_override(yawSourceOverride:Node3D) -> void:
 	_yawOverride = yawSourceOverride
 
 # returns true if animation was successfully changed
@@ -65,7 +65,7 @@ func set_frame_number(val:int) -> void:
 	_frame = val
 
 func _calc_dir_index() -> int:
-	var cam:Transform = Main.get_camera_pos()
+	var cam:Transform3D = Main.get_camera_pos()
 	if _yawOverride != null:
 		yawDegrees = _yawOverride.rotation_degrees.y
 	elif useParentYaw:

@@ -1,24 +1,24 @@
- extends Node
+extends Node
 class_name InvWeapon
 
 signal weapon_action(weapon, actionName)
 
-export var damageType:int = 0
-export var hudName:String = ""
-export var inventoryType:String = ""
-export var ammoType:String = ""
-export var ammoPerShot:int = 1
-export var slot:int = 1
+@export var damageType:int = 0
+@export var hudName:String = ""
+@export var inventoryType:String = ""
+@export var ammoType:String = ""
+@export var ammoPerShot:int = 1
+@export var slot:int = 1
 
-export var refireTime:float = 0.25
+@export var refireTime:float = 0.25
 
-export var idle:String = ""
-export var fire_1:String = ""
-export var reload:String = ""
-export var empty:String = ""
+@export var idle:String = ""
+@export var fire_1:String = ""
+@export var reload:String = ""
+@export var empty:String = ""
 
-export var akimbo:bool = false
-export var heaviness:int = 0
+@export var akimbo:bool = false
+@export var heaviness:int = 0
 
 var chargeUIMode:int = 0
 
@@ -26,7 +26,7 @@ var chargeUIMode:int = 0
 var _hudSprite:HudWeaponSprite
 
 var _equipped:bool = false
-var _launchNode:Spatial = null
+var _launchNode:Node3D = null
 var _ignoreBody = []
 var _hud = null
 # want to strongly type but can't
@@ -41,7 +41,7 @@ var hyperLevel:int = 0
 #########################################
 # init and select/deselect logic
 #########################################
-func custom_init(inventory, launchNode:Spatial, ignoreBody:PhysicsBody, hud) -> void:
+func custom_init(inventory, launchNode:Node3D, ignoreBody:PhysicsBody3D, hud) -> void:
 	_launchNode = launchNode
 	_inventory = inventory
 	_ignoreBody = [ ignoreBody ]

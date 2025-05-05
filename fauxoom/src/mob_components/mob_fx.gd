@@ -1,6 +1,6 @@
-extends Spatial
+extends Node3D
 
-onready var _woundedParticles = $wounded_spurt
+@onready var _woundedParticles = $wounded_spurt
 var _sprite:AnimatedSprite3D = null
 
 var _mob

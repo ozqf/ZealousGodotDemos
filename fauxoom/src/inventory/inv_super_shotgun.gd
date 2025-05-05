@@ -12,7 +12,7 @@ var _ssgClose:AudioStream = preload("res://assets/sounds/ssg/ssg_close.wav")
 
 var _currentAnimFrame:int = 0
 var _lastSoundFrame:int = -1
-var _brassNode:Spatial
+var _brassNode:Node3D
 var _prjMask:int = -1
 
 func custom_init_b() -> void:
@@ -55,15 +55,15 @@ func _fire_grenade() -> void:
 
 func _fire(hyper:bool) -> void:
 	tick = refireTime
-	var t:Transform = _launchNode.global_transform
+	var t:Transform3D = _launchNode.global_transform
 	var randSpreadX:float = 1700
 	var randSpreadY:float = 600
 	if hyper:
 		randSpreadX = 1000
 		randSpreadY = 300
 	for _i in range(0, PELLET_COUNT):
-		var spreadX:float = rand_range(-randSpreadX, randSpreadX)
-		var spreadY:float = rand_range(-randSpreadY, randSpreadY)
+		var spreadX:float = randf_range(-randSpreadX, randSpreadX)
+		var spreadY:float = randf_range(-randSpreadY, randSpreadY)
 		var forward:Vector3 = ZqfUtils.calc_forward_spread_from_basis(t.origin, t.basis, spreadX, spreadY)
 		if hyper:
 			_fire_flak(t.origin, forward)

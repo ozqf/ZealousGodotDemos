@@ -7,7 +7,7 @@ const REMOVE_LOCK_FN:String = "on_remove_mouse_claim"
 const DEBUG_LOCK_FN:String = "on_debug_mouse_claims"
 
 # all claims should be unique!
-var _claims:PoolStringArray = []
+var _claims:PackedStringArray = []
 
 static func add_claim(t:SceneTree, claim:String) -> void:
 	if t == null:

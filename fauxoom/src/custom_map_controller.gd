@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 class_name CustomMapLoader
 
 var _prefab_ground = preload("res://prefabs/grid_map/ground_tile.tscn")
@@ -32,7 +32,7 @@ func _ready() -> void:
 		_map = AsciMapLoader.build_test_map()
 	$map_gen.build_world_map(_map)
 
-func console_on_exec(txt:String, _tokens:PoolStringArray) -> void:
+func console_on_exec(txt:String, _tokens:PackedStringArray) -> void:
 	if txt == "complete":
 		get_tree().call_group(Groups.GAME_GROUP_NAME, Groups.GAME_FN_LEVEL_COMPLETED)
 
@@ -54,10 +54,10 @@ func game_on_player_died(_info:Dictionary) -> void:
 
 func _orbit_camera(_delta:float) -> void:
 	_orbitDegrees += _orbitRate * _delta
-	var cam:Camera = $map_gen/Camera
+	var cam:Camera3D = $map_gen/Camera
 	if cam == null:
 		return
-	var radians:float = deg2rad(_orbitDegrees)
+	var radians:float = deg_to_rad(_orbitDegrees)
 	var _radius:float = _map.width + _map.height
 	var pos:Vector3 = Vector3()
 	var centre:Vector3 = _map.centre()
@@ -74,9 +74,9 @@ func spawn_entities() -> void:
 	var posOffset:Vector3 = Vector3(_map.scale * 0.5, 0, _map.scale * 0.5)
 	for i in range(0, numEnts):
 		var spawn:MapSpawnDef = _map.spawns[i]
-		var t:Transform = Transform.IDENTITY
+		var t:Transform3D = Transform3D.IDENTITY
 		# rotate then translate
-		t = t.rotated(Vector3.UP, deg2rad(spawn.yaw))
+		t = t.rotated(Vector3.UP, deg_to_rad(spawn.yaw))
 		t.origin = spawn.position * _map.scale
 		t.origin += posOffset
 		t.origin.y = -1
@@ -96,7 +96,7 @@ func spawn_entities() -> void:
 
 #func game_on_load_base64(b64:String) -> void:
 #	print("grid_map load from " + str(b64.length()) + " base64 chars")
-#	var bytes:PoolByteArray = Marshalls.base64_to_raw(b64)
+#	var bytes:PackedByteArray = Marshalls.base64_to_raw(b64)
 #	print("Read " + str(bytes.size()) + " bytes")
 #	MapEncoder.b64_to_map(b64)
 		

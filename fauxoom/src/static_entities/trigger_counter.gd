@@ -1,14 +1,14 @@
-extends Spatial
+extends Node3D
 class_name TriggerCounter
 
 signal trigger()
 
-onready var _ent:Entity = $Entity
+@onready var _ent:Entity = $Entity
 
-export var triggerTargetName:String = ""
-export var active:bool = true
+@export var triggerTargetName:String = ""
+@export var active:bool = true
 
-export var totalCount:int = 1
+@export var totalCount:int = 1
 
 var _currentCount:int = 0
 

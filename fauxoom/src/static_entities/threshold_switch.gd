@@ -1,13 +1,13 @@
-extends Spatial
+extends Node3D
 
 enum ThresholdSwitchState {
 	Active,
 	Complete
 }
 
-onready var _hitBox:Spatial = $hitbox
-onready var _ent:Entity = $Entity
-onready var _particles = $Particles
+@onready var _hitBox:Node3D = $hitbox
+@onready var _ent:Entity = $Entity
+@onready var _particles = $Particles
 
 var _state = ThresholdSwitchState.Active
 var _damageTally:float = 0

@@ -38,7 +38,7 @@ func _fire_regular() -> void:
 func _fire_special() -> void:
 	_hitInfo.hyperLevel = 1
 	tick = refireTime
-	var t:Transform = _launchNode.global_transform
+	var t:Transform3D = _launchNode.global_transform
 	var origin:Vector3 = t.origin
 	var scale:float = 1000
 	var result:Dictionary = ZqfUtils.quick_hitscan3D(_launchNode, scale, ZqfUtils.EMPTY_ARRAY, Interactions.WORLD)

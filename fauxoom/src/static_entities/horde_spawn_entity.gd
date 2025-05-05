@@ -1,22 +1,22 @@
 # simple entity wrapper for a horde spawner
-extends Spatial
+extends Node3D
 
 const Enums = preload("res://src/enums.gd")
 
-# onready var _spawner:HordeSpawnComponent = $logic
-onready var _ent:Entity = $Entity
+# @onready var _spawner:HordeSpawnComponent = $logic
+@onready var _ent:Entity = $Entity
 
-export var triggerName:String = ""
-export var triggerTargetName:String = ""
+@export var triggerName:String = ""
+@export var triggerTargetName:String = ""
 
-export var positionsSiblingName:String = ""
-export var positionsFilter:String = ""
+@export var positionsSiblingName:String = ""
+@export var positionsFilter:String = ""
 
 export(Enums.EnemyType) var type = Enums.EnemyType.Punk
 
-export var tickMax:float = 2
-export var totalMobs:int = 4
-export var maxLiveMobs:int = 2
+@export var tickMax:float = 2
+@export var totalMobs:int = 4
+@export var maxLiveMobs:int = 2
 
 export(Enums.SequenceOrder) var order = Enums.SequenceOrder.Random
 
@@ -127,14 +127,14 @@ func _process(_delta:float) -> void:
 func set_spawn_points(newTransformsArray) -> void:
 	_spawnPoints = newTransformsArray
 
-func pick_spawn_point() -> Transform:
+func pick_spawn_point() -> Transform3D:
 	var numPoints:int = _spawnPoints.size()
 	if numPoints == 0:
 		return self.global_transform
 	else:
 		var _i:int = 0
 		if order == Enums.SequenceOrder.Random:
-			_i = int(rand_range(0, numPoints))
+			_i = int(randf_range(0, numPoints))
 		else:
 			_i = _spawnPointIndex
 			_spawnPointIndex += 1
@@ -143,7 +143,7 @@ func pick_spawn_point() -> Transform:
 		return _spawnPoints[_i]
 
 func _spawn_child() -> void:
-	var t:Transform = pick_spawn_point()
+	var t:Transform3D = pick_spawn_point()
 	# print("Horde spawn - spawn child at " + str(t.origin))
 	var mob = Ents.create_mob_by_enum(type, t, true)
 	var _childId:int = mob.get_node("Entity").id
@@ -157,7 +157,7 @@ func _check_if_finished() -> void:
 		if triggerTargetName != "":
 			Interactions.triggerTargets(get_tree(), triggerTargetName)
 
-func _on_mob_died(_mob) -> void:
+func on_mob_died(_mob) -> void:
 	_liveMobs -= 1
 	_deadMobs += 1
 	# print("Mob death: " + str(_deadMobs) + " dead vs " + str(totalMobs) + " max")

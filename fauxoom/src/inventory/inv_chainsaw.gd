@@ -4,8 +4,8 @@ const REV_UP_TIME:float = 2.0
 const REV_DOWN_TIME:float = 4.0
 const ATTACK_REFIRE_TIME:float = 0.25
 
-export var empty_animation:String = ""
-export var _isAttacking:bool = false
+@export var empty_animation:String = ""
+@export var _isAttacking:bool = false
 
 enum State { Idle, Sawing, Launched, Recalling, MeleeRecover }
 
@@ -25,15 +25,15 @@ func custom_init_b() -> void:
 	_hudSprite.play(idle)
 
 func equip() -> void:
-	.equip()
+	super.equip()
 	#_hudSprite.offset.y = -60
 	if _state == State.Launched || _state == State.Recalling:
-		.play_empty()
+		super.play_empty()
 	else:
 		_hudSprite.play(idle)
 
 func deequip() -> void:
-	.deequip()
+	super.deequip()
 	if is_instance_valid(_thrown):
 		_thrown.user_switched_weapon()
 	#_hudSprite.offset.y = 0
@@ -61,7 +61,7 @@ func change_state(newState) -> void:
 		_hudSprite.play("saw_thrown")
 		_hudSprite.run_shoot_push()
 	elif _state == State.Recalling:
-		.play_empty()
+		super.play_empty()
 	elif _state == State.MeleeRecover:
 		return
 	else:
@@ -75,7 +75,7 @@ func _perform_hit(_result:Dictionary, _forward:Vector3) -> int:
 		_hitInfo.hyperLevel = 1
 	else:
 		_hitInfo.hyperLevel = 0
-	var inflicted:int = ._perform_hit(_result, _forward)
+	var inflicted:int = super._perform_hit(_result, _forward)
 	if inflicted > 0:
 		if canHyper:
 			_inventory.take_item("rage", 10)

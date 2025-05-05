@@ -1,17 +1,20 @@
 [remap]
 
 importer="texture_atlas"
-type="Texture"
-path="res://.import/player_a6.png-dd3535bebf12dabba0ddf161422782e0.res"
+type="Texture2D"
+uid="uid://bfbrxpmeg3iq5"
+path="res://.godot/imported/player_a6.png-dd3535bebf12dabba0ddf161422782e0.res"
 group_file="res://atlases/player_atlas.png"
 valid=true
 [deps]
 
 
 source_file="res://assets/sprites/player/player_a6.png"
-dest_files=[ "res://.import/player_a6.png-dd3535bebf12dabba0ddf161422782e0.res" ]
+dest_files=["res://.godot/imported/player_a6.png-dd3535bebf12dabba0ddf161422782e0.res"]
 
 [params]
 
 atlas_file="res://atlases/player_atlas.png"
 import_mode=0
+crop_to_region=false
+trim_alpha_border_from_region=true

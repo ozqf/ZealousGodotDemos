@@ -1,10 +1,10 @@
 extends RigidBodyProjectile
 class_name PrjGrenade
 
-onready var _light:OmniLight = $OmniLight
-onready var _scanner:ZqfVolumeScanner = $volume_scanner
-onready var _particles = $particles
-onready var _area:Area = $Area
+@onready var _light:OmniLight = $OmniLight
+@onready var _scanner:ZqfVolumeScanner = $volume_scanner
+@onready var _particles = $particles
+@onready var _area:Area3D = $Area
 
 func _ready() -> void:
 	_area.connect("area_entered", self, "on_area_entered")
@@ -86,7 +86,7 @@ func move(_delta:float) -> void:
 	# _move_as_ray(_delta)
 	pass
 
-func on_area_entered(area:Area) -> void:
+func on_area_entered(area:Area3D) -> void:
 	if Interactions.is_obj_a_mob(area):
 		die()
 

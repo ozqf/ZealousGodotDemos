@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/waterfall.wav-9fa68bfd6fdbb999bb04e8c11f6ac7eb.sample"
+type="AudioStreamWAV"
+uid="uid://jhpothpx1kwi"
+path="res://.godot/imported/waterfall.wav-9fa68bfd6fdbb999bb04e8c11f6ac7eb.sample"
 
 [deps]
 
 source_file="res://assets/sounds/world/waterfall.wav"
-dest_files=[ "res://.import/waterfall.wav-9fa68bfd6fdbb999bb04e8c11f6ac7eb.sample" ]
+dest_files=["res://.godot/imported/waterfall.wav-9fa68bfd6fdbb999bb04e8c11f6ac7eb.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=true
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

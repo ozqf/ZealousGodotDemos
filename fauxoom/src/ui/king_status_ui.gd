@@ -1,8 +1,8 @@
 extends Control
 
-onready var _waveCount:Label = $wave_count_label
-onready var _mobsLabel:Label = $mob_stats_label
-onready var _totalSeconds:Label = $time_label
+@onready var _waveCount:Label = $wave_count_label
+@onready var _mobsLabel:Label = $mob_stats_label
+@onready var _totalSeconds:Label = $time_label
 
 func _ready() -> void:
 	self.visible = false

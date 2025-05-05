@@ -12,7 +12,7 @@ var _aoeType:int = 0
 var _duration:float = 0.0
 
 func _ready() -> void:
-	self.connect("scan_result", self, "on_scan_result")
+	self.connect("scan_result", on_scan_result)
 	pass
 
 func on_scan_result(bodies) -> void:
@@ -39,5 +39,5 @@ func run_hyper_aoe(aoeType:int, duration:float) -> void:
 	Game.get_dynamic_parent().add_child(shockwave)
 	shockwave.global_transform.origin = global_transform.origin
 	shockwave.run(15)
-	.run()
+	super.run()
 	_ticks = 30

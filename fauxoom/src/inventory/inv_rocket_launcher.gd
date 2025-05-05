@@ -23,7 +23,7 @@ func _fire_rocket() -> void:
 		rocket.get_hit_info().hyperLevel = 1
 	else:
 		rocket.get_hit_info().hyperLevel = 0
-	var t:Transform = _launchNode.global_transform
+	var t:Transform3D = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward = -t.basis.z
 	rocket.launch_prj(selfPos, forward, 1, Interactions.TEAM_PLAYER, _prjMask)
@@ -36,7 +36,7 @@ func _fire_rocket() -> void:
 func _fire_stasis_grenade() -> void:
 	var rocket = Game.get_factory().statis_grenade_t.instance()
 	Game.get_dynamic_parent().add_child(rocket)
-	var t:Transform = _launchNode.global_transform
+	var t:Transform3D = _launchNode.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward = -t.basis.z
 	rocket.launch_prj(selfPos, forward, 1, Interactions.TEAM_PLAYER, _prjMask)

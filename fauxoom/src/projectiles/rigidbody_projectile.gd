@@ -1,15 +1,15 @@
-extends RigidBody
+extends RigidBody3D
 class_name RigidBodyProjectile
 
-export var maxSpeed:float = 15.0
-export var timeToLive:float = 30
-export var spawnTime:float = 0
+@export var maxSpeed:float = 15.0
+@export var timeToLive:float = 30
+@export var spawnTime:float = 0
 
 # all projectiles have an animator
-onready var animator:CustomAnimator3D = $CustomAnimator3D
+@onready var animator:CustomAnimator3D = $CustomAnimator3D
 
 # these are optional - setup in _ready
-export var deathSpawnPrefab:Resource = null
+@export var deathSpawnPrefab:Resource = null
 
 enum ProjectileState {
 	Idle,
@@ -61,7 +61,7 @@ func triggered_detonate() -> void:
 	die()
 
 func _move_as_ray_2(_delta:float) -> void:
-	var t:Transform = global_transform
+	var t:Transform3D = global_transform
 	t.origin += (_velocity * _delta)
 	global_transform = t
 
@@ -80,7 +80,7 @@ func die() -> void:
 	if deathSpawnPrefab != null:
 		var velNormal:Vector3 = _velocity.normalized()
 		var instance = deathSpawnPrefab.instance()
-		var t:Transform = global_transform
+		var t:Transform3D = global_transform
 		t.origin -= velNormal * 0.3
 		instance.global_transform = t
 		get_parent().add_child(instance)
@@ -88,7 +88,7 @@ func die() -> void:
 
 # func _move_as_ray(_delta:float) -> void:
 
-# 	var t:Transform = global_transform
+# 	var t:Transform3D = global_transform
 # 	var origin:Vector3 = t.origin
 # 	ZqfUtils.look_at_safe(self, origin + _velocity)
 # 	# step backward slightly, or ray can sometimes penetrate walls...
@@ -157,7 +157,7 @@ func launch_prj(origin:Vector3, _forward:Vector3, sourceId:int, prjTeam:int, col
 	_hitInfo.sourceId = sourceId
 	_hitInfo.attackTeam = prjTeam
 	_hitInfo.damageType = 0
-	var t:Transform = global_transform
+	var t:Transform3D = global_transform
 	t.origin = origin
 	global_transform = t
 	_velocity = _forward * maxSpeed

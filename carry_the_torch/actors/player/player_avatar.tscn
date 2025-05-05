@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://bfbt2g2syrph0"]
 
-[ext_resource type="Script" path="res://actors/player/player_avatar.gd" id="1_54sqb"]
+[ext_resource type="Script" uid="uid://xwel3w76nkl3" path="res://actors/player/player_avatar.gd" id="1_54sqb"]
 [ext_resource type="PrismMesh" uid="uid://cic2drsd6q58u" path="res://actors/player/player_surface_gizmo_mesh.tres" id="2_1h3x1"]
 [ext_resource type="PackedScene" uid="uid://cwbf74qvu1swc" path="res://actors/player/player_camera_rig.tscn" id="2_ue83b"]
 [ext_resource type="Material" uid="uid://b51qsqy4tuj5m" path="res://actors/player/mat_camera_rig_debug.tres" id="3_insy7"]

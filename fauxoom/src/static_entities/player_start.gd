@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 const Enums = preload("res://src/enums.gd")
 
@@ -8,10 +8,10 @@ enum InventoryState {
 	All
 }
 
-export var delaySpawn:bool = true
+@export var delaySpawn:bool = true
 export(InventoryState) var inventoryState = InventoryState.Resume
 
-onready var _ent:Entity = $Entity
+@onready var _ent:Entity = $Entity
 var _hasSpawned:bool = false
 
 func _ready() -> void:
@@ -49,7 +49,7 @@ func game_run_map_spawns() -> void:
 func _exit_tree() -> void:
 	Game.deregister_player_start(self)
 
-func start_play(_dynamicParentNode:Spatial) -> void:
+func start_play(_dynamicParentNode:Node3D) -> void:
 	print("Player start - play")
 	_hasSpawned = true
 	#var def = Ents.get_prefab_def(Entities.PREFAB_PLAYER)

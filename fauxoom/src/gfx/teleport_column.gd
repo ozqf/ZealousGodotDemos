@@ -1,12 +1,12 @@
-extends Spatial
+extends Node3D
 class_name TeleportColumn
 
 const spinRate:float = 720.0
 
-onready var a:MeshInstance = $MeshInstance
-onready var b:MeshInstance = $MeshInstance2
-onready var c:MeshInstance = $MeshInstance3
-onready var d:MeshInstance = $MeshInstance4
+@onready var a:MeshInstance3D = $MeshInstance3D
+@onready var b:MeshInstance3D = $MeshInstance2
+@onready var c:MeshInstance3D = $MeshInstance3
+@onready var d:MeshInstance3D = $MeshInstance4
 
 var _duration:float = 2
 var _tick:float = 0
@@ -22,9 +22,9 @@ func run(duration:float) -> void:
 	_duration = duration
 	_tick = 0
 	if randf() > 0.5:
-		_spinDegreesPerSecond = rand_range(spinRate / 2, spinRate)
+		_spinDegreesPerSecond = randf_range(spinRate / 2, spinRate)
 	else:
-		_spinDegreesPerSecond = rand_range(-spinRate / 2, -spinRate)
+		_spinDegreesPerSecond = randf_range(-spinRate / 2, -spinRate)
 
 func append_state(dict:Dictionary) -> void:
 	dict.tpc_vis = visible

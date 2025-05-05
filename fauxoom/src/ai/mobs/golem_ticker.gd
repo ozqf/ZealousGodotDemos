@@ -1,7 +1,7 @@
 extends AITicker
 
-onready var _right:Spatial
-onready var _left:Spatial
+@onready var _right:Node3D
+@onready var _left:Node3D
 
 var _aiTickInfo:AITickInfo = null
 
@@ -52,4 +52,4 @@ func _fire_attack(attack:MobAttack, tarPos:Vector3) -> void:
 
 func _select_attack(_aiInfo:AITickInfo) -> int:
 	_aiTickInfo = _aiInfo
-	return ._select_attack(_aiInfo)
+	return super._select_attack(_aiInfo)

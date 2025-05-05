@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://byhvmaqgogsh2"]
+
+[ext_resource type="Texture2D" uid="uid://d1pwy5ngf46f0" path="res://test_04_sprite_mats/tex_overlay_noise.tres" id="1_osx3g"]
+
+[resource]
+blend_mode = 1
+albedo_color = Color(0, 1, 1, 0.596078)
+albedo_texture = ExtResource("1_osx3g")
+uv1_triplanar = true
+texture_filter = 2

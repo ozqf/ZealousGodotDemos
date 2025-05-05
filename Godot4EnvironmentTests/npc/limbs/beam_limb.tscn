@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cjm82c0wjsufw"]
 
-[ext_resource type="Script" path="res://npc/limbs/beam_limb.gd" id="1_bsrft"]
+[ext_resource type="Script" uid="uid://vxl278ryc3fa" path="res://npc/limbs/beam_limb.gd" id="1_bsrft"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_m5a1x"]
 size = Vector3(0.05, 0.05, 1)

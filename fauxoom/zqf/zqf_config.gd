@@ -6,7 +6,7 @@ const GROUP_FN_CHANGE:String = "config_changed"
 
 const ROOT_DIRECTORY:String = "user://cfg/"
 
-export var cfgName:String = "fauxoom"
+@export var cfgName:String = "fauxoom"
 
 # public... I got lazy :/
 var cfg:Dictionary = {

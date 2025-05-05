@@ -5,11 +5,11 @@ const EdEnums = preload("res://zqf_entity_editor/zee_enums.gd")
 var _prop_field_t = preload("res://zqf_entity_editor/ui/zee_ui_entity_field.tscn")
 var _prop_field_special_t = preload("res://zqf_entity_editor/ui/zee_ui_entity_field_special.tscn")
 
-onready var _nameInput:ZEEUIField = $bg/props_scroll_area/props_container/global_props/selfName
-onready var _targetsInput:ZEEUIField = $bg/props_scroll_area/props_container/global_props/targets
+@onready var _nameInput:ZEEUIField = $bg/props_scroll_area/props_container/global_props/selfName
+@onready var _targetsInput:ZEEUIField = $bg/props_scroll_area/props_container/global_props/targets
 
-onready var _dynamicProps:Control = $bg/props_scroll_area/props_container/dynamic_props
-onready var _presetButtons:Control = $bg/props_scroll_area/props_container/presets
+@onready var _dynamicProps:Control = $bg/props_scroll_area/props_container/dynamic_props
+@onready var _presetButtons:Control = $bg/props_scroll_area/props_container/presets
 
 var _proxy:ZEEEntityProxy = null
 var _on:bool = false

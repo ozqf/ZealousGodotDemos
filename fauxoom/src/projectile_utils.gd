@@ -3,10 +3,10 @@ class_name PrjUtils
 
 static func fire_from(
 	_target: Vector3,
-	launch: Spatial,
+	launch:Node3D,
 	pattern: Pattern,
 	projectilePrefab) -> void:
-	var t:Transform = launch.global_transform
+	var t:Transform3D = launch.global_transform
 	var selfPos:Vector3 = t.origin
 	var forward:Vector3 = -t.basis.z
 
@@ -49,7 +49,7 @@ static func spawn_line(
 		pos += forward * itemWidth
 
 static func spawn_ground_line(
-	spatial:Spatial,
+	spatial:Node3D,
 	origin:Vector3,
 	dest:Vector3,
 	itemWidth:float,

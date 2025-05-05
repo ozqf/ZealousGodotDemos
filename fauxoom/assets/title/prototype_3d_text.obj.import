@@ -1,20 +1,22 @@
 [remap]
 
 importer="wavefront_obj"
+importer_version=1
 type="Mesh"
-path="res://.import/prototype_3d_text.obj-15de922d65a86ee2536d452444a725cd.mesh"
+uid="uid://d22khgatc2utj"
+path="res://.godot/imported/prototype_3d_text.obj-15de922d65a86ee2536d452444a725cd.mesh"
 
 [deps]
 
-files=[ "res://.import/prototype_3d_text.obj-15de922d65a86ee2536d452444a725cd.mesh" ]
+files=["res://.godot/imported/prototype_3d_text.obj-15de922d65a86ee2536d452444a725cd.mesh"]
 
 source_file="res://assets/title/prototype_3d_text.obj"
-dest_files=[ "res://.import/prototype_3d_text.obj-15de922d65a86ee2536d452444a725cd.mesh", "res://.import/prototype_3d_text.obj-15de922d65a86ee2536d452444a725cd.mesh" ]
+dest_files=["res://.godot/imported/prototype_3d_text.obj-15de922d65a86ee2536d452444a725cd.mesh", "res://.godot/imported/prototype_3d_text.obj-15de922d65a86ee2536d452444a725cd.mesh"]
 
 [params]
 
 generate_tangents=true
-scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
-octahedral_compression=true
-optimize_mesh_flags=4286
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

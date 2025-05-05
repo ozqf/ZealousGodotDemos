@@ -1,9 +1,9 @@
 extends StaticBody
 
-onready var _ent:Entity = $Entity
-onready var _area:Area = $Area
-onready var _solidShape:CollisionShape = $CollisionShape
-onready var _hurtShape:CollisionShape = $Area/CollisionShape
+@onready var _ent:Entity = $Entity
+@onready var _area:Area3D = $Area
+@onready var _solidShape:CollisionShape3D = $CollisionShape
+@onready var _hurtShape:CollisionShape3D = $Area/CollisionShape
 
 var _bodies = []
 var _hitInfo:HitInfo

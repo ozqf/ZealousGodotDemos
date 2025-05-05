@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/spider_idle.wav-8bc368b7e72f3cdd71e32df7b9be23aa.sample"
+type="AudioStreamWAV"
+uid="uid://bvgr38kb70lmk"
+path="res://.godot/imported/spider_idle.wav-8bc368b7e72f3cdd71e32df7b9be23aa.sample"
 
 [deps]
 
 source_file="res://assets/sounds/mob/spider/spider_idle.wav"
-dest_files=[ "res://.import/spider_idle.wav-8bc368b7e72f3cdd71e32df7b9be23aa.sample" ]
+dest_files=["res://.godot/imported/spider_idle.wav-8bc368b7e72f3cdd71e32df7b9be23aa.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

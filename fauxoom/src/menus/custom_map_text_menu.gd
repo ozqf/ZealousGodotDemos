@@ -2,24 +2,24 @@ extends Control
 
 signal menu_navigate(name)
 
-onready var _loadInfo:RichTextLabel = $load_from_text/load_results
-onready var _play:Button = $load_from_text/play_button
-onready var _edit:Button = $load_from_text/edit_button
+@onready var _loadInfo:RichTextLabel = $load_from_text/load_results
+@onready var _play:Button = $load_from_text/play_button
+@onready var _edit:Button = $load_from_text/edit_button
 
-onready var _loadFromText:Button = $load_from_text/load_button
-onready var _saveToText:Button = $save_to_text/save_button
-onready var _copyFromSave:Button = $load_from_text/copy_button
-onready var _toClipboard:Button = $load_from_text/to_clipboard
-onready var _toData:Button = $load_from_text/to_data
+@onready var _loadFromText:Button = $load_from_text/load_button
+@onready var _saveToText:Button = $save_to_text/save_button
+@onready var _copyFromSave:Button = $load_from_text/copy_button
+@onready var _toClipboard:Button = $load_from_text/to_clipboard
+@onready var _toData:Button = $load_from_text/to_data
 
 # new map UI nodes
-onready var _newMap:Button = $new_map/create_new
-onready var _newMapWidth:HSlider = $new_map/set_width/width_slider
-onready var _newMapHeight:HSlider = $new_map/set_height/height_slider
-onready var _back:Button = $new_map/back
+@onready var _newMap:Button = $new_map/create_new
+@onready var _newMapWidth:HSlider = $new_map/set_width/width_slider
+@onready var _newMapHeight:HSlider = $new_map/set_height/height_slider
+@onready var _back:Button = $new_map/back
 
-onready var _loadBox = $load_from_text/paste_box
-onready var _saveBox = $save_to_text/paste_box
+@onready var _loadBox = $load_from_text/paste_box
+@onready var _saveBox = $save_to_text/paste_box
 
 var _pendingMap:MapDef = null
 

@@ -1,0 +1,115 @@
+[gd_scene load_steps=7 format=3 uid="uid://cpc4q03kxr4k8"]
+
+[ext_resource type="PackedScene" uid="uid://dc347ne70dxit" path="res://test_07_walled_city/prefabs/skyscraper_1.tscn" id="1_4ebky"]
+[ext_resource type="Environment" uid="uid://2wbbumavq0sa" path="res://test_07_walled_city/city_env.tres" id="1_yvm2j"]
+[ext_resource type="Material" uid="uid://jproymmt8gv5" path="res://shared/materials/planar_noise_concrete.tres" id="3_fngbm"]
+[ext_resource type="PackedScene" uid="uid://c4sw068ndba2l" path="res://test_07_walled_city/prefabs/turret_1/turret_1.tscn" id="4_s1j01"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0xddy"]
+height = 1.8
+
+[sub_resource type="QuadMesh" id="QuadMesh_0xddy"]
+size = Vector2(1000, 1000)
+orientation = 1
+
+[node name="Test07" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_yvm2j")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, -26, 203.876, -17.8456)
+fov = 90.0
+
+[node name="character_scale_gizmo" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 200, -28)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="character_scale_gizmo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("CapsuleMesh_0xddy")
+skeleton = NodePath("../..")
+metadata/_edit_lock_ = true
+
+[node name="skyscraper_1" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -175, 0, -395)
+
+[node name="skyscraper_8" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -141, -146, -529)
+
+[node name="skyscraper_6" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -182, 0, -237)
+
+[node name="skyscraper_9" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -182, 0, -58)
+
+[node name="skyscraper_2" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, -76, -313)
+
+[node name="skyscraper_3" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 186, 0, -423)
+
+[node name="skyscraper_7" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -498)
+
+[node name="skyscraper_4" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 200, -159, -295)
+
+[node name="skyscraper_5" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, -118, -276)
+
+[node name="skyscraper_10" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -487, -59, -459)
+
+[node name="skyscraper_12" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -580, -59, -372)
+
+[node name="skyscraper_13" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 333, -59, -372)
+
+[node name="skyscraper_11" parent="." instance=ExtResource("1_4ebky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -301, -181, -236)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_0xddy")
+
+[node name="rooftop" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="rooftop"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
+size = Vector3(64, 200, 64)
+material = ExtResource("3_fngbm")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="rooftop"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 221, 0)
+size = Vector3(32, 42, 64)
+material = ExtResource("3_fngbm")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="rooftop"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 203.5, -31)
+size = Vector3(0.5, 7, 0.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="rooftop/CSGBox3D3"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 2, 5, 0)
+spot_range = 22.0
+
+[node name="wall" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -574)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 289.5, 0)
+size = Vector3(2630, 579, 64)
+material = ExtResource("3_fngbm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, -28, 204, -26)
+visible = false
+shadow_enabled = true
+
+[node name="turret2" parent="." instance=ExtResource("4_s1j01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 442, 579, -595)
+
+[node name="turret3" parent="." instance=ExtResource("4_s1j01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -845, 579, -595)
+
+[node name="turret4" parent="." instance=ExtResource("4_s1j01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -207, 579, -595)

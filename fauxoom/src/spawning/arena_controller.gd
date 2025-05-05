@@ -1,12 +1,12 @@
-extends Spatial
+extends Node3D
 
-onready var _ent:Entity = $Entity
-#onready var _punk_spawner = $horde_spawns/punk_spawn
-#onready var _worm_spawner = $horde_spawns/worm_spawn
+@onready var _ent:Entity = $Entity
+#@onready var _punk_spawner = $horde_spawns/punk_spawn
+#@onready var _worm_spawner = $horde_spawns/worm_spawn
 
-export var selfName:String = ""
-export var triggerTargetName:String = ""
-export var spawnPointsSiblingName:String = ""
+@export var selfName:String = ""
+@export var triggerTargetName:String = ""
+@export var spawnPointsSiblingName:String = ""
 
 var _active:bool = false
 
@@ -27,7 +27,7 @@ func _ready() -> void:
 		_spawnTransforms.push_back(self.global_transform)
 		allTransforms.push_back(self.global_transform)
 	else:
-		var spawnPoints:Spatial = get_parent().get_node(spawnPointsSiblingName)
+		var spawnPoints:Node3D = get_parent().get_node(spawnPointsSiblingName)
 		if spawnPoints != null:
 			var numPoints:int = spawnPoints.get_child_count()
 			for _i in range(0, numPoints):

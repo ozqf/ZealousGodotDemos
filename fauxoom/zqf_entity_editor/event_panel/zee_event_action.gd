@@ -1,8 +1,8 @@
 extends Control
 
-onready var _message:LineEdit = $message_edit
-onready var _targets:Control = $targets
-onready var _presetMessages:OptionButton = $message_presets
+@onready var _message:LineEdit = $message_edit
+@onready var _targets:Control = $targets
+@onready var _presetMessages:OptionButton = $message_presets
 
 var _presets = [
 	"",

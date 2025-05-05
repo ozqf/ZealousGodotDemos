@@ -1,6 +1,6 @@
-extends Camera
+extends Camera3D
 
-onready var _ent:Entity = $Entity
+@onready var _ent:Entity = $Entity
 
 func _ready() -> void:
 	var _r = _ent.connect("entity_append_state", self, "append_state")

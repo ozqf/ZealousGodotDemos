@@ -14,7 +14,7 @@ var _moveTargetPos:Vector3 = Vector3()
 
 var direction:Vector3 = Vector3()
 
-var positionSource:Spatial = null
+var positionSource:Node3D = null
 var verbose:bool = false
 
 # func _ready() -> void:
@@ -41,7 +41,7 @@ func get_node_pos_by_index(i:int) -> Vector3:
 func get_target_position() -> Vector3:
 	return _moveTargetPos
 
-func ground_path_init(newAgent:NavAgent, source:Spatial) -> void:
+func ground_path_init(newAgent:NavAgent, source:Node3D) -> void:
 	agent = newAgent
 	positionSource = source
 

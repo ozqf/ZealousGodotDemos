@@ -1,6 +1,6 @@
 extends Node
 
-onready var _label:Label = $Label
+@onready var _label:Label = $Label
 
 func _ready() -> void:
 	add_to_group(Groups.GAME_GROUP_NAME)

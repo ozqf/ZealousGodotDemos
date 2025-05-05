@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/weapon_reload.wav-7a3a80109e604f1ff16a7e1a51ff264f.sample"
+type="AudioStreamWAV"
+uid="uid://bpeqf6t3xf70o"
+path="res://.godot/imported/weapon_reload.wav-7a3a80109e604f1ff16a7e1a51ff264f.sample"
 
 [deps]
 
 source_file="res://assets/sounds/item/weapon_reload.wav"
-dest_files=[ "res://.import/weapon_reload.wav-7a3a80109e604f1ff16a7e1a51ff264f.sample" ]
+dest_files=["res://.godot/imported/weapon_reload.wav-7a3a80109e604f1ff16a7e1a51ff264f.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

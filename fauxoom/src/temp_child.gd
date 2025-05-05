@@ -1,22 +1,22 @@
-extends Spatial
+extends Node3D
 class_name ZqfTempChild
 
 signal detached()
 
-onready var m_subject: Spatial
+@onready var m_subject:Node3D
 
-var m_worldParent: Spatial = null
-var m_attachParent: Spatial = null
-var m_recallGlobalT: Transform
+var m_worldParent:Node3D = null
+var m_attachParent:Node3D = null
+var m_recallGlobalT: Transform3D
 
 func _ready() -> void:
 	set_subject(get_parent())
 
-func set_subject(newSubject:Spatial) -> void:
+func set_subject(newSubject:Node3D) -> void:
 	m_subject = newSubject
-	m_worldParent = m_subject.get_parent() as Spatial
+	m_worldParent = m_subject.get_parent() asNode3D
 
-func attach(node: Spatial):
+func attach(node:Node3D):
 	if !ZqfUtils.is_obj_safe(node):
 		return
 	_on_attach_parent_removed()

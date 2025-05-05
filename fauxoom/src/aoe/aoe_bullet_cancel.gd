@@ -1,6 +1,6 @@
-extends Spatial
+extends Node3D
 
-onready var _scanner:ZqfVolumeScanner = $Area
+@onready var _scanner:ZqfVolumeScanner = $Area
 
 var _tick:float = 0.0
 var _dead:bool = false

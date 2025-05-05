@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bknkjgtw0smrc"]
 
-[ext_resource type="Script" path="res://game/menus/cheats_panel.gd" id="1_2dwj1"]
+[ext_resource type="Script" uid="uid://bie0yvg6j2hjh" path="res://game/menus/cheats_panel.gd" id="1_2dwj1"]
 
 [node name="CheatsPanel" type="Panel"]
 anchors_preset = -1

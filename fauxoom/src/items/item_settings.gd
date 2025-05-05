@@ -1,18 +1,18 @@
 # This class exists to feed settings applied in the godot inspector to an item_base
 # it contains no logic itself
-extends Spatial
+extends Node3D
 
-export var selfName:String = ""
-export var triggerTargetName:String = ""
+@export var selfName:String = ""
+@export var triggerTargetName:String = ""
 # respawn flag allows an item to be respawned via triggers, rather than on its own timer
-export var respawns:bool = false
+@export var respawns:bool = false
 # timer for self respawn
-export var selfRespawnTime:float = 20
+@export var selfRespawnTime:float = 20
 # emit gfx to draw attention to this item
-export var isImportant:bool = false
+@export var isImportant:bool = false
 
-onready var _item:ItemBase = $item_base
-onready var _ent:Entity = $Entity
+@onready var _item:ItemBase = $item_base
+@onready var _ent:Entity = $Entity
 
 func _ready() -> void:
 	_refresh_settings()
@@ -34,8 +34,8 @@ func get_editor_info() -> Dictionary:
 func restore_from_editor(dict:Dictionary) -> void:
 	_ent.restore_state(dict)
 
-func set_velocity(newVelocity:Vector3) -> void:
-	_item.set_velocity(newVelocity)
+func set_item_velocity(newVelocity:Vector3) -> void:
+	_item.set_item_velocity(newVelocity)
 
 func set_time_to_live(seconds:float) -> void:
 	_item.set_time_to_live(seconds)

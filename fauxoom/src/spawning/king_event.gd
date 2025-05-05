@@ -1,9 +1,9 @@
-extends Spatial
+extends Node3D
 
 const Enums = preload("res://src/enums.gd")
 
-onready var _ent:Entity = $Entity
-onready var _queue:SpawnQueue = $spawn_queue
+@onready var _ent:Entity = $Entity
+@onready var _queue:SpawnQueue = $spawn_queue
 
 var _spawnPointTagsShared:EntTagSet
 var _gateTags:EntTagSet

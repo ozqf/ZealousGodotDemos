@@ -1,6 +1,6 @@
 extends Node
 
-onready var _area:Area = $Area
+@onready var _area:Area3D = $Area
 var _bodies = []
 var _hitInfo:HitInfo
 var _frames:int = 0

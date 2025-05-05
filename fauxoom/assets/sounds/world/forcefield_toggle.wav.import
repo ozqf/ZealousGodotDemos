@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/forcefield_toggle.wav-140fa15d81e6ba863b1a4c3e11f7d27f.sample"
+type="AudioStreamWAV"
+uid="uid://c8dyjlbdk0hre"
+path="res://.godot/imported/forcefield_toggle.wav-140fa15d81e6ba863b1a4c3e11f7d27f.sample"
 
 [deps]
 
 source_file="res://assets/sounds/world/forcefield_toggle.wav"
-dest_files=[ "res://.import/forcefield_toggle.wav-140fa15d81e6ba863b1a4c3e11f7d27f.sample" ]
+dest_files=["res://.godot/imported/forcefield_toggle.wav-140fa15d81e6ba863b1a4c3e11f7d27f.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

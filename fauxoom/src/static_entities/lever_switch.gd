@@ -1,17 +1,17 @@
-extends Spatial
+extends Node3D
 
 # signal trigger()
 
-onready var _off:Spatial = $off
-onready var _on:Spatial = $on
-onready var _shape:CollisionShape = $CollisionShape
-onready var _ent:Entity = $Entity
-onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
+@onready var _off:Node3D = $off
+@onready var _on:Node3D = $on
+@onready var _shape:CollisionShape3D = $CollisionShape
+@onready var _ent:Entity = $Entity
+@onready var _audio:AudioStreamPlayer3D = $AudioStreamPlayer3D
 
-export var on:bool = false
+@export var on:bool = false
 # zero or negative reset time == never reset
-export var resetTime:float = -1
-export var triggerTargetName:String = ""
+@export var resetTime:float = -1
+@export var triggerTargetName:String = ""
 
 var _resetTick:float = 0
 

@@ -9,7 +9,7 @@
 # eg is the mob idle, alert, stunned etc.
 # actual """thinking""" and attack AI is performed by
 # (and overridden) in the AITicker class.
-extends KinematicBody
+extends CharacterBody3D
 # AITicker wants to reference mobbase class but as it is a child of mob base
 # we get a circular dependency
 # waiting for Godot 4 to fix this apparently...
@@ -25,22 +25,22 @@ signal mob_event(tag)
 
 # all this stuff is public has AITicker and attacks
 # will use it
-onready var sprite:CustomAnimator3D = $sprite
-onready var collisionShape:CollisionShape = $body
-onready var head:Spatial = $head
-onready var motor:MobMotor = $motor
-onready var attacks = []
-onready var _stats:MobStats = $stats
-onready var _ent:Entity = $Entity
-onready var _ticker:AITicker = $ticker
-onready var _spawnColumn:TeleportColumn = $teleport_column
+@onready var sprite:CustomAnimator3D = $sprite
+@onready var collisionShape:CollisionShape3D = $body
+@onready var head:Node3D = $head
+@onready var motor:MobMotor = $motor
+@onready var attacks = []
+@onready var _stats:MobStats = $stats
+@onready var _ent:Entity = $Entity
+@onready var _ticker:AITicker = $ticker
+@onready var _spawnColumn:TeleportColumn = $teleport_column
 
-export var triggerTargets:String = ""
+@export var triggerTargets:String = ""
 # stoic enemies never flee
-export var fleeBoredomSeconds:float = 30
+@export var fleeBoredomSeconds:float = 30
 # roles this mob can perform
-export(Enums.EnemyRoleClass) var roleClass = Enums.EnemyRoleClass.Mix
-export var corpsePrefab:String = ""
+@export var roleClass = Enums.EnemyRoleClass.Mix
+@export var corpsePrefab:String = ""
 
 var _registered:bool = false
 
@@ -109,8 +109,8 @@ func _ready() -> void:
 	motor.evadeSpeed = _stats.evadeSpeed
 	_ticker.custom_init(self, _stats)
 	add_to_group(Groups.GAME_GROUP_NAME)
-	var _r = _ent.connect("entity_restore_state", self, "restore_state")
-	_r = _ent.connect("entity_append_state", self, "append_state")
+	var _r = _ent.connect("entity_restore_state", restore_state)
+	_r = _ent.connect("entity_append_state", append_state)
 	_ent.triggerTargetName = triggerTargets
 	AI.register_mob(self)
 	_registered = true
@@ -121,13 +121,13 @@ func game_kill_ai() -> void:
 	void_volume_touch()
 
 func _find_shield_orbs() -> void:
-	var orbParent:Spatial = get_node_or_null("orbs/orbs")
+	var orbParent:Node3D = get_node_or_null("orbs/orbs")
 	if orbParent == null:
 		_shieldOrbCount = 0
 		return
 	for orb in orbParent.get_children():
-		orb.connect("shield_broke", self, "orb_shield_broke")
-		orb.connect("shield_restored", self, "orb_shield_restored")
+		orb.connect("shield_broke", orb_shield_broke)
+		orb.connect("shield_restored", orb_shield_restored)
 		_shieldOrbCount += 1
 		_shieldOrbTotal += 1
 
@@ -198,13 +198,13 @@ func set_trigger_names(selfName:String, targets:String) -> void:
 
 func set_source(node:Node, sourceId:int) -> void:
 	_sourceId = sourceId
-	var _r = connect("on_mob_died", node, "_on_mob_died")
+	var _r = connect("on_mob_died", node.on_mob_died)
 
 func set_behaviour(sniper:bool) -> void:
 	_isSniper = sniper
 	_ticker.isSniper = _isSniper
 
-func teleport(t:Transform) -> void:
+func teleport(t:Transform3D) -> void:
 	var pos = t.origin
 	# print("Mob - teleport to " + str(pos))
 	global_transform.origin = pos
@@ -418,7 +418,7 @@ func _mob_tick(_delta:float) -> void:
 			_change_state(MobState.Idle)
 		else:
 			_ticker.custom_tick(_delta, _aiTickInfo)
-		# sprite.yawDegrees = rad2deg(motor.moveYaw)
+		# sprite.yawDegrees = rad_to_deg(motor.moveYaw)
 	elif _state == MobState.Idle:
 		# check for spawning off the ground
 		if !motor.on_ground():
@@ -525,18 +525,18 @@ func _spawn_hit_particles(pos:Vector3, _forward:Vector3,  deathHit:bool) -> void
 		var blood = Game.get_factory().prefab_blood_hit.instance()
 		root.add_child(blood)
 		var offset:Vector3 = Vector3(
-			rand_range(-_range, _range),
-			rand_range(-_range, _range),
-			rand_range(-_range, _range))
+			randf_range(-_range, _range),
+			randf_range(-_range, _range),
+			randf_range(-_range, _range))
 		blood.global_transform.origin = (pos + offset)
 	# spawn debris particles
-	var debris:Spatial = Game.get_factory().prefab_blood_debris_t.instance()
+	var debris:Node3D = Game.get_factory().prefab_blood_debris_t.instance()
 	root.add_child(debris)
 	debris.global_transform.origin = pos
-	var rigidBody:RigidBody = debris.find_node("RigidBody")
+	var rigidBody:RigidBody3D = debris.find_node("RigidBody")
 	if rigidBody != null:
 		var launchVel:Vector3 = -_forward
-		launchVel *= rand_range(2, 12)
+		launchVel *= randf_range(2, 12)
 		rigidBody.linear_velocity = launchVel
 
 func corpse_hit(_hitInfo:HitInfo) -> int:
@@ -566,7 +566,7 @@ func hit(_hitInfo:HitInfo) -> int:
 		# print("Burn damage mul: " + str(burnMul) + " from " + str(burnStacks) + " stacks")
 	_health -= int(float(_hitInfo.damage) * burnMul)
 
-	var hitYaw:float = rad2deg(atan2(_hitInfo.direction.x, -_hitInfo.direction.z))
+	var hitYaw:float = rad_to_deg(atan2(_hitInfo.direction.x, -_hitInfo.direction.z))
 	hitYaw += 180.0
 	hitYaw = ZqfUtils.cap_degrees(hitYaw)
 	# if _hitInfo.damageType == Interactions.DAMAGE_TYPE_EXPLOSIVE:

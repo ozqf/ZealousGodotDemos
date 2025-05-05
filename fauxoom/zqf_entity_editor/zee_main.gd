@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 class_name ZEEMain
 
 static func create_field(targetDict:Dictionary, name:String, label:String, type:String, value) -> void:
@@ -13,34 +13,34 @@ var _name_plate_t = preload("res://zqf_entity_editor/proxy_labels/zee_proxy_labe
 
 const EXTENSION:String = ".json"
 
-onready var _labelsRoot:Control = $CanvasLayer/labels_root
+@onready var _labelsRoot:Control = $CanvasLayer/labels_root
 
-onready var _leftPanelRoot = $CanvasLayer/left_sidebar_root
-onready var _fileNamesLabel:Label = $CanvasLayer/left_sidebar_root/file_names
-onready var _modeLabel:Label = $CanvasLayer/left_sidebar_root/mode_label
-onready var _highlightedLabel:Label = $CanvasLayer/left_sidebar_root/highlighted_proxy_label
-onready var _selectedLabel:Label = $CanvasLayer/left_sidebar_root/selected_proxy_label
-onready var _templateList:Control = $CanvasLayer/left_sidebar_root/template_list
-onready var _templateListButtons:Control = $CanvasLayer/left_sidebar_root/template_list/buttons
-onready var _templateName:Control = $CanvasLayer/left_sidebar_root/template_list/buttons/current_template_name
-onready var _fileUI:Control = $CanvasLayer/left_sidebar_root/file_ui_container
-onready var _fileUILoad:Button = $CanvasLayer/left_sidebar_root/file_ui_container/load
-onready var _fileUISave:Button = $CanvasLayer/left_sidebar_root/file_ui_container/save
-onready var _modalBlocker:Control = $CanvasLayer/modal
-onready var _fileDialog:FileDialog = $CanvasLayer/modal/FileDialog
-onready var _entPropsPanel = $CanvasLayer/zee_entity_props_panel
+@onready var _leftPanelRoot = $CanvasLayer/left_sidebar_root
+@onready var _fileNamesLabel:Label = $CanvasLayer/left_sidebar_root/file_names
+@onready var _modeLabel:Label = $CanvasLayer/left_sidebar_root/mode_label
+@onready var _highlightedLabel:Label = $CanvasLayer/left_sidebar_root/highlighted_proxy_label
+@onready var _selectedLabel:Label = $CanvasLayer/left_sidebar_root/selected_proxy_label
+@onready var _templateList:Control = $CanvasLayer/left_sidebar_root/template_list
+@onready var _templateListButtons:Control = $CanvasLayer/left_sidebar_root/template_list/buttons
+@onready var _templateName:Control = $CanvasLayer/left_sidebar_root/template_list/buttons/current_template_name
+@onready var _fileUI:Control = $CanvasLayer/left_sidebar_root/file_ui_container
+@onready var _fileUILoad:Button = $CanvasLayer/left_sidebar_root/file_ui_container/load
+@onready var _fileUISave:Button = $CanvasLayer/left_sidebar_root/file_ui_container/save
+@onready var _modalBlocker:Control = $CanvasLayer/modal
+@onready var _fileDialog:FileDialog = $CanvasLayer/modal/FileDialog
+@onready var _entPropsPanel = $CanvasLayer/zee_entity_props_panel
 
 # grab the tag editor's mouse over detector
-onready var _tagsPanelBg = $CanvasLayer/zee_edit_tags_panel/mouse_entered
+@onready var _tagsPanelBg = $CanvasLayer/zee_edit_tags_panel/mouse_entered
 
 
-onready var _ray:RayCast = $camera/RayCast
-onready var _3dCursor:Spatial = $cursor3d
-onready var _entsRoot:Spatial = $ents
-onready var _cameraControl = $camera
-onready var _camera:Camera = $camera/Camera
+@onready var _ray:RayCast3D = $camera/RayCast3D
+@onready var _3dCursor:Node3D = $cursor3d
+@onready var _entsRoot:Node3D = $ents
+@onready var _cameraControl = $camera
+@onready var _camera:Camera3D = $camera/Camera
 
-onready var _entList = $entity_list
+@onready var _entList = $entity_list
 
 var _initialised:bool = false
 var _canPlaceEnt:bool = false
@@ -89,16 +89,16 @@ func _ready() -> void:
 	_highlightedLabel.text = ""
 	_selectedLabel.text = ""
 
-	get_viewport().connect("gui_focus_changed", self, "_on_gui_focus_changed")
+	get_viewport().connect("gui_focus_changed", _on_gui_focus_changed)
 
 	_entList.zee_ent_list_init($ents)
 
-	_fileUILoad.connect("clicked", self, "_file_button_clicked")
-	_fileUISave.connect("clicked", self, "_file_button_clicked")
+	_fileUILoad.connect("clicked", _file_button_clicked)
+	_fileUISave.connect("clicked", _file_button_clicked)
 	
-	_fileDialog.connect("modal_closed", self, "_file_modal_closed")
-	_fileDialog.connect("popup_hide", self, "_file_modal_closed")
-	_fileDialog.connect("file_selected", self, "_file_selected")
+	_fileDialog.connect("modal_closed", _file_modal_closed)
+	_fileDialog.connect("popup_hide", _file_modal_closed)
+	_fileDialog.connect("file_selected", _file_selected)
 
 
 	# if working in the editor just use local file system
@@ -108,7 +108,7 @@ func _ready() -> void:
 		_fileDialog.current_path = "./"
 
 	var resetButton = $CanvasLayer/left_sidebar_root/HBoxContainer/reset_camera
-	resetButton.connect("pressed", _cameraControl, "reset")
+	resetButton.connect("pressed", _cameraControl.reset)
 
 	disable()
 
@@ -223,30 +223,33 @@ func get_modal_blocking() -> bool:
 	return false
 
 func _file_selected(path:String) -> void:
-	if path == "" || path == "user://":
-		print("Empty path, aborted")
-	if !path.ends_with(EXTENSION):
-		path = path + EXTENSION
-	print("File selected: " + path)
-	_modalBlocker.visible = false
-	var mode = _fileDialog.get_mode()
-
-	if mode == FileDialog.MODE_SAVE_FILE:
-		# write save
-		var data = {}
-		data.mapName = Main.get_current_map_name()
-		# data.ents = _entList.write_ents_list()
-		data.ents = Ents.write_save_dict()
-		data.events = Game.get_events().write_state()
-		var file = File.new()
-		var err = file.open(path, File.WRITE)
-		if err != 0:
-			print("Error " + str(err) + " opening " + path + " for writing")
-			return
-		file.store_string(to_json(data))
-		file.close()
-	else:
-		print("No Response to file mode " + str(mode))
+	print("NOT IMPLEMENTED")
+	pass
+#	if path == "" || path == "user://":
+#		print("Empty path, aborted")
+#		return
+#	if !path.ends_with(EXTENSION):
+#		path = path + EXTENSION
+#	print("File selected: " + path)
+#	_modalBlocker.visible = false
+#	var mode = _fileDialog.get_mode()
+#
+#	if mode == FileDialog.MODE_SAVE_FILE:
+#		# write save
+#		var data = {}
+#		data.mapName = Main.get_current_map_name()
+#		# data.ents = _entList.write_ents_list()
+#		data.ents = Ents.write_save_dict()
+#		data.events = Game.get_events().write_state()
+#		var file = File.new()
+#		var err = file.open(path, File.WRITE)
+#		if err != 0:
+#			print("Error " + str(err) + " opening " + path + " for writing")
+#			return
+#		file.store_string(to_json(data))
+#		file.close()
+#	else:
+#		print("No Response to file mode " + str(mode))
 
 func _file_modal_closed() -> void:
 	# print("Modal closed")
@@ -336,13 +339,13 @@ func _update_cursor_pos(pos:Vector3, _normal:Vector3) -> void:
 
 func _open_save_file() -> void:
 	print("Saving " + str(_entList.get_entity_count()) + " entities")
-	_fileDialog.set_mode(FileDialog.MODE_SAVE_FILE)
+	_fileDialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
 	_fileDialog.popup()
 	_modalBlocker.visible = true
 
 func _open_load_file() -> void:
 	print("Load entities")
-	_fileDialog.set_mode(FileDialog.MODE_OPEN_FILE)
+	_fileDialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	_fileDialog.popup()
 	_modalBlocker.visible = true
 
@@ -411,7 +414,7 @@ func _process(_delta) -> void:
 			return
 	
 		if Input.is_action_just_pressed("editor_camera_reset"):
-			_cameraControl.global_transform = Transform.IDENTITY
+			_cameraControl.global_transform = Transform3D.IDENTITY
 		pass
 	
 	if _rootMode == EdEnums.RootMode.Select:

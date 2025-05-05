@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 var _running:bool = true
 var _scaleTarget:float = 1.0

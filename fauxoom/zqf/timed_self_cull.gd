@@ -1,7 +1,7 @@
 extends Node
 
-export var time:float = 0.1
-export var remove_parent:bool = false
+@export var time:float = 0.1
+@export var remove_parent:bool = false
 
 func _process(_delta:float):
 	time -= _delta

@@ -1,6 +1,6 @@
-extends Spatial
+extends Node3D
 
-export var lookAtPlayer:bool = true
+@export var lookAtPlayer:bool = true
 
 func _process(_delta:float) -> void:
 	if !lookAtPlayer:

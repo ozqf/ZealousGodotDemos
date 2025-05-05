@@ -1,9 +1,9 @@
 extends Pattern
 
-onready var _childPattern:Pattern = null
+@onready var _childPattern:Pattern = null
 
-export var count:int = 3
-export var arcDegreesX:float = 90.0
+@export var count:int = 3
+@export var arcDegreesX:float = 90.0
 
 func _ready() -> void:
 	_childPattern = get_node_or_null("pattern")
@@ -12,13 +12,13 @@ func fill_items(_origin:Vector3, _forward:Vector3, _itemArray, _nextItem) -> int
 	if count <= 1:
 		return _nextItem
 	var radians:float = atan2(_forward.x, _forward.z)
-	var degrees:float = rad2deg(radians)
+	var degrees:float = rad_to_deg(radians)
 	var halfArcDegrees:float = arcDegreesX / 2.0
 	var startDegrees:float = -halfArcDegrees
 	var stepDegrees:float = arcDegreesX / (count - 1)
 
 	for _i in range(0, count):
-		var offsetradians:float = deg2rad(startDegrees)
+		var offsetradians:float = deg_to_rad(startDegrees)
 		startDegrees += stepDegrees
 		var newForward:Vector3 = Vector3()
 		newForward.x = sin(radians + offsetradians)

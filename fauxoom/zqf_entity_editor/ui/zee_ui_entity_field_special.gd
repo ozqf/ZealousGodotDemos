@@ -3,10 +3,10 @@ class_name ZEEUIFieldSpecial
 
 signal edit_special_field(fieldName)
 
-onready var _label:Label = $Label
-onready var _button:Button = $input
+@onready var _label:Label = $Label
+@onready var _button:Button = $input
 
-export var fieldName:String = ""
+@export var fieldName:String = ""
 
 func _ready():
 	var _r = _button.connect("pressed", self, "_on_pressed")

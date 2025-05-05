@@ -1,13 +1,13 @@
 # Mob movement base class
 extends MobMotor
 
-onready var _path:GroundPath = $ground_path
+@onready var _path:GroundPath = $ground_path
 
 var _pathTick:float = 0
 
 var _pathProximityThreshold:float = 0.1
 
-func custom_init(body:KinematicBody) -> void:
+func custom_init(body:CharacterBody3D) -> void:
 	.custom_init(body)
 	_path.ground_path_init(_agent, body)
 
@@ -30,9 +30,9 @@ func _force_path_update() -> void:
 	_pathTick = .5
 	_update_path()
 
-func _pick_evade_point(_verbose:bool) -> Spatial:
+func _pick_evade_point(_verbose:bool) ->Node3D:
 	var r:float = randf()
-	var p:Spatial = null
+	var p:Node3D = null
 	if _floorLeft.isValid:
 		if _floorRight.isValid:
 			# pick a direction
@@ -48,7 +48,7 @@ func _pick_evade_point(_verbose:bool) -> Spatial:
 	if p != null:
 		if _verbose:
 			print("Mob evade to " + p.name)
-		_evadeTick = rand_range(1.5, 4)
+		_evadeTick = randf_range(1.5, 4)
 		return p
 	return null
 

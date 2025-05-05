@@ -1,8 +1,8 @@
 extends Node
 
-onready var _crackedMesh:MeshInstance = $cracked
-onready var _smashedMesh:MeshInstance = $smashed
-onready var _ent:Entity = $Entity
+@onready var _crackedMesh:MeshInstance3D = $cracked
+@onready var _smashedMesh:MeshInstance3D = $smashed
+@onready var _ent:Entity = $Entity
 var _dead:bool = false
 
 func _ready():

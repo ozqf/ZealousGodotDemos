@@ -1,11 +1,11 @@
-extends Spatial
+extends Node3D
 
 var _limb_segment_t = preload("res://prefabs/bosses/smatter_limb_segment.tscn")
 
-onready var _tip:Spatial = $tip
-onready var _nodes:Spatial = $nodes
+@onready var _tip:Node3D = $tip
+@onready var _nodes:Node3D = $nodes
 
-export var length:int = 8
+@export var length:int = 8
 var _moveWeight:float = 0.0
 
 var _time:float = 0.0

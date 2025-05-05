@@ -17,29 +17,29 @@ signal entity_trigger(message, dict)
 # objects which are static should be loaded at the start of the map
 # (usually as part of an embedded scene file) and NEVER deleted
 # until map change.
-export var isStatic:bool = false
+@export var isStatic:bool = false
 # dynamic entities may or may not exist at any given time. in order to
 # restore a previously deleted entity, we must know what prefab it was
 # if this isn't set loading will not work!
-export var prefabName:String = ""
+@export var prefabName:String = ""
 # the name of this entity to respond to trigger events
-export var selfName:String = ""
+@export var selfName:String = ""
 # the space separated list of other entities to trigger when this
 # entity's trigger event occurs
-export var triggerTargetName:String = ""
+@export var triggerTargetName:String = ""
 # tags are for grouping entities for querying
-export var tagCSV:String = ""
+@export var tagCSV:String = ""
 # id to identify this entity. negative for static, positive for dynamic
 var id:int = 0
 var _rootOverride:Node = null
-var _tags:PoolStringArray = PoolStringArray()
+var _tags:PackedStringArray = PackedStringArray()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	add_to_group(Groups.GAME_GROUP_NAME)
 	add_to_group(Groups.ENTS_GROUP_NAME)
-	var _r = connect("tree_entered", self, "_on_tree_entered")
-	_r = connect("tree_exiting", self, "_on_exiting_tree")
+	#var _r = connect("tree_entered", _on_tree_entered)
+	#_r = connect("tree_exiting", _on_exiting_tree)
 	if isStatic:
 		id = Ents.assign_static_id()
 		add_to_group(Groups.STATIC_ENTS_GROUP_NAME)
@@ -57,7 +57,7 @@ func get_label() -> String:
 		return selfName
 	return get_parent().name
 
-func get_ent_transform() -> Transform:
+func get_ent_transform() -> Transform3D:
 	return get_parent().global_transform
 
 func _refresh_tag_list() -> void:
@@ -109,9 +109,9 @@ func get_root_node() -> Node:
 		return _rootOverride
 	return get_parent()
 
-func attach_command_signals(root:Node) -> void:
-	var _result = self.connect("entity_append_state", root, "append_state")
-	_result = self.connect("entity_restore_state", root, "restore_state")
+#func attach_command_signals(root:Node) -> void:
+#	var _result = self.connect("entity_append_state", append_state)
+#	_result = self.connect("entity_restore_state", restore_state)
 
 func on_trigger_entities(target:String, message:String, dict:Dictionary) -> void:
 	if target == "":
@@ -130,7 +130,7 @@ func trigger() -> void:
 #	for tag in _tags:
 #		Interactions.triggerTargetsWithParams(get_tree(), _tags, message, ZqfUtils.EMPTY_DICT)
 
-func trigger_tag_set(tags:PoolStringArray, message:String) -> void:
+func trigger_tag_set(tags:PackedStringArray, message:String) -> void:
 	Interactions.triggerTargetsWithParams(get_tree(), tags, message, ZqfUtils.EMPTY_DICT)
 
 func _on_exiting_tree() -> void:
@@ -151,7 +151,7 @@ func write_state() -> Dictionary:
 	if !isStatic:
 		dict.sn = selfName
 		dict.tcsv = triggerTargetName
-		dict.tagcsv = _tags.join(",")
+		dict.tagcsv = ZqfUtils.join_strings(_tags, ",")
 	emit_signal("entity_append_state", dict)
 	return dict
 

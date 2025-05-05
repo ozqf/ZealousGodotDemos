@@ -1,5 +1,5 @@
 class_name SpawnDef
 
-var t:Transform
+var t:Transform3D
 var type:String
 var forceAwake:bool = true

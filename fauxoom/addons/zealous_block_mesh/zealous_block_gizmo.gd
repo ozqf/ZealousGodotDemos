@@ -8,7 +8,7 @@ var _drawBounds:bool = false
 
 
 # handle value callback
-#func set_handle(index:int, camera:Camera, point:Vector2):
+#func set_handle(index:int, camera:Camera3D, point:Vector2):
 #	var v = 0
 ##	v = gizmo.get_handle_name(index)
 #	# get_handle_value doesn't exist...?
@@ -57,8 +57,8 @@ func _draw_grid_gizmo():
 	
 	var _min:Vector3 = radius * -1
 	
-	var purpleLines = PoolVector3Array()
-	var cyanLines = PoolVector3Array()
+	var purpleLines = PackedVector3Array()
+	var cyanLines = PackedVector3Array()
 	
 	#####################################
 	# centre widget - extends of object from inside - not really useful
@@ -205,7 +205,7 @@ func _draw_grid_gizmo():
 #	purpleLines.push_back(Vector3(10, 20, 10))
 #	purpleLines.push_back(Vector3(10, 10, 10))
 
-	var handles = PoolVector3Array()
+	var handles = PackedVector3Array()
 
 	handles.push_back(Vector3(0, 0, 0))
 	handles.push_back(Vector3(0, spatial.value, 0))
@@ -215,7 +215,7 @@ func _draw_grid_gizmo():
 #	handles.push_back(Vector3(-radius.x - scl.x, 0, 0))
 #	handles.push_back(Vector3(radius.x + scl.x, 0, 0))
 	
-#	var mat:SpatialMaterial = get_material("main", gizmo)
+#	var mat:StandardMaterial3D = get_material("main", gizmo)
 #	mat.flags_no_depth_test = true
 	
 	var purpleMat = get_plugin().get_material("purple", self)

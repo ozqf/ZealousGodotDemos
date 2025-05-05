@@ -1,4 +1,4 @@
-extends KinematicBody
+extends CharacterBody3D
 class_name Player
 
 var _player_hud_status_t = preload("res://src/defs/player_hud_status.gd")
@@ -10,29 +10,29 @@ const SLIME_HURT_DELAY:float = 1.0
 
 const ALLOW_HYPER_SAVE:bool = false
 
-onready var _ent:Entity = $Entity
-onready var _head:Spatial = $head
-onready var _cameraMount:Spatial = $camera_mount
-onready var _motor:ZqfFPSMotor = $motor
-onready var _attack:PlayerAttack = $attack
-onready var _inventory = $inventory
-onready var _hud:Hud = $hud
-onready var _interactor:PlayerObjectInteractor = $head/interaction_ray_cast
-onready var _flashLight:SpotLight = $head/SpotLight
-onready var _muzzleFlash:OmniLight = $head/muzzle_flash
-onready var _aimRay:RayCast = $head/aim_ray_cast
-onready var _laserDot:Spatial = $head/laser_dot
-onready var _wallDetector:ZqfVolumeScanner = $wall_detector
-onready var _floorDetector:ZqfVolumeScanner = $floor_detector
-onready var _throwable:Spatial = $head/throwable_sprite
+@onready var _ent:Entity = $Entity
+@onready var _head:Node3D = $head
+@onready var _cameraMount:Node3D = $camera_mount
+@onready var _motor:ZqfFPSMotor = $motor
+@onready var _attack:PlayerAttack = $attack
+@onready var _inventory = $inventory
+@onready var _hud:Hud = $hud
+@onready var _interactor:PlayerObjectInteractor = $head/interaction_ray_cast
+@onready var _flashLight:SpotLight3D = $head/SpotLight
+@onready var _muzzleFlash:OmniLight3D = $head/muzzle_flash
+@onready var _aimRay:RayCast3D = $head/aim_ray_cast
+@onready var _laserDot:Node3D = $head/laser_dot
+@onready var _wallDetector:ZqfVolumeScanner = $wall_detector
+@onready var _floorDetector:ZqfVolumeScanner = $floor_detector
+@onready var _throwable:Node3D = $head/throwable_sprite
 
 var _inputOn:bool = false
 
 var _gameplayInputOn:bool = true
 var _appInputOn:bool = true
 
-var _startTransform:Transform = Transform.IDENTITY
-var _recoverTransform:Transform = Transform.IDENTITY
+var _startTransform:Transform3D = Transform3D.IDENTITY
+var _recoverTransform:Transform3D = Transform3D.IDENTITY
 
 var _godMode:bool = false
 var _endlessRage:bool = false
@@ -75,7 +75,7 @@ var _targettingInfo:Dictionary = {
 	noAttackTime = 0.0,
 	health = 100,
 	grounded = false,
-	throwableTransform = Transform.IDENTITY
+	throwableTransform = Transform3D.IDENTITY
 }
 
 func _ready():
@@ -89,8 +89,8 @@ func _ready():
 	
 	_motor.init_motor(self, _head)
 	_motor.set_input_enabled(false)
-	_inventory.connect("weapon_changed", _hud, "inventory_weapon_changed")
-	_inventory.connect("weapon_action", self, "on_weapon_action")
+	#_inventory.connect("weapon_changed", _hud, "inventory_weapon_changed")
+	_inventory.connect("weapon_action", on_weapon_action)
 	_inventory.custom_init(_head, self, _hud)
 	_inventory.ownerId = Interactions.PLAYER_RESERVED_ID
 	_attack.init_attack(_head, _interactor, _inventory)
@@ -100,10 +100,10 @@ func _ready():
 	# _result  = _attack.connect("fire", _hud, "on_player_shoot")
 	# _result = _attack.connect("fire", self, "on_player_shoot")
 	# _result = _attack.connect("change_weapon", _hud, "on_change_weapon")
-	_result = connect("tree_exiting", self, "_on_tree_exiting")
-	_result = _ent.connect("entity_append_state", self, "append_state")
-	_result = _ent.connect("entity_restore_state", self, "restore_state")
-	_result = _motor.connect("moved", self, "on_moved")
+	_result = connect("tree_exiting", _on_tree_exiting)
+	_result = _ent.connect("entity_append_state", append_state)
+	_result = _ent.connect("entity_restore_state", restore_state)
+	_result = _motor.connect("moved", on_moved)
 
 	Game.register_player(self)
 	config_changed(Config.cfg)
@@ -126,7 +126,7 @@ func on_weapon_action(_weapon:InvWeapon, _action:String) -> void:
 	_muzzleFlash.show_for_time(0.1)
 
 func append_state(_dict:Dictionary) -> void:
-	var t:Transform = Transform.IDENTITY
+	var t:Transform3D = Transform3D.IDENTITY
 	t.origin = self.global_transform.origin
 	t.basis = _head.global_transform.basis
 	_dict.xform = ZqfUtils.transform_to_dict(t)
@@ -134,7 +134,7 @@ func append_state(_dict:Dictionary) -> void:
 	_inventory.append_state(_dict)
 
 func restore_state(_dict:Dictionary) -> void:
-	var t:Transform = ZqfUtils.transform_from_dict(_dict.xform)
+	var t:Transform3D = ZqfUtils.transform_from_dict(_dict.xform)
 	print("Player restoring to pos " + str(t.origin))
 	teleport(t)
 	_inventory.restore_state(_dict)
@@ -143,16 +143,16 @@ func config_changed(_cfg:Dictionary) -> void:
 	_motor.mouseSensitivity = _cfg.i_sensitivity
 	_motor.invertedY = _cfg.i_invertedY
 
-func spawn(xform:Transform) -> void:
+func spawn(xform:Transform3D) -> void:
 	_startTransform = xform
 	_recoverTransform = xform
 	teleport(xform)
 
-func teleport(_trans:Transform) -> void:
+func teleport(_trans:Transform3D) -> void:
 	# copy rotation, clear and pass to motor
 	# print("Player teleport transform " + str(_trans))
 	var _forward:Vector3 = _trans.basis.z
-	var _yaw:float = rad2deg(atan2(_forward.x, _forward.z))
+	var _yaw:float = rad_to_deg(atan2(_forward.x, _forward.z))
 	# print("Player teleport yaw " + str(_yaw))
 	# var rot:Basis = _trans.basis
 	_trans.basis = Basis.IDENTITY
@@ -160,8 +160,8 @@ func teleport(_trans:Transform) -> void:
 	print("Player position: " + str(self.global_transform.origin))
 	_motor.set_yaw_degrees(_yaw)
 
-func set_position(pos:Vector3) -> void:
-	global_transform.origin = pos
+#func set_position(pos:Vector3) -> void:
+#	global_transform.origin = pos
 
 func get_targetting_info() -> Dictionary:
 	return _targettingInfo
@@ -176,7 +176,7 @@ func _on_tree_exiting() -> void:
 	Game.deregister_player(self)
 	# Main.clear_camera(_head)
 
-func console_on_exec(_txt:String, _tokens:PoolStringArray) -> void:
+func console_on_exec(_txt:String, _tokens:PackedStringArray) -> void:
 	if _txt == "kill":
 		kill()
 	if _txt == "resetplayer":
@@ -439,7 +439,7 @@ func _process(_delta:float) -> void:
 	_targettingInfo.grounded = _motor.onFloor
 
 	# Write HUD information
-	var t:Transform = _head.transform
+	var t:Transform3D = _head.transform
 	var swayScale:float = _motor.get_sway_scale()
 	_swayTime += (_delta * (swayScale * 12))
 	# if _motor.get_velocity().length() > 0:

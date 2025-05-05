@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 func _enter_tree() -> void:
 	print("Dynamic root enter tree")

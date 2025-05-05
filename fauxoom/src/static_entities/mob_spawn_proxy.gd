@@ -1,19 +1,19 @@
-extends Spatial
+extends Node3D
 class_name MobSpawnProxy
 
 const Enums = preload("res://src/enums.gd")
 
 signal trigger()
 
-onready var _ent:Entity = $Entity
+@onready var _ent:Entity = $Entity
 
-export var triggerName:String = ""
-export var triggerTargetName:String = ""
+@export var triggerName:String = ""
+@export var triggerTargetName:String = ""
 
 export(Enums.EnemyType) var type = Enums.EnemyType.Punk
-export var delaySpawn:bool = false
-export var spawnAlert:bool = false
-export var sniper:bool = false
+@export var delaySpawn:bool = false
+@export var spawnAlert:bool = false
+@export var sniper:bool = false
 
 export(Enums.EnemyType) var veryEasyOverride = Enums.EnemyType.Punk
 export(Enums.EnemyType) var typeEasyOverride = Enums.EnemyType.Punk
@@ -68,7 +68,7 @@ func game_run_map_spawns() -> void:
 	if !delaySpawn:
 		on_trigger("", ZqfUtils.EMPTY_DICT)
 
-func _on_mob_died(_mob) -> void:
+func on_mob_died(_mob) -> void:
 	# print("Spawn proxy saw child die")
 	emit_signal("trigger")
 

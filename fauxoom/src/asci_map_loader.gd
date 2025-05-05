@@ -139,7 +139,7 @@ static func char_to_ent(c:String, x:int, y:int) -> MapSpawnDef:
 	var spawn:MapSpawnDef = _spawnDef_t.new()
 	spawn.type = newType
 	spawn.position = Vector3(x, 0, y)
-	spawn.yaw = int(rand_range(0, 359))
+	spawn.yaw = int(randf_range(0, 359))
 	return spawn
 
 static func load_from_asci(txt:String) -> MapDef:
@@ -147,7 +147,7 @@ static func load_from_asci(txt:String) -> MapDef:
 	txt = txt.replace("\r", "")
 	# print("Load test map from asci")
 	# print(txt)
-	var lines:PoolStringArray = txt.split("\n", false)
+	var lines:PackedStringArray = txt.split("\n", false)
 	# \n will break up each row, but assume row widths might be
 	# different and should be measured
 	var longest:int = 0
@@ -188,7 +188,7 @@ static func load_from_asci(txt:String) -> MapDef:
 ################################################
 
 static func str_to_b64(source:String) -> String:
-	var srcBytes:PoolByteArray = source.to_utf8()
+	var srcBytes:PackedByteArray = source.to_utf8()
 	var b64:String = Marshalls.raw_to_base64(srcBytes)
 	return b64
 
@@ -196,7 +196,7 @@ static func test_base64() -> String:
 	# b64 encodes 6 bits per char
 	var source:String = asci3
 #	print("Source chars: " + str(source.length()))
-#	var srcBytes:PoolByteArray = source.to_utf8()
+#	var srcBytes:PackedByteArray = source.to_utf8()
 #	var compressed = srcBytes.compress()
 #	print("String bytes " + str(srcBytes.size()) + " compressed bytes: " + str(compressed.size()))
 #	var b64:String = Marshalls.raw_to_base64(compressed)
@@ -215,7 +215,7 @@ static func _measure_line(txt:String) -> int:
 static func read_string(txt:String) -> Dictionary:
 	print("Asci map loader - read string len " + str(txt.length()))
 	txt = txt.replace("\r", "")
-	var lines:PoolStringArray = txt.split("\n", false)
+	var lines:PackedStringArray = txt.split("\n", false)
 	var longest:int = 0
 	for i in range (0, lines.size()):
 		var length = lines[i].length()

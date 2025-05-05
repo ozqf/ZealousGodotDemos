@@ -1,8 +1,8 @@
-extends Spatial
+extends Node3D
 class_name OmniAttackCharge
 
-onready var _mesh:MeshInstance = $MeshInstance
-onready var _particles:CPUParticles = $CPUParticles
+@onready var _mesh:MeshInstance3D = $MeshInstance3D
+@onready var _particles:CPUParticles = $CPUParticles
 
 var _duration:float = 1
 var _tick:float = 0

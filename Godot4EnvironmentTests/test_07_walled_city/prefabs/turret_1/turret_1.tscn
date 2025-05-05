@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4sw068ndba2l"]
+
+[ext_resource type="Script" uid="uid://b0jvvdaaucn1y" path="res://test_07_walled_city/prefabs/turret_1/city_turret_1.gd" id="1_m3fn1"]
+[ext_resource type="PackedScene" uid="uid://l1vietj5nvpj" path="res://test_07_walled_city/prefabs/cannon_muzzle_flash.tscn" id="1_s2s1k"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_fngbm"]
+radius = 50.0
+height = 50.0
+is_hemisphere = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_kdx5w"]
+size = Vector3(8, 8, 80)
+
+[node name="turret" type="Node3D"]
+script = ExtResource("1_m3fn1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_fngbm")
+metadata/_edit_lock_ = true
+
+[node name="cannons" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 12, 0)
+
+[node name="Node3D" type="Node3D" parent="cannons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="cannons/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -41)
+mesh = SubResource("BoxMesh_kdx5w")
+
+[node name="flash" type="Node3D" parent="cannons/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -81)
+
+[node name="cannon_muzzle_flash" parent="cannons/Node3D/flash" instance=ExtResource("1_s2s1k")]
+transform = Transform3D(8.5, 0, 0, 0, 8.51, 0, 0, 0, 111.69, 0, 0, 0)
+
+[node name="Node3D2" type="Node3D" parent="cannons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
+
+[node name="flash2" type="Node3D" parent="cannons/Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -81)
+
+[node name="cannon_muzzle_flash" parent="cannons/Node3D2/flash2" instance=ExtResource("1_s2s1k")]
+transform = Transform3D(8.5, 0, 0, 0, 8.51, 0, 0, 0, 111.69, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="cannons/Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -41)
+mesh = SubResource("BoxMesh_kdx5w")

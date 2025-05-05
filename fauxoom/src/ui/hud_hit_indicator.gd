@@ -18,7 +18,7 @@ func _update_rotation() -> void:
 
 func spawn(playerYaw:float, attackDir:Vector3) -> void:
 	# var hitYawDegrees:float = atan2(attackDir.x, attackDir.z)
-	var hitYawDegrees:float = rad2deg(atan2(attackDir.x, attackDir.z))
+	var hitYawDegrees:float = rad_to_deg(atan2(attackDir.x, attackDir.z))
 	# hitYawDegrees += 180
 	_playerYaw = playerYaw
 	_hitYaw = hitYawDegrees

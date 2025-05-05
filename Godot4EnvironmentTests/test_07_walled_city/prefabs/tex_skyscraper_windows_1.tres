@@ -1,0 +1,19 @@
+[gd_resource type="NoiseTexture2D" load_steps=3 format=3 uid="uid://kv8cg7ik6c7f"]
+
+[sub_resource type="Gradient" id="Gradient_m0wwa"]
+colors = PackedColorArray(1, 1, 0.792157, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_mh0qk"]
+noise_type = 2
+frequency = 0.0079
+offset = Vector3(35.5, 0, 0)
+fractal_type = 0
+cellular_distance_function = 2
+cellular_jitter = 0.0
+cellular_return_type = 6
+
+[resource]
+width = 128
+height = 256
+color_ramp = SubResource("Gradient_m0wwa")
+noise = SubResource("FastNoiseLite_mh0qk")

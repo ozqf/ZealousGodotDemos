@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bpm0ns11tk7iy"]
 
-[ext_resource type="Script" path="res://addons/zqf_actor_proxy_editor/custom_button.gd" id="1_bpq5c"]
+[ext_resource type="Script" uid="uid://corm2s4pu2fe" path="res://addons/zqf_actor_proxy_editor/custom_button.gd" id="1_bpq5c"]
 
 [node name="custom_button" type="Button"]
 text = "My Custom Button"

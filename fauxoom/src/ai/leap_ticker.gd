@@ -2,8 +2,8 @@ extends AITicker
 
 const LEAP_STATE:int = -2
 
-onready var _area:Area = $Area
-onready var _shape:CollisionShape = $Area/CollisionShape
+@onready var _area:Area3D = $Area
+@onready var _shape:CollisionShape3D = $Area/CollisionShape
 
 var _hitInfo:HitInfo = null
 
@@ -19,9 +19,9 @@ func custom_init_b() -> void:
 	_hitInfo.attackTeam = Interactions.TEAM_ENEMY
 #	_mob.motor.speed = 8
 	_damage_area_off()
-	var _err = _area.connect("body_entered", self, "_on_body_entered")
+	var _err = _area.connect("body_entered", _on_body_entered)
 
-func _on_body_entered(body:PhysicsBody) -> void:
+func _on_body_entered(body:PhysicsBody3D) -> void:
 	# can touch self!
 	if body == _mob:
 		return
@@ -35,7 +35,7 @@ func _damage_area_off() -> void:
 
 func stop_hunt() -> void:
 	_damage_area_off()
-	.stop_hunt()
+	super.stop_hunt()
 
 func custom_tick(_delta:float, _aiInfo:AITickInfo) -> void:
 	_tick -= _delta
@@ -100,7 +100,7 @@ func custom_tick(_delta:float, _aiInfo:AITickInfo) -> void:
 	elif _state == LEAP_STATE:
 		_leapTick += _delta
 		var weight:float = _leapTick / _leapTime
-		var pos:Vector3 = _leapStart.linear_interpolate(_leapEnd, weight)
+		var pos:Vector3 = _leapStart.lerp(_leapEnd, weight)
 		# print("Lerp to pos" + str(pos))
 		_mob.global_transform.origin = pos
 		if _leapTick > _leapTime:

@@ -1,7 +1,7 @@
-extends Spatial
+extends Node3D
 class_name SpriteObject
 
-onready var _sprite:Sprite3D = $Sprite3D
+@onready var _sprite:Sprite3D = $Sprite3D
 
 var _spr_a1 = load("res://assets/sprites/player/player_a1.png")
 var _spr_a2a8 = load("res://assets/sprites/player/player_a2_a8.png")
@@ -14,7 +14,7 @@ var _spr_a8 = load("res://assets/sprites/player/player_a8.png")
 
 var _frames = []
 
-export var useParentYaw:bool = false
+@export var useParentYaw:bool = false
 
 func _ready() -> void:
 	_frames.push_back(_spr_a1) # 0

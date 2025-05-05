@@ -1,6 +1,6 @@
-extends Spatial
+extends Node3D
 
-onready var startOn:bool = true
+@onready var startOn:bool = true
 
 var _on:bool = false
 
