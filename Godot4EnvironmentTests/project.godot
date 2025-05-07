@@ -11,6 +11,10 @@ config_version=5
 [application]
 
 config/name="Godot4EnvironmentTests"
-run/main_scene="res://test_05_colony_drizzle/test_05.tscn"
+run/main_scene="uid://cpc4q03kxr4k8"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/stretch/mode="viewport"
