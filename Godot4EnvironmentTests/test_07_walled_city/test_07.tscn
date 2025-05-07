@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c4sw068ndba2l" path="res://test_07_walled_city/prefabs/turret_1/turret_1.tscn" id="4_s1j01"]
 [ext_resource type="Script" uid="uid://cknxmg2lvxyn2" path="res://test_07_walled_city/tex_to_city.gd" id="5_8hidc"]
 [ext_resource type="Texture2D" uid="uid://5o5iw1gdllr0" path="res://test_07_walled_city/tex_city_plan.png" id="6_iy41i"]
-[ext_resource type="Theme" uid="uid://xtswnns301hs" path="res://test_07_walled_city/assegai_theme.tres" id="7_7mdcx"]
+[ext_resource type="Theme" uid="uid://xtswnns301hs" path="res://test_07_walled_city/wipeout_theme.tres" id="7_7mdcx"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0xddy"]
 height = 1.8
@@ -9539,8 +9539,10 @@ anchor_right = 1.0
 offset_left = -512.0
 offset_bottom = 192.0
 grow_horizontal = 0
+theme = ExtResource("7_7mdcx")
 theme_override_font_sizes/font_size = 48
-text = "ASSEGAI"
+text = "TITLE
+title"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
@@ -9557,6 +9559,7 @@ offset_top = -67.0
 offset_right = 106.5
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("7_7mdcx")
 theme_override_font_sizes/font_size = 26
 text = "press space _"
 horizontal_alignment = 1
@@ -9568,26 +9571,27 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -132.0
-offset_right = 256.0
-offset_bottom = 124.0
+offset_top = -68.0
+offset_right = 320.0
+offset_bottom = 324.0
 grow_vertical = 2
+alignment = 1
 metadata/_edit_lock_ = true
 
 [node name="Button" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("7_7mdcx")
-text = "1 - start"
+text = " 1  - start"
 alignment = 0
 
 [node name="Button2" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("7_7mdcx")
-text = "2 - options"
+text = " 2 - options"
 alignment = 0
 
 [node name="Button3" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("7_7mdcx")
-text = "3 - quit"
+text = " 3 - quit"
 alignment = 0

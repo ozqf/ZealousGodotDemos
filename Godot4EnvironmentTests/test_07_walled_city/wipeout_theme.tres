@@ -1,0 +1,47 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://xtswnns301hs"]
+
+[ext_resource type="FontFile" uid="uid://xsrmd00k5fe" path="res://test_07_walled_city/fonts/JupiteroidRegular-8Oeg0.ttf" id="1_afxxu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ixuq"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_atmnc"]
+bg_color = Color(0.407843, 0.407843, 0.407843, 1)
+border_color = Color(1, 1, 1, 1)
+shadow_color = Color(0, 0, 0, 1)
+
+[resource]
+Button/colors/font_color = Color(1, 1, 0.28, 1)
+Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0.666667, 0.666667, 0.666667, 1)
+Button/colors/icon_disabled_color = Color(1, 1, 1, 0.4)
+Button/colors/icon_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
+Button/constants/align_to_largest_stylebox = 0
+Button/constants/h_separation = 4
+Button/constants/icon_max_width = 0
+Button/constants/outline_size = 0
+Button/font_sizes/font_size = 20
+Button/fonts/font = ExtResource("1_afxxu")
+Button/styles/disabled = SubResource("StyleBoxFlat_7ixuq")
+Button/styles/focus = SubResource("StyleBoxFlat_atmnc")
+Button/styles/hover = SubResource("StyleBoxFlat_atmnc")
+Button/styles/normal = SubResource("StyleBoxFlat_atmnc")
+Button/styles/pressed = SubResource("StyleBoxFlat_atmnc")
+Label/fonts/font = ExtResource("1_afxxu")
