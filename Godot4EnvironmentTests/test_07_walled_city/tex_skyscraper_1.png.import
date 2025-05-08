@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bisk7sd2vojbw"
-path.s3tc="res://.godot/imported/tex_skyscraper_1.png-0af0860aabd985b679a6e19580142f9e.s3tc.ctex"
+path="res://.godot/imported/tex_skyscraper_1.png-0af0860aabd985b679a6e19580142f9e.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://test_07_walled_city/tex_skyscraper_1.png"
-dest_files=["res://.godot/imported/tex_skyscraper_1.png-0af0860aabd985b679a6e19580142f9e.s3tc.ctex"]
+dest_files=["res://.godot/imported/tex_skyscraper_1.png-0af0860aabd985b679a6e19580142f9e.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
