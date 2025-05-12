@@ -9,7 +9,6 @@ size = Vector3(80, 600, 80)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aogm2"]
 albedo_texture = ExtResource("1_80t2k")
 emission_enabled = true
-emission_energy_multiplier = 0.47
 emission_texture = ExtResource("1_80t2k")
 uv1_scale = Vector3(0.2, 0.2, 0.2)
 uv1_triplanar = true

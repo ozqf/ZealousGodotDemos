@@ -9449,7 +9449,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 168, 0, 819)
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2351, 178, -1615)
 
 [node name="rooftop_position_3" type="Node3D" parent="hand_placed"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2351, 15, -1778)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2351, 27.48, -1778)
 
 [node name="rooftop" type="Node3D" parent="hand_placed/rooftop_position_3"]
 
