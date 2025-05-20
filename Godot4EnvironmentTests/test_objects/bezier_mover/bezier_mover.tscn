@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cybiksah5w2w6"]
+
+[ext_resource type="Script" uid="uid://bbf6bstm5ydle" path="res://test_objects/bezier_mover/bezier_mover.gd" id="1_u6j1c"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_u6j1c"]
+top_radius = 0.05
+bottom_radius = 0.25
+height = 1.0
+radial_segments = 8
+rings = 1
+
+[node name="BezierMover" type="Node3D"]
+script = ExtResource("1_u6j1c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_u6j1c")

@@ -1,7 +1,7 @@
 [gd_resource type="NoiseTexture2D" load_steps=3 format=3 uid="uid://3rkga2ik04rp"]
 
 [sub_resource type="Gradient" id="Gradient_yh0ya"]
-colors = PackedColorArray(1, 1, 0, 1, 0, 0, 0, 1)
+colors = PackedColorArray(0.557449, 0.557449, 0, 1, 0, 0, 0, 1)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_t45qh"]
 noise_type = 2

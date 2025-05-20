@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cal6ayvjbuhnr"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_bs8a5"]
+radial_segments = 16
+rings = 8
+
+[node name="BezierNode" type="MeshInstance3D"]
+mesh = SubResource("SphereMesh_bs8a5")

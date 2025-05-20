@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dc347ne70dxit"]
+[gd_scene load_steps=7 format=3 uid="uid://dc347ne70dxit"]
 
 [ext_resource type="Texture2D" uid="uid://bisk7sd2vojbw" path="res://test_07_walled_city/tex_skyscraper_1.png" id="1_80t2k"]
 [ext_resource type="Material" uid="uid://jproymmt8gv5" path="res://shared/materials/planar_noise_concrete.tres" id="2_80t2k"]
+[ext_resource type="Texture2D" uid="uid://djad8ps47mmsk" path="res://test_07_walled_city/tex_skyscraper_1_emission.png" id="2_aogm2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0xddy"]
 size = Vector3(80, 600, 80)
@@ -9,7 +10,7 @@ size = Vector3(80, 600, 80)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aogm2"]
 albedo_texture = ExtResource("1_80t2k")
 emission_enabled = true
-emission_texture = ExtResource("1_80t2k")
+emission_texture = ExtResource("2_aogm2")
 uv1_scale = Vector3(0.2, 0.2, 0.2)
 uv1_triplanar = true
 texture_filter = 2
