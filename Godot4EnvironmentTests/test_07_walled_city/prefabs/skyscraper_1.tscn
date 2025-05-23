@@ -1,19 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dc347ne70dxit"]
+[gd_scene load_steps=5 format=3 uid="uid://dc347ne70dxit"]
 
-[ext_resource type="Texture2D" uid="uid://bisk7sd2vojbw" path="res://test_07_walled_city/tex_skyscraper_1.png" id="1_80t2k"]
+[ext_resource type="Material" uid="uid://1l2nh0hveon7" path="res://test_07_walled_city/prefabs/mat_skyscraper_1.tres" id="1_80t2k"]
 [ext_resource type="Material" uid="uid://jproymmt8gv5" path="res://shared/materials/planar_noise_concrete.tres" id="2_80t2k"]
-[ext_resource type="Texture2D" uid="uid://djad8ps47mmsk" path="res://test_07_walled_city/tex_skyscraper_1_emission.png" id="2_aogm2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0xddy"]
 size = Vector3(80, 600, 80)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aogm2"]
-albedo_texture = ExtResource("1_80t2k")
-emission_enabled = true
-emission_texture = ExtResource("2_aogm2")
-uv1_scale = Vector3(0.2, 0.2, 0.2)
-uv1_triplanar = true
-texture_filter = 2
 
 [sub_resource type="BoxMesh" id="BoxMesh_mh0qk"]
 size = Vector3(80, 1, 80)
@@ -23,7 +14,7 @@ size = Vector3(80, 1, 80)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 300, 0)
 mesh = SubResource("BoxMesh_0xddy")
-surface_material_override/0 = SubResource("StandardMaterial3D_aogm2")
+surface_material_override/0 = ExtResource("1_80t2k")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 600.5, 0)

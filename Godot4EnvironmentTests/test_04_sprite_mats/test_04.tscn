@@ -102,7 +102,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 11, 22)
 
 [node name="BezierNode2" parent="bezier_move_test/path/BezierNode" instance=ExtResource("13_188je")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -36)
 
 [node name="BezierNode3" parent="bezier_move_test/path" instance=ExtResource("13_188je")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 11, -11)

@@ -2,16 +2,20 @@
 
 [resource]
 background_mode = 1
-background_color = Color(0.381703, 0.381703, 0.381703, 1)
+background_color = Color(0.0728426, 0.0728426, 0.0728426, 1)
+background_energy_multiplier = 1.37
 ambient_light_source = 2
 ambient_light_color = Color(0.107599, 0.131912, 0.396485, 1)
 ambient_light_energy = 0.09
 tonemap_mode = 2
 ssr_enabled = true
 glow_enabled = true
-glow_strength = 1.03
-glow_bloom = 0.15
+glow_intensity = 0.98
+glow_strength = 0.76
+glow_bloom = 0.25
 glow_blend_mode = 0
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.01
+volumetric_fog_density = 0.0096
 volumetric_fog_albedo = Color(0.654232, 0.654232, 0.654232, 1)
+volumetric_fog_emission = Color(0.205117, 0.205117, 0.205117, 1)
+volumetric_fog_sky_affect = 0.179

@@ -1,0 +1,17 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://1l2nh0hveon7"]
+
+[ext_resource type="Texture2D" uid="uid://bisk7sd2vojbw" path="res://test_07_walled_city/tex_skyscraper_1.png" id="1_fynjp"]
+[ext_resource type="Texture2D" uid="uid://djad8ps47mmsk" path="res://test_07_walled_city/tex_skyscraper_1_emission.png" id="2_mipkl"]
+
+[resource]
+albedo_texture = ExtResource("1_fynjp")
+metallic = 1.0
+roughness = 0.3
+emission_enabled = true
+emission_energy_multiplier = 1.5
+emission_texture = ExtResource("2_mipkl")
+subsurf_scatter_strength = 0.36
+backlight = Color(1, 1, 1, 1)
+uv1_scale = Vector3(0.2, 0.2, 0.2)
+uv1_triplanar = true
+texture_filter = 2
