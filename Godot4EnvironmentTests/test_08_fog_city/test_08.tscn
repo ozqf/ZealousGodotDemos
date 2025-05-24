@@ -1,17 +1,26 @@
-[gd_scene load_steps=7 format=3 uid="uid://b60qrkbpdbykw"]
+[gd_scene load_steps=9 format=3 uid="uid://b60qrkbpdbykw"]
 
 [ext_resource type="Material" uid="uid://1l2nh0hveon7" path="res://test_07_walled_city/prefabs/mat_skyscraper_1.tres" id="1_25whf"]
+[ext_resource type="ArrayMesh" uid="uid://dmfgei0rl00kp" path="res://test_08_fog_city/mesh1.obj" id="1_te0w7"]
+[ext_resource type="PackedScene" uid="uid://bvspdchvnmn0r" path="res://test_08_fog_city/assets/composite_building.tscn" id="2_8o5jh"]
 
 [sub_resource type="Environment" id="Environment_fx8s2"]
 background_mode = 1
 background_color = Color(0.158472, 0.158472, 0.158472, 1)
 ambient_light_color = Color(0.564962, 0.564962, 0.564962, 1)
+tonemap_mode = 2
+glow_enabled = true
+glow_bloom = 0.2
+glow_blend_mode = 0
 fog_enabled = true
-fog_mode = 1
-fog_density = 1.0
+fog_light_color = Color(0.182778, 0.218596, 0.240227, 1)
+fog_light_energy = 0.24
+fog_density = 0.005
 fog_depth_begin = 30.0
-fog_depth_end = 270.0
-volumetric_fog_density = 0.0133
+fog_depth_end = 802.0
+volumetric_fog_density = 0.03
+volumetric_fog_albedo = Color(0.325438, 0.460196, 0.467333, 1)
+volumetric_fog_length = 80.0
 
 [sub_resource type="Gradient" id="Gradient_fx8s2"]
 colors = PackedColorArray(0.133196, 0.133196, 0.133196, 1, 0.791999, 0.791999, 0.791999, 1)
@@ -34,151 +43,195 @@ texture_filter = 2
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, 0.683013, -0.183013, 0, 0.258819, 0.965926, 0.707107, -0.683013, 0.183013, 0, 0, 1)
+light_energy = 0.3
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_fx8s2")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.5, -0.44474, -0.743106, 0, 0.858065, -0.513541, 0.866025, 0.256771, 0.429032, -15.6, 1.8, 15.6)
+transform = Transform3D(0.5, -0.44474, -0.743106, -6.77221e-09, 0.858065, -0.513542, 0.866025, 0.256771, 0.429033, -15.6, 1.8, 15.6)
 
-[node name="scales" type="Node3D" parent="."]
+[node name="game_space" type="Node3D" parent="."]
 
-[node name="character_scale" type="CSGBox3D" parent="scales"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="game_space"]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, -8, 1, 9)
+mesh = ExtResource("1_te0w7")
+skeleton = NodePath("../..")
+
+[node name="scales" type="Node3D" parent="game_space"]
+
+[node name="character_scale" type="CSGBox3D" parent="game_space/scales"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 1, 12.5)
 size = Vector3(1, 2, 1)
 
-[node name="character_scale2" type="CSGBox3D" parent="scales"]
+[node name="character_scale2" type="CSGBox3D" parent="game_space/scales"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.5, 5, -33.5)
 size = Vector3(1, 2, 1)
 
-[node name="character_scale3" type="CSGBox3D" parent="scales"]
+[node name="character_scale3" type="CSGBox3D" parent="game_space/scales"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.5, 5, 10.5)
 size = Vector3(1, 2, 1)
 
-[node name="buildings" type="Node3D" parent="."]
+[node name="composite_building" parent="game_space" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 165, -108, 0)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="buildings"]
+[node name="composite_building11" parent="game_space" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 161, -128, -92)
+
+[node name="composite_building30" parent="game_space" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, -140, -67)
+
+[node name="composite_building31" parent="game_space" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66, -140, 25)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="game_space"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -128, 0)
 material_override = SubResource("StandardMaterial3D_8o5jh")
 size = Vector3(32, 256, 32)
 material = ExtResource("1_25whf")
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 48)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="skybox_buildings" type="Node3D" parent="."]
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 0, 48)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building2" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, -108, -259)
 
-[node name="CSGBox3D11" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -96, 0, 48)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building3" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 180, -259)
 
-[node name="CSGBox3D9" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 0, 0)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building6" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 116, -108, -212)
 
-[node name="CSGBox3D10" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -96, 0, 0)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building7" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 116, 180, -212)
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 0, 48)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building33" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 116, 468, -212)
 
-[node name="CSGBox3D6" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, -126, 0)
-size = Vector3(32, 260, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building32" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 468, -259)
 
-[node name="CSGBox3D7" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96, -110, 0)
-size = Vector3(32, 292, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building4" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -107, -108, -138)
 
-[node name="CSGBox3D12" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 0, -48)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building5" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -107, 180, -138)
 
-[node name="CSGBox3D26" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, -96)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building8" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 257, -45, -136)
 
-[node name="CSGBox3D16" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -48)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building10" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 280, 24, 0)
 
-[node name="CSGBox3D17" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 0, -96)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building12" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 472, -108, 42)
 
-[node name="CSGBox3D18" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96, 0, -96)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building13" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 472, 180, 42)
 
-[node name="CSGBox3D13" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -96, 0, -48)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building20" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 471, -108, -113)
 
-[node name="CSGBox3D14" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, -126, -48)
-size = Vector3(32, 260, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building21" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 471, 180, -113)
 
-[node name="CSGBox3D15" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96, -119.5, -48)
-size = Vector3(32, 273, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building22" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 287, -108, -277)
 
-[node name="CSGBox3D8" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96, 0, 48)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building23" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 287, 180, -277)
 
-[node name="CSGBox3D19" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 144, 0, 0)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building34" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 287, 468, -277)
 
-[node name="CSGBox3D20" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 144, 0, -96)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building18" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 472, -108, 114)
 
-[node name="CSGBox3D21" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 144, -78.5, -48)
-size = Vector3(32, 355, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building19" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 472, 180, 114)
 
-[node name="CSGBox3D22" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 144, 0, 48)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building30" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 707, -108, -64)
 
-[node name="CSGBox3D23" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, 24)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building31" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 707, 180, -64)
 
-[node name="CSGBox3D24" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, -24)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building39" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 708, 468, -64)
 
-[node name="CSGBox3D25" type="CSGBox3D" parent="buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, -72)
-size = Vector3(32, 512, 32)
-material = ExtResource("1_25whf")
+[node name="composite_building36" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 558, -108, -194)
+
+[node name="composite_building37" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 558, 180, -194)
+
+[node name="composite_building44" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 558, 468, -194)
+
+[node name="composite_building45" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 580, -108, 118)
+
+[node name="composite_building46" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 580, 180, 118)
+
+[node name="composite_building47" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 712, 468, 8)
+
+[node name="composite_building35" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 712, -108, 8)
+
+[node name="composite_building40" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 712, 180, 8)
+
+[node name="composite_building38" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 569, -108, -433)
+
+[node name="composite_building41" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 569, 180, -433)
+
+[node name="composite_building48" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 569, 468, -433)
+
+[node name="composite_building49" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 569, 468, -361)
+
+[node name="composite_building50" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 569, -108, -361)
+
+[node name="composite_building51" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 569, 180, -361)
+
+[node name="composite_building42" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 463, -108, -246)
+
+[node name="composite_building43" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 463, 180, -246)
+
+[node name="composite_building14" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 168, -108, 88)
+
+[node name="composite_building15" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 168, 180, 88)
+
+[node name="composite_building16" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96, -108, 88)
+
+[node name="composite_building17" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96, 180, 88)
+
+[node name="composite_building24" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, -108, 107)
+
+[node name="composite_building25" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 180, 107)
+
+[node name="composite_building26" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 82, -108, -315)
+
+[node name="composite_building27" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 82, 180, -315)
+
+[node name="composite_building28" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -108, -422)
+
+[node name="composite_building29" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 180, -422)
