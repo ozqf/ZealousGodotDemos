@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bimvs0t1lqby0"]
 
-[ext_resource type="Script" path="res://actors/player/player_camera_mount.gd" id="1_vec3f"]
+[ext_resource type="Script" uid="uid://counbi6yao3pq" path="res://actors/player/player_camera_mount.gd" id="1_vec3f"]
 [ext_resource type="CylinderMesh" uid="uid://doo173limjd1o" path="res://actors/player/hook_shot/hook_shot_mesh.tres" id="2_xweog"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_yo87p"]

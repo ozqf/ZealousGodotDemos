@@ -181,4 +181,3 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 	self.velocity = curVelocity
 
 	self.move_and_slide()
-

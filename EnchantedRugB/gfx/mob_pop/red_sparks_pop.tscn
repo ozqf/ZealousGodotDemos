@@ -3,8 +3,8 @@
 [ext_resource type="Material" uid="uid://nv8is4sghu58" path="res://gfx/mob_pop/red_spark_mat.tres" id="1_6m4eb"]
 [ext_resource type="Material" uid="uid://gq1fv4bc432m" path="res://gfx/mob_pop/sparks_particle_process.tres" id="2_mts82"]
 [ext_resource type="BoxMesh" uid="uid://vcpcfeomksp7" path="res://gfx/mob_pop/spark_cube.tres" id="3_2ybit"]
-[ext_resource type="Script" path="res://zqf/zqf_emit_on_ready.gd" id="4_xkqyy"]
-[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="4_ybh7c"]
+[ext_resource type="Script" uid="uid://dyeg8gogrhgxt" path="res://zqf/zqf_emit_on_ready.gd" id="4_xkqyy"]
+[ext_resource type="Script" uid="uid://bbxkjns85dlou" path="res://zqf/zqf_timed_cull.gd" id="4_ybh7c"]
 
 [node name="red_sparks_pop" type="GPUParticles3D"]
 material_override = ExtResource("1_6m4eb")

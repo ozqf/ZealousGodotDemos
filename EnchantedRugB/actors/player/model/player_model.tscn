@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://wpe0kxoncqou"]
 
-[ext_resource type="Script" path="res://actors/player/model/player_model.gd" id="1_2724h"]
+[ext_resource type="Script" uid="uid://78a13ienb3t8" path="res://actors/player/model/player_model.gd" id="1_2724h"]
 [ext_resource type="PackedScene" uid="uid://cxsxlruk5fhdl" path="res://actors/player/model/player_leg.tscn" id="1_cvvvx"]
 [ext_resource type="SphereMesh" uid="uid://dsctmkhiihua6" path="res://actors/player/model/player_hemisphere.tres" id="3_35l2n"]
 
@@ -531,12 +531,12 @@ tracks/17/keys = PackedFloat32Array(0, 1, 0.991445, 0, 0, 0.130526)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_txyxd"]
 _data = {
-"RESET": SubResource("Animation_1blf5"),
-"idle": SubResource("Animation_1mpi7"),
-"launch": SubResource("Animation_rgyai"),
-"loop": SubResource("Animation_wl0pm"),
-"stab": SubResource("Animation_ismmx"),
-"stowed": SubResource("Animation_jfqnj")
+&"RESET": SubResource("Animation_1blf5"),
+&"idle": SubResource("Animation_1mpi7"),
+&"launch": SubResource("Animation_rgyai"),
+&"loop": SubResource("Animation_wl0pm"),
+&"stab": SubResource("Animation_ismmx"),
+&"stowed": SubResource("Animation_jfqnj")
 }
 
 [node name="player_model" type="Node3D"]

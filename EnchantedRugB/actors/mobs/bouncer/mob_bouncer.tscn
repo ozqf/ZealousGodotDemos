@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://bc6xyb5urqfaa"]
 
-[ext_resource type="Script" path="res://actors/mobs/bouncer/mob_bouncer.gd" id="1_xywwn"]
+[ext_resource type="Script" uid="uid://bfjlav27g1jqm" path="res://actors/mobs/bouncer/mob_bouncer.gd" id="1_xywwn"]
 [ext_resource type="CylinderMesh" uid="uid://c8s4cb0ipld20" path="res://actors/mobs/bouncer/bouncer_cylinder.tres" id="2_ln2xc"]
-[ext_resource type="Script" path="res://actors/components/hitbox.gd" id="3_stcw1"]
+[ext_resource type="Script" uid="uid://d3plu7vscl803" path="res://actors/components/hitbox.gd" id="3_stcw1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_crmci"]
 radius = 0.4

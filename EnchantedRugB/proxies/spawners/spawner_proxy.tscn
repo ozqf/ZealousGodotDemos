@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bb7wecx6ubm6b"]
 
-[ext_resource type="Script" path="res://proxies/spawners/spawner_proxy.gd" id="1_5pnho"]
+[ext_resource type="Script" uid="uid://bk2se36qfswa5" path="res://proxies/spawners/spawner_proxy.gd" id="1_5pnho"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_w2juy"]
 

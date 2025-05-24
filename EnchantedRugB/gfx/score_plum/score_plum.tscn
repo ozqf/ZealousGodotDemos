@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://6syeannjsveg"]
 
-[ext_resource type="Script" path="res://gfx/score_plum/score_plum.gd" id="1_rumdm"]
+[ext_resource type="Script" uid="uid://b2p77ncc0m0wr" path="res://gfx/score_plum/score_plum.gd" id="1_rumdm"]
 
 [node name="score_plum" type="Node3D"]
 script = ExtResource("1_rumdm")

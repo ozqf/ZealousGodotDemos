@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://diyvnw0xv2rhy"]
 
 [ext_resource type="Material" uid="uid://87fl7a6m3pbm" path="res://gfx/mob_pop/yellow_spark_mat.tres" id="1_ayaga"]
-[ext_resource type="Script" path="res://zqf/zqf_emit_on_ready.gd" id="1_qls45"]
-[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="2_n2l4d"]
+[ext_resource type="Script" uid="uid://dyeg8gogrhgxt" path="res://zqf/zqf_emit_on_ready.gd" id="1_qls45"]
+[ext_resource type="Script" uid="uid://bbxkjns85dlou" path="res://zqf/zqf_timed_cull.gd" id="2_n2l4d"]
 [ext_resource type="Material" uid="uid://gq1fv4bc432m" path="res://gfx/mob_pop/sparks_particle_process.tres" id="2_n5rkr"]
 [ext_resource type="BoxMesh" uid="uid://vcpcfeomksp7" path="res://gfx/mob_pop/spark_cube.tres" id="3_gbsc7"]
 

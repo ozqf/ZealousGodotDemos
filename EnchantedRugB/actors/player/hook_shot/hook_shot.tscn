@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://fqsn2x6j5uhi"]
 
-[ext_resource type="Script" path="res://actors/player/hook_shot/hook_shot.gd" id="1_e285v"]
+[ext_resource type="Script" uid="uid://crs54tiv3q1w2" path="res://actors/player/hook_shot/hook_shot.gd" id="1_e285v"]
 [ext_resource type="CylinderMesh" uid="uid://doo173limjd1o" path="res://actors/player/hook_shot/hook_shot_mesh.tres" id="2_r47xo"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k7xu5"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dhrxmyuc1c4mq"]
 
-[ext_resource type="Script" path="res://actors/volumes/player_barrier_volume.gd" id="1_j56wv"]
+[ext_resource type="Script" uid="uid://q0bpd1aptm2o" path="res://actors/volumes/player_barrier_volume.gd" id="1_j56wv"]
 [ext_resource type="Texture2D" uid="uid://cm37vy03rasim" path="res://actors/volumes/player_barrier_grid_albedo.png" id="2_qd8ph"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3m0i7"]

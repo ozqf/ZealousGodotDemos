@@ -253,4 +253,3 @@ func _on_avatar_event(__sourceNode, __evType, __dataObj) -> void:
 		Game.AVATAR_EVENT_TYPE_TELEPORT:
 			if __dataObj is Transform3D:
 				teleport(__dataObj)
-

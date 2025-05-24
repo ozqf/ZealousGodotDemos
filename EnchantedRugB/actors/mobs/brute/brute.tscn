@@ -1,17 +1,17 @@
 [gd_scene load_steps=27 format=3 uid="uid://rworqhwqrtmt"]
 
-[ext_resource type="Script" path="res://actors/mobs/brute/brute.gd" id="1_msyx4"]
+[ext_resource type="Script" uid="uid://b7e7vfge36rru" path="res://actors/mobs/brute/brute.gd" id="1_msyx4"]
 [ext_resource type="Shape3D" uid="uid://cmcsjju7idrh4" path="res://actors/mobs/brute/brute_cylinder.tres" id="2_uprmj"]
 [ext_resource type="PackedScene" uid="uid://brg4v5wuuaaag" path="res://actors/mobs/brute/brute_model.tscn" id="3_307wd"]
-[ext_resource type="Script" path="res://actors/components/mood_aura/mesh_mood_aura.gd" id="3_ipqe5"]
+[ext_resource type="Script" uid="uid://cuh6q787mkjf5" path="res://actors/components/mood_aura/mesh_mood_aura.gd" id="3_ipqe5"]
 [ext_resource type="CylinderMesh" uid="uid://doo173limjd1o" path="res://actors/player/hook_shot/hook_shot_mesh.tres" id="4_0k0rj"]
-[ext_resource type="Script" path="res://actors/components/hitbox_delegate.gd" id="4_1gqno"]
+[ext_resource type="Script" uid="uid://dyufgx44spct3" path="res://actors/components/hitbox_delegate.gd" id="4_1gqno"]
 [ext_resource type="Material" uid="uid://bj8myurnk2us4" path="res://shared/object_materials/laser_sword_red.tres" id="5_sryw1"]
-[ext_resource type="Script" path="res://actors/components/mob_melee_weapon.gd" id="5_tglei"]
-[ext_resource type="Script" path="res://actors/components/actor_target_info.gd" id="5_urw3r"]
-[ext_resource type="Script" path="res://zqf/zqf_nav_agent.gd" id="6_f3odt"]
-[ext_resource type="Script" path="res://zqf/zqf_animation_key_emitter.gd" id="6_u2oi0"]
-[ext_resource type="Script" path="res://shared/nodes/launch_info.gd" id="11_uo3uo"]
+[ext_resource type="Script" uid="uid://b403f1qtvs5gy" path="res://actors/components/mob_melee_weapon.gd" id="5_tglei"]
+[ext_resource type="Script" uid="uid://bhfh1bok0paj8" path="res://actors/components/actor_target_info.gd" id="5_urw3r"]
+[ext_resource type="Script" uid="uid://djha8wujdcaq6" path="res://zqf/zqf_nav_agent.gd" id="6_f3odt"]
+[ext_resource type="Script" uid="uid://bgcc21q4sx7sr" path="res://zqf/zqf_animation_key_emitter.gd" id="6_u2oi0"]
+[ext_resource type="Script" uid="uid://bw8ac4rqu55tr" path="res://shared/nodes/launch_info.gd" id="11_uo3uo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uo8mm"]
 radius = 1.5
@@ -456,14 +456,14 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hwjd5"]
 _data = {
-"block": SubResource("Animation_mjv3v"),
-"chop": SubResource("Animation_dqyvo"),
-"idle": SubResource("Animation_f5xj0"),
-"parried": SubResource("Animation_unrfr"),
-"staggered": SubResource("Animation_q66h3"),
-"stowed": SubResource("Animation_5hetv"),
-"swing_1": SubResource("Animation_rbfjd"),
-"swing_2": SubResource("Animation_p1itd")
+&"block": SubResource("Animation_mjv3v"),
+&"chop": SubResource("Animation_dqyvo"),
+&"idle": SubResource("Animation_f5xj0"),
+&"parried": SubResource("Animation_unrfr"),
+&"staggered": SubResource("Animation_q66h3"),
+&"stowed": SubResource("Animation_5hetv"),
+&"swing_1": SubResource("Animation_rbfjd"),
+&"swing_2": SubResource("Animation_p1itd")
 }
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_8sjov"]

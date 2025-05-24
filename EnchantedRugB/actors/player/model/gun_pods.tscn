@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://drxstfbj1ovw8"]
 
-[ext_resource type="Script" path="res://actors/player/model/gun_pods.gd" id="1_ymdyn"]
+[ext_resource type="Script" uid="uid://du6txgwliv3oo" path="res://actors/player/model/gun_pods.gd" id="1_ymdyn"]
 [ext_resource type="CylinderMesh" uid="uid://doo173limjd1o" path="res://actors/player/hook_shot/hook_shot_mesh.tres" id="2_3x0fc"]
 [ext_resource type="PackedScene" uid="uid://ccv1uu7wjvrjg" path="res://actors/components/red_aim_laser.tscn" id="2_24h8p"]
 

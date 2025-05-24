@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c8ufhima0afrv"]
 
-[ext_resource type="Script" path="res://game/menus/pause_menu.gd" id="1_ko2cb"]
-[ext_resource type="Script" path="res://zqf/custom_button.gd" id="2_q105r"]
+[ext_resource type="Script" uid="uid://bi0vilk56upnb" path="res://game/menus/pause_menu.gd" id="1_ko2cb"]
+[ext_resource type="Script" uid="uid://cjirb7cc4wnlk" path="res://zqf/custom_button.gd" id="2_q105r"]
 
 [node name="pause_menu" type="Control"]
 layout_mode = 3

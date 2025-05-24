@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://i7sd37ts27xx" path="res://actors/arena/arena.tscn" id="8_2kcqp"]
 [ext_resource type="PackedScene" uid="uid://dvjml6g3c0l6f" path="res://actors/volumes/trigger_volume.tscn" id="8_34y6s"]
 [ext_resource type="PackedScene" uid="uid://bbu52qvpv24jd" path="res://shared/world_prefabs/quarter_cylinder.tscn" id="8_stalp"]
-[ext_resource type="Script" path="res://actors/volumes/fall_volume.gd" id="9_3qhat"]
+[ext_resource type="Script" uid="uid://bcn5vf083dano" path="res://actors/volumes/fall_volume.gd" id="9_3qhat"]
 [ext_resource type="PackedScene" uid="uid://dhrxmyuc1c4mq" path="res://actors/volumes/player_barrier_volume.tscn" id="10_en4n3"]
 [ext_resource type="PackedScene" uid="uid://dofe1w6d5uoan" path="res://actors/spawners/spawner.tscn" id="10_kflw7"]
 [ext_resource type="Material" uid="uid://cwt7jxsj8qkbw" path="res://shared/object_materials/ocean_1_mat.tres" id="10_rdhfe"]

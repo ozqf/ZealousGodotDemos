@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cwocrh5qu1qeo"]
 
-[ext_resource type="Script" path="res://zqf/zqf_main.gd" id="1_wvkm4"]
+[ext_resource type="Script" uid="uid://cxcbxxgvauosr" path="res://zqf/zqf_main.gd" id="1_wvkm4"]
 
 [node name="zqf_main" type="Node3D"]
 script = ExtResource("1_wvkm4")

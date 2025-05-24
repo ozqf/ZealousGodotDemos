@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://bklw5344y84s7"]
 
-[ext_resource type="Script" path="res://actors/player/corpse/player_corpse.gd" id="1_g7xni"]
+[ext_resource type="Script" uid="uid://cn8cn6r6badpr" path="res://actors/player/corpse/player_corpse.gd" id="1_g7xni"]
 [ext_resource type="Material" uid="uid://nv8is4sghu58" path="res://gfx/mob_pop/red_spark_mat.tres" id="2_iuio0"]
 [ext_resource type="Material" uid="uid://gq1fv4bc432m" path="res://gfx/mob_pop/sparks_particle_process.tres" id="3_cnhh1"]
 [ext_resource type="BoxMesh" uid="uid://vcpcfeomksp7" path="res://gfx/mob_pop/spark_cube.tres" id="4_goqom"]
-[ext_resource type="Script" path="res://zqf/zqf_emit_on_ready.gd" id="5_o0bhe"]
+[ext_resource type="Script" uid="uid://dyeg8gogrhgxt" path="res://zqf/zqf_emit_on_ready.gd" id="5_o0bhe"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ut6ja"]
 size = Vector3(1, 0.5, 1)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://ccrcfkwq6eyp"]
 
-[ext_resource type="Script" path="res://actors/player/roller/player_ball.gd" id="1_prko3"]
-[ext_resource type="Script" path="res://actors/player/roller/push_model_tracker.gd" id="2_8y86y"]
+[ext_resource type="Script" uid="uid://dn11th6ns1khh" path="res://actors/player/roller/player_ball.gd" id="1_prko3"]
+[ext_resource type="Script" uid="uid://cspukdjc3qno7" path="res://actors/player/roller/push_model_tracker.gd" id="2_8y86y"]
 [ext_resource type="CylinderMesh" uid="uid://doo173limjd1o" path="res://actors/player/hook_shot/hook_shot_mesh.tres" id="3_acmx2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nh5ca"]

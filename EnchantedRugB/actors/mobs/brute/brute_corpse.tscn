@@ -2,7 +2,7 @@
 
 [ext_resource type="Shape3D" uid="uid://cmcsjju7idrh4" path="res://actors/mobs/brute/brute_cylinder.tres" id="1_begnk"]
 [ext_resource type="PackedScene" uid="uid://brg4v5wuuaaag" path="res://actors/mobs/brute/brute_model.tscn" id="2_jrpoi"]
-[ext_resource type="Script" path="res://zqf/zqf_timed_cull.gd" id="3_hqx51"]
+[ext_resource type="Script" uid="uid://bbxkjns85dlou" path="res://zqf/zqf_timed_cull.gd" id="3_hqx51"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j0ox4"]
 friction = 0.5

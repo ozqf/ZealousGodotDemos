@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://dfc2mlaacvbjh"]
 
-[ext_resource type="Script" path="res://actors/player/model/melee_pod.gd" id="1_6nf4i"]
+[ext_resource type="Script" uid="uid://bgy1cs62v33qu" path="res://actors/player/model/melee_pod.gd" id="1_6nf4i"]
 [ext_resource type="ArrayMesh" uid="uid://y0pj8etj3pt0" path="res://actors/player/model/player_melee_pod.obj" id="2_w6jj1"]
 [ext_resource type="Material" uid="uid://ciwwmrjq8cpci" path="res://shared/object_materials/cyan_glow.tres" id="3_imwje"]
 
@@ -39,6 +39,7 @@ emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 0.6
 emission_ring_radius = 0.3
 emission_ring_inner_radius = 0.3
+emission_ring_cone_angle = 90.0
 direction = Vector3(0, 0, 1)
 spread = 5.0
 initial_velocity_min = 0.1

@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://cyxprucy4dwyt"]
 
 [ext_resource type="SphereMesh" uid="uid://dsctmkhiihua6" path="res://actors/player/model/player_hemisphere.tres" id="1_2ptqk"]
-[ext_resource type="Script" path="res://actors/player/player_avatar_melee.gd" id="1_i421o"]
+[ext_resource type="Script" uid="uid://n7n7tmg3hefd" path="res://actors/player/player_avatar_melee.gd" id="1_i421o"]
 [ext_resource type="PackedScene" uid="uid://b1cgsmb1vstoc" path="res://actors/player/model/melee_pods.tscn" id="3_7cnfh"]
 [ext_resource type="PackedScene" uid="uid://drxstfbj1ovw8" path="res://actors/player/model/gun_pods.tscn" id="4_038b1"]
-[ext_resource type="Script" path="res://actors/components/hitbox.gd" id="5_clrd2"]
+[ext_resource type="Script" uid="uid://d3plu7vscl803" path="res://actors/components/hitbox.gd" id="5_clrd2"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5r5ga"]
 

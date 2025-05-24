@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://coiof3oocjsbt"]
 
-[ext_resource type="Script" path="res://projectiles/basic/prj_basic.gd" id="1_dwti2"]
-[ext_resource type="Script" path="res://shared/nodes/launch_info.gd" id="2_d7ksa"]
+[ext_resource type="Script" uid="uid://dlranyvqleq24" path="res://projectiles/basic/prj_basic.gd" id="1_dwti2"]
+[ext_resource type="Script" uid="uid://bw8ac4rqu55tr" path="res://shared/nodes/launch_info.gd" id="2_d7ksa"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_273o5"]
 top_radius = 0.0

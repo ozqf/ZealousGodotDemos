@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://kylp6d4pl47f"]
 
-[ext_resource type="Script" path="res://actors/player/user.gd" id="1_u38cb"]
-[ext_resource type="Script" path="res://actors/player/player_input.gd" id="5_tcs82"]
-[ext_resource type="Script" path="res://actors/components/actor_target_info.gd" id="8_7ykvq"]
-[ext_resource type="Script" path="res://ui/hud_info.gd" id="9_yt7jh"]
+[ext_resource type="Script" uid="uid://b7exkxpb0mmyu" path="res://actors/player/user.gd" id="1_u38cb"]
+[ext_resource type="Script" uid="uid://1ah827gsb521" path="res://actors/player/player_input.gd" id="5_tcs82"]
+[ext_resource type="Script" uid="uid://bhfh1bok0paj8" path="res://actors/components/actor_target_info.gd" id="8_7ykvq"]
+[ext_resource type="Script" uid="uid://dddvb88b47cv6" path="res://ui/hud_info.gd" id="9_yt7jh"]
 [ext_resource type="PackedScene" uid="uid://chfq2b1737oq4" path="res://ui/hud.tscn" id="10_r2jlr"]
 
 [node name="user" type="Node3D"]
