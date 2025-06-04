@@ -164,6 +164,7 @@ func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 		if Input.is_action_just_pressed("move_up"):
 			curVelocity.y = 10.0
 	
+	
 	# moves cancel vertical movement!
 	#if _meleeMode:
 	#	if _meleePods.read_input(_input) && !isOnFloor:

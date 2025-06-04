@@ -18,6 +18,7 @@ var _pushDirection:Vector3 = Vector3()
 
 func _ready() -> void:
 	_camTarget.position = _cameraPositionOne.position
+	_camTarget.position = _obstructionRay.position + _obstructionRay.target_position
 
 func get_push_direction() -> Vector3:
 	return _pushDirection

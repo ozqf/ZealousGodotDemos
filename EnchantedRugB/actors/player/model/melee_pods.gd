@@ -36,6 +36,8 @@ var _lastMoveName:String = ""
 var _lastReceivedYaw:float = 0.0
 var _lastStyleAnim:String = ""
 
+var _verticalAiming:bool = false
+
 var _moves:Dictionary = {}
 
 var _sequenceCount:int = 0
@@ -115,8 +117,9 @@ func update_rotation(_input:PlayerInput) -> void:
 	_lastReceivedYaw = degrees
 	if is_attacking():
 		return
-	ZqfUtils.look_at_safe(self, _input.aimPoint)
-	self.look_at(_input.aimPoint, Vector3.UP)
+	#ZqfUtils.look_at_safe(self, _input.aimPoint)
+	if _verticalAiming:
+		self.look_at(_input.aimPoint, Vector3.UP)
 	#self.rotation_degrees = Vector3(0, degrees, 0)
 	pass
 
@@ -167,8 +170,9 @@ func _begin_swing(forcedAnim:String = "", applyNewYaw:bool = true, forceStart:bo
 		return false
 	_sequenceCount += 1
 	_state = MeleeState.Swinging
-	#if applyNewYaw:
-	#	self.rotation_degrees = Vector3(0, _lastReceivedYaw, 0)
+	if !_verticalAiming:
+		if applyNewYaw:
+			self.rotation_degrees = Vector3(0, _lastReceivedYaw, 0)
 	_currentMoveName = newMove
 	_lastMoveName = _currentMoveName
 	_animator.play(_currentMoveName)

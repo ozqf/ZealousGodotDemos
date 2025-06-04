@@ -552,10 +552,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.15776, 0, 0)
 totalMobs = 1
 
 [node name="spawner_proxy" parent="." instance=ExtResource("15_mywc1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 3, -18)
-mobType = 1
-spawnLayerFlags = 0
-
-[node name="spawner_proxy2" parent="." instance=ExtResource("15_mywc1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 3, 17.0391)
-mobType = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 3, 0)
+mobType = 3
