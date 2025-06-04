@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="EnchantedRugB"
+config/name="Punch Bot Prototype"
 run/main_scene="res://empty.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
@@ -28,7 +28,7 @@ window/stretch/mode="viewport"
 
 [dotnet]
 
-project/assembly_name="EnchantedRugB"
+project/assembly_name="punch_bot"
 
 [editor_plugins]
 

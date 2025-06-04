@@ -8,6 +8,10 @@ If you are not me and reading this, expect nothing particularly complete (or eve
 
 ## Primary
 
+### Punch Bot
+
+3D beat'em up platformer thing
+
 ### Bullet Slash
 
 A top down 2.5D melee combat demo.
@@ -27,10 +31,6 @@ Contains various small and isolated scene or gfx exercises.
 ### First FPS 1
 
 An attempt at a beginner tutorial example - Ultra-basic FPS movement implementation.
-
-### Enchanted Rug B
-
-Enchanted Rug updated to Godot 4.0
 
 --------------------------------------------------
 
