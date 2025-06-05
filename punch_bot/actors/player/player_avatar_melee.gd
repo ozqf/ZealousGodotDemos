@@ -116,13 +116,14 @@ func write_hud_info(hudInfo:HudInfo) -> void:
 func input_physics_process(_input:PlayerInput, _delta:float) -> void:
 	var isOnFloor:bool = self.is_on_floor() || _groundRay.is_colliding()
 	var pushDir:Vector3 = _input.pushDir
+	var isPushing:bool = !pushDir.is_zero_approx()
 	if _dashTick > 0.0:
 		_dashTick -= _delta
 		velocity = _dashDir * 20.0
 		self.move_and_slide()
 		return
 	else:
-		if _input.dash && isOnFloor && _dashJuice > 33 && !_meleePods.is_attacking() && !pushDir.is_zero_approx():
+		if _input.dash && isOnFloor && _dashJuice > 33 && !_meleePods.can_evade() && isPushing:
 			_dashJuice -= 33
 			_dashTick = 0.15
 			_hitbox.evadeTick = 0.15

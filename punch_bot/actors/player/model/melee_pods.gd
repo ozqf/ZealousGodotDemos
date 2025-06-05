@@ -106,6 +106,13 @@ func is_attacking() -> bool:
 	return _state != MeleeState.Idle
 	#return _currentMoveName != ""
 
+func can_evade() -> bool:
+	if _state == MeleeState.Idle:
+		return false
+	if _currentMoveName == AnimParried:
+		return false
+	return true
+
 func get_move_data(moveName:String) -> Dictionary:
 	if _moves.has(moveName):
 		return _moves[moveName]
