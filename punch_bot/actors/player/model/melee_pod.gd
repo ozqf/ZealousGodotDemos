@@ -41,13 +41,17 @@ func _on_area_entered_fist(_area:Area3D) -> void:
 
 func fist_damage_on() -> void:
 	_mesh.set_surface_override_material(1, _activeMat)
-	_fistCollider.disabled = false
-	_bladeCollider.disabled = true
+	_fistCollider.set_deferred("disabled", false)
+	_bladeCollider.set_deferred("disabled", true)
+	#_fistCollider.disabled = false
+	#_bladeCollider.disabled = true
 
 func damage_off() -> void:
 	_mesh.set_surface_override_material(1, _idleMat)
-	_fistCollider.disabled = true
-	_bladeCollider.disabled = true
+	_fistCollider.set_deferred("disabled", true)
+	_bladeCollider.set_deferred("disabled", true)
+	#_fistCollider.disabled = true
+	#_bladeCollider.disabled = true
 
 func _process(_delta:float) -> void:
 	if _hookTarget != null:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://exulb58dlnd0"]
+[gd_scene load_steps=31 format=3 uid="uid://exulb58dlnd0"]
 
 [ext_resource type="Script" uid="uid://c8d75s5oviud5" path="res://actors/mobs/mob_base.gd" id="1_xktb5"]
 [ext_resource type="Script" uid="uid://cuh6q787mkjf5" path="res://actors/components/mood_aura/mesh_mood_aura.gd" id="3_02w6u"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://bhfh1bok0paj8" path="res://actors/components/actor_target_info.gd" id="9_2g7s7"]
 [ext_resource type="Script" uid="uid://djha8wujdcaq6" path="res://zqf/zqf_nav_agent.gd" id="10_xrb7y"]
 [ext_resource type="Script" uid="uid://bw8ac4rqu55tr" path="res://shared/nodes/launch_info.gd" id="11_g25xk"]
+[ext_resource type="Script" uid="uid://r0lkr0s82xd5" path="res://actors/mobs/mobile_training_dummy/mob_status_debug_text.gd" id="12_kytbv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uo8mm"]
 radius = 1.0
@@ -600,3 +601,11 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="knockback_aoe"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 shape = SubResource("SphereShape3D_e8ls6")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+billboard = 1
+text = "Status Text"
+font_size = 52
+vertical_alignment = 2
+script = ExtResource("12_kytbv")

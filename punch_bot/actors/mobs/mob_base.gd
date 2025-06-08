@@ -54,6 +54,12 @@ func _ready():
 func ready_components() -> void:
 	pass
 
+func get_debug_text() -> String:
+	var txt:String = "Tick " + str(_thinkTimer.time_left) + "\n"
+	#txt += str(_state)
+	txt += GameCtrl.MobState.keys()[_state]
+	return txt
+
 #######################################################
 # incoming damage
 #######################################################

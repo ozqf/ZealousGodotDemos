@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://b3ppkbpsh6g8g"]
+[gd_scene load_steps=30 format=3 uid="uid://b3ppkbpsh6g8g"]
 
 [ext_resource type="Material" uid="uid://bmgf6p7613sjr" path="res://shared/world_materials/world_default_planar.tres" id="1_vpk4i"]
 [ext_resource type="PackedScene" uid="uid://cohingb36327v" path="res://proxies/info/player_start_proxy.tscn" id="2_65xnq"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dhrxmyuc1c4mq" path="res://actors/volumes/player_barrier_volume.tscn" id="10_en4n3"]
 [ext_resource type="PackedScene" uid="uid://dofe1w6d5uoan" path="res://actors/spawners/spawner.tscn" id="10_kflw7"]
 [ext_resource type="Material" uid="uid://cwt7jxsj8qkbw" path="res://shared/object_materials/ocean_1_mat.tres" id="10_rdhfe"]
+[ext_resource type="Script" uid="uid://di476k26tunax" path="res://actors/debug/always_parry_hitbox.gd" id="15_dabyd"]
 [ext_resource type="PackedScene" uid="uid://bb7wecx6ubm6b" path="res://proxies/spawners/spawner_proxy.tscn" id="15_mywc1"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_qky74"]
@@ -64,6 +65,12 @@ uv1_world_triplanar = true
 texture_filter = 2
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_1luj8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6mlqe"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dabyd"]
+size = Vector3(1, 2, 1)
 
 [node name="sandbox" type="Node3D"]
 
@@ -554,3 +561,19 @@ totalMobs = 1
 [node name="spawner_proxy" parent="." instance=ExtResource("15_mywc1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 3, 0)
 mobType = 3
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 3, 7.5)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("15_dabyd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6mlqe")
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_dabyd")
+metadata/_edit_lock_ = true
