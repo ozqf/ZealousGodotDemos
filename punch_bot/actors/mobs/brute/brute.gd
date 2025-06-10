@@ -61,7 +61,8 @@ func _animation_finished(_animName:String) -> void:
 			_end_swing()
 		ANIM_PARRIED:
 			_swordArea.set_blade_state(MobMeleeWeapon.BladeState.Idle)
-			_begin_random_swing(_tarInfo)
+			_begin_static_guard(_tarInfo)
+			#_try_begin_random_swing(_tarInfo)
 
 func _on_anim_key_event(__animName:String, __keyIndex:int) -> void:
 	match __keyIndex:
@@ -120,15 +121,30 @@ func _begin_static_guard(__tarInfo:ActorTargetInfo) -> void:
 	super(__tarInfo)
 	_podsAnimator.play(ANIM_BLOCK)
 
-func _begin_random_swing(__tarInfo:ActorTargetInfo) -> void:
+func _try_begin_random_swing(__tarInfo:ActorTargetInfo) -> bool:
 	#super(__tarInfo)
+	var flatDistSqr:float = ZqfUtils.flat_distance_sqr(self.global_position, __tarInfo.position)
+	var swing1Range:float = 6.0
+	var swing2Range:float = 4.0
+	var r:float = randf()
+	if flatDistSqr > (swing1Range * swing1Range):
+		return false
+	
 	_set_to_swinging()
-	if randf() > 0.66:
+	if flatDistSqr > (swing2Range * swing2Range):
+		if r > 0.5:
+			_podsAnimator.play(ANIM_CHOP_1)
+		else:
+			_podsAnimator.play(ANIM_SWING_1)
+		return true
+	
+	if r > 0.66:
 		_podsAnimator.play(ANIM_SWING_1)
-	elif randf() > 0.33:
+	elif r > 0.33:
 		_podsAnimator.play(ANIM_SWING_2)
 	else:
 		_podsAnimator.play(ANIM_CHOP_1)
+	return true
 
 func _begin_stagger(__tarInfo:ActorTargetInfo) -> void:
 	super(__tarInfo)
@@ -148,12 +164,17 @@ func _begin_launched(atkDirection:Vector3) -> void:
 	_podsAnimator.play(ANIM_STAGGERED)
 
 func _tock_approaching() -> void:
+	if !_try_begin_random_swing(_tarInfo):
+		_begin_approach(_tarInfo)
+		return
+
+func _tock_approaching_old() -> void:
 	var distSqr:float = global_position.distance_squared_to(_tarInfo.position)
 	if distSqr > attackDistance * attackDistance:
 		_begin_approach(_tarInfo)
 		return
 	if randf() > 0.75:
-		_begin_random_swing(_tarInfo)
+		_try_begin_random_swing(_tarInfo)
 	else:
 		_begin_static_guard(_tarInfo)
 

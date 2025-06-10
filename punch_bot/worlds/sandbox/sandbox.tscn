@@ -560,7 +560,7 @@ totalMobs = 1
 
 [node name="spawner_proxy" parent="." instance=ExtResource("15_mywc1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 3, 0)
-mobType = 3
+mobType = 2
 
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43, 3, 7.5)

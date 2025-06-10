@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://bhfh1bok0paj8" path="res://actors/components/actor_target_info.gd" id="9_2g7s7"]
 [ext_resource type="Script" uid="uid://djha8wujdcaq6" path="res://zqf/zqf_nav_agent.gd" id="10_xrb7y"]
 [ext_resource type="Script" uid="uid://bw8ac4rqu55tr" path="res://shared/nodes/launch_info.gd" id="11_g25xk"]
-[ext_resource type="Script" uid="uid://r0lkr0s82xd5" path="res://actors/mobs/mobile_training_dummy/mob_status_debug_text.gd" id="12_kytbv"]
+[ext_resource type="PackedScene" uid="uid://b6rd7ykcmmjbc" path="res://actors/debug/mob_status_debug_text.tscn" id="12_kytbv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uo8mm"]
 radius = 1.0
@@ -602,10 +602,5 @@ monitorable = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 shape = SubResource("SphereShape3D_e8ls6")
 
-[node name="Label3D" type="Label3D" parent="."]
+[node name="Label3D" parent="." instance=ExtResource("12_kytbv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-billboard = 1
-text = "Status Text"
-font_size = 52
-vertical_alignment = 2
-script = ExtResource("12_kytbv")

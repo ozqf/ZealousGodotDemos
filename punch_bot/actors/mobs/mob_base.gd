@@ -27,6 +27,7 @@ var _isGuarding:bool = false
 var _attackIsActive:bool = false
 
 var _lastKnockbackDir:Vector3 = Vector3()
+var _lastHurtResponse:int = 0
 var lastHit:HitInfo = null
 var _teamId:int = 0
 
@@ -56,8 +57,12 @@ func ready_components() -> void:
 
 func get_debug_text() -> String:
 	var txt:String = "Tick " + str(_thinkTimer.time_left) + "\n"
+	txt += "hp" + str(_health) + " / " + str(initialHealth) + "\n"
+	txt += "Guard str" + str(_guardDamage) + "\n"
+	txt += "Parry str" + str(_parryDamage) + "\n"
 	#txt += str(_state)
-	txt += GameCtrl.MobState.keys()[_state]
+	txt += GameCtrl.MobState.keys()[_state] + "\n"
+	txt += "Last hit " + GameCtrl.get_hit_response_label(_lastHurtResponse)
 	return txt
 
 #######################################################
@@ -66,17 +71,21 @@ func get_debug_text() -> String:
 func custom_hit(_incomingHit:HitInfo) -> void:
 	pass
 
+func _record_last_hurt_response(response:int) -> int:
+	_lastHurtResponse = response
+	return response
+
 func hit(_incomingHit:HitInfo) -> int:
 	if _incomingHit.attackId != "":
 		if _incomingHit.attackId == _lastHitId:
-			return Game.HIT_RESPONSE_IGNORED
+			return _record_last_hurt_response(Game.HIT_RESPONSE_IGNORED)
 		_lastHitId = _incomingHit.attackId
 	if _incomingHit == null:
-		return Game.HIT_RESPONSE_IGNORED
+		return _record_last_hurt_response(Game.HIT_RESPONSE_IGNORED)
 	if _dead:
-		return Game.HIT_RESPONSE_IGNORED
+		return _record_last_hurt_response(Game.HIT_RESPONSE_IGNORED)
 	if _incomingHit.teamId == _teamId:
-		return Game.HIT_RESPONSE_WHIFF
+		return _record_last_hurt_response(Game.HIT_RESPONSE_WHIFF)
 	
 	var guardDamage:float = _incomingHit.damage
 	if _incomingHit.guardDamage >= 0:
@@ -98,15 +107,16 @@ func hit(_incomingHit:HitInfo) -> int:
 		# maybe reflect them later
 		if _incomingHit.category == Game.DAMAGE_CATEGORY_PROJECTILE:
 			_begin_static_guard(_tarInfo)
-			return Game.HIT_RESPONSE_WHIFF
+			return _record_last_hurt_response(Game.HIT_RESPONSE_WHIFF)
 
 		# TODO: Guard crush damage type...
 		# parry attack and roll for an immediate attempt to punish
 		if randf() > 0.5:
 			_begin_static_guard(_tarInfo)
 		else:
-			_begin_random_swing(_tarInfo)
-		return Game.HIT_RESPONSE_PARRIED
+			if !_try_begin_random_swing(_tarInfo):
+				_begin_static_guard(_tarInfo)
+		return _record_last_hurt_response(Game.HIT_RESPONSE_PARRIED)
 	
 	_health -= _incomingHit.damage
 	_incomingHit.lastInflicted = _incomingHit.damage
@@ -128,23 +138,23 @@ func hit(_incomingHit:HitInfo) -> int:
 			return _incomingHit.damage
 		if self.velocity.y < 2:
 			self.velocity = Vector3(0, 2, 0)
-		return _incomingHit.damage
+		return _record_last_hurt_response(_incomingHit.damage)
 	
 	if _state == GameCtrl.MobState.Launched:
 		if _incomingHit.flags & HitInfo.FLAG_VERTICAL_LAUNCHER != 0:
 			_begin_juggled(_tarInfo)
 			return _incomingHit.damage
-		return _incomingHit.damage
+		return _record_last_hurt_response(_incomingHit.damage)
 
 	if _state == GameCtrl.MobState.Staggered || _state == GameCtrl.MobState.Parried:
 		if _incomingHit.flags & HitInfo.FLAG_VERTICAL_LAUNCHER != 0:
 			_begin_juggled(_tarInfo)
-			return _incomingHit.damage
+			return _record_last_hurt_response(_incomingHit.damage)
 		if _incomingHit.flags & HitInfo.FLAG_HORIZONTAL_LAUNCHER != 0:
 			_begin_launched(_incomingHit.direction)
-			return _incomingHit.damage
+			return _record_last_hurt_response(_incomingHit.damage)
 	if _state == GameCtrl.MobState.Staggered || _state == GameCtrl.MobState.Parried:
-		return _incomingHit.damage
+		return _record_last_hurt_response(_incomingHit.damage)
 
 	if _state == GameCtrl.MobState.Swinging:
 		# attack is interupted based on parry damage taken...
@@ -164,10 +174,10 @@ func hit(_incomingHit:HitInfo) -> int:
 		#else:
 		#	return _incomingHit.damage
 		
-		return _incomingHit.damage
+		return _record_last_hurt_response(_incomingHit.damage)
 
 	_begin_stagger(_tarInfo)
-	return _incomingHit.damage
+	return _record_last_hurt_response(_incomingHit.damage)
 
 func get_health_percentage() -> float:
 	return (float(_health) / float(initialHealth)) * 100.0
@@ -255,9 +265,10 @@ func _begin_static_guard(__tarInfo:ActorTargetInfo) -> void:
 	_isGuarding = true
 	_attackIsActive = false
 
-func _begin_random_swing(__tarInfo:ActorTargetInfo) -> void:
-	_set_state(GameCtrl.MobState.Swinging)
-	_thinkTimer.start(2)
+func _try_begin_random_swing(__tarInfo:ActorTargetInfo) -> bool:
+	return false
+	#_set_state(GameCtrl.MobState.Swinging)
+	#_thinkTimer.start(2)
 
 func _set_to_swinging() -> void:
 	look_at_flat(_tarInfo.position)
@@ -318,7 +329,8 @@ func _tock_approaching() -> void:
 	if distSqr > attackDistance * attackDistance:
 		_begin_approach(_tarInfo)
 		return
-	_begin_random_swing(_tarInfo)
+	if !_try_begin_random_swing(_tarInfo):
+		_begin_static_guard(_tarInfo)
 
 func _tock_static_guard() -> void:
 	var distSqr:float = global_position.distance_squared_to(_tarInfo.position)
@@ -327,7 +339,7 @@ func _tock_static_guard() -> void:
 	elif randf() > 0.75:
 		_begin_static_guard(_tarInfo)
 	else:
-		_begin_random_swing(_tarInfo)
+		_try_begin_random_swing(_tarInfo)
 
 func _tock_swinging() -> void:
 	_begin_approach(_tarInfo)
@@ -367,6 +379,10 @@ func _think_timeout() -> void:
 #######################################################
 func _tick_approaching(_delta:float) -> void:
 	look_at_flat(_tarInfo.position)
+	var distSqr:float = ZqfUtils.flat_distance_sqr(self.global_position, _tarInfo.position)
+	# don't approach further than necessary!
+	if distSqr <= (attackDistance * attackDistance):
+		return
 	if _agent.physics_tick(_delta):
 		self.velocity = _agent.velocity
 		move_and_slide()

@@ -4,10 +4,25 @@ class_name GameCtrl
 const TEAM_ID_ENEMY:int = 0
 const TEAM_ID_PLAYER:int = 1
 
+# hit response > 0 is the damage caused
+const HIT_RESPONSE_ABSORBED:int = 0
 const HIT_RESPONSE_WHIFF:int = 0
 const HIT_RESPONSE_IGNORED:int = -1
 const HIT_RESPONSE_EVADED:int = -2
 const HIT_RESPONSE_PARRIED:int = -3
+
+static func get_hit_response_label(response:int) -> String:
+	match response:
+		HIT_RESPONSE_WHIFF:
+			return "whiff"
+		HIT_RESPONSE_IGNORED:
+			return "ignored"
+		HIT_RESPONSE_EVADED:
+			return "evaded"
+		HIT_RESPONSE_PARRIED:
+			return "parried"
+		_:
+			return "damaged"
 
 const HIT_MASK_WORLD:int = (1 << 0)
 const HIT_MASK_HITBOX:int = (1 << 1)
@@ -25,10 +40,6 @@ const AVATAR_EVENT_TYPE_TELEPORT:String = "avatar_teleport"
 
 # params; data:dictionary
 const PLAYER_INTERNAL_FN_MELEE_ATTACK_STARTED:String = "plyr_int_melee_attack_started"
-
-# hit response > 0 is the damage caused
-const HIT_RESPONSE_ABSORBED:int = 0
-const HIT_RESPOSNE_IGNORED:int = -1
 
 const DAMAGE_CATEGORY_MELEE:int = 0
 const DAMAGE_CATEGORY_PROJECTILE:int = 1

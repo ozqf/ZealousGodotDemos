@@ -77,10 +77,11 @@ func _sword_touched_area(_area:Area3D) -> void:
 			print("Brute swing landed")
 	pass
 
-func _begin_random_swing(__tarInfo:ActorTargetInfo) -> void:
+func _try_begin_random_swing(__tarInfo:ActorTargetInfo) -> bool:
 	#super(__tarInfo)
 	_set_to_swinging()
 	_podsAnimator.play("drunk_punch")
+	return true
 
 func _begin_parried(__tarInfo:ActorTargetInfo) -> void:
 	super(__tarInfo)

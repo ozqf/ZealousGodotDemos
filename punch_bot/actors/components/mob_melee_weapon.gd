@@ -28,20 +28,20 @@ func set_blade_state(newState:BladeState) -> void:
 
 func set_blade_idle() -> void:
 	_bladeState = BladeState.Idle
-	_hurtShape.disabled = true
+	_hurtShape.set_deferred("disabled", true)
 	_bladeMesh.material_override = _matBladeOrange
 
 func set_blade_blocking() -> void:
 	_bladeState = BladeState.Blocking
-	_hurtShape.disabled = true
+	_hurtShape.set_deferred("disabled", true)
 	_bladeMesh.material_override = _matBladeOrange
 
 func set_blade_off() -> void:
 	_bladeState = BladeState.Off
-	_hurtShape.disabled = true
+	_hurtShape.set_deferred("disabled", true)
 	_bladeMesh.material_override = _matBladeOffMat
 
 func set_blade_damaging() -> void:
 	_bladeState = BladeState.Damaging
-	_hurtShape.disabled = false
+	_hurtShape.set_deferred("disabled", false)
 	_bladeMesh.material_override = _matBladeRed

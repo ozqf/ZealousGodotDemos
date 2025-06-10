@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6rd7ykcmmjbc"]
+
+[ext_resource type="Script" uid="uid://r0lkr0s82xd5" path="res://actors/mobs/mobile_training_dummy/mob_status_debug_text.gd" id="1_amnok"]
+
+[node name="Label3D" type="Label3D"]
+billboard = 1
+text = "Status Text"
+font_size = 52
+vertical_alignment = 2
+script = ExtResource("1_amnok")

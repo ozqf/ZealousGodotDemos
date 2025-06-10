@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://rworqhwqrtmt"]
+[gd_scene load_steps=28 format=3 uid="uid://rworqhwqrtmt"]
 
 [ext_resource type="Script" uid="uid://b7e7vfge36rru" path="res://actors/mobs/brute/brute.gd" id="1_msyx4"]
 [ext_resource type="Shape3D" uid="uid://cmcsjju7idrh4" path="res://actors/mobs/brute/brute_cylinder.tres" id="2_uprmj"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://djha8wujdcaq6" path="res://zqf/zqf_nav_agent.gd" id="6_f3odt"]
 [ext_resource type="Script" uid="uid://bgcc21q4sx7sr" path="res://zqf/zqf_animation_key_emitter.gd" id="6_u2oi0"]
 [ext_resource type="Script" uid="uid://bw8ac4rqu55tr" path="res://shared/nodes/launch_info.gd" id="11_uo3uo"]
+[ext_resource type="PackedScene" uid="uid://b6rd7ykcmmjbc" path="res://actors/debug/mob_status_debug_text.tscn" id="13_l4mfu"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uo8mm"]
 radius = 1.5
@@ -502,7 +503,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 
 [node name="right" type="Node3D" parent="pods"]
-transform = Transform3D(0.866025, 5.85623e-09, 0.5, 0.5, -2.18557e-08, -0.866025, 5.85623e-09, 1, -2.18557e-08, 1.8, 2, -3)
+transform = Transform3D(0.014235, -0.999849, 0.00996805, -0.939573, -0.0167858, -0.341937, 0.342052, -0.00449825, -0.93967, -0.146252, 4.77883, -1.26315)
 
 [node name="sword_area" type="Area3D" parent="pods/right"]
 collision_layer = 16
@@ -539,7 +540,7 @@ metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="pods"]
 libraries = {
-"": SubResource("AnimationLibrary_hwjd5")
+&"": SubResource("AnimationLibrary_hwjd5")
 }
 autoplay = "idle"
 script = ExtResource("6_u2oi0")
@@ -565,5 +566,8 @@ script = ExtResource("6_f3odt")
 
 [node name="LaunchInfo" type="Node" parent="."]
 script = ExtResource("11_uo3uo")
+
+[node name="Label3D" parent="." instance=ExtResource("13_l4mfu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 
 [editable path="display"]
