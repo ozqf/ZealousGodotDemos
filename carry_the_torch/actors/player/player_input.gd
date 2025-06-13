@@ -9,6 +9,7 @@ var axisZ:float = 0
 var moveUp:bool = false
 var moveDown:bool = false
 var inputDir:Vector2 = Vector2()
+var lookKeys:Vector2 = Vector2()
 
 func _refresh_pause() -> void:
 	if paused:
@@ -37,3 +38,4 @@ func _physics_process(_delta) -> void:
 	moveUp = Input.is_action_pressed("move_up")
 	moveDown = Input.is_action_pressed("move_down")
 	inputDir = Vector2(axisX, axisZ)
+	lookKeys = Input.get_vector("look_right", "look_left", "look_up", "look_down")

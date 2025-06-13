@@ -5,6 +5,8 @@ var _playerAvatarAttempt2 = preload("res://actors/player/avatar_type_b/player_av
 
 var _currentAvatar:Node3D = null
 
+@onready var _ui:Control = $ui
+
 func _physics_process(_delta: float) -> void:
 	if _currentAvatar != null:
 		return

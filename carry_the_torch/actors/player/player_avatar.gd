@@ -59,6 +59,22 @@ func _reset() -> void:
 	_surfaceSnap.basis = Basis.IDENTITY
 	_cameraRig.reset()
 
+func _process(_delta:float) -> void:
+	var look:Vector2 = Vector2()
+	look = Input.get_vector("look_right", "look_left", "look_up", "look_down")
+	var degreesYaw:float = (look.x) #* 0.2
+	var degreesPitch:float = (look.y)# * 0.2
+	# inverted?
+	if _pitchInverted:
+		degreesPitch = -degreesPitch
+	
+	if _isOnSurface:
+		_cameraRig.apply_surface_yaw(degreesYaw)
+		_cameraRig.apply_surface_pitch(degreesPitch)
+	else:
+		_cameraRig.apply_gliding_pitch(degreesPitch)
+		_cameraRig.apply_gliding_roll(degreesYaw)
+
 func _physics_process(_delta) -> void:
 	if Input.is_action_just_pressed("pause"):
 		_paused = !_paused
