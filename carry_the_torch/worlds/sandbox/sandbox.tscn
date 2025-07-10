@@ -155,6 +155,28 @@ surface_material_override/1 = ExtResource("1_0rs5j")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="world/wedge/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_cndw7")
 
+[node name="wedge2" type="MeshInstance3D" parent="world"]
+transform = Transform3D(-3.49691e-07, 0, 8, 0, 8, 0, -8, 0, -3.49691e-07, -5, -32, -64)
+mesh = ExtResource("3_dnyju")
+surface_material_override/0 = ExtResource("2_fervn")
+surface_material_override/1 = ExtResource("1_0rs5j")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="world/wedge2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="world/wedge2/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_cndw7")
+
+[node name="wedge3" type="MeshInstance3D" parent="world"]
+transform = Transform3D(-3.49691e-07, 0, -8, 0, 8, 0, 8, 0, -3.49691e-07, 24, -32, 64)
+mesh = ExtResource("3_dnyju")
+surface_material_override/0 = ExtResource("2_fervn")
+surface_material_override/1 = ExtResource("1_0rs5j")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="world/wedge3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="world/wedge3/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_cndw7")
+
 [node name="CSGBox3D7" type="CSGBox3D" parent="world"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 65.5, 25.5, 25)
 use_collision = true

@@ -11,9 +11,6 @@ var _isOnSurface:bool = true
 func _ready() -> void:
 	print("Roller Avatar type spawned")
 
-func _reset() -> void:
-	pass
-
 func _process(_delta: float) -> void:
 	var lerpWeight:float = 0.9
 	var turnRadiansPerSecond:float = 360 * ZqfUtils.DEG2RAD

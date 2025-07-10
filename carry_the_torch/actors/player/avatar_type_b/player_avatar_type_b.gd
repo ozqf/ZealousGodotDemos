@@ -5,9 +5,6 @@ extends CharacterBody3D
 func _ready() -> void:
 	print("Avatar type B spawned")
 
-func _reset() -> void:
-	pass
-
 func _process(_delta: float) -> void:
 	var yaw:float = _input.lookKeys.x
 	var t:Transform3D = self.global_transform
