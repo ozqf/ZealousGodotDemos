@@ -1,0 +1,302 @@
+[gd_scene load_steps=12 format=3 uid="uid://d3i24564ec1w7"]
+
+[ext_resource type="Script" uid="uid://hk38cawrlan7" path="res://test_10_highway/prefabs/highway_main.gd" id="1_48tn3"]
+[ext_resource type="PackedScene" uid="uid://deyi42wnpqbja" path="res://test_10_highway/prefabs/car_1.tscn" id="1_r2qtt"]
+[ext_resource type="Material" uid="uid://dby5kf03mxfgb" path="res://test_10_highway/prefabs/player_blocker_mat.tres" id="2_ipy2q"]
+[ext_resource type="PackedScene" uid="uid://u6vkpra0cq0s" path="res://test_10_highway/prefabs/road_segment_1.tscn" id="3_8lpqd"]
+[ext_resource type="Script" uid="uid://dmldj2b6do7u4" path="res://test_10_highway/prefabs/road_segment.gd" id="6_1c3rl"]
+[ext_resource type="Material" uid="uid://0rkjeuu2mcvm" path="res://test_10_highway/prefabs/building_mat.tres" id="7_48tn3"]
+[ext_resource type="Script" uid="uid://cmnka3tmtj57p" path="res://test_10_highway/prefabs/player_rope_hang_1.gd" id="7_em8tk"]
+
+[sub_resource type="Environment" id="Environment_n5q7x"]
+background_mode = 1
+background_energy_multiplier = 0.0
+ambient_light_source = 2
+ambient_light_color = Color(0.139488, 0.143776, 0.392747, 1)
+tonemap_mode = 2
+fog_enabled = true
+fog_light_color = Color(0.0918, 0.121777, 0.17, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7uwli"]
+size = Vector3(2, 1, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1c3rl"]
+size = Vector3(0.02, 4, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8lpqd"]
+size = Vector3(0.02, 0.03, 0.15)
+
+[node name="Test10" type="Node3D"]
+script = ExtResource("1_48tn3")
+
+[node name="gauge" type="Node3D" parent="."]
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="gauge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -125)
+use_collision = true
+size = Vector3(22, 1, 250)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="gauge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 125)
+use_collision = true
+size = Vector3(22, 1, 250)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="gauge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -250)
+use_collision = true
+size = Vector3(1, 8, 1)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="gauge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 3, -250)
+use_collision = true
+size = Vector3(1, 8, 1)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="gauge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 3, -250)
+use_collision = true
+size = Vector3(1, 8, 1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_n5q7x")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 12, 0)
+visible = false
+shadow_enabled = true
+
+[node name="scrolling" type="Node3D" parent="."]
+
+[node name="road_segment_1" parent="scrolling" instance=ExtResource("3_8lpqd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -300)
+
+[node name="road_segment_2" parent="scrolling" instance=ExtResource("3_8lpqd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -200)
+
+[node name="road_segment_3" parent="scrolling" instance=ExtResource("3_8lpqd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
+
+[node name="road_segment_4" parent="scrolling" instance=ExtResource("3_8lpqd")]
+
+[node name="road_segment_5" parent="scrolling" instance=ExtResource("3_8lpqd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
+
+[node name="road_segment_6" parent="scrolling" instance=ExtResource("3_8lpqd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 200)
+
+[node name="building" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 0)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building2" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -184)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building2"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building3" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -69, 0, -142)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building3"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building4" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -127, 0, 90)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building4"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building5" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -179, 0, -46)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building5"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building6" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -115, 0, -189)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building6"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building7" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49, 0, 168)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building7"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building8" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -109, 0, 252)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building8"]
+size = Vector3(20, 100, 20)
+metadata/_edit_lock_ = true
+
+[node name="start_bike" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 47)
+
+[node name="player_barriers" type="Node3D" parent="."]
+visible = false
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="player_barriers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.5, 49.5)
+layers = 524288
+use_collision = true
+size = Vector3(12, 8, 1)
+material = ExtResource("2_ipy2q")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="player_barriers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.5, -80.5)
+layers = 524288
+use_collision = true
+size = Vector3(12, 8, 1)
+material = ExtResource("2_ipy2q")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="player_barriers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0.5, -15.5)
+layers = 524288
+use_collision = true
+size = Vector3(1, 8, 131)
+material = ExtResource("2_ipy2q")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="player_barriers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -15.5)
+layers = 524288
+use_collision = true
+size = Vector3(1, 8, 131)
+material = ExtResource("2_ipy2q")
+
+[node name="level" type="Node3D" parent="."]
+
+[node name="car_1" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -12)
+
+[node name="car_2" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -12)
+
+[node name="car_3" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -12)
+
+[node name="car_6" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -12)
+
+[node name="car_4" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -12)
+
+[node name="car_7" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -27)
+
+[node name="car_8" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -39)
+
+[node name="car_5" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -12)
+
+[node name="car_9" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -54)
+
+[node name="car_10" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -54)
+
+[node name="car_11" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 2)
+
+[node name="car_12" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 2)
+
+[node name="car_13" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 10)
+
+[node name="car_14" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 20)
+
+[node name="car_15" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 20)
+
+[node name="car_16" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 28)
+
+[node name="car_17" parent="level" instance=ExtResource("1_r2qtt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 28)
+
+[node name="truck_1" type="StaticBody3D" parent="level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 37)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="level/truck_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+size = Vector3(2, 3, 10)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="level/truck_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_7uwli")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="level/truck_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.5, -5.1)
+spot_range = 8.0
+spot_attenuation = 0.2
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="level/truck_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.5, -5.1)
+spot_range = 8.0
+spot_attenuation = 0.2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="level/truck_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0.5, 5.1)
+light_color = Color(1, 0, 0, 1)
+omni_range = 0.6
+omni_attenuation = 0.184
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="level/truck_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0.5, 5.1)
+light_color = Color(1, 0, 0, 1)
+omni_range = 0.6
+omni_attenuation = 0.184
+
+[node name="start_rope_hang" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 5, 2)
+
+[node name="Node3D" type="Node3D" parent="start_rope_hang"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="start_rope_hang/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+mesh = SubResource("BoxMesh_1c3rl")
+
+[node name="player" type="Node3D" parent="start_rope_hang/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
+script = ExtResource("7_em8tk")
+
+[node name="yaw" type="Node3D" parent="start_rope_hang/Node3D/player"]
+
+[node name="head" type="Node3D" parent="start_rope_hang/Node3D/player/yaw"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 0, 0.1)
+
+[node name="Camera3D" type="Camera3D" parent="start_rope_hang/Node3D/player/yaw/head"]
+cull_mask = 524287
+fov = 90.0
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="start_rope_hang/Node3D/player/yaw/head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, -0.1, -0.0999985)
+mesh = SubResource("BoxMesh_8lpqd")

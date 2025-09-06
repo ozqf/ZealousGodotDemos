@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://deyi42wnpqbja"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7uwli"]
+size = Vector3(2, 1, 4)
+
+[node name="car_1" type="StaticBody3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+size = Vector3(2, 1, 4)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_7uwli")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.5, -2.1)
+spot_range = 8.0
+spot_attenuation = 0.2
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0.5, -2.1)
+spot_range = 8.0
+spot_attenuation = 0.2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0.5, 2.1)
+light_color = Color(1, 0, 0, 1)
+omni_range = 0.6
+omni_attenuation = 0.184
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0.5, 2.1)
+light_color = Color(1, 0, 0, 1)
+omni_range = 0.6
+omni_attenuation = 0.184

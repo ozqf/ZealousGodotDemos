@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bu58w1pg1xfxt"]
+
+[ext_resource type="Script" uid="uid://dv5lv6owfrbhy" path="res://test_09_bullets/bullet.gd" id="1_g76d2"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_g76d2"]
+radius = 0.1
+height = 0.2
+
+[node name="Bullet" type="Node3D"]
+script = ExtResource("1_g76d2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_g76d2")

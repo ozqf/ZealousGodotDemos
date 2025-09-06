@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdad1go8e54om"]
+
+[ext_resource type="Script" uid="uid://dv16yd3k3k16p" path="res://test_09_bullets/bullet_source.gd" id="1_rlo8p"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rlo8p"]
+
+[node name="Test09" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.414693, 0.909961, 0, -0.909961, 0.414693, 0, 8, 5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_rlo8p")
+
+[node name="bullet_source" type="Node3D" parent="."]
+script = ExtResource("1_rlo8p")

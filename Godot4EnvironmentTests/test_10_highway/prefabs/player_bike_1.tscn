@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfq2wd1earsdk"]
+
+[ext_resource type="Script" uid="uid://br7lmd3d6vk03" path="res://test_10_highway/prefabs/player_bike_1.gd" id="1_farxe"]
+[ext_resource type="Material" uid="uid://cmrncu35bm2xl" path="res://test_10_highway/prefabs/bike_mat_green_paint.tres" id="2_f7m6a"]
+[ext_resource type="PackedScene" uid="uid://bnpp755liof34" path="res://test_10_highway/prefabs/player_head.tscn" id="3_f7m6a"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_n5q7x"]
+radius = 0.3
+height = 1.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_r2qtt"]
+size = Vector3(0.2, 0.6, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ipy2q"]
+size = Vector3(0.6, 0.05, 0.05)
+
+[node name="player_bike_1" type="CharacterBody3D"]
+script = ExtResource("1_farxe")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.3, 0)
+shape = SubResource("CapsuleShape3D_n5q7x")
+
+[node name="bike" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bike"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_r2qtt")
+surface_material_override/0 = ExtResource("2_f7m6a")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="bike"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -0.4)
+mesh = SubResource("BoxMesh_ipy2q")
+surface_material_override/0 = ExtResource("2_f7m6a")
+
+[node name="yaw" type="Node3D" parent="."]
+
+[node name="head" parent="yaw" instance=ExtResource("3_f7m6a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.6)
+spot_range = 7.0
+spot_attenuation = 0.32

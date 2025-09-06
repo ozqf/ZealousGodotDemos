@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://0rkjeuu2mcvm"]
+
+[sub_resource type="Gradient" id="Gradient_1c3rl"]
+offsets = PackedFloat32Array(0.52459, 0.578454)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_48tn3"]
+noise_type = 2
+frequency = 0.3
+fractal_type = 0
+cellular_distance_function = 1
+cellular_jitter = 0.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_em8tk"]
+color_ramp = SubResource("Gradient_1c3rl")
+noise = SubResource("FastNoiseLite_48tn3")
+
+[resource]
+emission_enabled = true
+emission_energy_multiplier = 3.0
+emission_texture = SubResource("NoiseTexture2D_em8tk")

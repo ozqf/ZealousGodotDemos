@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnpp755liof34"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8lpqd"]
+size = Vector3(0.02, 0.03, 0.15)
+
+[node name="head" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+cull_mask = 524287
+fov = 90.0
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, -0.1, -0.0999985)
+mesh = SubResource("BoxMesh_8lpqd")

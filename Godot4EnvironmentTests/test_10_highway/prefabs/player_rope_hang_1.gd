@@ -1,0 +1,54 @@
+extends Node3D
+
+@onready var _yaw:Node3D = $yaw
+@onready var _pitch:Node3D = $yaw/head
+
+
+func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func _physics_process(_delta:float) -> void:
+	var inputPush:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	
+	var root:Node3D = get_parent_node_3d()
+	
+	var pos:Vector3 = self.position
+	
+	var footPush:Vector3 = input_to_push_vector_flat(inputPush, _yaw.basis)
+	pos += (footPush * 3) * _delta
+	
+	pos.x = clampf(pos.x, -2, 2)
+	pos.z = clampf(pos.z, -2, 2)
+	self.position = pos
+
+func _input(event: InputEvent) -> void:
+	var motion:InputEventMouseMotion = event as InputEventMouseMotion
+	if motion == null:
+		return
+	
+	var ratio:Vector2 = get_window_to_screen_ratio()
+	var _pitchInverted:bool = true
+	var degreesYaw:float = (-motion.relative.x) * 0.2 * ratio.y
+	var degreesPitch:float = (-motion.relative.y) * 0.2 * ratio.x
+	# inverted?
+	if _pitchInverted:
+		degreesPitch = -degreesPitch
+	
+	var rot:Vector3 = _yaw.rotation_degrees
+	rot.y += degreesYaw
+	_yaw.rotation_degrees = rot
+	
+	rot = _pitch.rotation_degrees
+	rot.x += degreesPitch
+	
+	_pitch.rotation_degrees = rot
+
+static func input_to_push_vector_flat(inputDir:Vector2, basis:Basis) -> Vector3:
+	var _pushDirection:Vector3 = (basis * Vector3(inputDir.x, 0, inputDir.y)).normalized()
+	return _pushDirection
+
+static func get_window_to_screen_ratio(windowIndex:int = 0) -> Vector2:
+	var screen: Vector2 = DisplayServer.screen_get_size()
+	var window: Vector2 = DisplayServer.window_get_size(windowIndex)
+	var result: Vector2 = Vector2(window.x / screen.x, window.y / screen.y)
+	return result
