@@ -4,7 +4,7 @@ const mph_100_in_metres_per_second:float = 44.702
 
 var _a:Vector3 = Vector3(0, 0, -300)
 var _b:Vector3 = Vector3(0, 0, 300)
-var _speed:float = 100.0
+var _speed:float = 80.0
 var _travelled:float = 0.0
 
 func _ready() -> void:

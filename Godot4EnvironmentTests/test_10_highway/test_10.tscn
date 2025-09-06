@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://d3i24564ec1w7"]
+[gd_scene load_steps=15 format=3 uid="uid://d3i24564ec1w7"]
 
 [ext_resource type="Script" uid="uid://hk38cawrlan7" path="res://test_10_highway/prefabs/highway_main.gd" id="1_48tn3"]
 [ext_resource type="PackedScene" uid="uid://deyi42wnpqbja" path="res://test_10_highway/prefabs/car_1.tscn" id="1_r2qtt"]
@@ -6,7 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://u6vkpra0cq0s" path="res://test_10_highway/prefabs/road_segment_1.tscn" id="3_8lpqd"]
 [ext_resource type="Script" uid="uid://dmldj2b6do7u4" path="res://test_10_highway/prefabs/road_segment.gd" id="6_1c3rl"]
 [ext_resource type="Material" uid="uid://0rkjeuu2mcvm" path="res://test_10_highway/prefabs/building_mat.tres" id="7_48tn3"]
+[ext_resource type="Script" uid="uid://c71f80jojqogu" path="res://test_10_highway/prefabs/rope_mesh.gd" id="7_cu1v3"]
 [ext_resource type="Script" uid="uid://cmnka3tmtj57p" path="res://test_10_highway/prefabs/player_rope_hang_1.gd" id="7_em8tk"]
+[ext_resource type="Script" uid="uid://bm7ym8hiu2dbs" path="res://test_10_highway/prefabs/copter_blades.gd" id="9_cu1v3"]
 
 [sub_resource type="Environment" id="Environment_n5q7x"]
 background_mode = 1
@@ -21,10 +23,13 @@ fog_light_color = Color(0.0918, 0.121777, 0.17, 1)
 size = Vector3(2, 1, 4)
 
 [sub_resource type="BoxMesh" id="BoxMesh_1c3rl"]
-size = Vector3(0.02, 4, 0.02)
+size = Vector3(0.01, 0.01, 4)
 
 [sub_resource type="BoxMesh" id="BoxMesh_8lpqd"]
 size = Vector3(0.02, 0.03, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_em8tk"]
+size = Vector3(30, 20, 145)
 
 [node name="Test10" type="Node3D"]
 script = ExtResource("1_48tn3")
@@ -277,26 +282,58 @@ omni_attenuation = 0.184
 [node name="start_rope_hang" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 5, 2)
 
-[node name="Node3D" type="Node3D" parent="start_rope_hang"]
+[node name="rope_mesh" type="Node3D" parent="start_rope_hang"]
+script = ExtResource("7_cu1v3")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="start_rope_hang/Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+[node name="rope" type="Node3D" parent="start_rope_hang/rope_mesh"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="start_rope_hang/rope_mesh/rope"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 mesh = SubResource("BoxMesh_1c3rl")
+skeleton = NodePath("../..")
 
-[node name="player" type="Node3D" parent="start_rope_hang/Node3D"]
+[node name="player" type="Node3D" parent="start_rope_hang/rope_mesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
 script = ExtResource("7_em8tk")
 
-[node name="yaw" type="Node3D" parent="start_rope_hang/Node3D/player"]
+[node name="yaw" type="Node3D" parent="start_rope_hang/rope_mesh/player"]
 
-[node name="head" type="Node3D" parent="start_rope_hang/Node3D/player/yaw"]
+[node name="head" type="Node3D" parent="start_rope_hang/rope_mesh/player/yaw"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 0, 0.1)
 
-[node name="Camera3D" type="Camera3D" parent="start_rope_hang/Node3D/player/yaw/head"]
+[node name="Camera3D" type="Camera3D" parent="start_rope_hang/rope_mesh/player/yaw/head"]
 cull_mask = 524287
 fov = 90.0
 metadata/_edit_lock_ = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="start_rope_hang/Node3D/player/yaw/head"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="start_rope_hang/rope_mesh/player/yaw/head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, -0.1, -0.0999985)
 mesh = SubResource("BoxMesh_8lpqd")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="start_rope_hang/rope_mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0, 0)
+size = Vector3(3, 2, 5)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="start_rope_hang/rope_mesh/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0999999, 0.6)
+operation = 2
+size = Vector3(3, 1.6, 2.4)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="start_rope_hang/rope_mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0.5, 4)
+size = Vector3(1, 1, 3)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="start_rope_hang/rope_mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 1.5, 0)
+size = Vector3(1, 1, 3)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="start_rope_hang/rope_mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 2.05, 0)
+size = Vector3(12, 0.1, 0.5)
+script = ExtResource("9_cu1v3")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 9.5, -1)
+shape = SubResource("BoxShape3D_em8tk")
