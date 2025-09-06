@@ -2,7 +2,6 @@ extends Node
 class_name PlayerInput
 
 var paused:bool = true
-var reset:bool = false
 
 var axisX:float = 0
 var axisZ:float = 0
@@ -21,8 +20,6 @@ func _physics_process(_delta) -> void:
 	if Input.is_action_just_pressed("pause"):
 		paused = !paused
 		_refresh_pause()
-	
-	reset = Input.is_action_just_pressed("reset")
 	
 	var inputOn:bool = !Game.has_mouse_claims()
 	if !inputOn:

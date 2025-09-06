@@ -50,7 +50,7 @@ func _refresh_pause() -> void:
 	else:
 		Game.remove_mouse_claim(self)
 
-func _reset() -> void:
+func _reset_to_spawn() -> void:
 	_lastSurfaceNormal = Vector3.UP
 	var t:Transform3D = Transform3D.IDENTITY
 	t.origin = _resetPos
@@ -79,9 +79,6 @@ func _physics_process(_delta) -> void:
 	if Input.is_action_just_pressed("pause"):
 		_paused = !_paused
 		_refresh_pause()
-	
-	if Input.is_action_just_pressed("reset"):
-		_reset()
 	
 	var debugTxt:String = ""
 	var inputOn:bool = !Game.has_mouse_claims()

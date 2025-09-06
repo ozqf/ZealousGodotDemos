@@ -1,0 +1,72 @@
+[gd_scene load_steps=11 format=3 uid="uid://dvkbaf8twy8dx"]
+
+[ext_resource type="Script" uid="uid://cgenibeuko3l7" path="res://actors/player/avatar_wheel_1/avatar_wheel_1.gd" id="1_5ec1c"]
+[ext_resource type="Script" uid="uid://b4d4qwhs2kowr" path="res://actors/player/player_input.gd" id="2_dkw4h"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5jpor"]
+friction = 0.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5jpor"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5jpor"]
+height = 0.5
+
+[sub_resource type="Gradient" id="Gradient_5jpor"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wk3ip"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ae6o0"]
+width = 256
+height = 256
+color_ramp = SubResource("Gradient_5jpor")
+noise = SubResource("FastNoiseLite_wk3ip")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_temvt"]
+albedo_texture = SubResource("NoiseTexture2D_ae6o0")
+
+[sub_resource type="BoxMesh" id="BoxMesh_5jpor"]
+size = Vector3(0.1, 0.1, 1)
+
+[node name="PlayerAvatarWheel1" type="RigidBody3D"]
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+physics_material_override = SubResource("PhysicsMaterial_5jpor")
+continuous_cd = true
+script = ExtResource("1_5ec1c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_5jpor")
+
+[node name="wheel" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="wheel"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_5jpor")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_temvt")
+
+[node name="camera_rig" type="Node3D" parent="."]
+top_level = true
+
+[node name="debug_label" type="Label3D" parent="camera_rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+text = "Line 1
+Line 2
+Line 3"
+horizontal_alignment = 0
+vertical_alignment = 2
+
+[node name="Camera3D" type="Camera3D" parent="camera_rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 4)
+
+[node name="PlayerInput" type="Node" parent="."]
+script = ExtResource("2_dkw4h")
+metadata/_custom_type_script = "uid://b4d4qwhs2kowr"
+
+[node name="flat_push_rig" type="Node3D" parent="."]
+top_level = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="flat_push_rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh = SubResource("BoxMesh_5jpor")

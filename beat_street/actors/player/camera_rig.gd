@@ -10,6 +10,16 @@ var _mouseDelta:Vector2 = Vector2()
 func get_move_basis() -> Basis:
 	return _yaw.global_transform.basis
 
+func _physics_process(_delta: float) -> void:
+	var turnAxis:float = Input.get_axis("turn_right", "turn_left")
+	var turnDegreesPerSecond:float = 135.0
+	var dx:float = turnDegreesPerSecond * _delta * turnAxis
+	var degrees:Vector3 = _yaw.rotation_degrees
+	degrees.y += dx
+	_yaw.rotation_degrees = degrees
+
+	pass
+
 func _input(event) -> void:
 	if Zqf.has_mouse_claims():
 		return

@@ -1,0 +1,174 @@
+[gd_scene load_steps=11 format=3 uid="uid://br0rxudenlkk"]
+
+[ext_resource type="Script" uid="uid://bvx8klsa1rrnw" path="res://actors/player/avatar_type_roller/player_avatar_roller.gd" id="1_potsu"]
+[ext_resource type="Script" uid="uid://b4d4qwhs2kowr" path="res://actors/player/player_input.gd" id="2_5jpor"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5jpor"]
+friction = 0.9
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5jpor"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_5jpor"]
+radial_segments = 16
+rings = 8
+
+[sub_resource type="Gradient" id="Gradient_5jpor"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wk3ip"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ae6o0"]
+width = 256
+height = 256
+color_ramp = SubResource("Gradient_5jpor")
+noise = SubResource("FastNoiseLite_wk3ip")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_temvt"]
+albedo_texture = SubResource("NoiseTexture2D_ae6o0")
+
+[sub_resource type="BoxMesh" id="BoxMesh_5jpor"]
+size = Vector3(0.1, 0.1, 1)
+
+[node name="PlayerAvatarRoller" type="RigidBody3D"]
+physics_material_override = SubResource("PhysicsMaterial_5jpor")
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 16
+script = ExtResource("1_potsu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_5jpor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("SphereMesh_5jpor")
+surface_material_override/0 = SubResource("StandardMaterial3D_temvt")
+
+[node name="camera_rig" type="Node3D" parent="."]
+top_level = true
+
+[node name="debug_label" type="Label3D" parent="camera_rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+text = "Line 1
+Line 2
+Line 3"
+horizontal_alignment = 0
+vertical_alignment = 2
+
+[node name="Camera3D" type="Camera3D" parent="camera_rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 4)
+
+[node name="PlayerInput" type="Node" parent="."]
+script = ExtResource("2_5jpor")
+metadata/_custom_type_script = ExtResource("2_5jpor")
+
+[node name="flat_push_rig" type="Node3D" parent="."]
+top_level = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="flat_push_rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh = SubResource("BoxMesh_5jpor")
+
+[node name="rays" type="Node3D" parent="."]
+
+[node name="RayCast3D" type="RayCast3D" parent="rays"]
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D2" type="RayCast3D" parent="rays"]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D3" type="RayCast3D" parent="rays"]
+transform = Transform3D(-5.96046e-08, -1, 0, 1, -5.96046e-08, 0, 0, 0, 1, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D4" type="RayCast3D" parent="rays"]
+transform = Transform3D(-0.707107, -0.707107, 0, 0.707107, -0.707107, 0, 0, 0, 1, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D5" type="RayCast3D" parent="rays"]
+transform = Transform3D(-1, 8.9407e-08, 0, -8.9407e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D6" type="RayCast3D" parent="rays"]
+transform = Transform3D(-0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 0, 0, 1, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D7" type="RayCast3D" parent="rays"]
+transform = Transform3D(8.9407e-08, 1, 0, -1, 8.9407e-08, 0, 0, 0, 1, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D8" type="RayCast3D" parent="rays"]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D9" type="RayCast3D" parent="rays"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D10" type="RayCast3D" parent="rays"]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D11" type="RayCast3D" parent="rays"]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D12" type="RayCast3D" parent="rays"]
+transform = Transform3D(1, 0, 0, 0, -0.707107, -0.707107, 0, 0.707107, -0.707107, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D13" type="RayCast3D" parent="rays"]
+transform = Transform3D(1, 0, 0, 0, 8.9407e-08, -1, 0, 1, 8.9407e-08, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D14" type="RayCast3D" parent="rays"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707106, 0, 0.707106, 0.707107, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D15" type="RayCast3D" parent="rays"]
+transform = Transform3D(0.707107, 0.5, -0.5, 0, -0.707106, -0.707106, -0.707107, 0.5, -0.5, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D16" type="RayCast3D" parent="rays"]
+transform = Transform3D(-0.707107, 0.5, -0.5, 0, -0.707106, -0.707106, -0.707107, -0.5, 0.5, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D17" type="RayCast3D" parent="rays"]
+transform = Transform3D(-0.707107, -0.5, 0.5, 0, -0.707106, -0.707106, 0.707107, -0.5, 0.5, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D18" type="RayCast3D" parent="rays"]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, -0.707106, -0.707106, 0.707107, 0.5, -0.5, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D23" type="RayCast3D" parent="rays"]
+transform = Transform3D(-0.707107, -0.5, 0.5, -6.18172e-08, 0.707106, 0.707106, -0.707107, 0.5, -0.5, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D24" type="RayCast3D" parent="rays"]
+transform = Transform3D(0.707107, -0.5, 0.5, 6.18172e-08, 0.707106, 0.707106, -0.707107, -0.5, 0.5, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D25" type="RayCast3D" parent="rays"]
+transform = Transform3D(0.707107, 0.5, -0.5, 6.18172e-08, 0.707106, 0.707106, 0.707107, -0.5, 0.5, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D26" type="RayCast3D" parent="rays"]
+transform = Transform3D(-0.707107, 0.5, -0.5, -6.18172e-08, 0.707106, 0.707106, 0.707107, 0.5, -0.5, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D19" type="RayCast3D" parent="rays"]
+transform = Transform3D(-0.353553, -0.707107, 0.612372, -0.866025, -4.37114e-08, -0.5, 0.353553, -0.707107, -0.612372, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D20" type="RayCast3D" parent="rays"]
+transform = Transform3D(0.353553, -0.707107, -0.612372, -0.866025, -4.37114e-08, -0.5, 0.353553, 0.707107, -0.612372, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D21" type="RayCast3D" parent="rays"]
+transform = Transform3D(0.353553, 0.707107, -0.612372, -0.866025, -4.37114e-08, -0.5, -0.353553, 0.707107, 0.612372, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
+
+[node name="RayCast3D22" type="RayCast3D" parent="rays"]
+transform = Transform3D(-0.353553, 0.707107, 0.612372, -0.866025, -4.37114e-08, -0.5, -0.353553, -0.707107, 0.612372, 0, 0, 0)
+target_position = Vector3(0, -0.7, 0)
