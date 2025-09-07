@@ -7,6 +7,7 @@ size = Vector3(0.02, 0.03, 0.15)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 cull_mask = 524287
+current = true
 fov = 90.0
 metadata/_edit_lock_ = true
 

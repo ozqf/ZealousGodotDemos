@@ -35,7 +35,7 @@ func _swing_move(_delta:float) -> void:
 	ropeOrigin.y += _hangDistance
 	ropeOrigin += _swingOffset
 	self.global_position = ropeOrigin
-	_hangNode.face_hang_target(self)
+	_hangNode.face_hang_target(ropeOrigin)
 
 func _swing_move_old(_delta:float) -> void:
 	var inputPush:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d3i24564ec1w7"]
+[gd_scene load_steps=18 format=3 uid="uid://d3i24564ec1w7"]
 
 [ext_resource type="Script" uid="uid://hk38cawrlan7" path="res://test_10_highway/prefabs/highway_main.gd" id="1_48tn3"]
 [ext_resource type="PackedScene" uid="uid://deyi42wnpqbja" path="res://test_10_highway/prefabs/car_1.tscn" id="1_r2qtt"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dmldj2b6do7u4" path="res://test_10_highway/prefabs/road_segment.gd" id="6_1c3rl"]
 [ext_resource type="Material" uid="uid://0rkjeuu2mcvm" path="res://test_10_highway/prefabs/building_mat.tres" id="7_48tn3"]
 [ext_resource type="Script" uid="uid://c71f80jojqogu" path="res://test_10_highway/prefabs/rope_hang_point.gd" id="7_cu1v3"]
+[ext_resource type="PackedScene" uid="uid://b3sj0idyd0bgc" path="res://shared/prefabs/widget3d.tscn" id="9_6aims"]
 [ext_resource type="Script" uid="uid://bm7ym8hiu2dbs" path="res://test_10_highway/prefabs/copter_blades.gd" id="9_cu1v3"]
 
 [sub_resource type="Environment" id="Environment_n5q7x"]
@@ -19,13 +20,66 @@ fog_enabled = true
 fog_light_color = Color(0.0918, 0.121777, 0.17, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7uwli"]
-size = Vector3(2, 1, 4)
+size = Vector3(2, 3, 10)
 
 [sub_resource type="BoxMesh" id="BoxMesh_1c3rl"]
 size = Vector3(0.01, 0.01, 4)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_em8tk"]
 size = Vector3(30, 20, 145)
+
+[sub_resource type="Animation" id="Animation_6aims"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("subject")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_kwbfy"]
+resource_name = "car_hops"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("subject")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 2, 0.3, 1, 0, 1, 2, 0.6, 1, 0, 1, 2, 1.1, 1, 0, 1, -2.7, 1.26667, 1, 0, 1.4, -3.7, 1.43333, 1, 0, 1.5, -4.3, 1.63333, 1, 0, 0.594999, -5.78, 1.83333, 1, 0, -1.4, -7.7, 2.1, 1, 0, -1.4, -7.7, 2.7, 1, 0, -0.6, -7.7, 3, 1, 0, -0.6, -7.7)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("subject")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, 0, 0, 0, 1, 0.6, 1, 0, 0, 0, 1, 0.933333, 1, 0, 0, 0, 1, 1.26667, 1, -0.173648, 0, 0, 0.984808, 1.43333, 1, -0.173648, 0, 0, 0.984808, 1.83333, 1, -0.422618, 0, 0, 0.906308, 2.1, 1, -0.5373, 0, 0, 0.843391, 2.36667, 1, -0.5373, 0, 0, 0.843391, 2.7, 1, 0, 0, 0, 1, 3, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_cu1v3"]
+resource_name = "idle"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("subject")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("subject")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kwbfy"]
+_data = {
+&"RESET": SubResource("Animation_6aims"),
+&"car_hops": SubResource("Animation_kwbfy"),
+&"idle": SubResource("Animation_cu1v3")
+}
 
 [node name="Test10" type="Node3D"]
 script = ExtResource("1_48tn3")
@@ -243,14 +297,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 28)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 28)
 
 [node name="truck_1" type="StaticBody3D" parent="level"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 37)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 39)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="level/truck_1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 size = Vector3(2, 3, 10)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="level/truck_1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = SubResource("BoxShape3D_7uwli")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="level/truck_1"]
@@ -316,3 +370,22 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 9.5, -1)
 shape = SubResource("BoxShape3D_em8tk")
+
+[node name="cutscene_1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 3, 37)
+
+[node name="first_ledge" parent="cutscene_1" instance=ExtResource("9_6aims")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+metadata/_edit_lock_ = true
+
+[node name="subject" parent="cutscene_1" instance=ExtResource("9_6aims")]
+
+[node name="Camera3D" type="Camera3D" parent="cutscene_1/subject"]
+cull_mask = 524287
+metadata/_edit_lock_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="cutscene_1"]
+libraries = {
+&"": SubResource("AnimationLibrary_kwbfy")
+}
+autoplay = "car_hops"

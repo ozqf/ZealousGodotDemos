@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3sj0idyd0bgc"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_0h7e2"]
+left_to_right = 0.0
+size = Vector3(0.3, 0.2, 0.2)
+
+[node name="Widget3d" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.1, 0)
+layers = 524288
+mesh = SubResource("PrismMesh_0h7e2")
