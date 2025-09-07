@@ -4,14 +4,40 @@ extends Node3D
 @onready var _pitch:Node3D = $yaw/head
 
 var _velocity:Vector3 = Vector3()
+var _hangNode:Node3D = null
+var _hangDistance:float = -3.0
+var _swingOffset:Vector3 = Vector3()
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	_hangNode = get_parent()
+
+func spawn(ropeNode:Node3D, hangDistance:float = -3) -> void:
+	_hangNode = ropeNode
+	pass
 
 func _physics_process(_delta:float) -> void:
 	_swing_move(_delta)
 
 func _swing_move(_delta:float) -> void:
+	if _hangNode == null:
+		return
+	var inputPush:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	var footPush:Vector3 = input_to_push_vector_flat(inputPush, _yaw.basis)
+	
+	var offset:Vector3 = _swingOffset
+	offset += (footPush * 5) * _delta
+	var drag:Vector3 = (-offset * 3) * _delta
+	offset += drag
+	_swingOffset = offset
+	
+	var ropeOrigin:Vector3 = _hangNode.global_position
+	ropeOrigin.y += _hangDistance
+	ropeOrigin += _swingOffset
+	self.global_position = ropeOrigin
+	_hangNode.face_hang_target(self)
+
+func _swing_move_old(_delta:float) -> void:
 	var inputPush:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var footPush:Vector3 = input_to_push_vector_flat(inputPush, _yaw.basis)
 	
