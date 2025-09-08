@@ -17,7 +17,11 @@ ambient_light_source = 2
 ambient_light_color = Color(0.139488, 0.143776, 0.392747, 1)
 tonemap_mode = 2
 fog_enabled = true
+fog_mode = 1
 fog_light_color = Color(0.0918, 0.121777, 0.17, 1)
+fog_density = 1.0
+fog_depth_begin = 25.0
+fog_depth_end = 250.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7uwli"]
 size = Vector3(2, 3, 10)
@@ -48,14 +52,14 @@ tracks/0/enabled = true
 tracks/0/path = NodePath("subject")
 tracks/0/interp = 2
 tracks/0/loop_wrap = false
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 2, 0.3, 1, 0, 1, 2, 0.6, 1, 0, 1, 2, 1.1, 1, 0, 1, -2.7, 1.26667, 1, 0, 1.4, -3.7, 1.43333, 1, 0, 1.5, -4.3, 1.63333, 1, 0, 0.594999, -5.78, 1.83333, 1, 0, -1.4, -7.7, 2.1, 1, 0, -1.4, -7.7, 2.7, 1, 0, -0.6, -7.7, 3, 1, 0, -0.6, -7.7)
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 2, 0.3, 1, 0, 1, 2, 0.6, 1, 0, 1, 2, 1.1, 1, 0, 1, -2.7, 1.43333, 1, 0, 1.5, -4.3, 1.63333, 1, 0, 0.594999, -5.78, 1.83333, 1, 0, -1.4, -7.7, 2.1, 1, 0, -1.4, -7.7, 2.7, 1, 0, -0.6, -7.7, 3, 1, 0, -0.6, -7.7)
 tracks/1/type = "rotation_3d"
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath("subject")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, 0, 0, 0, 1, 0.6, 1, 0, 0, 0, 1, 0.933333, 1, 0, 0, 0, 1, 1.26667, 1, -0.173648, 0, 0, 0.984808, 1.43333, 1, -0.173648, 0, 0, 0.984808, 1.83333, 1, -0.422618, 0, 0, 0.906308, 2.1, 1, -0.5373, 0, 0, 0.843391, 2.36667, 1, -0.5373, 0, 0, 0.843391, 2.7, 1, 0, 0, 0, 1, 3, 1, 0, 0, 0, 1)
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, 0, 0, 0, 1, 0.6, 1, 0, 0, 0, 1, 0.933333, 1, 0, 0, 0, 1, 1.1, 1, -0.173648, 0, 0, 0.984808, 1.43333, 1, -0.173648, 0, 0, 0.984808, 1.83333, 1, -0.422618, 0, 0, 0.906308, 2.1, 1, -0.5373, 0, 0, 0.843391, 2.36667, 1, -0.5373, 0, 0, 0.843391, 2.7, 1, 0, 0, 0, 1, 3, 1, 0, 0, 0, 1)
 
 [sub_resource type="Animation" id="Animation_cu1v3"]
 resource_name = "idle"
@@ -207,6 +211,79 @@ script = ExtResource("6_1c3rl")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building8"]
 size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building9" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0, -191)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building9"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building10" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 0, -95)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building10"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building11" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 0, -39)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building11"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building12" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 142, 0, -71)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building12"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building13" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 98, 0, 24)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building13"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building14" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 0, 124)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building14"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building15" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95, 0, 211)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building15"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
+metadata/_edit_lock_ = true
+
+[node name="building16" type="Node3D" parent="scrolling"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 122, 0, 94)
+script = ExtResource("6_1c3rl")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="scrolling/building16"]
+size = Vector3(20, 100, 20)
+material = ExtResource("7_48tn3")
 metadata/_edit_lock_ = true
 
 [node name="start_bike" type="Node3D" parent="."]
@@ -359,11 +436,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 1, 0)
 script = ExtResource("7_cu1v3")
 
 [node name="rope" type="Node3D" parent="copter/rope_hang_point"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="copter/rope_hang_point/rope"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 mesh = SubResource("BoxMesh_1c3rl")
 skeleton = NodePath("../..")
+metadata/_edit_lock_ = true
 
 [node name="Area3D" type="Area3D" parent="."]
 
