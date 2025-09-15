@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bktb5ssbk0bgi"]
+
+[ext_resource type="Script" uid="uid://bp5t0kk3rd5ly" path="res://test_10_highway/prefabs/car_blocker_1.gd" id="1_le7ue"]
+[ext_resource type="PackedScene" uid="uid://dwfedu5n5xfc2" path="res://test_10_highway/prefabs/car_model_1.tscn" id="1_sfbmh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_le7ue"]
+size = Vector3(2, 1, 4)
+
+[node name="CarBlocker1" type="CharacterBody3D"]
+script = ExtResource("1_le7ue")
+
+[node name="car_model_1" parent="." instance=ExtResource("1_sfbmh")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_le7ue")

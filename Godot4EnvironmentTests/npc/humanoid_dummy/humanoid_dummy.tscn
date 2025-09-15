@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5irq565vf7js"]
+
+[ext_resource type="Script" uid="uid://ce7vdt2ex6qep" path="res://npc/humanoid_dummy/humanoid_dummy.gd" id="1_2okqg"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_er8kq"]
+height = 1.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_er8kq"]
+size = Vector3(0.6, 1.8, 0.6)
+
+[node name="HumanoidDummy" type="Area3D"]
+script = ExtResource("1_2okqg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_er8kq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("BoxMesh_er8kq")

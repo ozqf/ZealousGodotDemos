@@ -3,7 +3,7 @@
 [sub_resource type="BoxMesh" id="BoxMesh_8lpqd"]
 size = Vector3(0.02, 0.03, 0.15)
 
-[node name="head" type="Node3D"]
+[node name="head" type="Node3D" groups=["player"]]
 
 [node name="Camera3D" type="Camera3D" parent="."]
 cull_mask = 524287
