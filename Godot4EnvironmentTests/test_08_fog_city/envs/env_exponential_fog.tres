@@ -1,0 +1,19 @@
+[gd_resource type="Environment" format=3 uid="uid://c7d4k60j73dg6"]
+
+[resource]
+background_mode = 1
+background_color = Color(0.158472, 0.158472, 0.158472, 1)
+ambient_light_color = Color(0.564962, 0.564962, 0.564962, 1)
+tonemap_mode = 2
+glow_enabled = true
+glow_bloom = 0.2
+glow_blend_mode = 0
+fog_enabled = true
+fog_light_color = Color(0.182778, 0.218596, 0.240227, 1)
+fog_light_energy = 0.24
+fog_density = 0.005
+fog_depth_begin = 30.0
+fog_depth_end = 802.0
+volumetric_fog_density = 0.03
+volumetric_fog_albedo = Color(0.325438, 0.460196, 0.467333, 1)
+volumetric_fog_length = 80.0

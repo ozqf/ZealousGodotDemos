@@ -2,21 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjx7knxhphc6r"
-path.s3tc="res://.godot/imported/tex_build_side_sheet_1_emission.png-8a2035bd6e23125fd42e95ca0cea7e53.s3tc.ctex"
+uid="uid://cokysglwwhvcb"
+path="res://.godot/imported/tex_build2_side_sheet_1_emissive.png-debcea3c43045cad1b5abc9a277b574b.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://test_08_fog_city/assets/tex_build_side_sheet_1_emission.png"
-dest_files=["res://.godot/imported/tex_build_side_sheet_1_emission.png-8a2035bd6e23125fd42e95ca0cea7e53.s3tc.ctex"]
+source_file="res://test_08_fog_city/assets/tex_build2_side_sheet_1_emissive.png"
+dest_files=["res://.godot/imported/tex_build2_side_sheet_1_emissive.png-debcea3c43045cad1b5abc9a277b574b.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
