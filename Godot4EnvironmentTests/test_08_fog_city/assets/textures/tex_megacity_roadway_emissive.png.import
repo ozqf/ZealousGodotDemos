@@ -2,32 +2,31 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bciw7332646yr"
-path.s3tc="res://.godot/imported/tex_build_side_sheet_1_normal.png-8963efb5960fb0e5c54558117205828b.s3tc.ctex"
+uid="uid://b4b7ieyx1ds6g"
+path="res://.godot/imported/tex_megacity_roadway_emissive.png-a6068aa5bba986b581d07e20a3c23654.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://test_08_fog_city/assets/tex_build_side_sheet_1_normal.png"
-dest_files=["res://.godot/imported/tex_build_side_sheet_1_normal.png-8963efb5960fb0e5c54558117205828b.s3tc.ctex"]
+source_file="res://test_08_fog_city/assets/textures/tex_megacity_roadway_emissive.png"
+dest_files=["res://.godot/imported/tex_megacity_roadway_emissive.png-a6068aa5bba986b581d07e20a3c23654.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=1
+compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=1
-roughness/src_normal="res://test_08_fog_city/assets/tex_build_side_sheet_1_normal.png"
+roughness/mode=0
+roughness/src_normal=""
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2

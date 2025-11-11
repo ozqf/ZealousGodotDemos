@@ -1,0 +1,16 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://cdmpbubbg2q4b"]
+
+[ext_resource type="Texture2D" uid="uid://clla8af1o7aaq" path="res://test_08_fog_city/assets/textures/tex_build_side_sheet_1.png" id="1_x12y3"]
+[ext_resource type="Texture2D" uid="uid://bjx7knxhphc6r" path="res://test_08_fog_city/assets/textures/tex_build_side_sheet_1_emission.png" id="2_yu1qt"]
+[ext_resource type="Texture2D" uid="uid://bciw7332646yr" path="res://test_08_fog_city/assets/textures/tex_build_side_sheet_1_normal.png" id="3_11327"]
+
+[resource]
+albedo_texture = ExtResource("1_x12y3")
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.0
+emission_enabled = true
+emission_texture = ExtResource("2_yu1qt")
+normal_enabled = true
+normal_texture = ExtResource("3_11327")
+texture_filter = 2

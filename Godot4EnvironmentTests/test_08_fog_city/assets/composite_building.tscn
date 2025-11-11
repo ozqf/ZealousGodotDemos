@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bvspdchvnmn0r"]
 
 [ext_resource type="ArrayMesh" uid="uid://dymya7gjgolyx" path="res://test_08_fog_city/assets/mesh_skyscraper_side_1.obj" id="1_nxnfa"]
-[ext_resource type="Material" uid="uid://cdmpbubbg2q4b" path="res://test_08_fog_city/assets/mat_building_side_sheet.tres" id="2_ib0qk"]
+[ext_resource type="Material" uid="uid://cdmpbubbg2q4b" path="res://test_08_fog_city/assets/textures/mat_building_side_sheet.tres" id="2_ib0qk"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ib0qk"]
 size = Vector2(72, 72)

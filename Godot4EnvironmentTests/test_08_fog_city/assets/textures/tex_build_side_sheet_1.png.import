@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjx7knxhphc6r"
-path.s3tc="res://.godot/imported/tex_build_side_sheet_1_emission.png-8a2035bd6e23125fd42e95ca0cea7e53.s3tc.ctex"
+uid="uid://clla8af1o7aaq"
+path.s3tc="res://.godot/imported/tex_build_side_sheet_1.png-452ca79b2fc81eba825f2c600c91e4a0.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://test_08_fog_city/assets/tex_build_side_sheet_1_emission.png"
-dest_files=["res://.godot/imported/tex_build_side_sheet_1_emission.png-8a2035bd6e23125fd42e95ca0cea7e53.s3tc.ctex"]
+source_file="res://test_08_fog_city/assets/textures/tex_build_side_sheet_1.png"
+dest_files=["res://.godot/imported/tex_build_side_sheet_1.png-452ca79b2fc81eba825f2c600c91e4a0.s3tc.ctex"]
 
 [params]
 

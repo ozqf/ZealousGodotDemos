@@ -2,31 +2,32 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cokysglwwhvcb"
-path="res://.godot/imported/tex_build2_side_sheet_1_emissive.png-debcea3c43045cad1b5abc9a277b574b.ctex"
+uid="uid://bciw7332646yr"
+path.s3tc="res://.godot/imported/tex_build_side_sheet_1_normal.png-c0e893905fb6dbc56c58607b94137f62.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://test_08_fog_city/assets/tex_build2_side_sheet_1_emissive.png"
-dest_files=["res://.godot/imported/tex_build2_side_sheet_1_emissive.png-debcea3c43045cad1b5abc9a277b574b.ctex"]
+source_file="res://test_08_fog_city/assets/textures/tex_build_side_sheet_1_normal.png"
+dest_files=["res://.godot/imported/tex_build_side_sheet_1_normal.png-c0e893905fb6dbc56c58607b94137f62.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://test_08_fog_city/assets/tex_build_side_sheet_1_normal.png"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2

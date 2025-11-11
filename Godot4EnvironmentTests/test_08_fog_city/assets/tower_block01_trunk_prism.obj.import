@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cp1gw6y2brvv0"
+path="res://.godot/imported/tower_block01_trunk_prism.obj-56b62d34def4ff8c3b3cb008e983aa91.mesh"
+
+[deps]
+
+files=["res://.godot/imported/tower_block01_trunk_prism.obj-56b62d34def4ff8c3b3cb008e983aa91.mesh"]
+
+source_file="res://test_08_fog_city/assets/tower_block01_trunk_prism.obj"
+dest_files=["res://.godot/imported/tower_block01_trunk_prism.obj-56b62d34def4ff8c3b3cb008e983aa91.mesh", "res://.godot/imported/tower_block01_trunk_prism.obj-56b62d34def4ff8c3b3cb008e983aa91.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

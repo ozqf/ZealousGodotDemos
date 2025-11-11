@@ -1,34 +1,18 @@
-[gd_scene load_steps=13 format=3 uid="uid://b60qrkbpdbykw"]
+[gd_scene load_steps=18 format=3 uid="uid://b60qrkbpdbykw"]
 
 [ext_resource type="Material" uid="uid://1l2nh0hveon7" path="res://test_07_walled_city/prefabs/mat_skyscraper_1.tres" id="1_25whf"]
 [ext_resource type="ArrayMesh" uid="uid://dmfgei0rl00kp" path="res://test_08_fog_city/mesh1.obj" id="1_te0w7"]
+[ext_resource type="Environment" uid="uid://331uquqdvqfk" path="res://test_08_fog_city/envs/env_depth_fog.tres" id="1_xbqot"]
 [ext_resource type="PackedScene" uid="uid://bvspdchvnmn0r" path="res://test_08_fog_city/assets/composite_building.tscn" id="2_8o5jh"]
 [ext_resource type="ArrayMesh" uid="uid://dym6wcgtfu26k" path="res://test_08_fog_city/assets/tower_block01_trunk.obj" id="4_af5yu"]
 [ext_resource type="Material" uid="uid://brd3dcwxg7tf8" path="res://test_08_fog_city/assets/mat_tower_block01.tres" id="5_xyq5j"]
+[ext_resource type="ArrayMesh" uid="uid://7d11i3p433db" path="res://test_08_fog_city/assets/tower_block01_trunk_corner.obj" id="6_g57vt"]
 [ext_resource type="ArrayMesh" uid="uid://inp6tc0p57v3" path="res://test_08_fog_city/assets/tower_block01_cap.obj" id="6_xyq5j"]
+[ext_resource type="ArrayMesh" uid="uid://d2ddoyua7n67m" path="res://test_08_fog_city/assets/skybox_roadway.obj" id="7_576km"]
 [ext_resource type="ArrayMesh" uid="uid://dhevf5l2jrpl4" path="res://test_08_fog_city/assets/tower_block01_cap_02.obj" id="7_p6fns"]
-
-[sub_resource type="Environment" id="Environment_8o5jh"]
-background_mode = 1
-background_color = Color(0.158472, 0.158472, 0.158472, 1)
-ambient_light_color = Color(0.564962, 0.564962, 0.564962, 1)
-ambient_light_energy = 0.5
-tonemap_mode = 2
-glow_enabled = true
-glow_strength = 0.7
-glow_bloom = 0.5
-glow_blend_mode = 1
-fog_enabled = true
-fog_mode = 1
-fog_light_color = Color(0.18753093, 0.25581458, 0.263003, 1)
-fog_light_energy = 0.24
-fog_density = 1.0
-fog_depth_curve = 6.2766566
-fog_depth_begin = 30.0
-fog_depth_end = 800.0
-volumetric_fog_density = 0.03
-volumetric_fog_albedo = Color(0.325438, 0.460196, 0.467333, 1)
-volumetric_fog_length = 80.0
+[ext_resource type="Material" uid="uid://c8kijhaw03578" path="res://test_08_fog_city/assets/mat_skybox_roadway.tres" id="8_jixiw"]
+[ext_resource type="ArrayMesh" uid="uid://dd00iovwp1d37" path="res://test_08_fog_city/assets/tower_cylinder_01_trunk_corner.obj" id="10_htmek"]
+[ext_resource type="ArrayMesh" uid="uid://d1j3f6v1qjda5" path="res://test_08_fog_city/assets/tower_cylinder_01_trunk_corner_cap.obj" id="11_k133x"]
 
 [sub_resource type="Gradient" id="Gradient_fx8s2"]
 colors = PackedColorArray(0.133196, 0.133196, 0.133196, 1, 0.791999, 0.791999, 0.791999, 1)
@@ -54,7 +38,7 @@ transform = Transform3D(0.707107, 0.683013, -0.183013, 0, 0.258819, 0.965926, 0.
 light_energy = 0.1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_8o5jh")
+environment = ExtResource("1_xbqot")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.5, -0.44474, -0.743106, -6.77221e-09, 0.858065, -0.513542, 0.866025, 0.256771, 0.429033, -15.6, 1.8, 15.6)
@@ -69,7 +53,7 @@ skeleton = NodePath("../..")
 [node name="scales" type="Node3D" parent="game_space"]
 
 [node name="character_scale" type="CSGBox3D" parent="game_space/scales"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 1, 12.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 1, 14.499999)
 size = Vector3(1, 2, 1)
 
 [node name="character_scale2" type="CSGBox3D" parent="game_space/scales"]
@@ -80,11 +64,17 @@ size = Vector3(1, 2, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.5, 5, 10.5)
 size = Vector3(1, 2, 1)
 
-[node name="composite_building" parent="game_space" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 165, -108, 0)
+[node name="cap2" type="MeshInstance3D" parent="game_space"]
+transform = Transform3D(36, 0, 0, 0, 32, 0, 0, 0, 36, 165, 4, -5.722046e-06)
+mesh = ExtResource("6_xyq5j")
+skeleton = NodePath("../MeshInstance3D19")
+surface_material_override/0 = ExtResource("5_xyq5j")
 
-[node name="composite_building11" parent="game_space" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 161, -128, -92)
+[node name="cap3" type="MeshInstance3D" parent="game_space"]
+transform = Transform3D(36, 0, 0, 0, 32, 0, 0, 0, 36, 161, -16, -92.00001)
+mesh = ExtResource("6_xyq5j")
+skeleton = NodePath("../MeshInstance3D19")
+surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D18" type="MeshInstance3D" parent="game_space"]
 transform = Transform3D(36, 0, 0, 0, 32, 0, 0, 0, 36, 48, -156, -67)
@@ -92,8 +82,21 @@ mesh = ExtResource("4_af5yu")
 skeleton = NodePath("../../skybox_buildings")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
-[node name="composite_building31" parent="game_space" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66, -140, 25)
+[node name="cap" type="MeshInstance3D" parent="game_space/MeshInstance3D18"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = ExtResource("6_xyq5j")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D19" type="MeshInstance3D" parent="game_space"]
+transform = Transform3D(36, 0, 0, 0, 32, 0, 0, 0, 36, 66, -156, 25)
+mesh = ExtResource("4_af5yu")
+skeleton = NodePath("../../skybox_buildings")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cap" type="MeshInstance3D" parent="game_space/MeshInstance3D19"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = ExtResource("6_xyq5j")
+surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="game_space"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -128, 0)
@@ -101,48 +104,287 @@ material_override = SubResource("StandardMaterial3D_8o5jh")
 size = Vector3(32, 256, 32)
 material = ExtResource("1_25whf")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="game_space"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 102, 320, -62)
-material_override = SubResource("StandardMaterial3D_8o5jh")
-size = Vector3(32, 8, 228)
-material = ExtResource("1_25whf")
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="game_space"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 289, 320, -55.5)
-material_override = SubResource("StandardMaterial3D_8o5jh")
-size = Vector3(32, 8, 369)
-material = ExtResource("1_25whf")
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="game_space"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 337, 223, -201.5)
-material_override = SubResource("StandardMaterial3D_8o5jh")
-size = Vector3(368, 8, 32)
-material = ExtResource("1_25whf")
-
 [node name="skybox_buildings" type="Node3D" parent="."]
 
+[node name="roadway" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 64, 316, -160)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway2" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 64, 316, -128)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway3" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 64, 316, -96)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway4" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 64, 316, -64)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway5" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 64, 316, -32)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway6" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 64, 316, 0)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway7" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 289, 316, -195)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway8" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 289, 316, -163)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway9" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 289, 316, -131)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway10" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 289, 316, -99)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway11" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 289, 316, -67)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway12" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 289, 316, -35)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway13" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 289, 316, -3)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway14" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-6.993822e-07, 0, 16, 0, 16, 0, -16, 0, -6.993822e-07, 289, 316, 29)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway15" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, -46, 166, -328)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway16" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, -14, 166, -328)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway17" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 18, 166, -328)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway18" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 50, 166, -328)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway19" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 82, 166, -328)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway20" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 114, 166, -328)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway21" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 146, 166, -328)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway22" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 178, 166, -328)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway23" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 168, 227, -208)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway24" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 200, 227, -208)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway25" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 232, 227, -208)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway26" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 264, 227, -208)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway27" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 296, 227, -208)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway28" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 328, 227, -208)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway29" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 360, 227, -208)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway30" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 392, 227, -208)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway31" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 424, 227, -208)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
+[node name="roadway32" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-16, 0, -1.3987644e-06, 0, 16, 0, 1.3987644e-06, 0, -16, 456, 227, -208)
+mesh = ExtResource("7_576km")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("8_jixiw")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 116, -4, -212)
-mesh = ExtResource("4_af5yu")
+transform = Transform3D(-1.57361e-06, 0, 36, 0, 36, 0, -36, 0, -1.57361e-06, 116, -40, -176)
+mesh = ExtResource("6_g57vt")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D38" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-1.57361e-06, 0, 36, 0, 36, 0, -36, 0, -1.57361e-06, 116, 104, -176)
+mesh = ExtResource("6_xyq5j")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D40" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-1.57361e-06, 0, 36, 0, 36, 0, -36, 0, -1.57361e-06, 116, 104, -248)
+mesh = ExtResource("6_xyq5j")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D30" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-36, 0, -3.14722e-06, 0, 36, 0, 3.14722e-06, 0, -36, 116, -40, -176)
+mesh = ExtResource("6_g57vt")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D31" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-36, 0, -3.14722e-06, 0, 36, 0, 3.14722e-06, 0, -36, 152, -4, -212)
+mesh = ExtResource("6_g57vt")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D29" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-1.57361e-06, 0, 36, 0, 36, 0, -36, 0, -1.57361e-06, 80, -76, -212)
+mesh = ExtResource("6_g57vt")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D39" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 80, -76, -212)
+mesh = ExtResource("6_g57vt")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D35" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-1.57361e-06, 0, 36, 0, 36, 0, -36, 0, -1.57361e-06, 80, 68, -212)
+mesh = ExtResource("6_xyq5j")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D41" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-1.57361e-06, 0, 36, 0, 36, 0, -36, 0, -1.57361e-06, 80, 104, -212.1)
+mesh = ExtResource("7_p6fns")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D42" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-1.57361e-06, 0, 36, 3.14722e-06, -36, 1.3756936e-13, 36, 3.14722e-06, 1.57361e-06, 44, 316, -212)
+mesh = ExtResource("7_p6fns")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D32" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-1.57361e-06, 0, 36, 0, 36, 0, -36, 0, -1.57361e-06, 116, -148, -176)
+mesh = ExtResource("6_g57vt")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D33" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-36, 0, -3.14722e-06, 0, 36, 0, 3.14722e-06, 0, -36, 116, -148, -176)
+mesh = ExtResource("6_g57vt")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D34" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-36, 0, -3.14722e-06, 0, 36, 0, 3.14722e-06, 0, -36, 152, -148, -212)
+mesh = ExtResource("6_g57vt")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D25" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 116, -184, -212)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 116, -148, -212)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 116, 176, -212)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 116, 140, -212)
+mesh = ExtResource("4_af5yu")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D43" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 116, 284, -212)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 116, 356, -212)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 116, 428, -212)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="skybox_buildings/MeshInstance3D3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0000005, 0)
 mesh = ExtResource("6_xyq5j")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
@@ -152,12 +394,12 @@ mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D27" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, 432, 190)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, 396, 190)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="tower_block_cap" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, 612, 190)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, 540, 190)
 mesh = ExtResource("6_xyq5j")
 skeleton = NodePath("../MeshInstance3D12")
 surface_material_override/0 = ExtResource("5_xyq5j")
@@ -168,12 +410,12 @@ mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D16" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, 72, 190)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, 108, 190)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D17" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, -108, 190)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, -36, 190)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
@@ -183,12 +425,12 @@ mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D20" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 215, 72, 190)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 215, 108, 190)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D21" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 215, -108, 190)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 215, -36, 190)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
@@ -198,12 +440,12 @@ mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D23" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 359, 72, 190)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 359, 108, 190)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D24" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 359, -108, 190)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 359, -36, 190)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
@@ -211,7 +453,7 @@ surface_material_override/0 = ExtResource("5_xyq5j")
 transform = Transform3D(36, 0, 0, 0, 32, 0, 0, 0, 36, 280, -184, 0)
 
 [node name="MeshInstance3D12" type="MeshInstance3D" parent="skybox_buildings/Node3D"]
-transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 0, 0, 0.9722222)
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 0, 1, 0.9722222)
 mesh = ExtResource("4_af5yu")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("5_xyq5j")
@@ -223,25 +465,25 @@ skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="skybox_buildings/Node3D"]
-transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 0, 10, 0.9722222)
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 0, 9, 0.9722222)
 mesh = ExtResource("6_xyq5j")
 skeleton = NodePath("../MeshInstance3D11")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="skybox_buildings/Node3D"]
-transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 0.9192388, 11, 0.052983403)
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 0.91923904, 10, 0.052983403)
 mesh = ExtResource("6_xyq5j")
 skeleton = NodePath("../MeshInstance3D11")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="skybox_buildings/Node3D"]
-transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 0.9192388, 12, 0.052983403)
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 0.91923904, 11, 0.052983403)
 mesh = ExtResource("6_xyq5j")
 skeleton = NodePath("../MeshInstance3D11")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D13" type="MeshInstance3D" parent="skybox_buildings/Node3D"]
-transform = Transform3D(0.7071067, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, 0.7071067, 0, 0, -0.8611111)
+transform = Transform3D(0.7071067, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, 0.7071067, 0, 1, -0.8611111)
 mesh = ExtResource("4_af5yu")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("5_xyq5j")
@@ -253,13 +495,13 @@ skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="skybox_buildings/Node3D"]
-transform = Transform3D(0.7071067, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, 0.7071067, 0, 10, -0.8611111)
+transform = Transform3D(0.7071067, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, 0.7071067, 0, 9, -0.8611111)
 mesh = ExtResource("6_xyq5j")
 skeleton = NodePath("../MeshInstance3D11")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, 16, -277)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, 52, -277)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
@@ -269,7 +511,17 @@ mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D7" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 251, 16, -313)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 251, 52, -313)
+mesh = ExtResource("4_af5yu")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D36" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, -92, -277)
+mesh = ExtResource("4_af5yu")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D37" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 251, -92, -313)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
@@ -279,7 +531,7 @@ mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D9" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 323, 16, -313)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 323, 52, -313)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
@@ -288,6 +540,11 @@ transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 323, 196, -313)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
+[node name="OmniLight3D" type="OmniLight3D" parent="skybox_buildings"]
+transform = Transform3D(1, 7.642742e-15, -6.681497e-22, 7.642742e-15, -1, 8.742278e-08, 0, -8.742278e-08, -1, 110, 80.99999, -159)
+light_energy = 5.0
+omni_range = 60.0
+
 [node name="MeshInstance3D28" type="MeshInstance3D" parent="skybox_buildings"]
 transform = Transform3D(36, 2.7513872e-13, 0, 2.7513872e-13, -36, 3.14722e-06, 0, -3.14722e-06, -36, 287, 340, -204.99998)
 mesh = ExtResource("7_p6fns")
@@ -295,12 +552,12 @@ skeleton = NodePath("../MeshInstance3D18")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, 376, -277)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, 340, -277)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D11" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, 556, -277)
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 287, 484, -277)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
@@ -311,7 +568,7 @@ skeleton = NodePath("../MeshInstance3D18")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
 [node name="MeshInstance3D26" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, -6.2944396e-06, 3.1472196e-06, 6.29444e-06, 36, -3.5406222e-06, -3.1472196e-06, 3.5406229e-06, 36, 287, 431, 118.000015)
+transform = Transform3D(36, -6.2944396e-06, 3.1472196e-06, 6.29444e-06, 36, -3.5406222e-06, -3.1472196e-06, 3.5406229e-06, 36, 287, 396, 118.000015)
 mesh = ExtResource("7_p6fns")
 skeleton = NodePath("../MeshInstance3D18")
 surface_material_override/0 = ExtResource("5_xyq5j")
@@ -322,15 +579,6 @@ mesh = ExtResource("7_p6fns")
 skeleton = NodePath("../MeshInstance3D18")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
-[node name="composite_building2" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, -108, -313)
-
-[node name="composite_building3" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 180, -313)
-
-[node name="composite_building32" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 468, -313)
-
 [node name="composite_building4" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -107, -108, -138)
 
@@ -338,12 +586,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -107, -108, -138)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -107, 180, -138)
 
 [node name="MeshInstance3D18" type="MeshInstance3D" parent="skybox_buildings"]
-transform = Transform3D(36, 0, 0, 0, 32, 0, 0, 0, 36, 257, -62, -136)
+transform = Transform3D(36, 0, 0, 0, 32, 0, 0, 0, 36, 257, -30, -136)
 mesh = ExtResource("4_af5yu")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="skybox_buildings/MeshInstance3D18"]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 5, 0)
+[node name="MeshInstance3D36" type="MeshInstance3D" parent="skybox_buildings/MeshInstance3D18"]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 4, 0)
 mesh = ExtResource("7_p6fns")
 surface_material_override/0 = ExtResource("5_xyq5j")
 
@@ -366,13 +614,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 472, -108, 114)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 472, 180, 114)
 
 [node name="composite_building30" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 707, -108, -64)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 616, -108, -64)
 
 [node name="composite_building31" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 707, 180, -64)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 616, 180, -64)
 
 [node name="composite_building39" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 708, 468, -64)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 617, 468, -64)
 
 [node name="composite_building36" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 558, -108, -194)
@@ -390,13 +638,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 580, -108, 118)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 580, 180, 118)
 
 [node name="composite_building47" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 712, 468, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 621, 468, 8)
 
 [node name="composite_building35" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 712, -108, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 621, -108, 8)
 
 [node name="composite_building40" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 712, 180, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 621, 180, 8)
 
 [node name="composite_building38" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 569, -108, -433)
@@ -442,12 +690,135 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 180, 107)
 
 [node name="composite_building26" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 82, -108, -369)
+visible = false
 
 [node name="composite_building27" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 82, 180, -369)
+visible = false
 
-[node name="composite_building28" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, -108, -553)
+[node name="cylinder" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-36, 0, 3.14722e-06, 0, 36, 0, -3.14722e-06, 0, -36, 360, 36, -144)
+mesh = ExtResource("10_htmek")
+surface_material_override/0 = ExtResource("5_xyq5j")
 
-[node name="composite_building29" parent="skybox_buildings" instance=ExtResource("2_8o5jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 180, -553)
+[node name="cylinder2" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(4.72083e-06, 0, 36, 0, 36, 0, -36, 0, 4.72083e-06, 360, 36, -144)
+mesh = ExtResource("10_htmek")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder3" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-1.57361e-06, 0, -36, 0, 36, 0, 36, 0, -1.57361e-06, 44, 36, -391.34515)
+mesh = ExtResource("10_htmek")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder4" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-36, 0, 3.14722e-06, 0, 36, 0, -3.14722e-06, 0, -36, 44, 36, -391.34515)
+mesh = ExtResource("10_htmek")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder9" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-36, 0, 3.14722e-06, 0, 36, 0, -3.14722e-06, 0, -36, 80, -76, -176)
+mesh = ExtResource("10_htmek")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder10" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-36, 0, 3.14722e-06, 0, 36, 0, -3.14722e-06, 0, -36, 80, 68, -176)
+mesh = ExtResource("11_k133x")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder5" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-1.57361e-06, 0, -36, 0, 36, 0, 36, 0, -1.57361e-06, 44, -108, -391.34515)
+mesh = ExtResource("10_htmek")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder6" type="MeshInstance3D" parent="skybox_buildings"]
+transform = Transform3D(-36, 0, 3.14722e-06, 0, 36, 0, -3.14722e-06, 0, -36, 44, -108, -391.34515)
+mesh = ExtResource("10_htmek")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder7" type="Node3D" parent="skybox_buildings"]
+transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, 53, 36, -553.34515)
+
+[node name="cylinder7" type="MeshInstance3D" parent="skybox_buildings/cylinder7"]
+transform = Transform3D(-3.862239e-06, 0, 36, 0, 36, 0, -36, 0, -3.862239e-06, -75, 0, 0)
+mesh = ExtResource("10_htmek")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder8" type="MeshInstance3D" parent="skybox_buildings/cylinder7"]
+transform = Transform3D(36, 0, 2.2886288e-06, 0, 36, 0, -2.2886288e-06, 0, 36, -75, 0, 0)
+mesh = ExtResource("10_htmek")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder9" type="MeshInstance3D" parent="skybox_buildings/cylinder7"]
+transform = Transform3D(-3.862239e-06, 0, 36, 0, 36, 0, -36, 0, -3.862239e-06, -75, -144, 0)
+mesh = ExtResource("10_htmek")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder10" type="MeshInstance3D" parent="skybox_buildings/cylinder7"]
+transform = Transform3D(36, 0, 2.2886288e-06, 0, 36, 0, -2.2886288e-06, 0, 36, -75, -144, 0)
+mesh = ExtResource("10_htmek")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder11" type="MeshInstance3D" parent="skybox_buildings/cylinder7"]
+transform = Transform3D(-3.862239e-06, 0, 36, 0, 36, 0, -36, 0, -3.862239e-06, -75, 288, 0)
+mesh = ExtResource("10_htmek")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder12" type="MeshInstance3D" parent="skybox_buildings/cylinder7"]
+transform = Transform3D(36, 0, 2.2886288e-06, 0, 36, 0, -2.2886288e-06, 0, 36, -75, 288, 0)
+mesh = ExtResource("10_htmek")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder13" type="MeshInstance3D" parent="skybox_buildings/cylinder7"]
+transform = Transform3D(-3.862239e-06, 0, 36, 0, 36, 0, -36, 0, -3.862239e-06, -75, 144, 0)
+mesh = ExtResource("10_htmek")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder14" type="MeshInstance3D" parent="skybox_buildings/cylinder7"]
+transform = Transform3D(36, 0, 2.2886288e-06, 0, 36, 0, -2.2886288e-06, 0, 36, -75, 144, 0)
+mesh = ExtResource("10_htmek")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder8" type="Node3D" parent="skybox_buildings"]
+transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, -26, 36, -313.34515)
+
+[node name="cylinder7" type="MeshInstance3D" parent="skybox_buildings/cylinder8"]
+transform = Transform3D(-3.862239e-06, 0, 36, 0, 36, 0, -36, 0, -3.862239e-06, 0, 0, 0)
+mesh = ExtResource("10_htmek")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="cylinder9" type="MeshInstance3D" parent="skybox_buildings/cylinder8"]
+transform = Transform3D(-3.862239e-06, 0, 36, 0, 36, 0, -36, 0, -3.862239e-06, 0, -144, 0)
+mesh = ExtResource("10_htmek")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="skybox_buildings/cylinder8"]
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 36, 0, 0)
+material_override = ExtResource("5_xyq5j")
+mesh = ExtResource("4_af5yu")
+
+[node name="cylinder8" type="MeshInstance3D" parent="skybox_buildings/cylinder8"]
+transform = Transform3D(-3.862239e-06, 0, 36, 0, 36, 0, -36, 0, -3.862239e-06, 0, 144, 0)
+mesh = ExtResource("10_htmek")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_xyq5j")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="skybox_buildings/cylinder8"]
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 36, 144, 0)
+material_override = ExtResource("5_xyq5j")
+mesh = ExtResource("4_af5yu")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="skybox_buildings/cylinder8"]
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 36, 36, 288, 0)
+material_override = ExtResource("5_xyq5j")
+mesh = ExtResource("4_af5yu")

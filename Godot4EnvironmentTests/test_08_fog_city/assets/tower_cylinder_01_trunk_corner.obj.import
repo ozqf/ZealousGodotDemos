@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dd00iovwp1d37"
+path="res://.godot/imported/tower_cylinder_01_trunk_corner.obj-1bd72027ce2b8e410d6077ddbef1bc03.mesh"
+
+[deps]
+
+files=["res://.godot/imported/tower_cylinder_01_trunk_corner.obj-1bd72027ce2b8e410d6077ddbef1bc03.mesh"]
+
+source_file="res://test_08_fog_city/assets/tower_cylinder_01_trunk_corner.obj"
+dest_files=["res://.godot/imported/tower_cylinder_01_trunk_corner.obj-1bd72027ce2b8e410d6077ddbef1bc03.mesh", "res://.godot/imported/tower_cylinder_01_trunk_corner.obj-1bd72027ce2b8e410d6077ddbef1bc03.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
