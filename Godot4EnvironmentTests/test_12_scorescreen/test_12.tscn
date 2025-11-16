@@ -1,0 +1,212 @@
+[gd_scene load_steps=10 format=3 uid="uid://rcx5w4anptx1"]
+
+[ext_resource type="Script" uid="uid://cm4qmead1e1g7" path="res://test_12_scorescreen/score_tally_ui/score_tally_ui.gd" id="1_oqudc"]
+[ext_resource type="Theme" uid="uid://7c3fvdrbwdr5" path="res://test_12_scorescreen/score_tally_ui/theme_score_ui.tres" id="2_sbbux"]
+[ext_resource type="Texture2D" uid="uid://cpms07e6nnqsi" path="res://test_12_scorescreen/score_tally_ui/tex_score_firework.tres" id="3_j3flw"]
+[ext_resource type="Material" uid="uid://d2w7tcnxsli3t" path="res://test_12_scorescreen/score_tally_ui/bronze_fireworks.tres" id="4_0rdr3"]
+[ext_resource type="Material" uid="uid://wqjjs3hs0pfd" path="res://test_12_scorescreen/score_tally_ui/silver_fireworks.tres" id="5_qhjhj"]
+[ext_resource type="Material" uid="uid://74364qcdlqe2" path="res://test_12_scorescreen/score_tally_ui/gold_fireworks.tres" id="6_0rdr3"]
+
+[sub_resource type="Curve" id="Curve_0rdr3"]
+_data = [Vector2(0, 0.060606003), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qhjhj"]
+curve = SubResource("Curve_0rdr3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o0jdl"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_qhjhj")
+
+[node name="Test12" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oqudc")
+
+[node name="score_text" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -236.0
+offset_top = 52.0
+offset_right = 276.0
+offset_bottom = 172.0
+theme_override_font_sizes/font_size = 72
+text = "1350000"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="ProgressBar" type="ProgressBar" parent="Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.48900002
+anchor_right = 0.5
+anchor_bottom = 0.48900002
+offset_left = -320.0
+offset_top = -39.56
+offset_right = 320.0
+offset_bottom = 24.439999
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(320, 32)
+theme = ExtResource("2_sbbux")
+value = 66.68
+show_percentage = false
+metadata/_edit_lock_ = true
+
+[node name="bronze_marker" type="Control" parent="Control/ProgressBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bronze_marker" type="ColorRect" parent="Control/ProgressBar/bronze_marker"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -48.0
+offset_right = 8.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8039216, 0.49803922, 0.19607843, 1)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Control/ProgressBar/bronze_marker"]
+emitting = false
+amount = 32
+texture = ExtResource("3_j3flw")
+lifetime = 4.0
+explosiveness = 1.0
+process_material = ExtResource("4_0rdr3")
+
+[node name="silver_marker" type="Control" parent="Control/ProgressBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="silver_marker" type="ColorRect" parent="Control/ProgressBar/silver_marker"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -48.0
+offset_right = 8.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.7529412, 0.7529412, 0.7529412, 1)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Control/ProgressBar/silver_marker"]
+emitting = false
+amount = 64
+texture = ExtResource("3_j3flw")
+lifetime = 4.0
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource("5_qhjhj")
+
+[node name="gold_marker" type="Control" parent="Control/ProgressBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="gold_marker" type="ColorRect" parent="Control/ProgressBar/gold_marker"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -48.0
+offset_right = 8.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.84313726, 0, 1)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Control/ProgressBar/gold_marker"]
+emitting = false
+amount = 128
+texture = ExtResource("3_j3flw")
+lifetime = 4.0
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource("6_0rdr3")
+
+[node name="bar_start" type="Control" parent="Control/ProgressBar"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+grow_vertical = 2
+
+[node name="bar_end" type="Control" parent="Control/ProgressBar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -32.0
+offset_right = -16.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="Control/ProgressBar"]
+layout_mode = 1
+anchor_top = 0.5
+anchor_bottom = 0.5
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Control/ProgressBar/Control"]
+texture = ExtResource("3_j3flw")
+process_material = SubResource("ParticleProcessMaterial_o0jdl")

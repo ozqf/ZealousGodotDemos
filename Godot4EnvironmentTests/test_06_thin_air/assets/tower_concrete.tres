@@ -11,9 +11,9 @@ fractal_gain = 4.0
 cellular_distance_function = 1
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_avotv"]
-seamless = true
-color_ramp = SubResource("Gradient_xwhpp")
 noise = SubResource("FastNoiseLite_b6and")
+color_ramp = SubResource("Gradient_xwhpp")
+seamless = true
 
 [resource]
 albedo_texture = SubResource("NoiseTexture2D_avotv")
