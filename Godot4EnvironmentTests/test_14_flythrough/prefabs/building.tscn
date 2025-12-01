@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://2p4a1bjb0ljx"]
+
+[ext_resource type="Material" uid="uid://ric2siwb1id8" path="res://test_14_flythrough/assets/mat_building_planar.tres" id="1_0g28u"]
+
+[node name="building" type="Node3D"]
+
+[node name="CSGBox3D37" type="CSGBox3D" parent="."]
+size = Vector3(36, 256, 36)
+material = ExtResource("1_0g28u")

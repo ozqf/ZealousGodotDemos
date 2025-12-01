@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 @onready var _yaw:Node3D = $yaw
-@onready var _pitch:Node3D = $yaw/head
+@onready var _pitch:Node3D = $yaw/pitch
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -18,8 +18,8 @@ func _physics_process(delta: float) -> void:
 		var v:Vector3 = self.velocity
 		var y:float = v.y
 		y = 0
-		v += footPush * 150.0 * delta
-		v = v.limit_length(8)
+		v += footPush * 50.0 * delta
+		v = v.limit_length(6.5)
 		v.y = y
 		self.velocity = v
 	self.move_and_slide()
@@ -47,8 +47,8 @@ func _input(event: InputEvent) -> void:
 	
 	_pitch.rotation_degrees = rot
 
-static func input_to_push_vector_flat(inputDir:Vector2, basis:Basis) -> Vector3:
-	var _pushDirection:Vector3 = (basis * Vector3(inputDir.x, 0, inputDir.y)).normalized()
+static func input_to_push_vector_flat(inputDir:Vector2, _basis:Basis) -> Vector3:
+	var _pushDirection:Vector3 = -(_basis * Vector3(inputDir.x, 0, inputDir.y)).normalized()
 	return _pushDirection
 
 static func get_window_to_screen_ratio(windowIndex:int = 0) -> Vector2:

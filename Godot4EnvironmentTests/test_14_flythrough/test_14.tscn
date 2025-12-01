@@ -1,306 +1,354 @@
-[gd_scene load_steps=9 format=3 uid="uid://df1iamixe3te1"]
+[gd_scene load_steps=14 format=3 uid="uid://df1iamixe3te1"]
 
 [ext_resource type="Script" uid="uid://dg3l8qyr0t1p6" path="res://test_14_flythrough/src/flythrough.gd" id="1_j2hiy"]
-[ext_resource type="Material" uid="uid://ric2siwb1id8" path="res://test_14_flythrough/assets/mat_building_planar.tres" id="1_od1ut"]
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_od1ut"]
-bottom_radius = 0.0
-radial_segments = 4
-rings = 0
-
-[sub_resource type="Animation" id="Animation_j2hiy"]
-resource_name = "idle"
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("anchor")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("anchor")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
-
-[sub_resource type="Animation" id="Animation_uspar"]
-length = 0.001
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("anchor")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
-
-[sub_resource type="Animation" id="Animation_lllqy"]
-resource_name = "fly"
-length = 9.0
-loop_mode = 1
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("anchor")
-tracks/0/interp = 2
-tracks/0/loop_wrap = false
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1.0333333, 1, -1, 0, -4, 2, 1, -3, 0, -4, 3, 1, -4, 0, -2, 4, 1, -2, 0, 0, 5, 1, 2, 0, 0, 6, 1, 4, 0, 1, 7, 1, 3, 0, 4, 8, 1, 1, 0, 3, 9, 1, 0, 0, 0)
-tracks/1/type = "rotation_3d"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("anchor")
-tracks/1/interp = 2
-tracks/1/loop_wrap = false
-tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 1.4901163e-08, 0.99999994, 1.0333333, 1, 7.450583e-09, 0.49999994, 1.2904785e-08, 0.8660254, 2, 1, 1.3766878e-08, 0.9238795, 5.702427e-09, 0.38268343, 3, 1, 1.3766877e-08, 0.9238795, -5.7024288e-09, -0.3826834, 4, 1, -1.18218875e-08, -0.793353, 9.0712495e-09, 0.6087615, 5, 1, -1.0536717e-08, -0.7071063, 1.0536707e-08, 0.707107, 6, 1, 1.3766884e-08, 0.9238793, -5.7024234e-09, -0.38268375, 7, 1, 1.290478e-08, 0.86602557, 7.45059e-09, 0.4999995, 8, 1, 3.8566963e-09, 0.2588194, 1.4393422e-08, 0.96592563, 9, 1, -8.886053e-15, 4.023314e-07, 1.4901165e-08, 0.9999999)
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_kqhpv"]
-_data = {
-&"RESET": SubResource("Animation_uspar"),
-&"fly": SubResource("Animation_lllqy"),
-&"idle": SubResource("Animation_j2hiy")
-}
+[ext_resource type="PackedScene" uid="uid://2p4a1bjb0ljx" path="res://test_14_flythrough/prefabs/building.tscn" id="2_j2hiy"]
+[ext_resource type="PackedScene" uid="uid://bnqgu3she2qlj" path="res://shared/prefabs/fps_player/fps_player.tscn" id="2_uspar"]
 
 [sub_resource type="Environment" id="Environment_j2hiy"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.11372549, 0.18039216, 0, 1)
+ambient_light_energy = 2.93
 fog_enabled = true
 fog_mode = 1
 fog_light_color = Color(0.35713527, 0.38817412, 0.43646485, 1)
 fog_density = 1.0
-fog_depth_begin = 0.0
-fog_depth_end = 10.0
+fog_depth_begin = 30.0
+fog_depth_end = 300.0
+
+[sub_resource type="Curve3D" id="Curve3D_j2hiy"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.7582245, 0, -48.84901, 0, 0, 0, 0, 0, 0, 6.780533, 0, -100.08148, 0, 0, 0, 0, 0, 0, 49.711746, 0, -127.788925, 0, 0, 0, 0, 0, 0, 94.73418, 0, -144.86646, 0, 0, 0, 0, 0, 0, 123.441696, 0, -188.9164, 0, 0, 0, 0, 0, 0, 148.2954, 0, -246.03012, 0, 0, 0, 0, 0, 0, 139.96666, 0, -312.92007, 0, 0, 0, 0, 0, 0, 119.336655, 0, -345.37625, 0, 0, 0, 0, 0, 0, 83.62923, 0, -374.87375, 0, 0, 0, 0, 0, 0, 24.501755, 0, -381.0837, 0, 0, 0, 0, 0, 0, -21.94069, 0, -370.99246, 0, 0, 0, 0, 0, 0, -81.7119, 0, -369.43997, 0, 0, 0, 0, 0, 0, -138.37807, 0, -388.84622, 0, 0, 0, 0, 0, 0, -209.79301, 0, -388.06998, 0, 0, 0, 0, 0, 0, -247.82924, 0, -371.7687, 0, 0, 0, 0, 0, 0, -270.34045, 0, -335.285, 0, 0, 0, 0, 0, 0, -277.32672, 0, -280.94757, 0, 0, 0, 0, 0, 0, -270.34045, 0, -236.70135, 0, 0, 0, 0, 0, 0, -250.15799, 0, -200.21764, 0, 0, 0, 0, 0, 0, -243.40924, 0, -166.16766, 0, 0, 0, 0, 0, 0, -241.08049, 0, -92.81649, 0, 0, 0, 0, 0, 0, -250.11499, 0, -74.83472, 0, 0, 0, 0, 0, 0, -270.1512, 0, -18.588497, 0, 0, 0, 0, 0, 0, -332.93616, 0, 12.383945, 0, 0, 0, 0, 0, 0, -387.27362, 0, 15.488972, 0, 0, 0, 0, 0, 0, -460.03107, 0, 9.936459, 0, 0, 0, 0, 0, 0, -504.27728, 0, -8.693523, 0, 0, 0, 0, 0, 0, -532.66974, 0, -91.13599, 0, 0, 0, 0, 0, 0, -532.66974, 0, -166.43213, 0, 0, 0, 0, 0, 0, -508.60602, 0, -230.0846, 0, 0, 0, 0, 0, 0, -418.0586, 0, -269.00208, 0, 0, 0, 0, 0, 0, -356.22363, 0, -360.32574, 0, 0, 0, 0, 0, 0, -287.92007, 0, -394.6545, 0, 0, 0, 0, 0, 0, -260.6601, 0, -461.64944, 0, 0, 0, 0, 0, 0, -210.6514, 0, -515.2107, 0, 0, 0, 0, 0, 0, -148.55148, 0, -533.8407, 0, 0, 0, 0, 0, 0, -87.91275, 0, -529.9594, 0, 0, 0, 0, 0, 0, -32.799103, 0, -510.5532, 0, 0, 0, 0, 0, 0, 12.447113, 0, -463.97824, 0, 0, 0, 0, 0, 0, 20.98587, 0, -399.54956, 0, 0, 0, 0, 0, 0, 21.894623, 0, -335.12085, 0, 0, 0, 0, 0, 0, -2.169098, 0, -278.45462, 0, 0, 0, 0, 0, 0, -48.74405, 0, -252.06215, 0, 0, 0, 0, 0, 0, -119.38272, 0, -235.76094, 0, 0, 0, 0, 0, 0, -183.81146, 0, -230.3272, 0, 0, 0, 0, 0, 0, -238.14886, 0, -210.1447, 0, 0, 0, 0, 0, 0, -262.2126, 0, -172.88474, 0, 0, 0, 0, 0, 0, -267.64633, 0, -134.84851, 0, 0, 0, 0, 0, 0, -262.98886, 0, -77.406075, 0, 0, 0, 0, 0, 0, -225.07138, 0, -9.949863, 0, 0, 0, 0, 0, 0, -161.41898, 0, 14.113857, 0, 0, 0, 0, 0, 0, -101.647736, 0, 16.442654, 0, 0, 0, 0, 0, 0, -29.33786, 0, -30.83112),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 53
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_uspar"]
+top_radius = 12.0
+bottom_radius = 0.0
+height = 32.0
+radial_segments = 4
+rings = 0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_od1ut"]
+top_radius = 12.0
+bottom_radius = 0.0
+height = 32.0
+radial_segments = 4
+rings = 0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_j2hiy"]
+top_radius = 12.0
+bottom_radius = 0.0
+height = 32.0
+radial_segments = 4
+rings = 0
+
+[sub_resource type="Gradient" id="Gradient_uspar"]
+colors = PackedColorArray(0.29219002, 0.29219005, 0.29219002, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lllqy"]
+noise_type = 3
+frequency = 0.9514
+fractal_octaves = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kqhpv"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_lllqy")
+color_ramp = SubResource("Gradient_uspar")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kap8b"]
+albedo_texture = SubResource("NoiseTexture2D_kqhpv")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_j2hiy"]
 
 [node name="Test14" type="Node3D"]
 
-[node name="Camera3D3" type="Camera3D" parent="."]
-transform = Transform3D(-0.9659259, -0.12940948, 0.22414388, 2.980233e-08, 0.8660254, 0.5, -0.25881904, 0.48296288, -0.8365163, 1, 2, -3)
-
-[node name="track" type="Node3D" parent="."]
-script = ExtResource("1_j2hiy")
-
-[node name="anchor" type="Node3D" parent="track"]
-transform = Transform3D(0.9999993, -2.9802333e-08, 0, 2.9802305e-08, 1.0000002, 0, 0, 0, 0.99999964, 0, 0, 0)
-
-[node name="Camera3D2" type="Camera3D" parent="track/anchor"]
-transform = Transform3D(-1.0000007, 5.9604695e-08, -8.742284e-08, 5.9604638e-08, 0.99999976, 2.6054016e-15, 8.7422805e-08, -2.6054028e-15, -1.0000004, 0, 0, 0)
-metadata/_edit_lock_ = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="track/anchor"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
-mesh = SubResource("CylinderMesh_od1ut")
-metadata/_edit_lock_ = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="track"]
-libraries = {
-&"": SubResource("AnimationLibrary_kqhpv")
-}
-autoplay = "fly"
-
-[node name="world" type="Node3D" parent="track"]
-
-[node name="Camera3D" type="Camera3D" parent="track/world"]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-current = true
-metadata/_edit_lock_ = true
-
-[node name="CSGBox3D" type="CSGBox3D" parent="track/world"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0.5)
-size = Vector3(3, 1, 2)
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="track/world"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5)
-size = Vector3(3, 1, 2)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="track/world"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0, 0.5)
-size = Vector3(0.5, 1, 2)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="track/world"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 0, 0.5)
-size = Vector3(0.5, 1, 2)
-
-[node name="cityscape" type="Node3D" parent="track"]
-
-[node name="CSGBox3D37" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D38" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D41" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -6)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D42" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -6)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D39" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D43" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -2)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D44" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -6)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D45" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 2)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D40" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D46" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 6)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D47" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 6)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D48" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 6)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D49" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -2)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D50" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -6)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D51" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 2)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D52" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D53" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 10)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D54" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 10)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D55" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 10)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D56" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 10)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D57" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -2)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D58" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -6)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D62" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -10)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D63" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -10)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D64" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -10)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D67" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -2)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D68" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -6)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D69" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 2)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D70" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 6)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D71" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 10)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D72" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -10)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D65" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -10)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D66" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -10)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D59" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 2)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D60" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 6)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
-
-[node name="CSGBox3D61" type="CSGBox3D" parent="track/cityscape"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10)
-size = Vector3(1, 16, 1)
-material = ExtResource("1_od1ut")
+[node name="debug_overhead_cam" type="Camera3D" parent="."]
+transform = Transform3D(0.7071068, -0.35355332, 0.61237246, 1.4892211e-08, 0.86602545, 0.49999994, -0.70710677, -0.35355335, 0.6123725, 15, 40, 14)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_j2hiy")
 
-[node name="flightpath" type="Node3D" parent="."]
+[node name="track" type="Node3D" parent="."]
+script = ExtResource("1_j2hiy")
+
+[node name="Path3D" type="Path3D" parent="track"]
+curve = SubResource("Curve3D_j2hiy")
+metadata/_edit_lock_ = true
+
+[node name="follower_1" type="PathFollow3D" parent="track/Path3D"]
+transform = Transform3D(0.98639107, 0, -0.16439874, 0, 1, 0, 0.16439874, 0, 0.98639107, -1.7582245, 0, -48.84901)
+
+[node name="Camera3D2" type="Camera3D" parent="track/Path3D/follower_1"]
+transform = Transform3D(-0.99999624, 2.9802214e-08, -0.002744658, 2.9802326e-08, 1, 0, 0.002744658, -8.179719e-11, -0.99999624, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="track/Path3D/follower_1"]
+transform = Transform3D(0.9999955, 0.0027445697, 2.9682251e-08, 2.9802305e-08, -4.37114e-08, -1.0000002, -0.0027445687, 0.9999959, -4.3793005e-08, 0, 0, 0)
+visible = false
+mesh = SubResource("CylinderMesh_uspar")
+skeleton = NodePath("../../../anchor")
+
+[node name="follower_2" type="PathFollow3D" parent="track/Path3D"]
+transform = Transform3D(0.98639387, 0, -0.16439922, 0, 1, 0, 0.16439922, 0, 0.98639387, -1.7582245, 0, -48.84901)
+
+[node name="anchor" type="Node3D" parent="track"]
+transform = Transform3D(0.9999993, -2.9802333e-08, 0, 2.9802305e-08, 1.0000002, 0, 0, 0, 0.99999964, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="track/anchor"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+visible = false
+mesh = SubResource("CylinderMesh_od1ut")
+metadata/_edit_lock_ = true
+
+[node name="world" type="Node3D" parent="track"]
+
+[node name="FpsPlayer" parent="track/world" instance=ExtResource("2_uspar")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, -1.5, 1)
+
+[node name="chaser" type="Node3D" parent="track/world"]
+transform = Transform3D(0.9999993, 0, 0, 0, 0.99999964, 0, 0, 0, 1.0000002, 0, -1, 35)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="track/world/chaser"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_j2hiy")
+skeleton = NodePath("../../../anchor")
+surface_material_override/0 = SubResource("StandardMaterial3D_kap8b")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="track/world/chaser/MeshInstance3D2"]
+transform = Transform3D(1.0000007, -5.293956e-22, 0, 6.352747e-22, 1.0000004, -4.973799e-14, -2.3140616e-29, 0, 0.99999976, -9.834773e-07, -10.999992, -4.9999976)
+omni_range = 10.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="track/world/chaser/MeshInstance3D2"]
+transform = Transform3D(1.0000007, -6.352747e-22, 0, 7.4115383e-22, 1.0000004, -4.973799e-14, -2.776874e-29, 0, 0.99999976, -7.7486095e-07, 3.0000153, -11.999996)
+omni_range = 10.0
+
+[node name="Camera3D" type="Camera3D" parent="track/world"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+fov = 90.0
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="track/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+size = Vector3(8, 1, 12)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="track/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+size = Vector3(8, 1, 12)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="track/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0.5, 0)
+size = Vector3(1, 6, 12)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="track/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.5, 0)
+size = Vector3(1, 6, 12)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="track/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -6.5)
+size = Vector3(10, 6, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="track/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+mesh = SubResource("CapsuleMesh_j2hiy")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="track/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 1.7, 0)
+omni_range = 10.0
+
+[node name="cityscape" type="Node3D" parent="track"]
+metadata/_edit_lock_ = true
+
+[node name="building" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, -64)
+
+[node name="building2" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, -64)
+
+[node name="building5" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, -192)
+
+[node name="building6" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, -192)
+
+[node name="building3" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, 64)
+
+[node name="building7" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, -64)
+
+[node name="building8" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, -192)
+
+[node name="building9" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, 64)
+
+[node name="building4" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, 64)
+
+[node name="building10" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 320, 0, -64)
+
+[node name="building11" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 320, 0, -192)
+
+[node name="building12" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 320, 0, 64)
+
+[node name="building13" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, 192)
+
+[node name="building14" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, 192)
+
+[node name="building15" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, 192)
+
+[node name="building16" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 320, 0, 192)
+
+[node name="building17" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -449, 0, -64)
+
+[node name="building18" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -321, 0, -64)
+
+[node name="building19" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -449, 0, -192)
+
+[node name="building20" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -321, 0, -192)
+
+[node name="building21" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -449, 0, 64)
+
+[node name="building22" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -577, 0, -64)
+
+[node name="building23" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -577, 0, -192)
+
+[node name="building24" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -577, 0, 64)
+
+[node name="building25" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -321, 0, 64)
+
+[node name="building26" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -193, 0, -64)
+
+[node name="building27" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -193, 0, -192)
+
+[node name="building28" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -193, 0, 64)
+
+[node name="building29" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -449, 0, 192)
+
+[node name="building30" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -577, 0, 192)
+
+[node name="building31" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -321, 0, 192)
+
+[node name="building32" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -193, 0, 192)
+
+[node name="building33" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, -576)
+
+[node name="building34" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, -576)
+
+[node name="building35" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, -704)
+
+[node name="building36" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, -704)
+
+[node name="building37" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, -448)
+
+[node name="building38" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, -576)
+
+[node name="building39" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, -704)
+
+[node name="building40" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, -448)
+
+[node name="building41" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, -448)
+
+[node name="building42" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 320, 0, -576)
+
+[node name="building43" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 320, 0, -704)
+
+[node name="building44" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 320, 0, -448)
+
+[node name="building45" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, -320)
+
+[node name="building46" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64, 0, -320)
+
+[node name="building47" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 192, 0, -320)
+
+[node name="building48" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 320, 0, -320)
+
+[node name="building49" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -449, 0, -576)
+
+[node name="building50" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -321, 0, -576)
+
+[node name="building51" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -449, 0, -704)
+
+[node name="building52" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -321, 0, -704)
+
+[node name="building53" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -449, 0, -448)
+
+[node name="building54" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -577, 0, -576)
+
+[node name="building55" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -577, 0, -704)
+
+[node name="building56" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -577, 0, -448)
+
+[node name="building57" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -321, 0, -448)
+
+[node name="building58" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -193, 0, -576)
+
+[node name="building59" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -193, 0, -704)
+
+[node name="building60" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -193, 0, -448)
+
+[node name="building61" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -449, 0, -320)
+
+[node name="building62" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -577, 0, -320)
+
+[node name="building63" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -321, 0, -320)
+
+[node name="building64" parent="track/cityscape" instance=ExtResource("2_j2hiy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -193, 0, -320)

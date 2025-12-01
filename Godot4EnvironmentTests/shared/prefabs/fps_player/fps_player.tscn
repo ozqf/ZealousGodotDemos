@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnqgu3she2qlj"]
+
+[ext_resource type="Script" uid="uid://bqf73gxre5f1d" path="res://shared/prefabs/fps_player/fps_player.gd" id="1_ia3eq"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_80gvn"]
+radius = 0.35
+height = 1.8
+
+[node name="FpsPlayer" type="CharacterBody3D"]
+script = ExtResource("1_ia3eq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.90000004, 0)
+shape = SubResource("CapsuleShape3D_80gvn")
+
+[node name="yaw" type="Node3D" parent="."]
+
+[node name="pitch" type="Node3D" parent="yaw"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="yaw/pitch"]
+current = true
+fov = 90.0
