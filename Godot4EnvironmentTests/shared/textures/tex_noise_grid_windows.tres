@@ -14,6 +14,6 @@ cellular_jitter = 0.0
 cellular_return_type = 6
 
 [resource]
-seamless = true
-color_ramp = SubResource("Gradient_yh0ya")
 noise = SubResource("FastNoiseLite_t45qh")
+color_ramp = SubResource("Gradient_yh0ya")
+seamless = true

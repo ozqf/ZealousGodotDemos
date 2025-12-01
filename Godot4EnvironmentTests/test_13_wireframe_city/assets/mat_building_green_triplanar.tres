@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://eochoqvufolt"]
+
+[ext_resource type="Texture2D" uid="uid://co0edlr6ye4xg" path="res://test_13_wireframe_city/assets/tex_building_green_grid_noise.tres" id="1_wjdrb"]
+
+[resource]
+albedo_texture = ExtResource("1_wjdrb")
+emission_enabled = true
+emission_energy_multiplier = 3.0
+emission_texture = ExtResource("1_wjdrb")
+uv1_scale = Vector3(0.125, 0.125, 0.125)
+uv1_offset = Vector3(-0.03, 0, 0)
+uv1_triplanar = true
+texture_filter = 2

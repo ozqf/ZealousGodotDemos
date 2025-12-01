@@ -1,0 +1,306 @@
+[gd_scene load_steps=9 format=3 uid="uid://df1iamixe3te1"]
+
+[ext_resource type="Script" uid="uid://dg3l8qyr0t1p6" path="res://test_14_flythrough/src/flythrough.gd" id="1_j2hiy"]
+[ext_resource type="Material" uid="uid://ric2siwb1id8" path="res://test_14_flythrough/assets/mat_building_planar.tres" id="1_od1ut"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_od1ut"]
+bottom_radius = 0.0
+radial_segments = 4
+rings = 0
+
+[sub_resource type="Animation" id="Animation_j2hiy"]
+resource_name = "idle"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("anchor")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("anchor")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_uspar"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("anchor")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_lllqy"]
+resource_name = "fly"
+length = 9.0
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("anchor")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1.0333333, 1, -1, 0, -4, 2, 1, -3, 0, -4, 3, 1, -4, 0, -2, 4, 1, -2, 0, 0, 5, 1, 2, 0, 0, 6, 1, 4, 0, 1, 7, 1, 3, 0, 4, 8, 1, 1, 0, 3, 9, 1, 0, 0, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("anchor")
+tracks/1/interp = 2
+tracks/1/loop_wrap = false
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 1.4901163e-08, 0.99999994, 1.0333333, 1, 7.450583e-09, 0.49999994, 1.2904785e-08, 0.8660254, 2, 1, 1.3766878e-08, 0.9238795, 5.702427e-09, 0.38268343, 3, 1, 1.3766877e-08, 0.9238795, -5.7024288e-09, -0.3826834, 4, 1, -1.18218875e-08, -0.793353, 9.0712495e-09, 0.6087615, 5, 1, -1.0536717e-08, -0.7071063, 1.0536707e-08, 0.707107, 6, 1, 1.3766884e-08, 0.9238793, -5.7024234e-09, -0.38268375, 7, 1, 1.290478e-08, 0.86602557, 7.45059e-09, 0.4999995, 8, 1, 3.8566963e-09, 0.2588194, 1.4393422e-08, 0.96592563, 9, 1, -8.886053e-15, 4.023314e-07, 1.4901165e-08, 0.9999999)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kqhpv"]
+_data = {
+&"RESET": SubResource("Animation_uspar"),
+&"fly": SubResource("Animation_lllqy"),
+&"idle": SubResource("Animation_j2hiy")
+}
+
+[sub_resource type="Environment" id="Environment_j2hiy"]
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.35713527, 0.38817412, 0.43646485, 1)
+fog_density = 1.0
+fog_depth_begin = 0.0
+fog_depth_end = 10.0
+
+[node name="Test14" type="Node3D"]
+
+[node name="Camera3D3" type="Camera3D" parent="."]
+transform = Transform3D(-0.9659259, -0.12940948, 0.22414388, 2.980233e-08, 0.8660254, 0.5, -0.25881904, 0.48296288, -0.8365163, 1, 2, -3)
+
+[node name="track" type="Node3D" parent="."]
+script = ExtResource("1_j2hiy")
+
+[node name="anchor" type="Node3D" parent="track"]
+transform = Transform3D(0.9999993, -2.9802333e-08, 0, 2.9802305e-08, 1.0000002, 0, 0, 0, 0.99999964, 0, 0, 0)
+
+[node name="Camera3D2" type="Camera3D" parent="track/anchor"]
+transform = Transform3D(-1.0000007, 5.9604695e-08, -8.742284e-08, 5.9604638e-08, 0.99999976, 2.6054016e-15, 8.7422805e-08, -2.6054028e-15, -1.0000004, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="track/anchor"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_od1ut")
+metadata/_edit_lock_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="track"]
+libraries = {
+&"": SubResource("AnimationLibrary_kqhpv")
+}
+autoplay = "fly"
+
+[node name="world" type="Node3D" parent="track"]
+
+[node name="Camera3D" type="Camera3D" parent="track/world"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+current = true
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="track/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0.5)
+size = Vector3(3, 1, 2)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="track/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5)
+size = Vector3(3, 1, 2)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="track/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0, 0.5)
+size = Vector3(0.5, 1, 2)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="track/world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 0, 0.5)
+size = Vector3(0.5, 1, 2)
+
+[node name="cityscape" type="Node3D" parent="track"]
+
+[node name="CSGBox3D37" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D38" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D41" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -6)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D42" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -6)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D39" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D43" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -2)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D44" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -6)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D45" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 2)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D40" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D46" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 6)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D47" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 6)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D48" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 6)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D49" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -2)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D50" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -6)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D51" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 2)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D52" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D53" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 10)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D54" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 10)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D55" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 10)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D56" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 10)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D57" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -2)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D58" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -6)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D62" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -10)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D63" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -10)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D64" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -10)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D67" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -2)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D68" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -6)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D69" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 2)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D70" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 6)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D71" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 10)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D72" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -10)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D65" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -10)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D66" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -10)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D59" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 2)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D60" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 6)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="CSGBox3D61" type="CSGBox3D" parent="track/cityscape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10)
+size = Vector3(1, 16, 1)
+material = ExtResource("1_od1ut")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_j2hiy")
+
+[node name="flightpath" type="Node3D" parent="."]

@@ -13,6 +13,6 @@ domain_warp_enabled = true
 domain_warp_fractal_octaves = 1
 
 [resource]
-seamless = true
-color_ramp = SubResource("Gradient_fo6ws")
 noise = SubResource("FastNoiseLite_bymxx")
+color_ramp = SubResource("Gradient_fo6ws")
+seamless = true

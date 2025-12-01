@@ -13,10 +13,10 @@ fractal_gain = 1.0
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_u4exa"]
 width = 256
 height = 256
-in_3d_space = true
-seamless = true
-color_ramp = SubResource("Gradient_gwo6i")
 noise = SubResource("FastNoiseLite_sr27d")
+color_ramp = SubResource("Gradient_gwo6i")
+seamless = true
+in_3d_space = true
 
 [resource]
 albedo_texture = SubResource("NoiseTexture2D_u4exa")

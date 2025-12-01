@@ -11,6 +11,6 @@ fractal_gain = 7.67
 [resource]
 width = 256
 height = 256
-seamless = true
-color_ramp = SubResource("Gradient_vn1ls")
 noise = SubResource("FastNoiseLite_pdnx1")
+color_ramp = SubResource("Gradient_vn1ls")
+seamless = true
