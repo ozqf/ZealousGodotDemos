@@ -53,7 +53,7 @@ func _process(_delta:float) -> void:
 			var inv:Transform3D = _anchor.global_transform.inverse()
 			_bg.global_transform = inv
 			
-			_follower2.progress = _follower.progress - 20
+			_follower2.progress = _follower.progress - 60
 			#var inv2:Transform3D = anchorT.interpolate_with(_follower2.global_transform, 0.1).inverse()
 			#_chaser.global_transform = inv2
 			var frames:int = Engine.get_physics_frames()
@@ -75,6 +75,8 @@ func _process(_delta:float) -> void:
 			var newChaserP:Vector3 = _chaser.global_position + _chaserV * _delta
 			newChaserP.z = _chaserDriftP.z
 			_chaser.global_position = newChaserP
+			var roll:float = _follower2.rotation_degrees.z
+			_chaser.rotation_degrees = Vector3(0, 0, roll)
 
 func _physics_process(_delta: float) -> void:
 	#print("progress 1: " + str(_follower.progress) + " progress 2: " + str(_follower2.progress))
