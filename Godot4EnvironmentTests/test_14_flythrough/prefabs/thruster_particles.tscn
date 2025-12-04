@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://bl44l673qjo5p"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_krvol"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+disable_receive_shadows = true
+
+[sub_resource type="Gradient" id="Gradient_yulyo"]
+offsets = PackedFloat32Array(0, 0.29245284, 1)
+colors = PackedColorArray(0.9529412, 1, 1, 1, 0.78431374, 0.6039216, 0.14117648, 1, 0.1850653, 0.1257948, 3.128499e-07, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y5dvy"]
+gradient = SubResource("Gradient_yulyo")
+
+[sub_resource type="Curve" id="Curve_lllqy"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1e-05, 0.52525246), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_kqhpv"]
+curve = SubResource("Curve_lllqy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kap8b"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 0)
+direction = Vector3(0, 0, 1)
+spread = 5.0
+initial_velocity_min = 11.83
+initial_velocity_max = 47.329998
+gravity = Vector3(0, 3, 0)
+scale_curve = SubResource("CurveTexture_kqhpv")
+color_ramp = SubResource("GradientTexture1D_y5dvy")
+
+[sub_resource type="BoxMesh" id="BoxMesh_c7i5b"]
+
+[node name="thruster_particles" type="GPUParticles3D"]
+material_override = SubResource("StandardMaterial3D_krvol")
+cast_shadow = 0
+amount = 16
+lifetime = 0.3
+process_material = SubResource("ParticleProcessMaterial_kap8b")
+draw_pass_1 = SubResource("BoxMesh_c7i5b")

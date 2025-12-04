@@ -1,8 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://df1iamixe3te1"]
+[gd_scene load_steps=16 format=3 uid="uid://df1iamixe3te1"]
 
 [ext_resource type="Script" uid="uid://dg3l8qyr0t1p6" path="res://test_14_flythrough/src/flythrough.gd" id="1_j2hiy"]
 [ext_resource type="PackedScene" uid="uid://2p4a1bjb0ljx" path="res://test_14_flythrough/prefabs/building.tscn" id="2_j2hiy"]
 [ext_resource type="PackedScene" uid="uid://bnqgu3she2qlj" path="res://shared/prefabs/fps_player/fps_player.tscn" id="2_uspar"]
+[ext_resource type="Material" uid="uid://df51sv1y504ut" path="res://test_14_flythrough/assets/mat_metal.tres" id="3_lllqy"]
+[ext_resource type="PackedScene" uid="uid://bl44l673qjo5p" path="res://test_14_flythrough/prefabs/thruster_particles.tscn" id="4_kqhpv"]
 
 [sub_resource type="Environment" id="Environment_j2hiy"]
 background_mode = 1
@@ -19,7 +21,7 @@ fog_depth_end = 300.0
 [sub_resource type="Curve3D" id="Curve3D_j2hiy"]
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.7582245, 0, -48.84901, 0, 0, 0, 0, 0, 0, 6.780533, 0, -100.08148, 0, 0, 0, 0, 0, 0, 49.711746, 0, -127.788925, 0, 0, 0, 0, 0, 0, 94.73418, 0, -144.86646, 0, 0, 0, 0, 0, 0, 123.441696, 0, -188.9164, 0, 0, 0, 0, 0, 0, 148.2954, 0, -246.03012, 0, 0, 0, 0, 0, 0, 139.96666, 0, -312.92007, 0, 0, 0, 0, 0, 0, 119.336655, 0, -345.37625, 0, 0, 0, 0, 0, 0, 83.62923, 0, -374.87375, 0, 0, 0, 0, 0, 0, 24.501755, 0, -381.0837, 0, 0, 0, 0, 0, 0, -21.94069, 0, -370.99246, 0, 0, 0, 0, 0, 0, -81.7119, 0, -369.43997, 0, 0, 0, 0, 0, 0, -138.37807, 0, -388.84622, 0, 0, 0, 0, 0, 0, -209.79301, 0, -388.06998, 0, 0, 0, 0, 0, 0, -247.82924, 0, -371.7687, 0, 0, 0, 0, 0, 0, -270.34045, 0, -335.285, 0, 0, 0, 0, 0, 0, -277.32672, 0, -280.94757, 0, 0, 0, 0, 0, 0, -270.34045, 0, -236.70135, 0, 0, 0, 0, 0, 0, -250.15799, 0, -200.21764, 0, 0, 0, 0, 0, 0, -243.40924, 0, -166.16766, 0, 0, 0, 0, 0, 0, -241.08049, 0, -92.81649, 0, 0, 0, 0, 0, 0, -250.11499, 0, -74.83472, 0, 0, 0, 0, 0, 0, -270.1512, 0, -18.588497, 0, 0, 0, 0, 0, 0, -332.93616, 0, 12.383945, 0, 0, 0, 0, 0, 0, -387.27362, 0, 15.488972, 0, 0, 0, 0, 0, 0, -460.03107, 0, 9.936459, 0, 0, 0, 0, 0, 0, -504.27728, 0, -8.693523, 0, 0, 0, 0, 0, 0, -532.66974, 0, -91.13599, 0, 0, 0, 0, 0, 0, -532.66974, 0, -166.43213, 0, 0, 0, 0, 0, 0, -508.60602, 0, -230.0846, 0, 0, 0, 0, 0, 0, -418.0586, 0, -269.00208, 0, 0, 0, 0, 0, 0, -356.22363, 0, -360.32574, 0, 0, 0, 0, 0, 0, -287.92007, 0, -394.6545, 0, 0, 0, 0, 0, 0, -260.6601, 0, -461.64944, 0, 0, 0, 0, 0, 0, -210.6514, 0, -515.2107, 0, 0, 0, 0, 0, 0, -148.55148, 0, -533.8407, 0, 0, 0, 0, 0, 0, -87.91275, 0, -529.9594, 0, 0, 0, 0, 0, 0, -32.799103, 0, -510.5532, 0, 0, 0, 0, 0, 0, 12.447113, 0, -463.97824, 0, 0, 0, 0, 0, 0, 20.98587, 0, -399.54956, 0, 0, 0, 0, 0, 0, 21.894623, 0, -335.12085, 0, 0, 0, 0, 0, 0, -2.169098, 0, -278.45462, 0, 0, 0, 0, 0, 0, -48.74405, 0, -252.06215, 0, 0, 0, 0, 0, 0, -119.38272, 0, -235.76094, 0, 0, 0, 0, 0, 0, -183.81146, 0, -230.3272, 0, 0, 0, 0, 0, 0, -238.14886, 0, -210.1447, 0, 0, 0, 0, 0, 0, -262.2126, 0, -172.88474, 0, 0, 0, 0, 0, 0, -267.64633, 0, -134.84851, 0, 0, 0, 0, 0, 0, -262.98886, 0, -77.406075, 0, 0, 0, 0, 0, 0, -225.07138, 0, -9.949863, 0, 0, 0, 0, 0, 0, -161.41898, 0, 14.113857, 0, 0, 0, 0, 0, 0, -101.647736, 0, 16.442654, 0, 0, 0, 0, 0, 0, -29.33786, 0, -30.83112),
-"tilts": PackedFloat32Array(0, 0.2617994, 0.2617994, -0.5235988, -0.2617994, -0.5235988, -0.5235988, -0.2617994, -0.5235988, -0.2617994, 0.2617994, 0.5235988, -0.2617994, -0.5235988, -0.5235988, -0.5235988, -0.2617994, -0.2617994, 0.5235988, 0.2617994, 0.5235988, 0.5235988, 0.5235988, 0.5235988, 0.2617994, 0.2617994, 0.5235988, 0.2617994, 0.2617994, 0.5235988, -0.5235988, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+"tilts": PackedFloat32Array(0, 0.2617994, 0.2617994, -0.5235988, -0.2617994, -0.5235988, -0.5235988, -0.2617994, -0.5235988, -0.2617994, 0.2617994, 0.5235988, -0.2617994, -0.5235988, -0.5235988, -0.5235988, -0.2617994, -0.2617994, 0.5235988, 0.2617994, 0.5235988, 0.5235988, 0.5235988, 0.5235988, 0.2617994, 0.2617994, 0.7853982, 0.2617994, 0.2617994, 0.5235988, -0.5235988, 0.5235988, -0.5235988, 0.2617994, 0.5235988, 0.2617994, 0.2617994, 0.5235988, 1.0471976, 0.2617994, 0.5235988, 0.5235988, 0.5235988, 0, -0.2617994, -0.7853982, -0.5235988, -0.2617994, -0.5235988, -0.7853982, -0.5235988, -0.5235988, -0.5235988)
 }
 point_count = 53
 
@@ -79,7 +81,7 @@ curve = SubResource("Curve3D_j2hiy")
 metadata/_edit_lock_ = true
 
 [node name="follower_1" type="PathFollow3D" parent="track/Path3D"]
-transform = Transform3D(0.98639107, 0, -0.16439874, 0, 1, 0, 0.16439874, 0, 0.98639107, -1.7582245, 0, -48.84901)
+transform = Transform3D(0.98638564, 0, -0.16439813, 0, 0.9999968, 0, 0.16439785, 0, 0.9863874, -1.7582245, 0, -48.84901)
 
 [node name="Camera3D2" type="Camera3D" parent="track/Path3D/follower_1"]
 transform = Transform3D(-0.99999624, 2.9802214e-08, -0.002744658, 2.9802326e-08, 1, 0, 0.002744658, -8.179719e-11, -0.99999624, 0, 0, 0)
@@ -87,7 +89,6 @@ metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="track/Path3D/follower_1"]
 transform = Transform3D(0.9999955, 0.0027445697, 2.9682251e-08, 2.9802305e-08, -4.37114e-08, -1.0000002, -0.0027445687, 0.9999959, -4.3793005e-08, 0, 0, 0)
-visible = false
 mesh = SubResource("CylinderMesh_uspar")
 skeleton = NodePath("../../../anchor")
 
@@ -105,11 +106,16 @@ metadata/_edit_lock_ = true
 
 [node name="world" type="Node3D" parent="track"]
 
-[node name="FpsPlayer" parent="track/world" instance=ExtResource("2_uspar")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, -1.5, 1)
-
 [node name="chaser" type="Node3D" parent="track/world"]
 transform = Transform3D(0.9999993, 0, 0, 0, 0.99999964, 0, 0, 0, 1.0000002, 0, -1, 35)
+
+[node name="thruster_particles3" parent="track/world/chaser" instance=ExtResource("4_kqhpv")]
+transform = Transform3D(1.0000007, 0, 0, 0, 1.0000004, 0, 0, 0, 0.99999976, -9.000007, 1.0000004, 16.999996)
+lifetime = 1.0
+
+[node name="thruster_particles4" parent="track/world/chaser" instance=ExtResource("4_kqhpv")]
+transform = Transform3D(1.0000007, 0, 0, 0, 1.0000004, 0, 0, 0, 0.99999976, 9.000007, 1.0000004, 16.999996)
+lifetime = 1.0
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="track/world/chaser"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
@@ -125,40 +131,63 @@ omni_range = 10.0
 transform = Transform3D(1.0000007, -6.352747e-22, 0, 7.4115383e-22, 1.0000004, -4.973799e-14, -2.776874e-29, 0, 0.99999976, -7.7486095e-07, 3.0000153, -11.999996)
 omni_range = 10.0
 
-[node name="Camera3D" type="Camera3D" parent="track/world"]
+[node name="dropship" type="Node3D" parent="track/world"]
+
+[node name="FpsPlayer" parent="track/world/dropship" instance=ExtResource("2_uspar")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, -1.5, 1)
+
+[node name="Camera3D" type="Camera3D" parent="track/world/dropship"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 fov = 90.0
 metadata/_edit_lock_ = true
 
-[node name="CSGBox3D" type="CSGBox3D" parent="track/world"]
+[node name="CSGBox3D" type="CSGBox3D" parent="track/world/dropship"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+use_collision = true
 size = Vector3(8, 1, 12)
+material = ExtResource("3_lllqy")
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="track/world"]
+[node name="CSGBox3D4" type="CSGBox3D" parent="track/world/dropship"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+use_collision = true
 size = Vector3(8, 1, 12)
+material = ExtResource("3_lllqy")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="track/world"]
+[node name="CSGBox3D2" type="CSGBox3D" parent="track/world/dropship"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0.5, 0)
+use_collision = true
 size = Vector3(1, 6, 12)
+material = ExtResource("3_lllqy")
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="track/world"]
+[node name="CSGBox3D3" type="CSGBox3D" parent="track/world/dropship"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.5, 0)
+use_collision = true
 size = Vector3(1, 6, 12)
+material = ExtResource("3_lllqy")
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="track/world"]
+[node name="CSGBox3D5" type="CSGBox3D" parent="track/world/dropship"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -6.5)
+use_collision = true
 size = Vector3(10, 6, 1)
+material = ExtResource("3_lllqy")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="track/world"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="track/world/dropship"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 mesh = SubResource("CapsuleMesh_j2hiy")
+skeleton = NodePath("../..")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="track/world"]
+[node name="OmniLight3D" type="OmniLight3D" parent="track/world/dropship"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 1.7, 0)
 omni_range = 10.0
 
+[node name="thruster_particles" parent="track/world/dropship" instance=ExtResource("4_kqhpv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.9, 3.4, 6.4)
+
+[node name="thruster_particles2" parent="track/world/dropship" instance=ExtResource("4_kqhpv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1, 3.4, 6.4)
+
 [node name="cityscape" type="Node3D" parent="track"]
+visible = false
 metadata/_edit_lock_ = true
 
 [node name="building" parent="track/cityscape" instance=ExtResource("2_j2hiy")]

@@ -3,12 +3,27 @@ extends CharacterBody3D
 @onready var _yaw:Node3D = $yaw
 @onready var _pitch:Node3D = $yaw/pitch
 
+var _inputOn:bool = true
+
 func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	set_input_on(false)
+
+func set_input_on(flag:bool) -> void:
+	_inputOn = flag
+	if _inputOn:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _physics_process(delta: float) -> void:
 	
+	if Input.is_action_just_pressed("ui_cancel"):
+		set_input_on(!_inputOn)
+	
 	var inputPush:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	if !_inputOn:
+		inputPush = Vector2()
+		return
 	
 	if inputPush.is_zero_approx():
 		self.velocity *= 0.8
@@ -26,6 +41,8 @@ func _physics_process(delta: float) -> void:
 	pass
 
 func _input(event: InputEvent) -> void:
+	if !_inputOn:
+		return
 	var motion:InputEventMouseMotion = event as InputEventMouseMotion
 	if motion == null:
 		return
