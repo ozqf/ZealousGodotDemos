@@ -15,6 +15,7 @@ var _chaserV:Vector3 = Vector3()
 func _ready() -> void:
 	_anchor.visible = false
 	_city.visible = true
+	_chaserDriftP = _chaser.global_position
 	_set_new_drift_pos()
 
 func _set_new_drift_pos() -> void:
@@ -31,7 +32,7 @@ func _set_new_drift_pos() -> void:
 		x1 = horizontalMax
 	_chaserDriftP.x = randf_range(x0, x1)
 	_chaserDriftP.y = randf_range(-verticalMax, verticalMax)
-	_chaserDriftP.z = 36
+	#_chaserDriftP.z = 36
 
 func _tick_chaser(_delta:float) -> void:
 	var frames:int = Engine.get_physics_frames()
@@ -86,15 +87,11 @@ func _process(_delta:float) -> void:
 
 			var anchorT:Transform3D = _anchor.global_transform
 			var newT:Transform3D = anchorT.interpolate_with(_follower.global_transform, 0.01)
-			#_anchor.global_transform = anchorT.interpolate_with(_follower.global_transform, 0.1)
 			newT.origin = _follower.global_position
 			_anchor.global_transform = newT
 			
 			var inv:Transform3D = _anchor.global_transform.inverse()
 			_bg.global_transform = inv
-			
-			#var inv2:Transform3D = anchorT.interpolate_with(_follower2.global_transform, 0.1).inverse()
-			#_chaser.global_transform = inv2
 	_tick_chaser(_delta)
 
 func _physics_process(_delta: float) -> void:

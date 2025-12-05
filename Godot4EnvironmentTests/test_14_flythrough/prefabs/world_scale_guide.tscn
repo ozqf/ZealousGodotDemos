@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://8atgmooefu1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_kqhpv"]
+
+[node name="world_scale_guide" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(26.000002, 0, -9.536743e-07, 0, 26, 0, 4.7683716e-07, 0, 60.000004, 0, 0, 0)
+mesh = SubResource("BoxMesh_kqhpv")
+skeleton = NodePath("../..")

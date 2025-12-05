@@ -65,7 +65,7 @@ func _input(event: InputEvent) -> void:
 	_pitch.rotation_degrees = rot
 
 static func input_to_push_vector_flat(inputDir:Vector2, _basis:Basis) -> Vector3:
-	var _pushDirection:Vector3 = -(_basis * Vector3(inputDir.x, 0, inputDir.y)).normalized()
+	var _pushDirection:Vector3 = (_basis * Vector3(inputDir.x, 0, inputDir.y)).normalized()
 	return _pushDirection
 
 static func get_window_to_screen_ratio(windowIndex:int = 0) -> Vector2:
