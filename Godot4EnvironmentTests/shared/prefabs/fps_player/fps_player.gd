@@ -7,6 +7,10 @@ var _inputOn:bool = true
 
 func _ready() -> void:
 	set_input_on(false)
+	var rot:Vector3 = self.rotation_degrees
+	_yaw.rotation_degrees = Vector3(0, rot.y, 0)
+	_pitch.rotation_degrees = Vector3(rot.x, 0, 0)
+	self.rotation_degrees = Vector3.ZERO
 
 func set_input_on(flag:bool) -> void:
 	_inputOn = flag

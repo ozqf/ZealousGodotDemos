@@ -1,0 +1,74 @@
+[gd_scene load_steps=14 format=3 uid="uid://cbjpudccw5y65"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_vyyjo"]
+size = Vector3(0.5, 2, 0.5)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ykjex"]
+frequency = 0.1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kqnr2"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_ykjex")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ksknh"]
+albedo_color = Color(0.215686, 0.117647, 0, 1)
+albedo_texture = SubResource("NoiseTexture2D_kqnr2")
+texture_filter = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_i3yjt"]
+
+[sub_resource type="Gradient" id="Gradient_3hhib"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5f7l4"]
+frequency = 0.02
+fractal_gain = 2.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fe7ar"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_5f7l4")
+color_ramp = SubResource("Gradient_3hhib")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8qads"]
+albedo_color = Color(0, 0.678431, 0, 1)
+albedo_texture = SubResource("NoiseTexture2D_fe7ar")
+texture_filter = 2
+
+[sub_resource type="Gradient" id="Gradient_jyhg4"]
+colors = PackedColorArray(0, 0, 0, 0.427451, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m4q52"]
+fractal_gain = 2.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_35wu3"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_m4q52")
+color_ramp = SubResource("Gradient_jyhg4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xqabg"]
+transparency = 1
+albedo_color = Color(0, 0.678431, 0, 1)
+albedo_texture = SubResource("NoiseTexture2D_35wu3")
+texture_filter = 2
+
+[node name="tree" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_vyyjo")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_ksknh")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(5.785, 0, 0, 0, 4.82, 0, 0, 0, 5.785, 0, 3, 0)
+mesh = SubResource("SphereMesh_i3yjt")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_8qads")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="MeshInstance3D4"]
+transform = Transform3D(1.11111, 0, 0, 0, 1.11111, 0, 0, 0, 1.11111, 0, 0, 0)
+mesh = SubResource("SphereMesh_i3yjt")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_xqabg")

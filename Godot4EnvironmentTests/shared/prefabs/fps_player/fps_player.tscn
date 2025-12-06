@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bnqgu3she2qlj"]
+[gd_scene load_steps=4 format=3 uid="uid://bnqgu3she2qlj"]
 
 [ext_resource type="Script" uid="uid://bqf73gxre5f1d" path="res://shared/prefabs/fps_player/fps_player.gd" id="1_ia3eq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_80gvn"]
 radius = 0.35
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ia3eq"]
+radius = 0.4
 height = 1.8
 
 [node name="FpsPlayer" type="CharacterBody3D"]
@@ -21,3 +25,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 [node name="Camera3D" type="Camera3D" parent="yaw/pitch"]
 current = true
 fov = 90.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.90000004, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_ia3eq")

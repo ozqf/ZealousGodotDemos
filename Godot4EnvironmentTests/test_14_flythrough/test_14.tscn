@@ -132,25 +132,25 @@ lifetime = 1.0
 transform = Transform3D(1.0000007, 0, 0, 0, 1.0000004, 0, 0, 0, 0.99999976, 9.000007, 1.0000004, 16.999996)
 lifetime = 1.0
 
+[node name="OmniLight3D" type="OmniLight3D" parent="track/world/chaser"]
+transform = Transform3D(1.0000007, -6.352753e-22, 2.3140622e-29, -4.628127e-30, -4.3711378e-08, -1.0000004, 6.352747e-22, 0.99999976, -4.3711353e-08, -9.834773e-07, 4.999998, -10.999992)
+omni_range = 10.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="track/world/chaser"]
+transform = Transform3D(1.0000007, -7.411546e-22, 2.7768753e-29, -4.6281225e-30, -4.3711378e-08, -1.0000004, 7.4115383e-22, 0.99999976, -4.3711353e-08, -7.7486095e-07, 11.999996, 3.0000153)
+omni_range = 10.0
+
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="track/world/chaser"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+transform = Transform3D(-1, 0, -6.119594e-08, -8.742278e-08, -4.371139e-08, 0.7, -3.821371e-15, 1, 3.059797e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_j2hiy")
 skeleton = NodePath("../../../anchor")
 surface_material_override/0 = SubResource("StandardMaterial3D_kap8b")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="track/world/chaser/MeshInstance3D2"]
-transform = Transform3D(1.0000007, -5.293956e-22, 0, 6.352747e-22, 1.0000004, -4.973799e-14, -2.3140616e-29, 0, 0.99999976, -9.834773e-07, -10.999992, -4.9999976)
-omni_range = 10.0
-
-[node name="OmniLight3D2" type="OmniLight3D" parent="track/world/chaser/MeshInstance3D2"]
-transform = Transform3D(1.0000007, -6.352747e-22, 0, 7.4115383e-22, 1.0000004, -4.973799e-14, -2.776874e-29, 0, 0.99999976, -7.7486095e-07, 3.0000153, -11.999996)
-omni_range = 10.0
 
 [node name="dropship" type="Node3D" parent="track/world"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -23)
 
 [node name="FpsPlayer" parent="track/world/dropship" instance=ExtResource("2_uspar")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 1)
+transform = Transform3D(-0.8660254, 0, -0.49999988, 0, 1, 0, 0.49999988, 0, -0.8660254, -0.49999988, -1.5, -1.8660254)
 
 [node name="Camera3D" type="Camera3D" parent="track/world/dropship"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
@@ -169,26 +169,80 @@ use_collision = true
 size = Vector3(8, 1, 12)
 material = ExtResource("3_lllqy")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="track/world/dropship"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0.5, 0)
+[node name="CSGBox3D3" type="CSGBox3D" parent="track/world/dropship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, -1, 0)
 use_collision = true
-size = Vector3(1, 6, 12)
+size = Vector3(0.1, 3, 12)
 material = ExtResource("3_lllqy")
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="track/world/dropship"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.5, 0)
+[node name="CSGBox3D6" type="CSGBox3D" parent="track/world/dropship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, 2.5, 0)
 use_collision = true
-size = Vector3(1, 6, 12)
+size = Vector3(0.1, 2, 12)
+material = ExtResource("3_lllqy")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="track/world/dropship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, 1, 3.5)
+use_collision = true
+size = Vector3(0.1, 1, 5)
+material = ExtResource("3_lllqy")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="track/world/dropship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, 1, -3.5)
+use_collision = true
+size = Vector3(0.1, 1, 5)
+material = ExtResource("3_lllqy")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="track/world/dropship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0499997, -1, 0)
+use_collision = true
+size = Vector3(0.1, 3, 12)
+material = ExtResource("3_lllqy")
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="track/world/dropship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0499997, 2.5, 0)
+use_collision = true
+size = Vector3(0.1, 2, 12)
+material = ExtResource("3_lllqy")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="track/world/dropship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0499997, 1, 3.5)
+use_collision = true
+size = Vector3(0.1, 1, 5)
+material = ExtResource("3_lllqy")
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="track/world/dropship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0499997, 1, -3.5)
+use_collision = true
+size = Vector3(0.1, 1, 5)
 material = ExtResource("3_lllqy")
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="track/world/dropship"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -6.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7683716e-07, -1.25, -6.049999)
 use_collision = true
-size = Vector3(10, 6, 1)
+size = Vector3(8.2, 2.5, 0.1)
+material = ExtResource("3_lllqy")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="track/world/dropship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8499994, 0.75, -6.049999)
+use_collision = true
+size = Vector3(2.5, 1.5, 0.1)
+material = ExtResource("3_lllqy")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="track/world/dropship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8500006, 0.75, -6.049999)
+use_collision = true
+size = Vector3(2.5, 1.5, 0.1)
+material = ExtResource("3_lllqy")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="track/world/dropship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7683716e-07, 2.5000005, -6.049999)
+use_collision = true
+size = Vector3(8.2, 2, 0.1)
 material = ExtResource("3_lllqy")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="track/world/dropship"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.5, -4)
 mesh = SubResource("CapsuleMesh_j2hiy")
 skeleton = NodePath("../..")
 
