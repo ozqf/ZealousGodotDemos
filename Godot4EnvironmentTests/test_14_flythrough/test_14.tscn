@@ -86,7 +86,7 @@ curve = SubResource("Curve3D_j2hiy")
 metadata/_edit_lock_ = true
 
 [node name="follower_1" type="PathFollow3D" parent="track/Path3D"]
-transform = Transform3D(0.9863641, 0, -0.16439636, 0, 0.9999864, 0, 0.16439426, 0, 0.9863767, -1.7582245, 0, -48.84901)
+transform = Transform3D(0.9863587, 0, -0.16439581, 0, 0.9999824, 0, 0.16439337, 0, 0.9863734, -1.7582245, 0, -48.84901)
 
 [node name="Camera3D2" type="Camera3D" parent="track/Path3D/follower_1"]
 transform = Transform3D(-0.99999624, 2.9802214e-08, -0.002744658, 2.9802326e-08, 1, 0, 0.002744658, -8.179719e-11, -0.99999624, 0, 0, 0)
