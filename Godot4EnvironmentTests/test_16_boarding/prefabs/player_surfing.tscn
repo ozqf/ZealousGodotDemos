@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://bnimd7hbxro5q"]
+
+[ext_resource type="Script" uid="uid://bqlkyc34v6071" path="res://test_16_boarding/prefabs/player_surfing.gd" id="1_51b4c"]
+[ext_resource type="Material" uid="uid://cmscs5lur4d55" path="res://test_16_boarding/assets/mat_ice_noise_planar.tres" id="2_2tnxa"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v5460"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_v5460"]
+size = Vector3(1, 0.1, 2)
+
+[sub_resource type="Curve" id="Curve_2tnxa"]
+_data = [Vector2(0.240113, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6dtvv"]
+curve = SubResource("Curve_2tnxa")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6dtvv"]
+emission_shape = 3
+emission_box_extents = Vector3(0.5, 0, 0)
+direction = Vector3(0, 1, 1)
+spread = 0.0
+initial_velocity_min = 16.0
+initial_velocity_max = 24.0
+gravity = Vector3(0, -40, 0)
+scale_curve = SubResource("CurveTexture_6dtvv")
+
+[sub_resource type="SphereMesh" id="SphereMesh_8kuvb"]
+radius = 0.05
+height = 0.1
+
+[node name="PlayerSurfing" type="CharacterBody3D"]
+script = ExtResource("1_51b4c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_v5460")
+
+[node name="orientation_ray" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+target_position = Vector3(0, -1.2, 0)
+
+[node name="yaw" type="Node3D" parent="."]
+
+[node name="head" type="Node3D" parent="yaw"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="yaw/head"]
+fov = 90.0
+far = 100000.0
+
+[node name="board" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="board"]
+mesh = SubResource("BoxMesh_v5460")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="board"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+material_override = ExtResource("2_2tnxa")
+amount = 256
+process_material = SubResource("ParticleProcessMaterial_6dtvv")
+draw_pass_1 = SubResource("SphereMesh_8kuvb")

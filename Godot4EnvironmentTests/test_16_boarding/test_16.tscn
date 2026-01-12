@@ -1,0 +1,162 @@
+[gd_scene load_steps=14 format=3 uid="uid://bt24w16d4y0l1"]
+
+[ext_resource type="PackedScene" uid="uid://bnimd7hbxro5q" path="res://test_16_boarding/prefabs/player_surfing.tscn" id="1_yvidj"]
+[ext_resource type="PackedScene" uid="uid://q51ifmwe13xd" path="res://test_16_boarding/prefabs/slope_scrolling.tscn" id="2_3otfn"]
+[ext_resource type="Material" uid="uid://cmscs5lur4d55" path="res://test_16_boarding/assets/mat_ice_noise_planar.tres" id="2_8rcgm"]
+[ext_resource type="ArrayMesh" uid="uid://b22tongajjaeh" path="res://test_16_boarding/assets/quick_landscape.obj" id="3_4trwy"]
+[ext_resource type="ArrayMesh" uid="uid://did8slnjqog3h" path="res://test_16_boarding/assets/torus_track.obj" id="4_gjsw0"]
+[ext_resource type="Script" uid="uid://s158erk4hrok" path="res://test_16_boarding/prefabs/spinner.gd" id="5_w41xo"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_w41xo"]
+top_radius = 800.0
+bottom_radius = 800.0
+height = 1000.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4trwy"]
+top_radius = 800.0
+bottom_radius = 800.0
+height = 3000.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_3otfn"]
+size = Vector3(2, 60, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gjsw0"]
+size = Vector3(20, 1, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yvidj"]
+size = Vector3(20, 20, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8rcgm"]
+size = Vector3(24, 20, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3otfn"]
+size = Vector3(24, 20, 2)
+
+[node name="test_16_boarding" type="Node3D"]
+
+[node name="PlayerSurfing" parent="." instance=ExtResource("1_yvidj")]
+
+[node name="spin_root" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -993, 41, 0)
+
+[node name="straight_spinning" type="Node3D" parent="spin_root"]
+script = ExtResource("5_w41xo")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="spin_root/straight_spinning"]
+transform = Transform3D(0.5062359, -0.7111058, 0.48790753, 0.18301275, 0.6414566, 0.7450099, -0.8427524, -0.28785744, 0.45486984, 993, -26, 0)
+light_color = Color(1, 0.9975, 0.97, 1)
+shadow_enabled = true
+
+[node name="centre_mountain" type="MeshInstance3D" parent="spin_root/straight_spinning"]
+mesh = SubResource("CylinderMesh_w41xo")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="spin_root/straight_spinning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2018, -1184, 344)
+visible = false
+mesh = SubResource("CylinderMesh_4trwy")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="spin_root/straight_spinning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1214, -967, -1432)
+visible = false
+mesh = SubResource("CylinderMesh_4trwy")
+
+[node name="landscape" type="MeshInstance3D" parent="spin_root/straight_spinning"]
+transform = Transform3D(100, 0, 0, 0, 400, 0, 0, 0, 100, 16, -800, 9)
+mesh = ExtResource("3_4trwy")
+
+[node name="landscape2" type="MeshInstance3D" parent="spin_root/straight_spinning"]
+transform = Transform3D(1000, 0, 0, 0, 100, 0, 0, 0, 1000, 16, 100, 9)
+mesh = ExtResource("3_4trwy")
+
+[node name="tilted_spinning" type="Node3D" parent="spin_root"]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 0, 0)
+
+[node name="spinner" type="Node3D" parent="spin_root/tilted_spinning"]
+script = ExtResource("5_w41xo")
+degreesPerSecond = -24.0
+
+[node name="torus" type="MeshInstance3D" parent="spin_root/tilted_spinning/spinner"]
+mesh = ExtResource("4_gjsw0")
+skeleton = NodePath("../../../../slope")
+surface_material_override/0 = ExtResource("2_8rcgm")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="spin_root/tilted_spinning/spinner"]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, -0.5, 0, 0.5, 0.8660254, 982, -20.5, -35.507042)
+visible = false
+mesh = SubResource("BoxMesh_3otfn")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("2_8rcgm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="spin_root/tilted_spinning/spinner"]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, -0.5, 0, 0.5, 0.8660254, 1004, -20.5, -35.507042)
+visible = false
+mesh = SubResource("BoxMesh_3otfn")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("2_8rcgm")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="spin_root/tilted_spinning/spinner"]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, -0.5, 0, 0.5, 0.8660254, -1019, -20.5, -35.507042)
+visible = false
+mesh = SubResource("BoxMesh_3otfn")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("2_8rcgm")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="spin_root/tilted_spinning/spinner"]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, -0.5, 0, 0.5, 0.8660254, -997, -20.5, -35.507042)
+visible = false
+mesh = SubResource("BoxMesh_3otfn")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("2_8rcgm")
+
+[node name="slope" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 0, 0)
+
+[node name="scrolling_ground" parent="slope" instance=ExtResource("2_3otfn")]
+
+[node name="cage" type="Node3D" parent="slope"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="slope/cage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="slope/cage/StaticBody3D"]
+shape = SubResource("BoxShape3D_gjsw0")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="slope/cage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 11)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="slope/cage/StaticBody3D2"]
+shape = SubResource("BoxShape3D_yvidj")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="slope/cage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49999952, -10.999999)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="slope/cage/StaticBody3D3"]
+shape = SubResource("BoxShape3D_yvidj")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="slope/cage"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 11, -0.5, 0)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="slope/cage/StaticBody3D4"]
+shape = SubResource("BoxShape3D_8rcgm")
+metadata/_edit_lock_ = true
+
+[node name="StaticBody3D5" type="StaticBody3D" parent="slope/cage"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -11, -0.5, 0)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="slope/cage/StaticBody3D5"]
+shape = SubResource("BoxShape3D_3otfn")
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="slope/cage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="slope/cage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)

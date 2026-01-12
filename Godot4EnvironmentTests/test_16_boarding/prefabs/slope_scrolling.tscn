@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=3 uid="uid://q51ifmwe13xd"]
+
+[ext_resource type="Script" uid="uid://cvmvd4jbvyojf" path="res://test_16_boarding/prefabs/slope_scrolling.gd" id="1_f2yxc"]
+[ext_resource type="Material" uid="uid://bnx82sxwjt5wt" path="res://test_16_boarding/assets/mat_ice_noise_planar_scroll.tres" id="1_wm81h"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8rcgm"]
+size = Vector2(20, 20)
+
+[node name="slope_scrolling" type="Node3D"]
+script = ExtResource("1_f2yxc")
+
+[node name="conveyor" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="conveyor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 70)
+mesh = SubResource("PlaneMesh_8rcgm")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_wm81h")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="conveyor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 50)
+mesh = SubResource("PlaneMesh_8rcgm")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_wm81h")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="conveyor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
+mesh = SubResource("PlaneMesh_8rcgm")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_wm81h")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="conveyor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+mesh = SubResource("PlaneMesh_8rcgm")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_wm81h")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="conveyor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+mesh = SubResource("PlaneMesh_8rcgm")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_wm81h")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="conveyor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+mesh = SubResource("PlaneMesh_8rcgm")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_wm81h")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="conveyor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50)
+mesh = SubResource("PlaneMesh_8rcgm")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_wm81h")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="conveyor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -70)
+mesh = SubResource("PlaneMesh_8rcgm")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_wm81h")

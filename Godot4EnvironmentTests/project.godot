@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Godot4EnvironmentTests"
-run/main_scene="uid://d3i24564ec1w7"
+run/main_scene="uid://bt24w16d4y0l1"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 

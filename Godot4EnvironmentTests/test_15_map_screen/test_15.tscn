@@ -1,103 +1,70 @@
-[gd_scene load_steps=7 format=3 uid="uid://3kp2ih2rigdd"]
+[gd_scene load_steps=8 format=3 uid="uid://3kp2ih2rigdd"]
 
-[ext_resource type="Texture2D" uid="uid://sk6fy0h7ynle" path="res://test_15_map_screen/assets/tex_city_grid.png" id="1_twtf5"]
+[ext_resource type="PackedScene" uid="uid://dtog8k46ysrf2" path="res://test_15_map_screen/prefabs/screen_graphics.tscn" id="1_twtf5"]
 
-[sub_resource type="Gradient" id="Gradient_twtf5"]
-offsets = PackedFloat32Array(0)
-colors = PackedColorArray(1, 0, 0, 1)
+[sub_resource type="PlaneMesh" id="PlaneMesh_twtf5"]
+orientation = 2
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_im3bc"]
-gradient = SubResource("Gradient_twtf5")
+[sub_resource type="ViewportTexture" id="ViewportTexture_im3bc"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1rdxg"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_im3bc")
+
+[sub_resource type="Animation" id="Animation_twtf5"]
+resource_name = "zoom"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("rig/mount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.2991789, -0.25083512, 0.3114649, 1, 1, 0.2991789, -0.25083512, 0.3114649, 4, 1, 0, 0, 1.033, 5, 1, 0, 0, 1.033)
 
 [sub_resource type="Animation" id="Animation_im3bc"]
 length = 0.001
-tracks/0/type = "value"
+tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("camera_mount:position")
+tracks/0/path = NodePath("rig/mount")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(640, 360)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("camera_mount/Camera2D:zoom")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 1.033)
 
-[sub_resource type="Animation" id="Animation_1rdxg"]
-resource_name = "intro"
-length = 4.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("camera_mount:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.5, 3.5333333, 3.7666667, 4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(832, 520), Vector2(832, 520), Vector2(720, 456), Vector2(680, 416), Vector2(640, 360)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("camera_mount/Camera2D:zoom")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 2.3666666, 2.9666667, 4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(39.04, 39.04), Vector2(3.092823, 3.092823), Vector2(1.809, 1.809), Vector2(1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_liygx"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1rdxg"]
 _data = {
 &"RESET": SubResource("Animation_im3bc"),
-&"intro": SubResource("Animation_1rdxg")
+&"zoom": SubResource("Animation_twtf5")
 }
 
-[node name="Test15" type="Node2D"]
+[node name="Test15" type="Node3D"]
 
-[node name="Control" type="Node2D" parent="."]
+[node name="rig" type="Node3D" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
-offset_right = 1280.0
-offset_bottom = 720.0
-color = Color(0, 0, 0, 1)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="rig"]
+transform = Transform3D(1, 0, 0, 0, 0.563, 0, 0, 0, 1, 0, 0, 0.3)
+mesh = SubResource("PlaneMesh_twtf5")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_1rdxg")
 
-[node name="map_sprite" type="Sprite2D" parent="Control"]
-position = Vector2(640, 352)
-scale = Vector2(2.5, 2.25)
-texture = ExtResource("1_twtf5")
-
-[node name="icon_sprite" type="Sprite2D" parent="Control"]
-position = Vector2(832, 520)
-scale = Vector2(0.11, 0.11)
-texture = SubResource("GradientTexture2D_im3bc")
-offset = Vector2(-0.045, 0)
-
-[node name="camera_mount" type="Node2D" parent="Control"]
-position = Vector2(640, 360)
-
-[node name="Camera2D" type="Camera2D" parent="Control/camera_mount"]
-metadata/_edit_lock_ = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Control"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="rig"]
+root_node = NodePath("../..")
 libraries = {
-&"": SubResource("AnimationLibrary_liygx")
+&"": SubResource("AnimationLibrary_1rdxg")
 }
-autoplay = "intro"
+autoplay = "zoom"
+
+[node name="mount" type="Node3D" parent="rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.033)
+
+[node name="Camera3D" type="Camera3D" parent="rig/mount"]
+near = 0.01
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(1280, 720)
+
+[node name="screen_graphics" parent="SubViewport" instance=ExtResource("1_twtf5")]
