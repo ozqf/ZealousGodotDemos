@@ -25,11 +25,13 @@ func _physics_process(delta: float) -> void:
 	
 	var inputPush:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	
-	
+	if _ray.is_colliding() && Input.is_action_just_pressed("move_up"):
+		self.velocity.y = 11
 	
 	if inputPush.is_zero_approx():
 		var vel:Vector3 = self.velocity
 		vel.x *= 0.8
+		vel.y += (-20.0) * delta
 		vel.z *= 0.8
 		self.velocity = vel
 		
