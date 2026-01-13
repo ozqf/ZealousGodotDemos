@@ -11,9 +11,9 @@ fractal_gain = 0.91
 cellular_distance_function = 2
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wtpgf"]
-seamless = true
-color_ramp = SubResource("Gradient_14ma4")
 noise = SubResource("FastNoiseLite_q1cbs")
+color_ramp = SubResource("Gradient_14ma4")
+seamless = true
 
 [resource]
 albedo_texture = SubResource("NoiseTexture2D_wtpgf")

@@ -11,8 +11,8 @@ cellular_distance_function = 1
 cellular_jitter = 0.0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_em8tk"]
-color_ramp = SubResource("Gradient_1c3rl")
 noise = SubResource("FastNoiseLite_48tn3")
+color_ramp = SubResource("Gradient_1c3rl")
 
 [resource]
 emission_enabled = true
