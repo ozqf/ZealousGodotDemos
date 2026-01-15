@@ -1,13 +1,17 @@
-[gd_scene load_steps=15 format=3 uid="uid://bt24w16d4y0l1"]
+[gd_scene load_steps=17 format=3 uid="uid://bt24w16d4y0l1"]
 
 [ext_resource type="PackedScene" uid="uid://bnimd7hbxro5q" path="res://test_16_boarding/prefabs/player_surfing.tscn" id="1_yvidj"]
 [ext_resource type="PackedScene" uid="uid://q51ifmwe13xd" path="res://test_16_boarding/prefabs/slope_scrolling.tscn" id="2_3otfn"]
 [ext_resource type="Material" uid="uid://cmscs5lur4d55" path="res://test_16_boarding/assets/mat_ice_noise_planar.tres" id="2_8rcgm"]
 [ext_resource type="ArrayMesh" uid="uid://b22tongajjaeh" path="res://test_16_boarding/assets/quick_landscape.obj" id="3_4trwy"]
 [ext_resource type="ArrayMesh" uid="uid://did8slnjqog3h" path="res://test_16_boarding/assets/torus_track.obj" id="4_gjsw0"]
+[ext_resource type="Material" uid="uid://c74pjih5eyv0q" path="res://test_16_boarding/assets/mat_ice_noise_planar_distant.tres" id="5_75612"]
 [ext_resource type="Script" uid="uid://s158erk4hrok" path="res://test_16_boarding/prefabs/spinner.gd" id="5_w41xo"]
+[ext_resource type="PackedScene" uid="uid://beudv1alfmi3n" path="res://test_16_boarding/prefabs/snow_board_trail.tscn" id="7_7n1m7"]
 
 [sub_resource type="Environment" id="Environment_4trwy"]
+background_mode = 1
+background_color = Color(0.5062574, 0.70066416, 1, 1)
 ambient_light_source = 2
 ambient_light_color = Color(0.37909716, 0.38831824, 0.4568615, 1)
 tonemap_mode = 2
@@ -70,14 +74,14 @@ visible = false
 mesh = SubResource("CylinderMesh_4trwy")
 
 [node name="landscape" type="MeshInstance3D" parent="spin_root/straight_spinning"]
-transform = Transform3D(100, 0, 0, 0, 400, 0, 0, 0, 100, 16, -800, 9)
+transform = Transform3D(100, 0, 0, 0, 400, 0, 0, 0, 100, 16, -2000, 9)
 mesh = ExtResource("3_4trwy")
-surface_material_override/0 = ExtResource("2_8rcgm")
+surface_material_override/0 = ExtResource("5_75612")
 
 [node name="landscape2" type="MeshInstance3D" parent="spin_root/straight_spinning"]
-transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, 16, 5215.12, 9)
+transform = Transform3D(400, 0, 0, 0, 400, 0, 0, 0, 400, 16, -1584.8799, 9)
 mesh = ExtResource("3_4trwy")
-surface_material_override/0 = ExtResource("2_8rcgm")
+surface_material_override/0 = ExtResource("5_75612")
 
 [node name="tilted_spinning" type="Node3D" parent="spin_root"]
 transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 0, 0)
@@ -157,6 +161,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 [node name="CSGBox3D3" type="CSGBox3D" parent="slope"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 2, 0)
 size = Vector3(8, 5, 20)
+
+[node name="snow_board_trail" parent="slope/CSGBox3D3" instance=ExtResource("7_7n1m7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -2, 9)
+
+[node name="snow_board_trail2" parent="slope/CSGBox3D3" instance=ExtResource("7_7n1m7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -2, -9)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="slope/CSGBox3D3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -1.9999998, -10.499996)

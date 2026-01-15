@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://jjj8plnr8fpx"]
+
+[ext_resource type="Script" uid="uid://c6c40vud5y8ue" path="res://test_18_falling/prefabs/falling_bullet.gd" id="1_1t74w"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cy1j3"]
+radius = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1t74w"]
+top_radius = 0.0
+bottom_radius = 0.3
+height = 1.0
+radial_segments = 4
+rings = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cy1j3"]
+albedo_color = Color(0.989, 1, 0.33999997, 1)
+emission_enabled = true
+emission = Color(0.9882353, 1, 0.34117648, 1)
+emission_energy_multiplier = 2.0
+
+[node name="FallingBullet" type="Area3D"]
+script = ExtResource("1_1t74w")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_cy1j3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_1t74w")
+surface_material_override/0 = SubResource("StandardMaterial3D_cy1j3")

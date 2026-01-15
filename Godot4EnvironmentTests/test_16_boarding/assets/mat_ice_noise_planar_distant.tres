@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c74pjih5eyv0q"]
+
+[ext_resource type="Texture2D" uid="uid://dvlfx50aca35m" path="res://test_16_boarding/assets/tex_ice_noise_distant.tres" id="1_7h1gi"]
+
+[resource]
+albedo_texture = ExtResource("1_7h1gi")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_triplanar = true
+texture_filter = 2

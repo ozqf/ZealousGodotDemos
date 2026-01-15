@@ -1,0 +1,126 @@
+[gd_scene load_steps=17 format=3 uid="uid://b80c5meotfhcm"]
+
+[ext_resource type="PackedScene" uid="uid://bwokg1mxy1yn" path="res://test_18_falling/prefabs/falling_player.tscn" id="1_6d264"]
+[ext_resource type="PackedScene" uid="uid://k72ntn8ov8o1" path="res://test_18_falling/prefabs/falling_enemy.tscn" id="2_m30vg"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_1fece"]
+flip_faces = true
+radius = 500.0
+height = 1000.0
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6d264"]
+sky_top_color = Color(0.38908678, 0.42452234, 0.67996997, 1)
+sky_horizon_color = Color(0.8218969, 0.5745246, 0.63917756, 1)
+ground_bottom_color = Color(0.1422041, 0.11781087, 0.09036202, 1)
+ground_horizon_color = Color(0.7339709, 0.63794136, 0.5161954, 1)
+ground_curve = 0.012745585
+sun_angle_max = 0.0
+
+[sub_resource type="Sky" id="Sky_m30vg"]
+sky_material = SubResource("ProceduralSkyMaterial_6d264")
+
+[sub_resource type="Environment" id="Environment_w3xx2"]
+background_mode = 2
+sky = SubResource("Sky_m30vg")
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.14117648, 0.11764706, 0.09019608, 1)
+fog_density = 1.0
+fog_sky_affect = 0.0
+fog_depth_end = 3000.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1fece"]
+transparency = 1
+albedo_color = Color(0.49, 0.49, 0.49, 0.34901962)
+roughness = 0.61
+texture_filter = 2
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_1fece"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.24858756, 1), 0.0, 0.0, 0, 0, Vector2(0.7937853, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_6d264"]
+curve = SubResource("Curve_1fece")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1fece"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 1.0
+emission_ring_radius = 156.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 200.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_6d264")
+
+[sub_resource type="QuadMesh" id="QuadMesh_1fece"]
+size = Vector2(6, 2)
+
+[sub_resource type="QuadMesh" id="QuadMesh_m30vg"]
+size = Vector2(8000, 8000)
+orientation = 1
+
+[sub_resource type="Gradient" id="Gradient_m30vg"]
+offsets = PackedFloat32Array(0.36969697, 1)
+colors = PackedColorArray(0.6351, 0.73, 0.7094384, 1, 0.84599996, 0.8928, 0.9, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_w3xx2"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_umy64"]
+width = 1024
+height = 1024
+noise = SubResource("FastNoiseLite_w3xx2")
+color_ramp = SubResource("Gradient_m30vg")
+seamless = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m30vg"]
+albedo_texture = SubResource("NoiseTexture2D_umy64")
+uv1_scale = Vector3(0.001, 0.001, 0.001)
+uv1_triplanar = true
+
+[node name="Test18" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_1fece")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.7071068, -0.61237246, 0.35355344, 0, 0.50000006, 0.8660254, -0.7071068, -0.61237246, 0.3535534, 0, 9, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_w3xx2")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -147, 0)
+material_override = SubResource("StandardMaterial3D_1fece")
+cast_shadow = 0
+gi_mode = 0
+amount = 256
+lifetime = 2.0
+visibility_aabb = AABB(-64, -512, -64, 128, 1024, 128)
+process_material = SubResource("ParticleProcessMaterial_1fece")
+draw_pass_1 = SubResource("QuadMesh_1fece")
+
+[node name="falling_player" parent="." groups=["player"] instance=ExtResource("1_6d264")]
+
+[node name="MeshInstance3D2" parent="." instance=ExtResource("2_m30vg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.242306, -7.6739116, -22.910572)
+
+[node name="MeshInstance3D5" parent="." instance=ExtResource("2_m30vg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.757694, 5.2919617, -7.910572)
+
+[node name="MeshInstance3D6" parent="." instance=ExtResource("2_m30vg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.242306, 0, 12.089428)
+
+[node name="ground_plane" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -600, 2)
+mesh = SubResource("QuadMesh_m30vg")
+surface_material_override/0 = SubResource("StandardMaterial3D_m30vg")

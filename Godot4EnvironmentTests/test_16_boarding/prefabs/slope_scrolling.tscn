@@ -4,7 +4,7 @@
 [ext_resource type="Material" uid="uid://bnx82sxwjt5wt" path="res://test_16_boarding/assets/mat_ice_noise_planar_scroll.tres" id="1_wm81h"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_8rcgm"]
-size = Vector2(20, 20)
+size = Vector2(40, 20)
 
 [node name="slope_scrolling" type="Node3D"]
 script = ExtResource("1_f2yxc")

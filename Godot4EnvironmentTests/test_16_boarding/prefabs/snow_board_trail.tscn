@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://beudv1alfmi3n"]
+
+[ext_resource type="Material" uid="uid://cmscs5lur4d55" path="res://test_16_boarding/assets/mat_ice_noise_planar.tres" id="1_0uha5"]
+
+[sub_resource type="Curve" id="Curve_2tnxa"]
+_data = [Vector2(0.240113, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6dtvv"]
+curve = SubResource("Curve_2tnxa")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6dtvv"]
+emission_shape = 3
+emission_box_extents = Vector3(0.5, 0, 0)
+direction = Vector3(0, 1, 1)
+spread = 0.0
+initial_velocity_min = 16.0
+initial_velocity_max = 24.0
+gravity = Vector3(0, -40, 0)
+scale_curve = SubResource("CurveTexture_6dtvv")
+
+[sub_resource type="SphereMesh" id="SphereMesh_8kuvb"]
+radius = 0.05
+height = 0.1
+
+[node name="snow_board_trail" type="GPUParticles3D"]
+material_override = ExtResource("1_0uha5")
+amount = 256
+process_material = SubResource("ParticleProcessMaterial_6dtvv")
+draw_pass_1 = SubResource("SphereMesh_8kuvb")
