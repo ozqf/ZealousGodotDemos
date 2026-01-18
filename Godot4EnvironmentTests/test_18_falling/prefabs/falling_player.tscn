@@ -24,5 +24,9 @@ far = 10000.0
 metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="yaw/head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, -0.1, -0.1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, -0.1, -0.1)
+mesh = SubResource("BoxMesh_df4m2")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="yaw/head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.1, -0.1)
 mesh = SubResource("BoxMesh_df4m2")

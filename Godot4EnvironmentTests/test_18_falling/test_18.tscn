@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b80c5meotfhcm"]
+[gd_scene load_steps=18 format=3 uid="uid://b80c5meotfhcm"]
 
 [ext_resource type="PackedScene" uid="uid://bwokg1mxy1yn" path="res://test_18_falling/prefabs/falling_player.tscn" id="1_6d264"]
 [ext_resource type="PackedScene" uid="uid://k72ntn8ov8o1" path="res://test_18_falling/prefabs/falling_enemy.tscn" id="2_m30vg"]
@@ -11,7 +11,7 @@ height = 1000.0
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6d264"]
 sky_top_color = Color(0.38908678, 0.42452234, 0.67996997, 1)
 sky_horizon_color = Color(0.8218969, 0.5745246, 0.63917756, 1)
-ground_bottom_color = Color(0.1422041, 0.11781087, 0.09036202, 1)
+ground_bottom_color = Color(0.33580002, 0.46, 0.44136998, 1)
 ground_horizon_color = Color(0.7339709, 0.63794136, 0.5161954, 1)
 ground_curve = 0.012745585
 sun_angle_max = 0.0
@@ -24,7 +24,7 @@ background_mode = 2
 sky = SubResource("Sky_m30vg")
 fog_enabled = true
 fog_mode = 1
-fog_light_color = Color(0.14117648, 0.11764706, 0.09019608, 1)
+fog_light_color = Color(0.3372549, 0.45882353, 0.44313726, 1)
 fog_density = 1.0
 fog_sky_affect = 0.0
 fog_depth_end = 3000.0
@@ -86,6 +86,9 @@ albedo_texture = SubResource("NoiseTexture2D_umy64")
 uv1_scale = Vector3(0.001, 0.001, 0.001)
 uv1_triplanar = true
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_m30vg"]
+radius = 100.0
+
 [node name="Test18" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -98,7 +101,9 @@ transform = Transform3D(0.7071068, -0.61237246, 0.35355344, 0, 0.50000006, 0.866
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_w3xx2")
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="falling_player" parent="." groups=["player"] instance=ExtResource("1_6d264")]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="falling_player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -147, 0)
 material_override = SubResource("StandardMaterial3D_1fece")
 cast_shadow = 0
@@ -108,8 +113,6 @@ lifetime = 2.0
 visibility_aabb = AABB(-64, -512, -64, 128, 1024, 128)
 process_material = SubResource("ParticleProcessMaterial_1fece")
 draw_pass_1 = SubResource("QuadMesh_1fece")
-
-[node name="falling_player" parent="." groups=["player"] instance=ExtResource("1_6d264")]
 
 [node name="MeshInstance3D2" parent="." instance=ExtResource("2_m30vg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.242306, -7.6739116, -22.910572)
@@ -124,3 +127,127 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.242306, 0, 12.089428)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -600, 2)
 mesh = SubResource("QuadMesh_m30vg")
 surface_material_override/0 = SubResource("StandardMaterial3D_m30vg")
+
+[node name="plane" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 20, -77)
+
+[node name="wing" type="Node3D" parent="plane"]
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, 0, 10, -7)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="plane/wing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, 0)
+use_collision = true
+size = Vector3(100, 0.5, 12)
+
+[node name="wing2" type="Node3D" parent="plane"]
+transform = Transform3D(-0.8660254, -8.742278e-08, 0.5, 7.5710346e-08, -1, -4.371139e-08, 0.5, 0, 0.8660254, 0, 10, -7)
+metadata/_edit_lock_ = true
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="plane/wing2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, 0)
+use_collision = true
+size = Vector3(100, 0.5, 12)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="plane"]
+transform = Transform3D(0.9063077, 0, -0.42261824, 0.42261824, -4.371139e-08, 0.9063077, -1.847323e-08, -1, -3.961597e-08, 0, 0, 7.875)
+use_collision = true
+radius = 12.0
+height = 80.0
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="plane/CSGCylinder3D"]
+operation = 2
+use_collision = true
+radius = 11.0
+height = 80.0
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="plane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -32.2)
+use_collision = true
+radius = 12.0
+radial_segments = 8
+rings = 4
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="plane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.30126953, 10.000004, 52)
+use_collision = true
+size = Vector3(60, 0.5, 12)
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 4, -22)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -13)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -4, -3)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -10, 5)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -19, 16)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -25, 26)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="Node3D2" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -94, 7, -19)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -101, 2, -9)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -106, -8, -13)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -91, -6, -5)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93, -4, -14)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -95, -13, -9)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -103, -19, -15)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Node3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -99, -20, -7)
+use_collision = true
+size = Vector3(6, 6, 6)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_m30vg")

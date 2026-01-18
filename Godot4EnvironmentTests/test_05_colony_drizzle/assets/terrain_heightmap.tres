@@ -8,6 +8,6 @@ frequency = 0.0066
 
 [resource]
 generate_mipmaps = false
-seamless = true
-color_ramp = SubResource("Gradient_bormr")
 noise = SubResource("FastNoiseLite_3bn8w")
+color_ramp = SubResource("Gradient_bormr")
+seamless = true

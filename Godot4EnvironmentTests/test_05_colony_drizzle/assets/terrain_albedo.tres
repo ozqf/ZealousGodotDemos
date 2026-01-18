@@ -7,5 +7,5 @@ colors = PackedColorArray(0, 0, 0, 1, 0.306923, 0.306923, 0.306923, 1)
 frequency = 0.5
 
 [resource]
-color_ramp = SubResource("Gradient_e110k")
 noise = SubResource("FastNoiseLite_ni2iq")
+color_ramp = SubResource("Gradient_e110k")

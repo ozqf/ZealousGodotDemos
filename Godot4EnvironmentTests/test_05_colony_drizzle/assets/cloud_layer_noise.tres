@@ -7,6 +7,6 @@ colors = PackedColorArray(0, 0, 0, 0.72549, 1, 1, 1, 1)
 frequency = 0.04
 
 [resource]
-seamless = true
-color_ramp = SubResource("Gradient_2xgeg")
 noise = SubResource("FastNoiseLite_0at42")
+color_ramp = SubResource("Gradient_2xgeg")
+seamless = true

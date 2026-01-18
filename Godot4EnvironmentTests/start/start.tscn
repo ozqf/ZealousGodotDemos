@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://osdimlp4qnxf"]
+
+[ext_resource type="Script" uid="uid://doscwfxq5e11b" path="res://start/start.gd" id="1_hdi1w"]
+
+[node name="Start" type="Node3D"]
+script = ExtResource("1_hdi1w")
+
+[node name="menu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menu"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -192.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2

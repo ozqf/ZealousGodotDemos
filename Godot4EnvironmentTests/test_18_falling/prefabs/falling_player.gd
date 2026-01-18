@@ -3,34 +3,51 @@ extends CharacterBody3D
 @onready var _yaw:Node3D = $yaw
 @onready var _pitch:Node3D = $yaw/head
 
+@export var playAreaOrigin:Vector3 = Vector3()
+@export var playAreaRadius:float = 200
+
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(delta: float) -> void:
 	
-	var inputPush:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	var horizontalPush:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	var verticalPush:float = Input.get_axis("move_down", "move_up")
 	
-	if inputPush.is_zero_approx():
+	var friction:float = 0.95
+	var accel:float = 20.0
+	var maxSpeed:float = 25
+	
+	
+	if horizontalPush.is_zero_approx() && is_zero_approx(verticalPush):
 		var vel:Vector3 = self.velocity
-		vel.x *= 0.8
+		vel.x *= friction
+		vel.y *= friction
 		#vel.y += (-20.0) * delta
-		vel.z *= 0.8
+		vel.z *= friction
 		self.velocity = vel
 		
 		pass
 	else:
-		var footPush:Vector3 = input_to_push_vector_flat(inputPush, _yaw.basis)
+		var footPush:Vector3 = input_to_push_vector_flat(horizontalPush, _yaw.basis)
+		
 		var v:Vector3 = self.velocity
 		#var y:float = v.y
 		#y = 0
-		v += footPush * 150.0 * delta
-		if Input.is_action_pressed("move_up"):
-			v.y += (1.0 * 150.0) * delta
-		if Input.is_action_pressed("move_down"):
-			v.y += (-1.0 * 150.0) * delta
-		v = v.limit_length(8)
+		v += footPush * accel * delta
+		if verticalPush > 0:
+			v.y += (1.0 * accel) * delta
+		if verticalPush < 0:
+			v.y += (-1.0 * accel) * delta
+		v = v.limit_length(maxSpeed)
 		#v.y = y + (-20.0 * delta)
 		self.velocity = v
+	
+	# apply push stronger than player toward origin if they are too far away
+	if self.global_position.distance_to(playAreaOrigin) > playAreaRadius:
+		var toward:Vector3 = self.global_position.direction_to(playAreaOrigin)
+		self.velocity += (toward * accel * 2) * delta
+	
 	self.move_and_slide()
 	pass
 
