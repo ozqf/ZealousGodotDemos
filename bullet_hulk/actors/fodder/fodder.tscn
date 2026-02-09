@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://dpofvnhu0pppp"]
+
+[ext_resource type="Script" uid="uid://ci5oos3bxgncv" path="res://actors/fodder/fodder.gd" id="1_juij5"]
+[ext_resource type="Material" uid="uid://7s26jwcr1xb" path="res://shared/materials/mat_mob_placeholder.tres" id="2_bhjl2"]
+[ext_resource type="Material" uid="uid://ekre5jtku08e" path="res://shared/materials/mat_full_red.tres" id="3_q4amq"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uiqcp"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_uiqcp"]
+height = 1.8
+radial_segments = 8
+
+[sub_resource type="BoxMesh" id="BoxMesh_swlrv"]
+size = Vector3(0.2, 0.4, 0.4)
+
+[node name="fodder" type="CharacterBody3D" unique_id=2093166688]
+transform = Transform3D(-0.7071068, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, -0.7071068, 0, 0, 0)
+script = ExtResource("1_juij5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1983096747]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_uiqcp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1134879605]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.90000004, 0)
+mesh = SubResource("CylinderMesh_uiqcp")
+surface_material_override/0 = ExtResource("2_bhjl2")
+
+[node name="eye" type="MeshInstance3D" parent="." unique_id=1155284996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.4000001)
+mesh = SubResource("BoxMesh_swlrv")
+surface_material_override/0 = ExtResource("3_q4amq")

@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://gjac20asb6vm"]
+
+[ext_resource type="Script" uid="uid://c08uxa1brm83j" path="res://fx/tracer/gfx_tracer.gd" id="1_muxmf"]
+[ext_resource type="Material" uid="uid://dd5xfincwbgj8" path="res://shared/materials/mat_full_white.tres" id="1_s4s7d"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qa84r"]
+top_radius = 0.1
+bottom_radius = 0.0
+height = 0.6
+radial_segments = 4
+rings = 1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_s4s7d"]
+top_radius = 0.1
+bottom_radius = 0.0
+height = 0.2
+radial_segments = 4
+rings = 1
+
+[node name="GfxTracer" type="Node3D" unique_id=1409280474 groups=["temp"]]
+script = ExtResource("1_muxmf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=75868789]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0.3)
+mesh = SubResource("CylinderMesh_qa84r")
+surface_material_override/0 = ExtResource("1_s4s7d")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1040662824]
+transform = Transform3D(1, 0, 0, 0, 1.3113416e-07, -1, 0, 1, 1.3113416e-07, 0, 0, -0.09999998)
+mesh = SubResource("CylinderMesh_s4s7d")
+surface_material_override/0 = ExtResource("1_s4s7d")

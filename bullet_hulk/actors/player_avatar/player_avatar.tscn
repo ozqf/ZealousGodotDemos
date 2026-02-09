@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://bpbljowvt0x30"]
+
+[ext_resource type="Script" uid="uid://cwed64i6futma" path="res://actors/player_avatar/player_avatar.gd" id="1_7d4p0"]
+[ext_resource type="Script" uid="uid://dpw1sjo8nt3w6" path="res://interactions/attack_info.gd" id="2_shxxo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d4b4y"]
+height = 1.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_uiqcp"]
+size = Vector3(0.02, 0.02, 1)
+
+[node name="player_avatar" type="CharacterBody3D" unique_id=542596095]
+script = ExtResource("1_7d4p0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1484220958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_d4b4y")
+
+[node name="yaw" type="Node3D" parent="." unique_id=681930867]
+
+[node name="pitch" type="Node3D" parent="yaw" unique_id=1652831979]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="hitscan_node" type="Node3D" parent="yaw/pitch" unique_id=1368025332]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="camera_mount" type="Node3D" parent="yaw/pitch" unique_id=1787671750]
+
+[node name="Camera3D" type="Camera3D" parent="yaw/pitch/camera_mount" unique_id=1107911285]
+cull_mask = 524287
+current = true
+fov = 85.0
+
+[node name="weapon" type="Node3D" parent="yaw/pitch" unique_id=1417272202]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20000002, -0.39999998, -0.1)
+
+[node name="weapon_launch_node" type="Node3D" parent="yaw/pitch/weapon" unique_id=1668124584]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.74862975)
+
+[node name="rotor" type="Node3D" parent="yaw/pitch/weapon" unique_id=1438465208]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="yaw/pitch/weapon/rotor" unique_id=1431048953]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.049999952, -0.25)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_uiqcp")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="yaw/pitch/weapon/rotor" unique_id=943610462]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.049999997, 0, -0.25)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_uiqcp")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="yaw/pitch/weapon/rotor" unique_id=1365039984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.049999952, -0.25)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_uiqcp")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="yaw/pitch/weapon/rotor" unique_id=1640863703]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.050000012, 0, -0.25)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_uiqcp")
+skeleton = NodePath("../..")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="yaw/pitch" unique_id=1636818555]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.2, 0.1)
+light_energy = 1.5
+spot_range = 24.0
+spot_attenuation = 0.54
+spot_angle_attenuation = 1.5691686
+
+[node name="muzzle_flash_light" type="OmniLight3D" parent="yaw/pitch" unique_id=900091206]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.39999998, -0.9)
+
+[node name="AttackInfo" type="Node" parent="." unique_id=454855363]
+script = ExtResource("2_shxxo")
+metadata/_custom_type_script = "uid://dpw1sjo8nt3w6"
+
+[node name="Control" type="Control" parent="." unique_id=353045556]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=1700193201]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 1, 0, 1)
+metadata/_edit_lock_ = true

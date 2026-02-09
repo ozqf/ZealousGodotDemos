@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bphd1dwrj3x4k"]
+
+[ext_resource type="Script" uid="uid://dhb52xtoxcn5a" path="res://fx/impacts/gfx_impact_bullet.gd" id="1_163kp"]
+[ext_resource type="Material" uid="uid://dd5xfincwbgj8" path="res://shared/materials/mat_full_white.tres" id="1_qkynh"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_m7olt"]
+radius = 0.2
+height = 0.4
+radial_segments = 16
+rings = 8
+
+[node name="GfxImpactBullet" type="Node3D" unique_id=1412758918 groups=["temp"]]
+script = ExtResource("1_163kp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1399075790]
+mesh = SubResource("SphereMesh_m7olt")
+surface_material_override/0 = ExtResource("1_qkynh")

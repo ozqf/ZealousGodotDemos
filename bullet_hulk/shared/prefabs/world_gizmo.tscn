@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cv74i8rv3824c"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_tnpcf"]
+size = Vector3(0.5, 0.5, 0.2)
+
+[node name="WorldGizmo" type="Node3D" unique_id=2034328885]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=689144392]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.1, 0)
+layers = 524288
+mesh = SubResource("PrismMesh_tnpcf")

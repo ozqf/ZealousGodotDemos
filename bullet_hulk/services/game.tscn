@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://qpl4sywivyvr"]
+
+[ext_resource type="Script" uid="uid://c80s1y0dprouv" path="res://services/game.gd" id="1_bn47f"]
+[ext_resource type="Script" uid="uid://chmkmhqqsggoh" path="res://shared/src/target_info.gd" id="2_7vfbo"]
+
+[node name="Game" type="Node3D" unique_id=195122511]
+script = ExtResource("1_bn47f")
+
+[node name="TargetInfo" type="Node" parent="." unique_id=1624473309]
+script = ExtResource("2_7vfbo")
+metadata/_custom_type_script = "uid://chmkmhqqsggoh"

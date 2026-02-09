@@ -12,7 +12,7 @@ config_version=5
 
 config/name="beat_street"
 run/main_scene="res://empty.tscn"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -139,3 +139,7 @@ turn_right={
 3d_physics/layer_4="hitbox"
 3d_physics/layer_5="hurtbox"
 3d_physics/layer_6="sensor"
+
+[rendering]
+
+rendering_device/driver.windows="d3d12"
