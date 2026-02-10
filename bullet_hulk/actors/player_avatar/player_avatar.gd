@@ -33,6 +33,7 @@ func refresh_target_info() -> void:
 
 func _fire_hitscan() -> void:
 	var t:Transform3D = _hitscanSource.global_transform
+	#var srcT:Transform3D = t
 	var spreadDegrees:float = 2.5
 	var sx:float = randf_range(-spreadDegrees, spreadDegrees)
 	var sy:float = randf_range(-spreadDegrees, spreadDegrees)
@@ -48,10 +49,12 @@ func _fire_hitscan() -> void:
 	var result:Dictionary = space.intersect_ray(_hitscan)
 	if !result.is_empty():
 		fxEnd = result.position
-		Game.gfx_impact_bullet(fxEnd)
 		var i:int = Interactions.try_hurt(_atkInfo, result.collider)
 		if i > 0:
-			print("Hit!")
+			var impact:Node3D = Game.gfx_impact_bullet(fxEnd)
+			impact.look_at(fxEnd + result.normal)
+		else:
+			Game.gfx_impact_bullet_world(fxEnd)
 	_muzzleFlashLight.visible = true
 	_muzzleFlashTick = 0.2
 	var tracer:GFXTracer = Game.gfx_tracer()

@@ -11,6 +11,7 @@ var _prjColumn:PackedScene = preload("res://actors/prj_column/prj_column.tscn")
 
 var _tracerType:PackedScene = preload("res://fx/tracer/gfx_tracer.tscn")
 var _impactType:PackedScene = preload("res://fx/impacts/gfx_impact_bullet.tscn")
+var _impactBulletWorld:PackedScene = preload("res://fx/impacts/gfx_impact_bullet_world.tscn")
 
 @onready var _gameRoot:Node3D = $game
 @onready var _worldRoot:Node3D = $game/world
@@ -149,6 +150,12 @@ func gfx_tracer() -> GFXTracer:
 
 func gfx_impact_bullet(pos:Vector3) -> Node3D:
 	var n:Node3D = _impactType.instantiate()
+	_actorsRoot.add_child(n)
+	n.global_position = pos
+	return n
+
+func gfx_impact_bullet_world(pos:Vector3) -> Node3D:
+	var n:Node3D = _impactBulletWorld.instantiate()
 	_actorsRoot.add_child(n)
 	n.global_position = pos
 	return n
