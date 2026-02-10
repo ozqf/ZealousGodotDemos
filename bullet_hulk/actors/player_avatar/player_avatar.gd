@@ -29,6 +29,7 @@ func refresh_target_info() -> void:
 	var info:TargetInfo = Game.get_target()
 	info.t = _yaw.global_transform
 	info.headT = _pitch.global_transform
+	info.age = 0
 
 func _fire_hitscan() -> void:
 	var t:Transform3D = _hitscanSource.global_transform
@@ -39,7 +40,7 @@ func _fire_hitscan() -> void:
 	t = t.rotated(t.basis.x, deg_to_rad(sx))
 	_hitscan.from = t.origin
 	_hitscan.to = t.origin + ((-t.basis.z) * 1000)
-	_hitscan.collision_mask = 1
+	_hitscan.collision_mask = Interactions.get_hitscan_mask()
 	_hitscan.collide_with_areas = true
 	_hitscan.collide_with_bodies = true
 	var fxEnd:Vector3 = _hitscan.to

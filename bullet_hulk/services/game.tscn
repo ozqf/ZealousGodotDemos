@@ -2,10 +2,66 @@
 
 [ext_resource type="Script" uid="uid://c80s1y0dprouv" path="res://services/game.gd" id="1_bn47f"]
 [ext_resource type="Script" uid="uid://chmkmhqqsggoh" path="res://shared/src/target_info.gd" id="2_7vfbo"]
+[ext_resource type="Script" uid="uid://csupf6rgfcpnd" path="res://services/pause_menu.gd" id="3_dfprq"]
+[ext_resource type="Script" uid="uid://dtrfiec3cr26a" path="res://shared/src/custom_button.gd" id="3_qjwuv"]
 
 [node name="Game" type="Node3D" unique_id=195122511]
+process_mode = 3
 script = ExtResource("1_bn47f")
 
 [node name="TargetInfo" type="Node" parent="." unique_id=1624473309]
 script = ExtResource("2_7vfbo")
 metadata/_custom_type_script = "uid://chmkmhqqsggoh"
+
+[node name="game" type="Node3D" parent="." unique_id=1181443373]
+process_mode = 1
+
+[node name="actors" type="Node3D" parent="game" unique_id=498317817]
+
+[node name="world" type="Node3D" parent="game" unique_id=1940895]
+
+[node name="pause_menu" type="Control" parent="." unique_id=1609768813]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_dfprq")
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="pause_menu" unique_id=630462907]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_right = 256.0
+offset_bottom = 104.0
+grow_vertical = 2
+
+[node name="resume" type="Button" parent="pause_menu/VBoxContainer" unique_id=1215158384]
+layout_mode = 2
+text = "RESUME"
+script = ExtResource("3_qjwuv")
+metadata/_custom_type_script = "uid://dtrfiec3cr26a"
+
+[node name="title" type="Button" parent="pause_menu/VBoxContainer" unique_id=2125963674]
+layout_mode = 2
+text = "BACK TO TITLE"
+script = ExtResource("3_qjwuv")
+metadata/_custom_type_script = "uid://dtrfiec3cr26a"
+
+[node name="Label" type="Label" parent="pause_menu" unique_id=721253032]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.0
+offset_right = 128.0
+offset_bottom = 64.0
+grow_horizontal = 2
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1

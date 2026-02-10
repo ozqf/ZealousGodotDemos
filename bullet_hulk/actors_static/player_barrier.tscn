@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://bxrit582a1pbo"]
+
+[ext_resource type="Script" uid="uid://bvcs38oaulo36" path="res://actors_static/player_barrier.gd" id="1_voxdt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uiqcp"]
+size = Vector3(1, 1, 0.2)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_uiqcp"]
+size = Vector2(1, 1)
+
+[sub_resource type="Gradient" id="Gradient_uiqcp"]
+colors = PackedColorArray(0, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_uiqcp"]
+noise_type = 2
+cellular_distance_function = 2
+cellular_jitter = 0.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_swlrv"]
+noise = SubResource("FastNoiseLite_uiqcp")
+color_ramp = SubResource("Gradient_uiqcp")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kknpw"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = SubResource("NoiseTexture2D_swlrv")
+emission_enabled = true
+emission = Color(0, 0.7529412, 1, 1)
+
+[node name="player_barrier" type="Node3D" unique_id=499809611]
+script = ExtResource("1_voxdt")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1040978204]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0)
+collision_layer = 16
+collision_mask = 16
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=922387585]
+shape = SubResource("BoxShape3D_uiqcp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1755943506]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.5, 0.5, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_uiqcp")
+surface_material_override/0 = SubResource("StandardMaterial3D_kknpw")
+metadata/_edit_lock_ = true

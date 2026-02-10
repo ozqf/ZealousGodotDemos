@@ -10,6 +10,8 @@ height = 1.8
 size = Vector3(0.02, 0.02, 1)
 
 [node name="player_avatar" type="CharacterBody3D" unique_id=542596095]
+collision_layer = 74
+collision_mask = 23
 script = ExtResource("1_7d4p0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1484220958]
@@ -66,12 +68,14 @@ skeleton = NodePath("../..")
 [node name="SpotLight3D" type="SpotLight3D" parent="yaw/pitch" unique_id=1636818555]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.2, 0.1)
 light_energy = 1.5
+light_volumetric_fog_energy = 0.1
 spot_range = 24.0
 spot_attenuation = 0.54
 spot_angle_attenuation = 1.5691686
 
 [node name="muzzle_flash_light" type="OmniLight3D" parent="yaw/pitch" unique_id=900091206]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.39999998, -0.9)
+light_volumetric_fog_energy = 0.1
 
 [node name="AttackInfo" type="Node" parent="." unique_id=454855363]
 script = ExtResource("2_shxxo")
@@ -86,18 +90,32 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="Control" unique_id=1700193201]
+[node name="Control" type="Control" parent="Control" unique_id=819849285]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -4.0
-offset_top = -4.0
-offset_right = 4.0
-offset_bottom = 4.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Control/Control" unique_id=1700193201]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 1, 0, 1)
-metadata/_edit_lock_ = true
