@@ -1,6 +1,7 @@
 extends CharacterBody3D
 class_name PlayerAvatar
 
+const RUN_SPEED:float = 6
 const WALK_SPEED:float = 4
 
 const SPIN_UP_TIME:float = 1.5
@@ -13,17 +14,29 @@ const SPIN_DOWN_TIME:float = 3.0
 @onready var _atkInfo:AttackInfo = $AttackInfo
 @onready var _rotor:Node3D = $yaw/pitch/weapon/rotor
 @onready var _muzzleFlashLight:OmniLight3D = $yaw/pitch/muzzle_flash_light
+@onready var _upperBodyShape:CollisionShape3D = $upper_body_shape
+@onready var _headRoomArea:Area3D = $headroom_area
 
 var _hitscan:PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.new()
 
 var _fireTick:float = 0.0
 var _spinWeight:float = 0.0
-
 var _muzzleFlashTick:float = 0.0
+var _crouching:bool = false
+var _standingPitchPos:Vector3 = Vector3()
+var _crouchedPitchPos:Vector3 = Vector3()
 
 func _ready() -> void:
+	self.add_to_group(Game.GROUP_GLOBAL_EVENTS)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	_hitscan.exclude = [self]
+	_standingPitchPos = _pitch.position
+	_crouchedPitchPos = _standingPitchPos - Vector3(0, 1, 0)
+
+func global_event(msg:String):
+	match msg:
+		Game.GLOBAL_EVENT_END_OF_LEVEL:
+			self.queue_free()
 
 func refresh_target_info() -> void:
 	var info:TargetInfo = Game.get_target()
@@ -34,11 +47,14 @@ func refresh_target_info() -> void:
 func _fire_hitscan() -> void:
 	var t:Transform3D = _hitscanSource.global_transform
 	#var srcT:Transform3D = t
-	var spreadDegrees:float = 2.5
-	var sx:float = randf_range(-spreadDegrees, spreadDegrees)
-	var sy:float = randf_range(-spreadDegrees, spreadDegrees)
-	t = t.rotated(t.basis.y, deg_to_rad(sy))
-	t = t.rotated(t.basis.x, deg_to_rad(sx))
+	
+	# spread is broken :/
+	#var spreadDegrees:float = 2.5
+	#var sx:float = randf_range(-spreadDegrees, spreadDegrees)
+	#var sy:float = randf_range(-spreadDegrees, spreadDegrees)
+	#t = t.rotated(t.basis.y, deg_to_rad(sy))
+	#t = t.rotated(t.basis.x, deg_to_rad(sx))
+	
 	_hitscan.from = t.origin
 	_hitscan.to = t.origin + ((-t.basis.z) * 1000)
 	_hitscan.collision_mask = Interactions.get_hitscan_mask()
@@ -57,8 +73,23 @@ func _fire_hitscan() -> void:
 			Game.gfx_impact_bullet_world(fxEnd)
 	_muzzleFlashLight.visible = true
 	_muzzleFlashTick = 0.2
+	_muzzleFlashLight.omni_range = randf_range(2, 5)
 	var tracer:GFXTracer = Game.gfx_tracer()
 	tracer.launch_tracer(_weaponLaunchSource.global_position, fxEnd)
+
+func _has_head_room() -> bool:
+	var hasOverlaps:bool = _headRoomArea.has_overlapping_bodies()
+	return !hasOverlaps
+
+func _enter_crouch() -> void:
+	_crouching = true
+	_upperBodyShape.disabled = true
+	_pitch.position = _crouchedPitchPos
+
+func _exit_crouch() -> void:
+	_crouching = false
+	_upperBodyShape.disabled = false
+	_pitch.position = _standingPitchPos
 
 func _physics_process(delta: float) -> void:
 	refresh_target_info()
@@ -83,17 +114,34 @@ func _physics_process(delta: float) -> void:
 	
 	var input:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	
+	var v:Vector3 = self.velocity
 	if input.is_zero_approx():
-		self.velocity *= 0.8
+		v.x *= 0.8
+		v.z *= 0.8
 	else:
 		var push:Vector3 = input_to_push_vector_flat(input, _yaw.basis)
-		var v:Vector3 = self.velocity
 		var y:float = v.y
-		y = 0
+		v.y = 0
 		v += push * 150 * delta
-		v = v.limit_length(WALK_SPEED)
+		var maxSpd:float = WALK_SPEED if _spinWeight > 0.5 else RUN_SPEED 
+		v = v.limit_length(maxSpd)
 		v.y = y
-		self.velocity = v
+	
+	v += Vector3(0, -20, 0) * delta
+	
+	if is_on_floor():
+		if Input.is_action_just_pressed("move_up") && v.y < 6 && _has_head_room():
+			v.y = 6
+			_exit_crouch()
+		else:
+			if _crouching:
+				if !Input.is_action_pressed("move_down") && _has_head_room():
+					_exit_crouch()
+			else:
+				if Input.is_action_pressed("move_down"):
+					_enter_crouch()
+	
+	self.velocity = v
 	self.move_and_slide()
 
 func _spin_barrels(delta:float, weight:float) -> void:

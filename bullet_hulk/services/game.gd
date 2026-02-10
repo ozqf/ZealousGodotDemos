@@ -1,11 +1,18 @@
 extends Node3D
 class_name GameMain
 
+const GROUP_GLOBAL_EVENTS:String = "global_events"
+# signature: (msg:String)
+const FN_GLOBAL_EVENT:String = "global_event"
+
+const GLOBAL_EVENT_END_OF_LEVEL:String = "end_of_level"
+
 var _titleWorld:PackedScene = preload("res://worlds/title/title.tscn")
 var _sandboxWorld:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 
 var _playerType:PackedScene = preload("res://actors/player_avatar/player_avatar.tscn")
-var _fodderType:PackedScene = preload("res://actors/fodder/fodder.tscn")
+var _fodderType:PackedScene = preload("res://actors/mobs/fodder.tscn")
+var _bruteType:PackedScene = preload("res://actors/mobs/brute.tscn")
 
 var _prjColumn:PackedScene = preload("res://actors/prj_column/prj_column.tscn")
 
@@ -25,6 +32,7 @@ enum State
 	Title,
 	PreGame,
 	Game,
+	PostGame,
 	Paused,
 	Loading
 }
@@ -139,6 +147,12 @@ func start_game() -> void:
 	_load_world(_sandboxWorld)
 	_state = State.PreGame
 
+func end_level() -> void:
+	var grp:String = GROUP_GLOBAL_EVENTS
+	var fn:String = FN_GLOBAL_EVENT
+	get_tree().call_group(grp, fn, GLOBAL_EVENT_END_OF_LEVEL)
+	
+
 func exit_game() -> void:
 	self.get_tree().quit()
 
@@ -176,12 +190,21 @@ func spawn_player(newParent:Node3D = null) -> bool:
 	plyr.global_position = n.global_position
 	return true
 
-func spawn_fodder(t:Transform3D, newParent:Node3D = null) -> void:
-	var n:Node3D = _fodderType.instantiate()
+func spawn_fodder(t:Transform3D, newParent:Node3D = null) -> Mob:
+	return _spawn_mob(_fodderType, Mob.MOB_PREFAB_FODDER, t, newParent)
+
+func spawn_brute(t:Transform3D, newParent:Node3D = null) -> Mob:
+	return _spawn_mob(_bruteType, Mob.MOB_PREFAB_BRUTE, t, newParent)
+
+func _spawn_mob(prefab:PackedScene, prefabName:String, t:Transform3D, newParent:Node3D = null) -> Mob:
+	var n:Mob = prefab.instantiate() as Mob
 	if newParent == null:
 		newParent = _actorsRoot
+	n.mobPrefab = prefabName
 	newParent.add_child(n)
 	n.global_position = t.origin
+	n.spawn_mob()
+	return n
 
 func _spawn_mobs() -> void:
 	var nodes:Array[Node] = get_tree().get_nodes_in_group("mob_spawns")

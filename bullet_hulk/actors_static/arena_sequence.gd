@@ -9,7 +9,7 @@ enum SequenceType
 @export var sequenceType:SequenceType = SequenceType.Linear
 
 var _actionIndex:int = -1
-var _node:Node = null
+#var _node:Node = null
 
 func start() -> void:
 	match sequenceType:
@@ -24,18 +24,15 @@ func start() -> void:
 			_actionIndex = 0
 			var n:Node = get_child(_actionIndex)
 			_start_node(n)
-			#_node = get_child(_actionIndex)
-			
-	
-	#for n in self.get_children():
-	#	if n.name.begins_with("mob_spawn"):
-	#		var t:Transform3D = n.global_transform
-	#		Game.spawn_fodder(t, n)
 
 func _start_node(n:Node) -> void:
 	var seq:ArenaSequence = n as ArenaSequence
 	if seq != null:
 		seq.start()
+		return
+	var spawn:MobSpawner = n as MobSpawner
+	if spawn != null:
+		spawn.start()
 		return
 	if n.name.begins_with("mob_spawn"):
 		var t:Transform3D = n.global_transform
@@ -45,6 +42,9 @@ func _check_node_finished(n:Node) -> bool:
 	var seq:ArenaSequence = n as ArenaSequence
 	if seq != null:
 		return seq.tick()
+	var spawn:MobSpawner = n as MobSpawner
+	if spawn != null:
+		return spawn.finished()
 	if n.name.begins_with("mob_spawn"):
 			if n.get_child_count() > 1:
 				return false

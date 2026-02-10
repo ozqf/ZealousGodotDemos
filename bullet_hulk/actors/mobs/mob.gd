@@ -1,4 +1,8 @@
 extends CharacterBody3D
+class_name Mob
+
+const MOB_PREFAB_FODDER:String = "fodder"
+const MOB_PREFAB_BRUTE:String = "brute"
 
 enum State
 {
@@ -6,17 +10,30 @@ enum State
 	Hunting
 }
 
+@export var mobPrefab:String = ""
+
 @onready var _launchNode:Node3D = $launch_node
 @onready var _agent:NavigationAgent3D = $NavigationAgent3D
 
 var _state:State = State.Idle
-var _hp:float = 80.0
+var _hp:float = 100.0
 var _tick:float = 2.0
+var _tock:int = 0
 var _refireTime:float = 1.2
 var _hitscan:PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.new()
 
 func _ready() -> void:
 	pass
+
+func spawn_mob() -> void:
+	match mobPrefab:
+		MOB_PREFAB_BRUTE:
+			_hp = 100.0
+			pass
+			
+		MOB_PREFAB_FODDER, _:
+			_hp = 20
+			pass
 
 func _has_los(a:Vector3, b:Vector3) -> bool:
 	_hitscan.collision_mask = Interactions.get_los_mask()
@@ -28,6 +45,22 @@ func _has_los(a:Vector3, b:Vector3) -> bool:
 	return result.is_empty()
 
 func _fire() -> void:
+	if _tock % 2 == 0:
+		_fire_spread()
+	else:
+		_fire_single()
+
+func _fire_single() -> void:
+	var prj:PrjColumn = Game.prj_column()
+	var launch:PrjLaunchInfo = prj.get_launch_info()
+	var t:Transform3D = self.global_transform
+	launch.origin = t.origin + Vector3(0, 1, 0)
+	launch.forward = -t.basis.z
+	launch.speed = 4
+	launch.rollDegrees = 90.0
+	prj.launch_projectile()
+
+func _fire_spread() -> void:
 	var prj:PrjColumn = Game.prj_column()
 	var launch:PrjLaunchInfo = prj.get_launch_info()
 	var t:Transform3D = self.global_transform
@@ -79,6 +112,7 @@ func _physics_process(_delta:float) -> void:
 	if _tick <= 0.0 && hasLoS:
 		_tick = _refireTime
 		_fire()
+		_tock += 1
 
 func hurt(atk:AttackInfo) -> int:
 	if _hp > 0.0:

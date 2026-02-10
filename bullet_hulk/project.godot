@@ -96,6 +96,12 @@ toggle_menu={
 3d_physics/layer_6="sensor"
 3d_physics/layer_7="player_avatar"
 
+[physics]
+
+jolt_physics_3d/layer_7=""
+jolt_physics_3d/layer_6="sensor"
+jolt_physics_3d/main_scene="uid://cyum3rca8i5xi"
+
 [rendering]
 
 rendering_device/driver="d3d12"

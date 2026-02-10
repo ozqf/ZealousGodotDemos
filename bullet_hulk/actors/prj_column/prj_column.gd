@@ -22,4 +22,6 @@ func get_launch_info() -> PrjLaunchInfo:
 func launch_projectile() -> void:
 	self.global_position = _launch.origin
 	self.look_at(_launch.origin + _launch.forward)
-	
+	if _launch.rollDegrees != 0.0:
+		var t:Transform3D = self.global_transform
+		self.rotate(t.basis.z, deg_to_rad(_launch.rollDegrees))

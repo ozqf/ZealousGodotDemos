@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://brseb2ynlgwir" path="res://actors_static/arena.gd" id="2_swlrv"]
 [ext_resource type="PackedScene" uid="uid://bxrit582a1pbo" path="res://actors_static/player_barrier.tscn" id="3_kknpw"]
 [ext_resource type="Script" uid="uid://hnew60psrw5u" path="res://actors_static/arena_sequence.gd" id="4_2wjmr"]
+[ext_resource type="Script" uid="uid://du20o0a35n2qt" path="res://actors_static/mob_spawner.gd" id="5_m3qc8"]
+[ext_resource type="Script" uid="uid://cewh8si88nbkp" path="res://actors_static/event_broadcast_area.gd" id="6_sklqh"]
 
 [sub_resource type="Environment" id="Environment_swlrv"]
 background_mode = 1
@@ -28,6 +30,12 @@ geometry_source_group_name = &"world"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_swlrv"]
 size = Vector3(13, 4, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2wjmr"]
+size = Vector3(1, 1, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sklqh"]
+size = Vector3(2, 2, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uiqcp"]
 albedo_color = Color(0.26293245, 0.26293245, 0.26293245, 1)
@@ -82,6 +90,48 @@ transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.
 [node name="mob_spawn3" parent="actors/Arena/ArenaSequence/ArenaSequence" unique_id=954465198 groups=["mob_spawns"] instance=ExtResource("1_kknpw")]
 transform = Transform3D(-0.7071067, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, -0.7071067, 4, 0, -5)
 
+[node name="Arena2" type="Node3D" parent="actors" unique_id=2118323415]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -13)
+script = ExtResource("2_swlrv")
+metadata/_custom_type_script = "uid://brseb2ynlgwir"
+
+[node name="player_barrier" parent="actors/Arena2" unique_id=233753985 instance=ExtResource("3_kknpw")]
+transform = Transform3D(-1.7484555e-07, 0, 1.0000001, 0, 3.9, 0, -4, 0, -4.3711392e-08, 8, 0, 2)
+
+[node name="player_barrier2" parent="actors/Arena2" unique_id=821343579 instance=ExtResource("3_kknpw")]
+transform = Transform3D(-1.7484555e-07, 0, 1.0000001, 0, 3.9, 0, -4, 0, -4.3711392e-08, -7, 0, 2)
+
+[node name="Area3D" type="Area3D" parent="actors/Arena2" unique_id=1048585028]
+collision_layer = 32
+collision_mask = 64
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="actors/Arena2/Area3D" unique_id=72924806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 0)
+shape = SubResource("BoxShape3D_2wjmr")
+
+[node name="ArenaSequence" type="Node3D" parent="actors/Arena2" unique_id=803604890]
+script = ExtResource("4_2wjmr")
+metadata/_custom_type_script = "uid://hnew60psrw5u"
+
+[node name="mob_spawn" parent="actors/Arena2/ArenaSequence" unique_id=138409684 instance=ExtResource("1_kknpw")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -4, 0, 5)
+script = ExtResource("5_m3qc8")
+mobPrefab = "brute"
+
+[node name="mob_spawn2" parent="actors/Arena2/ArenaSequence" unique_id=1238823279 instance=ExtResource("1_kknpw")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -4, 0, -5)
+script = ExtResource("5_m3qc8")
+mobPrefab = "brute"
+
+[node name="end_area" type="Area3D" parent="actors" unique_id=817058426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 12)
+collision_layer = 32
+collision_mask = 64
+script = ExtResource("6_sklqh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="actors/end_area" unique_id=1736247457]
+shape = SubResource("BoxShape3D_sklqh")
+
 [node name="world" type="Node3D" parent="." unique_id=1824105952]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="world" unique_id=880421332 groups=["world"]]
@@ -128,6 +178,18 @@ use_collision = true
 size = Vector3(11, 4, 1)
 material = SubResource("StandardMaterial3D_uiqcp")
 
+[node name="CSGBox3D36" type="CSGBox3D" parent="world" unique_id=333778211 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2, -10.5)
+use_collision = true
+size = Vector3(6, 4, 1)
+material = SubResource("StandardMaterial3D_uiqcp")
+
+[node name="CSGBox3D37" type="CSGBox3D" parent="world" unique_id=1279908606 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 2, -15.5)
+use_collision = true
+size = Vector3(6, 4, 1)
+material = SubResource("StandardMaterial3D_uiqcp")
+
 [node name="CSGBox3D15" type="CSGBox3D" parent="world" unique_id=607553368 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 5, -10.5)
 use_collision = true
@@ -153,9 +215,9 @@ size = Vector3(1, 10, 1)
 material = SubResource("StandardMaterial3D_uiqcp")
 
 [node name="CSGBox3D28" type="CSGBox3D" parent="world" unique_id=2130225066 groups=["world"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 5, -20.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 5, -20.5)
 use_collision = true
-size = Vector3(16, 10, 1)
+size = Vector3(17, 10, 1)
 material = SubResource("StandardMaterial3D_uiqcp")
 
 [node name="CSGBox3D30" type="CSGBox3D" parent="world" unique_id=783972906 groups=["world"]]
@@ -170,10 +232,22 @@ use_collision = true
 size = Vector3(1, 10, 4)
 material = SubResource("StandardMaterial3D_uiqcp")
 
-[node name="CSGBox3D29" type="CSGBox3D" parent="world" unique_id=962694268 groups=["world"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 5, -5.5)
+[node name="CSGBox3D34" type="CSGBox3D" parent="world" unique_id=1784840390 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.5, 5, -18)
 use_collision = true
-size = Vector3(16, 10, 1)
+size = Vector3(1, 10, 4)
+material = SubResource("StandardMaterial3D_uiqcp")
+
+[node name="CSGBox3D35" type="CSGBox3D" parent="world" unique_id=491700178 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.5, 5, -8)
+use_collision = true
+size = Vector3(1, 10, 4)
+material = SubResource("StandardMaterial3D_uiqcp")
+
+[node name="CSGBox3D29" type="CSGBox3D" parent="world" unique_id=962694268 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 5, -5.5)
+use_collision = true
+size = Vector3(17, 10, 1)
 material = SubResource("StandardMaterial3D_uiqcp")
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="world" unique_id=1123744984 groups=["world"]]
@@ -242,6 +316,12 @@ use_collision = true
 size = Vector3(4, 4, 1)
 material = SubResource("StandardMaterial3D_uiqcp")
 
+[node name="CSGBox3D38" type="CSGBox3D" parent="world" unique_id=1637223202 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 10.5)
+use_collision = true
+size = Vector3(2, 3, 1)
+material = SubResource("StandardMaterial3D_uiqcp")
+
 [node name="CSGBox3D27" type="CSGBox3D" parent="world" unique_id=1791895496 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 2, 12)
 use_collision = true
@@ -288,6 +368,10 @@ material = SubResource("StandardMaterial3D_uiqcp")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="lights" unique_id=2056731939]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+omni_range = 10.0
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="lights" unique_id=1740292084]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 12)
 omni_range = 10.0
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="lights" unique_id=761614478]
