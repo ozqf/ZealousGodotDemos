@@ -5,10 +5,10 @@
 [ext_resource type="Material" uid="uid://ekre5jtku08e" path="res://shared/materials/mat_full_red.tres" id="2_nnsea"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tw54q"]
-size = Vector3(0.1, 10, 0.1)
+size = Vector3(0.1, 6, 0.1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_gi1gh"]
-size = Vector3(0.1, 0.1, 10)
+size = Vector3(0.05, 0.05, 6)
 
 [node name="PrjColumn" type="Area3D" unique_id=590364568]
 collision_layer = 4

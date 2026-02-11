@@ -1,7 +1,8 @@
 extends CharacterBody3D
 class_name PlayerAvatar
 
-const RUN_SPEED:float = 6
+const SPRINT_SPEED:float = 8
+const RUN_SPEED:float = 5
 const WALK_SPEED:float = 4
 
 const SPIN_UP_TIME:float = 1.5
@@ -23,6 +24,7 @@ var _fireTick:float = 0.0
 var _spinWeight:float = 0.0
 var _muzzleFlashTick:float = 0.0
 var _crouching:bool = false
+var _sprinting:bool = false
 var _standingPitchPos:Vector3 = Vector3()
 var _crouchedPitchPos:Vector3 = Vector3()
 
@@ -91,10 +93,19 @@ func _exit_crouch() -> void:
 	_upperBodyShape.disabled = false
 	_pitch.position = _standingPitchPos
 
+func _enter_sprint() -> void:
+	_sprinting = true
+
+func _exit_sprint() -> void:
+	_sprinting = false
+
 func _physics_process(delta: float) -> void:
 	refresh_target_info()
 	
-	var atkOn:bool = Input.is_action_pressed("attack_1")
+	###########################################
+	# weapons
+	###########################################
+	var atkOn:bool = Input.is_action_pressed("attack_1") && !_sprinting
 	if atkOn:
 		_spinWeight += (1.0 / SPIN_UP_TIME) * delta
 	else:
@@ -112,21 +123,11 @@ func _physics_process(delta: float) -> void:
 		_fireTick = lerpf(0.3, 0.05, _spinWeight)
 		_fire_hitscan()
 	
-	var input:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	###########################################
+	# movement
+	###########################################
 	
 	var v:Vector3 = self.velocity
-	if input.is_zero_approx():
-		v.x *= 0.8
-		v.z *= 0.8
-	else:
-		var push:Vector3 = input_to_push_vector_flat(input, _yaw.basis)
-		var y:float = v.y
-		v.y = 0
-		v += push * 150 * delta
-		var maxSpd:float = WALK_SPEED if _spinWeight > 0.5 else RUN_SPEED 
-		v = v.limit_length(maxSpd)
-		v.y = y
-	
 	v += Vector3(0, -20, 0) * delta
 	
 	if is_on_floor():
@@ -139,7 +140,31 @@ func _physics_process(delta: float) -> void:
 					_exit_crouch()
 			else:
 				if Input.is_action_pressed("move_down"):
+					_exit_sprint()
 					_enter_crouch()
+				else:
+					if !_sprinting && Input.is_action_pressed("move_special"):
+						_enter_sprint()
+					elif _sprinting && !Input.is_action_pressed("move_special"):
+						_exit_sprint()
+	
+	#var runSpeed:float = SPRINT_SPEED if _sprinting else RUN_SPEED
+	var input:Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	if _sprinting:
+		input.y = -1
+	
+	if input.is_zero_approx():
+		v.x *= 0.8
+		v.z *= 0.8
+	else:
+		var push:Vector3 = input_to_push_vector_flat(input, _yaw.basis)
+		var y:float = v.y
+		v.y = 0
+		v += push * 150 * delta
+		#var maxSpd:float = WALK_SPEED if _spinWeight > 0.5 else runSpeed # weight speed by spin rate - disallows quick dashing
+		var maxSpd:float = SPRINT_SPEED if _sprinting else WALK_SPEED
+		v = v.limit_length(maxSpd)
+		v.y = y
 	
 	self.velocity = v
 	self.move_and_slide()
@@ -171,8 +196,8 @@ func _input(event:InputEvent) -> void:
 	rot.x = clampf(rot.x, -89, 89)
 	_pitch.rotation_degrees = rot
 
-static func input_to_push_vector_flat(input:Vector2, basis:Basis) -> Vector3:
-	var pushDir:Vector3 = (basis * Vector3(input.x, 0, input.y)).normalized()
+static func input_to_push_vector_flat(input:Vector2, _basis:Basis) -> Vector3:
+	var pushDir:Vector3 = (_basis * Vector3(input.x, 0, input.y)).normalized()
 	return pushDir
 
 static func get_window_to_screen_ratio(windowIndex:int = 0) -> Vector2:

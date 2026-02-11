@@ -29,6 +29,7 @@ func spawn_mob() -> void:
 	match mobPrefab:
 		MOB_PREFAB_BRUTE:
 			_hp = 100.0
+			_refireTime = 0.5
 			pass
 			
 		MOB_PREFAB_FODDER, _:
@@ -53,43 +54,34 @@ func _fire() -> void:
 func _fire_single() -> void:
 	var prj:PrjColumn = Game.prj_column()
 	var launch:PrjLaunchInfo = prj.get_launch_info()
-	var t:Transform3D = self.global_transform
-	launch.origin = t.origin + Vector3(0, 1, 0)
+	var t:Transform3D = _launchNode.global_transform
+	launch.origin = t.origin # + Vector3(0, 1, 0)
 	launch.forward = -t.basis.z
 	launch.speed = 4
 	launch.rollDegrees = 90.0
 	prj.launch_projectile()
 
 func _fire_spread() -> void:
-	var prj:PrjColumn = Game.prj_column()
-	var launch:PrjLaunchInfo = prj.get_launch_info()
-	var t:Transform3D = self.global_transform
-	launch.origin = t.origin + Vector3(0, 1, 0)
-	launch.forward = -t.basis.z
-	launch.speed = 4
-	prj.launch_projectile()
-	
-	var t2:Transform3D = t
-	t2.origin = Vector3()
-	t2 = t2.rotated(t2.basis.y, deg_to_rad(22.5))
-	t2.origin = t.origin
-	prj = Game.prj_column()
-	launch = prj.get_launch_info()
-	launch.origin = t2.origin + Vector3(0, 1, 0)
-	launch.forward = -t2.basis.z
-	launch.speed = 4
-	prj.launch_projectile()
-	
-	t2 = t
-	t2.origin = Vector3()
-	t2 = t2.rotated(t2.basis.y, deg_to_rad(-22.5))
-	t2.origin = t.origin
-	prj = Game.prj_column()
-	launch = prj.get_launch_info()
-	launch.origin = t2.origin + Vector3(0, 1, 0)
-	launch.forward = -t2.basis.z
-	launch.speed = 4
-	prj.launch_projectile()
+	var t:Transform3D = _launchNode.global_transform
+	var t2:Transform3D
+	var numPrj:int = 5
+	var arcDegrees:float = 135
+	for i in range(0, numPrj):
+		var yawDegrees:float = ZqfUtils.calc_fan_yaw(arcDegrees, i, numPrj)
+		t2 = Transform3D.IDENTITY
+		t2.basis = t.basis
+		t2 = t2.rotated(t2.basis.y, deg_to_rad(yawDegrees))
+		#t2.origin = t.origin
+		var prj:PrjColumn = Game.prj_column()
+		var launch:PrjLaunchInfo = prj.get_launch_info()
+		launch.origin = t.origin# + Vector3(0, 1, 0)
+		launch.forward =  -t2.basis.z
+		launch.speed = 4
+		prj.launch_projectile()
+
+func look_at_flat(pos:Vector3) -> void:
+	pos.y = self.global_position.y
+	self.look_at(pos)
 
 func _physics_process(_delta:float) -> void:
 	match _state:
@@ -98,12 +90,14 @@ func _physics_process(_delta:float) -> void:
 	if target.age > 2:
 		# target info is stale
 		return
-	self.look_at(target.t.origin)
+	self.look_at_flat(target.headT.origin)
 	
-	var t:Transform3D = self.global_transform
-	var distSqr:float = t.origin.distance_squared_to(target.t.origin)
-	var minDistSqr:float = 1.5 * 1.5
+	#var t:Transform3D = self.global_transform
+	#var distSqr:float = t.origin.distance_squared_to(target.t.origin)
+	#var minDistSqr:float = 1.5 * 1.5
 	
+	# check LOS from launch node not head
+	self._launchNode.look_at(target.headT.origin)
 	var hasLoS:bool = _has_los(_launchNode.global_position, target.headT.origin)
 	
 	_agent.target_position = target.t.origin
