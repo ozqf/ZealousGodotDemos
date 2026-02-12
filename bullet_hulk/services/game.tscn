@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://chmkmhqqsggoh" path="res://shared/src/target_info.gd" id="2_7vfbo"]
 [ext_resource type="Script" uid="uid://csupf6rgfcpnd" path="res://services/pause_menu.gd" id="3_dfprq"]
 [ext_resource type="Script" uid="uid://dtrfiec3cr26a" path="res://shared/src/custom_button.gd" id="3_qjwuv"]
+[ext_resource type="Script" uid="uid://bq7kvjwcjj2cf" path="res://services/dead_menu.gd" id="5_i6jmw"]
 
 [node name="Game" type="Node3D" unique_id=195122511]
 process_mode = 3
@@ -65,3 +66,37 @@ grow_horizontal = 2
 text = "PAUSED"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="dead_menu" type="Control" parent="." unique_id=1327741960]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_i6jmw")
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="dead_menu" unique_id=1903547809]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -24.0
+offset_right = 128.0
+offset_bottom = 168.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="retry" type="Button" parent="dead_menu/VBoxContainer" unique_id=216743357]
+layout_mode = 2
+text = "RETRY"
+
+[node name="title" type="Button" parent="dead_menu/VBoxContainer" unique_id=1207058305]
+layout_mode = 2
+text = "BACK TO TITLE"

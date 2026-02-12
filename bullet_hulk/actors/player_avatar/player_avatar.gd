@@ -23,6 +23,9 @@ const SPIN_DOWN_TIME:float = 3.0
 # hurtbox stuff
 @onready var _upperHurtBox:CollisionShape3D = $HurtboxDelegate/upper_hurt_shape
 
+# ui stuff
+@onready var _hpText:Label = $Control/health_text
+
 var _hitscan:PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.new()
 
 var _fireTick:float = 0.0
@@ -32,6 +35,9 @@ var _crouching:bool = false
 var _sprinting:bool = false
 var _standingPitchPos:Vector3 = Vector3()
 var _crouchedPitchPos:Vector3 = Vector3()
+
+var _hp:float = 5
+var _maxHp:float = 5
 
 func _ready() -> void:
 	self.add_to_group(Game.GROUP_GLOBAL_EVENTS)
@@ -47,6 +53,13 @@ func global_event(msg:String):
 
 func hurt(atk:AttackInfo) -> int:
 	print("Player hit!")
+	if _hp <= 0.0:
+		print("Player already dead")
+		return 1
+	_hp -= atk.damage
+	if _hp <= 0.0:
+		Game.player_died()
+		self.queue_free()
 	return 1
 
 func refresh_target_info() -> void:
@@ -110,9 +123,13 @@ func _enter_sprint() -> void:
 func _exit_sprint() -> void:
 	_sprinting = false
 
+func _refresh_hud() -> void:
+	var percent:float = ceil((_hp / _maxHp) * 100)
+	_hpText.text = str(int(percent))
+
 func _physics_process(delta: float) -> void:
 	refresh_target_info()
-	
+	_refresh_hud()
 	###########################################
 	# weapons
 	###########################################

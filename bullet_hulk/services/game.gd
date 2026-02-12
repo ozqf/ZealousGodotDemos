@@ -24,6 +24,7 @@ var _impactBulletWorld:PackedScene = preload("res://fx/impacts/gfx_impact_bullet
 @onready var _actorsRoot:Node3D = $game/actors
 @onready var _target:TargetInfo = $TargetInfo
 @onready var _pause:Control = $pause_menu
+@onready var _deadMenu:Control = $dead_menu
 
 enum State
 {
@@ -33,7 +34,8 @@ enum State
 	Game,
 	PostGame,
 	Paused,
-	Loading
+	Loading,
+	PlayerDead
 }
 
 var _state:State = State.Starting
@@ -114,7 +116,15 @@ func unpause_game() -> void:
 	_pause.visible = false
 	get_tree().paused = false
 
+func player_died() -> void:
+	assert(_state == State.Game)
+	_state = State.PlayerDead
+	_pause.visible = false
+	_deadMenu.show_menu()
+	pass
+
 func restart() -> void:
+	assert(_lastWorldPack != null)
 	_state = State.PreGame
 	_load_world(_lastWorldPack)
 
@@ -150,6 +160,8 @@ func end_level() -> void:
 	var grp:String = GROUP_GLOBAL_EVENTS
 	var fn:String = FN_GLOBAL_EVENT
 	get_tree().call_group(grp, fn, GLOBAL_EVENT_END_OF_LEVEL)
+	_pause.visible = false
+	_deadMenu.show_menu()
 	
 
 func exit_game() -> void:
