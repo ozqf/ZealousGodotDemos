@@ -11,10 +11,9 @@ var _titleWorld:PackedScene = preload("res://worlds/title/title.tscn")
 var _sandboxWorld:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 
 var _playerType:PackedScene = preload("res://actors/player_avatar/player_avatar.tscn")
-var _fodderType:PackedScene = preload("res://actors/mobs/fodder.tscn")
-var _bruteType:PackedScene = preload("res://actors/mobs/brute.tscn")
 
 var _prjColumn:PackedScene = preload("res://actors/prj_column/prj_column.tscn")
+var _prjCrescent:PackedScene = preload("res://actors/prj_crescent/prj_crescent.tscn")
 
 var _tracerType:PackedScene = preload("res://fx/tracer/gfx_tracer.tscn")
 var _impactType:PackedScene = preload("res://fx/impacts/gfx_impact_bullet.tscn")
@@ -174,8 +173,15 @@ func gfx_impact_bullet_world(pos:Vector3) -> Node3D:
 	n.global_position = pos
 	return n
 
-func prj_column() -> PrjColumn:
-	var n:PrjColumn = _prjColumn.instantiate() as PrjColumn
+func prj_column() -> PrjLinear:
+	var n:PrjLinear = _prjColumn.instantiate() as PrjLinear
+	assert(n != null)
+	_actorsRoot.add_child(n)
+	return n
+
+func prj_crescent() -> PrjLinear:
+	var n:PrjLinear = _prjCrescent.instantiate() as PrjLinear
+	assert(n != null)
 	_actorsRoot.add_child(n)
 	return n
 
@@ -190,25 +196,4 @@ func spawn_player(newParent:Node3D = null) -> bool:
 	plyr.global_position = n.global_position
 	return true
 
-func spawn_fodder(t:Transform3D, newParent:Node3D = null) -> Mob:
-	return _spawn_mob(_fodderType, Mob.MOB_PREFAB_FODDER, t, newParent)
-
-func spawn_brute(t:Transform3D, newParent:Node3D = null) -> Mob:
-	return _spawn_mob(_bruteType, Mob.MOB_PREFAB_BRUTE, t, newParent)
-
-func _spawn_mob(prefab:PackedScene, prefabName:String, t:Transform3D, newParent:Node3D = null) -> Mob:
-	var n:Mob = prefab.instantiate() as Mob
-	if newParent == null:
-		newParent = _actorsRoot
-	n.mobPrefab = prefabName
-	newParent.add_child(n)
-	n.global_position = t.origin
-	n.spawn_mob()
-	return n
-
-func _spawn_mobs() -> void:
-	var nodes:Array[Node] = get_tree().get_nodes_in_group("mob_spawns")
-	for n in nodes:
-		spawn_fodder(n.global_transform)
-	pass
 #endregion

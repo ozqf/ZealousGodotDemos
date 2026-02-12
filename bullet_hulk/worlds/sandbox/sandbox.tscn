@@ -19,13 +19,12 @@ fog_light_color = Color(0.13380656, 0.14853525, 0.17505091, 1)
 fog_density = 1.0
 fog_depth_end = 24.0
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.1214
 volumetric_fog_albedo = Color(0.7666196, 0.76661956, 0.76661956, 1)
 volumetric_fog_emission = Color(0.12955844, 0.12955847, 0.12955844, 1)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_uiqcp"]
-vertices = PackedVector3Array(-30.25, 0.5, -16.75, -25.75, 0.5, -16.75, -25.75, 0.5, -21.25, -62, 0.5, -15.5, -30.75, 0.5, -15.5, -25.25, 0.5, -21.75, -24, 0.5, -62, -62, 0.5, -62, -23.75, 0.5, -21.75, -9, 0.5, -21.75, -8.75, 0.5, -62, -7, 0.5, -21.25, -7, 0.5, -16.75, 4, 0.5, -16.75, -7.5, 0.5, -21.75, 4.25, 0.5, -62, 5.5, 0.5, -16.75, 6, 0.5, -16.25, 62.25, 0.5, -15, 62.25, 0.5, -62, 6, 0.5, -14.75, -23, 0.5, -15.5, -21.75, 0.5, -15.25, -21.25, 0.5, -16.75, -23, 0.5, -19, -19.5, 0.5, -16.75, -19, 0.5, -16.25, -14.75, 0.5, -16.25, -13.5, 0.5, -16.75, -13.5, 0.5, -19, -19.25, 0.5, -14.5, -14.75, 0.5, -14.5, 3, 0.5, -11.25, 3, 0.5, -9, 3.25, 0.5, -9, 3.25, 0.5, -14, -12.75, 0.5, -14, -13.5, 0.5, -14, -13.5, 0.5, -11.75, -12.5, 0.5, -11.75, -9.75, 0.5, -14.5, -12, 0.5, -16.25, -12, 0.5, -14.75, -9.25, 0.5, -14, 2.5, 0.5, -11.75, -9.25, 0.5, -11.75, -12, 0.5, -10.5, -9.75, 0.5, -10.25, -9.75, 0.5, -19, -30.25, 0.5, -11.75, -28.5, 0.5, -11.75, -28.5, 0.5, -14, -30.25, 0.5, -14, -30.75, 0.5, -10.25, -62, 0.5, -10.25, -23, 0.5, -14.75, -21.25, 0.5, -14, -19.5, 0.5, -11.75, -19, 0.5, -11.25, -14.75, 0.5, -11.25, -19.75, 0.5, -14, -23.5, 0.5, -11.75, -23, 0.5, -10.25, -21.75, 0.5, -10.5, -21.25, 0.5, -11.75, -23.75, 0.5, -14, -5.25, 5.5, -15.25, -5.25, 5.5, 13.25, 6.25, 5.5, 13.25, 6.25, 5.5, -15.25, 6, 0.5, -8.75, 7.5, 0.5, -8.75, 8, 0.5, -8.25, 62.25, 0.5, -7, 8, 0.5, -6.75, -21.25, 0.5, -9, -23, 0.5, -6.75, -12, 0.5, -9.75, -14.25, 0.5, -9, -14.75, 0.5, -9.5, -19, 0.5, -9.75, -19.75, 0.5, -9, -12.75, 0.5, -9, -9.75, 0.5, -6.75, -6.25, 0.5, 9.25, -4.75, 0.5, 9.25, -4.75, 0.5, 8, -7.25, 0.5, 8, -5, 0.5, 62.25, -4.75, 0.5, 15, -6.25, 0.5, 15, -6.75, 0.5, 9.75, -7.75, 0.5, 7.5, -6.75, 0.5, 14.5, -25.75, 0.5, -4.5, -25.75, 0.5, -9, -30.25, 0.5, -9, -7.75, 0.5, -4, -25.25, 0.5, -4, -62, 0.5, 62.25, 0, 0.5, 7.75, 0, 0.5, 9.25, 0.75, 0.5, 7.25, -0.5, 0.5, 7.25, -2, 0.5, 5.75, -2, 0.5, 7.25, 2.25, 0.5, 7.25, 2.25, 0.5, 5.75, -2.5, 0.5, 5.25, 3, 0.5, -6.75, 3.25, 0.5, -6.5, -5, 0.5, -6, -5, 0.5, 5.25, 2.25, 0.5, -6, 3.75, 0.5, -6, 2.75, 0.5, 5.25, 5.25, 0.5, 5.25, 5.25, 0.5, -6, 8, 0.5, 5.75, 62.25, 0.5, 6, 3.25, 0.5, 12, -4, 0.5, 12, 4.25, 0.5, 12.25, 4, 0.5, 11.25, 4.25, 0.5, 10.75, 4, 0.5, 10, 7.25, 0.5, 8, 7.5, 0.5, 10.25, 8, 0.5, 10.75, 62.25, 0.5, 12.5, 8, 0.5, 7.25, 4.75, 0.5, 10.25, 5, 0.5, 9.25, 5, 0.5, 8, 8, 0.5, 12.5, 7.25, 0.5, 15, 5.75, 0.5, 15, 6, 0.5, 62.25, 8, 0.5, 14.25, 62.25, 0.5, 62.25)
-polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(0, 4, 3), PackedInt32Array(2, 0, 3), PackedInt32Array(2, 3, 5), PackedInt32Array(5, 3, 6), PackedInt32Array(6, 3, 7), PackedInt32Array(6, 8, 5), PackedInt32Array(8, 6, 9), PackedInt32Array(9, 6, 10), PackedInt32Array(13, 12, 11), PackedInt32Array(11, 14, 13), PackedInt32Array(13, 14, 15), PackedInt32Array(15, 14, 10), PackedInt32Array(14, 9, 10), PackedInt32Array(16, 13, 15), PackedInt32Array(16, 15, 17), PackedInt32Array(17, 15, 19), PackedInt32Array(17, 19, 18), PackedInt32Array(18, 20, 17), PackedInt32Array(22, 21, 23), PackedInt32Array(23, 21, 24), PackedInt32Array(27, 26, 25), PackedInt32Array(28, 27, 29), PackedInt32Array(29, 27, 25), PackedInt32Array(29, 25, 24), PackedInt32Array(25, 23, 24), PackedInt32Array(27, 31, 26), PackedInt32Array(26, 31, 30), PackedInt32Array(33, 32, 34), PackedInt32Array(34, 32, 35), PackedInt32Array(37, 36, 38), PackedInt32Array(38, 36, 39), PackedInt32Array(43, 42, 40), PackedInt32Array(40, 42, 41), PackedInt32Array(45, 43, 44), PackedInt32Array(44, 43, 35), PackedInt32Array(35, 32, 44), PackedInt32Array(45, 47, 46), PackedInt32Array(36, 42, 39), PackedInt32Array(39, 42, 46), PackedInt32Array(46, 42, 45), PackedInt32Array(45, 42, 43), PackedInt32Array(41, 28, 29), PackedInt32Array(29, 48, 41), PackedInt32Array(41, 48, 40), PackedInt32Array(52, 51, 49), PackedInt32Array(49, 51, 50), PackedInt32Array(49, 53, 52), PackedInt32Array(52, 53, 4), PackedInt32Array(4, 53, 54), PackedInt32Array(4, 54, 3), PackedInt32Array(21, 22, 55), PackedInt32Array(55, 22, 56), PackedInt32Array(60, 30, 57), PackedInt32Array(57, 30, 58), PackedInt32Array(58, 30, 59), PackedInt32Array(59, 30, 31), PackedInt32Array(61, 63, 62), PackedInt32Array(55, 56, 65), PackedInt32Array(65, 56, 61), PackedInt32Array(61, 56, 64), PackedInt32Array(61, 64, 63), PackedInt32Array(56, 60, 64), PackedInt32Array(64, 60, 57), PackedInt32Array(38, 59, 37), PackedInt32Array(37, 59, 31), PackedInt32Array(51, 65, 50), PackedInt32Array(50, 65, 61), PackedInt32Array(69, 68, 66), PackedInt32Array(66, 68, 67), PackedInt32Array(71, 70, 20), PackedInt32Array(71, 20, 72), PackedInt32Array(72, 20, 18), PackedInt32Array(72, 18, 73), PackedInt32Array(73, 74, 72), PackedInt32Array(63, 75, 62), PackedInt32Array(62, 75, 76), PackedInt32Array(77, 46, 47), PackedInt32Array(79, 78, 80), PackedInt32Array(80, 78, 81), PackedInt32Array(77, 47, 82), PackedInt32Array(82, 47, 83), PackedInt32Array(78, 82, 83), PackedInt32Array(76, 75, 81), PackedInt32Array(58, 59, 80), PackedInt32Array(80, 59, 79), PackedInt32Array(81, 78, 76), PackedInt32Array(76, 78, 83), PackedInt32Array(85, 84, 86), PackedInt32Array(86, 84, 87), PackedInt32Array(90, 89, 88), PackedInt32Array(87, 84, 91), PackedInt32Array(87, 91, 92), PackedInt32Array(92, 91, 93), PackedInt32Array(96, 95, 94), PackedInt32Array(93, 90, 88), PackedInt32Array(98, 97, 92), PackedInt32Array(92, 93, 98), PackedInt32Array(98, 93, 54), PackedInt32Array(54, 93, 88), PackedInt32Array(54, 88, 99), PackedInt32Array(54, 53, 96), PackedInt32Array(54, 96, 94), PackedInt32Array(54, 94, 98), PackedInt32Array(102, 101, 100), PackedInt32Array(102, 100, 103), PackedInt32Array(103, 105, 104), PackedInt32Array(106, 102, 107), PackedInt32Array(107, 102, 104), PackedInt32Array(107, 104, 108), PackedInt32Array(33, 34, 109), PackedInt32Array(109, 34, 110), PackedInt32Array(108, 112, 111), PackedInt32Array(113, 109, 110), PackedInt32Array(110, 114, 113), PackedInt32Array(113, 114, 115), PackedInt32Array(102, 103, 104), PackedInt32Array(117, 116, 114), PackedInt32Array(114, 116, 115), PackedInt32Array(107, 108, 115), PackedInt32Array(115, 108, 113), PackedInt32Array(113, 108, 111), PackedInt32Array(74, 73, 118), PackedInt32Array(118, 73, 119), PackedInt32Array(122, 121, 120), PackedInt32Array(122, 120, 123), PackedInt32Array(125, 124, 123), PackedInt32Array(123, 124, 122), PackedInt32Array(127, 126, 128), PackedInt32Array(128, 126, 130), PackedInt32Array(128, 130, 119), PackedInt32Array(128, 119, 129), PackedInt32Array(131, 124, 125), PackedInt32Array(125, 132, 131), PackedInt32Array(131, 132, 127), PackedInt32Array(127, 132, 126), PackedInt32Array(132, 133, 126), PackedInt32Array(129, 134, 128), PackedInt32Array(130, 118, 119), PackedInt32Array(137, 136, 135), PackedInt32Array(135, 138, 137), PackedInt32Array(137, 138, 139), PackedInt32Array(139, 138, 129), PackedInt32Array(138, 134, 129), PackedInt32Array(89, 136, 88), PackedInt32Array(88, 136, 137)]
+vertices = PackedVector3Array(-36.25, 0.5, -16.75, -25.75, 0.5, -16.75, -25.75, 0.5, -21.25, -25.25, 0.5, -21.75, -24, 0.5, -62, -62, 0.5, -2, -46.75, 0.5, -1.75, -46.75, 0.5, -3.25, -46.25, 0.5, -3.75, -36.75, 0.5, -3.75, -36.75, 0.5, -16.25, -23.75, 0.5, -21.75, -62, 0.5, -62, -9, 0.5, -21.75, -8.75, 0.5, -62, -7, 0.5, -21.25, -7, 0.5, -16.75, 4, 0.5, -16.75, -7.5, 0.5, -21.75, 4.25, 0.5, -62, 5.5, 0.5, -16.75, 6, 0.5, -16.25, 62.25, 0.5, -15, 62.25, 0.5, -62, 6, 0.5, -14.75, -23, 0.5, -15.5, -21.75, 0.5, -15.25, -21.25, 0.5, -16.75, -23, 0.5, -19, -19.5, 0.5, -16.75, -19, 0.5, -16.25, -14.75, 0.5, -16.25, -13.5, 0.5, -16.75, -13.5, 0.5, -19, -19.25, 0.5, -14.5, -14.75, 0.5, -14.5, 3, 0.5, -11.25, 3, 0.5, -9, 3.25, 0.5, -9, 3.25, 0.5, -14, -12.75, 0.5, -14, -13.5, 0.5, -14, -13.5, 0.5, -11.75, -12.5, 0.5, -11.75, -9.75, 0.5, -14.5, -12, 0.5, -16.25, -12, 0.5, -14.75, -9.25, 0.5, -14, 2.5, 0.5, -11.75, -9.25, 0.5, -11.75, -12, 0.5, -10.5, -9.75, 0.5, -10.25, -9.75, 0.5, -19, -23, 0.5, -14.75, -21.25, 0.5, -14, -34, 0.5, -14, -33.75, 0.5, -11.25, -33.25, 0.5, -11.75, -23.5, 0.5, -11.75, -23, 0.5, -10.25, -21.75, 0.5, -10.5, -21.25, 0.5, -11.75, -23.75, 0.5, -14, -19.5, 0.5, -11.75, -19, 0.5, -11.25, -14.75, 0.5, -11.25, -19.75, 0.5, -14, -34, 0.5, -6.5, -33.75, 0.5, -6.5, -5.25, 5.5, -15.25, -5.25, 5.5, 13.25, 6.25, 5.5, 13.25, 6.25, 5.5, -15.25, 6, 0.5, -8.75, 7.5, 0.5, -8.75, 8, 0.5, -8.25, 62.25, 0.5, -7, 8, 0.5, -6.75, -21.25, 0.5, -9, -23, 0.5, -6.75, -12, 0.5, -9.75, -14.25, 0.5, -9, -14.75, 0.5, -9.5, -19, 0.5, -9.75, -19.75, 0.5, -9, -12.75, 0.5, -9, -9.75, 0.5, -6.75, -23.25, 0.5, -3.75, -23.25, 0.5, -4, -25.25, 0.5, -4, -31, 0.5, -3.75, -25.75, 0.5, -4.5, -25.75, 0.5, -9, -31, 0.5, -9, 0, 0.5, 7.75, 0, 0.5, 9.25, 0.75, 0.5, 7.25, -0.5, 0.5, 7.25, -2, 0.5, 5.75, -2, 0.5, 7.25, 2.25, 0.5, 7.25, 2.25, 0.5, 5.75, -2.5, 0.5, 5.25, 3, 0.5, -6.75, 3.25, 0.5, -6.5, -5, 0.5, -6, -5, 0.5, 5.25, 2.25, 0.5, -6, 3.75, 0.5, -6, 2.75, 0.5, 5.25, 5.25, 0.5, 5.25, 5.25, 0.5, -6, 8, 0.5, 5.75, 62.25, 0.5, 6, -34, 0.5, 17.75, -34, 0.5, 19, -33.75, 0.5, 19, -33.75, 0.5, 17.75, -33.75, 0.5, -1.5, -34, 0.5, -1.75, -34.75, 0.5, -1, -34.5, 0.5, 17.25, -33.25, 0.5, 17.25, -33.25, 0.5, -1, -39, 0.5, 17.75, -39, 0.5, 19, -37.75, 0.5, 19, -37.75, 0.5, 17.75, -28.25, 0.5, 17.25, -25.5, 0.5, 17.25, -23.75, 0.5, -1, -30, 0.5, 17.75, -30, 0.5, 19, -28.75, 0.5, 19, -28.75, 0.5, 17.75, -25, 0.5, 17.75, -25, 0.5, 19, -23.75, 0.5, 19, -39.5, 0.5, 17.25, -37.25, 0.5, 17.25, -44, 0.5, -1, -30.5, 0.5, 17.25, -44, 0.5, 17.5, -42.5, 0.5, 17.5, -21.5, 0.5, -3.75, -7.75, 0.5, -4, -21, 0.5, -3.25, -21, 0.5, 6.25, -7.75, 0.5, 6, -62, 0.5, 23.25, -46.75, 0.5, 23, 3.25, 0.5, 12, -4, 0.5, 12, 4.25, 0.5, 12.25, 4, 0.5, 11.25, 4.25, 0.5, 10.75, 4, 0.5, 10, 7.25, 0.5, 8, 7.5, 0.5, 10.25, 8, 0.5, 10.75, 62.25, 0.5, 12.5, 8, 0.5, 7.25, 4.75, 0.5, 10.25, 5, 0.5, 9.25, 5, 0.5, 8, 8, 0.5, 12.5, -6.25, 0.5, 9.25, -4.75, 0.5, 9.25, -4.75, 0.5, 8, -7.25, 0.5, 8, -7.75, 0.5, 7.5, -6.75, 0.5, 9.75, -21, 0.5, 13.25, -6.75, 0.5, 13, 7.25, 0.5, 15, 5.75, 0.5, 15, 6, 0.5, 62.25, 8, 0.5, 14.25, 62.25, 0.5, 62.25, -21.75, 0.5, 25, -31, 0.5, 25, -31, 0.5, 30.25, -31.75, 0.5, 31, -33, 0.5, 62.25, -6.75, 0.5, 14.5, -6.25, 0.5, 15, -21, 0.5, 24.25, -33.25, 0.5, 31, -34.75, 0.5, 28, -38, 0.5, 28.25, -33.75, 0.5, 28.25, -34, 0.5, 27.25, -34, 0.5, 20.25, -33.75, 0.5, 20.5, -34.5, 0.5, 22.25, -34.75, 0.5, 21, -37.25, 0.5, 21, -33.25, 0.5, 22.25, -33.25, 0.5, 21, -33.75, 0.5, 22.75, -25, 0.5, 20.25, -23.75, 0.5, 22.25, -30, 0.5, 20.25, -28.75, 0.5, 20.5, -28.25, 0.5, 21, -30.75, 0.5, 21, -39, 0.5, 20.25, -37.75, 0.5, 20.5, -25.75, 0.5, 21, -39.75, 0.5, 21, -44, 0.5, 22.25, -34, 0.5, 22.75, -42.75, 0.5, 20.5, -42.25, 0.5, 21, -41.25, 2.5, 18.75, -41.25, 2.5, 19.25, -40.75, 2.5, 19.25, -40.75, 2.5, 18.75, -36.25, 2.5, 18.75, -36.25, 2.5, 19.25, -35.75, 2.5, 19.25, -35.75, 2.5, 18.75, -32.25, 2.5, 18.75, -32.25, 2.5, 19.25, -31.75, 2.5, 19.25, -31.75, 2.5, 18.75, -27.25, 2.5, 18.75, -27.25, 2.5, 19.25, -26.75, 2.5, 19.25, -26.75, 2.5, 18.75, -40.25, 0.5, 25.25, -36.75, 0.5, 25, -46.25, 0.5, 25, -40.75, 0.5, 25.75, -40.75, 0.5, 30.5, -46.75, 0.5, 24.5, -39, 0.5, 62.25, -38.75, 0.5, 31, -40.25, 0.5, 31, -62, 0.5, 62.25)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4), PackedInt32Array(7, 6, 5), PackedInt32Array(10, 9, 8), PackedInt32Array(7, 5, 8), PackedInt32Array(8, 5, 10), PackedInt32Array(4, 11, 3), PackedInt32Array(10, 5, 0), PackedInt32Array(0, 5, 12), PackedInt32Array(0, 12, 4), PackedInt32Array(11, 4, 13), PackedInt32Array(13, 4, 14), PackedInt32Array(17, 16, 15), PackedInt32Array(15, 18, 17), PackedInt32Array(17, 18, 19), PackedInt32Array(19, 18, 14), PackedInt32Array(18, 13, 14), PackedInt32Array(20, 17, 19), PackedInt32Array(20, 19, 21), PackedInt32Array(21, 19, 23), PackedInt32Array(21, 23, 22), PackedInt32Array(22, 24, 21), PackedInt32Array(26, 25, 27), PackedInt32Array(27, 25, 28), PackedInt32Array(31, 30, 29), PackedInt32Array(32, 31, 33), PackedInt32Array(33, 31, 29), PackedInt32Array(33, 29, 28), PackedInt32Array(29, 27, 28), PackedInt32Array(31, 35, 30), PackedInt32Array(30, 35, 34), PackedInt32Array(37, 36, 38), PackedInt32Array(38, 36, 39), PackedInt32Array(41, 40, 42), PackedInt32Array(42, 40, 43), PackedInt32Array(47, 46, 44), PackedInt32Array(44, 46, 45), PackedInt32Array(49, 47, 48), PackedInt32Array(48, 47, 39), PackedInt32Array(39, 36, 48), PackedInt32Array(49, 51, 50), PackedInt32Array(40, 46, 43), PackedInt32Array(43, 46, 50), PackedInt32Array(50, 46, 49), PackedInt32Array(49, 46, 47), PackedInt32Array(45, 32, 33), PackedInt32Array(33, 52, 45), PackedInt32Array(45, 52, 44), PackedInt32Array(25, 26, 53), PackedInt32Array(53, 26, 54), PackedInt32Array(55, 57, 56), PackedInt32Array(58, 60, 59), PackedInt32Array(53, 54, 62), PackedInt32Array(62, 54, 58), PackedInt32Array(58, 54, 61), PackedInt32Array(58, 61, 60), PackedInt32Array(66, 34, 63), PackedInt32Array(63, 34, 64), PackedInt32Array(64, 34, 65), PackedInt32Array(65, 34, 35), PackedInt32Array(42, 65, 41), PackedInt32Array(41, 65, 35), PackedInt32Array(58, 57, 62), PackedInt32Array(62, 57, 55), PackedInt32Array(68, 67, 56), PackedInt32Array(56, 67, 55), PackedInt32Array(54, 66, 61), PackedInt32Array(61, 66, 63), PackedInt32Array(72, 71, 69), PackedInt32Array(69, 71, 70), PackedInt32Array(74, 73, 24), PackedInt32Array(74, 24, 75), PackedInt32Array(75, 24, 22), PackedInt32Array(75, 22, 76), PackedInt32Array(76, 77, 75), PackedInt32Array(60, 78, 59), PackedInt32Array(59, 78, 79), PackedInt32Array(80, 50, 51), PackedInt32Array(82, 81, 83), PackedInt32Array(83, 81, 84), PackedInt32Array(80, 51, 85), PackedInt32Array(85, 51, 86), PackedInt32Array(81, 85, 86), PackedInt32Array(79, 78, 84), PackedInt32Array(64, 65, 83), PackedInt32Array(83, 65, 82), PackedInt32Array(84, 81, 79), PackedInt32Array(79, 81, 86), PackedInt32Array(88, 87, 89), PackedInt32Array(89, 87, 90), PackedInt32Array(92, 91, 93), PackedInt32Array(93, 91, 90), PackedInt32Array(91, 89, 90), PackedInt32Array(96, 95, 94), PackedInt32Array(96, 94, 97), PackedInt32Array(97, 99, 98), PackedInt32Array(100, 96, 101), PackedInt32Array(101, 96, 98), PackedInt32Array(101, 98, 102), PackedInt32Array(37, 38, 103), PackedInt32Array(103, 38, 104), PackedInt32Array(102, 106, 105), PackedInt32Array(107, 103, 104), PackedInt32Array(104, 108, 107), PackedInt32Array(107, 108, 109), PackedInt32Array(96, 97, 98), PackedInt32Array(111, 110, 108), PackedInt32Array(108, 110, 109), PackedInt32Array(101, 102, 109), PackedInt32Array(109, 102, 107), PackedInt32Array(107, 102, 105), PackedInt32Array(77, 76, 112), PackedInt32Array(112, 76, 113), PackedInt32Array(117, 116, 114), PackedInt32Array(114, 116, 115), PackedInt32Array(120, 119, 118), PackedInt32Array(117, 114, 121), PackedInt32Array(117, 121, 122), PackedInt32Array(122, 121, 123), PackedInt32Array(123, 121, 118), PackedInt32Array(118, 121, 120), PackedInt32Array(127, 126, 124), PackedInt32Array(124, 126, 125), PackedInt32Array(130, 129, 128), PackedInt32Array(134, 133, 131), PackedInt32Array(131, 133, 132), PackedInt32Array(130, 135, 129), PackedInt32Array(136, 135, 137), PackedInt32Array(137, 135, 130), PackedInt32Array(124, 138, 127), PackedInt32Array(127, 138, 139), PackedInt32Array(139, 138, 120), PackedInt32Array(120, 138, 140), PackedInt32Array(131, 141, 134), PackedInt32Array(134, 141, 128), PackedInt32Array(128, 141, 123), PackedInt32Array(128, 123, 130), PackedInt32Array(121, 139, 120), PackedInt32Array(141, 122, 123), PackedInt32Array(143, 142, 138), PackedInt32Array(138, 142, 140), PackedInt32Array(67, 68, 119), PackedInt32Array(119, 68, 118), PackedInt32Array(87, 88, 144), PackedInt32Array(144, 88, 145), PackedInt32Array(147, 146, 148), PackedInt32Array(148, 146, 145), PackedInt32Array(146, 144, 145), PackedInt32Array(150, 149, 6), PackedInt32Array(6, 149, 5), PackedInt32Array(153, 152, 151), PackedInt32Array(153, 151, 154), PackedInt32Array(156, 155, 154), PackedInt32Array(154, 155, 153), PackedInt32Array(158, 157, 159), PackedInt32Array(159, 157, 161), PackedInt32Array(159, 161, 113), PackedInt32Array(159, 113, 160), PackedInt32Array(162, 155, 156), PackedInt32Array(156, 163, 162), PackedInt32Array(162, 163, 158), PackedInt32Array(158, 163, 157), PackedInt32Array(163, 164, 157), PackedInt32Array(160, 165, 159), PackedInt32Array(161, 112, 113), PackedInt32Array(167, 166, 168), PackedInt32Array(168, 166, 169), PackedInt32Array(147, 148, 170), PackedInt32Array(169, 166, 171), PackedInt32Array(169, 171, 170), PackedInt32Array(170, 171, 173), PackedInt32Array(170, 173, 172), PackedInt32Array(170, 172, 147), PackedInt32Array(176, 175, 174), PackedInt32Array(174, 177, 176), PackedInt32Array(176, 177, 178), PackedInt32Array(178, 177, 160), PackedInt32Array(177, 165, 160), PackedInt32Array(181, 180, 179), PackedInt32Array(181, 179, 182), PackedInt32Array(182, 179, 175), PackedInt32Array(182, 175, 183), PackedInt32Array(183, 175, 176), PackedInt32Array(172, 173, 184), PackedInt32Array(184, 185, 172), PackedInt32Array(172, 185, 186), PackedInt32Array(183, 187, 182), PackedInt32Array(186, 185, 179), PackedInt32Array(179, 185, 175), PackedInt32Array(190, 189, 188), PackedInt32Array(190, 188, 191), PackedInt32Array(115, 116, 192), PackedInt32Array(192, 116, 193), PackedInt32Array(196, 195, 194), PackedInt32Array(195, 192, 193), PackedInt32Array(199, 194, 197), PackedInt32Array(197, 194, 198), PackedInt32Array(198, 194, 193), PackedInt32Array(193, 194, 195), PackedInt32Array(136, 137, 200), PackedInt32Array(200, 137, 201), PackedInt32Array(132, 133, 202), PackedInt32Array(202, 133, 203), PackedInt32Array(205, 204, 197), PackedInt32Array(197, 204, 201), PackedInt32Array(125, 126, 206), PackedInt32Array(206, 126, 207), PackedInt32Array(204, 208, 201), PackedInt32Array(203, 204, 202), PackedInt32Array(202, 204, 205), PackedInt32Array(207, 196, 206), PackedInt32Array(206, 196, 209), PackedInt32Array(196, 194, 209), PackedInt32Array(209, 194, 210), PackedInt32Array(208, 200, 201), PackedInt32Array(199, 211, 194), PackedInt32Array(198, 205, 197), PackedInt32Array(143, 212, 142), PackedInt32Array(142, 212, 210), PackedInt32Array(211, 199, 191), PackedInt32Array(191, 199, 190), PackedInt32Array(210, 212, 213), PackedInt32Array(210, 213, 209), PackedInt32Array(217, 216, 214), PackedInt32Array(214, 216, 215), PackedInt32Array(221, 220, 218), PackedInt32Array(218, 220, 219), PackedInt32Array(225, 224, 222), PackedInt32Array(222, 224, 223), PackedInt32Array(229, 228, 226), PackedInt32Array(226, 228, 227), PackedInt32Array(230, 232, 231), PackedInt32Array(232, 230, 233), PackedInt32Array(233, 234, 232), PackedInt32Array(232, 234, 149), PackedInt32Array(149, 150, 235), PackedInt32Array(149, 235, 232), PackedInt32Array(238, 237, 236), PackedInt32Array(234, 238, 149), PackedInt32Array(149, 238, 236), PackedInt32Array(149, 236, 239), PackedInt32Array(237, 187, 236), PackedInt32Array(236, 187, 183)]
 geometry_parsed_geometry_type = 1
 geometry_collision_mask = 4278190081
 geometry_source_geometry_mode = 1
@@ -44,6 +43,9 @@ size = Vector3(22, 4, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sklqh"]
 size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4fxuv"]
+size = Vector3(1, 1, 5)
 
 [node name="Sandbox" type="Node3D" unique_id=1259189452]
 
@@ -187,22 +189,22 @@ sequenceType = 1
 metadata/_custom_type_script = "uid://hnew60psrw5u"
 
 [node name="mob_spawn" parent="actors/Arena3/ArenaSequence/ArenaSequence3" unique_id=395555780 instance=ExtResource("1_kknpw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 5)
 script = ExtResource("5_m3qc8")
 mobPrefab = "brute"
 
 [node name="mob_spawn2" parent="actors/Arena3/ArenaSequence/ArenaSequence3" unique_id=2037390415 instance=ExtResource("1_kknpw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 5)
 script = ExtResource("5_m3qc8")
 mobPrefab = "brute"
 
 [node name="mob_spawn3" parent="actors/Arena3/ArenaSequence/ArenaSequence3" unique_id=1842931976 instance=ExtResource("1_kknpw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 5)
 script = ExtResource("5_m3qc8")
 mobPrefab = "brute"
 
 [node name="mob_spawn4" parent="actors/Arena3/ArenaSequence/ArenaSequence3" unique_id=1934705472 instance=ExtResource("1_kknpw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 5)
 script = ExtResource("5_m3qc8")
 mobPrefab = "brute"
 
@@ -215,338 +217,389 @@ script = ExtResource("6_sklqh")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="actors/end_area" unique_id=1736247457]
 shape = SubResource("BoxShape3D_sklqh")
 
+[node name="single_mob_test" type="Node3D" parent="." unique_id=1118286567]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 9)
+
+[node name="world" type="Node3D" parent="single_mob_test" unique_id=1236672032]
+
+[node name="CSGBox3D46" type="CSGBox3D" parent="single_mob_test/world" unique_id=98222593 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2, -2.5)
+use_collision = true
+size = Vector3(3, 4, 1)
+material = ExtResource("7_kefpl")
+
+[node name="CSGBox3D47" type="CSGBox3D" parent="single_mob_test/world" unique_id=271151579 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2, 2.5)
+use_collision = true
+size = Vector3(3, 4, 1)
+material = ExtResource("7_kefpl")
+
+[node name="CSGBox3D48" type="CSGBox3D" parent="single_mob_test/world" unique_id=1018849364 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2, 0)
+use_collision = true
+size = Vector3(1, 4, 6)
+material = ExtResource("7_kefpl")
+
+[node name="actors" type="Node3D" parent="single_mob_test" unique_id=1270555400]
+
+[node name="Arena" type="Node3D" parent="single_mob_test/actors" unique_id=2017038793]
+script = ExtResource("2_swlrv")
+metadata/_custom_type_script = "uid://brseb2ynlgwir"
+
+[node name="Area3D" type="Area3D" parent="single_mob_test/actors/Arena" unique_id=1025564854]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+collision_layer = 32
+collision_mask = 64
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="single_mob_test/actors/Arena/Area3D" unique_id=1757477202]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0)
+shape = SubResource("BoxShape3D_4fxuv")
+
+[node name="ArenaSequence" type="Node3D" parent="single_mob_test/actors/Arena" unique_id=931698896]
+script = ExtResource("4_2wjmr")
+metadata/_custom_type_script = "uid://hnew60psrw5u"
+
+[node name="MobSpawner" type="Node3D" parent="single_mob_test/actors/Arena/ArenaSequence" unique_id=1575176725]
+script = ExtResource("5_m3qc8")
+mobPrefab = "fodder_prj_stream"
+metadata/_custom_type_script = "uid://du20o0a35n2qt"
+
 [node name="world" type="Node3D" parent="." unique_id=1824105952]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="world" unique_id=880421332 groups=["world"]]
+[node name="border" type="Node3D" parent="world" unique_id=1863700089]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="world/border" unique_id=880421332 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 use_collision = true
 size = Vector3(128, 1, 128)
 material = ExtResource("7_kefpl")
 metadata/_edit_lock_ = true
 
-[node name="CSGBox3D9" type="CSGBox3D" parent="world" unique_id=1672095583 groups=["world"]]
+[node name="CSGBox3D2" type="CSGBox3D" parent="world/border" unique_id=1902942309 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.5, 2, 0)
+use_collision = true
+size = Vector3(1, 4, 128)
+material = ExtResource("7_kefpl")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="world/border" unique_id=1906329488 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.5, 2, 0)
+use_collision = true
+size = Vector3(1, 4, 128)
+material = ExtResource("7_kefpl")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="world/border" unique_id=1534233709 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 63.5)
+use_collision = true
+size = Vector3(126, 4, 1)
+material = ExtResource("7_kefpl")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="world/border" unique_id=2023241200 groups=["world"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -63.5)
+use_collision = true
+size = Vector3(126, 4, 1)
+material = ExtResource("7_kefpl")
+
+[node name="demo_level_1" type="Node3D" parent="world" unique_id=2044408093]
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="world/demo_level_1" unique_id=1672095583 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 4.5, -1)
 use_collision = true
 size = Vector3(13, 1, 30)
 material = ExtResource("7_kefpl")
 metadata/_edit_lock_ = true
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="world" unique_id=1902942309 groups=["world"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.5, 2, 0)
-use_collision = true
-size = Vector3(1, 4, 128)
-material = ExtResource("7_kefpl")
-
-[node name="CSGBox3D6" type="CSGBox3D" parent="world" unique_id=2108692228 groups=["world"]]
+[node name="CSGBox3D6" type="CSGBox3D" parent="world/demo_level_1" unique_id=2108692228 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 2, -0.5)
 use_collision = true
 size = Vector3(1, 4, 13)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D10" type="CSGBox3D" parent="world" unique_id=1080565037 groups=["world"]]
+[node name="CSGBox3D10" type="CSGBox3D" parent="world/demo_level_1" unique_id=1080565037 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 2, -7.5)
 use_collision = true
 size = Vector3(9, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D11" type="CSGBox3D" parent="world" unique_id=442562498 groups=["world"]]
+[node name="CSGBox3D11" type="CSGBox3D" parent="world/demo_level_1" unique_id=442562498 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 2, -7.5)
 use_collision = true
 size = Vector3(3, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D12" type="CSGBox3D" parent="world" unique_id=1858135743 groups=["world"]]
+[node name="CSGBox3D12" type="CSGBox3D" parent="world/demo_level_1" unique_id=1858135743 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2, -10.5)
 use_collision = true
 size = Vector3(11, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D36" type="CSGBox3D" parent="world" unique_id=333778211 groups=["world"]]
+[node name="CSGBox3D36" type="CSGBox3D" parent="world/demo_level_1" unique_id=333778211 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 2, -10.5)
 use_collision = true
 size = Vector3(8, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D39" type="CSGBox3D" parent="world" unique_id=1371203167 groups=["world"]]
+[node name="CSGBox3D39" type="CSGBox3D" parent="world/demo_level_1" unique_id=1371203167 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.5, 2, -7)
 use_collision = true
 size = Vector3(1, 4, 8)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D41" type="CSGBox3D" parent="world" unique_id=1229493959 groups=["world"]]
+[node name="CSGBox3D41" type="CSGBox3D" parent="world/demo_level_1" unique_id=1229493959 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 2, -2.5)
 use_collision = true
 size = Vector3(10, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D43" type="CSGBox3D" parent="world" unique_id=459509732 groups=["world"]]
+[node name="CSGBox3D43" type="CSGBox3D" parent="world/demo_level_1" unique_id=459509732 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.5, 2, 10.5)
 use_collision = true
 size = Vector3(1, 4, 27)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D44" type="CSGBox3D" parent="world" unique_id=2147418982 groups=["world"]]
+[node name="CSGBox3D44" type="CSGBox3D" parent="world/demo_level_1" unique_id=2147418982 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.5, 2, 10.5)
 use_collision = true
 size = Vector3(1, 4, 27)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D42" type="CSGBox3D" parent="world" unique_id=831745162 groups=["world"]]
+[node name="CSGBox3D42" type="CSGBox3D" parent="world/demo_level_1" unique_id=831745162 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2, -2.5)
 use_collision = true
 size = Vector3(10, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D45" type="CSGBox3D" parent="world" unique_id=306597004 groups=["world"]]
+[node name="CSGBox3D45" type="CSGBox3D" parent="world/demo_level_1" unique_id=306597004 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2, 23.5)
 use_collision = true
 size = Vector3(10, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D54" type="CSGBox3D" parent="world" unique_id=364576954 groups=["world"]]
+[node name="CSGBox3D54" type="CSGBox3D" parent="world/demo_level_1" unique_id=364576954 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 2, 23.5)
 use_collision = true
 size = Vector3(10, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D55" type="CSGBox3D" parent="world" unique_id=1441479956 groups=["world"]]
+[node name="CSGBox3D55" type="CSGBox3D" parent="world/demo_level_1" unique_id=1441479956 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.5, 2, 27)
 use_collision = true
 size = Vector3(1, 4, 6)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D56" type="CSGBox3D" parent="world" unique_id=248220750 groups=["world"]]
+[node name="CSGBox3D56" type="CSGBox3D" parent="world/demo_level_1" unique_id=248220750 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.5, 2, 25.5)
 use_collision = true
 size = Vector3(1, 4, 3)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D57" type="CSGBox3D" parent="world" unique_id=2095900199 groups=["world"]]
+[node name="CSGBox3D57" type="CSGBox3D" parent="world/demo_level_1" unique_id=2095900199 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5, 2, 29.5)
 use_collision = true
 size = Vector3(7, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D58" type="CSGBox3D" parent="world" unique_id=2141665362 groups=["world"]]
+[node name="CSGBox3D58" type="CSGBox3D" parent="world/demo_level_1" unique_id=2141665362 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38, 2, 26.5)
 use_collision = true
 size = Vector3(4, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D59" type="CSGBox3D" parent="world" unique_id=2112480917 groups=["world"]]
+[node name="CSGBox3D59" type="CSGBox3D" parent="world/demo_level_1" unique_id=2112480917 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.5, 2, 28)
 use_collision = true
 size = Vector3(1, 4, 2)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D48" type="CSGBox3D" parent="world" unique_id=1682589648 groups=["world"]]
+[node name="CSGBox3D48" type="CSGBox3D" parent="world/demo_level_1" unique_id=1682589648 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 1, 19)
 use_collision = true
 size = Vector3(2, 2, 2)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D49" type="CSGBox3D" parent="world" unique_id=66238045 groups=["world"]]
+[node name="CSGBox3D49" type="CSGBox3D" parent="world/demo_level_1" unique_id=66238045 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 1, 19)
 use_collision = true
 size = Vector3(2, 2, 2)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D52" type="CSGBox3D" parent="world" unique_id=1916575185 groups=["world"]]
+[node name="CSGBox3D52" type="CSGBox3D" parent="world/demo_level_1" unique_id=1916575185 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, 1, 19)
 use_collision = true
 size = Vector3(2, 2, 2)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D53" type="CSGBox3D" parent="world" unique_id=1427426192 groups=["world"]]
+[node name="CSGBox3D53" type="CSGBox3D" parent="world/demo_level_1" unique_id=1427426192 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 1, 19)
 use_collision = true
 size = Vector3(2, 2, 2)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D40" type="CSGBox3D" parent="world" unique_id=356197574 groups=["world"]]
+[node name="CSGBox3D40" type="CSGBox3D" parent="world/demo_level_1" unique_id=356197574 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.5, 2, -9.5)
 use_collision = true
 size = Vector3(1, 4, 13)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D37" type="CSGBox3D" parent="world" unique_id=1279908606 groups=["world"]]
+[node name="CSGBox3D37" type="CSGBox3D" parent="world/demo_level_1" unique_id=1279908606 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.5, 2, -15.5)
 use_collision = true
 size = Vector3(11, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D15" type="CSGBox3D" parent="world" unique_id=607553368 groups=["world"]]
+[node name="CSGBox3D15" type="CSGBox3D" parent="world/demo_level_1" unique_id=607553368 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 5, -10.5)
 use_collision = true
 size = Vector3(1, 10, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D16" type="CSGBox3D" parent="world" unique_id=247039597 groups=["world"]]
+[node name="CSGBox3D16" type="CSGBox3D" parent="world/demo_level_1" unique_id=247039597 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 5, -15.5)
 use_collision = true
 size = Vector3(1, 10, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D32" type="CSGBox3D" parent="world" unique_id=1101086527 groups=["world"]]
+[node name="CSGBox3D32" type="CSGBox3D" parent="world/demo_level_1" unique_id=1101086527 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 5, -10.5)
 use_collision = true
 size = Vector3(1, 10, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D33" type="CSGBox3D" parent="world" unique_id=2125907737 groups=["world"]]
+[node name="CSGBox3D33" type="CSGBox3D" parent="world/demo_level_1" unique_id=2125907737 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 5, -15.5)
 use_collision = true
 size = Vector3(1, 10, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D28" type="CSGBox3D" parent="world" unique_id=2130225066 groups=["world"]]
+[node name="CSGBox3D28" type="CSGBox3D" parent="world/demo_level_1" unique_id=2130225066 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 5, -20.5)
 use_collision = true
 size = Vector3(17, 10, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D30" type="CSGBox3D" parent="world" unique_id=783972906 groups=["world"]]
+[node name="CSGBox3D30" type="CSGBox3D" parent="world/demo_level_1" unique_id=783972906 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 5, -18)
 use_collision = true
 size = Vector3(1, 10, 4)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D31" type="CSGBox3D" parent="world" unique_id=993024353 groups=["world"]]
+[node name="CSGBox3D31" type="CSGBox3D" parent="world/demo_level_1" unique_id=993024353 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 5, -8)
 use_collision = true
 size = Vector3(1, 10, 4)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D34" type="CSGBox3D" parent="world" unique_id=1784840390 groups=["world"]]
+[node name="CSGBox3D34" type="CSGBox3D" parent="world/demo_level_1" unique_id=1784840390 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.5, 5, -18)
 use_collision = true
 size = Vector3(1, 10, 4)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D35" type="CSGBox3D" parent="world" unique_id=491700178 groups=["world"]]
+[node name="CSGBox3D35" type="CSGBox3D" parent="world/demo_level_1" unique_id=491700178 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.5, 5, -8)
 use_collision = true
 size = Vector3(1, 10, 4)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D29" type="CSGBox3D" parent="world" unique_id=962694268 groups=["world"]]
+[node name="CSGBox3D29" type="CSGBox3D" parent="world/demo_level_1" unique_id=962694268 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 5, -5.5)
 use_collision = true
 size = Vector3(17, 10, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D14" type="CSGBox3D" parent="world" unique_id=1123744984 groups=["world"]]
+[node name="CSGBox3D14" type="CSGBox3D" parent="world/demo_level_1" unique_id=1123744984 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 2, -15.5)
 use_collision = true
 size = Vector3(13, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D7" type="CSGBox3D" parent="world" unique_id=889197962 groups=["world"]]
+[node name="CSGBox3D7" type="CSGBox3D" parent="world/demo_level_1" unique_id=889197962 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 2, -0.5)
 use_collision = true
 size = Vector3(1, 4, 13)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D13" type="CSGBox3D" parent="world" unique_id=1785190451 groups=["world"]]
+[node name="CSGBox3D13" type="CSGBox3D" parent="world/demo_level_1" unique_id=1785190451 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2, -9)
 use_collision = true
 size = Vector3(1, 4, 2)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D25" type="CSGBox3D" parent="world" unique_id=450166993 groups=["world"]]
+[node name="CSGBox3D25" type="CSGBox3D" parent="world/demo_level_1" unique_id=450166993 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 2, -12)
 use_collision = true
 size = Vector3(1, 4, 8)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D17" type="CSGBox3D" parent="world" unique_id=547060785 groups=["world"]]
+[node name="CSGBox3D17" type="CSGBox3D" parent="world/demo_level_1" unique_id=547060785 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2, 7.5)
 use_collision = true
 size = Vector3(1, 4, 3)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D21" type="CSGBox3D" parent="world" unique_id=177151848 groups=["world"]]
+[node name="CSGBox3D21" type="CSGBox3D" parent="world/demo_level_1" unique_id=177151848 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 2, 6.5)
 use_collision = true
 size = Vector3(3, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D18" type="CSGBox3D" parent="world" unique_id=1377743420 groups=["world"]]
+[node name="CSGBox3D18" type="CSGBox3D" parent="world/demo_level_1" unique_id=1377743420 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2, 7.5)
 use_collision = true
 size = Vector3(1, 4, 3)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D20" type="CSGBox3D" parent="world" unique_id=1923140259 groups=["world"]]
+[node name="CSGBox3D20" type="CSGBox3D" parent="world/demo_level_1" unique_id=1923140259 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 2, 6.5)
 use_collision = true
 size = Vector3(3, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D8" type="CSGBox3D" parent="world" unique_id=2094837927 groups=["world"]]
+[node name="CSGBox3D8" type="CSGBox3D" parent="world/demo_level_1" unique_id=2094837927 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 8.5)
 use_collision = true
 size = Vector3(2, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D22" type="CSGBox3D" parent="world" unique_id=42658585 groups=["world"]]
+[node name="CSGBox3D22" type="CSGBox3D" parent="world/demo_level_1" unique_id=42658585 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2, 10)
 use_collision = true
 size = Vector3(1, 4, 2)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D26" type="CSGBox3D" parent="world" unique_id=31507822 groups=["world"]]
+[node name="CSGBox3D26" type="CSGBox3D" parent="world/demo_level_1" unique_id=31507822 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2, 10.5)
 use_collision = true
 size = Vector3(4, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D38" type="CSGBox3D" parent="world" unique_id=1637223202 groups=["world"]]
+[node name="CSGBox3D38" type="CSGBox3D" parent="world/demo_level_1" unique_id=1637223202 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 10.5)
 use_collision = true
 size = Vector3(2, 3, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D27" type="CSGBox3D" parent="world" unique_id=1791895496 groups=["world"]]
+[node name="CSGBox3D27" type="CSGBox3D" parent="world/demo_level_1" unique_id=1791895496 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 2, 12)
 use_collision = true
 size = Vector3(1, 4, 2)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D23" type="CSGBox3D" parent="world" unique_id=1941072870 groups=["world"]]
+[node name="CSGBox3D23" type="CSGBox3D" parent="world/demo_level_1" unique_id=1941072870 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 12)
 use_collision = true
 size = Vector3(2, 4, 2)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D24" type="CSGBox3D" parent="world" unique_id=738395095 groups=["world"]]
+[node name="CSGBox3D24" type="CSGBox3D" parent="world/demo_level_1" unique_id=738395095 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2, 13.5)
 use_collision = true
 size = Vector3(13, 4, 1)
 material = ExtResource("7_kefpl")
 
-[node name="CSGBox3D19" type="CSGBox3D" parent="world" unique_id=250432954 groups=["world"]]
+[node name="CSGBox3D19" type="CSGBox3D" parent="world/demo_level_1" unique_id=250432954 groups=["world"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 9.5)
 use_collision = true
 size = Vector3(2, 4, 3)
-material = ExtResource("7_kefpl")
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="world" unique_id=1906329488 groups=["world"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63.5, 2, 0)
-use_collision = true
-size = Vector3(1, 4, 128)
-material = ExtResource("7_kefpl")
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="world" unique_id=1534233709 groups=["world"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 63.5)
-use_collision = true
-size = Vector3(126, 4, 1)
-material = ExtResource("7_kefpl")
-
-[node name="CSGBox3D5" type="CSGBox3D" parent="world" unique_id=2023241200 groups=["world"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -63.5)
-use_collision = true
-size = Vector3(126, 4, 1)
 material = ExtResource("7_kefpl")
 
 [node name="lights" type="Node3D" parent="." unique_id=1911941164]
@@ -563,6 +616,13 @@ omni_range = 10.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 3, -13)
 omni_range = 10.0
 omni_attenuation = 0.538
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lights" unique_id=389723511]
+transform = Transform3D(1, 0, 0, 0, -0.7071068, 0.7071068, 0, -0.7071068, -0.7071068, -34, 12, -6)
+shadow_enabled = true
+spot_range = 34.0
+spot_attenuation = -0.08
+spot_angle_attenuation = 1.1095695
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=398483886]
 transform = Transform3D(0.85536426, 0, 0.518027, 0, 1, 0, -0.518027, 0, 0.85536426, 5, 3, 5)

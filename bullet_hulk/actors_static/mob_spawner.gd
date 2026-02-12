@@ -10,11 +10,9 @@ var initialNodeCount:int = 0
 func start() -> void:
 	self.initialNodeCount = self.get_child_count()
 	var t:Transform3D = self.global_transform
-	match self.mobPrefab:
-		Mob.MOB_PREFAB_BRUTE:
-			Game.spawn_brute(t, self)
-		Mob.MOB_PREFAB_FODDER, _:
-			Game.spawn_fodder(t, self)
+	var mob:Mob = Mob.spawn_new_mob(self.mobPrefab, t, self, true)
+	
+
 
 func finished() -> bool:
 	var count:int = self.get_child_count()

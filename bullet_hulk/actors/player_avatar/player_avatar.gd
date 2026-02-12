@@ -15,8 +15,13 @@ const SPIN_DOWN_TIME:float = 3.0
 @onready var _atkInfo:AttackInfo = $AttackInfo
 @onready var _rotor:Node3D = $yaw/pitch/weapon/rotor
 @onready var _muzzleFlashLight:OmniLight3D = $yaw/pitch/muzzle_flash_light
+
+# crouch stuff
 @onready var _upperBodyShape:CollisionShape3D = $upper_body_shape
 @onready var _headRoomArea:Area3D = $headroom_area
+
+# hurtbox stuff
+@onready var _upperHurtBox:CollisionShape3D = $HurtboxDelegate/upper_hurt_shape
 
 var _hitscan:PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.new()
 
@@ -39,6 +44,10 @@ func global_event(msg:String):
 	match msg:
 		Game.GLOBAL_EVENT_END_OF_LEVEL:
 			self.queue_free()
+
+func hurt(atk:AttackInfo) -> int:
+	print("Player hit!")
+	return 1
 
 func refresh_target_info() -> void:
 	var info:TargetInfo = Game.get_target()
@@ -87,11 +96,13 @@ func _enter_crouch() -> void:
 	_crouching = true
 	_upperBodyShape.disabled = true
 	_pitch.position = _crouchedPitchPos
+	_upperHurtBox.disabled = true
 
 func _exit_crouch() -> void:
 	_crouching = false
 	_upperBodyShape.disabled = false
 	_pitch.position = _standingPitchPos
+	_upperHurtBox.disabled = false
 
 func _enter_sprint() -> void:
 	_sprinting = true

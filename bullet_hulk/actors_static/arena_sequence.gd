@@ -36,7 +36,7 @@ func _start_node(n:Node) -> void:
 		return
 	if n.name.begins_with("mob_spawn"):
 		var t:Transform3D = n.global_transform
-		Game.spawn_fodder(t, n)
+		Mob.spawn_new_mob(Mob.MOB_PREFAB_FODDER, t, n, true)
 
 func _check_node_finished(n:Node) -> bool:
 	var seq:ArenaSequence = n as ArenaSequence
