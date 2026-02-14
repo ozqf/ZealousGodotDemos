@@ -12,8 +12,9 @@ var _sandboxWorld:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 
 var _playerType:PackedScene = preload("res://actors/player_avatar/player_avatar.tscn")
 
-var _prjColumn:PackedScene = preload("res://actors/prj_column/prj_column.tscn")
-var _prjCrescent:PackedScene = preload("res://actors/prj_crescent/prj_crescent.tscn")
+var _prjColumn:PackedScene = preload("res://actors/prj_linear/prj_column.tscn")
+var _prjCrescent:PackedScene = preload("res://actors/prj_linear/prj_crescent.tscn")
+var _prjSphere:PackedScene = preload("res://actors/prj_linear/prj_sphere.tscn")
 
 var _tracerType:PackedScene = preload("res://fx/tracer/gfx_tracer.tscn")
 var _impactType:PackedScene = preload("res://fx/impacts/gfx_impact_bullet.tscn")
@@ -193,6 +194,12 @@ func prj_column() -> PrjLinear:
 
 func prj_crescent() -> PrjLinear:
 	var n:PrjLinear = _prjCrescent.instantiate() as PrjLinear
+	assert(n != null)
+	_actorsRoot.add_child(n)
+	return n
+
+func prj_sphere() -> PrjLinear:
+	var n:PrjLinear = _prjSphere.instantiate() as PrjLinear
 	assert(n != null)
 	_actorsRoot.add_child(n)
 	return n

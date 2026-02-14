@@ -38,6 +38,7 @@ var _crouchedPitchPos:Vector3 = Vector3()
 
 var _hp:float = 5
 var _maxHp:float = 5
+var _lastGroundPos:Vector3 = Vector3()
 
 func _ready() -> void:
 	self.add_to_group(Game.GROUP_GLOBAL_EVENTS)
@@ -67,6 +68,10 @@ func refresh_target_info() -> void:
 	info.t = _yaw.global_transform
 	info.headT = _pitch.global_transform
 	info.age = 0
+	info.lastGroundPos = _lastGroundPos
+	info.velocity = self.velocity
+	info.isCrouching = _crouching
+	info.isSprinting = _sprinting
 
 func _fire_hitscan() -> void:
 	var t:Transform3D = _hitscanSource.global_transform
@@ -130,6 +135,8 @@ func _refresh_hud() -> void:
 func _physics_process(delta: float) -> void:
 	refresh_target_info()
 	_refresh_hud()
+	if self.is_on_floor():
+		_lastGroundPos = self.global_position
 	###########################################
 	# weapons
 	###########################################

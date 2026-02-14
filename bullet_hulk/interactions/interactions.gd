@@ -12,6 +12,10 @@ const LAYER_PLAYER_BARRIER:int = (1 << 4)
 const LAYER_SENSOR:int = (1 << 5)
 const LAYER_PLAYER_AVATAR:int = (1 << 6)
 
+const ATK_CATEGORY_SAME_LEVEL:int = 0
+const ATK_CATEGORY_BELOW_TARGET:int = 1
+const ATK_CATEGORY_ABOVE_TARGET:int = 2
+
 static func get_los_mask() -> int:
 	return LAYER_WORLD
 
@@ -26,3 +30,11 @@ static func try_hurt(atkInfo:AttackInfo, victim:Node) -> int:
 	if !victim.has_method("hurt"):
 		return HIT_SOLID
 	return victim.hurt(atkInfo)
+
+static func calc_attack_category(selfFootPos:Vector3, tarFootPos:Vector3) -> int:
+	var heightDiff:float = selfFootPos.y - tarFootPos.y
+	if heightDiff < -1.0:
+		return ATK_CATEGORY_BELOW_TARGET
+	elif heightDiff > 1.0:
+		return ATK_CATEGORY_ABOVE_TARGET
+	return ATK_CATEGORY_SAME_LEVEL

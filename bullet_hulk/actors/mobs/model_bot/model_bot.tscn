@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://djgcm24hvncg7"]
+
+[ext_resource type="BoxMesh" uid="uid://bcicyukcogaj5" path="res://shared/primitivies/cube_diameter_1.tres" id="1_jfnsl"]
+
+[node name="ModelBot" type="Node3D" unique_id=965064037]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=314660369]
+transform = Transform3D(2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 1.5, 0)
+visible = false
+layers = 524288
+mesh = ExtResource("1_jfnsl")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=2107560869]
+transform = Transform3D(1.6800001, 0, 0, 0, 1.2, 0, 0, 0, 2, 0, 2.4, 0)
+mesh = ExtResource("1_jfnsl")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1586660296]
+transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 2, 0, 1.4000002, 0)
+mesh = ExtResource("1_jfnsl")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=1155891787]
+transform = Transform3D(0.504, 0, 0, 0, 1.008, 0, 0, 0, 2, 0.6, 0.5000002, 0)
+mesh = ExtResource("1_jfnsl")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="." unique_id=840432392]
+transform = Transform3D(0.504, 0, 0, 0, 1.008, 0, 0, 0, 2, -0.59999996, 0.5000002, 0)
+mesh = ExtResource("1_jfnsl")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=97882513]
+transform = Transform3D(0.42426407, -0.42426407, 0, 0.42426407, 0.42426407, 0, 0, 0, 1, -1.1, 1.5, -0.5)
+mesh = ExtResource("1_jfnsl")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1364986119]
+transform = Transform3D(0.42426407, 0.42426407, 0, -0.42426407, 0.42426407, 0, 0, 0, 1, 1.1, 1.5, -0.5)
+mesh = ExtResource("1_jfnsl")

@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bgrgim3tm77pd" path="res://zqf/zqf_timed_visible.gd" id="4_6cu37"]
 [ext_resource type="Material" uid="uid://dd5xfincwbgj8" path="res://shared/materials/mat_full_white.tres" id="5_0moib"]
 [ext_resource type="SphereMesh" uid="uid://bgfq7kqgbmtu3" path="res://shared/primitivies/sphere_diameter_1.tres" id="6_fry0f"]
+[ext_resource type="Script" uid="uid://bskge613hp6qh" path="res://actors/mobs/mob_settings.gd" id="7_0moib"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uiqcp"]
 radius = 0.9250001
@@ -53,3 +54,6 @@ metadata/_custom_type_script = "uid://bgrgim3tm77pd"
 [node name="MeshInstance3D" type="MeshInstance3D" parent="launch_node/ZqfTimedVisible" unique_id=1897736612]
 material_override = ExtResource("5_0moib")
 mesh = ExtResource("6_fry0f")
+
+[node name="MobSettings" type="Node" parent="." unique_id=1214304529]
+script = ExtResource("7_0moib")

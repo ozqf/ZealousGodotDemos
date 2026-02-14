@@ -6,7 +6,7 @@ var _b:Vector3
 var _tick:float = 0.0
 var _time:float = 1.0
 
-func launch_tracer(a:Vector3, b:Vector3, speed:float = 150, size:float = 1.0) -> void:
+func launch_tracer(a:Vector3, b:Vector3, speed:float = 250, size:float = 1.0) -> void:
 	_a = a
 	_b = b
 	self.global_position = _a

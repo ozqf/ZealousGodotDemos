@@ -24,6 +24,7 @@ static func spawn_new_mob(mobPrefabName:String, t:Transform3D, newParent:Node3D,
 	mob.mobPrefab = mobPrefabName
 	newParent.add_child(mob)
 	if spawnImmediately:
+		mob.get_mob_settings().spawnPoint = t
 		mob.start_mob()
 	return mob
 
@@ -35,9 +36,15 @@ enum State
 
 @export var mobPrefab:String = ""
 
+var source:MobSpawner = null
+var startNode:Node3D = null
+var moveNode:Node3D = null # child of startNode we are moving to
+var moveNodeIndex:int = 0 # index of the child node we are moving to
+
 @onready var _launchNode:Node3D = $launch_node
 @onready var _agent:NavigationAgent3D = $NavigationAgent3D
 @onready var _muzzleFlash:ZqfTimedVisible = $launch_node/ZqfTimedVisible
+@onready var _settings:MobSettings = $MobSettings
 
 var _state:State = State.Idle
 var _hp:float = 100.0
@@ -50,7 +57,16 @@ func _ready() -> void:
 	_agent.connect("velocity_computed", _velocity_computed)
 	pass
 
+func get_mob_settings() -> MobSettings:
+	return _settings
+
 func start_mob() -> void:
+	if startNode != null:
+		self.global_transform = startNode.global_transform
+		if startNode.get_child_count() > 0:
+			moveNode = startNode.get_child(moveNodeIndex)
+
+	#self.global_transform = _settings.spawnPoint
 	match mobPrefab:
 		MOB_PREFAB_BRUTE:
 			_hp = 100.0
@@ -75,7 +91,7 @@ func _has_los(a:Vector3, b:Vector3) -> bool:
 
 func _fire() -> void:
 	if _tock % 2 == 0:
-		_fire_spread()
+		_fire_fan()
 	else:
 		_fire_single()
 
@@ -89,7 +105,7 @@ func _fire_single() -> void:
 	launch.rollDegrees = 90.0
 	prj.launch_projectile()
 
-func _fire_spread() -> void:
+func _fire_fan() -> void:
 	var t:Transform3D = _launchNode.global_transform
 	var t2:Transform3D
 	var numPrj:int = 5
@@ -139,6 +155,22 @@ func _velocity_computed(safeVelocity:Vector3) -> void:
 		print("zero safe velocity!")
 	self.move_and_slide()
 
+# returns true if still following a path
+func _follow_path(delta:float) -> bool:
+	if moveNode == null || startNode == null:
+		return false
+	var tarPos:Vector3 = moveNode.global_position
+	if self.global_position.distance_squared_to(tarPos) < 1.0:
+		moveNodeIndex += 1
+		var loopPath:bool = false if source == null else source.loopPath
+		if moveNodeIndex >= startNode.get_child_count():
+			if !loopPath:
+				return false
+			moveNodeIndex = 0
+		moveNode = startNode.get_child(moveNodeIndex)
+	_walk_toward(delta, moveNode.global_position)
+	return true
+
 #endregion
 
 #region updates
@@ -164,13 +196,16 @@ func _tick_fodder_prj_stream(_delta:float, target:TargetInfo) -> void:
 	self._launchNode.look_at(target.headT.origin)
 	var hasLoS:bool = _has_los(_launchNode.global_position, target.headT.origin)
 	
+	_follow_path(_delta)
+
 	_tick -= _delta
 	if _tick <= 0.0 && hasLoS:
 		_tick = _refireTime
 		_tock += 1
 		_muzzleFlash.start(0.1)
 		var t:Transform3D = _launchNode.global_transform
-		var prj:PrjLinear = Game.prj_crescent()
+		#var prj:PrjLinear = Game.prj_crescent()
+		var prj:PrjLinear = Game.prj_sphere()
 		var launch:PrjLaunchInfo = prj.get_launch_info()
 		launch.origin = t.origin
 		launch.forward = -t.basis.z
@@ -189,7 +224,33 @@ func _tick_brute(_delta:float, target:TargetInfo) ->void:
 	if _tick <= 0.0 && hasLoS:
 		_tick = _refireTime
 		_muzzleFlash.start(0.1)
-		_fire()
+		var category:int = Interactions.calc_attack_category(self.global_position, target.t.origin)
+		match category:
+			Interactions.ATK_CATEGORY_ABOVE_TARGET:
+				_fire_fan()
+			Interactions.ATK_CATEGORY_BELOW_TARGET:
+				_fire_fan()
+			_:
+				var t:Transform3D = _launchNode.global_transform
+				var origin:Vector3 = t.origin
+				var forward:Vector3 = -t.basis.z
+				forward.y = 0.0
+				forward = forward.normalized()
+				if _tock % 2 == 0:
+					_fire_fan()
+				else:
+					var prj:PrjLinear = Game.prj_column()
+					var launch:PrjLaunchInfo = prj.get_launch_info()
+					if target.isCrouching:
+						# drop projectile to floor
+						origin.y = self.global_position.y + 0.2
+					launch.origin = origin # + Vector3(0, 1, 0)
+					launch.forward = forward
+					launch.speed = 4
+					launch.rollDegrees = 90.0
+					prj.launch_projectile()
+
+					#_fire_single()
 		_tock += 1
 
 func _physics_process(_delta:float) -> void:

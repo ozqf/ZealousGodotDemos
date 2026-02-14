@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://do83i6fdo7gbm"]
+
+[ext_resource type="Script" uid="uid://2ffj15aggy70" path="res://actors/prj_linear/prj_linear.gd" id="1_7a86v"]
+[ext_resource type="ArrayMesh" uid="uid://bxgse375wnj7w" path="res://shared/primitivies/icosphere_wireframe_1.obj" id="2_2chb3"]
+[ext_resource type="Script" uid="uid://dxs02jdn5s43s" path="res://shared/src/prj_launch_info.gd" id="2_25cnr"]
+[ext_resource type="Script" uid="uid://dwjvoyxxjw055" path="res://zqf/zqf_spinner.gd" id="3_2chb3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rkgr2"]
+radius = 0.4
+
+[sub_resource type="Gradient" id="Gradient_qtjo1"]
+colors = PackedColorArray(0.57925385, 1.973361e-06, 3.85046e-07, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_63pyk"]
+gradient = SubResource("Gradient_qtjo1")
+fill_from = Vector2(0, 0.30769232)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iaxvb"]
+shading_mode = 2
+albedo_texture = SubResource("GradientTexture2D_63pyk")
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+
+[node name="PrjSphere" type="Area3D" unique_id=590364568]
+collision_layer = 4
+collision_mask = 9
+script = ExtResource("1_7a86v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1826743147]
+shape = SubResource("SphereShape3D_rkgr2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1636225916]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, -5.9604646e-09, -2.605402e-16, 2.9802322e-08)
+mesh = ExtResource("2_2chb3")
+surface_material_override/0 = SubResource("StandardMaterial3D_iaxvb")
+script = ExtResource("3_2chb3")
+degreesPerSecond = Vector3(-360, 0, 0)
+spinning = true
+
+[node name="PrjLaunchInfo" type="Node" parent="." unique_id=1644384471]
+script = ExtResource("2_25cnr")
+metadata/_custom_type_script = "uid://dxs02jdn5s43s"

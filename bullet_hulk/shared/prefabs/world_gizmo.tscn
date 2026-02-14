@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cv74i8rv3824c"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_tnpcf"]
-size = Vector3(0.5, 0.5, 0.2)
+size = Vector3(0.4, 0.5, 0.2)
 
 [node name="WorldGizmo" type="Node3D" unique_id=2034328885]
 

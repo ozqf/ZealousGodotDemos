@@ -5,8 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://bxrit582a1pbo" path="res://actors_static/player_barrier.tscn" id="3_kknpw"]
 [ext_resource type="Script" uid="uid://hnew60psrw5u" path="res://actors_static/arena_sequence.gd" id="4_2wjmr"]
 [ext_resource type="Script" uid="uid://du20o0a35n2qt" path="res://actors_static/mob_spawner.gd" id="5_m3qc8"]
+[ext_resource type="PackedScene" uid="uid://dpp5smbchntga" path="res://shared/prefabs/world_gizmo_a.tscn" id="6_3s36i"]
 [ext_resource type="Script" uid="uid://cewh8si88nbkp" path="res://actors_static/event_broadcast_area.gd" id="6_sklqh"]
 [ext_resource type="Material" uid="uid://cpsqsr4cq47tp" path="res://shared/materials/mat_wall_placeholder.tres" id="7_kefpl"]
+[ext_resource type="PackedScene" uid="uid://y82ow1cb8oty" path="res://actors_static/mob_spawner.tscn" id="8_4fxuv"]
+[ext_resource type="ArrayMesh" uid="uid://co7oxlolmyfwn" path="res://shared/primitivies/3d_gizmo_b.obj" id="9_q7ycd"]
+[ext_resource type="PackedScene" uid="uid://djgcm24hvncg7" path="res://actors/mobs/model_bot/model_bot.tscn" id="10_qi3h8"]
+[ext_resource type="BoxMesh" uid="uid://bcicyukcogaj5" path="res://shared/primitivies/cube_diameter_1.tres" id="11_mwdn4"]
 
 [sub_resource type="Environment" id="Environment_swlrv"]
 background_mode = 1
@@ -74,7 +79,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 3)
 shape = SubResource("BoxShape3D_swlrv")
 
 [node name="player_barrier" parent="actors/Arena" unique_id=499809611 instance=ExtResource("3_kknpw")]
-transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 2, 0, -7)
+transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 3, 0, -7)
 
 [node name="player_barrier2" parent="actors/Arena" unique_id=321406643 instance=ExtResource("3_kknpw")]
 transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, -1, 0, 8)
@@ -83,19 +88,32 @@ transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, -1, 0, 8)
 script = ExtResource("4_2wjmr")
 metadata/_custom_type_script = "uid://hnew60psrw5u"
 
-[node name="mob_spawn" parent="actors/Arena/ArenaSequence" unique_id=1634892341 groups=["mob_spawns"] instance=ExtResource("1_kknpw")]
-transform = Transform3D(-0.99999994, 0, 0, 0, 1, 0, 0, 0, -0.99999994, 0, 0, -5)
+[node name="MobSpawner" parent="actors/Arena/ArenaSequence" unique_id=223242496 instance=ExtResource("8_4fxuv")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -1, 0, -13)
+mobPrefab = "fodder_prj_stream"
+loopPath = true
 
-[node name="ArenaSequence" type="Node3D" parent="actors/Arena/ArenaSequence" unique_id=1298238631]
-script = ExtResource("4_2wjmr")
-sequenceType = 1
-metadata/_custom_type_script = "uid://hnew60psrw5u"
+[node name="WorldGizmo" parent="actors/Arena/ArenaSequence/MobSpawner" unique_id=689144392 instance=ExtResource("6_3s36i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.99999976, 0, 1)
 
-[node name="mob_spawn2" parent="actors/Arena/ArenaSequence/ArenaSequence" unique_id=581632772 groups=["mob_spawns"] instance=ExtResource("1_kknpw")]
-transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.70710677, -4, 0, -5)
+[node name="WorldGizmo3" parent="actors/Arena/ArenaSequence/MobSpawner/WorldGizmo" unique_id=1602475899 instance=ExtResource("6_3s36i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.000001, 0, -7.9999995)
+skeleton = NodePath("../..")
 
-[node name="mob_spawn3" parent="actors/Arena/ArenaSequence/ArenaSequence" unique_id=954465198 groups=["mob_spawns"] instance=ExtResource("1_kknpw")]
-transform = Transform3D(-0.7071067, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, -0.7071067, 4, 0, -5)
+[node name="WorldGizmo4" parent="actors/Arena/ArenaSequence/MobSpawner/WorldGizmo" unique_id=222103162 instance=ExtResource("6_3s36i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.999998, 0, -8)
+skeleton = NodePath("../..")
+
+[node name="WorldGizmo2" parent="actors/Arena/ArenaSequence/MobSpawner" unique_id=1294544786 instance=ExtResource("6_3s36i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0000001, 0, -1.000001)
+
+[node name="WorldGizmo3" parent="actors/Arena/ArenaSequence/MobSpawner/WorldGizmo2" unique_id=584162471 instance=ExtResource("6_3s36i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.9999995, 0, -7)
+skeleton = NodePath("../..")
+
+[node name="WorldGizmo4" parent="actors/Arena/ArenaSequence/MobSpawner/WorldGizmo2" unique_id=2039128643 instance=ExtResource("6_3s36i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.000001, 0, -6.9999995)
+skeleton = NodePath("../..")
 
 [node name="Arena2" type="Node3D" parent="actors" unique_id=2118323415]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -13)
@@ -259,10 +277,54 @@ shape = SubResource("BoxShape3D_4fxuv")
 script = ExtResource("4_2wjmr")
 metadata/_custom_type_script = "uid://hnew60psrw5u"
 
-[node name="MobSpawner" type="Node3D" parent="single_mob_test/actors/Arena/ArenaSequence" unique_id=1575176725]
-script = ExtResource("5_m3qc8")
+[node name="MobSpawner2" parent="single_mob_test/actors/Arena/ArenaSequence" unique_id=507664954 instance=ExtResource("8_4fxuv")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+skeleton = NodePath("")
 mobPrefab = "fodder_prj_stream"
-metadata/_custom_type_script = "uid://du20o0a35n2qt"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/MobSpawner2" unique_id=1136450895]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4, 0, -3)
+mesh = ExtResource("9_q7ycd")
+
+[node name="ModelBot" parent="single_mob_test/actors/Arena/ArenaSequence" unique_id=965064037 instance=ExtResource("10_qi3h8")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 15, 0, -17)
+
+[node name="ModelBot_scale" type="Node3D" parent="single_mob_test/actors/Arena/ArenaSequence" unique_id=1530844939]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -17)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale" unique_id=314660369]
+transform = Transform3D(2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 1.5, 13)
+mesh = ExtResource("11_mwdn4")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale" unique_id=2082608248]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 5, 2, 1.5, 8)
+mesh = ExtResource("11_mwdn4")
+
+[node name="Node3D" type="Node3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale" unique_id=1359689590]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale/Node3D" unique_id=124910746]
+transform = Transform3D(6, 0, 0, 0, 3, 0, 0, 0, 12, 0, 1.5, 0)
+mesh = ExtResource("11_mwdn4")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale/Node3D" unique_id=654466192]
+transform = Transform3D(2.6999998, 0, 0, 0, 2.1, 0, 0, 0, 3.3599997, 2, 3.5, 3)
+mesh = ExtResource("11_mwdn4")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale/Node3D" unique_id=595822252]
+transform = Transform3D(2.6999998, 0, 0, 0, 2.1, 0, 0, 0, 3.3599997, 2, 3.5, -3)
+mesh = ExtResource("11_mwdn4")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale" unique_id=1234298309]
+transform = Transform3D(1.8, 0, 0, 0, 2, 0, 0, 0, 1.8, -4, 1, 13)
+mesh = ExtResource("11_mwdn4")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale" unique_id=1483649726]
+transform = Transform3D(0.8, 0, 0, 0, 1.8, 0, 0, 0, 0.8, -7, 0.9, 13)
+mesh = ExtResource("11_mwdn4")
 
 [node name="world" type="Node3D" parent="." unique_id=1824105952]
 
@@ -624,5 +686,20 @@ spot_range = 34.0
 spot_attenuation = -0.08
 spot_angle_attenuation = 1.1095695
 
+[node name="SpotLight3D2" type="SpotLight3D" parent="lights" unique_id=228843405]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 14, 7, 9)
+shadow_enabled = true
+spot_range = 10.0
+spot_attenuation = 0.08
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="lights" unique_id=1451263950]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 24, 13, -5)
+shadow_enabled = true
+spot_range = 32.0
+spot_attenuation = 0.08
+spot_angle = 49.556583
+spot_angle_attenuation = 0.2871746
+
 [node name="Camera3D" type="Camera3D" parent="." unique_id=398483886]
 transform = Transform3D(0.85536426, 0, 0.518027, 0, 1, 0, -0.518027, 0, 0.85536426, 5, 3, 5)
+cull_mask = 524287

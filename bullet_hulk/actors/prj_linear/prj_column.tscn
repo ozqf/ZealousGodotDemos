@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cmxj7bvjw5pmr"]
 
-[ext_resource type="Script" uid="uid://2ffj15aggy70" path="res://actors/prj_shared/prj_linear.gd" id="1_nnsea"]
+[ext_resource type="Script" uid="uid://2ffj15aggy70" path="res://actors/prj_linear/prj_linear.gd" id="1_nnsea"]
 [ext_resource type="Script" uid="uid://dxs02jdn5s43s" path="res://shared/src/prj_launch_info.gd" id="2_mk06h"]
 [ext_resource type="Material" uid="uid://ekre5jtku08e" path="res://shared/materials/mat_full_red.tres" id="2_nnsea"]
 

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d1678qwg6ha20"]
 
-[ext_resource type="Script" uid="uid://2ffj15aggy70" path="res://actors/prj_shared/prj_linear.gd" id="1_63pyk"]
+[ext_resource type="Script" uid="uid://2ffj15aggy70" path="res://actors/prj_linear/prj_linear.gd" id="1_63pyk"]
 [ext_resource type="Script" uid="uid://dxs02jdn5s43s" path="res://shared/src/prj_launch_info.gd" id="3_kgwp6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_63pyk"]
