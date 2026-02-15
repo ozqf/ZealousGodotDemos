@@ -1,0 +1,61 @@
+[gd_resource type="AnimationNodeStateMachine" format=3 uid="uid://2ot46skv74qx"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dg62m"]
+animation = &"body_idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0scvk"]
+animation = &"fire_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lqcxq"]
+animation = &"fire_right_aim"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_37xko"]
+animation = &"fire_right_enter"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jeiyq"]
+animation = &"fire_right_exit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5kgcu"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_arsq1"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"is_aiming_right"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mtg13"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8l7il"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5fktg"]
+priority = 0
+advance_mode = 2
+advance_condition = &"is_winding_down"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_witqo"]
+advance_mode = 2
+advance_condition = &"is_shooting_right"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_37xko"]
+switch_mode = 2
+advance_mode = 2
+
+[resource]
+states/Start/position = Vector2(154, 111)
+states/body_idle/node = SubResource("AnimationNodeAnimation_dg62m")
+states/body_idle/position = Vector2(269, 18)
+states/fire_right/node = SubResource("AnimationNodeAnimation_0scvk")
+states/fire_right/position = Vector2(710, 5)
+states/fire_right_aim/node = SubResource("AnimationNodeAnimation_lqcxq")
+states/fire_right_aim/position = Vector2(532, 5)
+states/fire_right_enter/node = SubResource("AnimationNodeAnimation_37xko")
+states/fire_right_enter/position = Vector2(465, -114)
+states/fire_right_exit/node = SubResource("AnimationNodeAnimation_jeiyq")
+states/fire_right_exit/position = Vector2(436, 151)
+transitions = ["Start", "body_idle", SubResource("AnimationNodeStateMachineTransition_5kgcu"), "body_idle", "fire_right_enter", SubResource("AnimationNodeStateMachineTransition_arsq1"), "fire_right_exit", "body_idle", SubResource("AnimationNodeStateMachineTransition_mtg13"), "fire_right_enter", "fire_right_aim", SubResource("AnimationNodeStateMachineTransition_8l7il"), "fire_right_aim", "fire_right_exit", SubResource("AnimationNodeStateMachineTransition_5fktg"), "fire_right_aim", "fire_right", SubResource("AnimationNodeStateMachineTransition_witqo"), "fire_right", "fire_right_aim", SubResource("AnimationNodeStateMachineTransition_37xko")]
+graph_offset = Vector2(-152, -158)

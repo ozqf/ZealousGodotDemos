@@ -15,29 +15,54 @@ var _lastStateNode:String = ""
 var _lastAnimFinishSeen:String = ""
 var _lastAnimFinishProcessed:String = ""
 
+var _painTick:float = 3.0
+var _painBlend:float = 0.0
+
 func _ready() -> void:
 	_animState = _animTree.get("parameters/playback") as AnimationNodeStateMachinePlayback
-	_lastStateNode = _animState.get_current_node()
+	#_lastStateNode = _animState.get_current_node()
 	_animTree.connect("animation_finished", _on_anim_finished)
 
 func _on_anim_finished(anim_name:String) -> void:
 	if anim_name == "":
 		print("Saw empty anim finish")
+	if anim_name == "pain":
+		print("Ignored pain anim finish")
+		return
 	print("Tree anim finished " + str(anim_name))
 	_lastAnimFinishSeen = anim_name
 	
 
 func _start_shooting_right() -> void:
-	_animTree.set("parameters/conditions/is_aiming_right", true)
-	_animTree.set("parameters/conditions/is_shooting_right", true)
-	_animTree.set("parameters/conditions/is_winding_down", false)
+	var root:String = "parameters/AnimationNodeStateMachine/conditions/"
+	_animTree.set(root + "is_aiming_right", true)
+	_animTree.set(root + "is_shooting_right", true)
+	_animTree.set(root + "is_winding_down", false)
 
 func _end_shooting_right() -> void:
-	_animTree.set("parameters/conditions/is_aiming_right", false)
-	_animTree.set("parameters/conditions/is_shooting_right", false)
-	_animTree.set("parameters/conditions/is_winding_down", true)
+	var root:String = "parameters/AnimationNodeStateMachine/conditions/"
+	_animTree.set(root + "is_aiming_right", false)
+	_animTree.set(root + "is_shooting_right", false)
+	_animTree.set(root + "is_winding_down", true)
+
+func _run_pain(_delta:float) -> void:
+	if _painBlend > 0.0:
+		var path:String = "parameters/pain_blend/blend_amount"
+		_animTree.set(path, _painBlend)
+	_painTick -= _delta
+	_painBlend = clampf(_painBlend - (_delta * 4), 0.0, 0.99)
+	if _painTick > 0.0:
+		return
+	_painTick = randf_range(2, 4)
+	_painBlend = 1.0
+	print("Pain - next in " + str(_painTick))
+	
+	#var path:String = "parameters/pain_one_shot/request"
+	#_animTree.set(path, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	pass
 
 func _physics_process(_delta: float) -> void:
+	_run_pain(_delta)
 	if _lastAnimFinishSeen != "":
 		print("Handle anim finished " + _lastAnimFinishSeen)
 		var anim:String = _lastAnimFinishSeen

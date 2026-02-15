@@ -4,6 +4,7 @@
 [ext_resource type="BoxMesh" uid="uid://bcicyukcogaj5" path="res://shared/primitivies/cube_diameter_1.tres" id="1_jfnsl"]
 [ext_resource type="Material" uid="uid://dd5xfincwbgj8" path="res://shared/materials/mat_full_white.tres" id="3_dg62m"]
 [ext_resource type="Script" uid="uid://bgrgim3tm77pd" path="res://zqf/zqf_timed_visible.gd" id="3_jeiyq"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://2ot46skv74qx" path="res://actors/mobs/model_bot/model_bot_body_animstate_machine.tres" id="5_0scvk"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_dg62m"]
 top_radius = 0.2
@@ -392,65 +393,21 @@ _data = {
 &"pain": SubResource("Animation_5kgcu")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dg62m"]
-animation = &"body_idle"
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0scvk"]
-animation = &"fire_right"
+animation = &"pain"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lqcxq"]
-animation = &"fire_right_aim"
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_0scvk"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_37xko"]
-animation = &"fire_right_enter"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jeiyq"]
-animation = &"fire_right_exit"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5kgcu"]
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_arsq1"]
-switch_mode = 2
-advance_mode = 2
-advance_condition = &"is_aiming_right"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mtg13"]
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8l7il"]
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5fktg"]
-priority = 0
-advance_mode = 2
-advance_condition = &"is_winding_down"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_witqo"]
-advance_mode = 2
-advance_condition = &"is_shooting_right"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_37xko"]
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_arsq1"]
-states/Start/position = Vector2(154, 111)
-states/body_idle/node = SubResource("AnimationNodeAnimation_dg62m")
-states/body_idle/position = Vector2(269, 18)
-states/fire_right/node = SubResource("AnimationNodeAnimation_0scvk")
-states/fire_right/position = Vector2(710, 5)
-states/fire_right_aim/node = SubResource("AnimationNodeAnimation_lqcxq")
-states/fire_right_aim/position = Vector2(532, 5)
-states/fire_right_enter/node = SubResource("AnimationNodeAnimation_37xko")
-states/fire_right_enter/position = Vector2(465, -114)
-states/fire_right_exit/node = SubResource("AnimationNodeAnimation_jeiyq")
-states/fire_right_exit/position = Vector2(436, 151)
-transitions = ["Start", "body_idle", SubResource("AnimationNodeStateMachineTransition_5kgcu"), "body_idle", "fire_right_enter", SubResource("AnimationNodeStateMachineTransition_arsq1"), "fire_right_exit", "body_idle", SubResource("AnimationNodeStateMachineTransition_mtg13"), "fire_right_enter", "fire_right_aim", SubResource("AnimationNodeStateMachineTransition_8l7il"), "fire_right_aim", "fire_right_exit", SubResource("AnimationNodeStateMachineTransition_5fktg"), "fire_right_aim", "fire_right", SubResource("AnimationNodeStateMachineTransition_witqo"), "fire_right", "fire_right_aim", SubResource("AnimationNodeStateMachineTransition_37xko")]
-graph_offset = Vector2(-152, -158)
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5kgcu"]
+graph_offset = Vector2(-695.8829, -4.9881287)
+nodes/output/position = Vector2(680, 180)
+nodes/AnimationNodeStateMachine/node = ExtResource("5_0scvk")
+nodes/AnimationNodeStateMachine/position = Vector2(-480, 60)
+"nodes/pain 2/node" = SubResource("AnimationNodeAnimation_0scvk")
+"nodes/pain 2/position" = Vector2(-440, 340)
+nodes/pain_blend/node = SubResource("AnimationNodeBlend2_0scvk")
+nodes/pain_blend/position = Vector2(200, 100)
+node_connections = [&"output", 0, &"pain_blend", &"pain_blend", 0, &"AnimationNodeStateMachine", &"pain_blend", 1, &"pain 2"]
 
 [node name="ModelBot" type="Node3D" unique_id=965064037]
 script = ExtResource("1_37xko")
@@ -531,8 +488,9 @@ skeleton = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_jeiyq")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=2086417720]
-tree_root = SubResource("AnimationNodeStateMachine_arsq1")
+tree_root = SubResource("AnimationNodeBlendTree_5kgcu")
 anim_player = NodePath("../AnimationPlayer")
-parameters/conditions/is_aiming_right = false
-parameters/conditions/is_shooting_right = false
-parameters/conditions/is_winding_down = false
+parameters/AnimationNodeStateMachine/conditions/is_aiming_right = false
+parameters/AnimationNodeStateMachine/conditions/is_shooting_right = false
+parameters/AnimationNodeStateMachine/conditions/is_winding_down = false
+parameters/pain_blend/blend_amount = 0.0
