@@ -5,6 +5,11 @@ const MOB_PREFAB_FODDER:String = "fodder"
 const MOB_FODDER_PRJ_STREAM:String = "fodder_prj_stream"
 const MOB_PREFAB_BRUTE:String = "brute"
 
+const ATK_INDEX_NONE:int = -1
+const ATK_INDEX_BASIC:int = 0
+const ATK_INDEX_COLUMN_SPREAD:int = 0
+const ATK_INDEX_COLUMN_HORIZONTAL:int = 0
+
 static var _fodderType:PackedScene = preload("res://actors/mobs/fodder.tscn")
 static var _bruteType:PackedScene = preload("res://actors/mobs/brute.tscn")
 
@@ -45,6 +50,7 @@ var moveNodeIndex:int = 0 # index of the child node we are moving to
 @onready var _agent:NavigationAgent3D = $NavigationAgent3D
 @onready var _muzzleFlash:ZqfTimedVisible = $launch_node/ZqfTimedVisible
 @onready var _settings:MobSettings = $MobSettings
+@onready var _thinkInfo:MobThinkInfo = $MobThinkInfo
 
 var _state:State = State.Idle
 var _hp:float = 100.0
@@ -53,7 +59,10 @@ var _tock:int = 0
 var _refireTime:float = 1.2
 var _hitscan:PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.new()
 
+var _atkIndex:int = 0
+
 func _ready() -> void:
+	assert(_thinkInfo != null)
 	_agent.connect("velocity_computed", _velocity_computed)
 	pass
 
@@ -89,12 +98,6 @@ func _has_los(a:Vector3, b:Vector3) -> bool:
 	var result:Dictionary = self.get_world_3d().direct_space_state.intersect_ray(_hitscan)
 	return result.is_empty()
 
-func _fire() -> void:
-	if _tock % 2 == 0:
-		_fire_fan()
-	else:
-		_fire_single()
-
 func _fire_single() -> void:
 	var prj:PrjLinear = Game.prj_column()
 	var launch:PrjLaunchInfo = prj.get_launch_info()
@@ -126,6 +129,16 @@ func _fire_fan() -> void:
 func look_at_flat(pos:Vector3) -> void:
 	pos.y = self.global_position.y
 	self.look_at(pos)
+
+func _try_attack_start(think:MobThinkInfo) -> int:
+	var pendingIndex:int = ATK_INDEX_NONE
+	match mobPrefab:
+		MOB_PREFAB_BRUTE:
+			pass
+		_:
+			if think.hasLoS:
+				pendingIndex = ATK_INDEX_BASIC
+	return pendingIndex
 
 #region movement
 
@@ -175,26 +188,42 @@ func _follow_path(delta:float) -> bool:
 
 #region updates
 
-func _tick_fodder(_delta:float, target:TargetInfo) ->void:
-	self.look_at_flat(target.headT.origin)
+# returns true if hunting
+func _refresh_think_info(think:MobThinkInfo) -> bool:
+	var target:TargetInfo = Game.get_target()
+	if target.age > 2:
+		# target info is stale
+		think.target = null
+		return false
+	think.target = target
+	
+	# check LOS from launch node not head
+	self._launchNode.look_at(think.target.headT.origin)
+	var hasLoS:bool = _has_los(_launchNode.global_position, think.target.headT.origin)
+	
+	return true
+
+
+func _tick_fodder(_delta:float, think:MobThinkInfo) ->void:
+	self.look_at_flat(think.target.headT.origin)
 	
 	var t:Transform3D = self.global_transform
-	var distSqr:float = t.origin.distance_squared_to(target.t.origin)
+	var distSqr:float = t.origin.distance_squared_to(think.target.t.origin)
 	var minDistSqr:float = 2 * 2
 	
 	if distSqr > minDistSqr:
 		# move to target
-		_walk_toward(_delta, target.t.origin)
+		_walk_toward(_delta, think.target.t.origin)
 		return
 	else:
 		_agent.avoidance_enabled = false
 
-func _tick_fodder_prj_stream(_delta:float, target:TargetInfo) -> void:
-	self.look_at_flat(target.headT.origin)
+func _tick_fodder_prj_stream(_delta:float, think:MobThinkInfo) -> void:
+	self.look_at_flat(think.target.headT.origin)
 	
 	# check LOS from launch node not head
-	self._launchNode.look_at(target.headT.origin)
-	var hasLoS:bool = _has_los(_launchNode.global_position, target.headT.origin)
+	self._launchNode.look_at(think.target.headT.origin)
+	var hasLoS:bool = _has_los(_launchNode.global_position, think.target.headT.origin)
 	
 	_follow_path(_delta)
 
@@ -212,19 +241,14 @@ func _tick_fodder_prj_stream(_delta:float, target:TargetInfo) -> void:
 		launch.speed = 3
 		prj.launch_projectile()
 
-func _tick_brute(_delta:float, target:TargetInfo) ->void:
-	self.look_at_flat(target.headT.origin)
-	
-	# check LOS from launch node not head
-	self._launchNode.look_at(target.headT.origin)
-	var hasLoS:bool = _has_los(_launchNode.global_position, target.headT.origin)
-	
+func _tick_brute(_delta:float, think:MobThinkInfo) ->void:
+	self.look_at_flat(think.target.headT.origin)
 	
 	_tick -= _delta
-	if _tick <= 0.0 && hasLoS:
+	if _tick <= 0.0 && think.hasLoS:
 		_tick = _refireTime
 		_muzzleFlash.start(0.1)
-		var category:int = Interactions.calc_attack_category(self.global_position, target.t.origin)
+		var category:int = Interactions.calc_attack_category(self.global_position, think.target.t.origin)
 		match category:
 			Interactions.ATK_CATEGORY_ABOVE_TARGET:
 				_fire_fan()
@@ -241,7 +265,7 @@ func _tick_brute(_delta:float, target:TargetInfo) ->void:
 				else:
 					var prj:PrjLinear = Game.prj_column()
 					var launch:PrjLaunchInfo = prj.get_launch_info()
-					if target.isCrouching:
+					if think.target.isCrouching:
 						# drop projectile to floor
 						origin.y = self.global_position.y + 0.2
 					launch.origin = origin # + Vector3(0, 1, 0)
@@ -249,24 +273,19 @@ func _tick_brute(_delta:float, target:TargetInfo) ->void:
 					launch.speed = 4
 					launch.rollDegrees = 90.0
 					prj.launch_projectile()
-
-					#_fire_single()
 		_tock += 1
 
 func _physics_process(_delta:float) -> void:
-	var target:TargetInfo = Game.get_target()
-	if target.age > 2:
-		# target info is stale
+	if !_refresh_think_info(_thinkInfo):
 		return
 	
-
 	match mobPrefab:
 		MOB_FODDER_PRJ_STREAM:
-			_tick_fodder_prj_stream(_delta, target)
+			_tick_fodder_prj_stream(_delta, _thinkInfo)
 		MOB_PREFAB_BRUTE:
-			_tick_brute(_delta, target)
+			_tick_brute(_delta, _thinkInfo)
 		MOB_PREFAB_FODDER, _:
-			_tick_fodder(_delta, target)
+			_tick_fodder(_delta, _thinkInfo)
 
 #endregion
 
@@ -276,7 +295,7 @@ func hurt(atk:AttackInfo) -> int:
 		if _hp <= 0.0:
 			self.queue_free()
 			return 1
-		print("ow")
+		#print("ow")
 	else:
 		print("already dead")
 	return 1

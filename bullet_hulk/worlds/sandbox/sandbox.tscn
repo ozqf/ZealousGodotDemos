@@ -64,7 +64,7 @@ navigation_mesh = SubResource("NavigationMesh_uiqcp")
 [node name="actors" type="Node3D" parent="." unique_id=2006676469]
 
 [node name="start" parent="actors" unique_id=2034328885 groups=["player_starts"] instance=ExtResource("1_kknpw")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6, 0, 10)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 16, 0, 3)
 
 [node name="Arena" type="Node3D" parent="actors" unique_id=1285227805]
 script = ExtResource("2_swlrv")
@@ -79,7 +79,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 3)
 shape = SubResource("BoxShape3D_swlrv")
 
 [node name="player_barrier" parent="actors/Arena" unique_id=499809611 instance=ExtResource("3_kknpw")]
-transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 3, 0, -7)
+transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 2, 0, -7)
 
 [node name="player_barrier2" parent="actors/Arena" unique_id=321406643 instance=ExtResource("3_kknpw")]
 transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, -1, 0, 8)
@@ -238,6 +238,46 @@ shape = SubResource("BoxShape3D_sklqh")
 [node name="single_mob_test" type="Node3D" parent="." unique_id=1118286567]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 9)
 
+[node name="ModelBot" parent="single_mob_test" unique_id=965064037 instance=ExtResource("10_qi3h8")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4, 0, -5)
+
+[node name="ModelBot_scale" type="Node3D" parent="single_mob_test" unique_id=1530844939]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -17)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="single_mob_test/ModelBot_scale" unique_id=314660369]
+transform = Transform3D(2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 1.5, 13)
+mesh = ExtResource("11_mwdn4")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="single_mob_test/ModelBot_scale" unique_id=2082608248]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 5, 2, 1.5, 8)
+mesh = ExtResource("11_mwdn4")
+
+[node name="Node3D" type="Node3D" parent="single_mob_test/ModelBot_scale" unique_id=1359689590]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="single_mob_test/ModelBot_scale/Node3D" unique_id=124910746]
+transform = Transform3D(6, 0, 0, 0, 3, 0, 0, 0, 12, 0, 1.5, 0)
+mesh = ExtResource("11_mwdn4")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="single_mob_test/ModelBot_scale/Node3D" unique_id=654466192]
+transform = Transform3D(6.7499995, 0, 0, 0, 2.1, 0, 0, 0, 3.3599997, 0, 3.5, 3)
+mesh = ExtResource("11_mwdn4")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="single_mob_test/ModelBot_scale/Node3D" unique_id=1858617742]
+transform = Transform3D(6.7499995, 0, 0, 0, 2.1, 0, 0, 0, 3.3599997, 0, 3.5, -3)
+mesh = ExtResource("11_mwdn4")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="single_mob_test/ModelBot_scale" unique_id=1234298309]
+transform = Transform3D(1.8, 0, 0, 0, 2, 0, 0, 0, 1.8, -4, 1, 13)
+mesh = ExtResource("11_mwdn4")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="single_mob_test/ModelBot_scale" unique_id=1483649726]
+transform = Transform3D(0.8, 0, 0, 0, 1.8, 0, 0, 0, 0.8, -7, 0.9, 13)
+mesh = ExtResource("11_mwdn4")
+
 [node name="world" type="Node3D" parent="single_mob_test" unique_id=1236672032]
 
 [node name="CSGBox3D46" type="CSGBox3D" parent="single_mob_test/world" unique_id=98222593 groups=["world"]]
@@ -285,46 +325,6 @@ mobPrefab = "fodder_prj_stream"
 [node name="MeshInstance3D" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/MobSpawner2" unique_id=1136450895]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4, 0, -3)
 mesh = ExtResource("9_q7ycd")
-
-[node name="ModelBot" parent="single_mob_test/actors/Arena/ArenaSequence" unique_id=965064037 instance=ExtResource("10_qi3h8")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 15, 0, -17)
-
-[node name="ModelBot_scale" type="Node3D" parent="single_mob_test/actors/Arena/ArenaSequence" unique_id=1530844939]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -17)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale" unique_id=314660369]
-transform = Transform3D(2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 1.5, 13)
-mesh = ExtResource("11_mwdn4")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale" unique_id=2082608248]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 5, 2, 1.5, 8)
-mesh = ExtResource("11_mwdn4")
-
-[node name="Node3D" type="Node3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale" unique_id=1359689590]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
-
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale/Node3D" unique_id=124910746]
-transform = Transform3D(6, 0, 0, 0, 3, 0, 0, 0, 12, 0, 1.5, 0)
-mesh = ExtResource("11_mwdn4")
-skeleton = NodePath("../..")
-
-[node name="MeshInstance3D6" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale/Node3D" unique_id=654466192]
-transform = Transform3D(2.6999998, 0, 0, 0, 2.1, 0, 0, 0, 3.3599997, 2, 3.5, 3)
-mesh = ExtResource("11_mwdn4")
-skeleton = NodePath("../..")
-
-[node name="MeshInstance3D7" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale/Node3D" unique_id=595822252]
-transform = Transform3D(2.6999998, 0, 0, 0, 2.1, 0, 0, 0, 3.3599997, 2, 3.5, -3)
-mesh = ExtResource("11_mwdn4")
-skeleton = NodePath("../..")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale" unique_id=1234298309]
-transform = Transform3D(1.8, 0, 0, 0, 2, 0, 0, 0, 1.8, -4, 1, 13)
-mesh = ExtResource("11_mwdn4")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/ModelBot_scale" unique_id=1483649726]
-transform = Transform3D(0.8, 0, 0, 0, 1.8, 0, 0, 0, 0.8, -7, 0.9, 13)
-mesh = ExtResource("11_mwdn4")
 
 [node name="world" type="Node3D" parent="." unique_id=1824105952]
 

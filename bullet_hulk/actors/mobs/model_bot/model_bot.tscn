@@ -1,35 +1,538 @@
 [gd_scene format=3 uid="uid://djgcm24hvncg7"]
 
+[ext_resource type="Script" uid="uid://l5h3pnod1ra0" path="res://actors/mobs/model_bot/model_bot.gd" id="1_37xko"]
 [ext_resource type="BoxMesh" uid="uid://bcicyukcogaj5" path="res://shared/primitivies/cube_diameter_1.tres" id="1_jfnsl"]
+[ext_resource type="Material" uid="uid://dd5xfincwbgj8" path="res://shared/materials/mat_full_white.tres" id="3_dg62m"]
+[ext_resource type="Script" uid="uid://bgrgim3tm77pd" path="res://zqf/zqf_timed_visible.gd" id="3_jeiyq"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dg62m"]
+top_radius = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_jfnsl"]
+size = Vector3(1.6, 1, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_37xko"]
+left_to_right = 0.2
+size = Vector3(1, 0.6, 1.6)
+
+[sub_resource type="PrismMesh" id="PrismMesh_jeiyq"]
+left_to_right = 0.2
+size = Vector3(1, 0.6, 1.6)
+
+[sub_resource type="Animation" id="Animation_jfnsl"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("body")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("body/right_hand")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 1.2, 0.36, 0)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("body/left_hand")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, -1.2, 0.36, 0)
+tracks/3/type = "position_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("body/torso")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_37xko"]
+resource_name = "body_idle"
+length = 0.1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("body")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("body")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("body/right_hand")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 1.2, 0.36, 0)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("body/right_hand")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, -0.38268343, 0, 0, 0.92387956)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("body/left_hand")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, -1.2, 0.36, 0)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("body/left_hand")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, -0.3826834, 0, 0, 0.9238795)
+tracks/6/type = "position_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("body/torso")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+tracks/7/type = "rotation_3d"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("body/torso")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_dg62m"]
+resource_name = "fire_right"
+length = 0.1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("body")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0, 0.1, 1, 0, 1, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("body")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0.38268343, 0, 0.92387956, 0.1, 1, 0, 0.38268343, 0, 0.92387956)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("body/right_hand")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0.91715735, 0.36000007, -0.9899494, 0.033333335, 1, 0.7050253, 0.36000013, -0.77781737, 0.1, 1, 0.91715735, 0.36000007, -0.9899494)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("body/right_hand")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 2.7533757e-08, -0.3826834, -1.1404855e-08, 0.9238795, 0.033333335, 1, 0.23911764, -0.36964378, 0.09904575, 0.8923991, 0.1, 1, 2.7533757e-08, -0.3826834, -1.1404855e-08, 0.9238795)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("body/left_hand")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, -1.2, 0.36, 0, 0.1, 1, -1.2, 0.36, 0)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("body/left_hand")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, -0.3826834, 0, 0, 0.92387956, 0.1, 1, -0.3826834, 0, 0, 0.92387956)
+tracks/6/type = "position_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("body/torso")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.1, 1, 0, 0, 0)
+tracks/7/type = "rotation_3d"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("body/torso")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.1, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_lqcxq"]
+resource_name = "fire_right_aim"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("body")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0, 0.03333333, 1, 0, 1, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("body")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0.38268343, 0, 0.92387956, 0.03333333, 1, 0, 0.38268343, 0, 0.92387956)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("body/right_hand")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0.91715735, 0.36000007, -0.9899494, 0.03333333, 1, 0.91715735, 0.36000007, -0.9899494)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("body/right_hand")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 2.7533757e-08, -0.3826834, -1.1404855e-08, 0.9238795, 0.03333333, 1, 2.7533757e-08, -0.3826834, -1.1404855e-08, 0.9238795)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("body/left_hand")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, -1.2, 0.36, 0, 0.03333333, 1, -1.2, 0.36, 0)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("body/left_hand")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, -0.3826834, 0, 0, 0.92387956, 0.03333333, 1, -0.3826834, 0, 0, 0.92387956)
+tracks/6/type = "position_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("body/torso")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+tracks/7/type = "rotation_3d"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("body/torso")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_jeiyq"]
+resource_name = "fire_right_enter"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("body")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0, 1, 1, 0, 1, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("body")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 1, 0, 0.38268343, 0, 0.92387956)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("body/right_hand")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 1.2, 0.36, 0, 0.099999994, 1, 1.2, 0.36, 0, 1, 1, 0.91715735, 0.36000007, -0.9899494)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("body/right_hand")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, -0.38268343, 0, 0, 0.92387956, 0.099999994, 1, -0.38268343, 0, 0, 0.92387956, 1, 1, 2.7533757e-08, -0.3826834, -1.1404855e-08, 0.9238795)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("body/left_hand")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, -1.2, 0.36, 0, 1, 1, -1.2, 0.36, 0)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("body/left_hand")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, -0.3826834, 0, 0, 0.9238795, 1, 1, -0.3826834, 0, 0, 0.92387956)
+
+[sub_resource type="Animation" id="Animation_0scvk"]
+resource_name = "fire_right_exit"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("body")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0, 1, 1, 0, 1, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("body")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0.38268343, 0, 0.92387956, 1, 1, 0, 0, 0, 1)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("body/right_hand")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0.91715735, 0.36000007, -0.9899494, 0.8333333, 1, 1.2, 0.36, 0, 1, 1, 1.2, 0.36, 0)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("body/right_hand")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 2.7533757e-08, -0.3826834, -1.1404855e-08, 0.9238795, 0.8333333, 1, -0.38268343, 0, 0, 0.92387956, 1, 1, -0.38268343, 0, 0, 0.92387956)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("body/left_hand")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, -1.2, 0.36, 0, 1, 1, -1.2, 0.36, 0)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("body/left_hand")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, -0.3826834, 0, 0, 0.92387956, 1, 1, -0.3826834, 0, 0, 0.9238795)
+
+[sub_resource type="Animation" id="Animation_5kgcu"]
+resource_name = "pain"
+length = 0.1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("body")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("body")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.13052619, 0, 0, 0.9914448)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("body/right_hand")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 1.2, 0.24446046, 0.34154168)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("body/right_hand")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, -0.33236277, -0.3408478, -0.20183668, 0.8559321)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("body/left_hand")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, -1.4000001, 0.341053, 0.31565976)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("body/left_hand")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, -0.4291346, 0.35112274, 0.2121459, 0.80470526)
+tracks/6/type = "position_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("body/torso")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array()
+tracks/7/type = "rotation_3d"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("body/torso")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = PackedFloat32Array()
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jeiyq"]
+_data = {
+&"RESET": SubResource("Animation_jfnsl"),
+&"body_idle": SubResource("Animation_37xko"),
+&"fire_right": SubResource("Animation_dg62m"),
+&"fire_right_aim": SubResource("Animation_lqcxq"),
+&"fire_right_enter": SubResource("Animation_jeiyq"),
+&"fire_right_exit": SubResource("Animation_0scvk"),
+&"pain": SubResource("Animation_5kgcu")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dg62m"]
+animation = &"body_idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0scvk"]
+animation = &"fire_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lqcxq"]
+animation = &"fire_right_aim"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_37xko"]
+animation = &"fire_right_enter"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jeiyq"]
+animation = &"fire_right_exit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5kgcu"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_arsq1"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"is_aiming_right"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mtg13"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8l7il"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5fktg"]
+priority = 0
+advance_mode = 2
+advance_condition = &"is_winding_down"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_witqo"]
+advance_mode = 2
+advance_condition = &"is_shooting_right"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_37xko"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_arsq1"]
+states/Start/position = Vector2(154, 111)
+states/body_idle/node = SubResource("AnimationNodeAnimation_dg62m")
+states/body_idle/position = Vector2(269, 18)
+states/fire_right/node = SubResource("AnimationNodeAnimation_0scvk")
+states/fire_right/position = Vector2(710, 5)
+states/fire_right_aim/node = SubResource("AnimationNodeAnimation_lqcxq")
+states/fire_right_aim/position = Vector2(532, 5)
+states/fire_right_enter/node = SubResource("AnimationNodeAnimation_37xko")
+states/fire_right_enter/position = Vector2(465, -114)
+states/fire_right_exit/node = SubResource("AnimationNodeAnimation_jeiyq")
+states/fire_right_exit/position = Vector2(436, 151)
+transitions = ["Start", "body_idle", SubResource("AnimationNodeStateMachineTransition_5kgcu"), "body_idle", "fire_right_enter", SubResource("AnimationNodeStateMachineTransition_arsq1"), "fire_right_exit", "body_idle", SubResource("AnimationNodeStateMachineTransition_mtg13"), "fire_right_enter", "fire_right_aim", SubResource("AnimationNodeStateMachineTransition_8l7il"), "fire_right_aim", "fire_right_exit", SubResource("AnimationNodeStateMachineTransition_5fktg"), "fire_right_aim", "fire_right", SubResource("AnimationNodeStateMachineTransition_witqo"), "fire_right", "fire_right_aim", SubResource("AnimationNodeStateMachineTransition_37xko")]
+graph_offset = Vector2(-152, -158)
 
 [node name="ModelBot" type="Node3D" unique_id=965064037]
+script = ExtResource("1_37xko")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=314660369]
-transform = Transform3D(2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 1.5, 0)
+[node name="Label3D" type="Label3D" parent="." unique_id=1031189068]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 3, -0.99999994)
+billboard = 1
+text = "Line 1
+Line 2
+Line 3"
+vertical_alignment = 2
+
+[node name="body" type="Node3D" parent="." unique_id=1578654642]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.9999999, 0, 1, 0)
+
+[node name="torso" type="Node3D" parent="body" unique_id=1376185933]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="body/torso" unique_id=314660369]
+transform = Transform3D(2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0.5, 0)
 visible = false
 layers = 524288
 mesh = ExtResource("1_jfnsl")
+skeleton = NodePath("../../..")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=2107560869]
-transform = Transform3D(1.6800001, 0, 0, 0, 1.2, 0, 0, 0, 2, 0, 2.4, 0)
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="body/torso" unique_id=2107560869]
+transform = Transform3D(1.6800001, 0, 0, 0, 1.2, 0, 0, 0, 1.6, 0, 1.4000001, -0.16)
 mesh = ExtResource("1_jfnsl")
+skeleton = NodePath("../../..")
 
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=1586660296]
-transform = Transform3D(1.2, 0, 0, 0, 0.8, 0, 0, 0, 2, 0, 1.4000002, 0)
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="body/torso" unique_id=1586660296]
+transform = Transform3D(1.1999999, 0, 0, 0, 0.8, 0, 0, 0, 0.90000004, 0, 0.4000002, 0)
 mesh = ExtResource("1_jfnsl")
+skeleton = NodePath("../../..")
 
-[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=1155891787]
-transform = Transform3D(0.504, 0, 0, 0, 1.008, 0, 0, 0, 2, 0.6, 0.5000002, 0)
-mesh = ExtResource("1_jfnsl")
+[node name="left_hand" type="Node3D" parent="body" unique_id=1467433153]
+transform = Transform3D(1.0000001, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.70710677, 0.7071069, -1.2, 0.36, 0)
 
-[node name="MeshInstance3D7" type="MeshInstance3D" parent="." unique_id=840432392]
-transform = Transform3D(0.504, 0, 0, 0, 1.008, 0, 0, 0, 2, -0.59999996, 0.5000002, 0)
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="body/left_hand" unique_id=97882513]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 0, -0.5)
 mesh = ExtResource("1_jfnsl")
+skeleton = NodePath("../../..")
+metadata/_edit_lock_ = true
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=97882513]
-transform = Transform3D(0.42426407, -0.42426407, 0, 0.42426407, 0.42426407, 0, 0, 0, 1, -1.1, 1.5, -0.5)
-mesh = ExtResource("1_jfnsl")
+[node name="right_hand" type="Node3D" parent="body" unique_id=1412906977]
+transform = Transform3D(1.0000001, 0, 0, 0, 0.7071069, 0.7071067, 0, -0.70710677, 0.7071068, 1.2, 0.36, 0)
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1364986119]
-transform = Transform3D(0.42426407, 0.42426407, 0, -0.42426407, 0.42426407, 0, 0, 0, 1, 1.1, 1.5, -0.5)
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="body/right_hand" unique_id=1364986119]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 0, -0.5)
 mesh = ExtResource("1_jfnsl")
+skeleton = NodePath("../../..")
+metadata/_edit_lock_ = true
+
+[node name="flash" type="MeshInstance3D" parent="body/right_hand" unique_id=589411863]
+transform = Transform3D(1, 0, 0, 0, -1.3113417e-08, -1, 0, 0.3, -4.371139e-08, 0, 1.2239187e-08, -1.28)
+mesh = SubResource("CylinderMesh_dg62m")
+surface_material_override/0 = ExtResource("3_dg62m")
+script = ExtResource("3_jeiyq")
+
+[node name="base" type="Node3D" parent="." unique_id=228026021]
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="base" unique_id=1197443470]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_jfnsl")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="base" unique_id=1473250973]
+transform = Transform3D(-4.371139e-08, 0, 1, -1, 2.9802322e-08, -4.371139e-08, -2.9802322e-08, -1, -8.881784e-16, 0, 0.5, -0.8)
+mesh = SubResource("PrismMesh_37xko")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="base" unique_id=1746632939]
+transform = Transform3D(4.371139e-08, -4.650416e-15, 1, 1, -1.172251e-07, -4.371139e-08, 1.172251e-07, 1, -8.881784e-16, 1.8601663e-15, 0.5, 0.8000001)
+mesh = SubResource("PrismMesh_jeiyq")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1807188488]
+libraries/ = SubResource("AnimationLibrary_jeiyq")
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=2086417720]
+tree_root = SubResource("AnimationNodeStateMachine_arsq1")
+anim_player = NodePath("../AnimationPlayer")
+parameters/conditions/is_aiming_right = false
+parameters/conditions/is_shooting_right = false
+parameters/conditions/is_winding_down = false

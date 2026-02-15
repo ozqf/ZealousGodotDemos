@@ -3,6 +3,7 @@ class_name MobSpawner
 
 @export var mobPrefab:String = ""
 @export var loopPath:bool = false
+@export var stopAtEndOfPath:bool = false
 
 # count the number of nodes we had before adding mobs
 # so that editor meshes etc can be ignored in the count

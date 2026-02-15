@@ -7,6 +7,7 @@
 [ext_resource type="SphereMesh" uid="uid://bgfq7kqgbmtu3" path="res://shared/primitivies/sphere_diameter_1.tres" id="5_ugel4"]
 [ext_resource type="Material" uid="uid://dd5xfincwbgj8" path="res://shared/materials/mat_full_white.tres" id="6_eqfbv"]
 [ext_resource type="Script" uid="uid://bskge613hp6qh" path="res://actors/mobs/mob_settings.gd" id="7_ugel4"]
+[ext_resource type="Script" uid="uid://cyk6lr62os6xt" path="res://actors/mobs/mob_think_info.gd" id="8_eqfbv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uiqcp"]
 radius = 0.90000004
@@ -57,3 +58,7 @@ surface_material_override/0 = ExtResource("6_eqfbv")
 
 [node name="MobSettings" type="Node" parent="." unique_id=1022171704]
 script = ExtResource("7_ugel4")
+
+[node name="MobThinkInfo" type="Node" parent="." unique_id=1922406567]
+script = ExtResource("8_eqfbv")
+metadata/_custom_type_script = "uid://cyk6lr62os6xt"
