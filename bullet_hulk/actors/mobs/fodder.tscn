@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cd5kqar50s3hu"]
 
 [ext_resource type="Script" uid="uid://ci5oos3bxgncv" path="res://actors/mobs/mob.gd" id="1_2xl5t"]
+[ext_resource type="PackedScene" uid="uid://djgcm24hvncg7" path="res://actors/mobs/model_bot/model_bot.tscn" id="2_f751o"]
 [ext_resource type="Material" uid="uid://7s26jwcr1xb" path="res://shared/materials/mat_mob_placeholder.tres" id="2_pm4n0"]
 [ext_resource type="Material" uid="uid://ekre5jtku08e" path="res://shared/materials/mat_full_red.tres" id="3_brfsb"]
 [ext_resource type="Script" uid="uid://bgrgim3tm77pd" path="res://zqf/zqf_timed_visible.gd" id="4_vul2x"]
@@ -28,17 +29,22 @@ collision_mask = 7
 script = ExtResource("1_2xl5t")
 mobPrefab = "fodder"
 
+[node name="Model" parent="." unique_id=965064037 instance=ExtResource("2_f751o")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1983096747]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_uiqcp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1134879605]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.90000004, 0)
+visible = false
 mesh = SubResource("CylinderMesh_uiqcp")
 surface_material_override/0 = ExtResource("2_pm4n0")
 
 [node name="eye" type="MeshInstance3D" parent="." unique_id=1155284996]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, -0.7000001)
+visible = false
 mesh = SubResource("BoxMesh_swlrv")
 surface_material_override/0 = ExtResource("3_brfsb")
 
@@ -46,6 +52,7 @@ surface_material_override/0 = ExtResource("3_brfsb")
 
 [node name="launch_node" type="Node3D" parent="." unique_id=1703975695]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 
 [node name="ZqfTimedVisible" type="Node3D" parent="launch_node" unique_id=691993625]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.9)

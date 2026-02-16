@@ -51,6 +51,7 @@ var moveNodeIndex:int = 0 # index of the child node we are moving to
 @onready var _muzzleFlash:ZqfTimedVisible = $launch_node/ZqfTimedVisible
 @onready var _settings:MobSettings = $MobSettings
 @onready var _thinkInfo:MobThinkInfo = $MobThinkInfo
+@onready var _model:MobModel = $Model
 
 var _state:State = State.Idle
 var _hp:float = 100.0
@@ -219,19 +220,26 @@ func _tick_fodder(_delta:float, think:MobThinkInfo) ->void:
 		_agent.avoidance_enabled = false
 
 func _tick_fodder_prj_stream(_delta:float, think:MobThinkInfo) -> void:
+	if _model == null:
+		return
 	self.look_at_flat(think.target.headT.origin)
 	
 	# check LOS from launch node not head
 	self._launchNode.look_at(think.target.headT.origin)
 	var hasLoS:bool = _has_los(_launchNode.global_position, think.target.headT.origin)
-	
+	if !hasLoS:
+		_model.end_aim_weapon()
+	else:
+		_model.aim_weapon(0, 0.25)
 	_follow_path(_delta)
 
 	_tick -= _delta
-	if _tick <= 0.0 && hasLoS:
+	if _tick <= 0.0 && hasLoS && _model.is_aiming():
 		_tick = _refireTime
 		_tock += 1
 		_muzzleFlash.start(0.1)
+		_model.play_fire()
+		_model.muzzle_flash()
 		var t:Transform3D = _launchNode.global_transform
 		#var prj:PrjLinear = Game.prj_crescent()
 		var prj:PrjLinear = Game.prj_sphere()
@@ -289,11 +297,21 @@ func _physics_process(_delta:float) -> void:
 
 #endregion
 
+func die() ->void:
+	if _model == null:
+		return
+	_model.reparent(Game.get_actors_root())
+	_model.add_to_group("temp")
+	_model.die()
+	_model = null
+	self.queue_free()
+
 func hurt(atk:AttackInfo) -> int:
 	if _hp > 0.0:
 		_hp -= atk.damage
+		_model.hit_flinch(0.3)
 		if _hp <= 0.0:
-			self.queue_free()
+			die()
 			return 1
 		#print("ow")
 	else:

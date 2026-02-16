@@ -3,11 +3,28 @@
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dg62m"]
 animation = &"body_idle"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sel8v"]
+animation = &"dazed"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0scvk"]
 animation = &"fire_right"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lqcxq"]
 animation = &"fire_right_aim"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b6grl"]
+animation = &"fire_right_enter"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_sel8v"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_tbbcg"]
+graph_offset = Vector2(-458, -41)
+nodes/output/position = Vector2(440, 140)
+nodes/enter_aim_anim/node = SubResource("AnimationNodeAnimation_b6grl")
+nodes/enter_aim_anim/position = Vector2(-80, 120)
+nodes/enter_aim_ts/node = SubResource("AnimationNodeTimeScale_sel8v")
+nodes/enter_aim_ts/position = Vector2(220, 120)
+node_connections = [&"output", 0, &"enter_aim_ts", &"enter_aim_ts", 0, &"enter_aim_anim"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_37xko"]
 animation = &"fire_right_enter"
@@ -19,16 +36,7 @@ animation = &"fire_right_exit"
 switch_mode = 2
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_arsq1"]
-switch_mode = 2
-advance_mode = 2
-advance_condition = &"is_aiming_right"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mtg13"]
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8l7il"]
 switch_mode = 2
 advance_mode = 2
 
@@ -45,17 +53,30 @@ advance_condition = &"is_shooting_right"
 switch_mode = 2
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_arsq1"]
+switch_mode = 2
+advance_mode = 2
+advance_condition = &"is_aiming_right"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8l7il"]
+switch_mode = 2
+advance_mode = 2
+
 [resource]
 states/Start/position = Vector2(154, 111)
 states/body_idle/node = SubResource("AnimationNodeAnimation_dg62m")
 states/body_idle/position = Vector2(269, 18)
+states/dazed/node = SubResource("AnimationNodeAnimation_sel8v")
+states/dazed/position = Vector2(689, 123)
 states/fire_right/node = SubResource("AnimationNodeAnimation_0scvk")
 states/fire_right/position = Vector2(710, 5)
 states/fire_right_aim/node = SubResource("AnimationNodeAnimation_lqcxq")
 states/fire_right_aim/position = Vector2(532, 5)
-states/fire_right_enter/node = SubResource("AnimationNodeAnimation_37xko")
-states/fire_right_enter/position = Vector2(465, -114)
+states/fire_right_enter/node = SubResource("AnimationNodeBlendTree_tbbcg")
+states/fire_right_enter/position = Vector2(391, -113)
+states/fire_right_enter2/node = SubResource("AnimationNodeAnimation_37xko")
+states/fire_right_enter2/position = Vector2(612, -169)
 states/fire_right_exit/node = SubResource("AnimationNodeAnimation_jeiyq")
 states/fire_right_exit/position = Vector2(436, 151)
-transitions = ["Start", "body_idle", SubResource("AnimationNodeStateMachineTransition_5kgcu"), "body_idle", "fire_right_enter", SubResource("AnimationNodeStateMachineTransition_arsq1"), "fire_right_exit", "body_idle", SubResource("AnimationNodeStateMachineTransition_mtg13"), "fire_right_enter", "fire_right_aim", SubResource("AnimationNodeStateMachineTransition_8l7il"), "fire_right_aim", "fire_right_exit", SubResource("AnimationNodeStateMachineTransition_5fktg"), "fire_right_aim", "fire_right", SubResource("AnimationNodeStateMachineTransition_witqo"), "fire_right", "fire_right_aim", SubResource("AnimationNodeStateMachineTransition_37xko")]
-graph_offset = Vector2(-152, -158)
+transitions = ["Start", "body_idle", SubResource("AnimationNodeStateMachineTransition_5kgcu"), "fire_right_exit", "body_idle", SubResource("AnimationNodeStateMachineTransition_mtg13"), "fire_right_aim", "fire_right_exit", SubResource("AnimationNodeStateMachineTransition_5fktg"), "fire_right_aim", "fire_right", SubResource("AnimationNodeStateMachineTransition_witqo"), "fire_right", "fire_right_aim", SubResource("AnimationNodeStateMachineTransition_37xko"), "body_idle", "fire_right_enter", SubResource("AnimationNodeStateMachineTransition_arsq1"), "fire_right_enter", "fire_right_aim", SubResource("AnimationNodeStateMachineTransition_8l7il")]
+graph_offset = Vector2(-60, -239)

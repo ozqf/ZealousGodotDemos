@@ -111,6 +111,66 @@ tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
+[sub_resource type="Animation" id="Animation_arsq1"]
+resource_name = "dazed"
+length = 0.1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("body")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("body")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+tracks/2/type = "position_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("body/right_hand")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 1.2, -0.7, 0.342)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("body/right_hand")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0.21674672, -0.21674666, -0.67306834, 0.67306817)
+tracks/4/type = "position_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("body/left_hand")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, -1.417, -0.7, 0.301)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("body/left_hand")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 0.36100832, 0.36100835, 0.6080073, 0.60800743)
+tracks/6/type = "position_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("body/torso")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+tracks/7/type = "rotation_3d"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("body/torso")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = PackedFloat32Array(0, 1, -0.31339362, -0.020611724, 0.11469844, 0.94244564)
+
 [sub_resource type="Animation" id="Animation_dg62m"]
 resource_name = "fire_right"
 length = 0.1
@@ -386,6 +446,7 @@ tracks/7/keys = PackedFloat32Array()
 _data = {
 &"RESET": SubResource("Animation_jfnsl"),
 &"body_idle": SubResource("Animation_37xko"),
+&"dazed": SubResource("Animation_arsq1"),
 &"fire_right": SubResource("Animation_dg62m"),
 &"fire_right_aim": SubResource("Animation_lqcxq"),
 &"fire_right_enter": SubResource("Animation_jeiyq"),
@@ -399,7 +460,7 @@ animation = &"pain"
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_0scvk"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5kgcu"]
-graph_offset = Vector2(-695.8829, -4.9881287)
+graph_offset = Vector2(-616.1477, -89.36365)
 nodes/output/position = Vector2(680, 180)
 nodes/AnimationNodeStateMachine/node = ExtResource("5_0scvk")
 nodes/AnimationNodeStateMachine/position = Vector2(-480, 60)
@@ -421,10 +482,10 @@ Line 3"
 vertical_alignment = 2
 
 [node name="body" type="Node3D" parent="." unique_id=1578654642]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.9999999, 0, 1, 0)
+transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 1, 0)
 
 [node name="torso" type="Node3D" parent="body" unique_id=1376185933]
-transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999994, 0, 0, 0, 0.9999998, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="body/torso" unique_id=314660369]
 transform = Transform3D(2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0.5, 0)
@@ -444,7 +505,7 @@ mesh = ExtResource("1_jfnsl")
 skeleton = NodePath("../../..")
 
 [node name="left_hand" type="Node3D" parent="body" unique_id=1467433153]
-transform = Transform3D(1.0000001, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.70710677, 0.7071069, -1.2, 0.36, 0)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.7071067, 0.7071068, -1.2, 0.36, 0)
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="body/left_hand" unique_id=97882513]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 0, -0.5)
@@ -453,7 +514,7 @@ skeleton = NodePath("../../..")
 metadata/_edit_lock_ = true
 
 [node name="right_hand" type="Node3D" parent="body" unique_id=1412906977]
-transform = Transform3D(1.0000001, 0, 0, 0, 0.7071069, 0.7071067, 0, -0.70710677, 0.7071068, 1.2, 0.36, 0)
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071066, 0, -0.7071067, 0.7071067, 1.2, 0.36, 0)
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="body/right_hand" unique_id=1364986119]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 0, -0.5)
@@ -493,4 +554,5 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/AnimationNodeStateMachine/conditions/is_aiming_right = false
 parameters/AnimationNodeStateMachine/conditions/is_shooting_right = false
 parameters/AnimationNodeStateMachine/conditions/is_winding_down = false
+parameters/AnimationNodeStateMachine/fire_right_enter/enter_aim_ts/scale = 1.0
 parameters/pain_blend/blend_amount = 0.0
