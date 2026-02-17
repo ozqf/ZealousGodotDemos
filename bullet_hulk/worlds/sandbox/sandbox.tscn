@@ -320,7 +320,7 @@ metadata/_custom_type_script = "uid://hnew60psrw5u"
 [node name="MobSpawner2" parent="single_mob_test/actors/Arena/ArenaSequence" unique_id=507664954 instance=ExtResource("8_4fxuv")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 skeleton = NodePath("")
-mobPrefab = "fodder_prj_stream"
+mobPrefab = "brute"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/MobSpawner2" unique_id=1136450895]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4, 0, -3)

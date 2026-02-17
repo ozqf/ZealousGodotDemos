@@ -82,7 +82,7 @@ func goto_title() -> void:
 	_load_world(_titleWorld)
 
 func _physics_process(_delta: float) -> void:
-	_target.age += 1
+	_target.ticksSinceRefresh += 1
 	_framesInState += 1
 	match _state:
 		State.Starting:

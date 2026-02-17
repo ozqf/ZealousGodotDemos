@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bh3ghomegdtk0"]
+
+[ext_resource type="Material" uid="uid://ekre5jtku08e" path="res://shared/materials/mat_full_red.tres" id="1_fb2wn"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ci35t"]
+size = Vector3(0.6, 0.6, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_fb2wn"]
+inner_radius = 0.2
+outer_radius = 0.25
+
+[node name="MobGunRing" type="Node3D" unique_id=198198600]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=755621489]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+mesh = SubResource("BoxMesh_ci35t")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1236728749]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1)
+mesh = SubResource("TorusMesh_fb2wn")
+surface_material_override/0 = ExtResource("1_fb2wn")

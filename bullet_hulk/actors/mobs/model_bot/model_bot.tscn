@@ -2,23 +2,25 @@
 
 [ext_resource type="Script" uid="uid://l5h3pnod1ra0" path="res://actors/mobs/model_bot/model_bot.gd" id="1_37xko"]
 [ext_resource type="BoxMesh" uid="uid://bcicyukcogaj5" path="res://shared/primitivies/cube_diameter_1.tres" id="1_jfnsl"]
+[ext_resource type="PackedScene" uid="uid://de11twss8vjmb" path="res://actors/mobs/mob_weapon_models/mob_gun_column.tscn" id="3_5kgcu"]
 [ext_resource type="Material" uid="uid://dd5xfincwbgj8" path="res://shared/materials/mat_full_white.tres" id="3_dg62m"]
 [ext_resource type="Script" uid="uid://bgrgim3tm77pd" path="res://zqf/zqf_timed_visible.gd" id="3_jeiyq"]
 [ext_resource type="AnimationNodeStateMachine" uid="uid://2ot46skv74qx" path="res://actors/mobs/model_bot/model_bot_body_animstate_machine.tres" id="5_0scvk"]
+[ext_resource type="PackedScene" uid="uid://bh3ghomegdtk0" path="res://actors/mobs/mob_weapon_models/mob_gun_ring.tscn" id="5_lqcxq"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_dg62m"]
 top_radius = 0.2
 
 [sub_resource type="BoxMesh" id="BoxMesh_jfnsl"]
-size = Vector3(1.6, 1, 1)
+size = Vector3(1.8, 1, 1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_37xko"]
 left_to_right = 0.2
-size = Vector3(1, 0.6, 1.6)
+size = Vector3(1, 0.6, 1.8)
 
 [sub_resource type="PrismMesh" id="PrismMesh_jeiyq"]
 left_to_right = 0.2
-size = Vector3(1, 0.6, 1.6)
+size = Vector3(1, 0.6, 1.8)
 
 [sub_resource type="Animation" id="Animation_jfnsl"]
 length = 0.001
@@ -764,14 +766,13 @@ animation = &"pain"
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_0scvk"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5kgcu"]
-graph_offset = Vector2(-895.0404, -101.17253)
 nodes/output/position = Vector2(680, 180)
 nodes/AnimationNodeStateMachine/node = ExtResource("5_0scvk")
-nodes/AnimationNodeStateMachine/position = Vector2(-480, 60)
+nodes/AnimationNodeStateMachine/position = Vector2(200, 20)
 "nodes/pain 2/node" = SubResource("AnimationNodeAnimation_0scvk")
-"nodes/pain 2/position" = Vector2(-400, 460)
+"nodes/pain 2/position" = Vector2(280, 360)
 nodes/pain_blend/node = SubResource("AnimationNodeBlend2_0scvk")
-nodes/pain_blend/position = Vector2(200, 100)
+nodes/pain_blend/position = Vector2(480, 140)
 node_connections = [&"output", 0, &"pain_blend", &"pain_blend", 0, &"AnimationNodeStateMachine", &"pain_blend", 1, &"pain 2"]
 
 [node name="ModelBot" type="Node3D" unique_id=965064037]
@@ -786,7 +787,7 @@ Line 3"
 vertical_alignment = 2
 
 [node name="body" type="Node3D" parent="." unique_id=1578654642]
-transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.9999999, 0, 1, 0)
+transform = Transform3D(0.9999999, 0, 0, 0, 0.99999994, 0, 0, 0, 0.9999998, 0, 1, 0)
 
 [node name="torso" type="Node3D" parent="body" unique_id=1376185933]
 transform = Transform3D(0.99999976, 0, 0, 0, 0.99999994, 0, 0, 0, 0.9999998, 0, 0, 0)
@@ -799,7 +800,7 @@ mesh = ExtResource("1_jfnsl")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="body/torso" unique_id=2107560869]
-transform = Transform3D(1.6800001, 0, 0, 0, 1.2, 0, 0, 0, 1.6, 0, 1.4000001, -0.16)
+transform = Transform3D(1.295, 0, 0, 0, 1.2, 0, 0, 0, 1.6, 0, 1.4000001, -0.16)
 mesh = ExtResource("1_jfnsl")
 skeleton = NodePath("../../..")
 
@@ -809,33 +810,52 @@ mesh = ExtResource("1_jfnsl")
 skeleton = NodePath("../../..")
 
 [node name="left_hand" type="Node3D" parent="body" unique_id=1467433153]
-transform = Transform3D(0.9999999, 0, 0, 0, 0.70710677, 0.7071067, 0, -0.7071067, 0.70710677, -1.2, 0.36, 0)
+transform = Transform3D(0.9999998, 0, 0, 0, 0.70710677, 0.70710665, 0, -0.70710665, 0.70710677, -1.2, 0.36, 0)
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="body/left_hand" unique_id=97882513]
-transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 0, -0.5)
+[node name="palm" type="Node3D" parent="body/left_hand" unique_id=140444632]
+
+[node name="MobGunColumn" parent="body/left_hand/palm" unique_id=198198600 instance=ExtResource("3_5kgcu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 1.1920929e-07, 0.99999994, -1.1920929e-07, 0, 0)
+
+[node name="MobGunRing" parent="body/left_hand/palm" unique_id=749122884 instance=ExtResource("5_lqcxq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 1.1920929e-07, 0.99999994, -1.1920929e-07, 0, 0)
+visible = false
+
+[node name="weapon_placeholder" type="MeshInstance3D" parent="body/left_hand/palm" unique_id=97882513]
+transform = Transform3D(0.59999996, 0, 0, 0, 0.59999996, 0, 0, 0, 1, 0, 0, -0.5)
+visible = false
 mesh = ExtResource("1_jfnsl")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
 metadata/_edit_lock_ = true
 
-[node name="flash" type="MeshInstance3D" parent="body/left_hand" unique_id=2095232868]
-transform = Transform3D(1.0000001, 0, 0, 0, -4.4703484e-08, -1.0000001, 0, 0.29999998, -1.1920929e-07, 0, 0, -1.28)
+[node name="flash" type="MeshInstance3D" parent="body/left_hand/palm" unique_id=2095232868]
+transform = Transform3D(1, 0, 0, 0, -4.470348e-08, -1, 0, 0.29999998, -1.1920929e-07, 0, 0, -1.28)
 mesh = SubResource("CylinderMesh_dg62m")
-skeleton = NodePath("../../right_hand")
+skeleton = NodePath("../../../right_hand")
 surface_material_override/0 = ExtResource("3_dg62m")
 script = ExtResource("3_jeiyq")
 
 [node name="right_hand" type="Node3D" parent="body" unique_id=1412906977]
-transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071066, 0, -0.7071067, 0.7071067, 1.2, 0.36, 0)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.70710677, 0.7071066, 0, -0.70710665, 0.7071067, 1.2, 0.36, 0)
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="body/right_hand" unique_id=1364986119]
+[node name="palm" type="Node3D" parent="body/right_hand" unique_id=158778376]
+
+[node name="MobGunColumn" parent="body/right_hand/palm" unique_id=1738604119 instance=ExtResource("3_5kgcu")]
+
+[node name="MobGunRing" parent="body/right_hand/palm" unique_id=1885737146 instance=ExtResource("5_lqcxq")]
+visible = false
+
+[node name="weapon_placeholder" type="MeshInstance3D" parent="body/right_hand/palm" unique_id=1364986119]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 0, -0.5)
+visible = false
 mesh = ExtResource("1_jfnsl")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
 metadata/_edit_lock_ = true
 
-[node name="flash" type="MeshInstance3D" parent="body/right_hand" unique_id=589411863]
-transform = Transform3D(1, 0, 0, 0, -1.3113417e-08, -1, 0, 0.3, -4.371139e-08, 0, 1.2239187e-08, -1.28)
+[node name="flash" type="MeshInstance3D" parent="body/right_hand/palm" unique_id=589411863]
+transform = Transform3D(1, 0, 0, 0, -1.3113417e-08, -1, 0, 0.3, -4.371139e-08, 0, 0, -1.28)
 mesh = SubResource("CylinderMesh_dg62m")
+skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("3_dg62m")
 script = ExtResource("3_jeiyq")
 
@@ -867,5 +887,8 @@ parameters/AnimationNodeStateMachine/conditions/is_aiming_right = false
 parameters/AnimationNodeStateMachine/conditions/is_shooting_left = false
 parameters/AnimationNodeStateMachine/conditions/is_shooting_right = false
 parameters/AnimationNodeStateMachine/conditions/is_winding_down = false
-parameters/AnimationNodeStateMachine/fire_right_enter/enter_aim_ts/scale = 1.0
+parameters/AnimationNodeStateMachine/fire_left_enter/enter_aim_ts/scale = 4.0
+parameters/AnimationNodeStateMachine/fire_left_exit/TimeScale/scale = 4.0
+parameters/AnimationNodeStateMachine/fire_right_enter/enter_aim_ts/scale = 4.0
+parameters/AnimationNodeStateMachine/fire_right_exit/TimeScale/scale = 4.0
 parameters/pain_blend/blend_amount = 0.0

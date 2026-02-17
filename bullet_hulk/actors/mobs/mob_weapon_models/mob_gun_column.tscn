@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://de11twss8vjmb"]
+
+[ext_resource type="Material" uid="uid://ekre5jtku08e" path="res://shared/materials/mat_full_red.tres" id="1_qh7qm"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ci35t"]
+size = Vector3(0.6, 0.6, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qh7qm"]
+size = Vector3(0.1, 0.5, 0.2)
+
+[node name="MobGunColumn" type="Node3D" unique_id=198198600]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=755621489]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+mesh = SubResource("BoxMesh_ci35t")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1236728749]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+mesh = SubResource("BoxMesh_qh7qm")
+surface_material_override/0 = ExtResource("1_qh7qm")

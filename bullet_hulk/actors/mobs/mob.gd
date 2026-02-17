@@ -7,8 +7,9 @@ const MOB_PREFAB_BRUTE:String = "brute"
 
 const ATK_INDEX_NONE:int = -1
 const ATK_INDEX_BASIC:int = 0
-const ATK_INDEX_COLUMN_SPREAD:int = 0
-const ATK_INDEX_COLUMN_HORIZONTAL:int = 0
+const ATK_INDEX_COLUMN_SPREAD:int = 1
+const ATK_INDEX_COLUMN_HORIZONTAL:int = 2
+const ATK_INDEX_COLUMN_SWITCH:int = 3
 
 static var _fodderType:PackedScene = preload("res://actors/mobs/fodder.tscn")
 static var _bruteType:PackedScene = preload("res://actors/mobs/brute.tscn")
@@ -36,7 +37,8 @@ static func spawn_new_mob(mobPrefabName:String, t:Transform3D, newParent:Node3D,
 enum State
 {
 	Idle,
-	Hunting
+	Hunting,
+	Dead
 }
 
 @export var mobPrefab:String = ""
@@ -55,17 +57,33 @@ var moveNodeIndex:int = 0 # index of the child node we are moving to
 
 var _state:State = State.Idle
 var _hp:float = 100.0
-var _tick:float = 2.0
+var _tick:float = 0.0
 var _tock:int = 0
-var _refireTime:float = 1.2
 var _hitscan:PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.new()
 
-var _atkIndex:int = 0
+var _atkIndex:int = ATK_INDEX_NONE
+var _atkModelIndex:int = 0
+var _atkWindUp:float = 0.25
+var _atkRepeat:float = 0.2
+var _atkWindDown:float = 0.25
+var _atkSerial:int = 0
 
 func _ready() -> void:
 	assert(_thinkInfo != null)
 	_agent.connect("velocity_computed", _velocity_computed)
 	pass
+
+func mob_change_state(newState:State) -> void:
+	if newState == State.Dead && _state != State.Dead:
+		_state = State.Dead
+		if _model != null:
+			_model.reparent(Game.get_actors_root())
+			_model.add_to_group("temp")
+			_model.die()
+			_model = null
+		self.queue_free()
+		return
+	_state = newState
 
 func get_mob_settings() -> MobSettings:
 	return _settings
@@ -80,15 +98,16 @@ func start_mob() -> void:
 	match mobPrefab:
 		MOB_PREFAB_BRUTE:
 			_hp = 100.0
-			_refireTime = 0.5
+			_atkRepeat = 0.5
 			pass
 		MOB_FODDER_PRJ_STREAM:
 			_hp = 10
-			_refireTime = 0.2
+			_atkRepeat = 0.2
 			pass
 		MOB_PREFAB_FODDER, _:
 			_hp = 20
 			pass
+	_model.set_mob_prefab(mobPrefab)
 
 func _has_los(a:Vector3, b:Vector3) -> bool:
 	_hitscan.collision_mask = Interactions.get_los_mask()
@@ -99,6 +118,7 @@ func _has_los(a:Vector3, b:Vector3) -> bool:
 	var result:Dictionary = self.get_world_3d().direct_space_state.intersect_ray(_hitscan)
 	return result.is_empty()
 
+#region attacking
 func _fire_single() -> void:
 	var prj:PrjLinear = Game.prj_column()
 	var launch:PrjLaunchInfo = prj.get_launch_info()
@@ -109,10 +129,9 @@ func _fire_single() -> void:
 	launch.rollDegrees = 90.0
 	prj.launch_projectile()
 
-func _fire_fan() -> void:
+func _fire_fan(numPrj:int) -> void:
 	var t:Transform3D = _launchNode.global_transform
 	var t2:Transform3D
-	var numPrj:int = 5
 	var arcDegrees:float = 135
 	for i in range(0, numPrj):
 		var yawDegrees:float = ZqfUtils.calc_fan_yaw(arcDegrees, i, numPrj)
@@ -131,15 +150,116 @@ func look_at_flat(pos:Vector3) -> void:
 	pos.y = self.global_position.y
 	self.look_at(pos)
 
-func _try_attack_start(think:MobThinkInfo) -> int:
+func _try_attack_start(think:MobThinkInfo) -> bool:
 	var pendingIndex:int = ATK_INDEX_NONE
+	var pendingModelIndex:int = 0
+	var pendingTocks:int = 1
+	var category:int = Interactions.calc_attack_category(self.global_position, think.target.t.origin)
 	match mobPrefab:
 		MOB_PREFAB_BRUTE:
-			pass
+			_atkModelIndex = 0
+			pendingTocks = 3
+			match category:
+				Interactions.ATK_CATEGORY_ABOVE_TARGET:
+					pendingIndex = ATK_INDEX_COLUMN_SPREAD
+				Interactions.ATK_CATEGORY_BELOW_TARGET:
+					pendingIndex = ATK_INDEX_COLUMN_SPREAD
+				_:
+					pendingIndex = ATK_INDEX_COLUMN_SWITCH
+					pendingTocks = 10
+					_model.set_weapon_rotation(_atkModelIndex, 0)
+					#if _atkSerial % 2 == 0:
+					#	pendingIndex = ATK_INDEX_COLUMN_SPREAD
+					#else:
+					#	pendingIndex = ATK_INDEX_COLUMN_HORIZONTAL
+					#	pendingModelIndex = 1
+			_atkWindUp = 0.25
+			_atkRepeat = 1.2
+			_atkWindDown = 0.25
 		_:
-			if think.hasLoS:
-				pendingIndex = ATK_INDEX_BASIC
-	return pendingIndex
+			if !think.hasLoS:
+				return ATK_INDEX_NONE
+			pendingIndex = ATK_INDEX_BASIC
+			pendingTocks = 5
+			_atkModelIndex = 0
+			_atkWindUp = 0.25
+			_atkRepeat = 0.2
+			_atkWindDown = 0.25
+	if pendingIndex != ATK_INDEX_NONE:
+		_atkIndex = pendingIndex
+		_atkModelIndex = pendingModelIndex
+		_tock = pendingTocks
+		_atkSerial += 1
+		return true
+	return false
+
+# return true if attack should end
+func _check_end_attack(think:MobThinkInfo) -> bool:
+	match _atkIndex:
+		_:
+			if _tock <= 0:
+				return true
+			return !think.hasLoS
+
+func _check_attack(think:MobThinkInfo) -> void:
+	if _atkIndex == ATK_INDEX_NONE:
+		_try_attack_start(think)
+		return
+	if _check_end_attack(think):
+		_atkIndex = ATK_INDEX_NONE
+	return
+
+func _tock_generic(_delta:float, _think:MobThinkInfo) -> void:
+	match _atkIndex:
+		ATK_INDEX_COLUMN_SPREAD:
+			_model.play_fire()
+			_model.muzzle_flash(_atkModelIndex)
+			_fire_fan(7)
+		ATK_INDEX_COLUMN_HORIZONTAL:
+			_model.play_fire()
+			_model.muzzle_flash(_atkModelIndex)
+			_fire_single()
+		ATK_INDEX_COLUMN_SWITCH:
+			_model.play_fire()
+			_model.muzzle_flash(_atkModelIndex)
+			if _tock % 2 == 0:
+				_fire_fan(7)
+				_model.set_weapon_rotation(_atkModelIndex, 90)
+			else:
+				# set rotation to vertical for next shot
+				_model.set_weapon_rotation(_atkModelIndex, 0)
+
+				var t:Transform3D = _launchNode.global_transform
+				var o:Vector3 = t.origin
+				if _think.target.isCrouching:
+					# drop projectile to floor
+					o.y = self.global_position.y + 0.2
+				var f:Vector3 = -t.basis.z
+				f.y = 0
+				f = f.normalized()
+
+				var prj:PrjLinear = Game.prj_column()
+				var launch:PrjLaunchInfo = prj.get_launch_info()
+				launch.origin = o
+				launch.forward = f
+				launch.speed = 5
+				launch.rollDegrees = 90.0
+				prj.launch_projectile()
+		_:
+			_model.play_fire()
+			_model.muzzle_flash(_atkModelIndex)
+			var t:Transform3D = _launchNode.global_transform
+			#var prj:PrjLinear = Game.prj_crescent()
+			var prj:PrjLinear = Game.prj_sphere()
+			var launch:PrjLaunchInfo = prj.get_launch_info()
+			launch.origin = t.origin
+			launch.forward = -t.basis.z
+			launch.speed = 5
+			prj.launch_projectile()
+	_tick = _atkRepeat
+	_tock -= 1
+
+#endregion
 
 #region movement
 
@@ -192,7 +312,7 @@ func _follow_path(delta:float) -> bool:
 # returns true if hunting
 func _refresh_think_info(think:MobThinkInfo) -> bool:
 	var target:TargetInfo = Game.get_target()
-	if target.age > 2:
+	if target.ticksSinceRefresh > 2:
 		# target info is stale
 		think.target = null
 		return false
@@ -200,7 +320,9 @@ func _refresh_think_info(think:MobThinkInfo) -> bool:
 	
 	# check LOS from launch node not head
 	self._launchNode.look_at(think.target.headT.origin)
-	var hasLoS:bool = _has_los(_launchNode.global_position, think.target.headT.origin)
+	# TODO - to select a launch node we need to know the atk index and source on the model,
+	# but how to know that before we select an attack.
+	think.hasLoS = _has_los(_launchNode.global_position, think.target.headT.origin)
 	
 	return true
 
@@ -219,101 +341,44 @@ func _tick_fodder(_delta:float, think:MobThinkInfo) ->void:
 	else:
 		_agent.avoidance_enabled = false
 
-func _tick_fodder_prj_stream(_delta:float, think:MobThinkInfo) -> void:
+func _tick_generic(_delta:float, think:MobThinkInfo) -> void:
 	if _model == null:
 		return
 	self.look_at_flat(think.target.headT.origin)
-	
-	# check LOS from launch node not head
-	self._launchNode.look_at(think.target.headT.origin)
-	var hasLoS:bool = _has_los(_launchNode.global_position, think.target.headT.origin)
-	if !hasLoS:
-		_model.end_aim_weapon()
-	else:
-		_model.aim_weapon(0, 0.25)
 	_follow_path(_delta)
-
-	_tick -= _delta
-	if _tick <= 0.0 && hasLoS && _model.is_aiming():
-		_tick = _refireTime
-		_tock += 1
-		_muzzleFlash.start(0.1)
-		_model.play_fire()
-		_model.muzzle_flash()
-		var t:Transform3D = _launchNode.global_transform
-		#var prj:PrjLinear = Game.prj_crescent()
-		var prj:PrjLinear = Game.prj_sphere()
-		var launch:PrjLaunchInfo = prj.get_launch_info()
-		launch.origin = t.origin
-		launch.forward = -t.basis.z
-		launch.speed = 3
-		prj.launch_projectile()
-
-func _tick_brute(_delta:float, think:MobThinkInfo) ->void:
-	self.look_at_flat(think.target.headT.origin)
 	
+	_check_attack(think)
+	if _atkIndex == ATK_INDEX_NONE:
+		_model.end_aim_weapon()
+		return
+	_model.aim_weapon(_atkModelIndex, _atkWindUp)
+
 	_tick -= _delta
-	if _tick <= 0.0 && think.hasLoS:
-		_tick = _refireTime
-		_muzzleFlash.start(0.1)
-		var category:int = Interactions.calc_attack_category(self.global_position, think.target.t.origin)
-		match category:
-			Interactions.ATK_CATEGORY_ABOVE_TARGET:
-				_fire_fan()
-			Interactions.ATK_CATEGORY_BELOW_TARGET:
-				_fire_fan()
-			_:
-				var t:Transform3D = _launchNode.global_transform
-				var origin:Vector3 = t.origin
-				var forward:Vector3 = -t.basis.z
-				forward.y = 0.0
-				forward = forward.normalized()
-				if _tock % 2 == 0:
-					_fire_fan()
-				else:
-					var prj:PrjLinear = Game.prj_column()
-					var launch:PrjLaunchInfo = prj.get_launch_info()
-					if think.target.isCrouching:
-						# drop projectile to floor
-						origin.y = self.global_position.y + 0.2
-					launch.origin = origin # + Vector3(0, 1, 0)
-					launch.forward = forward
-					launch.speed = 4
-					launch.rollDegrees = 90.0
-					prj.launch_projectile()
-		_tock += 1
+	if _tick <= 0.0 && _model.is_aiming(_atkModelIndex):
+		_tock_generic(_delta, think)
 
 func _physics_process(_delta:float) -> void:
 	if !_refresh_think_info(_thinkInfo):
 		return
-	
 	match mobPrefab:
-		MOB_FODDER_PRJ_STREAM:
-			_tick_fodder_prj_stream(_delta, _thinkInfo)
-		MOB_PREFAB_BRUTE:
-			_tick_brute(_delta, _thinkInfo)
-		MOB_PREFAB_FODDER, _:
+		MOB_PREFAB_FODDER:
 			_tick_fodder(_delta, _thinkInfo)
+		MOB_FODDER_PRJ_STREAM, _:
+			_tick_generic(_delta, _thinkInfo)
 
 #endregion
 
-func die() ->void:
-	if _model == null:
-		return
-	_model.reparent(Game.get_actors_root())
-	_model.add_to_group("temp")
-	_model.die()
-	_model = null
-	self.queue_free()
-
 func hurt(atk:AttackInfo) -> int:
+	if _state == State.Dead:
+		return Interactions.HIT_IGNORE
+	if atk.damage <= 0:
+		return Interactions.HIT_IGNORE
+	if atk.damage == 0:
+		return Interactions.HIT_RESPONSE_WHIFF
 	if _hp > 0.0:
 		_hp -= atk.damage
-		_model.hit_flinch(0.3)
+		_model.hit_flinch(0.2)
 		if _hp <= 0.0:
-			die()
+			mob_change_state(State.Dead)
 			return 1
-		#print("ow")
-	else:
-		print("already dead")
 	return 1

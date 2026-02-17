@@ -67,7 +67,7 @@ func refresh_target_info() -> void:
 	var info:TargetInfo = Game.get_target()
 	info.t = _yaw.global_transform
 	info.headT = _pitch.global_transform
-	info.age = 0
+	info.ticksSinceRefresh = 0
 	info.lastGroundPos = _lastGroundPos
 	info.velocity = self.velocity
 	info.isCrouching = _crouching

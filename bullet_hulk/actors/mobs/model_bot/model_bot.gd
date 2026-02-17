@@ -2,8 +2,11 @@ extends MobModel
 
 @onready var _debug:Label3D = $Label3D
 @onready var _animTree:AnimationTree = $AnimationTree
-@onready var _anims:AnimationPlayer = $AnimationPlayer
-@onready var _rightMuzzleFlash:ZqfTimedVisible = $body/right_hand/flash
+#@onready var _anims:AnimationPlayer = $AnimationPlayer
+@onready var _rightMuzzleFlash:ZqfTimedVisible = $body/right_hand/palm/flash
+@onready var _leftMuzzleFlash:ZqfTimedVisible = $body/left_hand/palm/flash
+@onready var _rightPalm:Node3D = $body/right_hand/palm
+@onready var _leftPalm:Node3D = $body/left_hand/palm
 
 var isShooting:bool = false
 
@@ -24,6 +27,30 @@ func _ready() -> void:
 	#_lastStateNode = _animState.get_current_node()
 	_animTree.connect("animation_finished", _on_anim_finished)
 
+func set_mob_prefab(_prefabName:String) -> void:
+	match _prefabName:
+		Mob.MOB_PREFAB_BRUTE:
+			$body/right_hand/palm/MobGunColumn.visible = true
+			$body/left_hand/palm/MobGunColumn.visible = true
+			#$body/left_hand/MobGunColumn.rotation_degrees = Vector3(0, 0, 90)
+
+			$body/right_hand/palm/MobGunRing.visible = false
+			$body/left_hand/palm/MobGunRing.visible = false
+		_:
+			$body/right_hand/palm/MobGunRing.visible = true
+			$body/left_hand/palm/MobGunRing.visible = true
+
+			$body/right_hand/palm/MobGunColumn.visible = false
+			$body/left_hand/palm/MobGunColumn.visible = false
+
+func set_weapon_rotation(_index:int, _rollDegrees:float) -> void:
+	match _index:
+		1:
+			_leftPalm.rotation_degrees = Vector3(0, 0, _rollDegrees)
+		_:
+			_rightPalm.rotation_degrees = Vector3(0, 0, _rollDegrees)
+			pass
+
 func _on_anim_finished(anim_name:String) -> void:
 	if anim_name == "":
 		print("Saw empty anim finish")
@@ -34,36 +61,78 @@ func _on_anim_finished(anim_name:String) -> void:
 	_lastAnimFinishSeen = anim_name
 
 func hit_flinch(weight:float = 0.5) -> void:
+	if _timeSinceLastFlinch < 0.25:
+		return
+	_timeSinceLastFlinch = 0.0
 	weight = clampf(weight, 0.1, 0.9)
 	_painBlend = weight
 
-func muzzle_flash(_index:int = 0) -> void:
-	_rightMuzzleFlash.start(0.1)
+func muzzle_flash(_index:int) -> void:
+	match _index:
+		1:
+			_leftMuzzleFlash.start(0.1)
+		_:
+			_rightMuzzleFlash.start(0.1)
 
-func aim_weapon(_index:int = 0, windUpTime:float = 1.0) -> void:
+func aim_weapon(_index:int, windUpTime:float = 1.0) -> void:
 	var root:String = "parameters/AnimationNodeStateMachine/conditions/"
-	_animTree.set(root + "is_aiming_right", true)
-	_animTree.set(root + "is_shooting_right", false)
 	_animTree.set(root + "is_winding_down", false)
-	
-	var path:String = "parameters/AnimationNodeStateMachine/fire_right_enter/enter_aim_ts/scale"
-	#var windUpTime:float = 0.25
-	var ts:float = 1.0 / windUpTime
-	_animTree.set(path, ts)
+	match _index:
+		1:
+			_animTree.set(root + "is_aiming_left", true)
+			_animTree.set(root + "is_aiming_right", false)
+			_animTree.set(root + "is_shooting_left", false)
+			var path:String = "parameters/AnimationNodeStateMachine/fire_left_enter/enter_aim_ts/scale"
+			var ts:float = 1.0 / windUpTime
+			_animTree.set(path, ts)
+		_:
+			_animTree.set(root + "is_aiming_right", true)
+			_animTree.set(root + "is_aiming_left", false)
+			_animTree.set(root + "is_shooting_right", false)
+			var path:String = "parameters/AnimationNodeStateMachine/fire_right_enter/enter_aim_ts/scale"
+			var ts:float = 1.0 / windUpTime
+			_animTree.set(path, ts)
 
-func is_aiming(_index:int = 0) -> bool:
+func is_aiming(_index:int) -> bool:
 	var curNode:String = _animState.get_current_node()
-	var isAiming:bool = curNode == "fire_right_aim"
+	var isAiming:bool = true
+	match _index:
+		1:
+			isAiming = curNode == "fire_left_aim"
+		_:
+			isAiming = curNode == "fire_right_aim"
 	return isAiming
 
 func end_aim_weapon() -> void:
 	var root:String = "parameters/AnimationNodeStateMachine/conditions/"
-	_animTree.set(root + "is_aiming_right", false)
-	_animTree.set(root + "is_shooting_right", false)
+	#_animTree.set(root + "is_aiming_right", false)
+	#_animTree.set(root + "is_shooting_right", false)
 	_animTree.set(root + "is_winding_down", true)
 
 func die() -> void:
 	_animState.travel("dazed")
+
+func _run_pain(_delta:float) -> void:
+	if _painBlend > 0.0:
+		var path:String = "parameters/pain_blend/blend_amount"
+		_animTree.set(path, _painBlend)
+	_painTick -= _delta
+	_painBlend = clampf(_painBlend - (_delta * 2), 0.0, 0.99)
+	if _painTick > 0.0:
+		return
+	#_painTick = randf_range(2, 4)
+	#_painBlend = 1.0
+	#print("Pain - next in " + str(_painTick))
+	
+	#var path:String = "parameters/pain_one_shot/request"
+	#_animTree.set(path, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	pass
+
+func _physics_process(delta: float) -> void:
+	_timeSinceLastFlinch += delta
+	_run_pain(delta)
+
+#region test
 
 func _start_shooting_right() -> void:
 	var root:String = "parameters/AnimationNodeStateMachine/conditions/"
@@ -76,25 +145,6 @@ func _end_shooting_right() -> void:
 	_animTree.set(root + "is_aiming_right", false)
 	_animTree.set(root + "is_shooting_right", false)
 	_animTree.set(root + "is_winding_down", true)
-
-func _run_pain(_delta:float) -> void:
-	if _painBlend > 0.0:
-		var path:String = "parameters/pain_blend/blend_amount"
-		_animTree.set(path, _painBlend)
-	_painTick -= _delta
-	_painBlend = clampf(_painBlend - (_delta * 4), 0.0, 0.99)
-	if _painTick > 0.0:
-		return
-	#_painTick = randf_range(2, 4)
-	#_painBlend = 1.0
-	#print("Pain - next in " + str(_painTick))
-	
-	#var path:String = "parameters/pain_one_shot/request"
-	#_animTree.set(path, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-	pass
-
-func _physics_process(delta: float) -> void:
-	_run_pain(delta)
 
 func _physics_process_test_loop(_delta: float) -> void:
 	_run_pain(_delta)
@@ -149,4 +199,4 @@ func _process2(delta: float) -> void:
 				_animTree.set("parameters/conditions/is_winding_down", true)
 				_tick = 1.0
 	_lastStateNode = animState
-	
+#endregion	
