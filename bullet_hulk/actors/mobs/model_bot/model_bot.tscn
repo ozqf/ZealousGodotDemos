@@ -780,6 +780,7 @@ script = ExtResource("1_37xko")
 
 [node name="Label3D" type="Label3D" parent="." unique_id=1031189068]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 3, -0.99999994)
+visible = false
 billboard = 1
 text = "Line 1
 Line 2
@@ -787,7 +788,7 @@ Line 3"
 vertical_alignment = 2
 
 [node name="body" type="Node3D" parent="." unique_id=1578654642]
-transform = Transform3D(0.9999999, 0, 0, 0, 0.99999994, 0, 0, 0, 0.9999998, 0, 1, 0)
+transform = Transform3D(0.9999999, 0, 0, 0, 0.49999985, -0.8660253, 0, 0.86602545, 0.4999998, 0, 1, 0)
 
 [node name="torso" type="Node3D" parent="body" unique_id=1376185933]
 transform = Transform3D(0.99999976, 0, 0, 0, 0.99999994, 0, 0, 0, 0.9999998, 0, 0, 0)
@@ -810,7 +811,7 @@ mesh = ExtResource("1_jfnsl")
 skeleton = NodePath("../../..")
 
 [node name="left_hand" type="Node3D" parent="body" unique_id=1467433153]
-transform = Transform3D(0.9999998, 0, 0, 0, 0.70710677, 0.70710665, 0, -0.70710665, 0.70710677, -1.2, 0.36, 0)
+transform = Transform3D(0.6963092, 0.060925268, -0.71515125, -0.6047358, 0.58646846, -0.5388405, 0.3865847, 0.80767727, 0.44520718, -1.2, 0.36, 0)
 
 [node name="palm" type="Node3D" parent="body/left_hand" unique_id=140444632]
 
@@ -836,7 +837,7 @@ surface_material_override/0 = ExtResource("3_dg62m")
 script = ExtResource("3_jeiyq")
 
 [node name="right_hand" type="Node3D" parent="body" unique_id=1412906977]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.70710677, 0.7071066, 0, -0.70710665, 0.7071067, 1.2, 0.36, 0)
+transform = Transform3D(0.20375438, 0.21020637, 0.95618886, 0.939494, 0.2327403, -0.2513619, -0.27538157, 0.9495499, -0.15006578, 1.2, 0.36, 0)
 
 [node name="palm" type="Node3D" parent="body/right_hand" unique_id=158778376]
 

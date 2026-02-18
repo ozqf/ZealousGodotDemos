@@ -50,7 +50,6 @@ var moveNodeIndex:int = 0 # index of the child node we are moving to
 
 @onready var _launchNode:Node3D = $launch_node
 @onready var _agent:NavigationAgent3D = $NavigationAgent3D
-@onready var _muzzleFlash:ZqfTimedVisible = $launch_node/ZqfTimedVisible
 @onready var _settings:MobSettings = $MobSettings
 @onready var _thinkInfo:MobThinkInfo = $MobThinkInfo
 @onready var _model:MobModel = $Model
@@ -101,7 +100,7 @@ func start_mob() -> void:
 			_atkRepeat = 0.5
 			pass
 		MOB_FODDER_PRJ_STREAM:
-			_hp = 10
+			_hp = 30
 			_atkRepeat = 0.2
 			pass
 		MOB_PREFAB_FODDER, _:
@@ -132,7 +131,7 @@ func _fire_single() -> void:
 func _fire_fan(numPrj:int) -> void:
 	var t:Transform3D = _launchNode.global_transform
 	var t2:Transform3D
-	var arcDegrees:float = 135
+	var arcDegrees:float = 90
 	for i in range(0, numPrj):
 		var yawDegrees:float = ZqfUtils.calc_fan_yaw(arcDegrees, i, numPrj)
 		t2 = Transform3D.IDENTITY

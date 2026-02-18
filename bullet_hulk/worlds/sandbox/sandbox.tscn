@@ -92,6 +92,9 @@ metadata/_custom_type_script = "uid://hnew60psrw5u"
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -1, 0, -13)
 mobPrefab = "fodder_prj_stream"
 loopPath = true
+delay = 1.5
+totalToSpawn = 12
+liveLimit = 6
 
 [node name="WorldGizmo" parent="actors/Arena/ArenaSequence/MobSpawner" unique_id=689144392 instance=ExtResource("6_3s36i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.99999976, 0, 1)
@@ -320,10 +323,12 @@ metadata/_custom_type_script = "uid://hnew60psrw5u"
 [node name="MobSpawner2" parent="single_mob_test/actors/Arena/ArenaSequence" unique_id=507664954 instance=ExtResource("8_4fxuv")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 skeleton = NodePath("")
-mobPrefab = "brute"
+mobPrefab = "fodder_prj_stream"
+totalToSpawn = 4
+liveLimit = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="single_mob_test/actors/Arena/ArenaSequence/MobSpawner2" unique_id=1136450895]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4, 0, -3)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 7.0000005, 0, -3)
 mesh = ExtResource("9_q7ycd")
 
 [node name="world" type="Node3D" parent="." unique_id=1824105952]

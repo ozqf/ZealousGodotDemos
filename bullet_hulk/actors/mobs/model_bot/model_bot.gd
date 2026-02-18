@@ -57,7 +57,7 @@ func _on_anim_finished(anim_name:String) -> void:
 	if anim_name == "pain":
 		print("Ignored pain anim finish")
 		return
-	print("Tree anim finished " + str(anim_name))
+	#print("Tree anim finished " + str(anim_name))
 	_lastAnimFinishSeen = anim_name
 
 func hit_flinch(weight:float = 0.5) -> void:
