@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bphd1dwrj3x4k"]
 
-[ext_resource type="Script" uid="uid://dhb52xtoxcn5a" path="res://fx/impacts/gfx_impact_bullet.gd" id="1_163kp"]
+[ext_resource type="Script" uid="uid://dhb52xtoxcn5a" path="res://zqf/zqf_timed_free.gd" id="1_163kp"]
 [ext_resource type="Material" uid="uid://dd5xfincwbgj8" path="res://shared/materials/mat_full_white.tres" id="1_qkynh"]
 [ext_resource type="Script" uid="uid://cjq2mcqduws3v" path="res://zqf/zqf_emit_on_ready.gd" id="3_hje0l"]
 

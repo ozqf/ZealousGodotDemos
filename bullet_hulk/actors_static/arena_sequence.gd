@@ -6,6 +6,7 @@ enum SequenceType
 	Linear,
 	Parallel
 }
+@export var debug:bool = false
 @export var sequenceType:SequenceType = SequenceType.Linear
 
 var _actionIndex:int = -1
@@ -70,4 +71,3 @@ func tick() -> bool:
 			n = get_child(_actionIndex)
 			_start_node(n)
 			return false
-	return false

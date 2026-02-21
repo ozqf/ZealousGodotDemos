@@ -19,6 +19,7 @@ var _prjSphere:PackedScene = preload("res://actors/prj_linear/prj_sphere.tscn")
 var _tracerType:PackedScene = preload("res://fx/tracer/gfx_tracer.tscn")
 var _impactType:PackedScene = preload("res://fx/impacts/gfx_impact_bullet.tscn")
 var _impactBulletWorld:PackedScene = preload("res://fx/impacts/gfx_impact_bullet_world.tscn")
+var _mobDebrisExplosion:PackedScene = preload("res://fx/explosions/fx_debris_omni.tscn")
 
 @onready var _gameRoot:Node3D = $game
 @onready var _worldRoot:Node3D = $game/world
@@ -182,6 +183,12 @@ func gfx_impact_bullet(pos:Vector3) -> Node3D:
 
 func gfx_impact_bullet_world(pos:Vector3) -> Node3D:
 	var n:Node3D = _impactBulletWorld.instantiate()
+	_actorsRoot.add_child(n)
+	n.global_position = pos
+	return n
+
+func gfx_mob_debris(pos:Vector3) -> Node3D:
+	var n:Node3D = _mobDebrisExplosion.instantiate()
 	_actorsRoot.add_child(n)
 	n.global_position = pos
 	return n

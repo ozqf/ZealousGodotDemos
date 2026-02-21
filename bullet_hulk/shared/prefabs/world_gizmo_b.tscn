@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://b0151qw45r56r"]
+
+[ext_resource type="ArrayMesh" uid="uid://co7oxlolmyfwn" path="res://shared/primitivies/3d_gizmo_b.obj" id="1_l1e0q"]
+
+[node name="WorldGizmoB" type="MeshInstance3D" unique_id=689144392]
+layers = 524288
+mesh = ExtResource("1_l1e0q")

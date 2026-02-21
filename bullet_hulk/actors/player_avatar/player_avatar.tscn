@@ -20,6 +20,62 @@ size = Vector3(0.2, 0.90000004, 0.2)
 [sub_resource type="BoxMesh" id="BoxMesh_uiqcp"]
 size = Vector3(0.02, 0.02, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shxxo"]
+shading_mode = 2
+albedo_color = Color(0.43717483, 0.38109717, 0.12552223, 1)
+metallic = 1.0
+metallic_specular = 1.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_shxxo"]
+direction = Vector3(0, 0.6, -1)
+spread = 15.0
+initial_velocity_min = 5.0
+initial_velocity_max = 5.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_shxxo"]
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.06
+radial_segments = 6
+rings = 0
+
+[sub_resource type="Animation" id="Animation_shxxo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("hit_border:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7v3as"]
+resource_name = "hit_border_flash"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("hit_border:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.03333336, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j6txm"]
+_data = {
+&"RESET": SubResource("Animation_shxxo"),
+&"hit_border_flash": SubResource("Animation_7v3as")
+}
+
 [node name="player_avatar" type="CharacterBody3D" unique_id=542596095]
 collision_layer = 66
 collision_mask = 19
@@ -104,6 +160,13 @@ cast_shadow = 0
 mesh = SubResource("BoxMesh_uiqcp")
 skeleton = NodePath("../..")
 
+[node name="ejected_brass_particles" type="GPUParticles3D" parent="yaw/pitch/weapon" unique_id=1924505713]
+transform = Transform3D(-0.25881904, 0, -0.9659257, 0.9659257, 1.3113416e-07, -0.25881904, 1.2666587e-07, -1, -3.394002e-08, 0, 1.3113416e-08, -0.1)
+material_override = SubResource("StandardMaterial3D_shxxo")
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_shxxo")
+draw_pass_1 = SubResource("CylinderMesh_shxxo")
+
 [node name="SpotLight3D" type="SpotLight3D" parent="yaw/pitch" unique_id=1636818555]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.2, 0.1)
 light_energy = 1.5
@@ -174,3 +237,35 @@ theme_override_font_sizes/font_size = 24
 text = "100"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="hit_border" type="Control" parent="Control" unique_id=1756746349]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Control/hit_border" unique_id=60859023]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 16.0
+grow_vertical = 2
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Control/hit_border" unique_id=1728162741]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(1, 0, 0, 1)
+
+[node name="hit_border_anims" type="AnimationPlayer" parent="Control" unique_id=495365926]
+libraries/ = SubResource("AnimationLibrary_j6txm")

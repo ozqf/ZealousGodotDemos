@@ -9,6 +9,7 @@ extends MobModel
 @onready var _leftPalm:Node3D = $body/left_hand/palm
 
 var isShooting:bool = false
+var _isDead:bool = false
 
 var _tick:float = 1.0
 var _loops:int = 0
@@ -129,8 +130,8 @@ func _run_pain(_delta:float) -> void:
 	pass
 
 func _physics_process(delta: float) -> void:
-	_timeSinceLastFlinch += delta
 	_run_pain(delta)
+	super._physics_process(delta)
 
 #region test
 

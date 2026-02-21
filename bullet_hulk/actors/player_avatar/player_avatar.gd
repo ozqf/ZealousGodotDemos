@@ -15,6 +15,8 @@ const SPIN_DOWN_TIME:float = 3.0
 @onready var _atkInfo:AttackInfo = $AttackInfo
 @onready var _rotor:Node3D = $yaw/pitch/weapon/rotor
 @onready var _muzzleFlashLight:OmniLight3D = $yaw/pitch/muzzle_flash_light
+@onready var _hitBorderAnims:AnimationPlayer = $Control/hit_border_anims
+@onready var _ejectedBrass:GPUParticles3D = $yaw/pitch/weapon/ejected_brass_particles
 
 # crouch stuff
 @onready var _upperBodyShape:CollisionShape3D = $upper_body_shape
@@ -35,6 +37,7 @@ var _crouching:bool = false
 var _sprinting:bool = false
 var _standingPitchPos:Vector3 = Vector3()
 var _crouchedPitchPos:Vector3 = Vector3()
+var _secondsSinceLastShot:float = 0.0
 
 var _hp:float = 5
 var _maxHp:float = 5
@@ -61,6 +64,9 @@ func hurt(atk:AttackInfo) -> int:
 	if _hp <= 0.0:
 		Game.player_died()
 		self.queue_free()
+	else:
+		_hitBorderAnims.stop()
+		_hitBorderAnims.play("hit_border_flash")
 	return 1
 
 func refresh_target_info() -> void:
@@ -133,6 +139,7 @@ func _refresh_hud() -> void:
 	_hpText.text = str(int(percent))
 
 func _physics_process(delta: float) -> void:
+	_secondsSinceLastShot += delta
 	refresh_target_info()
 	_refresh_hud()
 	if self.is_on_floor():
@@ -156,7 +163,11 @@ func _physics_process(delta: float) -> void:
 	
 	if atkOn && _fireTick <= 0.0:
 		_fireTick = lerpf(0.3, 0.05, _spinWeight)
+		_secondsSinceLastShot = 0.0
 		_fire_hitscan()
+	
+	_ejectedBrass.amount_ratio = _spinWeight
+	_ejectedBrass.emitting = _secondsSinceLastShot < 0.05
 	
 	###########################################
 	# movement

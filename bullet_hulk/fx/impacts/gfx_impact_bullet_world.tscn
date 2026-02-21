@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b6xmelf50knv6"]
 
-[ext_resource type="Script" uid="uid://dhb52xtoxcn5a" path="res://fx/impacts/gfx_impact_bullet.gd" id="1_qo8my"]
+[ext_resource type="Script" uid="uid://dhb52xtoxcn5a" path="res://zqf/zqf_timed_free.gd" id="1_qo8my"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_embij"]
 radius = 0.1

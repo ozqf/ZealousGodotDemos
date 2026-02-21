@@ -1,8 +1,8 @@
 extends Node3D
 
-var _tick:float = 0.0
+@export var seconds:float = 2.0
 
 func _physics_process(delta: float) -> void:
-	_tick += delta
-	if _tick > 1.0:
+	seconds -= delta
+	if seconds <= 0.0:
 		self.queue_free()

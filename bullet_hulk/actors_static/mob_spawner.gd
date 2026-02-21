@@ -1,6 +1,7 @@
 extends Node3D
 class_name MobSpawner
 
+@export var debug:bool = false
 @export var mobPrefab:String = ""
 @export var loopPath:bool = false
 @export var stopAtEndOfPath:bool = false
@@ -27,6 +28,8 @@ func _ready() -> void:
 func start() -> void:
 	if _running:
 		return
+	if debug:
+		print("Spawner start")
 	_running = true
 	_numSpawned = 0
 	_numRemaining = 0
@@ -42,32 +45,21 @@ func start() -> void:
 	
 	# if no child points use self
 	if _spawnNodes.size() == 0:
+		if debug:
+			print("Spawn node adding self as origin")
 		_spawnNodes.push_back(self)
 	
 	var numSpawnNodes:int = _spawnNodes.size()
 	
-	totalToSpawn = clampi(totalToSpawn, 1, 50)
+	totalToSpawn = clampi(totalToSpawn, 0, 50)
 	if totalToSpawn <= 0:
-		totalToSpawn = 1
-	
+		totalToSpawn = numSpawnNodes
 	
 	if liveLimit <= 0:
 		liveLimit = numSpawnNodes
 	elif liveLimit > totalToSpawn:
 		liveLimit = totalToSpawn
 	set_physics_process(true)
-
-	#for i in range(0, _spawnNodes.size()):
-	#	var n:Node3D = _spawnNodes[i]
-	#	_spawn_mob(n)
-		#var t:Transform3D = n.global_transform
-		#var mob:Mob = Mob.spawn_new_mob(self.mobPrefab, t, self, false)
-		#mob.source = self
-		#mob.startNode = n
-		#mob.start_mob()
-
-	#var t:Transform3D = self.global_transform
-	#var mob:Mob = Mob.spawn_new_mob(self.mobPrefab, t, self, true)
 
 func _spawn_mob(n:Node3D) -> void:
 	_numSpawned += 1
@@ -93,11 +85,10 @@ func _physics_process(delta: float) -> void:
 	if count < liveLimit && _tick <= 0.0:
 		_tick = delay
 		var i:int = _spawnNodeIndex % _spawnNodes.size()
+		_spawnNodeIndex += 1
 		var n:Node3D = _spawnNodes[i]
 		_spawn_mob(n)
 		print("Spawn mob " + str(_numSpawned) + " of " + str(totalToSpawn))
-	#return (count - _initialNodeCount) == 0
-	
 
 func finished() -> bool:
 	return !_running

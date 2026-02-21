@@ -10,6 +10,7 @@ const ATK_INDEX_BASIC:int = 0
 const ATK_INDEX_COLUMN_SPREAD:int = 1
 const ATK_INDEX_COLUMN_HORIZONTAL:int = 2
 const ATK_INDEX_COLUMN_SWITCH:int = 3
+const ATK_INDEX_SPHERE_STREAM:int = 4
 
 static var _fodderType:PackedScene = preload("res://actors/mobs/fodder.tscn")
 static var _bruteType:PackedScene = preload("res://actors/mobs/brute.tscn")
@@ -75,12 +76,20 @@ func _ready() -> void:
 func mob_change_state(newState:State) -> void:
 	if newState == State.Dead && _state != State.Dead:
 		_state = State.Dead
+		#if _model != null:
+		#	_model.reparent(Game.get_actors_root())
+		#	_model.add_to_group("temp")
+		#	_model.die()
+		#	_model = null
+		_tick = 0.0
+		self.velocity = Vector3()
+		_agent.avoidance_enabled = false
+		# de-parent so parent can no longer see us and consider us dead
+		var actorNode:Node3D = Game.get_actors_root()
+		self.reparent(actorNode)
 		if _model != null:
-			_model.reparent(Game.get_actors_root())
-			_model.add_to_group("temp")
 			_model.die()
-			_model = null
-		self.queue_free()
+		#self.queue_free()
 		return
 	_state = newState
 
@@ -100,7 +109,7 @@ func start_mob() -> void:
 			_atkRepeat = 0.5
 			pass
 		MOB_FODDER_PRJ_STREAM:
-			_hp = 30
+			_hp = 15
 			_atkRepeat = 0.2
 			pass
 		MOB_PREFAB_FODDER, _:
@@ -109,15 +118,32 @@ func start_mob() -> void:
 	_model.set_mob_prefab(mobPrefab)
 
 func _has_los(a:Vector3, b:Vector3) -> bool:
+	var result:Dictionary = _world_raycast(a, b)
+	return result.is_empty()
+
+func _world_raycast(a:Vector3, b:Vector3) -> Dictionary:
 	_hitscan.collision_mask = Interactions.get_los_mask()
 	_hitscan.collide_with_bodies = true
 	_hitscan.collide_with_areas = false
 	_hitscan.from = a
 	_hitscan.to = b
 	var result:Dictionary = self.get_world_3d().direct_space_state.intersect_ray(_hitscan)
-	return result.is_empty()
+	return result
 
 #region attacking
+
+func _fire_linear_prj(prj:PrjLinear, o:Vector3, f:Vector3, spd:float = 7.0, rollDeg:float = 0.0) -> void:
+	var launch:PrjLaunchInfo = prj.get_launch_info()
+	launch.origin = o
+	launch.dest = o + (f * 500)
+	launch.forward = f
+	var worldHit:Dictionary = _world_raycast(launch.origin, launch.dest)
+	if !worldHit.is_empty():
+		launch.dest = worldHit.position
+	launch.speed = spd
+	launch.rollDegrees = rollDeg
+	prj.launch_projectile()
+
 func _fire_single() -> void:
 	var prj:PrjLinear = Game.prj_column()
 	var launch:PrjLaunchInfo = prj.get_launch_info()
@@ -156,6 +182,8 @@ func _try_attack_start(think:MobThinkInfo) -> bool:
 	var category:int = Interactions.calc_attack_category(self.global_position, think.target.t.origin)
 	match mobPrefab:
 		MOB_PREFAB_BRUTE:
+			if !think.hasLoS:
+				return ATK_INDEX_NONE
 			_atkModelIndex = 0
 			pendingTocks = 3
 			match category:
@@ -175,15 +203,24 @@ func _try_attack_start(think:MobThinkInfo) -> bool:
 			_atkWindUp = 0.25
 			_atkRepeat = 1.2
 			_atkWindDown = 0.25
+		MOB_FODDER_PRJ_STREAM:
+			if !think.hasLoS:
+				return ATK_INDEX_NONE
+			pendingIndex = ATK_INDEX_SPHERE_STREAM
+			pendingTocks = 99
+			_atkModelIndex = 0
+			_atkWindUp = 0.25
+			_atkRepeat = 0.2
+			_atkWindDown = 0.6
 		_:
 			if !think.hasLoS:
 				return ATK_INDEX_NONE
 			pendingIndex = ATK_INDEX_BASIC
-			pendingTocks = 5
+			pendingTocks = 3
 			_atkModelIndex = 0
 			_atkWindUp = 0.25
 			_atkRepeat = 0.2
-			_atkWindDown = 0.25
+			_atkWindDown = 0.6
 	if pendingIndex != ATK_INDEX_NONE:
 		_atkIndex = pendingIndex
 		_atkModelIndex = pendingModelIndex
@@ -238,23 +275,22 @@ func _tock_generic(_delta:float, _think:MobThinkInfo) -> void:
 				f = f.normalized()
 
 				var prj:PrjLinear = Game.prj_column()
-				var launch:PrjLaunchInfo = prj.get_launch_info()
-				launch.origin = o
-				launch.forward = f
-				launch.speed = 5
-				launch.rollDegrees = 90.0
-				prj.launch_projectile()
-		_:
+				_fire_linear_prj(prj, o, f, 5, 90.0)
+		ATK_INDEX_SPHERE_STREAM:
 			_model.play_fire()
 			_model.muzzle_flash(_atkModelIndex)
-			var t:Transform3D = _launchNode.global_transform
-			#var prj:PrjLinear = Game.prj_crescent()
+
 			var prj:PrjLinear = Game.prj_sphere()
-			var launch:PrjLaunchInfo = prj.get_launch_info()
-			launch.origin = t.origin
-			launch.forward = -t.basis.z
-			launch.speed = 5
-			prj.launch_projectile()
+			var t:Transform3D = _launchNode.global_transform
+			_fire_linear_prj(prj, t.origin, -t.basis.z, 6, 0.0)
+		ATK_INDEX_BASIC, _:
+			_model.play_fire()
+			_model.muzzle_flash(_atkModelIndex)
+
+			var prj:PrjLinear = Game.prj_sphere()
+			prj.scale = Vector3(0.5, 0.5, 0.5)
+			var t:Transform3D = _launchNode.global_transform
+			_fire_linear_prj(prj, t.origin, -t.basis.z, 12, 0.0)
 	_tick = _atkRepeat
 	_tock -= 1
 
@@ -357,12 +393,16 @@ func _tick_generic(_delta:float, think:MobThinkInfo) -> void:
 		_tock_generic(_delta, think)
 
 func _physics_process(_delta:float) -> void:
+	if _state == State.Dead:
+		_tick += _delta
+		if _tick > 0.5:
+			Game.gfx_mob_debris(self.global_position + Vector3(0, 1.5, 0))
+			self.queue_free()
+		return
 	if !_refresh_think_info(_thinkInfo):
 		return
 	match mobPrefab:
-		MOB_PREFAB_FODDER:
-			_tick_fodder(_delta, _thinkInfo)
-		MOB_FODDER_PRJ_STREAM, _:
+		_:
 			_tick_generic(_delta, _thinkInfo)
 
 #endregion

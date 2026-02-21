@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://byhmtiw16opgh"]
+
+[ext_resource type="Script" uid="uid://dhb52xtoxcn5a" path="res://zqf/zqf_timed_free.gd" id="1_fslwe"]
+[ext_resource type="Script" uid="uid://cjq2mcqduws3v" path="res://zqf/zqf_emit_on_ready.gd" id="1_wqdrd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ipa6"]
+
+[sub_resource type="Curve" id="Curve_2ipa6"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_wqdrd"]
+curve = SubResource("Curve_2ipa6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fslwe"]
+particle_flag_align_y = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 6.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, -20, 0)
+scale_min = 0.099999994
+scale_max = 0.29999998
+scale_curve = SubResource("CurveTexture_wqdrd")
+
+[sub_resource type="BoxMesh" id="BoxMesh_wqdrd"]
+
+[node name="FxDebrisOmni" type="Node3D" unique_id=772603999]
+script = ExtResource("1_fslwe")
+seconds = 3.0
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=490354409]
+material_override = SubResource("StandardMaterial3D_2ipa6")
+emitting = false
+amount = 64
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_fslwe")
+draw_pass_1 = SubResource("BoxMesh_wqdrd")
+script = ExtResource("1_wqdrd")

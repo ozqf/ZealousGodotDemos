@@ -10,6 +10,8 @@ enum State
 	Broken
 }
 
+@export var debug:bool = false
+
 var _state:State = State.AwaitingInit
 var _startArea:Area3D = null
 var _sequence:ArenaSequence = null

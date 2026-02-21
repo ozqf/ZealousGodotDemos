@@ -6,14 +6,18 @@ class_name PrjLinear
 
 var _tick:float = 0.0
 var _queryTick:int = 0
+#var _rayQuery:PhysicsRayQueryParameters3D
 var _shapeQuery:PhysicsShapeQueryParameters3D = PhysicsShapeQueryParameters3D.new()
 var _atk:AttackInfo = AttackInfo.new()
+var _travelDistSqr:float = 500.0
 
 func _physics_process(delta: float) -> void:
 	_tick += delta
 	if _tick >= 10.0:
 		self.queue_free()
 	var t:Transform3D = self.global_transform
+	if t.origin.distance_squared_to(_launch.origin) >= _travelDistSqr:
+		self.queue_free()
 	var f:Vector3 = -t.basis.z
 	var p:Vector3 = t.origin
 	p += (f * _launch.speed) * delta
@@ -45,6 +49,7 @@ func get_launch_info() -> PrjLaunchInfo:
 func launch_projectile() -> void:
 	self.global_position = _launch.origin
 	self.look_at(_launch.origin + _launch.forward)
+	_travelDistSqr = _launch.origin.distance_squared_to(_launch.dest)
 	if _launch.rollDegrees != 0.0:
 		var t:Transform3D = self.global_transform
 		self.rotate(t.basis.z, deg_to_rad(_launch.rollDegrees))
