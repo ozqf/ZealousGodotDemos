@@ -1,14 +1,22 @@
 [gd_scene format=3 uid="uid://cmxj7bvjw5pmr"]
 
 [ext_resource type="Script" uid="uid://2ffj15aggy70" path="res://actors/prj_linear/prj_linear.gd" id="1_nnsea"]
+[ext_resource type="ArrayMesh" uid="uid://b16srv76f0ckq" path="res://actors/prj_linear/mesh_prj_column.obj" id="2_5oi2h"]
 [ext_resource type="Script" uid="uid://dxs02jdn5s43s" path="res://shared/src/prj_launch_info.gd" id="2_mk06h"]
-[ext_resource type="Material" uid="uid://ekre5jtku08e" path="res://shared/materials/mat_full_red.tres" id="2_nnsea"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tw54q"]
 size = Vector3(0.1, 6, 0.1)
 
-[sub_resource type="PrismMesh" id="PrismMesh_gi1gh"]
-size = Vector3(0.05, 0.05, 6)
+[sub_resource type="Gradient" id="Gradient_6x55y"]
+offsets = PackedFloat32Array(0, 0.69310343, 0.962069, 1)
+colors = PackedColorArray(0.34615484, 8.4228816e-07, 4.813075e-08, 1, 1, 0, 0, 1, 1, 0.5862069, 0.5862069, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5oi2h"]
+gradient = SubResource("Gradient_6x55y")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8d3jf"]
+shading_mode = 0
+albedo_texture = SubResource("GradientTexture1D_5oi2h")
 
 [node name="PrjColumn" type="Area3D" unique_id=590364568]
 collision_layer = 4
@@ -19,9 +27,8 @@ script = ExtResource("1_nnsea")
 shape = SubResource("BoxShape3D_tw54q")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1636225916]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
-mesh = SubResource("PrismMesh_gi1gh")
-surface_material_override/0 = ExtResource("2_nnsea")
+mesh = ExtResource("2_5oi2h")
+surface_material_override/0 = SubResource("StandardMaterial3D_8d3jf")
 
 [node name="PrjLaunchInfo" type="Node" parent="." unique_id=1644384471]
 script = ExtResource("2_mk06h")

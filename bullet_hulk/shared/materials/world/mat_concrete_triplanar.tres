@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://d03s0mgsrkchc"]
+
+[ext_resource type="Texture2D" uid="uid://huk3xsi7hale" path="res://shared/materials/world/components/tex_noise_concrete_01_128x.tres" id="1_1y2jy"]
+
+[resource]
+albedo_texture = ExtResource("1_1y2jy")
+metallic_specular = 0.0
+roughness_texture_channel = 4
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 2

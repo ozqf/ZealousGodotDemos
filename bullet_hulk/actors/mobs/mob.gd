@@ -109,11 +109,11 @@ func start_mob() -> void:
 			_atkRepeat = 0.5
 			pass
 		MOB_FODDER_PRJ_STREAM:
-			_hp = 15
+			_hp = 10
 			_atkRepeat = 0.2
 			pass
 		MOB_PREFAB_FODDER, _:
-			_hp = 20
+			_hp = 10
 			pass
 	_model.set_mob_prefab(mobPrefab)
 

@@ -5,7 +5,7 @@ const SPRINT_SPEED:float = 8
 const RUN_SPEED:float = 5
 const WALK_SPEED:float = 4
 
-const SPIN_UP_TIME:float = 1.5
+const SPIN_UP_TIME:float = 0.5
 const SPIN_DOWN_TIME:float = 3.0
 
 @onready var _yaw:Node3D = $yaw

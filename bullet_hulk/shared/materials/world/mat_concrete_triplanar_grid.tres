@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://hxjt1mugx1gh"]
+
+[ext_resource type="Texture2D" uid="uid://psv7umitqd37" path="res://shared/materials/world/components/tex_noise_concrete_grid.tres" id="1_htqgb"]
+
+[resource]
+albedo_texture = ExtResource("1_htqgb")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true

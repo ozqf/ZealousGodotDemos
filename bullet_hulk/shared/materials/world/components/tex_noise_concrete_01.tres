@@ -1,0 +1,21 @@
+[gd_resource type="NoiseTexture2D" format=3 uid="uid://dvrhw326e1q1u"]
+
+[sub_resource type="Gradient" id="Gradient_e14xm"]
+colors = PackedColorArray(0.14044744, 0.14044744, 0.14044744, 1, 0.60933006, 0.6093301, 0.60933006, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1y2jy"]
+noise_type = 5
+frequency = 0.0115
+fractal_lacunarity = 4.0
+fractal_gain = 1.21
+fractal_weighted_strength = 0.2
+cellular_distance_function = 1
+cellular_jitter = 0.69
+cellular_return_type = 6
+
+[resource]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_1y2jy")
+color_ramp = SubResource("Gradient_e14xm")
+seamless = true
