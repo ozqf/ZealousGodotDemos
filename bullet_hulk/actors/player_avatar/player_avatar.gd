@@ -17,6 +17,7 @@ const SPIN_DOWN_TIME:float = 3.0
 @onready var _muzzleFlashLight:OmniLight3D = $yaw/pitch/muzzle_flash_light
 @onready var _hitBorderAnims:AnimationPlayer = $Control/hit_border_anims
 @onready var _ejectedBrass:GPUParticles3D = $yaw/pitch/weapon/ejected_brass_particles
+@onready var _flashlight:SpotLight3D = $yaw/pitch/SpotLight3D
 
 # crouch stuff
 @onready var _upperBodyShape:CollisionShape3D = $upper_body_shape
@@ -144,6 +145,8 @@ func _physics_process(delta: float) -> void:
 	_refresh_hud()
 	if self.is_on_floor():
 		_lastGroundPos = self.global_position
+	if Input.is_action_just_pressed("flashlight"):
+		_flashlight.visible = !_flashlight.visible
 	###########################################
 	# weapons
 	###########################################
