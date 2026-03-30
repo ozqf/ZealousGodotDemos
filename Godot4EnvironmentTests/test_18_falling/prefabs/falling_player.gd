@@ -15,7 +15,7 @@ func _physics_process(delta: float) -> void:
 	var verticalPush:float = Input.get_axis("move_down", "move_up")
 	
 	var friction:float = 0.95
-	var accel:float = 20.0
+	var accel:float = 40.0
 	var maxSpeed:float = 25
 	
 	
@@ -45,6 +45,7 @@ func _physics_process(delta: float) -> void:
 	
 	# apply push stronger than player toward origin if they are too far away
 	if self.global_position.distance_to(playAreaOrigin) > playAreaRadius:
+		print("Pushing player back")
 		var toward:Vector3 = self.global_position.direction_to(playAreaOrigin)
 		self.velocity += (toward * accel * 2) * delta
 	

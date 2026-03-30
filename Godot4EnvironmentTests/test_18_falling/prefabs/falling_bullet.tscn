@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://jjj8plnr8fpx"]
+[gd_scene format=3 uid="uid://jjj8plnr8fpx"]
 
 [ext_resource type="Script" uid="uid://c6c40vud5y8ue" path="res://test_18_falling/prefabs/falling_bullet.gd" id="1_1t74w"]
 
@@ -18,13 +18,19 @@ emission_enabled = true
 emission = Color(0.9882353, 1, 0.34117648, 1)
 emission_energy_multiplier = 2.0
 
-[node name="FallingBullet" type="Area3D"]
+[sub_resource type="BoxMesh" id="BoxMesh_1t74w"]
+size = Vector3(0.1, 10, 0.1)
+
+[node name="FallingBullet" type="Area3D" unique_id=140647878]
 script = ExtResource("1_1t74w")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=377906702]
 shape = SubResource("SphereShape3D_cy1j3")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1346550721]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_1t74w")
 surface_material_override/0 = SubResource("StandardMaterial3D_cy1j3")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1202097946]
+mesh = SubResource("BoxMesh_1t74w")

@@ -4,6 +4,7 @@ var _bulletType:PackedScene = preload("res://test_18_falling/prefabs/falling_bul
 
 var _fireRate:float = 0.1
 var _tick:float = 3.0
+var _nextPrjRoll:float = 0.0
 
 func _process(_delta:float) -> void:
 	var plyrs = get_tree().get_nodes_in_group("player")
@@ -14,6 +15,7 @@ func _process(_delta:float) -> void:
 			_tick -= _delta
 			if _tick <= 0.0:
 				_shoot(self.global_position.direction_to(plyr.global_position))
+				_nextPrjRoll += 10
 				_tick = _fireRate
 			return
 	_slow_and_stop(_delta)
@@ -34,5 +36,5 @@ func _chase(target:Vector3, _delta:float) -> void:
 func _shoot(dir:Vector3) -> void:
 	var bullet = _bulletType.instantiate()
 	get_parent().add_child(bullet)
-	bullet.launch(self.global_position, dir, 20.0)
+	bullet.launch(self.global_position, dir, 20.0, _nextPrjRoll)
 	pass

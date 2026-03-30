@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b80c5meotfhcm"]
+[gd_scene format=3 uid="uid://b80c5meotfhcm"]
 
 [ext_resource type="PackedScene" uid="uid://bwokg1mxy1yn" path="res://test_18_falling/prefabs/falling_player.tscn" id="1_6d264"]
 [ext_resource type="PackedScene" uid="uid://k72ntn8ov8o1" path="res://test_18_falling/prefabs/falling_enemy.tscn" id="2_m30vg"]
@@ -86,24 +86,27 @@ albedo_texture = SubResource("NoiseTexture2D_umy64")
 uv1_scale = Vector3(0.001, 0.001, 0.001)
 uv1_triplanar = true
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_w3xx2"]
+radius = 200.0
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_m30vg"]
 radius = 100.0
 
-[node name="Test18" type="Node3D"]
+[node name="Test18" type="Node3D" unique_id=1083675897]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1878514047]
 visible = false
 mesh = SubResource("SphereMesh_1fece")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=758182213]
 transform = Transform3D(0.7071068, -0.61237246, 0.35355344, 0, 0.50000006, 0.8660254, -0.7071068, -0.61237246, 0.3535534, 0, 9, 0)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=424743769]
 environment = SubResource("Environment_w3xx2")
 
-[node name="falling_player" parent="." groups=["player"] instance=ExtResource("1_6d264")]
+[node name="falling_player" parent="." unique_id=13763753 groups=["player"] instance=ExtResource("1_6d264")]
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="falling_player"]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="falling_player" unique_id=1351357389]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -147, 0)
 material_override = SubResource("StandardMaterial3D_1fece")
 cast_shadow = 0
@@ -114,140 +117,152 @@ visibility_aabb = AABB(-64, -512, -64, 128, 1024, 128)
 process_material = SubResource("ParticleProcessMaterial_1fece")
 draw_pass_1 = SubResource("QuadMesh_1fece")
 
-[node name="MeshInstance3D2" parent="." instance=ExtResource("2_m30vg")]
+[node name="gameplay_origin" type="Node3D" parent="falling_player" unique_id=1789936388]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -99, -5, -10)
+top_level = true
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="falling_player/gameplay_origin" unique_id=1833273099]
+
+[node name="MeshInstance3D2" parent="." unique_id=1688785572 instance=ExtResource("2_m30vg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.242306, -7.6739116, -22.910572)
 
-[node name="MeshInstance3D5" parent="." instance=ExtResource("2_m30vg")]
+[node name="MeshInstance3D5" parent="." unique_id=1557219863 instance=ExtResource("2_m30vg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.757694, 5.2919617, -7.910572)
 
-[node name="MeshInstance3D6" parent="." instance=ExtResource("2_m30vg")]
+[node name="MeshInstance3D6" parent="." unique_id=2132502427 instance=ExtResource("2_m30vg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.242306, 0, 12.089428)
 
-[node name="ground_plane" type="MeshInstance3D" parent="."]
+[node name="ground_plane" type="MeshInstance3D" parent="." unique_id=1828539801]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -600, 2)
 mesh = SubResource("QuadMesh_m30vg")
 surface_material_override/0 = SubResource("StandardMaterial3D_m30vg")
 
-[node name="plane" type="Node3D" parent="."]
+[node name="plane" type="Node3D" parent="." unique_id=1652523898]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 20, -77)
 
-[node name="wing" type="Node3D" parent="plane"]
+[node name="wing" type="Node3D" parent="plane" unique_id=841509309]
 transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, 0, 10, -7)
 metadata/_edit_lock_ = true
 
-[node name="CSGBox3D7" type="CSGBox3D" parent="plane/wing"]
+[node name="CSGBox3D7" type="CSGBox3D" parent="plane/wing" unique_id=38992734]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, 0)
 use_collision = true
 size = Vector3(100, 0.5, 12)
 
-[node name="wing2" type="Node3D" parent="plane"]
+[node name="wing2" type="Node3D" parent="plane" unique_id=1659833035]
 transform = Transform3D(-0.8660254, -8.742278e-08, 0.5, 7.5710346e-08, -1, -4.371139e-08, 0.5, 0, 0.8660254, 0, 10, -7)
 metadata/_edit_lock_ = true
 
-[node name="CSGBox3D7" type="CSGBox3D" parent="plane/wing2"]
+[node name="CSGBox3D7" type="CSGBox3D" parent="plane/wing2" unique_id=1406084520]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, 0)
 use_collision = true
 size = Vector3(100, 0.5, 12)
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="plane"]
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="plane" unique_id=1209459429]
 transform = Transform3D(0.9063077, 0, -0.42261824, 0.42261824, -4.371139e-08, 0.9063077, -1.847323e-08, -1, -3.961597e-08, 0, 0, 7.875)
 use_collision = true
 radius = 12.0
 height = 80.0
 
-[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="plane/CSGCylinder3D"]
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="plane/CSGCylinder3D" unique_id=272531355]
 operation = 2
 use_collision = true
 radius = 11.0
 height = 80.0
 
-[node name="CSGSphere3D" type="CSGSphere3D" parent="plane"]
+[node name="CSGSphere3D" type="CSGSphere3D" parent="plane" unique_id=883494158]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -32.2)
 use_collision = true
 radius = 12.0
 radial_segments = 8
 rings = 4
 
-[node name="CSGBox3D8" type="CSGBox3D" parent="plane"]
+[node name="CSGBox3D8" type="CSGBox3D" parent="plane" unique_id=1202541410]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.30126953, 10.000004, 52)
 use_collision = true
 size = Vector3(60, 0.5, 12)
 
-[node name="Node3D" type="Node3D" parent="."]
+[node name="cargo_crates" type="Node3D" parent="." unique_id=239259185]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Node3D"]
+[node name="CSGBox3D" type="CSGBox3D" parent="cargo_crates" unique_id=632701078]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 4, -22)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D"]
+[node name="CSGBox3D2" type="CSGBox3D" parent="cargo_crates" unique_id=2075062195]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -13)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="Node3D"]
+[node name="CSGBox3D3" type="CSGBox3D" parent="cargo_crates" unique_id=1650655647]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -4, -3)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="Node3D"]
+[node name="CSGBox3D4" type="CSGBox3D" parent="cargo_crates" unique_id=1048611922]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -10, 5)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="Node3D"]
+[node name="CSGBox3D5" type="CSGBox3D" parent="cargo_crates" unique_id=1777329242]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -19, 16)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="CSGBox3D6" type="CSGBox3D" parent="Node3D"]
+[node name="CSGBox3D6" type="CSGBox3D" parent="cargo_crates" unique_id=1269481666]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -25, 26)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="Node3D2" type="Node3D" parent="."]
+[node name="falling_crates_cluster" type="Node3D" parent="." unique_id=1948490345]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98, -7, -10)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Node3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -94, 7, -19)
+[node name="CSGBox3D" type="CSGBox3D" parent="falling_crates_cluster" unique_id=1217962075]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 14, -9)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -101, 2, -9)
+[node name="CSGBox3D2" type="CSGBox3D" parent="falling_crates_cluster" unique_id=2144681984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 9, 1)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="CSGBox3D8" type="CSGBox3D" parent="Node3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -106, -8, -13)
+[node name="CSGBox3D8" type="CSGBox3D" parent="falling_crates_cluster" unique_id=1267145178]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -1, -3)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="Node3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -91, -6, -5)
+[node name="CSGBox3D3" type="CSGBox3D" parent="falling_crates_cluster" unique_id=1746759520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, 5)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="CSGBox3D7" type="CSGBox3D" parent="Node3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93, -4, -14)
+[node name="CSGBox3D7" type="CSGBox3D" parent="falling_crates_cluster" unique_id=1515766958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 3, -4)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="Node3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -95, -13, -9)
+[node name="CSGBox3D4" type="CSGBox3D" parent="falling_crates_cluster" unique_id=1348432358]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -6, 1)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="CSGBox3D5" type="CSGBox3D" parent="Node3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -103, -19, -15)
+[node name="CSGBox3D5" type="CSGBox3D" parent="falling_crates_cluster" unique_id=1142768581]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -12, -5)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="CSGBox3D6" type="CSGBox3D" parent="Node3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -99, -20, -7)
+[node name="CSGBox3D6" type="CSGBox3D" parent="falling_crates_cluster" unique_id=298732459]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -13, 3)
 use_collision = true
 size = Vector3(6, 6, 6)
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="falling_crates_cluster" unique_id=470610246]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="falling_crates_cluster/Area3D" unique_id=1436803101]
+shape = SubResource("SphereShape3D_w3xx2")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=121749217]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=348762142]
 shape = SubResource("SphereShape3D_m30vg")
