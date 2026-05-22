@@ -16,7 +16,19 @@ func _refresh_pause() -> void:
 	else:
 		Game.remove_mouse_claim(self)
 
-func _physics_process(_delta) -> void:
+func get_push_v3() -> Vector3:
+	if paused:
+		return Vector3()
+	var v:Vector3 = Vector3()
+	v.x = axisX
+	if moveUp:
+		v.y -= 1.0
+	if moveDown:
+		v.y += 1.0
+	v.z = axisZ
+	return v
+
+func _process(_delta) -> void:
 	if Input.is_action_just_pressed("pause"):
 		paused = !paused
 		_refresh_pause()

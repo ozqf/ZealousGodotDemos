@@ -1,0 +1,304 @@
+[gd_scene format=3 uid="uid://0rtg7hjvasy7"]
+
+[ext_resource type="Material" uid="uid://jproymmt8gv5" path="res://shared/materials/planar_noise_concrete.tres" id="1_4hyli"]
+[ext_resource type="Script" uid="uid://cji0u66pg2q3y" path="res://test_19_debris/src/debris_burst_test.gd" id="2_jbdvm"]
+[ext_resource type="PackedScene" uid="uid://dhreb2iinxpgk" path="res://test_19_debris/prefabs/debris_floor_board.tscn" id="2_ys12e"]
+[ext_resource type="PackedScene" uid="uid://dujcyspmd5mwr" path="res://test_19_debris/prefabs/debris_strut.tscn" id="4_lfyo8"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ys12e"]
+radius = 1.9
+height = 8.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jbdvm"]
+radius = 2.0
+height = 8.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lfyo8"]
+radius = 2.0
+height = 8.0
+
+[node name="Test19" type="Node3D" unique_id=1744043361]
+script = ExtResource("2_jbdvm")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1767027225]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(64, 1, 64)
+material = ExtResource("1_4hyli")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1767368127]
+transform = Transform3D(0.7071068, 0.5, -0.5, 0, 0.70710677, 0.70710677, 0.7071068, -0.5, 0.5, -10, 5, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=556311963]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, 12)
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=2122214588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=353773777]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+shape = SubResource("CapsuleShape3D_ys12e")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=1639469133]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = SubResource("CapsuleMesh_jbdvm")
+
+[node name="Area3D" type="Area3D" parent="CharacterBody3D" unique_id=499165634]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="CharacterBody3D" unique_id=282417109]
+collision_layer = 2
+collision_mask = 2
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/RigidBody3D" unique_id=790104307]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+shape = SubResource("CapsuleShape3D_lfyo8")
+
+[node name="debris_stack" type="Node3D" parent="." unique_id=1828119394]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+
+[node name="debris_floor_board" parent="debris_stack" unique_id=1174015962 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -2, 1, 3)
+collision_mask = 3
+
+[node name="debris_floor_board2" parent="debris_stack" unique_id=978567198 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -2, 3, 3)
+
+[node name="debris_floor_board3" parent="debris_stack" unique_id=1706137682 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -1, 1, 3)
+
+[node name="debris_floor_board4" parent="debris_stack" unique_id=539364001 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -1, 3, 3)
+
+[node name="debris_floor_board5" parent="debris_stack" unique_id=674365057 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1, 3)
+collision_mask = 3
+
+[node name="debris_floor_board6" parent="debris_stack" unique_id=496779737 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 3, 3)
+
+[node name="debris_floor_board7" parent="debris_stack" unique_id=393172135 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 1, 1, 3)
+
+[node name="debris_floor_board8" parent="debris_stack" unique_id=1809246190 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 1, 3, 3)
+
+[node name="debris_burst" type="Node3D" parent="." unique_id=842590344]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 0)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="debris_burst" unique_id=667579861]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("CapsuleMesh_jbdvm")
+skeleton = NodePath("../../CharacterBody3D")
+
+[node name="debris_floor_board" parent="debris_burst" unique_id=74664414 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 0)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board2" parent="debris_burst" unique_id=2069125873 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 2)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board3" parent="debris_burst" unique_id=1229200471 instance=ExtResource("2_ys12e")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1, 0, 2.5)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board4" parent="debris_burst" unique_id=913305903 instance=ExtResource("2_ys12e")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1, 0, 2.5)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board5" parent="debris_burst" unique_id=1711682244 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 2)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board6" parent="debris_burst" unique_id=1519638940 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 0)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board7" parent="debris_burst" unique_id=1800213953 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 2, 0)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board8" parent="debris_burst" unique_id=2072440210 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 2, 2)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board9" parent="debris_burst" unique_id=1967313881 instance=ExtResource("2_ys12e")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1, 2, 2.5)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board10" parent="debris_burst" unique_id=180250101 instance=ExtResource("2_ys12e")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1, 2, 2.5)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board11" parent="debris_burst" unique_id=1864441916 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2, 2)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board12" parent="debris_burst" unique_id=692284602 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2, 0)
+sleeping = false
+freeze = true
+
+[node name="PinJoint3D" type="PinJoint3D" parent="debris_burst" unique_id=151945721]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2, 0, 3)
+node_a = NodePath("debris_struct")
+node_b = NodePath("debris_struct2")
+
+[node name="debris_struct" parent="debris_burst/PinJoint3D" unique_id=1074559373 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, -1, 0)
+freeze = true
+
+[node name="debris_struct2" parent="debris_burst/PinJoint3D" unique_id=364616849 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 1, 0)
+freeze = true
+
+[node name="debris_struct3" parent="debris_burst" unique_id=1839317465 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -1, 3)
+freeze = true
+
+[node name="debris_struct4" parent="debris_burst" unique_id=1656571343 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 3)
+freeze = true
+
+[node name="debris_struct5" parent="debris_burst" unique_id=1863954307 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -1, 0)
+freeze = true
+
+[node name="debris_struct6" parent="debris_burst" unique_id=1164283292 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0)
+freeze = true
+
+[node name="debris_struct7" parent="debris_burst" unique_id=1806808143 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -1, 0)
+freeze = true
+
+[node name="debris_struct8" parent="debris_burst" unique_id=1087840805 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 0)
+freeze = true
+
+[node name="debris_floor_board13" parent="debris_burst" unique_id=248161802 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 4, 0)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board14" parent="debris_burst" unique_id=2105551040 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 4, 2)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board15" parent="debris_burst" unique_id=1794784649 instance=ExtResource("2_ys12e")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1, 4, 2.5)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board16" parent="debris_burst" unique_id=1738063576 instance=ExtResource("2_ys12e")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1, 4, 2.5)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board17" parent="debris_burst" unique_id=1128473468 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 2)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board18" parent="debris_burst" unique_id=1027277995 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 0)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board19" parent="debris_burst" unique_id=802512595 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 6, 0)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board20" parent="debris_burst" unique_id=227372278 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 6, 2)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board21" parent="debris_burst" unique_id=1535395352 instance=ExtResource("2_ys12e")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1, 6, 2.5)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board22" parent="debris_burst" unique_id=1829479882 instance=ExtResource("2_ys12e")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1, 6, 2.5)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board23" parent="debris_burst" unique_id=214873644 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 6, 2)
+sleeping = false
+freeze = true
+
+[node name="debris_floor_board24" parent="debris_burst" unique_id=351232190 instance=ExtResource("2_ys12e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 6, 0)
+sleeping = false
+freeze = true
+
+[node name="debris_struct9" parent="debris_burst" unique_id=591366130 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3, 3)
+freeze = true
+
+[node name="debris_struct10" parent="debris_burst" unique_id=576870641 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 5, 3)
+freeze = true
+
+[node name="HingeJoint3D" type="HingeJoint3D" parent="debris_burst" unique_id=848197744]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+node_a = NodePath("debris_struct17")
+node_b = NodePath("debris_struct18")
+
+[node name="debris_struct17" parent="debris_burst/HingeJoint3D" unique_id=1709483830 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+freeze = true
+
+[node name="debris_struct18" parent="debris_burst/HingeJoint3D" unique_id=1847308819 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+freeze = true
+
+[node name="debris_struct19" parent="debris_burst" unique_id=1836885439 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 3)
+freeze = true
+
+[node name="debris_struct20" parent="debris_burst" unique_id=890878556 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 3)
+freeze = true
+
+[node name="debris_struct11" parent="debris_burst" unique_id=538489271 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, 3)
+freeze = true
+
+[node name="debris_struct12" parent="debris_burst" unique_id=82797307 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 5, 3)
+freeze = true
+
+[node name="debris_struct13" parent="debris_burst" unique_id=1476650879 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 3, 0)
+freeze = true
+
+[node name="debris_struct14" parent="debris_burst" unique_id=1748066431 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 5, 0)
+freeze = true
+
+[node name="debris_struct15" parent="debris_burst" unique_id=2031121800 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 3, 0)
+freeze = true
+
+[node name="debris_struct16" parent="debris_burst" unique_id=929817590 instance=ExtResource("4_lfyo8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 5, 0)
+freeze = true

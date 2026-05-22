@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dujcyspmd5mwr"]
+
+[ext_resource type="Script" uid="uid://beq0xuav0mcki" path="res://test_19_debris/src/rigid_body_debris.gd" id="1_588i2"]
+[ext_resource type="Material" uid="uid://ol4wppqhqr5o" path="res://shared/materials/planar_dirt.tres" id="2_auuej"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4hyli"]
+size = Vector3(0.2, 2, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4hyli"]
+size = Vector3(0.2, 2, 0.2)
+
+[node name="debris_struct" type="RigidBody3D" unique_id=1174015962]
+collision_layer = 2
+collision_mask = 7
+sleeping = true
+script = ExtResource("1_588i2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1560753546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9802322e-08, -2.9802322e-08, 2.9802322e-08)
+shape = SubResource("BoxShape3D_4hyli")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=444354538]
+mesh = SubResource("BoxMesh_4hyli")
+surface_material_override/0 = ExtResource("2_auuej")

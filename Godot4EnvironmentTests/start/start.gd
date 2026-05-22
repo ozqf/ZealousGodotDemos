@@ -74,6 +74,10 @@ var _links:Dictionary = {
 	"test_18": {
 		"label": "18 - Falling",
 		"path": "res://test_18_falling/test_18.tscn"
+	},
+	"test_19": {
+		"label": "19 - Debris",
+		"path": "res://test_19_debris/test_19.tscn"
 	}
 }
 
