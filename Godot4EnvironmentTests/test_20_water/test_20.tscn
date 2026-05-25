@@ -1,0 +1,160 @@
+[gd_scene format=3 uid="uid://bokyghairg475"]
+
+[ext_resource type="Shader" uid="uid://c3cdver2473qb" path="res://test_20_water/assets/lake_example.gdshader" id="1_075j8"]
+[ext_resource type="Shader" uid="uid://hcatlpk6a0p3" path="res://test_20_water/assets/water_example.gdshader" id="2_p28k8"]
+[ext_resource type="Shader" uid="uid://3sbomju4jqfq" path="res://test_20_water/assets/lake_example_pass_2.gdshader" id="2_vrxvi"]
+[ext_resource type="PackedScene" uid="uid://bnqgu3she2qlj" path="res://shared/prefabs/fps_player/fps_player.tscn" id="3_075j8"]
+[ext_resource type="PackedScene" uid="uid://bqgt25363o44a" path="res://test_20_water/assets/pool.tscn" id="3_vrxvi"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrxvi"]
+
+[sub_resource type="Sky" id="Sky_075j8"]
+sky_material = SubResource("ProceduralSkyMaterial_vrxvi")
+
+[sub_resource type="Environment" id="Environment_s0bla"]
+background_mode = 2
+sky = SubResource("Sky_075j8")
+tonemap_mode = 2
+ssr_enabled = true
+ssr_max_steps = 256
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_buibn"]
+size = Vector2(10, 10)
+subdivide_width = 32
+subdivide_depth = 32
+
+[sub_resource type="Gradient" id="Gradient_vrxvi"]
+colors = PackedColorArray(0, 0, 0, 1, 0.53, 0.53, 0.53, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_p28k8"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_075j8"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_p28k8")
+color_ramp = SubResource("Gradient_vrxvi")
+seamless = true
+as_normal_map = true
+
+[sub_resource type="Gradient" id="Gradient_075j8"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_075j8"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vrxvi"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_075j8")
+color_ramp = SubResource("Gradient_075j8")
+seamless = true
+as_normal_map = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_075j8"]
+render_priority = 0
+shader = ExtResource("2_p28k8")
+shader_parameter/water_color = Color(0, 0.4, 0.6, 0.8)
+shader_parameter/deep_water_color = Color(0, 0.1, 0.3, 1)
+shader_parameter/roughness = 0.36800001748
+shader_parameter/normal_map_a = SubResource("NoiseTexture2D_075j8")
+shader_parameter/normal_map_b = SubResource("NoiseTexture2D_vrxvi")
+shader_parameter/wave_direction_a = Vector2(0.5, 0)
+shader_parameter/wave_direction_b = Vector2(0, 0.5)
+shader_parameter/wave_speed = 0.05
+shader_parameter/refraction_strength = 0.050000002375
+shader_parameter/metallic = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_075j8"]
+size = Vector2(10, 10)
+subdivide_width = 32
+subdivide_depth = 32
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0oxat"]
+render_priority = 0
+shader = ExtResource("2_vrxvi")
+shader_parameter/refraction_strength = 0.02
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_36we8"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_0oxat")
+shader = ExtResource("1_075j8")
+shader_parameter/water_color = Color(0, 0.4, 0.6, 0.8)
+
+[sub_resource type="Gradient" id="Gradient_3s04i"]
+colors = PackedColorArray(0, 0, 0, 1, 0.53, 0.53, 0.53, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_dlbxd"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ojj5x"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_dlbxd")
+color_ramp = SubResource("Gradient_3s04i")
+seamless = true
+as_normal_map = true
+
+[sub_resource type="Gradient" id="Gradient_smft6"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_s3hwv"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_36we8"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_s3hwv")
+color_ramp = SubResource("Gradient_smft6")
+seamless = true
+as_normal_map = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xkhcr"]
+render_priority = 0
+shader = ExtResource("2_p28k8")
+shader_parameter/water_color = Color(0, 0.4, 0.6, 0.8)
+shader_parameter/deep_water_color = Color(0, 0.1, 0.3, 1)
+shader_parameter/roughness = 0.0
+shader_parameter/normal_map_a = SubResource("NoiseTexture2D_ojj5x")
+shader_parameter/normal_map_b = SubResource("NoiseTexture2D_36we8")
+shader_parameter/wave_direction_a = Vector2(0.5, 0)
+shader_parameter/wave_direction_b = Vector2(0, 0.5)
+shader_parameter/wave_speed = 0.05
+shader_parameter/refraction_strength = 0.050000002375
+shader_parameter/metallic = 1.0
+
+[node name="Test20" type="Node3D" unique_id=67984977]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=974321265]
+environment = SubResource("Environment_s0bla")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1499762068]
+transform = Transform3D(0.70710677, -0.3535534, 0.61237246, 0, 0.8660254, 0.5, -0.70710677, -0.3535534, 0.61237246, 0, 8, 3)
+shadow_enabled = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1727767013]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_buibn")
+surface_material_override/0 = SubResource("ShaderMaterial_075j8")
+
+[node name="water_reflective" type="MeshInstance3D" parent="." unique_id=176171087]
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_075j8")
+surface_material_override/0 = SubResource("ShaderMaterial_36we8")
+
+[node name="water_baseline" type="MeshInstance3D" parent="." unique_id=343718325]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_075j8")
+surface_material_override/0 = SubResource("ShaderMaterial_xkhcr")
+
+[node name="ReflectionProbe3" type="ReflectionProbe" parent="." unique_id=1953052456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
+size = Vector3(50, 20, 50)
+enable_shadows = true
+
+[node name="FpsPlayer" parent="." unique_id=418407363 instance=ExtResource("3_075j8")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -8)
+
+[node name="pool" parent="." unique_id=1054095371 instance=ExtResource("3_vrxvi")]
+
+[node name="pool2" parent="." unique_id=576109839 instance=ExtResource("3_vrxvi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
+
+[node name="pool3" parent="." unique_id=799000342 instance=ExtResource("3_vrxvi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)

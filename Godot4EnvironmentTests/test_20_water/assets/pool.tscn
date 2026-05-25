@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://bqgt25363o44a"]
+
+[ext_resource type="Material" uid="uid://jproymmt8gv5" path="res://shared/materials/planar_noise_concrete.tres" id="1_w6kw8"]
+
+[node name="pool" type="Node3D" unique_id=1054095371]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=859138207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+size = Vector3(10, 1, 10)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=845298502]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, -0.5, 0)
+size = Vector3(3, 2, 16)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="." unique_id=1855686527]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 5.5, -6.5)
+size = Vector3(1, 10, 1)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="." unique_id=155309876]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, -1.5)
+size = Vector3(6, 1, 1)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="." unique_id=1503786630]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 5.5, -6.5)
+size = Vector3(1, 10, 1)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="." unique_id=1987619254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 5.5, 6.5)
+size = Vector3(1, 10, 1)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="." unique_id=2107682297]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 2.5)
+size = Vector3(6, 1, 1)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="." unique_id=2082225278]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 5.5, 6.5)
+size = Vector3(1, 10, 1)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="." unique_id=1844141805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 2, 2.5)
+size = Vector3(1, 9, 1)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="." unique_id=1413206447]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2, 2.5)
+size = Vector3(1, 9, 1)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="." unique_id=855555830]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 2, -1.5)
+size = Vector3(1, 9, 1)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="." unique_id=1425668163]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2, -1.5)
+size = Vector3(1, 9, 1)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="." unique_id=411191655]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, -0.5, 0)
+size = Vector3(3, 2, 16)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="." unique_id=167833091]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 6.5)
+size = Vector3(10, 2, 3)
+material = ExtResource("1_w6kw8")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="." unique_id=537650181]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -6.5)
+size = Vector3(10, 2, 3)
+material = ExtResource("1_w6kw8")

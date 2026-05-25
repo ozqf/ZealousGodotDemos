@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cmtpllvkchwv0"]
+[gd_scene format=3 uid="uid://cmtpllvkchwv0"]
 
 [ext_resource type="PackedScene" uid="uid://bfkojs27kx0v" path="res://test_05_colony_drizzle/assets/prefab_terrain_patch_1.tscn" id="1_uu361"]
 [ext_resource type="Texture2D" uid="uid://dn4o020egeswq" path="res://test_05_colony_drizzle/assets/cloud_layer_noise.tres" id="2_vxod7"]
@@ -133,9 +133,9 @@ cellular_distance_function = 1
 domain_warp_type = 1
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jmc1f"]
-seamless = true
-color_ramp = SubResource("Gradient_8310r")
 noise = SubResource("FastNoiseLite_5dxdn")
+color_ramp = SubResource("Gradient_8310r")
+seamless = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1y0xa"]
 albedo_color = Color(0, 0, 0, 1)
@@ -152,31 +152,31 @@ height = 48.0
 radial_segments = 16
 rings = 1
 
-[node name="Test05" type="Node3D"]
+[node name="Test05" type="Node3D" unique_id=1958111948]
 
-[node name="prefab_terrain_patch_1" parent="." instance=ExtResource("1_uu361")]
+[node name="prefab_terrain_patch_1" parent="." unique_id=1947149146 instance=ExtResource("1_uu361")]
 
-[node name="prefab_terrain_patch_2" parent="." instance=ExtResource("1_uu361")]
+[node name="prefab_terrain_patch_2" parent="." unique_id=1288244905 instance=ExtResource("1_uu361")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -400)
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1047027756]
 transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, 43, 0)
 mesh = SubResource("PlaneMesh_jn3pq")
 surface_material_override/0 = SubResource("StandardMaterial3D_kcnmj")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2031014390]
 environment = SubResource("Environment_fomwb")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=586158485]
 transform = Transform3D(-0.707107, 0.353553, -0.612372, 0, 0.866025, 0.5, 0.707107, 0.353553, -0.612373, 1, 19, 0)
 visible = false
 light_energy = 0.1
 shadow_enabled = true
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=179271272]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 10, 58)
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="Camera3D"]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Camera3D" unique_id=1388802293]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 material_override = SubResource("StandardMaterial3D_e58v8")
 cast_shadow = 0
@@ -186,7 +186,7 @@ visibility_aabb = AABB(-47, -24, -40, 94, 48, 80)
 process_material = SubResource("ParticleProcessMaterial_oyalp")
 draw_pass_1 = SubResource("CylinderMesh_n3e0m")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1117927663]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.2064, 36, 29.0037)
 light_energy = 0.0
 shadow_enabled = true
@@ -194,50 +194,48 @@ omni_range = 500.0
 omni_attenuation = 0.153893
 script = ExtResource("3_f3gt7")
 
-[node name="Timer" type="Timer" parent="OmniLight3D"]
+[node name="Timer" type="Timer" parent="OmniLight3D" unique_id=91482003]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="OmniLight3D"]
-libraries = {
-"": SubResource("AnimationLibrary_6mrih")
-}
-autoplay = "idle"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="OmniLight3D" unique_id=1950373733]
+libraries/ = SubResource("AnimationLibrary_6mrih")
+autoplay = &"idle"
 
-[node name="tower" type="Node3D" parent="."]
+[node name="tower" type="Node3D" parent="." unique_id=1026951952]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 108, 23, -534)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="tower"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="tower" unique_id=1046008053]
 mesh = SubResource("CylinderMesh_loqn0")
 surface_material_override/0 = SubResource("StandardMaterial3D_1y0xa")
 metadata/_edit_lock_ = true
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="tower"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="tower" unique_id=192843225]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 48, 0)
 mesh = SubResource("CylinderMesh_sxwa8")
 surface_material_override/0 = SubResource("StandardMaterial3D_1y0xa")
 metadata/_edit_lock_ = true
 
-[node name="base" type="Node3D" parent="."]
+[node name="base" type="Node3D" parent="." unique_id=1184084008]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 9, 24)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="base"]
+[node name="OmniLight3D" type="OmniLight3D" parent="base" unique_id=1224774981]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7, -0.3, 3.5)
 light_energy = 2.0
 shadow_enabled = true
 omni_range = 8.0
 omni_attenuation = 0.378929
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="base"]
+[node name="OmniLight3D2" type="OmniLight3D" parent="base" unique_id=2108358185]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.9, -0.3, -2.4)
 light_energy = 2.0
 shadow_enabled = true
 omni_range = 8.0
 omni_attenuation = 0.378929
 
-[node name="csg_box" type="CSGBox3D" parent="base"]
+[node name="csg_box" type="CSGBox3D" parent="base" unique_id=252195884]
 size = Vector3(20, 10, 20)
 material = ExtResource("4_fovu3")
 
-[node name="csg_box2" type="CSGBox3D" parent="base/csg_box"]
+[node name="csg_box2" type="CSGBox3D" parent="base/csg_box" unique_id=1128181226]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -2, 0.5)
 operation = 2
 size = Vector3(8, 6, 5)

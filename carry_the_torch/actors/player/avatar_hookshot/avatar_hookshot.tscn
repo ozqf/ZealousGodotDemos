@@ -14,6 +14,8 @@ height = 0.4
 [sub_resource type="BoxMesh" id="BoxMesh_ivp8d"]
 size = Vector3(0.1, 0.1, 1)
 
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_ivp8d"]
+
 [node name="AvatarHookshot" type="CharacterBody3D" unique_id=1343015649]
 script = ExtResource("1_fnaqg")
 
@@ -44,10 +46,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
 fov = 90.0
 
 [node name="RayCast3D" type="RayCast3D" parent="yaw/pitch/Camera3D" unique_id=1944763066]
-target_position = Vector3(0, 0, -20)
+target_position = Vector3(0, 0, -40)
 
 [node name="rope_mesh" type="Node3D" parent="." unique_id=1771460877]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="rope_mesh" unique_id=1299433417]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
 mesh = SubResource("BoxMesh_ivp8d")
+
+[node name="rope_mesh_alt" type="MeshInstance3D" parent="." unique_id=1100133548]
+mesh = SubResource("ImmediateMesh_ivp8d")
