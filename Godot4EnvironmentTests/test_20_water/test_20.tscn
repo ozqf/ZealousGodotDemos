@@ -12,6 +12,7 @@
 [ext_resource type="Material" uid="uid://dd4skkwu4rqa6" path="res://shared/materials/world_planar_noise_concrete.tres" id="10_s3hwv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrxvi"]
+ground_bottom_color = Color(0.5101257, 0.52390003, 0.6421946, 1)
 
 [sub_resource type="Sky" id="Sky_075j8"]
 sky_material = SubResource("ProceduralSkyMaterial_vrxvi")
@@ -21,7 +22,7 @@ background_mode = 2
 sky = SubResource("Sky_075j8")
 tonemap_mode = 2
 ssr_enabled = true
-ssr_max_steps = 256
+ssr_max_steps = 512
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_buibn"]
 size = Vector2(10, 10)
@@ -85,9 +86,13 @@ shader_parameter/water_color = Color(0, 0.4, 0.6, 0.8)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_smft6"]
 render_priority = 1
 shader = ExtResource("4_dlbxd")
-shader_parameter/max_refraction_depth = 4.0
-shader_parameter/shoreline_fade_distance = 5.0
-shader_parameter/refraction_strength = 0.10000000149012
+shader_parameter/max_refraction_depth = 5.00000023424012
+shader_parameter/shoreline_fade_distance = 0.05000000074506
+shader_parameter/refraction_strength = 0.010000000475
+shader_parameter/wave_frequency = 0.1
+shader_parameter/water_roughness = 0.010000000475
+shader_parameter/normal_map_a = ExtResource("5_smft6")
+shader_parameter/normal_map_b = ExtResource("6_s3hwv")
 shader_parameter/wave_dir_a = Vector2(0.03, 0.01)
 shader_parameter/wave_dir_b = Vector2(-0.02, 0.02)
 
@@ -95,7 +100,7 @@ shader_parameter/wave_dir_b = Vector2(-0.02, 0.02)
 render_priority = 0
 next_pass = SubResource("ShaderMaterial_smft6")
 shader = ExtResource("5_ojj5x")
-shader_parameter/shallow_color = Color(0.055911496, 0.45745933, 0.6154898, 1)
+shader_parameter/shallow_color = Color(0.018677618, 0.26873794, 0.36757895, 1)
 shader_parameter/deep_color = Color(0.01, 0.1, 0.25, 1)
 shader_parameter/depth_distance = 5.00000023424012
 shader_parameter/shoreline_fade_distance = 0.5
@@ -103,10 +108,11 @@ shader_parameter/normal_map_a = ExtResource("5_smft6")
 shader_parameter/normal_map_b = ExtResource("6_s3hwv")
 shader_parameter/wave_dir_a = Vector2(0.03, 0.01)
 shader_parameter/wave_dir_b = Vector2(-0.02, 0.02)
-shader_parameter/ripple_strength = 0.19600000931
+shader_parameter/ripple_strength = 0.050000002375
+shader_parameter/wave_frequency = 0.017000000807500002
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_36we8"]
-size = Vector2(50, 50)
+size = Vector2(4000, 4000)
 subdivide_width = 32
 subdivide_depth = 32
 
@@ -191,7 +197,7 @@ billboard = 1
 text = "REFLECTIVE 2"
 
 [node name="water_reflective3" type="MeshInstance3D" parent="." unique_id=355694367]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 35)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.5, 35)
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_36we8")
 surface_material_override/0 = SubResource("ShaderMaterial_dlbxd")
@@ -204,6 +210,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_xkhcr")
 
 [node name="ReflectionProbe3" type="ReflectionProbe" parent="." unique_id=1953052456]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
+visible = false
 size = Vector3(50, 20, 50)
 enable_shadows = true
 
@@ -231,6 +238,11 @@ size = Vector3(100, 1, 200)
 material = ExtResource("10_s3hwv")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1303452557]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.5, -20, 49)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.5, -20, 38)
 size = Vector3(49, 50, 40)
+material = ExtResource("10_s3hwv")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="." unique_id=1656916053]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 117.5, 4.5, 164)
+size = Vector3(49, 99, 40)
 material = ExtResource("10_s3hwv")
