@@ -5,6 +5,11 @@
 [ext_resource type="Shader" uid="uid://3sbomju4jqfq" path="res://test_20_water/assets/lake_example_pass_2.gdshader" id="2_vrxvi"]
 [ext_resource type="PackedScene" uid="uid://bnqgu3she2qlj" path="res://shared/prefabs/fps_player/fps_player.tscn" id="3_075j8"]
 [ext_resource type="PackedScene" uid="uid://bqgt25363o44a" path="res://test_20_water/assets/pool.tscn" id="3_vrxvi"]
+[ext_resource type="Shader" uid="uid://dji0hex54evtf" path="res://test_20_water/assets/lake_2_pass_2.gdshader" id="4_dlbxd"]
+[ext_resource type="Shader" uid="uid://iqs6fde2nk05" path="res://test_20_water/assets/lake_2_pass_1.gdshader" id="5_ojj5x"]
+[ext_resource type="Texture2D" uid="uid://b531ptt6hv2ki" path="res://test_20_water/assets/lake_2_normal_1.tres" id="5_smft6"]
+[ext_resource type="Texture2D" uid="uid://vgt01hng83kk" path="res://test_20_water/assets/lake_2_normal_2.tres" id="6_s3hwv"]
+[ext_resource type="Material" uid="uid://dd4skkwu4rqa6" path="res://shared/materials/world_planar_noise_concrete.tres" id="10_s3hwv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrxvi"]
 
@@ -70,13 +75,40 @@ subdivide_depth = 32
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0oxat"]
 render_priority = 0
 shader = ExtResource("2_vrxvi")
-shader_parameter/refraction_strength = 0.02
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_36we8"]
 render_priority = 0
 next_pass = SubResource("ShaderMaterial_0oxat")
 shader = ExtResource("1_075j8")
 shader_parameter/water_color = Color(0, 0.4, 0.6, 0.8)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_smft6"]
+render_priority = 1
+shader = ExtResource("4_dlbxd")
+shader_parameter/max_refraction_depth = 4.0
+shader_parameter/shoreline_fade_distance = 5.0
+shader_parameter/refraction_strength = 0.10000000149012
+shader_parameter/wave_dir_a = Vector2(0.03, 0.01)
+shader_parameter/wave_dir_b = Vector2(-0.02, 0.02)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dlbxd"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_smft6")
+shader = ExtResource("5_ojj5x")
+shader_parameter/shallow_color = Color(0.055911496, 0.45745933, 0.6154898, 1)
+shader_parameter/deep_color = Color(0.01, 0.1, 0.25, 1)
+shader_parameter/depth_distance = 5.00000023424012
+shader_parameter/shoreline_fade_distance = 0.5
+shader_parameter/normal_map_a = ExtResource("5_smft6")
+shader_parameter/normal_map_b = ExtResource("6_s3hwv")
+shader_parameter/wave_dir_a = Vector2(0.03, 0.01)
+shader_parameter/wave_dir_b = Vector2(-0.02, 0.02)
+shader_parameter/ripple_strength = 0.19600000931
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_36we8"]
+size = Vector2(50, 50)
+subdivide_width = 32
+subdivide_depth = 32
 
 [sub_resource type="Gradient" id="Gradient_3s04i"]
 colors = PackedColorArray(0, 0, 0, 1, 0.53, 0.53, 0.53, 1)
@@ -117,13 +149,18 @@ shader_parameter/wave_speed = 0.05
 shader_parameter/refraction_strength = 0.050000002375
 shader_parameter/metallic = 1.0
 
+[sub_resource type="PrismMesh" id="PrismMesh_smft6"]
+material = ExtResource("10_s3hwv")
+left_to_right = 1.0
+size = Vector3(40, 20, 100)
+
 [node name="Test20" type="Node3D" unique_id=67984977]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=974321265]
 environment = SubResource("Environment_s0bla")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1499762068]
-transform = Transform3D(0.70710677, -0.3535534, 0.61237246, 0, 0.8660254, 0.5, -0.70710677, -0.3535534, 0.61237246, 0, 8, 3)
+transform = Transform3D(0.5, -0.75, 0.4330127, 0, 0.49999994, 0.86602545, -0.86602545, -0.43301266, 0.24999999, 0, 9, 4)
 shadow_enabled = true
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1727767013]
@@ -133,9 +170,31 @@ mesh = SubResource("PlaneMesh_buibn")
 surface_material_override/0 = SubResource("ShaderMaterial_075j8")
 
 [node name="water_reflective" type="MeshInstance3D" parent="." unique_id=176171087]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16)
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_075j8")
 surface_material_override/0 = SubResource("ShaderMaterial_36we8")
+
+[node name="Label3D2" type="Label3D" parent="water_reflective" unique_id=1196172485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+billboard = 1
+text = "REFLECTIVE 1s"
+
+[node name="water_reflective2" type="MeshInstance3D" parent="." unique_id=952930989]
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_075j8")
+surface_material_override/0 = SubResource("ShaderMaterial_dlbxd")
+
+[node name="Label3D" type="Label3D" parent="water_reflective2" unique_id=1247437029]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+billboard = 1
+text = "REFLECTIVE 2"
+
+[node name="water_reflective3" type="MeshInstance3D" parent="." unique_id=355694367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 35)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_36we8")
+surface_material_override/0 = SubResource("ShaderMaterial_dlbxd")
 
 [node name="water_baseline" type="MeshInstance3D" parent="." unique_id=343718325]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
@@ -152,9 +211,26 @@ enable_shadows = true
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, -8)
 
 [node name="pool" parent="." unique_id=1054095371 instance=ExtResource("3_vrxvi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16)
+
+[node name="pool4" parent="." unique_id=1103352781 instance=ExtResource("3_vrxvi")]
 
 [node name="pool2" parent="." unique_id=576109839 instance=ExtResource("3_vrxvi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
 
 [node name="pool3" parent="." unique_id=799000342 instance=ExtResource("3_vrxvi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="." unique_id=1064067002]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -9.5, 28)
+mesh = SubResource("PrismMesh_smft6")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=867469133]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 139)
+size = Vector3(100, 1, 200)
+material = ExtResource("10_s3hwv")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1303452557]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.5, -20, 49)
+size = Vector3(49, 50, 40)
+material = ExtResource("10_s3hwv")

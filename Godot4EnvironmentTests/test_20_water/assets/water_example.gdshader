@@ -1,3 +1,4 @@
+// assembled from marcelb GodotSSRWater
 shader_type spatial;
 render_mode blend_mix, depth_draw_always, diffuse_lambert, specular_schlick_ggx;
 
