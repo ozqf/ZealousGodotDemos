@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://si7u7leimc6a"]
+
+[ext_resource type="Texture2D" uid="uid://xwxhr117pv2" path="res://test_04_sprite_mats/smatter_test/tex_noise_1_2.tres" id="1_haqev"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.732
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_haqev")
+metallic = 0.61
+metallic_specular = 0.0
+roughness_texture = ExtResource("1_haqev")
+roughness_texture_channel = 4
+texture_filter = 2

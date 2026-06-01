@@ -9,6 +9,7 @@
 [ext_resource type="Shader" uid="uid://iqs6fde2nk05" path="res://test_20_water/assets/lake_2_pass_1.gdshader" id="5_ojj5x"]
 [ext_resource type="Texture2D" uid="uid://b531ptt6hv2ki" path="res://test_20_water/assets/lake_2_normal_1.tres" id="5_smft6"]
 [ext_resource type="Texture2D" uid="uid://vgt01hng83kk" path="res://test_20_water/assets/lake_2_normal_2.tres" id="6_s3hwv"]
+[ext_resource type="Shader" uid="uid://c6t6qgsqsmjs4" path="res://test_20_water/assets/water_opaque_reflection.gdshader" id="8_36we8"]
 [ext_resource type="Material" uid="uid://dd4skkwu4rqa6" path="res://shared/materials/world_planar_noise_concrete.tres" id="10_s3hwv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrxvi"]
@@ -111,10 +112,41 @@ shader_parameter/wave_dir_b = Vector2(-0.02, 0.02)
 shader_parameter/ripple_strength = 0.050000002375
 shader_parameter/wave_frequency = 0.017000000807500002
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_23aca"]
+render_priority = 0
+shader = ExtResource("8_36we8")
+shader_parameter/shallow_color = Color(0.009480784, 0.19097382, 0.26659557, 1)
+shader_parameter/deep_color = Color(0.01, 0.1, 0.25, 1)
+shader_parameter/depth_distance = 12.00000056674012
+shader_parameter/shoreline_fade_distance = 0.50000002212006
+shader_parameter/normal_map_a = ExtResource("5_smft6")
+shader_parameter/normal_map_b = ExtResource("6_s3hwv")
+shader_parameter/wave_dir_a = Vector2(0.03, 0.01)
+shader_parameter/wave_dir_b = Vector2(-0.02, 0.02)
+shader_parameter/ripple_strength = 0.1670000079325
+shader_parameter/wave_frequency = 0.10000000475000001
+shader_parameter/refraction_strength = 0.01
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_36we8"]
 size = Vector2(4000, 4000)
 subdivide_width = 32
 subdivide_depth = 32
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fff1a"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("8_36we8")
+shader_parameter/shallow_color = Color(0.1, 0.6, 0.8, 1)
+shader_parameter/deep_color = Color(0.01, 0.1, 0.25, 1)
+shader_parameter/depth_distance = 12.00000056674012
+shader_parameter/shoreline_fade_distance = 0.50000002212006
+shader_parameter/normal_map_a = ExtResource("5_smft6")
+shader_parameter/normal_map_b = ExtResource("6_s3hwv")
+shader_parameter/wave_dir_a = Vector2(0.03, 0.01)
+shader_parameter/wave_dir_b = Vector2(-0.02, 0.02)
+shader_parameter/ripple_strength = 0.050000002375
+shader_parameter/wave_frequency = 0.10000000475000001
+shader_parameter/refraction_strength = 0.010000000475
 
 [sub_resource type="Gradient" id="Gradient_3s04i"]
 colors = PackedColorArray(0, 0, 0, 1, 0.53, 0.53, 0.53, 1)
@@ -196,11 +228,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 billboard = 1
 text = "REFLECTIVE 2"
 
-[node name="water_reflective3" type="MeshInstance3D" parent="." unique_id=355694367]
+[node name="water_reflective3" type="Node3D" parent="." unique_id=1057590651]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.5, 35)
+
+[node name="water_opaque_reflection" type="MeshInstance3D" parent="water_reflective3" unique_id=355694367]
+material_override = SubResource("ShaderMaterial_23aca")
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_36we8")
-surface_material_override/0 = SubResource("ShaderMaterial_dlbxd")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_fff1a")
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="water_reflective3" unique_id=47256283]
+visible = false
+copy_mode = 2
 
 [node name="water_baseline" type="MeshInstance3D" parent="." unique_id=343718325]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
@@ -233,8 +273,8 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, -
 mesh = SubResource("PrismMesh_smft6")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=867469133]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 139)
-size = Vector3(100, 1, 200)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -20, 139)
+size = Vector3(270, 1, 200)
 material = ExtResource("10_s3hwv")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1303452557]
@@ -242,7 +282,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.5, -20, 38)
 size = Vector3(49, 50, 40)
 material = ExtResource("10_s3hwv")
 
+[node name="CSGBox3D4" type="CSGBox3D" parent="." unique_id=1711199279]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -6, 26.5)
+size = Vector3(4, 6, 5)
+material = ExtResource("10_s3hwv")
+
 [node name="CSGBox3D3" type="CSGBox3D" parent="." unique_id=1656916053]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 117.5, 4.5, 164)
+size = Vector3(49, 99, 40)
+material = ExtResource("10_s3hwv")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="." unique_id=1666570645]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 117.5, 4.5, 39)
+size = Vector3(49, 99, 40)
+material = ExtResource("10_s3hwv")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="." unique_id=804654623]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.5, 4.5, 164)
 size = Vector3(49, 99, 40)
 material = ExtResource("10_s3hwv")

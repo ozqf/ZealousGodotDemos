@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dn2dvt73dw3bi"]
+
+[ext_resource type="Texture2D" uid="uid://chnuarov4r0tb" path="res://test_04_sprite_mats/smatter_test/tex_noise_2.tres" id="1_pbiph"]
+
+[resource]
+albedo_texture = ExtResource("1_pbiph")
+metallic_specular = 0.0
+roughness = 0.0
+emission_enabled = true
+emission_texture = ExtResource("1_pbiph")

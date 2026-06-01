@@ -1,0 +1,15 @@
+[gd_resource type="NoiseTexture2D" format=3 uid="uid://chnuarov4r0tb"]
+
+[sub_resource type="Gradient" id="Gradient_svo8k"]
+offsets = PackedFloat32Array(0, 0.18884121, 0.41416308, 0.74463516, 1)
+colors = PackedColorArray(1, 0, 0.016666412, 1, 0.5847578, 0.5326009, 0.61537224, 1, 0.5126655, 0, 0.037314422, 1, 0.72418535, 0.5472816, 0.8465887, 1, 0, 0.93333316, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pbiph"]
+noise_type = 2
+frequency = 0.0373
+fractal_octaves = 1
+
+[resource]
+noise = SubResource("FastNoiseLite_pbiph")
+color_ramp = SubResource("Gradient_svo8k")
+seamless = true
