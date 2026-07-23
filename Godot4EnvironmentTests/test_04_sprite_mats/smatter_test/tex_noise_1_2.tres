@@ -6,12 +6,13 @@ colors = PackedColorArray(0, 0, 0, 1, 0.55568033, 0.4291542, 0.48164618, 1, 0.27
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_haqev"]
 noise_type = 2
-frequency = 0.1215
+frequency = 0.1271
 fractal_type = 3
-fractal_octaves = 1
+fractal_octaves = 2
 fractal_gain = 0.575
 cellular_distance_function = 2
-cellular_jitter = 0.73
+cellular_jitter = 0.055
+cellular_return_type = 0
 
 [resource]
 noise = SubResource("FastNoiseLite_haqev")

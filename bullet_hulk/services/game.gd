@@ -8,6 +8,7 @@ const FN_GLOBAL_EVENT:String = "global_event"
 const GLOBAL_EVENT_END_OF_LEVEL:String = "end_of_level"
 
 var _titleWorld:PackedScene = preload("res://worlds/title/title.tscn")
+var _shipWorld:PackedScene = preload("res://worlds/ship/ship.tscn")
 var _sandboxWorld:PackedScene = preload("res://worlds/sandbox/sandbox.tscn")
 
 var _playerType:PackedScene = preload("res://actors/player_avatar/player_avatar.tscn")
@@ -151,6 +152,14 @@ func _load_world(packedScene:PackedScene) -> void:
 	print("World loaded")
 
 func start_game() -> void:
+	if _state != State.Title:
+		return
+	_delete_dynamic_actors()
+	#self.get_tree().change_scene_to_packed(_sandboxWorld)
+	_load_world(_shipWorld)
+	_state = State.PreGame
+
+func start_sandbox() -> void:
 	if _state != State.Title:
 		return
 	_delete_dynamic_actors()

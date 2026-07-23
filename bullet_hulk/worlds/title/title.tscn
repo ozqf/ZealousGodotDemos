@@ -47,6 +47,12 @@ text = "START"
 script = ExtResource("1_8ipq8")
 metadata/_custom_type_script = "uid://dtrfiec3cr26a"
 
+[node name="sandbox" type="Button" parent="Control/VBoxContainer" unique_id=725949987]
+layout_mode = 2
+text = "SANDBOX"
+script = ExtResource("1_8ipq8")
+metadata/_custom_type_script = "uid://dtrfiec3cr26a"
+
 [node name="exit" type="Button" parent="Control/VBoxContainer" unique_id=683504034]
 layout_mode = 2
 text = "EXIT"

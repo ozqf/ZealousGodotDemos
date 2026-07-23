@@ -4,11 +4,12 @@
 
 [resource]
 transparency = 2
-alpha_scissor_threshold = 0.732
+alpha_scissor_threshold = 0.571
 alpha_antialiasing_mode = 0
 albedo_texture = ExtResource("1_haqev")
 metallic = 0.61
 metallic_specular = 0.0
 roughness_texture = ExtResource("1_haqev")
 roughness_texture_channel = 4
+uv1_scale = Vector3(0.825, 4, 1)
 texture_filter = 2

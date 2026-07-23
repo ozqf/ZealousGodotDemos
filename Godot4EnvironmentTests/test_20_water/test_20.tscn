@@ -110,7 +110,7 @@ shader_parameter/normal_map_b = ExtResource("6_s3hwv")
 shader_parameter/wave_dir_a = Vector2(0.03, 0.01)
 shader_parameter/wave_dir_b = Vector2(-0.02, 0.02)
 shader_parameter/ripple_strength = 0.050000002375
-shader_parameter/wave_frequency = 0.017000000807500002
+shader_parameter/wave_frequency = 0.0170000008075
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_23aca"]
 render_priority = 0
@@ -124,7 +124,7 @@ shader_parameter/normal_map_b = ExtResource("6_s3hwv")
 shader_parameter/wave_dir_a = Vector2(0.03, 0.01)
 shader_parameter/wave_dir_b = Vector2(-0.02, 0.02)
 shader_parameter/ripple_strength = 0.1670000079325
-shader_parameter/wave_frequency = 0.10000000475000001
+shader_parameter/wave_frequency = 0.10000000475
 shader_parameter/refraction_strength = 0.01
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_36we8"]
@@ -145,7 +145,7 @@ shader_parameter/normal_map_b = ExtResource("6_s3hwv")
 shader_parameter/wave_dir_a = Vector2(0.03, 0.01)
 shader_parameter/wave_dir_b = Vector2(-0.02, 0.02)
 shader_parameter/ripple_strength = 0.050000002375
-shader_parameter/wave_frequency = 0.10000000475000001
+shader_parameter/wave_frequency = 0.10000000475
 shader_parameter/refraction_strength = 0.010000000475
 
 [sub_resource type="Gradient" id="Gradient_3s04i"]
